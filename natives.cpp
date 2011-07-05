@@ -18,7 +18,7 @@ static int my_amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, size_t number)
     // Restore old amx_Register's code so we can invoke it
     memcpy(reinterpret_cast<void*>(::amx_Register_addr), ::amx_Register_code, 5);
 
-    // Store natives in our global caontainer
+    // Store natives in our global container
     for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
         ::nativeMap[nativelist[i].name] = nativelist[i].func;
     }
@@ -79,30 +79,31 @@ static AMX fakeAmx = {
 
 typedef std::basic_string<cell> cellstring;
 
-cellstring ToCellString(const std::string &s) {
-    cellstring result(s.begin(), s.end());
-    return result;
-}
-
+// A little example. Can be called right from Load().
 void SetGameModeText(const std::string &text) {
     static AMX_NATIVE native = 0;
     if (native == 0) {
+        // Here for convenience we use the pre-defined __FUNCTION__ macro.
         native = ::nativeMap[__FUNCTION__];
     }
-    cellstring text_ = ToCellString(text);
+    // Convert std::string to cellstring before passing to native.
+    cellstring text_(text.begin(), text.end());
     cell params[] = {
+        // params[0] is the number of arguments multiplied by sizeof(cell).
         1 * sizeof(cell), 
+        // Note that we pass a physical address (see fakeAmxHeader's definition for why, hehe).
         reinterpret_cast<cell>(text_.c_str())
     };
     native(&::fakeAmx, params);
 }
 
+// Here we have additional parameters passed by value.
 bool SendClientMessage(int playerid, long color, const std::string &message) {
     static AMX_NATIVE native = 0;
     if (native == 0) {
         native = ::nativeMap[__FUNCTION__];
     }
-    cellstring message_ = ToCellString(message);
+    cellstring message_(message.begin(), message.end());
     cell params[] = {
         3 * sizeof(cell),
         playerid,
@@ -119,10 +120,9 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()  {
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)  {
 	pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
 
-    // Remember the address
     ::amx_Register_addr = reinterpret_cast<uint32_t>(
         (static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
-    // Replace the leading 5 bytes of amx_Register's code with "JMP my_amx_Register"
+    // Replace first 5 bytes of amx_Register's code with "JMP my_amx_Register"
     SetJump(::amx_Register_addr, reinterpret_cast<uint32_t>(my_amx_Register), ::amx_Register_code);
 
 	return true;
