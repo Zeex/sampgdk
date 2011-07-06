@@ -114,18 +114,18 @@ bool SendClientMessage(int playerid, long color, const std::string &message) {
 }
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()  {
-	return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES;
+    return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)  {
-	pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
+    pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
 
     ::amx_Register_addr = reinterpret_cast<uint32_t>(
         (static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
     // Replace first 5 bytes of amx_Register's code with "JMP my_amx_Register"
     SetJump(::amx_Register_addr, reinterpret_cast<uint32_t>(my_amx_Register), ::amx_Register_code);
 
-	return true;
+    return true;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
@@ -133,9 +133,9 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload() {
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
     SetGameModeText("Hello from C++!!");
-	return AMX_ERR_NONE;
+    return AMX_ERR_NONE;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
-	return AMX_ERR_NONE;
+    return AMX_ERR_NONE;
 }
