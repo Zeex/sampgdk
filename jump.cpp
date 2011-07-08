@@ -1,6 +1,4 @@
-// This file is part of SA:MP crashdetect plugin 
-//
-// Copyright 2011 Sergey Zolotarev
+// Copyright (c) 2011 Zeex
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,11 +34,16 @@ static void Unprotect(uint32_t address, size_t size) {
 #endif
 }
 
-void SetJump(uint32_t from, uintptr_t to, unsigned char (&oldCode)[5]) {
+void SetJump(uint32_t from, uint32_t to, unsigned char (&oldCode)[5]) {
     Unprotect(from, 5);
     memcpy(oldCode, (void*)from, 5);
     unsigned char JMP = 0xE9;
     memcpy((void*)from, &JMP, 1);
     uint32_t offset = to - (from + 5);
     memcpy((void*)(from + 1), &offset, 4);
+}
+
+void SetJump(uint32_t from, uint32_t to) {
+    unsigned char dummy[5];
+    SetJump(from, to, dummy);
 }

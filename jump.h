@@ -1,6 +1,4 @@
-// This file is part of SA:MP crashdetect plugin 
-//
-// Copyright 2011 Sergey Zolotarev
+// Copyright (c) 2011 Zeex
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +17,8 @@
 
 #include <cstdint>
 
+// Modifies code at 'from' to make it JMP to 'to'.
+void SetJump(uint32_t from, uint32_t to);
 void SetJump(uint32_t from, uint32_t to, unsigned char (&oldCode)[5]);
 
 #endif

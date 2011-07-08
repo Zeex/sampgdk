@@ -40,8 +40,6 @@ static AMX_HEADER fakeAmxHeader = {
     0, // flags
     0, // defsize
     0, // cod
-    // A little trick to make amx_addr == phys_addr because phys_addr
-    // is calculated as amx->base + hdr->dat (see code of amx_GetAddr)
     -reinterpret_cast<int32_t>(&fakeAmxHeader), // dat
     0, // hea 
     0, // stp
@@ -69,7 +67,7 @@ static AMX fakeAmx = {
     0, // usertags
     0, // userdata
     AMX_ERR_NONE, // error
-    0, // paramcount - wtf?
+    0, // paramcount 
     0, // pri
     0, // alt
     0, // reset_stk
@@ -86,7 +84,7 @@ void SetGameModeText(const std::string &text) {
         // Here for convenience we use the pre-defined __FUNCTION__ macro.
         native = ::nativeMap[__FUNCTION__];
     }
-    // Convert std::string to cellstring before passing to native.
+    // Convert std::string to cellstring before passing it.
     cellstring text_(text.begin(), text.end());
     cell params[] = {
         // params[0] is the number of arguments multiplied by sizeof(cell).
