@@ -2,6 +2,7 @@
 #include "plugin.h"
 #include "samp.h"
 
+#include <cstdint>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
