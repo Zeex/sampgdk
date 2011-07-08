@@ -86,11 +86,13 @@
     <ClInclude Include="jump.h" />
     <ClInclude Include="plugin.h" />
     <ClInclude Include="plugincommon.h" />
+    <ClInclude Include="samp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="amxplugin.cpp" />
     <ClCompile Include="jump.cpp" />
     <ClCompile Include="natives.cpp" />
+    <ClCompile Include="samp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="natives.def" />
