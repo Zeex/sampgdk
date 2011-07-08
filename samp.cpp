@@ -24,7 +24,7 @@ static int my_amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, size_t number)
     int retVal = amx_Register(amx, nativelist, number);
 
     // Set jump again to catch further calls
-    SetJump(::amx_Register_addr, reinterpret_cast<uint32_t>(my_amx_Register), ::amx_Register_code);
+    SetJump(reinterpret_cast<void*>(::amx_Register_addr), my_amx_Register, ::amx_Register_code);
 
     return retVal;
 }
@@ -89,7 +89,7 @@ void SAMPWrapper::Initialize(void **ppPluginData) {
     ::amx_Register_addr = reinterpret_cast<uint32_t>(
         (static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
     // Replace first 5 bytes of amx_Register's code with "JMP my_amx_Register"
-    SetJump(::amx_Register_addr, reinterpret_cast<uint32_t>(my_amx_Register), ::amx_Register_code);
+    SetJump(reinterpret_cast<void*>(::amx_Register_addr), my_amx_Register, ::amx_Register_code);
 }
 
 void SAMPWrapper::SetNative(const std::string &name, AMX_NATIVE native) {

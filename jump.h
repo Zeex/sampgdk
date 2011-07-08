@@ -12,13 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef HOOK_H
-#define HOOK_H
-
-#include <cstdint>
+#ifndef JUMP_H
+#define JUMP_H
 
 // Modifies code at 'from' to make it JMP to 'to'.
-void SetJump(uint32_t from, uint32_t to);
-void SetJump(uint32_t from, uint32_t to, unsigned char (&oldCode)[5]);
+void SetJump(void *from, void *to);
+void SetJump(void *from, void *to, unsigned char (&oldCode)[5]);
 
 #endif
