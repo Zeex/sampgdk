@@ -7,6 +7,10 @@
 #include <string>
 #include <unordered_map>
 
+#ifdef _MSC_VER
+#pragma 
+#endif
+
 extern void *pAMXFunctions;
 
 static uint32_t amx_Register_addr;
@@ -17,7 +21,7 @@ static int my_amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, size_t number)
     memcpy(reinterpret_cast<void*>(::amx_Register_addr), ::amx_Register_code, 5);
 
     // Store natives in our global container
-    for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
+    for (size_t i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
         SAMPWrapper::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
     }
 
@@ -107,32 +111,293 @@ AMX_NATIVE SAMPWrapper::GetNative(const std::string &name) const {
     return 0;
 }
 
-bool SetGameModeText(const std::string &text) {
-    static AMX_NATIVE native = SAMPWrapper::GetInstance().GetNative(__FUNCTION__);
-    if (native != 0) {
-        cellstring text_(text.begin(), text.end());
-        cell params[] = {
-            1 * sizeof(cell), 
-            reinterpret_cast<cell>(text_.c_str())
-        };
-        bool(native(&::fakeAmx, params));
-    } else {
-        throw NoSuchNative(__FUNCTION__);
-    }
-}
+// All natives share the same code
+#define BEGIN_NATIVE \
+    static AMX_NATIVE _native = SAMPWrapper::GetInstance().GetNative(__FUNCTION__);\
+    if (_native != 0) {
+
+#define END_NATIVE \
+        return _native(&::fakeAmx, params);\
+    } else {\
+        throw NoSuchNative(__FUNCTION__);\
+    }\
+
+// Returns params[0] for n parameters
+#define PARAMS(n) ((n) * sizeof(cell))
+
+#ifdef _MSC_VER
+    #pragma warning(push)
+    // forcing value to bool 'true' or 'false' (performance warning)
+    #pragma warning(disable: 4800)
+#endif
 
 bool SendClientMessage(int playerid, long color, const std::string &message) {
-    static AMX_NATIVE native = SAMPWrapper::GetInstance().GetNative(__FUNCTION__);
-    if (native != 0) {
+    BEGIN_NATIVE
         cellstring message_(message.begin(), message.end());
         cell params[] = {
-            3 * sizeof(cell),
+            PARAMS(3),
             playerid,
             color,
             reinterpret_cast<cell>(message_.c_str())
         };
-        return bool(native(&::fakeAmx, params));
-    } else {
-        throw NoSuchNative(__FUNCTION__);
-    }
+    END_NATIVE
 }
+
+bool SendClientMessageToAll(long color, const std::string &message) {
+    BEGIN_NATIVE
+        cellstring message_(message.begin(), message.end());
+        cell params[] = {
+            PARAMS(2),
+            color,
+            reinterpret_cast<cell>(message_.c_str())
+        };
+    END_NATIVE
+}
+
+bool SendPlayerMessageToPlayer(int playerid, int senderid, const std::string &message) {
+    BEGIN_NATIVE
+        cellstring message_(message.begin(), message.end());
+        cell params[] = {
+            PARAMS(3),
+            playerid,
+            senderid,
+            reinterpret_cast<cell>(message_.c_str())
+        };
+    END_NATIVE
+}
+
+bool SendPlayerMessageToAll(int senderid, const std::string &message) {
+    BEGIN_NATIVE
+        cellstring message_(message.begin(), message.end());
+        cell params[] = {
+            PARAMS(2),
+            senderid,
+            reinterpret_cast<cell>(message_.c_str())
+        };
+    END_NATIVE
+}
+
+bool SendDeathMessage(int killer, int killee, int weapon) {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(3),
+            killer,
+            killee,
+            weapon
+        };
+    END_NATIVE
+}
+
+bool GameTextForAll(const std::string &text, long time, int style) {
+    BEGIN_NATIVE
+        cellstring text_(text.begin(), text.end());
+        cell params[] = {
+            PARAMS(3),
+            reinterpret_cast<cell>(text_.c_str()),
+            time,
+            style
+        };
+    END_NATIVE
+}
+
+bool GameTextForPlayer(int playerid, const std::string &text, long time, int style) {
+    BEGIN_NATIVE
+        cellstring text_(text.begin(), text.end());
+        cell params[] = {
+            PARAMS(4),
+            playerid,
+            reinterpret_cast<cell>(text_.c_str()),
+            time,
+            style
+        };
+    END_NATIVE
+}
+
+long GetTickCount() {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(0)
+        };
+    END_NATIVE
+}
+
+int GetMaxPlayers() {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(0)
+        };
+    END_NATIVE
+}
+
+bool SetGameModeText(const std::string &text) {
+    BEGIN_NATIVE
+        cellstring text_(text.begin(), text.end());
+        cell params[] = {
+            PARAMS(1), 
+            reinterpret_cast<cell>(text_.c_str())
+        };
+    END_NATIVE
+}
+
+bool SetTeamCount(int count) {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(1), 
+            count
+        };
+    END_NATIVE
+}
+
+bool AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
+    int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) 
+{
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(11), 
+            modelid,
+            amx_ftoc(spawn_x),
+            amx_ftoc(spawn_y),
+            amx_ftoc(spawn_z),
+            amx_ftoc(z_angle),
+            weapon1,
+            weapon1_ammo,
+            weapon2,
+            weapon2_ammo,
+            weapon3,
+            weapon3_ammo
+        };
+    END_NATIVE
+}
+
+bool AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
+    int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo)
+{
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(12), 
+            teamid,
+            modelid,
+            amx_ftoc(spawn_x),
+            amx_ftoc(spawn_y),
+            amx_ftoc(spawn_z),
+            amx_ftoc(z_angle),
+            weapon1,
+            weapon1_ammo,
+            weapon2,
+            weapon2_ammo,
+            weapon3,
+            weapon3_ammo
+        };
+    END_NATIVE
+}
+
+bool AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
+    long color1, long color2)
+{
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(7), 
+            modelid,
+            amx_ftoc(spawn_x),
+            amx_ftoc(spawn_y),
+            amx_ftoc(spawn_z),
+            amx_ftoc(z_angle),
+            color1,
+            color2
+        };
+    END_NATIVE
+}
+
+bool AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
+    long color1, long color2, long respawn_delay) 
+{
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(8), 
+            modelid,
+            amx_ftoc(spawn_x),
+            amx_ftoc(spawn_y),
+            amx_ftoc(spawn_z),
+            amx_ftoc(z_angle),
+            color1,
+            color2,
+            respawn_delay
+        };
+    END_NATIVE
+}
+
+bool AddStaticPickup(int model, int type, float x, float y, float z, long virtualworld) {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(6), 
+            model,
+            type,
+            amx_ftoc(x),
+            amx_ftoc(y),
+            amx_ftoc(z),
+            virtualworld
+        };
+    END_NATIVE
+}
+
+bool CreatePickup(int model, int type, float x, float y, float z, long virtualworld) {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(6), 
+            model,
+            type,
+            amx_ftoc(x),
+            amx_ftoc(y),
+            amx_ftoc(z),
+            virtualworld
+        };
+    END_NATIVE
+}
+
+bool DestroyPickup(int pickup) {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(1),
+            pickup
+        };
+    END_NATIVE
+}
+
+bool ShowNameTags(int show) {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(1),
+            show
+        };
+    END_NATIVE
+}
+
+bool ShowPlayerMarkers(int mode) {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(1),
+            mode
+        };
+    END_NATIVE
+}
+
+bool GameModeExit() {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(0)
+        };
+    END_NATIVE
+}
+
+bool SetWorldTime(int hour) {
+    BEGIN_NATIVE
+        cell params[] = {
+            PARAMS(1),
+            hour
+        };
+    END_NATIVE
+}
+
+#ifdef _MSC_VER
+    #pragma warning(pop)
+#endif
