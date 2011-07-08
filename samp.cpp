@@ -73,7 +73,7 @@ static AMX fakeAmx = {
 };
 
 static std::runtime_error NoSuchNative(const std::string &nativeName) {
-    return std::runtime_error("No such native funcion: " + nativeName);
+    return std::runtime_error("No such native function: " + nativeName);
 }
 
 SAMPWrapper::SAMPWrapper() {}
