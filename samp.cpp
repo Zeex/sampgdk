@@ -2,7 +2,7 @@
 #include "plugin.h"
 #include "samp.h"
 
-#include <cstdint>
+#include <limits>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
@@ -60,7 +60,7 @@ static AMX fakeAmx = {
     0, // hea
     0, // hlw
     0, // stk
-    INT32_MAX, // stp
+    std::numeric_limits<int32_t>::max(), // stp
     0, // flags
     0, // usertags
     0, // userdata
