@@ -120,66 +120,62 @@ namespace samp {
 
 #define CLICK_SOURCE_SCOREBOARD   (0)
 
+// Util
 bool SendClientMessage(int playerid, long color, const std::string &message);
-bool SendClientMessageToAll(long color, const std::string &message);
+void SendClientMessageToAll(long color, const std::string &message);
 bool SendPlayerMessageToPlayer(int playerid, int senderid, const std::string &message);
 bool SendPlayerMessageToAll(int senderid, const std::string &message);
 bool SendDeathMessage(int killer, int killee, int weapon);
 bool GameTextForAll(const std::string &text, long time, int style);
 bool GameTextForPlayer(int playerid, const std::string &text, long time, int style);
-
 long GetTickCount();
 int GetMaxPlayers();
 
-bool SetGameModeText(const std::string &text);
-bool SetTeamCount(int count);
-bool AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
-    int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
-bool AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
-    int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
-bool AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
-    long color1, long color2);
-bool AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
-    long color1, long color2, long respawn_delay);
-bool AddStaticPickup(int model, int type, float X, float Y, float Z, long virtualworld = 0);
-bool CreatePickup(int model, int type, float X, float Y, float Z, long virtualworld = 0);
+// Game
+void SetGameModeText(const std::string &text);
+void SetTeamCount(long count);
+int AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
+int AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
+int AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int color1, int color2);
+int AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int color1, int color2, int respawn_delay);
+int AddStaticPickup(int model, int type, float x, float y, float z, long virtualworld = 0);
+int CreatePickup(int model, int type, float x, float y, float z, long virtualworld = 0);
 bool DestroyPickup(int pickup);
-bool ShowNameTags(int show);
-bool ShowPlayerMarkers(int mode);
-bool GameModeExit();
-bool SetWorldTime(int hour);
-
-#if 0
-native GetWeaponName(weaponid, const weapon[], len);
-native EnableTirePopping(enable);
-native AllowInteriorWeapons(allow);
-native SetWeather(weatherid);
-native SetGravity(float gravity);
-native AllowAdminTeleport(allow);
-native SetDeathDropAmount(amount);
-native CreateExplosion(float X, float Y, float Z, type, float Radius);
-native EnableZoneNames(enable);
-native UsePlayerPedAnims();        // Will cause the players to use CJ running/walking animations
-native DisableInteriorEnterExits();  // will disable all interior enter/exits in the game.
-native SetNameTagDrawDistance(float distance); // Distance at which nametags will start rendering on the client.
-native DisableNameTagLOS(); // Disables the nametag Line-Of-Sight checking
-native LimitGlobalChatRadius(float chat_radius);
-native LimitPlayerMarkerRadius(float marker_radius);
+void ShowNameTags(bool show);
+void ShowPlayerMarkers(bool mode);
+void GameModeExit();
+bool SetWorldTime(short hour);
+std::string GetWeaponName(int weaponid);
+void EnableTirePopping(bool enable);
+void AllowInteriorWeapons(bool allow);
+void SetWeather(int weatherid);
+void SetGravity(float gravity);
+void AllowAdminTeleport(bool allow);
+void SetDeathDropAmount(long amount);
+void CreateExplosion(float x, float y, float z, short type, float radius);
+void EnableZoneNames(bool enable);
+void UsePlayerPedAnims();        // Will cause the players to use CJ running/walking animations
+void DisableInteriorEnterExits();  // will disable all interior enter/exits in the game.
+void SetNameTagDrawDistance(float distance); // Distance at which nametags will start rendering on the client.
+void DisableNameTagLOS(); // Disables the nametag Line-Of-Sight checking
+void LimitGlobalChatRadius(float chat_radius);
+void LimitPlayerMarkerRadius(float marker_radius);
 
 // Npc
-native ConnectNPC(name[], script[]);
-native IsPlayerNPC(playerid);
+bool ConnectNPC(const std::string &name, const std::string &script);
+bool IsPlayerNPC(int playerid);
 
 // Admin
-native IsPlayerAdmin(playerid);
-native Kick(playerid);
-native Ban(playerid);
-native BanEx(playerid, const reason[]);
-native SendRconCommand(command[]);
-native GetServerVarAsString(const varname[], buffer[], len);
-native GetServerVarAsInt(const varname[]);
-native GetServerVarAsBool(const varname[]);
+bool IsPlayerAdmin(int playerid);
+bool Kick(int playerid);
+bool Ban(int playerid);
+bool BanEx(int playerid, const std::string &reason);
+void SendRconCommand(const std::string &command);
+std::string GetServerVarAsString(const std::string &varname);
+int GetServerVarAsInt(const std::string &varname);
+bool GetServerVarAsBool(const std::string &varname);
 
+#if 0
 // Menu
 native Menu:CreateMenu(const title[], columns, float x, float y, float col1width, float col2width = 0.0);
 native DestroyMenu(Menu:menuid);
