@@ -1,7 +1,7 @@
 #include "fakeamx.h"
-#include "jump.h"
-#include "samp.h"
 #include "wrapper.h"
+
+#include <string>
 
 #define PARAMS(n) ((n) * sizeof(cell))
 
