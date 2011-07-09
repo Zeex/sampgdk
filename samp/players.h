@@ -75,7 +75,7 @@ bool SetPlayerScore(int playerid, int score);
 int GetPlayerScore(int playerid);
 int GetPlayerDrunkLevel(int playerid);
 bool SetPlayerDrunkLevel(int playerid, int level);
-bool SetPlayerColor(int playerid, int color);
+bool SetPlayerColor(int playerid, long color);
 long GetPlayerColor(int playerid);
 bool SetPlayerSkin(int playerid, int skinid);
 int GetPlayerSkin(int playerid);
@@ -121,7 +121,7 @@ bool IsPlayerAttachedObjectSlotUsed(int playerid, int index);
 bool SetPVarInt(int playerid, const std::string &varname, int value);
 int GetPVarInt(int playerid, const std::string &varname);
 bool SetPVarString(int playerid, const std::string &varname, const std::string &value);
-std::string GetPVarString(int playerid, const std::string &varname);
+bool GetPVarString(int playerid, const std::string &varname, std::string &value, size_t maxlength);
 bool SetPVarFloat(int playerid, const std::string &varname, float value);
 float GetPVarFloat(int playerid, const std::string &varname);
 bool DeletePVar(int playerid, const std::string &varname);
@@ -133,7 +133,7 @@ bool DeletePVar(int playerid, const std::string &varname);
 #define PLAYER_VARTYPE_FLOAT        3
 
 int GetPVarsUpperIndex(int playerid);
-std::string GetPVarNameAtIndex(int playerid, int index);
+bool GetPVarNameAtIndex(int playerid, int index, std::string &varname, size_t maxlength);
 int GetPVarType(int playerid, const std::string &varname);
 
 #define MAX_CHATBUBBLE_LENGTH 144
@@ -149,7 +149,7 @@ bool PlayerPlaySound(int playerid, int soundid, float x, float y, float z);
 bool ApplyAnimation(int playerid, const std::string &animlib, const std::string &animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, long time, bool forcesync = false);
 bool ClearAnimations(int playerid, bool forcesync = false);
 int GetPlayerAnimationIndex(int playerid); // return the index of any running applied animations (0 if none are running)
-bool GetAnimationName(int index, char *animlib, size_t len1, char *animname, size_t len2); // get the animation lib/name for the index
+bool GetAnimationName(int index, std::string &animlib, size_t len1, std::string &animname, size_t len2); // get the animation lib/name for the index
 int GetPlayerSpecialAction(int playerid);
 bool SetPlayerSpecialAction(int playerid, int actionid);
 
