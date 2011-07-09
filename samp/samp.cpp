@@ -276,7 +276,7 @@ bool SetWorldTime(int hour) {
 
 std::string GetWeaponName(int weaponid) {
     static auto native = Wrapper::GetInstance()->GetNative("GetWeaponName");
-    cstring name_(50, '\0'); // TODO: make max. length unlimited
+    cstring name_(50, '\0'); 
     cell params[] = {
         PARAMS(3),
         weaponid,
@@ -475,7 +475,7 @@ void SendRconCommand(const std::string &command) {
 std::string GetServerVarAsString(const std::string &varname) {
     static auto native = Wrapper::GetInstance()->GetNative("GetServerVarAsString");
     cstring varname_(varname.begin(), varname.end());
-    cstring var_(128, '\0'); // TODO: make max. length unlimited
+    cstring var_(128, '\0'); 
     cell params[] = {
         PARAMS(3),
         reinterpret_cast<cell>(varname_.c_str()),
@@ -996,6 +996,27 @@ bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const std::st
         id,
         color,
         reinterpret_cast<cell>(text_.c_str())
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool ShowPlayerDialog(int playerid, int dialogid, int style, const std::string &caption, 
+    const std::string &info, const std::string &button1, const std::string &button2)
+{
+    static auto native = Wrapper::GetInstance()->GetNative("ShowPlayerDialog");
+    cstring caption_(caption.begin(), caption.end());
+    cstring info_(info.begin(), info.end());
+    cstring button1_(button1.begin(), button1.end());
+    cstring button2_(button2.begin(), button2.end());
+    cell params[] = {
+        PARAMS(7),
+        playerid,
+        dialogid,
+        style,
+        reinterpret_cast<cell>(caption_.c_str()),
+        reinterpret_cast<cell>(info_.c_str()),
+        reinterpret_cast<cell>(button1_.c_str()),
+        reinterpret_cast<cell>(button2_.c_str())
     };
     return native(&::fakeAmx, params);
 }
