@@ -2,8 +2,6 @@
 #include "samp.h"
 #include "wrapper.h"
 
-#include <algorithm>
-#include <iterator>
 #include <string>
 
 #define PARAMS(n) ((n) * sizeof(cell))
@@ -620,15 +618,15 @@ bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, flo
         index,
         modelid,
         bone,
-        fOffsetX,
-        fOffsetY,
-        fOffsetZ,
-        fRotX,
-        fRotY,
-        fRotZ,
-        fScaleX,
-        fScaleY,
-        fScaleZ
+        amx_ftoc(fOffsetX),
+        amx_ftoc(fOffsetY),
+        amx_ftoc(fOffsetZ),
+        amx_ftoc(fRotX),
+        amx_ftoc(fRotY),
+        amx_ftoc(fRotZ),
+        amx_ftoc(fScaleX),
+        amx_ftoc(fScaleY),
+        amx_ftoc(fScaleZ)
     };
     return native(&::fakeAmx, params);
 }
@@ -701,7 +699,8 @@ bool GetPVarString(int playerid, const std::string &varname, std::string &value,
         maxlength
     };
     bool ret = native(&::fakeAmx, params);
-    std::copy(value_.begin(), value_.end(), std::back_inserter(value));
+    value.reserve(maxlength);
+    amx_GetString(const_cast<char*>(value.data()), value_.c_str(), 0, maxlength);
     return ret;
 }
 
@@ -760,7 +759,8 @@ bool GetPVarNameAtIndex(int playerid, int index, std::string &varname, size_t ma
         maxlength
     };
     bool ret =  native(&::fakeAmx, params);
-    std::copy(varname_.begin(), varname_.end(), std::back_inserter(varname));
+    varname.reserve(maxlength);
+    amx_GetString(const_cast<char*>(varname.data()), varname_.c_str(), 0, maxlength);
     return ret;
 }
 
@@ -904,8 +904,10 @@ bool GetAnimationName(int index, std::string &animlib, size_t len1, std::string 
         len2
     };
     bool ret =  native(&::fakeAmx, params);
-    std::copy(animlib_.begin(), animlib_.end(), std::back_inserter(animlib));
-    std::copy(animname_.begin(), animname_.end(), std::back_inserter(animname));
+    animlib.reserve(len1);
+    amx_GetString(const_cast<char*>(animlib.data()), animlib_.c_str(), 0, len1);
+    animname.reserve(len2);
+    amx_GetString(const_cast<char*>(animname.data()), animname_.c_str(), 0, len2);
     return ret;
 }
 
