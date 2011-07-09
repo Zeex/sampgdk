@@ -1,140 +1,124 @@
-#ifndef SAMP_H
-#define SAMP_H
+#ifndef SAMP_SAMP_H
+#define SAMP_SAMP_H
 
 #include <string>
-#include <unordered_map>
 
-#include "amx/amx.h"
+#include "plugin/amx/amx.h"
+
+namespace samp {
 
 // Limits and internal constants
-#define MAX_PLAYER_NAME							(24)
-#define MAX_PLAYERS								(500)
-#define MAX_VEHICLES							(2000)
-#define INVALID_PLAYER_ID						(0xFFFF)
-#define INVALID_VEHICLE_ID						(0xFFFF)
-#define NO_TEAM									(255)
-#define MAX_OBJECTS								(400)
-#define INVALID_OBJECT_ID						(0xFFFF)
-#define MAX_GANG_ZONES							(1024)
-#define MAX_TEXT_DRAWS							(2048)
-#define MAX_MENUS								(128)
-#define MAX_3DTEXT_GLOBAL						(1024)
-#define MAX_3DTEXT_PLAYER						(1024)
-#define MAX_PICKUPS								(2048)
-#define INVALID_MENU							(0xFF)
-#define INVALID_TEXT_DRAW						(0xFFFF)
-#define INVALID_GANG_ZONE						(-1)
-#define INVALID_3DTEXT_ID						(0xFFFF)
+#define MAX_PLAYER_NAME            (24)
+#define MAX_PLAYERS                (500)
+#define MAX_VEHICLES               (2000)
+#define INVALID_PLAYER_ID          (0xFFFF)
+#define INVALID_VEHICLE_ID         (0xFFFF)
+#define NO_TEAM                    (255)
+#define MAX_OBJECTS                (400)
+#define INVALID_OBJECT_ID          (0xFFFF)
+#define MAX_GANG_ZONES             (1024)
+#define MAX_TEXT_DRAWS             (2048)
+#define MAX_MENUS                  (128)
+#define MAX_3DTEXT_GLOBAL          (1024)
+#define MAX_3DTEXT_PLAYER          (1024)
+#define MAX_PICKUPS                (2048)
+#define INVALID_MENU               (0xFF)
+#define INVALID_TEXT_DRAW          (0xFFFF)
+#define INVALID_GANG_ZONE          (-1)
+#define INVALID_3DTEXT_ID          (0xFFFF)
 
 // Player GUI Dialog
-#define DIALOG_STYLE_MSGBOX		0
-#define DIALOG_STYLE_INPUT		1
-#define DIALOG_STYLE_LIST		2
+#define DIALOG_STYLE_MSGBOX    (0)
+#define DIALOG_STYLE_INPUT     (1)
+#define DIALOG_STYLE_LIST      (2)
 
 // States
-#define PLAYER_STATE_NONE						(0)
-#define PLAYER_STATE_ONFOOT						(1)
-#define PLAYER_STATE_DRIVER						(2)
-#define PLAYER_STATE_PASSENGER					(3)
-#define PLAYER_STATE_EXIT_VEHICLE				(4) // (used internally)
-#define PLAYER_STATE_ENTER_VEHICLE_DRIVER		(5) // (used internally)
-#define PLAYER_STATE_ENTER_VEHICLE_PASSENGER	(6) // (used internally)
-#define PLAYER_STATE_WASTED						(7)
-#define PLAYER_STATE_SPAWNED					(8)
-#define PLAYER_STATE_SPECTATING					(9)
+#define PLAYER_STATE_NONE                        (0)
+#define PLAYER_STATE_ONFOOT                      (1)
+#define PLAYER_STATE_DRIVER                      (2)
+#define PLAYER_STATE_PASSENGER                   (3)
+#define PLAYER_STATE_EXIT_VEHICLE                (4) // (used internally)
+#define PLAYER_STATE_ENTER_VEHICLE_DRIVER        (5) // (used internally)
+#define PLAYER_STATE_ENTER_VEHICLE_PASSENGER     (6) // (used internally)
+#define PLAYER_STATE_WASTED                      (7)
+#define PLAYER_STATE_SPAWNED                     (8)
+#define PLAYER_STATE_SPECTATING                  (9)
 
 // Marker modes used by ShowPlayerMarkers()
-#define PLAYER_MARKERS_MODE_OFF			(0)
-#define PLAYER_MARKERS_MODE_GLOBAL		(1)
-#define PLAYER_MARKERS_MODE_STREAMED	(2)
+#define PLAYER_MARKERS_MODE_OFF                  (0)
+#define PLAYER_MARKERS_MODE_GLOBAL               (1)
+#define PLAYER_MARKERS_MODE_STREAMED             (2)
 
 // Weapons
-#define WEAPON_BRASSKNUCKLE				(1)
-#define WEAPON_GOLFCLUB					(2)
-#define WEAPON_NITESTICK				(3)
-#define WEAPON_KNIFE					(4)
-#define WEAPON_BAT						(5)
-#define WEAPON_SHOVEL					(6)
-#define WEAPON_POOLSTICK				(7)
-#define WEAPON_KATANA					(8)
-#define WEAPON_CHAINSAW					(9)
-#define WEAPON_DILDO					(10)
-#define WEAPON_DILDO2					(11)
-#define WEAPON_VIBRATOR					(12)
-#define WEAPON_VIBRATOR2				(13)
-#define WEAPON_FLOWER					(14)
-#define WEAPON_CANE						(15)
-#define WEAPON_GRENADE					(16)
-#define WEAPON_TEARGAS					(17)
-#define WEAPON_MOLTOV					(18)
-#define WEAPON_COLT45					(22)
-#define WEAPON_SILENCED					(23)
-#define WEAPON_DEAGLE					(24)
-#define WEAPON_SHOTGUN					(25)
-#define WEAPON_SAWEDOFF					(26)
-#define WEAPON_SHOTGSPA					(27)
-#define WEAPON_UZI						(28)
-#define WEAPON_MP5						(29)
-#define WEAPON_AK47						(30)
-#define WEAPON_M4						(31)
-#define WEAPON_TEC9						(32)
-#define WEAPON_RIFLE					(33)
-#define WEAPON_SNIPER					(34)
-#define WEAPON_ROCKETLAUNCHER			(35)
-#define WEAPON_HEATSEEKER				(36)
-#define WEAPON_FLAMETHROWER				(37)
-#define WEAPON_MINIGUN					(38)
-#define WEAPON_SATCHEL					(39)
-#define WEAPON_BOMB						(40)
-#define WEAPON_SPRAYCAN					(41)
-#define WEAPON_FIREEXTINGUISHER			(42)
-#define WEAPON_CAMERA					(43)
-#define WEAPON_PARACHUTE				(46)
-#define WEAPON_VEHICLE					(49)
-#define WEAPON_DROWN					(53)
-#define WEAPON_COLLISION				(54)
+#define WEAPON_BRASSKNUCKLE                (1)
+#define WEAPON_GOLFCLUB                    (2)
+#define WEAPON_NITESTICK                   (3)
+#define WEAPON_KNIFE                       (4)
+#define WEAPON_BAT                         (5)
+#define WEAPON_SHOVEL                      (6)
+#define WEAPON_POOLSTICK                   (7)
+#define WEAPON_KATANA                      (8)
+#define WEAPON_CHAINSAW                    (9)
+#define WEAPON_DILDO                       (10)
+#define WEAPON_DILDO2                      (11)
+#define WEAPON_VIBRATOR                    (12)
+#define WEAPON_VIBRATOR2                   (13)
+#define WEAPON_FLOWER                      (14)
+#define WEAPON_CANE                        (15)
+#define WEAPON_GRENADE                     (16)
+#define WEAPON_TEARGAS                     (17)
+#define WEAPON_MOLTOV                      (18)
+#define WEAPON_COLT45                      (22)
+#define WEAPON_SILENCED                    (23)
+#define WEAPON_DEAGLE                      (24)
+#define WEAPON_SHOTGUN                     (25)
+#define WEAPON_SAWEDOFF                    (26)
+#define WEAPON_SHOTGSPA                    (27)
+#define WEAPON_UZI                         (28)
+#define WEAPON_MP5                         (29)
+#define WEAPON_AK47                        (30)
+#define WEAPON_M4                          (31)
+#define WEAPON_TEC9                        (32)
+#define WEAPON_RIFLE                       (33)
+#define WEAPON_SNIPER                      (34)
+#define WEAPON_ROCKETLAUNCHER              (35)
+#define WEAPON_HEATSEEKER                  (36)
+#define WEAPON_FLAMETHROWER                (37)
+#define WEAPON_MINIGUN                     (38)
+#define WEAPON_SATCHEL                     (39)
+#define WEAPON_BOMB                        (40)
+#define WEAPON_SPRAYCAN                    (41)
+#define WEAPON_FIREEXTINGUISHER            (42)
+#define WEAPON_CAMERA                      (43)
+#define WEAPON_PARACHUTE                   (46)
+#define WEAPON_VEHICLE                     (49)
+#define WEAPON_DROWN                       (53)
+#define WEAPON_COLLISION                   (54)
 
 // Keys
-#define KEY_ACTION				(1)
-#define KEY_CROUCH				(2)
-#define KEY_FIRE				(4)
-#define KEY_SPRINT				(8)
-#define KEY_SECONDARY_ATTACK	(16)
-#define KEY_JUMP				(32)
-#define KEY_LOOK_RIGHT			(64)
-#define KEY_HANDBRAKE			(128)
-#define KEY_LOOK_LEFT			(256)
-#define KEY_SUBMISSION			(512)
-#define KEY_LOOK_BEHIND			(512)
-#define KEY_WALK				(1024)
-#define KEY_ANALOG_UP			(2048)
-#define KEY_ANALOG_DOWN			(4096)
-#define KEY_ANALOG_LEFT			(8192)
-#define KEY_ANALOG_RIGHT		(16384)
+#define KEY_ACTION                (1)
+#define KEY_CROUCH                (2)
+#define KEY_FIRE                  (4)
+#define KEY_SPRINT                (8)
+#define KEY_SECONDARY_ATTACK      (16)
+#define KEY_JUMP                  (32)
+#define KEY_LOOK_RIGHT            (64)
+#define KEY_HANDBRAKE             (128)
+#define KEY_LOOK_LEFT             (256)
+#define KEY_SUBMISSION            (512)
+#define KEY_LOOK_BEHIND           (512)
+#define KEY_WALK                  (1024)
+#define KEY_ANALOG_UP             (2048)
+#define KEY_ANALOG_DOWN           (4096)
+#define KEY_ANALOG_LEFT           (8192)
+#define KEY_ANALOG_RIGHT          (16384)
 
-#define KEY_UP					(-128)
-#define KEY_DOWN				(128)
-#define KEY_LEFT				(-128)
-#define KEY_RIGHT				(128)
+#define KEY_UP                    (-128)
+#define KEY_DOWN                  (128)
+#define KEY_LEFT                  (-128)
+#define KEY_RIGHT                 (128)
 
-#define CLICK_SOURCE_SCOREBOARD		0
-
-typedef std::basic_string<cell> cellstring;
-
-class SAMPWrapper {
-public:
-    static SAMPWrapper &GetInstance();
-
-    void Initialize(void **ppPluginData);
-
-    void SetNative(const std::string &name, AMX_NATIVE native);
-    AMX_NATIVE GetNative(const std::string &name) const;
-
-private:
-    SAMPWrapper();
-
-    std::unordered_map<std::string, AMX_NATIVE> natives_;
-};
+#define CLICK_SOURCE_SCOREBOARD   (0)
 
 bool SendClientMessage(int playerid, long color, const std::string &message);
 bool SendClientMessageToAll(long color, const std::string &message);
@@ -175,7 +159,7 @@ native AllowAdminTeleport(allow);
 native SetDeathDropAmount(amount);
 native CreateExplosion(float X, float Y, float Z, type, float Radius);
 native EnableZoneNames(enable);
-native UsePlayerPedAnims();		// Will cause the players to use CJ running/walking animations
+native UsePlayerPedAnims();        // Will cause the players to use CJ running/walking animations
 native DisableInteriorEnterExits();  // will disable all interior enter/exits in the game.
 native SetNameTagDrawDistance(float distance); // Distance at which nametags will start rendering on the client.
 native DisableNameTagLOS(); // Disables the nametag Line-Of-Sight checking
@@ -252,5 +236,7 @@ native PlayerText3D:CreatePlayer3DTextLabel(playerid, text[], color, float X, fl
 native DeletePlayer3DTextLabel(playerid, PlayerText3D:id);
 native UpdatePlayer3DTextLabelText(playerid, PlayerText3D:id, color, text[]);
 #endif
+
+} // namespace samp
 
 #endif

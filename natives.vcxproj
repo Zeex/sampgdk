@@ -50,6 +50,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NATIVES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;amx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -69,6 +70,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NATIVES_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;amx</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -79,20 +81,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="amx\amx.h" />
-    <ClInclude Include="amx\getch.h" />
-    <ClInclude Include="amx\osdefs.h" />
-    <ClInclude Include="amx\sclinux.h" />
-    <ClInclude Include="jump.h" />
-    <ClInclude Include="plugin.h" />
-    <ClInclude Include="plugincommon.h" />
-    <ClInclude Include="samp.h" />
+    <ClInclude Include="samp\wrapper.h" />
+    <ClInclude Include="samp\plugin\amx\amx.h" />
+    <ClInclude Include="samp\plugin\amx\getch.h" />
+    <ClInclude Include="samp\plugin\amx\osdefs.h" />
+    <ClInclude Include="samp\plugin\amx\sclinux.h" />
+    <ClInclude Include="samp\fakeamx.h" />
+    <ClInclude Include="samp\jump.h" />
+    <ClInclude Include="samp\plugin\plugin.h" />
+    <ClInclude Include="samp\plugin\plugincommon.h" />
+    <ClInclude Include="samp\samp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="amxplugin.cpp" />
-    <ClCompile Include="jump.cpp" />
+    <ClCompile Include="samp\plugin\amxplugin.cpp" />
+    <ClCompile Include="samp\wrapper.cpp" />
+    <ClCompile Include="samp\fakeamx.cpp" />
+    <ClCompile Include="samp\jump.cpp" />
     <ClCompile Include="natives.cpp" />
-    <ClCompile Include="samp.cpp" />
+    <ClCompile Include="samp\samp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="natives.def" />
