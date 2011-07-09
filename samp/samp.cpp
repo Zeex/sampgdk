@@ -1000,8 +1000,8 @@ bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const std::st
     return native(&::fakeAmx, params);
 }
 
+} // namespace samp
+
 #ifdef _MSC_VER
     #pragma warning(pop)
 #endif
-
-} // namespace samp
