@@ -506,4 +506,498 @@ bool GetServerVarAsBool(const std::string &varname) {
     return native(&::fakeAmx, params);
 }
 
+int CreateMenu(const std::string &title, int columns, float x, float y, float col1width, float col2width) {
+    static auto native = Wrapper::GetInstance()->GetNative("CreateMenu");
+    cstring title_(title.begin(), title.end());
+    cell params[] = {
+        PARAMS(6),
+        reinterpret_cast<cell>(title_.c_str()),
+        columns,
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(col1width),
+        amx_ftoc(col2width)
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool DestroyMenu(int menuid) {
+    static auto native = Wrapper::GetInstance()->GetNative("DestroyMenu");
+    cell params[] = {
+        PARAMS(1),
+        menuid
+    };
+    return native(&::fakeAmx, params);
+}
+
+int AddMenuItem(int menuid, int column, const std::string &menutext) {
+    static auto native = Wrapper::GetInstance()->GetNative("AddMenuItem");
+    cstring menutext_(menutext.begin(), menutext.end());
+    cell params[] = {
+        PARAMS(3),
+        menuid,
+        column,
+        reinterpret_cast<cell>(menutext_.c_str())
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool SetMenuColumnHeader(int menuid, int column, const std::string &columnheader) {
+    static auto native = Wrapper::GetInstance()->GetNative("SetMenuColumnHeader");
+    cstring columnheader_(columnheader.begin(), columnheader.end());
+    cell params[] = {
+        PARAMS(3),
+        menuid,
+        column,
+        reinterpret_cast<cell>(columnheader_.c_str())
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool ShowMenuForPlayer(int menuid, int playerid) {
+    static auto native = Wrapper::GetInstance()->GetNative("ShowMenuForPlayer");
+    cell params[] = {
+        PARAMS(2),
+        menuid,
+        playerid
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool HideMenuForPlayer(int menuid, int playerid) {
+    static auto native = Wrapper::GetInstance()->GetNative("HideMenuForPlayer");
+    cell params[] = {
+        PARAMS(2),
+        menuid,
+        playerid
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool IsValidMenu(int menuid) {
+    static auto native = Wrapper::GetInstance()->GetNative("IsValidMenu");
+    cell params[] = {
+        PARAMS(1),
+        menuid
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool DisableMenu(int menuid) {
+    static auto native = Wrapper::GetInstance()->GetNative("DisableMenu");
+    cell params[] = {
+        PARAMS(1),
+        menuid
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool DisableMenuRow(int menuid, int row) {
+    static auto native = Wrapper::GetInstance()->GetNative("DisableMenuRow");
+    cell params[] = {
+        PARAMS(2),
+        menuid,
+        row
+    };
+    return native(&::fakeAmx, params);
+}
+
+int GetPlayerMenu(int playerid) {
+    static auto native = Wrapper::GetInstance()->GetNative("GetPlayerMenu");
+    cell params[] = {
+        PARAMS(1),
+        playerid
+    };
+    return native(&::fakeAmx, params);
+}
+
+int TextDrawCreate(float x, float y, const std::string &text) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawCreate");
+    cstring text_(text.begin(), text.end());
+    cell params[] = {
+        PARAMS(3),
+        amx_ftoc(x),
+        amx_ftoc(y),
+        reinterpret_cast<cell>(text_.c_str())
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawDestroy(int text) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawDestroy");
+    cell params[] = {
+        PARAMS(1),
+        text
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawLetterSize(int text, float x, float y) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawLetterSize");
+    cell params[] = {
+        PARAMS(3),
+        text,
+        amx_ftoc(x),
+        amx_ftoc(y)
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawTextSize(int text, float x, float y) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawTextSize");
+    cell params[] = {
+        PARAMS(3),
+        text,
+        amx_ftoc(x),
+        amx_ftoc(y)
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawAlignment(int text, int alignment) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawAlignment");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        alignment
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawColor(int text, long color) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawColor");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        color
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawUseBox(int text, bool use) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawUseBox");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        use
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawBoxColor(int text, long color) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawBoxColor");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        color
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawSetShadow(int text, int size) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawSetShadow");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        size
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawSetOutline(int text, int size) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawSetOutline");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        size
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawBackgroundColor(int text, long color) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawBackgroundColor");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        color
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawFont(int text, int font) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawFont");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        font
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawSetProportional(int text, bool set) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawSetProportional");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        set
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawShowForPlayer(int playerid, int text) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawShowForPlayer");
+    cell params[] = {
+        PARAMS(2),
+        text,
+        text
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawHideForPlayer(int playerid, int text) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawHideForPlayer");
+    cell params[] = {
+        PARAMS(2),
+        playerid,
+        text
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawShowForAll(int text) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawShowForAll");
+    cell params[] = {
+        PARAMS(1),
+        text
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawHideForAll(int text) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawHideForAll");
+    cell params[] = {
+        PARAMS(1),
+        text
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool TextDrawSetString(int text, const std::string &string) {
+    static auto native = Wrapper::GetInstance()->GetNative("TextDrawSetString");
+    cstring string_(string.begin(), string.end());
+    cell params[] = {
+        PARAMS(2),
+        text,
+        reinterpret_cast<cell>(string_.c_str())
+    };
+    return native(&::fakeAmx, params);
+}
+
+int GangZoneCreate(float minx, float miny, float maxx, float maxy) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneCreate");
+    cell params[] = {
+        PARAMS(4),
+        amx_ftoc(minx),
+        amx_ftoc(miny),
+        amx_ftoc(maxx),
+        amx_ftoc(maxy)
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneDestroy(int zone) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneDestroy");
+    cell params[] = {
+        PARAMS(1),
+        zone
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneShowForPlayer(int playerid, int zone, long color) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneShowForPlayer");
+    cell params[] = {
+        PARAMS(3),
+        playerid,
+        zone,
+        color
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneShowForAll(int zone, long color) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneShowForAll");
+    cell params[] = {
+        PARAMS(2),
+        zone,
+        color
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneHideForPlayer(int playerid, int zone) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneHideForPlayer");
+    cell params[] = {
+        PARAMS(2),
+        playerid,
+        zone
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneHideForAll(int zone) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneHideForAll");
+    cell params[] = {
+        PARAMS(1),
+        zone
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneFlashForPlayer(int playerid, int zone, long flashcolor) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneFlashForPlayer");
+    cell params[] = {
+        PARAMS(3),
+        playerid,
+        zone,
+        flashcolor
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneFlashForAll(int zone, long flashcolor) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneFlashForAll");
+    cell params[] = {
+        PARAMS(2),
+        zone,
+        flashcolor
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneStopFlashForPlayer(int playerid, int zone) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneStopFlashForPlayer");
+    cell params[] = {
+        PARAMS(2),
+        playerid,
+        zone
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool GangZoneStopFlashForAll(int zone) {
+    static auto native = Wrapper::GetInstance()->GetNative("GangZoneStopFlashForAll");
+    cell params[] = {
+        PARAMS(1),
+        zone
+    };
+    return native(&::fakeAmx, params);
+}
+
+int Create3DTextLabel(const std::string &text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS) {
+    static auto native = Wrapper::GetInstance()->GetNative("Create3DTextLabel");
+    cstring text_(text.begin(), text.end());
+    cell params[] = {
+        PARAMS(8),
+        reinterpret_cast<cell>(text_.c_str()),
+        color,
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z),
+        amx_ftoc(DrawDistance),
+        virtualworld,
+        testLOS
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool Delete3DTextLabel(int id) {
+    static auto native = Wrapper::GetInstance()->GetNative("Delete3DTextLabel");
+    cell params[] = {
+        PARAMS(1),
+        id
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ) {
+    static auto native = Wrapper::GetInstance()->GetNative("Attach3DTextLabelToPlayer");
+    cell params[] = {
+        PARAMS(5),
+        id,
+        playerid,
+        amx_ftoc(OffsetX),
+        amx_ftoc(OffsetY),
+        amx_ftoc(OffsetZ)
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ) {
+    static auto native = Wrapper::GetInstance()->GetNative("Attach3DTextLabelToVehicle");
+    cell params[] = {
+        PARAMS(5),
+        id,
+        vehicleid,
+        amx_ftoc(OffsetX),
+        amx_ftoc(OffsetY),
+        amx_ftoc(OffsetZ)
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool Update3DTextLabelText(int id, long color, const std::string &text) {
+    static auto native = Wrapper::GetInstance()->GetNative("Update3DTextLabelText");
+    cstring text_(text.begin(), text.end());
+    cell params[] = {
+        PARAMS(3),
+        id,
+        color,
+        reinterpret_cast<cell>(text_.c_str())
+    };
+    return native(&::fakeAmx, params);
+}
+
+int CreatePlayer3DTextLabel(int playerid, const std::string &text, long color, float x, float y, float z, float DrawDistance, int attachedplayer, int attachedvehicle, bool testLOS) {
+    static auto native = Wrapper::GetInstance()->GetNative("CreatePlayer3DTextLabel");
+    cstring text_(text.begin(), text.end());
+    cell params[] = {
+        PARAMS(10),
+        playerid,
+        reinterpret_cast<cell>(text_.c_str()),
+        color,
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z),
+        amx_ftoc(DrawDistance),
+        attachedplayer,
+        attachedvehicle,
+        testLOS
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool DeletePlayer3DTextLabel(int playerid, int id) {
+    static auto native = Wrapper::GetInstance()->GetNative("DeletePlayer3DTextLabel");
+    cell params[] = {
+        PARAMS(2),
+        playerid,
+        id
+    };
+    return native(&::fakeAmx, params);
+}
+
+bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const std::string &text) {
+    static auto native = Wrapper::GetInstance()->GetNative("UpdatePlayer3DTextLabelText");
+    cstring text_(text.begin(), text.end());
+    cell params[] = {
+        PARAMS(4),
+        playerid,
+        id,
+        color,
+        reinterpret_cast<cell>(text_.c_str())
+    };
+    return native(&::fakeAmx, params);
+}
+
 } // namespace samp

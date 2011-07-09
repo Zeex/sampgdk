@@ -175,63 +175,61 @@ std::string GetServerVarAsString(const std::string &varname);
 int GetServerVarAsInt(const std::string &varname);
 bool GetServerVarAsBool(const std::string &varname);
 
-#if 0
 // Menu
-native Menu:CreateMenu(const title[], columns, float x, float y, float col1width, float col2width = 0.0);
-native DestroyMenu(Menu:menuid);
-native AddMenuItem(Menu:menuid, column, const menutext[]);
-native SetMenuColumnHeader(Menu:menuid, column, const columnheader[]);
-native ShowMenuForPlayer(Menu:menuid, playerid);
-native HideMenuForPlayer(Menu:menuid, playerid);
-native IsValidMenu(Menu:menuid);
-native DisableMenu(Menu:menuid);
-native DisableMenuRow(Menu:menuid, row);
-native Menu:GetPlayerMenu(playerid);
+int CreateMenu(const std::string &title, int columns, float x, float y, float col1width, float col2width = 0.0f);
+bool DestroyMenu(int menuid);
+int AddMenuItem(int menuid, int column, const std::string &menutext);
+bool SetMenuColumnHeader(int menuid, int column, const std::string &columnheader);
+bool ShowMenuForPlayer(int menuid, int playerid);
+bool HideMenuForPlayer(int menuid, int playerid);
+bool IsValidMenu(int menuid);
+bool DisableMenu(int menuid);
+bool DisableMenuRow(int menuid, int row);
+int GetPlayerMenu(int playerid);
 
 // Text Draw
-native Text:TextDrawCreate(float x, float y, text[]);
-native TextDrawDestroy(Text:text);
-native TextDrawLetterSize(Text:text, float x, float y);
-native TextDrawTextSize(Text:text, float x, float y);
-native TextDrawAlignment(Text:text, alignment);
-native TextDrawColor(Text:text, color);
-native TextDrawUseBox(Text:text, use);
-native TextDrawBoxColor(Text:text, color);
-native TextDrawSetShadow(Text:text, size);
-native TextDrawSetOutline(Text:text, size);
-native TextDrawBackgroundColor(Text:text, color);
-native TextDrawFont(Text:text, font);
-native TextDrawSetProportional(Text:text, set);
-native TextDrawShowForPlayer(playerid, Text:text);
-native TextDrawHideForPlayer(playerid, Text:text);
-native TextDrawShowForAll(Text:text);
-native TextDrawHideForAll(Text:text);
-native TextDrawSetString(Text:text, string[]);
+int TextDrawCreate(float x, float y, const std::string &text);
+bool TextDrawDestroy(int text);
+bool TextDrawLetterSize(int text, float x, float y);
+bool TextDrawTextSize(int text, float x, float y);
+bool TextDrawAlignment(int text, int alignment);
+bool TextDrawColor(int text, long color);
+bool TextDrawUseBox(int text, bool use);
+bool TextDrawBoxColor(int text, long color);
+bool TextDrawSetShadow(int text, int size);
+bool TextDrawSetOutline(int text, int size);
+bool TextDrawBackgroundColor(int text, long color);
+bool TextDrawFont(int text, int font);
+bool TextDrawSetProportional(int text, bool set);
+bool TextDrawShowForPlayer(int playerid, int text);
+bool TextDrawHideForPlayer(int playerid, int text);
+bool TextDrawShowForAll(int text);
+bool TextDrawHideForAll(int text);
+bool TextDrawSetString(int text, const std::string &string);
 
 // Gang Zones
-native GangZoneCreate(float minx, float miny, float maxx, float maxy);
-native GangZoneDestroy(zone);
-native GangZoneShowForPlayer(playerid, zone, color);
-native GangZoneShowForAll(zone, color);
-native GangZoneHideForPlayer(playerid, zone);
-native GangZoneHideForAll(zone);
-native GangZoneFlashForPlayer(playerid, zone, flashcolor);
-native GangZoneFlashForAll(zone, flashcolor);
-native GangZoneStopFlashForPlayer(playerid, zone);
-native GangZoneStopFlashForAll(zone);
+int GangZoneCreate(float minx, float miny, float maxx, float maxy);
+bool GangZoneDestroy(int zone);
+bool GangZoneShowForPlayer(int playerid, int zone, long color);
+bool GangZoneShowForAll(int zone, long color);
+bool GangZoneHideForPlayer(int playerid, int zone);
+bool GangZoneHideForAll(int zone);
+bool GangZoneFlashForPlayer(int playerid, int zone, long flashcolor);
+bool GangZoneFlashForAll(int zone, long flashcolor);
+bool GangZoneStopFlashForPlayer(int playerid, int zone);
+bool GangZoneStopFlashForAll(int zone);
 
 // Global 3D Text Labels
-native Text3D:Create3DTextLabel(text[], color, float X, float Y, float Z, float DrawDistance, virtualworld, testLOS=0);
-native Delete3DTextLabel(Text3D:id);
-native Attach3DTextLabelToPlayer(Text3D:id, playerid, float OffsetX, float OffsetY, float OffsetZ);
-native Attach3DTextLabelToVehicle(Text3D:id, vehicleid, float OffsetX, float OffsetY, float OffsetZ);
-native Update3DTextLabelText(Text3D:id, color, text[]);
+int Create3DTextLabel(const std::string &text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS = false);
+bool Delete3DTextLabel(int id);
+bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ);
+bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ);
+bool Update3DTextLabelText(int id, long color, const std::string &text);
 
 // Per-player 3D Text Labels
-native PlayerText3D:CreatePlayer3DTextLabel(playerid, text[], color, float X, float Y, float Z, float DrawDistance, attachedplayer=INVALID_PLAYER_ID, attachedvehicle=INVALID_VEHICLE_ID, testLOS=0);
-native DeletePlayer3DTextLabel(playerid, PlayerText3D:id);
-native UpdatePlayer3DTextLabelText(playerid, PlayerText3D:id, color, text[]);
-#endif
+int CreatePlayer3DTextLabel(int playerid, const std::string &text, long color, float x, float y, float z, float DrawDistance, int attachedplayer = INVALID_PLAYER_ID, int attachedvehicle = INVALID_VEHICLE_ID, bool testLOS = false);
+bool DeletePlayer3DTextLabel(int playerid, int id);
+bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const std::string &text);
 
 } // namespace samp
 
