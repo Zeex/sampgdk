@@ -1,6 +1,8 @@
 #include "wrapper.h"
 #include "internal/fakeamx.h"
 
+using samp::internal::fakeAmx;
+
 namespace samp {
 
 int CreateVehicle(int vehicletype, float x, float y, float z, float rotation, 
