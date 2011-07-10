@@ -1,13 +1,12 @@
 #include <string>
 
+#include "callbacks.h"
 #include "logprintf.h"
 #include "wrapper.h"
 
-#include "internal/callbacks.h"
 #include "internal/jump.h"
 
-#include "plugin/amx/amx.h"
-#include "plugin/plugincommon.h"
+#include "plugin/plugin.h"
 
 extern void *pAMXFunctions;
 
@@ -89,50 +88,6 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
     return error;
 }
 
-static void InitializeCallbacks() {
-    using samp::Wrapper;
-    using namespace samp::internal::callbacks;
-
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerConnect", OnPlayerConnect);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerDisconnect", OnPlayerDisconnect);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerSpawn", OnPlayerSpawn);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerDeath", OnPlayerDeath);
-    Wrapper::GetInstance()->SetPublicHandler("OnVehicleSpawn", OnVehicleSpawn);
-    Wrapper::GetInstance()->SetPublicHandler("OnVehicleDeath", OnVehicleDeath);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerText", OnPlayerText);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerCommandText", OnPlayerCommandText);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerRequestClass", OnPlayerRequestClass);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerEnterVehicle", OnPlayerEnterVehicle);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerExitVehicle", OnPlayerExitVehicle);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerStateChange", OnPlayerStateChange);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerEnterCheckpoint", OnPlayerEnterCheckpoint);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerLeaveCheckpoint", OnPlayerLeaveCheckpoint);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerEnterRaceCheckpoint", OnPlayerEnterRaceCheckpoint);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerLeaveRaceCheckpoint", OnPlayerLeaveRaceCheckpoint);
-    Wrapper::GetInstance()->SetPublicHandler("OnRconCommand", OnRconCommand);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerRequestSpawn", OnPlayerRequestSpawn);
-    Wrapper::GetInstance()->SetPublicHandler("OnObjectMoved", OnObjectMoved);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerObjectMoved", OnPlayerObjectMoved);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerPickUpPickup", OnPlayerPickUpPickup);
-    Wrapper::GetInstance()->SetPublicHandler("OnVehicleMod", OnVehicleMod);
-    Wrapper::GetInstance()->SetPublicHandler("OnEnterExitModShop", OnEnterExitModShop);
-    Wrapper::GetInstance()->SetPublicHandler("OnVehiclePaintjob", OnVehiclePaintjob);
-    Wrapper::GetInstance()->SetPublicHandler("OnVehicleRespray", OnVehicleRespray);
-    Wrapper::GetInstance()->SetPublicHandler("OnVehicleDamageStatusUpdate", OnVehicleDamageStatusUpdate);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerSelectedMenuRow", OnPlayerSelectedMenuRow);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerExitedMenu", OnPlayerExitedMenu);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerInteriorChange", OnPlayerInteriorChange);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerKeyStateChange", OnPlayerKeyStateChange);
-    Wrapper::GetInstance()->SetPublicHandler("OnRconLoginAttempt", OnRconLoginAttempt);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerUpdate", OnPlayerUpdate);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerStreamIn", OnPlayerStreamIn);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerStreamOut", OnPlayerStreamOut);
-    Wrapper::GetInstance()->SetPublicHandler("OnVehicleStreamIn", OnVehicleStreamIn);
-    Wrapper::GetInstance()->SetPublicHandler("OnVehicleStreamOut", OnVehicleStreamOut);
-    Wrapper::GetInstance()->SetPublicHandler("OnDialogResponse", OnDialogResponse);
-    Wrapper::GetInstance()->SetPublicHandler("OnPlayerClickPlayer", OnPlayerClickPlayer);
-}
-
 namespace samp {
 
 Wrapper::Wrapper() {}
@@ -159,8 +114,8 @@ void Wrapper::Initialize(void **ppPluginData) {
     ::amx_Exec_addr = reinterpret_cast<uint32_t>((static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Exec]);
     SetJump(reinterpret_cast<void*>(::amx_Exec_addr), ::my_amx_Exec, ::amx_Exec_code);
 
-    // Set handlers for all known SA:MP callbacks
-    InitializeCallbacks();
+    // Set handlers for all SA:MP callbacks
+    samp::callbacks::InitializeCallbacks();
 }
 
 void Wrapper::SetNative(const std::string &name, AMX_NATIVE native) {
