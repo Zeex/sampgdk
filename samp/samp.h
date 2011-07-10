@@ -4,6 +4,7 @@
 #include <string>
 
 // This header includes all other headers
+#include "eventhandler.h"
 #include "logprintf.h"
 #include "objects.h"
 #include "players.h"
