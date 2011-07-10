@@ -10,7 +10,7 @@ namespace samp {
 
 typedef std::basic_string<cell> cstring;
 
-typedef cell (*PublicHandler)(AMX *amx, const std::string &name);
+typedef cell (*PublicHandler)(AMX *amx);
 
 class Wrapper {
 public:

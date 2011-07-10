@@ -126,7 +126,7 @@ void Wrapper::SetPublicHandler(const std::string &name, PublicHandler handler) {
 cell Wrapper::CallPublic(AMX *amx, const std::string &name) const {
     auto it = publicHandlers_.find(name);
     if (it != publicHandlers_.end()) {
-        return it->second(amx, name);
+        return it->second(amx);
     }
     return 0;
 }
