@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="samp\objects.h" />
     <ClInclude Include="samp\players.h" />
     <ClInclude Include="samp\wrapper.h" />
     <ClInclude Include="samp\plugin\amx\amx.h" />
@@ -94,6 +95,7 @@
     <ClInclude Include="samp\samp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="samp\objects.cpp" />
     <ClCompile Include="samp\players.cpp" />
     <ClCompile Include="samp\plugin\amxplugin.cpp" />
     <ClCompile Include="samp\wrapper.cpp" />
