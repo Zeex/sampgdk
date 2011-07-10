@@ -1,8 +1,8 @@
-
 /Debug
 /ipch
 /Release
-/natives.sdf
-/natives.suo
-/natives.vcxproj.filters
-/natives.vcxproj.user
+/*.opensdf
+/*.sdf
+/*.suo
+/*.vcxproj.filters
+/*.vcxproj.user
