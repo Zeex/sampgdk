@@ -93,8 +93,6 @@ static void InitializeCallbacks() {
     using samp::Wrapper;
     using namespace samp::internal::callbacks;
 
-    Wrapper::GetInstance()->SetPublicHandler("OnGameModeInit", OnGameModeInit);
-    Wrapper::GetInstance()->SetPublicHandler("OnGameModeExit", OnGameModeExit);
     Wrapper::GetInstance()->SetPublicHandler("OnPlayerConnect", OnPlayerConnect);
     Wrapper::GetInstance()->SetPublicHandler("OnPlayerDisconnect", OnPlayerDisconnect);
     Wrapper::GetInstance()->SetPublicHandler("OnPlayerSpawn", OnPlayerSpawn);

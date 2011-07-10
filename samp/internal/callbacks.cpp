@@ -18,14 +18,6 @@ namespace samp {
 namespace internal { 
 namespace callbacks {
 
-cell OnGameModeInit(AMX *amx) {
-    return 0;
-}
-
-cell OnGameModeExit(AMX *amx) {
-    return 0;
-}
-
 cell OnPlayerConnect(AMX *amx) {
     return 0;
 }
