@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="samp\logprintf.h" />
     <ClInclude Include="samp\objects.h" />
     <ClInclude Include="samp\players.h" />
     <ClInclude Include="samp\vehicles.h" />
@@ -89,21 +90,22 @@
     <ClInclude Include="samp\plugin\amx\getch.h" />
     <ClInclude Include="samp\plugin\amx\osdefs.h" />
     <ClInclude Include="samp\plugin\amx\sclinux.h" />
-    <ClInclude Include="samp\fakeamx.h" />
-    <ClInclude Include="samp\jump.h" />
+    <ClInclude Include="samp\internal\fakeamx.h" />
+    <ClInclude Include="samp\internal\jump.h" />
     <ClInclude Include="samp\plugin\plugin.h" />
     <ClInclude Include="samp\plugin\plugincommon.h" />
     <ClInclude Include="samp\samp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sample.cpp" />
+    <ClCompile Include="samp\logprintf.cpp" />
     <ClCompile Include="samp\objects.cpp" />
     <ClCompile Include="samp\players.cpp" />
     <ClCompile Include="samp\plugin\amxplugin.cpp" />
     <ClCompile Include="samp\vehicles.cpp" />
     <ClCompile Include="samp\wrapper.cpp" />
-    <ClCompile Include="samp\fakeamx.cpp" />
-    <ClCompile Include="samp\jump.cpp" />
+    <ClCompile Include="samp\internal\fakeamx.cpp" />
+    <ClCompile Include="samp\internal\jump.cpp" />
     <ClCompile Include="samp\samp.cpp" />
   </ItemGroup>
   <ItemGroup>
