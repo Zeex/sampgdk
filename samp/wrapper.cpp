@@ -72,7 +72,7 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
 
     if (amx == ::pGamemode && ::pGamemode != 0) {
         if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-            samp::Wrapper::GetInstance()->CallPublic(::pGamemode, ::lastPublicName);
+            *retval = samp::Wrapper::GetInstance()->CallPublic(::pGamemode, ::lastPublicName);
         }
         if (index != -1337) {
             // It's calling a fake public (see my_amx_FindPublic for details).
