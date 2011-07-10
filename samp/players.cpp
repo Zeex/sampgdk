@@ -4,12 +4,6 @@
 
 #include <string>
 
-#ifdef _MSC_VER
-    #pragma warning(push)
-    // forcing value to bool 'true' or 'false' (performance warning)
-    #pragma warning(disable: 4800)
-#endif
-
 namespace samp {
 
 bool SetSpawnInfo(int playerid, int team, int skin, float x, float y, float z, float rotation, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) {
@@ -30,7 +24,7 @@ bool SetSpawnInfo(int playerid, int team, int skin, float x, float y, float z, f
         weapon3,
         weapon3_ammo
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SpawnPlayer(int playerid) {
@@ -39,7 +33,7 @@ bool SpawnPlayer(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerPos(int playerid, float x, float y, float z) {
@@ -51,7 +45,7 @@ bool SetPlayerPos(int playerid, float x, float y, float z) {
         amx_ftoc(y),
         amx_ftoc(z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerPosFindZ(int playerid, float x, float y, float z) {
@@ -63,7 +57,7 @@ bool SetPlayerPosFindZ(int playerid, float x, float y, float z) {
         amx_ftoc(y),
         amx_ftoc(z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerPos(int playerid, float &x, float &y, float &z) {
@@ -75,7 +69,7 @@ bool GetPlayerPos(int playerid, float &x, float &y, float &z) {
         reinterpret_cast<cell>(&y),
         reinterpret_cast<cell>(&z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerFacingAngle(int playerid, float angle) {
@@ -85,7 +79,7 @@ bool SetPlayerFacingAngle(int playerid, float angle) {
         playerid,
         amx_ftoc(angle)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerFacingAngle(int playerid, float &angle) {
@@ -95,7 +89,7 @@ bool GetPlayerFacingAngle(int playerid, float &angle) {
         playerid,
         reinterpret_cast<cell>(&angle)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerInRangeOfPoint(int playerid, float range, float x, float y, float z) {
@@ -108,7 +102,7 @@ bool IsPlayerInRangeOfPoint(int playerid, float range, float x, float y, float z
         amx_ftoc(y),
         amx_ftoc(z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerStreamedIn(int playerid, int forplayerid) {
@@ -118,7 +112,7 @@ bool IsPlayerStreamedIn(int playerid, int forplayerid) {
         playerid,
         forplayerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerInterior(int playerid, int interiorid) {
@@ -128,7 +122,7 @@ bool SetPlayerInterior(int playerid, int interiorid) {
         playerid,
         interiorid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerInterior(int playerid) {
@@ -147,7 +141,7 @@ bool SetPlayerHealth(int playerid, float health) {
         playerid,
         amx_ftoc(health)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerHealth(int playerid, float &health) {
@@ -157,7 +151,7 @@ bool GetPlayerHealth(int playerid, float &health) {
         playerid,
         reinterpret_cast<cell>(&health)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerArmour(int playerid, float armour) {
@@ -167,7 +161,7 @@ bool SetPlayerArmour(int playerid, float armour) {
         playerid,
         amx_ftoc(armour)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerArmour(int playerid, float &armour) {
@@ -177,7 +171,7 @@ bool GetPlayerArmour(int playerid, float &armour) {
         playerid,
         reinterpret_cast<cell>(&armour)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerAmmo(int playerid, int weaponslot, int ammo) {
@@ -188,7 +182,7 @@ bool SetPlayerAmmo(int playerid, int weaponslot, int ammo) {
         weaponslot,
         ammo
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerAmmo(int playerid) {
@@ -216,7 +210,7 @@ bool SetPlayerTeam(int playerid, int teamid) {
         playerid,
         teamid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerTeam(int playerid) {
@@ -225,7 +219,7 @@ int GetPlayerTeam(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerScore(int playerid, int score) {
@@ -235,7 +229,7 @@ bool SetPlayerScore(int playerid, int score) {
         playerid,
         score
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerScore(int playerid) {
@@ -263,7 +257,7 @@ bool SetPlayerDrunkLevel(int playerid, int level) {
         playerid,
         level
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerColor(int playerid, long color) {
@@ -273,7 +267,7 @@ bool SetPlayerColor(int playerid, long color) {
         playerid,
         color
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 long GetPlayerColor(int playerid) {
@@ -292,7 +286,7 @@ bool SetPlayerSkin(int playerid, int skinid) {
         playerid,
         skinid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerSkin(int playerid) {
@@ -312,7 +306,7 @@ bool GivePlayerWeapon(int playerid, int weaponid, int ammo) {
         weaponid,
         ammo
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool ResetPlayerWeapons(int playerid) {
@@ -321,7 +315,7 @@ bool ResetPlayerWeapons(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerArmedWeapon(int playerid, int weaponid) {
@@ -331,7 +325,7 @@ bool SetPlayerArmedWeapon(int playerid, int weaponid) {
         playerid,
         weaponid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerWeaponData(int playerid, int slot, int &weapon, int &ammo) {
@@ -343,7 +337,7 @@ bool GetPlayerWeaponData(int playerid, int slot, int &weapon, int &ammo) {
         reinterpret_cast<cell>(&weapon),
         reinterpret_cast<cell>(&ammo),
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GivePlayerMoney(int playerid, long money) {
@@ -353,7 +347,7 @@ bool GivePlayerMoney(int playerid, long money) {
         playerid,
         money
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool ResetPlayerMoney(int playerid) {
@@ -362,7 +356,7 @@ bool ResetPlayerMoney(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int SetPlayerName(int playerid, const std::string &name) {
@@ -434,7 +428,7 @@ bool GetPlayerKeys(int playerid, int &keys, int &updown, int &leftright) {
         reinterpret_cast<cell>(&updown),
         reinterpret_cast<cell>(&leftright),
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 std::string GetPlayerName(int playerid) {
@@ -458,7 +452,7 @@ bool SetPlayerTime(int playerid, int hour, int minute) {
         hour,
         minute
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerTime(int playerid, int &hour, int &minute) {
@@ -469,7 +463,7 @@ bool GetPlayerTime(int playerid, int &hour, int &minute) {
         reinterpret_cast<cell>(&hour),
         reinterpret_cast<cell>(&minute)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TogglePlayerClock(int playerid, bool toggle) {
@@ -479,7 +473,7 @@ bool TogglePlayerClock(int playerid, bool toggle) {
         playerid,
         toggle
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerWeather(int playerid, int weather) {
@@ -489,7 +483,7 @@ bool SetPlayerWeather(int playerid, int weather) {
         playerid,
         weather
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool ForceClassSelection(int playerid) {
@@ -498,7 +492,7 @@ bool ForceClassSelection(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerWantedLevel(int playerid, int level) {
@@ -508,7 +502,7 @@ bool SetPlayerWantedLevel(int playerid, int level) {
         playerid,
         level
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerWantedLevel(int playerid) {
@@ -527,7 +521,7 @@ bool SetPlayerFightingStyle(int playerid, int style) {
         playerid,
         style
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerFightingStyle(int playerid) {
@@ -548,7 +542,7 @@ bool SetPlayerVelocity(int playerid, float x, float y, float z) {
         amx_ftoc(y),
         amx_ftoc(z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerVelocity( int playerid, float &x, float &y, float &z) {
@@ -560,7 +554,7 @@ bool GetPlayerVelocity( int playerid, float &x, float &y, float &z) {
         reinterpret_cast<cell>(&y),
         reinterpret_cast<cell>(&z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool PlayCrimeReportForPlayer(int playerid, int suspectid, int crime) {
@@ -571,7 +565,7 @@ bool PlayCrimeReportForPlayer(int playerid, int suspectid, int crime) {
         suspectid,
         crime
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerShopName(int playerid, const std::string &shopname) {
@@ -582,7 +576,7 @@ bool SetPlayerShopName(int playerid, const std::string &shopname) {
         playerid,
         reinterpret_cast<cell>(shopname_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerSkillLevel(int playerid, int skill, int level) {
@@ -593,7 +587,7 @@ bool SetPlayerSkillLevel(int playerid, int skill, int level) {
         skill,
         level
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerSurfingVehicleID(int playerid) {
@@ -626,7 +620,7 @@ bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, flo
         amx_ftoc(fScaleY),
         amx_ftoc(fScaleZ)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool RemovePlayerAttachedObject(int playerid, int index) {
@@ -636,7 +630,7 @@ bool RemovePlayerAttachedObject(int playerid, int index) {
         playerid,
         index
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerAttachedObjectSlotUsed(int playerid, int index) {
@@ -646,7 +640,7 @@ bool IsPlayerAttachedObjectSlotUsed(int playerid, int index) {
         playerid,
         index
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPVarInt(int playerid, const std::string &varname, int value) {
@@ -658,7 +652,7 @@ bool SetPVarInt(int playerid, const std::string &varname, int value) {
         reinterpret_cast<cell>(varname_.c_str()),
         value
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPVarInt(int playerid, const std::string &varname) {
@@ -682,7 +676,7 @@ bool SetPVarString(int playerid, const std::string &varname, const std::string &
         reinterpret_cast<cell>(varname_.c_str()),
         reinterpret_cast<cell>(value_.c_str()),
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPVarString(int playerid, const std::string &varname, std::string &value, size_t maxlength) {
@@ -696,10 +690,10 @@ bool GetPVarString(int playerid, const std::string &varname, std::string &value,
         reinterpret_cast<cell>(value_.data()),
         maxlength
     };
-    bool ret = native(&::fakeAmx, params);
+    auto ret = native(&::fakeAmx, params);
     value.reserve(maxlength);
     amx_GetString(const_cast<char*>(value.data()), value_.c_str(), 0, maxlength);
-    return ret;
+    return ret != 0;
 }
 
 bool SetPVarFloat(int playerid, const std::string &varname, float value) {
@@ -711,7 +705,7 @@ bool SetPVarFloat(int playerid, const std::string &varname, float value) {
         reinterpret_cast<cell>(varname_.c_str()),
         amx_ftoc(value)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 float GetPVarFloat(int playerid, const std::string &varname) {
@@ -722,8 +716,8 @@ float GetPVarFloat(int playerid, const std::string &varname) {
         playerid,
         reinterpret_cast<cell>(varname_.c_str())
     };
-    auto result = native(&::fakeAmx, params);
-    return amx_ctof(result);
+    auto ret = native(&::fakeAmx, params);
+    return amx_ctof(ret);
 }
 
 bool DeletePVar(int playerid, const std::string &varname) {
@@ -734,7 +728,7 @@ bool DeletePVar(int playerid, const std::string &varname) {
         playerid,
         reinterpret_cast<cell>(varname_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPVarsUpperIndex(int playerid) {
@@ -756,10 +750,10 @@ bool GetPVarNameAtIndex(int playerid, int index, std::string &varname, size_t ma
         reinterpret_cast<cell>(varname_.data()),
         maxlength
     };
-    bool ret =  native(&::fakeAmx, params);
+    auto ret =  native(&::fakeAmx, params);
     varname.reserve(maxlength);
     amx_GetString(const_cast<char*>(varname.data()), varname_.c_str(), 0, maxlength);
-    return ret;
+    return ret != 0;
 }
 
 int GetPVarType(int playerid, const std::string &varname) {
@@ -784,7 +778,7 @@ bool SetPlayerChatBubble(int playerid, const std::string &text, long color, floa
         amx_ftoc(drawdistance),
         expiretime
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool PutPlayerInVehicle(int playerid, int vehicleid, int seatid) {
@@ -795,7 +789,7 @@ bool PutPlayerInVehicle(int playerid, int vehicleid, int seatid) {
         vehicleid,
         seatid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerVehicleID(int playerid) {
@@ -822,7 +816,7 @@ bool RemovePlayerFromVehicle(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TogglePlayerControllable(int playerid, bool toggle) {
@@ -832,7 +826,7 @@ bool TogglePlayerControllable(int playerid, bool toggle) {
         playerid,
         toggle
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool PlayerPlaySound(int playerid, int soundid, float x, float y, float z) {
@@ -845,7 +839,7 @@ bool PlayerPlaySound(int playerid, int soundid, float x, float y, float z) {
         amx_ftoc(y),
         amx_ftoc(z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool ApplyAnimation(int playerid, const std::string &animlib, const std::string &animname, 
@@ -867,7 +861,7 @@ bool ApplyAnimation(int playerid, const std::string &animlib, const std::string 
         time,
         forcesync
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool ClearAnimations(int playerid, bool forcesync) {
@@ -877,7 +871,7 @@ bool ClearAnimations(int playerid, bool forcesync) {
         playerid,
         forcesync
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerAnimationIndex(int playerid) {
@@ -901,12 +895,12 @@ bool GetAnimationName(int index, std::string &animlib, size_t len1, std::string 
         reinterpret_cast<cell>(animname_.data()),
         len2
     };
-    bool ret =  native(&::fakeAmx, params);
+    auto ret =  native(&::fakeAmx, params);
     animlib.reserve(len1);
     amx_GetString(const_cast<char*>(animlib.data()), animlib_.c_str(), 0, len1);
     animname.reserve(len2);
     amx_GetString(const_cast<char*>(animname.data()), animname_.c_str(), 0, len2);
-    return ret;
+    return ret != 0;
 }
 
 int GetPlayerSpecialAction(int playerid) {
@@ -925,7 +919,7 @@ bool SetPlayerSpecialAction(int playerid, int actionid) {
         playerid,
         actionid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerCheckpoint(int playerid, float x, float y, float z, float size) {
@@ -938,7 +932,7 @@ bool SetPlayerCheckpoint(int playerid, float x, float y, float z, float size) {
         amx_ftoc(z),
         amx_ftoc(size)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool DisablePlayerCheckpoint(int playerid) {
@@ -947,7 +941,7 @@ bool DisablePlayerCheckpoint(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerRaceCheckpoint(int playerid, int type, float x, float y, float z, 
@@ -966,7 +960,7 @@ bool SetPlayerRaceCheckpoint(int playerid, int type, float x, float y, float z,
         amx_ftoc(nextz),
         amx_ftoc(size)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool DisablePlayerRaceCheckpoint(int playerid) {
@@ -975,7 +969,7 @@ bool DisablePlayerRaceCheckpoint(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerWorldBounds(int playerid, float x_max, float x_min, float y_max, float y_min) {
@@ -988,7 +982,7 @@ bool SetPlayerWorldBounds(int playerid, float x_max, float x_min, float y_max, f
         amx_ftoc(y_max),
         amx_ftoc(y_min)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerMarkerForPlayer(int playerid, int showplayerid, long color) {
@@ -999,7 +993,7 @@ bool SetPlayerMarkerForPlayer(int playerid, int showplayerid, long color) {
         showplayerid,
         color
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool ShowPlayerNameTagForPlayer(int playerid, int showplayerid, bool show) {
@@ -1010,7 +1004,7 @@ bool ShowPlayerNameTagForPlayer(int playerid, int showplayerid, bool show) {
         showplayerid,
         show
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerMapIcon(int playerid, int iconid, float x, float y, float z, int markertype, long color, int style) {
@@ -1026,7 +1020,7 @@ bool SetPlayerMapIcon(int playerid, int iconid, float x, float y, float z, int m
         color,
         style
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool RemovePlayerMapIcon(int playerid, int iconid) {
@@ -1036,7 +1030,7 @@ bool RemovePlayerMapIcon(int playerid, int iconid) {
         playerid,
         iconid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool AllowPlayerTeleport(int playerid, bool allow) {
@@ -1046,7 +1040,7 @@ bool AllowPlayerTeleport(int playerid, bool allow) {
         playerid,
         allow
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerCameraPos(int playerid, float x, float y, float z) {
@@ -1058,7 +1052,7 @@ bool SetPlayerCameraPos(int playerid, float x, float y, float z) {
         amx_ftoc(y),
         amx_ftoc(z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerCameraLookAt(int playerid, float x, float y, float z) {
@@ -1070,7 +1064,7 @@ bool SetPlayerCameraLookAt(int playerid, float x, float y, float z) {
         amx_ftoc(y),
         amx_ftoc(z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetCameraBehindPlayer(int playerid) {
@@ -1079,7 +1073,7 @@ bool SetCameraBehindPlayer(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerCameraPos(int playerid, float &x, float &y, float &z) {
@@ -1091,7 +1085,7 @@ bool GetPlayerCameraPos(int playerid, float &x, float &y, float &z) {
         reinterpret_cast<cell>(&y),
         reinterpret_cast<cell>(&z),
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerCameraFrontVector(int playerid, float &x, float &y, float &z) {
@@ -1103,7 +1097,7 @@ bool GetPlayerCameraFrontVector(int playerid, float &x, float &y, float &z) {
         reinterpret_cast<cell>(&y),
         reinterpret_cast<cell>(&z),
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerConnected(int playerid) {
@@ -1112,7 +1106,7 @@ bool IsPlayerConnected(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerInVehicle(int playerid, int vehicleid) {
@@ -1121,7 +1115,7 @@ bool IsPlayerInVehicle(int playerid, int vehicleid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerInAnyVehicle(int playerid) {
@@ -1130,7 +1124,7 @@ bool IsPlayerInAnyVehicle(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerInCheckpoint(int playerid) {
@@ -1139,7 +1133,7 @@ bool IsPlayerInCheckpoint(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerInRaceCheckpoint(int playerid) {
@@ -1148,7 +1142,7 @@ bool IsPlayerInRaceCheckpoint(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SetPlayerVirtualWorld(int playerid, long worldid) {
@@ -1158,7 +1152,7 @@ bool SetPlayerVirtualWorld(int playerid, long worldid) {
         playerid,
         worldid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 long GetPlayerVirtualWorld(int playerid) {
@@ -1177,7 +1171,7 @@ bool EnableStuntBonusForPlayer(int playerid, bool enable) {
         playerid,
         enable
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void EnableStuntBonusForAll(bool enable) {
@@ -1196,7 +1190,7 @@ bool TogglePlayerSpectating(int playerid, bool toggle) {
         playerid,
         toggle
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool PlayerSpectatePlayer(int playerid, int targetplayerid, int mode) {
@@ -1207,7 +1201,7 @@ bool PlayerSpectatePlayer(int playerid, int targetplayerid, int mode) {
         targetplayerid,
         mode
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode) {
@@ -1218,7 +1212,7 @@ bool PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode) {
         targetvehicleid,
         mode
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool StartRecordingPlayerData(int playerid, int recordtype, const std::string &recordname) {
@@ -1230,7 +1224,7 @@ bool StartRecordingPlayerData(int playerid, int recordtype, const std::string &r
         recordtype,
         reinterpret_cast<cell>(recordname_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool StopRecordingPlayerData(int playerid) {
@@ -1239,11 +1233,7 @@ bool StopRecordingPlayerData(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 } // namespace samp
-
-#ifdef _MSC_VER
-    #pragma warning(pop)
-#endif

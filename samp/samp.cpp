@@ -3,12 +3,6 @@
 
 #include <string>
 
-#ifdef _MSC_VER
-    #pragma warning(push)
-    // forcing value to bool 'true' or 'false' (performance warning)
-    #pragma warning(disable: 4800)
-#endif
-
 namespace samp {
 
 bool SendClientMessage(int playerid, long color, const std::string &message) {
@@ -20,7 +14,7 @@ bool SendClientMessage(int playerid, long color, const std::string &message) {
         color,
         reinterpret_cast<cell>(message_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void SendClientMessageToAll(long color, const std::string &message) {
@@ -43,7 +37,7 @@ bool SendPlayerMessageToPlayer(int playerid, int senderid, const std::string &me
         senderid,
         reinterpret_cast<cell>(message_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SendPlayerMessageToAll(int senderid, const std::string &message) {
@@ -54,7 +48,7 @@ bool SendPlayerMessageToAll(int senderid, const std::string &message) {
         senderid,
         reinterpret_cast<cell>(message_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool SendDeathMessage(int killer, int killee, int weapon) {
@@ -65,7 +59,7 @@ bool SendDeathMessage(int killer, int killee, int weapon) {
         killee,
         weapon
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GameTextForAll(const std::string &text, long time, int style) {
@@ -77,7 +71,7 @@ bool GameTextForAll(const std::string &text, long time, int style) {
         time,
         style
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GameTextForPlayer(int playerid, const std::string &text, long time, int style) {
@@ -90,7 +84,7 @@ bool GameTextForPlayer(int playerid, const std::string &text, long time, int sty
         time,
         style
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 long GetTickCount() {
@@ -234,7 +228,7 @@ bool DestroyPickup(int pickup) {
         1 * 4,
         pickup
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void ShowNameTags(int show) {
@@ -266,7 +260,7 @@ bool SetWorldTime(int hour) {
         1 * 4,
         hour
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 std::string GetWeaponName(int weaponid) {
@@ -409,7 +403,7 @@ bool ConnectNPC(const std::string &name, const std::string &script) {
         reinterpret_cast<cell>(name_.c_str()),
         reinterpret_cast<cell>(script_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerNPC(int playerid) {
@@ -418,7 +412,7 @@ bool IsPlayerNPC(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerAdmin(int playerid) {
@@ -427,7 +421,7 @@ bool IsPlayerAdmin(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool Kick(int playerid) {
@@ -436,7 +430,7 @@ bool Kick(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool Ban(int playerid) {
@@ -445,7 +439,7 @@ bool Ban(int playerid) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool BanEx(int playerid, const std::string &reason) {
@@ -454,7 +448,7 @@ bool BanEx(int playerid, const std::string &reason) {
         1 * 4,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void SendRconCommand(const std::string &command) {
@@ -498,7 +492,7 @@ bool GetServerVarAsBool(const std::string &varname) {
         1 * 4,
         reinterpret_cast<cell>(varname_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int CreateMenu(const std::string &title, int columns, float x, float y, float col1width, float col2width) {
@@ -522,7 +516,7 @@ bool DestroyMenu(int menuid) {
         1 * 4,
         menuid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int AddMenuItem(int menuid, int column, const std::string &menutext) {
@@ -546,7 +540,7 @@ bool SetMenuColumnHeader(int menuid, int column, const std::string &columnheader
         column,
         reinterpret_cast<cell>(columnheader_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool ShowMenuForPlayer(int menuid, int playerid) {
@@ -556,7 +550,7 @@ bool ShowMenuForPlayer(int menuid, int playerid) {
         menuid,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool HideMenuForPlayer(int menuid, int playerid) {
@@ -566,7 +560,7 @@ bool HideMenuForPlayer(int menuid, int playerid) {
         menuid,
         playerid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsValidMenu(int menuid) {
@@ -575,7 +569,7 @@ bool IsValidMenu(int menuid) {
         1 * 4,
         menuid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool DisableMenu(int menuid) {
@@ -584,7 +578,7 @@ bool DisableMenu(int menuid) {
         1 * 4,
         menuid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool DisableMenuRow(int menuid, int row) {
@@ -594,7 +588,7 @@ bool DisableMenuRow(int menuid, int row) {
         menuid,
         row
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerMenu(int playerid) {
@@ -624,7 +618,7 @@ bool TextDrawDestroy(int text) {
         1 * 4,
         text
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawLetterSize(int text, float x, float y) {
@@ -635,7 +629,7 @@ bool TextDrawLetterSize(int text, float x, float y) {
         amx_ftoc(x),
         amx_ftoc(y)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawTextSize(int text, float x, float y) {
@@ -646,7 +640,7 @@ bool TextDrawTextSize(int text, float x, float y) {
         amx_ftoc(x),
         amx_ftoc(y)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawAlignment(int text, int alignment) {
@@ -656,7 +650,7 @@ bool TextDrawAlignment(int text, int alignment) {
         text,
         alignment
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawColor(int text, long color) {
@@ -666,7 +660,7 @@ bool TextDrawColor(int text, long color) {
         text,
         color
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawUseBox(int text, bool use) {
@@ -676,7 +670,7 @@ bool TextDrawUseBox(int text, bool use) {
         text,
         use
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawBoxColor(int text, long color) {
@@ -686,7 +680,7 @@ bool TextDrawBoxColor(int text, long color) {
         text,
         color
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawSetShadow(int text, int size) {
@@ -696,7 +690,7 @@ bool TextDrawSetShadow(int text, int size) {
         text,
         size
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawSetOutline(int text, int size) {
@@ -706,7 +700,7 @@ bool TextDrawSetOutline(int text, int size) {
         text,
         size
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawBackgroundColor(int text, long color) {
@@ -716,7 +710,7 @@ bool TextDrawBackgroundColor(int text, long color) {
         text,
         color
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawFont(int text, int font) {
@@ -726,7 +720,7 @@ bool TextDrawFont(int text, int font) {
         text,
         font
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawSetProportional(int text, bool set) {
@@ -736,7 +730,7 @@ bool TextDrawSetProportional(int text, bool set) {
         text,
         set
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawShowForPlayer(int playerid, int text) {
@@ -746,7 +740,7 @@ bool TextDrawShowForPlayer(int playerid, int text) {
         text,
         text
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawHideForPlayer(int playerid, int text) {
@@ -756,7 +750,7 @@ bool TextDrawHideForPlayer(int playerid, int text) {
         playerid,
         text
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawShowForAll(int text) {
@@ -765,7 +759,7 @@ bool TextDrawShowForAll(int text) {
         1 * 4,
         text
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawHideForAll(int text) {
@@ -774,7 +768,7 @@ bool TextDrawHideForAll(int text) {
         1 * 4,
         text
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawSetString(int text, const std::string &string) {
@@ -785,7 +779,7 @@ bool TextDrawSetString(int text, const std::string &string) {
         text,
         reinterpret_cast<cell>(string_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int GangZoneCreate(float minx, float miny, float maxx, float maxy) {
@@ -806,7 +800,7 @@ bool GangZoneDestroy(int zone) {
         1 * 4,
         zone
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneShowForPlayer(int playerid, int zone, long color) {
@@ -817,7 +811,7 @@ bool GangZoneShowForPlayer(int playerid, int zone, long color) {
         zone,
         color
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneShowForAll(int zone, long color) {
@@ -827,7 +821,7 @@ bool GangZoneShowForAll(int zone, long color) {
         zone,
         color
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneHideForPlayer(int playerid, int zone) {
@@ -837,7 +831,7 @@ bool GangZoneHideForPlayer(int playerid, int zone) {
         playerid,
         zone
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneHideForAll(int zone) {
@@ -846,7 +840,7 @@ bool GangZoneHideForAll(int zone) {
         1 * 4,
         zone
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneFlashForPlayer(int playerid, int zone, long flashcolor) {
@@ -857,7 +851,7 @@ bool GangZoneFlashForPlayer(int playerid, int zone, long flashcolor) {
         zone,
         flashcolor
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneFlashForAll(int zone, long flashcolor) {
@@ -867,7 +861,7 @@ bool GangZoneFlashForAll(int zone, long flashcolor) {
         zone,
         flashcolor
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneStopFlashForPlayer(int playerid, int zone) {
@@ -877,7 +871,7 @@ bool GangZoneStopFlashForPlayer(int playerid, int zone) {
         playerid,
         zone
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneStopFlashForAll(int zone) {
@@ -886,7 +880,7 @@ bool GangZoneStopFlashForAll(int zone) {
         1 * 4,
         zone
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int Create3DTextLabel(const std::string &text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS) {
@@ -912,7 +906,7 @@ bool Delete3DTextLabel(int id) {
         1 * 4,
         id
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ) {
@@ -925,7 +919,7 @@ bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float Offset
         amx_ftoc(OffsetY),
         amx_ftoc(OffsetZ)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ) {
@@ -938,7 +932,7 @@ bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float Offs
         amx_ftoc(OffsetY),
         amx_ftoc(OffsetZ)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool Update3DTextLabelText(int id, long color, const std::string &text) {
@@ -950,7 +944,7 @@ bool Update3DTextLabelText(int id, long color, const std::string &text) {
         color,
         reinterpret_cast<cell>(text_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int CreatePlayer3DTextLabel(int playerid, const std::string &text, long color, float x, float y, float z, float DrawDistance, int attachedplayer, int attachedvehicle, bool testLOS) {
@@ -979,7 +973,7 @@ bool DeletePlayer3DTextLabel(int playerid, int id) {
         playerid,
         id
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const std::string &text) {
@@ -992,7 +986,7 @@ bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const std::st
         color,
         reinterpret_cast<cell>(text_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool ShowPlayerDialog(int playerid, int dialogid, int style, const std::string &caption, 
@@ -1013,11 +1007,7 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const std::string &
         reinterpret_cast<cell>(button1_.c_str()),
         reinterpret_cast<cell>(button2_.c_str())
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 } // namespace samp
-
-#ifdef _MSC_VER
-    #pragma warning(pop)
-#endif

@@ -1,12 +1,6 @@
 #include "fakeamx.h"
 #include "wrapper.h"
 
-#ifdef _MSC_VER
-    #pragma warning(push)
-    // forcing value to bool 'true' or 'false' (performance warning)
-    #pragma warning(disable: 4800)
-#endif
-
 namespace samp {
 
 int CreateObject(int modelid, float X, float Y, float Z, float rX, float rY, float rZ, float DrawDistance) {
@@ -40,7 +34,7 @@ bool AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fO
         amx_ftoc(fRotY),
         amx_ftoc(fRotZ)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void SetObjectPos(int objectid, float X, float Y, float Z) {
@@ -64,7 +58,7 @@ bool GetObjectPos(int objectid, float &X, float &Y, float &Z) {
         reinterpret_cast<cell>(&Y),
         reinterpret_cast<cell>(&Z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void SetObjectRot(int objectid, float RotX, float RotY, float RotZ) {
@@ -88,7 +82,7 @@ bool GetObjectRot(int objectid, float &RotX, float &RotY, float &RotZ) {
         reinterpret_cast<cell>(&RotY),
         reinterpret_cast<cell>(&RotZ)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsValidObject(int objectid) {
@@ -97,7 +91,7 @@ bool IsValidObject(int objectid) {
         1 * 4,
         objectid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void DestroyObject(int objectid) {
@@ -128,7 +122,7 @@ bool StopObject(int objectid) {
         1 * 4,
         objectid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 int CreatePlayerObject(int playerid, int modelid, float X, float Y, float Z, 
@@ -173,7 +167,7 @@ bool GetPlayerObjectPos(int playerid, int objectid, float &X, float &Y, float &Z
         reinterpret_cast<cell>(&Y),
         reinterpret_cast<cell>(&Z)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void SetPlayerObjectRot(int playerid, int objectid, float RotX, float RotY, float RotZ) {
@@ -199,7 +193,7 @@ bool GetPlayerObjectRot(int playerid, int objectid, float &RotX, float &RotY, fl
         reinterpret_cast<cell>(&RotY),
         reinterpret_cast<cell>(&RotZ)
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 bool IsValidPlayerObject(int playerid, int objectid) {
@@ -209,7 +203,7 @@ bool IsValidPlayerObject(int playerid, int objectid) {
         playerid,
         objectid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void DestroyPlayerObject(int playerid, int objectid) {
@@ -243,7 +237,7 @@ bool StopPlayerObject(int playerid, int objectid) {
         playerid,
         objectid
     };
-    return native(&::fakeAmx, params);
+    return native(&::fakeAmx, params) != 0;
 }
 
 void AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float OffsetY, float OffsetZ, 
@@ -284,7 +278,3 @@ void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer
 }
 
 } // namespace samp
-
-#ifdef _MSC_VER
-    #pragma warning(pop)
-#endif
