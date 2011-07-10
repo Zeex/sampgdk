@@ -3,6 +3,8 @@
 
 #include <string>
 
+using samp::internal::fakeAmx;
+
 namespace samp {
 
 bool SendClientMessage(int playerid, long color, const std::string &message) {

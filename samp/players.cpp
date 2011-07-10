@@ -4,6 +4,8 @@
 
 #include <string>
 
+using samp::internal::fakeAmx;
+
 namespace samp {
 
 bool SetSpawnInfo(int playerid, int team, int skin, float x, float y, float z, float rotation, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) {

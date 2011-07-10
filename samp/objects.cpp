@@ -1,6 +1,8 @@
 #include "wrapper.h"
 #include "internal/fakeamx.h"
 
+using samp::internal::fakeAmx;
+
 namespace samp {
 
 int CreateObject(int modelid, float X, float Y, float Z, float rX, float rY, float rZ, float DrawDistance) {
