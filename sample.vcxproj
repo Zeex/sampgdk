@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="samp\internal\callbacks.h" />
     <ClInclude Include="samp\logprintf.h" />
     <ClInclude Include="samp\objects.h" />
     <ClInclude Include="samp\players.h" />
@@ -98,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sample.cpp" />
+    <ClCompile Include="samp\internal\callbacks.cpp" />
     <ClCompile Include="samp\logprintf.cpp" />
     <ClCompile Include="samp\objects.cpp" />
     <ClCompile Include="samp\players.cpp" />
