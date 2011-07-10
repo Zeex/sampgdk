@@ -1,6 +1,6 @@
-#include "fakeamx.h"
 #include "samp.h"
 #include "wrapper.h"
+#include "internal/fakeamx.h"
 
 #include <string>
 
