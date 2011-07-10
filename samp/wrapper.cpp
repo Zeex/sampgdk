@@ -19,7 +19,7 @@ static uint32_t amx_Exec_addr;
 static unsigned char amx_Exec_code[5];
 
 static AMX *pGamemode = 0;
-static std::string cheatPublicName;
+static std::string lastPublicName;
 
 namespace samp {
 
@@ -56,8 +56,8 @@ static int my_amx_FindPublic(AMX *amx, const char *name, int *index) {
             // The requested public doesn't exist but we say it does
             // to let the server subsequently execute it.
             *index = -1337;
-            ::cheatPublicName.assign(name);
         }
+        ::lastPublicName.assign(name);
     }
 
     // Set the jump again to catch further calls
@@ -70,16 +70,14 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
     // Restore the original code so we can call the function
     memcpy(reinterpret_cast<void*>(::amx_Exec_addr), ::amx_Exec_code, 5);
 
-    int error = AMX_ERR_NONE;
+    samp::Wrapper::GetInstance()->CallPublic(::pGamemode, ::lastPublicName);
 
-    if (index == -1337) {
+    int error = AMX_ERR_NONE;
+    if (index != -1337) {
         // It's calling a fake public (see my_amx_FindPublic for details).
-        samp::Wrapper::GetInstance()->CallPublic(::pGamemode, ::cheatPublicName);
-    } else {
         if (index == AMX_EXEC_MAIN) {
-            // They call main() on this script - this is the gamemode
+            // main() is being called => this script is the gamemode
             ::pGamemode = amx;
-            //logprintf("I think this is the gamemode.");
         }
         error = amx_Exec(amx, retval, index);
     }
