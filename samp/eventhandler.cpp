@@ -214,7 +214,7 @@ bool EventHandler::OnVehicleStreamOut(int vehicleid, int forplayerid) {
 }
 
 bool EventHandler::OnDialogResponse(int playerid, int dialogid, bool response, int listitem, const std::string &inputtext) {
-    dlogprintf("OnDialogResponse(%d, %d, %d, %d, %ds)", playerid, dialogid, response, listitem, inputtext.c_str());
+    dlogprintf("OnDialogResponse(%d, %d, %d, %d, %s)", playerid, dialogid, response, listitem, inputtext.c_str());
     return true;
 }
 
