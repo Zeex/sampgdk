@@ -1,5 +1,5 @@
-#include "fakeamx.h"
 #include "wrapper.h"
+#include "internal/fakeamx.h"
 
 namespace samp {
 
