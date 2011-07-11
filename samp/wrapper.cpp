@@ -80,6 +80,9 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
     if (index == AMX_EXEC_MAIN) {
         // main() is being called => this is the gamemode
         ::pGamemode = amx;
+        // Manually call OnGameModeInit from here as it's usually called 
+        // before main() and is impossible to catch using the current method
+        *retval = samp::Wrapper::GetInstance()->CallPublic(::pGamemode, "OnGameModeInit");
     }
 
     int error = AMX_ERR_NONE;

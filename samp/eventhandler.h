@@ -24,6 +24,8 @@ public:
     static void SetEventHandler(EventHandler *handler);
     static EventHandler *GetEventHandler();
 
+    virtual void OnGameModeInit();
+    virtual void OnGameModeExit();
     virtual bool OnPlayerConnect(int playerid);
     virtual bool OnPlayerDisconnect(int playerid, int reason);
     virtual bool OnPlayerSpawn(int playerid);
