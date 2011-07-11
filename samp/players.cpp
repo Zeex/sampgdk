@@ -406,15 +406,17 @@ int GetPlayerState(int playerid) {
 
 std::string GetPlayerIp(int playerid) {
     static auto native = Wrapper::GetInstance()->GetNative("GetPlayerIp");
-    cstring name_(16, '\0');
+    cstring ip_(16, 0);
     cell params[] = {
         3 * 4,
         playerid,
-        reinterpret_cast<cell>(name_.data()),
-        name_.length()
+        reinterpret_cast<cell>(ip_.data()),
+        16
     };
     native(&::fakeAmx, params);
-    return std::string(name_.begin(), name_.end());
+    int length;
+    amx_StrLen(ip_.data(), &length);
+    return std::string(ip_.begin(), ip_.begin() + length);
 }
 
 int GetPlayerPing(int playerid) {
@@ -449,15 +451,17 @@ bool GetPlayerKeys(int playerid, int &keys, int &updown, int &leftright) {
 
 std::string GetPlayerName(int playerid) {
     static auto native = Wrapper::GetInstance()->GetNative("GetPlayerName");
-    cstring name_(MAX_PLAYER_NAME, '\0');
+    cstring name_(MAX_PLAYER_NAME, 0);
     cell params[] = {
         3 * 4,
         playerid,
         reinterpret_cast<cell>(name_.data()),
-        name_.length()
+        MAX_PLAYER_NAME
     };
     native(&::fakeAmx, params);
-    return std::string(name_.begin(), name_.end());
+    int length;
+    amx_StrLen(name_.data(), &length);
+    return std::string(name_.begin(), name_.begin() + length);
 }
 
 bool SetPlayerTime(int playerid, int hour, int minute) {
@@ -698,17 +702,19 @@ bool SetPVarString(int playerid, const std::string &varname, const std::string &
 bool GetPVarString(int playerid, const std::string &varname, std::string &value, size_t maxlength) {
     static auto native = Wrapper::GetInstance()->GetNative("GetPVarString");
     cstring varname_(varname.begin(), varname.end());
-    cstring value_(maxlength, '\0');
+    cstring value_(maxlength + 1, 0);
     cell params[] = {
         4 * 4,
         playerid,
         reinterpret_cast<cell>(varname_.c_str()),
         reinterpret_cast<cell>(value_.data()),
-        maxlength
+        maxlength + 1
     };
     auto ret = native(&::fakeAmx, params);
-    value.reserve(maxlength);
-    amx_GetString(const_cast<char*>(value.data()), value_.c_str(), 0, maxlength);
+    int length;
+    amx_StrLen(value_.data(), &length);
+    value.reserve(length + 1);
+    amx_GetString(&value[0], value_.c_str(), 0, length + 1);
     return ret != 0;
 }
 
@@ -758,17 +764,19 @@ int GetPVarsUpperIndex(int playerid) {
 
 bool GetPVarNameAtIndex(int playerid, int index, std::string &varname, size_t maxlength) {
     static auto native = Wrapper::GetInstance()->GetNative("GetPVarNameAtIndex");
-    cstring varname_(maxlength, '\0');
+    cstring varname_(maxlength + 1, 0);
     cell params[] = {
         4 * 4,
         playerid,
         index,
         reinterpret_cast<cell>(varname_.data()),
-        maxlength
+        maxlength + 1
     };
     auto ret =  native(&::fakeAmx, params);
-    varname.reserve(maxlength);
-    amx_GetString(const_cast<char*>(varname.data()), varname_.c_str(), 0, maxlength);
+    int length;
+    amx_StrLen(varname_.data(), &length);
+    varname.reserve(length + 1);
+    amx_GetString(&varname[0], varname_.c_str(), 0, length + 1);
     return ret != 0;
 }
 
@@ -901,21 +909,25 @@ int GetPlayerAnimationIndex(int playerid) {
 
 bool GetAnimationName(int index, std::string &animlib, size_t len1, std::string &animname, size_t len2) {
     static auto native = Wrapper::GetInstance()->GetNative("GetAnimationName");
-    cstring animlib_(len1, '\0');
-    cstring animname_(len2, '\0');
+    cstring animlib_(len1 + 1, 0);
+    cstring animname_(len2 + 1, 0);
     cell params[] = {
         5 * 4,
         index,
         reinterpret_cast<cell>(animlib_.data()),
-        len1,
+        len1 + 1,
         reinterpret_cast<cell>(animname_.data()),
-        len2
+        len2 + 1
     };
     auto ret =  native(&::fakeAmx, params);
-    animlib.reserve(len1);
-    amx_GetString(const_cast<char*>(animlib.data()), animlib_.c_str(), 0, len1);
-    animname.reserve(len2);
-    amx_GetString(const_cast<char*>(animname.data()), animname_.c_str(), 0, len2);
+    int trueLen1;
+    amx_StrLen(animlib_.data(), &trueLen1);
+    animlib.reserve(trueLen1 + 1);
+    amx_GetString(&animlib[0], animlib_.c_str(), 0, trueLen1 + 1);
+    int trueLen2;
+    amx_StrLen(animname_.data(), &trueLen2);
+    animname.reserve(trueLen2 + 1);
+    amx_GetString(&animname[0], animname_.c_str(), 0, trueLen2 + 1);
     return ret != 0;
 }
 
