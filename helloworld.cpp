@@ -19,9 +19,9 @@ bool HelloWorld::OnPlayerConnect(int playerid) {
 }
 
 bool HelloWorld::OnPlayerRequestClass(int playerid) {
-	SetPlayerPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
-	SetPlayerCameraPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
-	SetPlayerCameraLookAt(playerid, 1958.3783f, 1343.1572f, 15.3746f);
+    SetPlayerPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
+    SetPlayerCameraPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
+    SetPlayerCameraLookAt(playerid, 1958.3783f, 1343.1572f, 15.3746f);
     return true;
 }
 
