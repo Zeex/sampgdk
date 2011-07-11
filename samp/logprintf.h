@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FAKEAMX_H
-#define FAKEAMX_H
+#ifndef SAMP_LOGPRINTF_H
+#define SAMP_LOGPRINTF_H
 
-#include "plugin/amx/amx.h"
+typedef void (*logprintf_t)(const char *fmt, ...);
 
-extern AMX        fakeAmx;
-extern AMX_HEADER fakeAmxHeader;
+extern logprintf_t logprintf;
 
 #endif

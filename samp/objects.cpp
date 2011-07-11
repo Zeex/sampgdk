@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "fakeamx.h"
 #include "wrapper.h"
+#include "internal/fakeamx.h"
+
+using samp::internal::fakeAmx;
 
 namespace samp {
 

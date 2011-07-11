@@ -16,7 +16,14 @@
 
 #include <string>
 
-#include "plugin/amx/amx.h"
+// This header includes all other headers
+#include "eventhandler.h"
+#include "logprintf.h"
+#include "objects.h"
+#include "players.h"
+#include "vehicles.h"
+#include "wrapper.h"
+#include "plugin/plugin.h"
 
 namespace samp {
 
