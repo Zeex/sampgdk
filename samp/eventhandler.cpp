@@ -23,13 +23,19 @@
 
 namespace samp { 
 
-EventHandler EventHandler::currentHandler_;
+static EventHandler theDefaultEventHandler;
 
-void EventHandler::SetEventHandler(EventHandler handler) {
-    EventHandler::currentHandler_ = handler;
+EventHandler *EventHandler::currentHandler_ = &theDefaultEventHandler;
+
+void EventHandler::SetEventHandler(EventHandler *handler) {
+    if (handler == 0) {
+        EventHandler::currentHandler_ = &theDefaultEventHandler;
+    } else {
+        EventHandler::currentHandler_ = handler;
+    }
 }
 
-EventHandler EventHandler::GetEventHandler() {
+EventHandler *EventHandler::GetEventHandler() {
     return EventHandler::currentHandler_;
 }
 

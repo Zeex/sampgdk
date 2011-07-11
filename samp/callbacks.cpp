@@ -84,142 +84,142 @@ void InitializeCallbacks() {
 
 cell OnPlayerConnect(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerConnect(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerConnect(playerid);
 }
 
 cell OnPlayerDisconnect(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto reason = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerDisconnect(playerid, reason);
+    return EventHandler::GetEventHandler()->OnPlayerDisconnect(playerid, reason);
 }
 
 cell OnPlayerSpawn(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerSpawn(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerSpawn(playerid);
 }
 
 cell OnPlayerDeath(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto killerid = GetCellFromStack(amx, 1);
     auto reason = GetCellFromStack(amx, 2);
-    return EventHandler::GetEventHandler().OnPlayerDeath(playerid, killerid, reason);
+    return EventHandler::GetEventHandler()->OnPlayerDeath(playerid, killerid, reason);
 }
 
 cell OnVehicleSpawn(AMX *amx) {
     auto vehicleid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnVehicleSpawn(vehicleid);
+    return EventHandler::GetEventHandler()->OnVehicleSpawn(vehicleid);
 }
 
 cell OnVehicleDeath(AMX *amx) {
     auto vehicleid = GetCellFromStack(amx, 0);
     auto killerid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnVehicleDeath(vehicleid, killerid);
+    return EventHandler::GetEventHandler()->OnVehicleDeath(vehicleid, killerid);
 }
 
 cell OnPlayerText(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto text = GetStringFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerText(playerid, text);
+    return EventHandler::GetEventHandler()->OnPlayerText(playerid, text);
 }
 
 cell OnPlayerCommandText(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto cmdtext = GetStringFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerCommandText(playerid, cmdtext);
+    return EventHandler::GetEventHandler()->OnPlayerCommandText(playerid, cmdtext);
 }
 
 cell OnPlayerRequestClass(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto classid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerRequestClass(playerid, classid);
+    return EventHandler::GetEventHandler()->OnPlayerRequestClass(playerid, classid);
 }
 
 cell OnPlayerEnterVehicle(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto vehicleid = GetCellFromStack(amx, 1);
     auto ispassenger = GetCellFromStack(amx, 2) != 0;
-    return EventHandler::GetEventHandler().OnPlayerEnterVehicle(playerid, vehicleid, ispassenger);
+    return EventHandler::GetEventHandler()->OnPlayerEnterVehicle(playerid, vehicleid, ispassenger);
 }
 
 cell OnPlayerExitVehicle(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto vehicleid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerExitVehicle(playerid, vehicleid);
+    return EventHandler::GetEventHandler()->OnPlayerExitVehicle(playerid, vehicleid);
 }
 
 cell OnPlayerStateChange(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto newstate = GetCellFromStack(amx, 1);
     auto oldstate = GetCellFromStack(amx, 2);
-    return EventHandler::GetEventHandler().OnPlayerStateChange(playerid, newstate, oldstate);
+    return EventHandler::GetEventHandler()->OnPlayerStateChange(playerid, newstate, oldstate);
 }
 
 cell OnPlayerEnterCheckpoint(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerEnterCheckpoint(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerEnterCheckpoint(playerid);
 }
 
 cell OnPlayerLeaveCheckpoint(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerLeaveCheckpoint(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerLeaveCheckpoint(playerid);
 }
 
 cell OnPlayerEnterRaceCheckpoint(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerEnterRaceCheckpoint(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerEnterRaceCheckpoint(playerid);
 }
 
 cell OnPlayerLeaveRaceCheckpoint(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerLeaveRaceCheckpoint(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerLeaveRaceCheckpoint(playerid);
 }
 
 cell OnRconCommand(AMX *amx) {
     auto cmd = GetStringFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnRconCommand(cmd);
+    return EventHandler::GetEventHandler()->OnRconCommand(cmd);
 }
 
 cell OnPlayerRequestSpawn(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerRequestSpawn(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerRequestSpawn(playerid);
 }
 
 cell OnObjectMoved(AMX *amx) {
     auto objectid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnObjectMoved(objectid);
+    return EventHandler::GetEventHandler()->OnObjectMoved(objectid);
 }
 
 cell OnPlayerObjectMoved(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto objectid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerObjectMoved(playerid, objectid);
+    return EventHandler::GetEventHandler()->OnPlayerObjectMoved(playerid, objectid);
 }
 
 cell OnPlayerPickUpPickup(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto pickupid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerPickUpPickup(playerid, pickupid);
+    return EventHandler::GetEventHandler()->OnPlayerPickUpPickup(playerid, pickupid);
 }
 
 cell OnVehicleMod(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto vehicleid = GetCellFromStack(amx, 1);
     auto componentid = GetCellFromStack(amx, 2);
-    return EventHandler::GetEventHandler().OnVehicleMod(playerid, vehicleid, componentid);
+    return EventHandler::GetEventHandler()->OnVehicleMod(playerid, vehicleid, componentid);
 }
 
 cell OnEnterExitModShop(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto enterexit = GetCellFromStack(amx, 1) != 0;
     auto interiorid = GetCellFromStack(amx, 2);
-    return EventHandler::GetEventHandler().OnEnterExitModShop(playerid, enterexit, interiorid);
+    return EventHandler::GetEventHandler()->OnEnterExitModShop(playerid, enterexit, interiorid);
 }
 
 cell OnVehiclePaintjob(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto vehicleid = GetCellFromStack(amx, 1);
     auto paintjobid = GetCellFromStack(amx, 2);
-    return EventHandler::GetEventHandler().OnVehiclePaintjob(playerid, vehicleid, paintjobid);
+    return EventHandler::GetEventHandler()->OnVehiclePaintjob(playerid, vehicleid, paintjobid);
 }
 
 cell OnVehicleRespray(AMX *amx) {
@@ -227,74 +227,74 @@ cell OnVehicleRespray(AMX *amx) {
     auto vehicleid = GetCellFromStack(amx, 1);
     auto color1 = GetCellFromStack(amx, 2);
     auto color2 = GetCellFromStack(amx, 3);
-    return EventHandler::GetEventHandler().OnVehicleRespray(playerid, vehicleid, color1, color2);
+    return EventHandler::GetEventHandler()->OnVehicleRespray(playerid, vehicleid, color1, color2);
 }
 
 cell OnVehicleDamageStatusUpdate(AMX *amx) {
     auto vehicleid = GetCellFromStack(amx, 0);
     auto playerid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnVehicleDamageStatusUpdate(vehicleid, playerid);
+    return EventHandler::GetEventHandler()->OnVehicleDamageStatusUpdate(vehicleid, playerid);
 }
 
 cell OnPlayerSelectedMenuRow(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto row = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerSelectedMenuRow(playerid, row);
+    return EventHandler::GetEventHandler()->OnPlayerSelectedMenuRow(playerid, row);
 }
 
 cell OnPlayerExitedMenu(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerExitedMenu(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerExitedMenu(playerid);
 }
 
 cell OnPlayerInteriorChange(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto newinteriorid = GetCellFromStack(amx, 1);
     auto oldinteriorid = GetCellFromStack(amx, 2);
-    return EventHandler::GetEventHandler().OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);
+    return EventHandler::GetEventHandler()->OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);
 }
 
 cell OnPlayerKeyStateChange(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto newkeys = GetCellFromStack(amx, 1);
     auto oldkeys = GetCellFromStack(amx, 2);
-    return EventHandler::GetEventHandler().OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
+    return EventHandler::GetEventHandler()->OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
 }
 
 cell OnRconLoginAttempt(AMX *amx) {
     auto ip = GetStringFromStack(amx, 0);
     auto password = GetStringFromStack(amx, 1);
     auto success = GetCellFromStack(amx, 2) != 0;
-    return EventHandler::GetEventHandler().OnRconLoginAttempt(ip, password, success);
+    return EventHandler::GetEventHandler()->OnRconLoginAttempt(ip, password, success);
 }
 
 cell OnPlayerUpdate(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
-    return EventHandler::GetEventHandler().OnPlayerUpdate(playerid);
+    return EventHandler::GetEventHandler()->OnPlayerUpdate(playerid);
 }
 
 cell OnPlayerStreamIn(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto forplayerid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerStreamIn(playerid, forplayerid);
+    return EventHandler::GetEventHandler()->OnPlayerStreamIn(playerid, forplayerid);
 }
 
 cell OnPlayerStreamOut(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto forplayerid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnPlayerStreamOut(playerid, forplayerid);
+    return EventHandler::GetEventHandler()->OnPlayerStreamOut(playerid, forplayerid);
 }
 
 cell OnVehicleStreamIn(AMX *amx) {
     auto vehicleid = GetCellFromStack(amx, 0);
     auto forplayerid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnVehicleStreamIn(vehicleid, forplayerid);
+    return EventHandler::GetEventHandler()->OnVehicleStreamIn(vehicleid, forplayerid);
 }
 
 cell OnVehicleStreamOut(AMX *amx) {
     auto vehicleid = GetCellFromStack(amx, 0);
     auto forplayerid = GetCellFromStack(amx, 1);
-    return EventHandler::GetEventHandler().OnVehicleStreamOut(vehicleid, forplayerid);
+    return EventHandler::GetEventHandler()->OnVehicleStreamOut(vehicleid, forplayerid);
 }
 
 cell OnDialogResponse(AMX *amx) {
@@ -303,14 +303,14 @@ cell OnDialogResponse(AMX *amx) {
     auto response = GetCellFromStack(amx, 2) != 0;
     auto listitem = GetCellFromStack(amx, 3);
     auto inputtext = GetStringFromStack(amx, 4);
-    return EventHandler::GetEventHandler().OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
+    return EventHandler::GetEventHandler()->OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 }
 
 cell OnPlayerClickPlayer(AMX *amx) {
     auto playerid = GetCellFromStack(amx, 0);
     auto clickedplayerid = GetCellFromStack(amx, 1);
     auto source = GetCellFromStack(amx, 2);
-    return EventHandler::GetEventHandler().OnPlayerClickPlayer(playerid, clickedplayerid, source);
+    return EventHandler::GetEventHandler()->OnPlayerClickPlayer(playerid, clickedplayerid, source);
 }
 
 } // namespace callbacks 

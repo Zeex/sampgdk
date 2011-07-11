@@ -21,8 +21,8 @@ namespace samp {
 
 class EventHandler {
 public:
-    static void SetEventHandler(EventHandler handler);
-    static EventHandler GetEventHandler();
+    static void SetEventHandler(EventHandler *handler);
+    static EventHandler *GetEventHandler();
 
     virtual bool OnPlayerConnect(int playerid);
     virtual bool OnPlayerDisconnect(int playerid, int reason);
@@ -64,7 +64,7 @@ public:
     virtual bool OnPlayerClickPlayer(int playerid, int clickedplayerid, int source);
 
 private:
-    static EventHandler currentHandler_;
+    static EventHandler *currentHandler_;
 };
 
 } // namespace samp
