@@ -1,8 +1,4 @@
-// Calling SA:MP natives from C++
-
 #include "samp/samp.h"
-#include "samp/wrapper.h"
-#include "samp/plugin/plugin.h"
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()  {
     return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES;
