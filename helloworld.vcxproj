@@ -18,6 +18,7 @@
     <ProjectGuid>{A69AA6FF-F540-47ED-8862-84E51EA6CAE6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>natives</RootNamespace>
+    <ProjectName>helloworld</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -119,6 +120,7 @@
     <ClInclude Include="samp\logprintf.h" />
     <ClInclude Include="samp\objects.h" />
     <ClInclude Include="samp\players.h" />
+    <ClInclude Include="helloworld.h" />
     <ClInclude Include="samp\vehicles.h" />
     <ClInclude Include="samp\wrapper.h" />
     <ClInclude Include="samp\plugin\amx\amx.h" />
@@ -132,7 +134,7 @@
     <ClInclude Include="samp\samp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sample.cpp" />
+    <ClCompile Include="helloworld.cpp" />
     <ClCompile Include="samp\callbacks.cpp" />
     <ClCompile Include="samp\eventhandler.cpp" />
     <ClCompile Include="samp\logprintf.cpp" />
@@ -146,7 +148,7 @@
     <ClCompile Include="samp\samp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="sample.def" />
+    <None Include="helloworld.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
