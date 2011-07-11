@@ -281,15 +281,17 @@ bool SetWorldTime(int hour) {
 
 std::string GetWeaponName(int weaponid) {
     static auto native = Wrapper::GetInstance()->GetNative("GetWeaponName");
-    cstring name_(50, '\0'); 
+    cstring name_(50, 0); 
     cell params[] = {
         3 * 4,
         weaponid,
         reinterpret_cast<cell>(name_.data()),
-        name_.length()
+        50
     };
     native(&::fakeAmx, params);
-    return std::string(name_.begin(), name_.end());
+    int length;
+    amx_StrLen(name_.data(), &length);
+    return std::string(name_.begin(), name_.begin() + length);
 }
 
 void EnableTirePopping(bool enable) {
