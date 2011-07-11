@@ -39,6 +39,14 @@ EventHandler *EventHandler::GetEventHandler() {
     return EventHandler::currentHandler_;
 }
 
+void EventHandler::OnGameModeInit() { 
+    dlogprintf("OnGameModeInit()");
+}
+
+void EventHandler::OnGameModeExit() { 
+    dlogprintf("OnGameModeExit()");
+}
+
 bool EventHandler::OnPlayerConnect(int playerid) { 
     dlogprintf("OnPlayerConnect(%d)", playerid);
     return true; 

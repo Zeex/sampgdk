@@ -42,6 +42,8 @@ namespace callbacks {
 void InitializeCallbacks() {
     using samp::Wrapper;
 
+    Wrapper::GetInstance()->SetPublicHandler("OnGameModeInit", OnGameModeInit);
+    Wrapper::GetInstance()->SetPublicHandler("OnGameModeExit", OnGameModeExit);
     Wrapper::GetInstance()->SetPublicHandler("OnPlayerConnect", OnPlayerConnect);
     Wrapper::GetInstance()->SetPublicHandler("OnPlayerDisconnect", OnPlayerDisconnect);
     Wrapper::GetInstance()->SetPublicHandler("OnPlayerSpawn", OnPlayerSpawn);
@@ -80,6 +82,16 @@ void InitializeCallbacks() {
     Wrapper::GetInstance()->SetPublicHandler("OnVehicleStreamOut", OnVehicleStreamOut);
     Wrapper::GetInstance()->SetPublicHandler("OnDialogResponse", OnDialogResponse);
     Wrapper::GetInstance()->SetPublicHandler("OnPlayerClickPlayer", OnPlayerClickPlayer);
+}
+
+cell OnGameModeInit(AMX *amx) {
+    EventHandler::GetEventHandler()->OnGameModeInit();
+    return 1;
+}
+
+cell OnGameModeExit(AMX *amx) {
+    EventHandler::GetEventHandler()->OnGameModeExit();
+    return 1;
 }
 
 cell OnPlayerConnect(AMX *amx) {

@@ -22,6 +22,8 @@ namespace callbacks {
 
 void InitializeCallbacks();
 
+cell OnGameModeInit(AMX *amx);
+cell OnGameModeExit(AMX *amx);
 cell OnPlayerConnect(AMX *amx);
 cell OnPlayerDisconnect(AMX *amx);
 cell OnPlayerSpawn(AMX *amx);
