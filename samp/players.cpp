@@ -238,7 +238,7 @@ int GetPlayerTeam(int playerid) {
     return native(&::fakeAmx, params) != 0;
 }
 
-bool SetPlayerScore(int playerid, int score) {
+bool SetPlayerScore(int playerid, long score) {
     static auto native = Wrapper::GetInstance()->GetNative("SetPlayerScore");
     cell params[] = {
         2 * 4,
@@ -248,7 +248,7 @@ bool SetPlayerScore(int playerid, int score) {
     return native(&::fakeAmx, params) != 0;
 }
 
-int GetPlayerScore(int playerid) {
+long GetPlayerScore(int playerid) {
     static auto native = Wrapper::GetInstance()->GetNative("GetPlayerScore");
     cell params[] = {
         1 * 4,
