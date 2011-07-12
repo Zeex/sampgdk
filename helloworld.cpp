@@ -5,7 +5,8 @@ using namespace samp;
 static HelloWorld theGameMode;
 
 void HelloWorld::OnGameModeInit() {
-    SetGameModeText("HelloWorld written in C++");
+    SetGameModeText("Hello, World!");
+
     AddPlayerClass(0, 1958.3783f, 1343.1572f, 15.3746f, 269.1425f, 0, 0, 0, 0, 0, 0);
 
     logprintf("------------------------------------------\n");
@@ -14,7 +15,7 @@ void HelloWorld::OnGameModeInit() {
 }
 
 bool HelloWorld::OnPlayerConnect(int playerid) {
-    SendClientMessage(playerid, 0xFFFFFFFF, "Welcome to the HelloWorld gamemode!");
+    SendClientMessage(playerid, 0xFFFFFFFF, "Welcome to the HelloWorld server!");
     return true;
 }
 
