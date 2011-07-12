@@ -20,19 +20,18 @@
 
 #include "plugin/amx/amx.h"
 
+// Gets a single cell from AMX stack with the specified index
 static cell GetCellFromStack(AMX *amx, int index) {
     auto hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
     auto data = (amx->data != 0) ? amx->data : amx->base + hdr->dat;
-
     return *reinterpret_cast<cell*>(data + amx->stk + sizeof(cell)*index);
 }
 
+// Gets a string from AMX stack  
 static std::string GetStringFromStack(AMX *amx, int index) {
     cell amxAddr = GetCellFromStack(amx, index);
-
     char *str;
     amx_StrParam(amx, amxAddr, str);
-
     return std::string(str);
 }
 
