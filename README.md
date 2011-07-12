@@ -1,4 +1,4 @@
-# SA:MP C++ gamemode SDK (GDK)
+# Gamemode Development Kit for C++ (GDK)
 
 This is yet another C++ "wrapper" for Pawn which makes it possible to write gamemodes using the great power of the C++ language and a huge amount of third-party libraries.
 
