@@ -15,7 +15,7 @@ This will include all the other GDK's headers you will ever need. Note that sinc
 
     using namespace samp;
 
-VERY IMPORTANT THING: before you can use any of the SA:MP native functions, you must _initialize_ the wrapper. This should be done in the Load() function of your plugin (you know, every plugin must have it).
+Before you can use any of the SA:MP native functions, you must _initialize_ the wrapper. This should be done in the Load() function of your plugin (you know, every plugin must have it).
 
     PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
         samp::Wrapper::GetInstance()->Initialize(ppPluginData);
@@ -63,4 +63,4 @@ The second step you do is creating an instance of your gamemode somehwere and se
         return true;
     }
 
-That's all. Now compile and run it. Good luck!
+*That's all. Now compile and run it. Good luck!*
