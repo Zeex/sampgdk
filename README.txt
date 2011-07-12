@@ -71,6 +71,7 @@ The second step you do is creating an instance of your gamemode somehwere and se
 static HelloWorld theGameMode;
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
+    samp::Wrapper::GetInstance()->Initialize(ppPluginData);
     samp::EventHandler::SetEventHandler(&theGameMode);
     return true;
 }
