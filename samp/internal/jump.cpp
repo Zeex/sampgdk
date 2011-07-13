@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <cstdint>
+#include <string>
 
 #ifdef WIN32
     #include <windows.h>
