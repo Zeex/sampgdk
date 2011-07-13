@@ -8,8 +8,6 @@ void HelloWorld::OnGameModeInit() {
     // This is HelloWorld, so...
     SetGameModeText("Hello, World!");
 
-    // The trailing f's are needed to avoid compiler warnings (floating point literals
-    // in C[++] are of type 'double', but we need 'float').
     AddPlayerClass(0, 1958.3783f, 1343.1572f, 15.3746f, 269.1425f, 0, 0, 0, 0, 0, 0);
 
     logprintf("-------------------------------------------\n");
