@@ -31,7 +31,7 @@ bool HelloWorld::OnPlayerRequestClass(int playerid, int classid) {
 
 bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
     // Define a command in a "classic" way.
-    // Most likely you will want to do this in a more efficient way, e.g. with a hash map.
+    // Most likely you will want to do this more efficiently, e.g. with a hash map.
     if (cmdtext == "/hello") {
         SendClientMessage(playerid, 0x00FF00FF, "Hello, " + GetPlayerName(playerid) + "!");
         return true;
@@ -41,8 +41,6 @@ bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()  {
     return SUPPORTS_VERSION;
-    // If you are providing your own natives within the plugin:
-    // return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)  {
@@ -56,7 +54,5 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)  {
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-    // Delete our gamemode from memory on exit (not necessary though 
-    // but considered a good practice in general).
-    // delete EventHandler::GetEventHandler();
+    return;
 }
