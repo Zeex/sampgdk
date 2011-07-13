@@ -38,7 +38,8 @@ static int my_amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, size_t number)
     }
 
     // Set the jump again to catch further calls
-    SetJump(reinterpret_cast<void*>(::amx_Register_addr), ::my_amx_Register, ::amx_Register_code);
+    SetJump(reinterpret_cast<void*>(::amx_Register_addr), static_cast<void*>(::my_amx_Register), 
+        ::amx_Register_code);
 
     return error;
 }
@@ -65,7 +66,8 @@ static int my_amx_FindPublic(AMX *amx, const char *name, int *index) {
     }
 
     // Set the jump again to catch further calls
-    SetJump(reinterpret_cast<void*>(::amx_FindPublic_addr), ::my_amx_FindPublic, ::amx_FindPublic_code);
+    SetJump(reinterpret_cast<void*>(::amx_FindPublic_addr), static_cast<void*>(::my_amx_FindPublic), 
+        ::amx_FindPublic_code);
 
     return error;
 }
@@ -100,7 +102,8 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
     }
 
     // Set the jump again to catch further calls
-    SetJump(reinterpret_cast<void*>(::amx_Exec_addr), ::my_amx_Exec, ::amx_Exec_code);
+    SetJump(reinterpret_cast<void*>(::amx_Exec_addr), static_cast<void*>(::my_amx_Exec), 
+        ::amx_Exec_code);
 
     return error;
 }
@@ -121,15 +124,16 @@ void Wrapper::Initialize(void **ppPluginData) {
 
     // Hook amx_Register
     ::amx_Register_addr = reinterpret_cast<uint32_t>((static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
-    SetJump(reinterpret_cast<void*>(::amx_Register_addr), ::my_amx_Register, ::amx_Register_code);
+    SetJump(reinterpret_cast<void*>(::amx_Register_addr), static_cast<void*>(::my_amx_Register), 
+        ::amx_Register_code);
 
     // Hook amx_FindPublic
     ::amx_FindPublic_addr = reinterpret_cast<uint32_t>((static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_FindPublic]);
-    SetJump(reinterpret_cast<void*>(::amx_FindPublic_addr), ::my_amx_FindPublic, ::amx_FindPublic_code);
+    SetJump(reinterpret_cast<void*>(::amx_FindPublic_addr), static_cast<void*>(::my_amx_FindPublic), ::amx_FindPublic_code);
 
     // Hook amx_Exec
     ::amx_Exec_addr = reinterpret_cast<uint32_t>((static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Exec]);
-    SetJump(reinterpret_cast<void*>(::amx_Exec_addr), ::my_amx_Exec, ::amx_Exec_code);
+    SetJump(reinterpret_cast<void*>(::amx_Exec_addr), static_cast<void*>(::my_amx_Exec), ::amx_Exec_code);
 
     // Set handlers for all SA:MP callbacks
     samp::callbacks::InitializeCallbacks();
