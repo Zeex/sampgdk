@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #include <cstdint>
-#include <string>
+#include <cstring>
 
 #ifdef WIN32
     #include <windows.h>
@@ -29,7 +29,7 @@ static void Unprotect(void *address, int size) {
 #else
     // Both address and size must be multiples of page size 
     auto pagesize = getpagesize();
-    auto *where = ((reinterpret_cast<uint32_t>(address) / pagesize) * pagesize);
+    auto where = ((reinterpret_cast<uint32_t>(address) / pagesize) * pagesize);
     auto count = (size / pagesize) * pagesize + pagesize * 2;
     mprotect(reinterpret_cast<void*>(where), count, PROT_READ | PROT_WRITE | PROT_EXEC);
 #endif
