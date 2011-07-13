@@ -28,7 +28,7 @@ static std::shared_ptr<EventHandler> theDefaultEventHandler(new EventHandler);
 std::shared_ptr<EventHandler> EventHandler::currentHandler_ = theDefaultEventHandler;
 
 void EventHandler::SetEventHandler(std::shared_ptr<EventHandler> handler) {
-    if (handler == 0) {
+    if (handler.get() == 0) {
         EventHandler::currentHandler_ = theDefaultEventHandler;
     } else {
         EventHandler::currentHandler_ = handler;
