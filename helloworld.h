@@ -7,7 +7,7 @@ class HelloWorld : public samp::EventHandler {
 public:
     virtual void OnGameModeInit();
     virtual bool OnPlayerConnect(int playerid);
-    virtual bool OnPlayerRequestClass(int playerid);
+    virtual bool HelloWorld::OnPlayerRequestClass(int playerid, int classid);
     virtual bool OnPlayerCommandText(int playerid, const std::string &cmdtext);
 };
 
