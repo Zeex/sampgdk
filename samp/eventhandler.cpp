@@ -23,19 +23,19 @@
 
 namespace samp { 
 
-static std::shared_ptr<EventHandler> theDefaultEventHandler(new EventHandler);
+static EventHandler theDefaultEventHandler;
 
-std::shared_ptr<EventHandler> EventHandler::currentHandler_ = theDefaultEventHandler;
+EventHandler *EventHandler::currentHandler_ = &theDefaultEventHandler;
 
-void EventHandler::SetEventHandler(std::shared_ptr<EventHandler> handler) {
-    if (handler.get() == 0) {
-        EventHandler::currentHandler_ = theDefaultEventHandler;
+void EventHandler::SetEventHandler(EventHandler *handler) {
+    if (handler == 0) {
+        EventHandler::currentHandler_ = &theDefaultEventHandler;
     } else {
         EventHandler::currentHandler_ = handler;
     }
 }
 
-std::shared_ptr<EventHandler> EventHandler::GetEventHandler() {
+EventHandler *EventHandler::GetEventHandler() {
     return EventHandler::currentHandler_;
 }
 

@@ -15,15 +15,14 @@
 #ifndef SAMP_EVENTHANDLER_H
 #define SAMP_EVENTHANDLER_H
 
-#include <memory>
 #include <string>
 
 namespace samp { 
 
 class EventHandler {
 public:
-    static void SetEventHandler(std::shared_ptr<EventHandler> handler);
-    static std::shared_ptr<EventHandler> GetEventHandler();
+    static void SetEventHandler(EventHandler *handler);
+    static EventHandler *GetEventHandler();
 
     virtual void OnGameModeInit();
     virtual void OnGameModeExit();
@@ -67,7 +66,7 @@ public:
     virtual bool OnPlayerClickPlayer(int playerid, int clickedplayerid, int source);
 
 private:
-    static std::shared_ptr<EventHandler> currentHandler_;
+    static EventHandler *currentHandler_;
 };
 
 } // namespace samp
