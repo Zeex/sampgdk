@@ -16,10 +16,9 @@
 #include <string>
 
 #include "callbacks.h"
+#include "jump.h"
 #include "logprintf.h"
 #include "wrapper.h"
-
-#include "internal/jump.h"
 
 #include "plugin/plugin.h"
 
