@@ -1,21 +1,18 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloworld", "helloworld.vcxproj", "{A69AA6FF-F540-47ED-8862-84E51EA6CAE6}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloworld", "helloworld.vcproj", "{6EDD37E3-F220-4D24-BFB1-343F60DB5C77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
-		DebugCallbacks|Win32 = DebugCallbacks|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A69AA6FF-F540-47ED-8862-84E51EA6CAE6}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A69AA6FF-F540-47ED-8862-84E51EA6CAE6}.Debug|Win32.Build.0 = Debug|Win32
-		{A69AA6FF-F540-47ED-8862-84E51EA6CAE6}.DebugCallbacks|Win32.ActiveCfg = DebugCallbacks|Win32
-		{A69AA6FF-F540-47ED-8862-84E51EA6CAE6}.DebugCallbacks|Win32.Build.0 = DebugCallbacks|Win32
-		{A69AA6FF-F540-47ED-8862-84E51EA6CAE6}.Release|Win32.ActiveCfg = Release|Win32
-		{A69AA6FF-F540-47ED-8862-84E51EA6CAE6}.Release|Win32.Build.0 = Release|Win32
+		{6EDD37E3-F220-4D24-BFB1-343F60DB5C77}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6EDD37E3-F220-4D24-BFB1-343F60DB5C77}.Debug|Win32.Build.0 = Debug|Win32
+		{6EDD37E3-F220-4D24-BFB1-343F60DB5C77}.Release|Win32.ActiveCfg = Release|Win32
+		{6EDD37E3-F220-4D24-BFB1-343F60DB5C77}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

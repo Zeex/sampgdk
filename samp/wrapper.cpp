@@ -143,7 +143,7 @@ void Wrapper::SetNative(const std::string &name, AMX_NATIVE native) {
 }
     
 AMX_NATIVE Wrapper::GetNative(const std::string &name) const {
-    auto it = natives_.find(name);
+    std::map<std::string, AMX_NATIVE>::const_iterator it = natives_.find(name);
     if (it != natives_.end()) {
         return it->second;
     } 
@@ -155,7 +155,7 @@ void Wrapper::SetPublicHandler(const std::string &name, PublicHandler handler) {
 }
 
 cell Wrapper::CallPublic(AMX *amx, const std::string &name) const {
-    auto it = publicHandlers_.find(name);
+    std::map<std::string, PublicHandler>::const_iterator it = publicHandlers_.find(name);
     if (it != publicHandlers_.end()) {
         return it->second(amx);
     }

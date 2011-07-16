@@ -15,8 +15,8 @@
 #ifndef SAMP_WRAPPER_H
 #define SAMP_WRAPPER_H
 
+#include <map>
 #include <string>
-#include <unordered_map>
 
 #include "plugin/amx/amx.h"
 
@@ -41,8 +41,8 @@ public:
 private:
     Wrapper();
 
-    std::unordered_map<std::string, AMX_NATIVE> natives_;
-    std::unordered_map<std::string, PublicHandler> publicHandlers_;
+    std::map<std::string, AMX_NATIVE> natives_;
+    std::map<std::string, PublicHandler> publicHandlers_;
 };
 
 } // namespace samp
