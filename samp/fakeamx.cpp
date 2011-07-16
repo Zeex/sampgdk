@@ -16,9 +16,6 @@
 
 #include "fakeamx.h"
 
-namespace samp { 
-namespace internal { 
-
 AMX_HEADER fakeAmxHeader = {
     0, // size
     AMX_MAGIC, // magic
@@ -61,6 +58,3 @@ AMX fakeAmx = {
     0, // reset_hea
     0, // sysreq_d
 };
-
-} // namespace internal 
-} // namespace samp 

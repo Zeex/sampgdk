@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "fakeamx.h"
 #include "wrapper.h"
-#include "internal/fakeamx.h"
-
-using samp::internal::fakeAmx;
 
 namespace samp {
 
 int CreateVehicle(int vehicletype, float x, float y, float z, float rotation, 
     int color1, int color2, long respawn_delay)
 {
-    static auto native = Wrapper::GetInstance()->GetNative("CreateVehicle");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("CreateVehicle");
     cell params[] = {
         8 * 4,
         vehicletype,
@@ -38,7 +36,7 @@ int CreateVehicle(int vehicletype, float x, float y, float z, float rotation,
 }
 
 bool DestroyVehicle(int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("DestroyVehicle");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("DestroyVehicle");
     cell params[] = {
         1 * 4,
         vehicleid
@@ -47,7 +45,7 @@ bool DestroyVehicle(int vehicleid) {
 }
 
 bool IsVehicleStreamedIn(int vehicleid, int forplayerid) {
-    static auto native = Wrapper::GetInstance()->GetNative("IsVehicleStreamedIn");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("IsVehicleStreamedIn");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -57,7 +55,7 @@ bool IsVehicleStreamedIn(int vehicleid, int forplayerid) {
 }
 
 bool GetVehiclePos(int vehicleid, float &x, float &y, float &z) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehiclePos");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehiclePos");
     cell params[] = {
         4 * 4,
         vehicleid,
@@ -69,7 +67,7 @@ bool GetVehiclePos(int vehicleid, float &x, float &y, float &z) {
 }
 
 bool SetVehiclePos(int vehicleid, float x, float y, float z) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetVehiclePos");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehiclePos");
     cell params[] = {
         4 * 4,
         vehicleid,
@@ -81,7 +79,7 @@ bool SetVehiclePos(int vehicleid, float x, float y, float z) {
 }
 
 bool GetVehicleZAngle(int vehicleid, float &z_angle) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleZAngle");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleZAngle");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -91,7 +89,7 @@ bool GetVehicleZAngle(int vehicleid, float &z_angle) {
 }
 
 bool GetVehicleRotationQuat(int vehicleid, float &w, float &x, float &y, float &z) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleRotationQuat");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleRotationQuat");
     cell params[] = {
         5 * 4,
         vehicleid,
@@ -104,7 +102,7 @@ bool GetVehicleRotationQuat(int vehicleid, float &w, float &x, float &y, float &
 }
 
 bool SetVehicleZAngle(int vehicleid, float z_angle) {
-    static auto native = Wrapper::GetInstance()->GetNative("IsVehicleStreamedIn");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("IsVehicleStreamedIn");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -119,7 +117,7 @@ void ManualVehicleEngineAndLights();
 bool SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, bool doors, 
     bool bonnet, bool boot, bool objective) 
 {
-    static auto native = Wrapper::GetInstance()->GetNative("SetVehicleParamsEx");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleParamsEx");
     cell params[] = {
         8 * 4,
         vehicleid,
@@ -137,7 +135,7 @@ bool SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, boo
 bool GetVehicleParamsEx(int vehicleid, bool &engine, bool &lights, bool &alarm, bool &doors, 
     bool &bonnet, bool &boot, bool &objective) 
 {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleParamsEx");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleParamsEx");
     cell params[] = {
         8 * 4,
         vehicleid,
@@ -153,7 +151,7 @@ bool GetVehicleParamsEx(int vehicleid, bool &engine, bool &lights, bool &alarm, 
 }
 
 bool SetVehicleToRespawn(int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetVehicleToRespawn");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleToRespawn");
     cell params[] = {
         1 * 4,
         vehicleid
@@ -162,7 +160,7 @@ bool SetVehicleToRespawn(int vehicleid) {
 }
 
 bool LinkVehicleToInterior(int vehicleid, int interiorid) {
-    static auto native = Wrapper::GetInstance()->GetNative("LinkVehicleToInterior");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("LinkVehicleToInterior");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -172,7 +170,7 @@ bool LinkVehicleToInterior(int vehicleid, int interiorid) {
 }
 
 bool AddVehicleComponent(int vehicleid, int componentid) {
-    static auto native = Wrapper::GetInstance()->GetNative("AddVehicleComponent");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("AddVehicleComponent");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -182,7 +180,7 @@ bool AddVehicleComponent(int vehicleid, int componentid) {
 }
 
 bool RemoveVehicleComponent(int vehicleid, int componentid) {
-    static auto native = Wrapper::GetInstance()->GetNative("RemoveVehicleComponent");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("RemoveVehicleComponent");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -192,7 +190,7 @@ bool RemoveVehicleComponent(int vehicleid, int componentid) {
 }
 
 bool ChangeVehicleColor(int vehicleid, int color1, int color2) {
-    static auto native = Wrapper::GetInstance()->GetNative("ChangeVehicleColor");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("ChangeVehicleColor");
     cell params[] = {
         3 * 4,
         vehicleid,
@@ -203,7 +201,7 @@ bool ChangeVehicleColor(int vehicleid, int color1, int color2) {
 }
 
 bool ChangeVehiclePaintjob(int vehicleid, int paintjobid) {
-    static auto native = Wrapper::GetInstance()->GetNative("ChangeVehiclePaintjob");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("ChangeVehiclePaintjob");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -213,7 +211,7 @@ bool ChangeVehiclePaintjob(int vehicleid, int paintjobid) {
 }
 
 bool SetVehicleHealth(int vehicleid, float health) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetVehicleHealth");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleHealth");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -223,7 +221,7 @@ bool SetVehicleHealth(int vehicleid, float health) {
 }
 
 bool GetVehicleHealth(int vehicleid, float &health) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleHealth");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleHealth");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -233,7 +231,7 @@ bool GetVehicleHealth(int vehicleid, float &health) {
 }
 
 void AttachTrailerToVehicle(int trailerid, int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("AttachTrailerToVehicle");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("AttachTrailerToVehicle");
     cell params[] = {
         2 * 4,
         trailerid,
@@ -243,7 +241,7 @@ void AttachTrailerToVehicle(int trailerid, int vehicleid) {
 }
 
 void DetachTrailerFromVehicle(int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("DetachTrailerFromVehicle");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("DetachTrailerFromVehicle");
     cell params[] = {
         1 * 4,
         vehicleid
@@ -252,7 +250,7 @@ void DetachTrailerFromVehicle(int vehicleid) {
 }
 
 bool IsTrailerAttachedToVehicle(int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("IsTrailerAttachedToVehicle");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("IsTrailerAttachedToVehicle");
     cell params[] = {
         1 * 4,
         vehicleid
@@ -261,7 +259,7 @@ bool IsTrailerAttachedToVehicle(int vehicleid) {
 }
 
 int GetVehicleTrailer(int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleTrailer");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleTrailer");
     cell params[] = {
         1 * 4,
         vehicleid
@@ -270,7 +268,7 @@ int GetVehicleTrailer(int vehicleid) {
 }
 
 bool SetVehicleNumberPlate(int vehicleid, const std::string &numberplate) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetVehicleNumberPlate");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleNumberPlate");
     cstring numberplate_(numberplate.begin(), numberplate.end());
     cell params[] = {
         2 * 4,
@@ -281,7 +279,7 @@ bool SetVehicleNumberPlate(int vehicleid, const std::string &numberplate) {
 }
 
 int GetVehicleModel(int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleModel");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleModel");
     cell params[] = {
         1 * 4,
         vehicleid
@@ -290,7 +288,7 @@ int GetVehicleModel(int vehicleid) {
 }
 
 int GetVehicleComponentInSlot(int vehicleid, int slot) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleComponentInSlot");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleComponentInSlot");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -300,7 +298,7 @@ int GetVehicleComponentInSlot(int vehicleid, int slot) {
 }
 
 int GetVehicleComponentType(int component) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleComponentType");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleComponentType");
     cell params[] = {
         1 * 4,
         component
@@ -309,7 +307,7 @@ int GetVehicleComponentType(int component) {
 }
 
 bool RepairVehicle(int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("RepairVehicle");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("RepairVehicle");
     cell params[] = {
         1 * 4,
         vehicleid
@@ -318,7 +316,7 @@ bool RepairVehicle(int vehicleid) {
 }
 
 bool GetVehicleVelocity(int vehicleid, float &X, float &Y, float &Z) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleVelocity");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleVelocity");
     cell params[] = {
         4 * 4,
         vehicleid,
@@ -330,7 +328,7 @@ bool GetVehicleVelocity(int vehicleid, float &X, float &Y, float &Z) {
 }
 
 bool SetVehicleVelocity(int vehicleid, float X, float Y, float Z) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetVehicleVelocity");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleVelocity");
     cell params[] = {
         4 * 4,
         vehicleid,
@@ -342,7 +340,7 @@ bool SetVehicleVelocity(int vehicleid, float X, float Y, float Z) {
 }
 
 bool SetVehicleAngularVelocity(int vehicleid, float X, float Y, float Z) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetVehicleAngularVelocity");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleAngularVelocity");
     cell params[] = {
         4 * 4,
         vehicleid,
@@ -354,7 +352,7 @@ bool SetVehicleAngularVelocity(int vehicleid, float X, float Y, float Z) {
 }
 
 bool GetVehicleDamageStatus(int vehicleid, long &panels, long &doors, long &lights, long &tires) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleDamageStatus");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleDamageStatus");
     cell params[] = {
         5 * 4,
         vehicleid,
@@ -367,7 +365,7 @@ bool GetVehicleDamageStatus(int vehicleid, long &panels, long &doors, long &ligh
 }
 
 bool UpdateVehicleDamageStatus(int vehicleid, long panels, long doors, long lights, long tires) {
-    static auto native = Wrapper::GetInstance()->GetNative("UpdateVehicleDamageStatus");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("UpdateVehicleDamageStatus");
     cell params[] = {
         5 * 4,
         vehicleid,
@@ -380,7 +378,7 @@ bool UpdateVehicleDamageStatus(int vehicleid, long panels, long doors, long ligh
 }
 
 bool SetVehicleVirtualWorld(int vehicleid, int worldid) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetVehicleVirtualWorld");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleVirtualWorld");
     cell params[] = {
         2 * 4,
         vehicleid,
@@ -390,7 +388,7 @@ bool SetVehicleVirtualWorld(int vehicleid, int worldid) {
 }
 
 bool GetVehicleVirtualWorld(int vehicleid) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetVehicleVirtualWorld");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleVirtualWorld");
     cell params[] = {
         1 * 4,
         vehicleid

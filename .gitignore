@@ -1,10 +1,10 @@
-/Debug
-/ipch
-/Release
-/*.opensdf
-/*.sdf
-/*.suo
-/*.vcxproj.filters
-/*.vcxproj.user
+Debug
+ipch
+Release
 
-/DebugCallbacks
+*.ncb
+*.opensdf
+*.sdf
+*.suo
+*.filters
+*.user

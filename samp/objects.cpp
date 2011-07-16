@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "fakeamx.h"
 #include "wrapper.h"
-#include "internal/fakeamx.h"
-
-using samp::internal::fakeAmx;
 
 namespace samp {
 
 int CreateObject(int modelid, float X, float Y, float Z, float rX, float rY, float rZ, float DrawDistance) {
-    static auto native = Wrapper::GetInstance()->GetNative("CreateObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("CreateObject");
     cell params[] = {
         8 * 4,
         modelid,
@@ -38,7 +36,7 @@ int CreateObject(int modelid, float X, float Y, float Z, float rX, float rY, flo
 bool AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
     float fRotX, float fRotY, float fRotZ)
 {
-    static auto native = Wrapper::GetInstance()->GetNative("AttachObjectToVehicle");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("AttachObjectToVehicle");
     cell params[] = {
         8 * 4,
         objectid,
@@ -54,7 +52,7 @@ bool AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fO
 }
 
 void SetObjectPos(int objectid, float X, float Y, float Z) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetObjectPos");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetObjectPos");
     cell params[] = {
         4 * 4,
         objectid,
@@ -66,7 +64,7 @@ void SetObjectPos(int objectid, float X, float Y, float Z) {
 }
 
 bool GetObjectPos(int objectid, float &X, float &Y, float &Z) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetObjectPos");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetObjectPos");
     cell params[] = {
         4 * 4,
         objectid,
@@ -78,7 +76,7 @@ bool GetObjectPos(int objectid, float &X, float &Y, float &Z) {
 }
 
 void SetObjectRot(int objectid, float RotX, float RotY, float RotZ) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetObjectRot");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetObjectRot");
     cell params[] = {
         4 * 4,
         objectid,
@@ -90,7 +88,7 @@ void SetObjectRot(int objectid, float RotX, float RotY, float RotZ) {
 }
 
 bool GetObjectRot(int objectid, float &RotX, float &RotY, float &RotZ) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetObjectRot");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetObjectRot");
     cell params[] = {
         4 * 4,
         objectid,
@@ -102,7 +100,7 @@ bool GetObjectRot(int objectid, float &RotX, float &RotY, float &RotZ) {
 }
 
 bool IsValidObject(int objectid) {
-    static auto native = Wrapper::GetInstance()->GetNative("IsValidObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("IsValidObject");
     cell params[] = {
         1 * 4,
         objectid
@@ -111,7 +109,7 @@ bool IsValidObject(int objectid) {
 }
 
 void DestroyObject(int objectid) {
-    static auto native = Wrapper::GetInstance()->GetNative("DestroyObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("DestroyObject");
     cell params[] = {
         1 * 4,
         objectid
@@ -120,7 +118,7 @@ void DestroyObject(int objectid) {
 }
 
 int MoveObject(int objectid, float X, float Y, float Z, float Speed) {
-    static auto native = Wrapper::GetInstance()->GetNative("MoveObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("MoveObject");
     cell params[] = {
         5 * 4,
         objectid,
@@ -133,7 +131,7 @@ int MoveObject(int objectid, float X, float Y, float Z, float Speed) {
 }
 
 bool StopObject(int objectid) {
-    static auto native = Wrapper::GetInstance()->GetNative("StopObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("StopObject");
     cell params[] = {
         1 * 4,
         objectid
@@ -144,7 +142,7 @@ bool StopObject(int objectid) {
 int CreatePlayerObject(int playerid, int modelid, float X, float Y, float Z, 
     float rX, float rY, float rZ, float DrawDistance)
 {
-    static auto native = Wrapper::GetInstance()->GetNative("CreatePlayerObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("CreatePlayerObject");
     cell params[] = {
         9 * 4,
         playerid,
@@ -161,7 +159,7 @@ int CreatePlayerObject(int playerid, int modelid, float X, float Y, float Z,
 }
 
 void SetPlayerObjectPos(int playerid, int objectid, float X, float Y, float Z) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetPlayerObjectPos");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetPlayerObjectPos");
     cell params[] = {
         5 * 4,
         playerid,
@@ -174,7 +172,7 @@ void SetPlayerObjectPos(int playerid, int objectid, float X, float Y, float Z) {
 }
 
 bool GetPlayerObjectPos(int playerid, int objectid, float &X, float &Y, float &Z) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetPlayerObjectPos");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerObjectPos");
     cell params[] = {
         5 * 4,
         playerid,
@@ -187,7 +185,7 @@ bool GetPlayerObjectPos(int playerid, int objectid, float &X, float &Y, float &Z
 }
 
 void SetPlayerObjectRot(int playerid, int objectid, float RotX, float RotY, float RotZ) {
-    static auto native = Wrapper::GetInstance()->GetNative("SetPlayerObjectRot");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetPlayerObjectRot");
     cell params[] = {
         5 * 4,
         playerid,
@@ -200,7 +198,7 @@ void SetPlayerObjectRot(int playerid, int objectid, float RotX, float RotY, floa
 }
 
 bool GetPlayerObjectRot(int playerid, int objectid, float &RotX, float &RotY, float &RotZ) {
-    static auto native = Wrapper::GetInstance()->GetNative("GetPlayerObjectRot");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerObjectRot");
     cell params[] = {
         5 * 4,
         playerid,
@@ -213,7 +211,7 @@ bool GetPlayerObjectRot(int playerid, int objectid, float &RotX, float &RotY, fl
 }
 
 bool IsValidPlayerObject(int playerid, int objectid) {
-    static auto native = Wrapper::GetInstance()->GetNative("IsValidPlayerObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("IsValidPlayerObject");
     cell params[] = {
         2 * 4,
         playerid,
@@ -223,7 +221,7 @@ bool IsValidPlayerObject(int playerid, int objectid) {
 }
 
 void DestroyPlayerObject(int playerid, int objectid) {
-    static auto native = Wrapper::GetInstance()->GetNative("DestroyPlayerObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("DestroyPlayerObject");
     cell params[] = {
         2 * 4,
         playerid,
@@ -233,7 +231,7 @@ void DestroyPlayerObject(int playerid, int objectid) {
 }
 
 int MovePlayerObject(int playerid, int objectid, float X, float Y, float Z, float Speed) {
-    static auto native = Wrapper::GetInstance()->GetNative("MovePlayerObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("MovePlayerObject");
     cell params[] = {
         6 * 4,
         playerid,
@@ -247,7 +245,7 @@ int MovePlayerObject(int playerid, int objectid, float X, float Y, float Z, floa
 }
 
 bool StopPlayerObject(int playerid, int objectid) {
-    static auto native = Wrapper::GetInstance()->GetNative("StopPlayerObject");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("StopPlayerObject");
     cell params[] = {
         2 * 4,
         playerid,
@@ -259,7 +257,7 @@ bool StopPlayerObject(int playerid, int objectid) {
 void AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float OffsetY, float OffsetZ, 
     float rX, float rY, float rZ)
 {
-    static auto native = Wrapper::GetInstance()->GetNative("AttachObjectToPlayer");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("AttachObjectToPlayer");
     cell params[] = {
         8 * 4,
         objectid,
@@ -277,7 +275,7 @@ void AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float Offse
 void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, 
     float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ)
 {
-    static auto native = Wrapper::GetInstance()->GetNative("AttachPlayerObjectToPlayer");
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("AttachPlayerObjectToPlayer");
     cell params[] = {
         9 * 4,
         objectplayer,
