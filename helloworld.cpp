@@ -2,6 +2,8 @@
 
 using namespace samp;
 
+// Our gamemode is automatically registered as an event handler.
+// You can undo this by calling Disconnect() or passing 'false' to constructor.
 static HelloWorld theGameMode;
 
 void HelloWorld::OnGameModeInit() {
