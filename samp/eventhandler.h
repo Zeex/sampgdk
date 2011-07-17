@@ -22,7 +22,7 @@ namespace samp {
 class EventHandler {
 public:
     EventHandler();
-    ~EventHandler();
+    virtual ~EventHandler();
 
     void Register();
     void Unregister();
@@ -78,8 +78,6 @@ private:
 
     EventHandler *next_;
     EventHandler *prev_;
-
-    static EventHandler *first_;
 };
 
 } // namespace samp

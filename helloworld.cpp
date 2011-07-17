@@ -4,6 +4,12 @@ using namespace samp;
 
 static HelloWorld theGameMode;
 
+HelloWorld::HelloWorld() {
+    // Register our gamemode in order to catch events - if we don't do this 
+    // somewhere none of the HelloWorld callbacks will be ever called.
+    this->Register();
+}
+
 void HelloWorld::OnGameModeInit() {
     SetGameModeText("Hello, World!");
 
@@ -41,9 +47,6 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()  {
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)  {
     // Initialize the wrapper - this always should  be done here.
     Wrapper::GetInstance()->Initialize(ppPluginData);
-    // Register our gamemode in order to catch events - if you don't do this 
-    // none of the HelloWorld callbacks will be ever called.
-    theGameMode.Register();
     // Do not call any natives here - they are not yet prepared for use at this stage.
     return true;
 }
