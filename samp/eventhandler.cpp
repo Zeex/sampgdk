@@ -15,34 +15,51 @@
 #include <string>
 
 #include "eventhandler.h"
-#include "logprintf.h"
+
+class StaticData {
+public:
+    static StaticData *GetInstance();
+    samp::EventHandler *first;
+private:
+    StaticData();
+};
+
+StaticData::StaticData() 
+    : first(0)
+{
+}
+
+StaticData *StaticData::GetInstance() {
+    static StaticData sd;
+    return &sd;
+}
 
 namespace samp { 
 
-EventHandler *EventHandler::first_ = 0;
-
+// Default ctor
 EventHandler::EventHandler() 
     : registered_(false), next_(0), prev_(0)
 {
 }
 
 EventHandler::~EventHandler() {
-    Unregister();
+    this->Unregister();
 }
 
 void EventHandler::Register() {
-    next_ = first_;
-    if (first_ != 0) {
-        first_->prev_ = this;
+    EventHandler *first = StaticData::GetInstance()->first;
+    next_ = first;
+    if (first != 0) {
+        first->prev_ = this;
     }
-    first_ = this;
+    StaticData::GetInstance()->first = this;
     registered_ = true;
 }
 
 void EventHandler::Unregister() {
     if (registered_) {
-        if (first_ == this) {
-            first_ = next_;
+        if (StaticData::GetInstance()->first == this) {
+            StaticData::GetInstance()->first = next_;
             next_->prev_ = 0;
         } else {
             next_->prev_ = prev_;
@@ -57,7 +74,7 @@ EventHandler *EventHandler::GetNext() const {
 }
 
 EventHandler *EventHandler::GetFirstEventHandler() {
-    return first_;
+    return StaticData::GetInstance()->first;
 }
 
 bool EventHandler::IsRegistered() const {
