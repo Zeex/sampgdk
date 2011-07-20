@@ -22,6 +22,8 @@
 
 #include "plugin/plugin.h"
 
+#define AMX_EXEC_CHEAT (-10)
+
 extern void *pAMXFunctions;
 
 static uint32_t amx_Register_addr;
@@ -58,7 +60,7 @@ static int my_amx_FindPublic(AMX *amx, const char *name, int *index) {
         if (error != AMX_ERR_NONE) {
             // The requested public doesn't exist but we say it does
             // to let the server subsequently execute it.
-            *index = -1337;
+            *index = AMX_EXEC_CHEAT;
             error = AMX_ERR_NONE;
         }
         ::lastPublicName = name;
@@ -82,16 +84,16 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
         ::pGamemode = amx;
         // Manually call OnGameModeInit from here as it's usually called 
         // before main() and is impossible to catch using the current method
-        *retval = samp::Wrapper::GetInstance()->CallPublic(::pGamemode, "OnGameModeInit");
+        samp::Wrapper::GetInstance()->CallPublic(::pGamemode, retval, "OnGameModeInit");
     }
 
     int error = AMX_ERR_NONE;
 
     if (amx == ::pGamemode && ::pGamemode != 0) {
         if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-            *retval = samp::Wrapper::GetInstance()->CallPublic(::pGamemode, ::lastPublicName);
+            samp::Wrapper::GetInstance()->CallPublic(::pGamemode, retval, ::lastPublicName);
         }
-        if (index != -1337) {
+        if (index != AMX_EXEC_CHEAT) {
             // It's calling a fake public (see my_amx_FindPublic for details).
             error = amx_Exec(amx, retval, index);
         }
@@ -153,12 +155,13 @@ void Wrapper::SetPublicHandler(const std::string &name, PublicHandler handler) {
     publicHandlers_[name] = handler;
 }
 
-cell Wrapper::CallPublic(AMX *amx, const std::string &name) const {
+bool Wrapper::CallPublic(AMX *amx, cell *retval, const std::string &name) const {
     std::map<std::string, PublicHandler>::const_iterator it = publicHandlers_.find(name);
     if (it != publicHandlers_.end()) {
-        return it->second(amx);
+        *retval = it->second(amx);
+        return true;
     }
-    return 0;
+    return false;
 }
 
 } // namespace samp

@@ -36,7 +36,7 @@ public:
     AMX_NATIVE GetNative(const std::string &name) const;
 
     void SetPublicHandler(const std::string &name, PublicHandler handler);
-    cell CallPublic(AMX *amx, const std::string &name) const;
+    bool CallPublic(AMX *amx, cell *retval, const std::string &name) const;
 
 private:
     Wrapper();
