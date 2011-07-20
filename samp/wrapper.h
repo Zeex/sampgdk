@@ -24,7 +24,18 @@ namespace samp {
 
 typedef std::basic_string<cell> cstring;
 
-typedef cell (*PublicHandler)(AMX *amx);
+class PublicHook {
+public:
+    typedef cell (*Handler)(AMX *amx);
+
+    PublicHook(Handler handler, cell breakingReturn);
+
+    bool Execute(AMX *amx, cell *retval) const;
+
+private:
+    cell breakingReturn_;
+    Handler handler_;
+};
 
 class Wrapper {
 public:
@@ -35,14 +46,14 @@ public:
     void SetNative(const std::string &name, AMX_NATIVE native);
     AMX_NATIVE GetNative(const std::string &name) const;
 
-    void SetPublicHandler(const std::string &name, PublicHandler handler);
-    bool CallPublic(AMX *amx, cell *retval, const std::string &name) const;
+    void SetPublicHook(const std::string &name, PublicHook handler);
+    bool ExecutePublicHook(AMX *amx, cell *retval, const std::string &name) const;
 
 private:
     Wrapper();
 
     std::map<std::string, AMX_NATIVE> natives_;
-    std::map<std::string, PublicHandler> publicHandlers_;
+    std::map<std::string, PublicHook> publicHooks_;
 };
 
 } // namespace samp
