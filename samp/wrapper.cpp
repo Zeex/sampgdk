@@ -76,26 +76,32 @@ static uint32_t amx_Exec_addr;
 static unsigned char amx_Exec_code[5];
 
 static int my_amx_Exec(AMX *amx, cell *retval, int index) {
-    // Restore the original code so we can call the function
-    memcpy(reinterpret_cast<void*>(::amx_Exec_addr), ::amx_Exec_code, 5);
+    bool canDoExec = true;
 
     if (index == AMX_EXEC_MAIN) {
         // main() is being called => this is the gamemode
         ::pGamemode = amx;
         // Manually call OnGameModeInit from here as it's usually called 
         // before main() and is impossible to catch using the current method
-        samp::Wrapper::GetInstance()->CallPublic(::pGamemode, retval, "OnGameModeInit");
+        canDoExec = samp::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, "OnGameModeInit");
     }
 
     if (amx == ::pGamemode && ::pGamemode != 0) {
         if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-            samp::Wrapper::GetInstance()->CallPublic(::pGamemode, retval, ::lastPublicName);
+            canDoExec = samp::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, ::lastPublicName);
         }
     } 
 
-    int error = amx_Exec(amx, retval, index);
-    if (index == AMX_EXEC_CHEAT) {
-        error = AMX_ERR_NONE;
+    // Restore the original code so we can call the function
+    memcpy(reinterpret_cast<void*>(::amx_Exec_addr), ::amx_Exec_code, 5);
+
+    int error = AMX_ERR_NONE;
+    if (canDoExec) {
+        if (index == AMX_EXEC_CHEAT) {
+            amx_Exec(amx, retval, index);
+        } else {
+            error = amx_Exec(amx, retval, index);
+        }
     }
 
     // Set the jump again to catch further calls
@@ -105,6 +111,16 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
 }
 
 namespace samp {
+
+PublicHook::PublicHook(PublicHook::Handler handler, cell breakingReturn)
+    : handler_(handler), breakingReturn_(breakingReturn)
+{
+}
+
+bool PublicHook::Execute(AMX *amx, cell *retval) const
+{
+    return ((*retval = handler_(amx)) != breakingReturn_);
+}
 
 Wrapper::Wrapper() {}
 
@@ -148,17 +164,16 @@ AMX_NATIVE Wrapper::GetNative(const std::string &name) const {
     return 0;
 }
 
-void Wrapper::SetPublicHandler(const std::string &name, PublicHandler handler) {
-    publicHandlers_[name] = handler;
+void Wrapper::SetPublicHook(const std::string &name, PublicHook handler) {
+    publicHooks_.insert(std::make_pair(name, handler));
 }
 
-bool Wrapper::CallPublic(AMX *amx, cell *retval, const std::string &name) const {
-    std::map<std::string, PublicHandler>::const_iterator it = publicHandlers_.find(name);
-    if (it != publicHandlers_.end()) {
-        *retval = it->second(amx);
-        return true;
+bool Wrapper::ExecutePublicHook(AMX *amx, cell *retval, const std::string &name) const {
+    std::map<std::string, PublicHook>::const_iterator it = publicHooks_.find(name);
+    if (it != publicHooks_.end()) {
+        return it->second.Execute(amx, retval);
     }
-    return false;
+    return true;
 }
 
 } // namespace samp
