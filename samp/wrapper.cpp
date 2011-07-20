@@ -87,18 +87,15 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
         samp::Wrapper::GetInstance()->CallPublic(::pGamemode, retval, "OnGameModeInit");
     }
 
-    int error = AMX_ERR_NONE;
-
     if (amx == ::pGamemode && ::pGamemode != 0) {
         if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
             samp::Wrapper::GetInstance()->CallPublic(::pGamemode, retval, ::lastPublicName);
         }
-        if (index != AMX_EXEC_CHEAT) {
-            // It's calling a fake public (see my_amx_FindPublic for details).
-            error = amx_Exec(amx, retval, index);
-        }
-    } else {
-        error = amx_Exec(amx, retval, index);
+    } 
+
+    int error = amx_Exec(amx, retval, index);
+    if (index == AMX_EXEC_CHEAT) {
+        error = AMX_ERR_NONE;
     }
 
     // Set the jump again to catch further calls
