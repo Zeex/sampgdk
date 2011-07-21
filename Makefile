@@ -9,7 +9,7 @@ CPPFLAGS = -DLINUX -DHAVE_STDINT_H -DHAVE_ALLOCA_H -Isamp/plugin/amx
 debug: CXXFLAGS = -c -g -Wall 
 debug: build
 
-release: CXXFLAGS = -c -O2 
+release: CXXFLAGS = -c -O3 -Wall -fno-strict-aliasing
 release: build
 
 CXXFLAGS = $(CFLAGS) 
