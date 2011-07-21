@@ -29,13 +29,13 @@ extern void *pAMXFunctions;
 static uint32_t amx_Register_addr;
 static unsigned char amx_Register_code[5];
 
-static int my_amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, size_t number) {
+static int my_amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
     // Restore the original code so we can call the function
     memcpy(reinterpret_cast<void*>(::amx_Register_addr), ::amx_Register_code, 5);
     int error = amx_Register(amx, nativelist, number);
 
     // Store natives in our global container
-    for (size_t i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
+    for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
         samp::Wrapper::GetInstance()->SetNative(nativelist[i].name, nativelist[i].func);
     }
 
