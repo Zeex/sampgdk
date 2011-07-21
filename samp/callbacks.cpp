@@ -14,6 +14,10 @@
 
 #include <string>
 
+#if defined WIN32 || defined _WIN32
+    #include <malloc.h>
+#endif
+
 #include "callbacks.h"
 #include "eventhandler.h"
 #include "wrapper.h"
@@ -27,7 +31,7 @@ static cell GetCellFromStack(AMX *amx, int index) {
     return *reinterpret_cast<cell*>(data + amx->stk + sizeof(cell)*index);
 }
 
-// Gets a string from AMX stack  
+// Gets a string from AMX stack
 static std::string GetStringFromStack(AMX *amx, int index) {
     cell amxAddr = GetCellFromStack(amx, index);
     char *str;
@@ -35,13 +39,13 @@ static std::string GetStringFromStack(AMX *amx, int index) {
     return std::string(str);
 }
 
-namespace samp { 
+namespace samp {
 namespace callbacks {
 
 void InitializeCallbacks() {
     using samp::Wrapper;
 
-    Wrapper::GetInstance()->SetPublicHook("OnGameModeInit", PublicHook(OnGameModeInit, 0)); 
+    Wrapper::GetInstance()->SetPublicHook("OnGameModeInit", PublicHook(OnGameModeInit, 0));
     Wrapper::GetInstance()->SetPublicHook("OnGameModeExit", PublicHook(OnGameModeExit, 0));
     Wrapper::GetInstance()->SetPublicHook("OnPlayerConnect", PublicHook(OnPlayerConnect, 0));
     Wrapper::GetInstance()->SetPublicHook("OnPlayerDisconnect", PublicHook(OnPlayerDisconnect, 0));
@@ -324,5 +328,5 @@ cell OnPlayerClickPlayer(AMX *amx) {
     return EventHandler::GetEventHandler()->OnPlayerClickPlayer(playerid, clickedplayerid, source);
 }
 
-} // namespace callbacks 
-} // namespace samp 
+} // namespace callbacks
+} // namespace samp
