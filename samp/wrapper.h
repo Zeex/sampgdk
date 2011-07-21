@@ -33,8 +33,8 @@ public:
     bool Execute(AMX *amx, cell *retval) const;
 
 private:
-    cell breakingReturn_;
     Handler handler_;
+    cell breakingReturn_;
 };
 
 class Wrapper {
