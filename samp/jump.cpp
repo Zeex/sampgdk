@@ -14,7 +14,7 @@
 
 #include <cstring>
 
-#ifdef WIN32
+#if defined WIN32 || defined _WIN32
     #include <windows.h>
     typedef unsigned __int32 uint32_t;
 #else
@@ -28,7 +28,7 @@ static void Unprotect(void *address, int size) {
     DWORD oldProtect;
     VirtualProtect(address, size, PAGE_EXECUTE_READWRITE, &oldProtect);
 #else
-    // Both address and size must be multiples of page size 
+    // Both address and size must be multiples of page size
     size_t pagesize = getpagesize();
     size_t where = ((reinterpret_cast<uint32_t>(address) / pagesize) * pagesize);
     size_t count = (size / pagesize) * pagesize + pagesize * 2;
