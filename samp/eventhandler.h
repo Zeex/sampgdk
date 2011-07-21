@@ -17,10 +17,12 @@
 
 #include <string>
 
-namespace samp { 
+namespace samp {
 
 class EventHandler {
 public:
+    virtual ~EventHandler();
+
     static void SetEventHandler(EventHandler *handler);
     static EventHandler *GetEventHandler();
 
