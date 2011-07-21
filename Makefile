@@ -4,7 +4,7 @@ CXX=g++
 
 all: release
 
-CPPFLAGS = -DLINUX -DHAVE_STDINT_H -Isamp/plugin/amx
+CPPFLAGS = -DLINUX -DHAVE_STDINT_H -DHAVE_ALLOCA_H -Isamp/plugin/amx
 
 debug: CXXFLAGS = -c -g -Wall 
 debug: build
