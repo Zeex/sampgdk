@@ -51,3 +51,4 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)  {
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
     return;
 }
+

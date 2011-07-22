@@ -330,3 +330,4 @@ cell OnPlayerClickPlayer(AMX *amx) {
 
 } // namespace callbacks
 } // namespace samp
+

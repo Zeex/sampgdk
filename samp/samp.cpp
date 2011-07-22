@@ -1027,3 +1027,4 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const std::string &
 }
 
 } // namespace samp
+
