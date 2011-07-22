@@ -147,7 +147,7 @@ void Wrapper::Initialize(void **ppPluginData) {
     SetJump(reinterpret_cast<void*>(::amx_Exec_addr), (void*)::my_amx_Exec, ::amx_Exec_code);
 
     // Set handlers for all SA:MP callbacks
-    samp::Callbacks::Initialize();
+    samp::callbacks::InitializeCallbacks();
 }
 
 void Wrapper::SetNative(const std::string &name, AMX_NATIVE native) {
