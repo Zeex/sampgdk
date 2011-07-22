@@ -5,6 +5,7 @@
 
 class HelloWorld : public samp::EventHandler {
 public:
+    HelloWorld();
     virtual void OnGameModeInit();
     virtual bool OnPlayerConnect(int playerid);
     virtual bool OnPlayerRequestClass(int playerid, int classid);
