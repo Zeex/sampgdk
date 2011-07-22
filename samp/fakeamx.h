@@ -6,3 +6,4 @@
 extern AMX fakeAmx;
 
 #endif
+

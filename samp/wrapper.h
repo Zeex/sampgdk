@@ -59,3 +59,4 @@ private:
 } // namespace samp
 
 #endif
+

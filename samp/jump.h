@@ -20,3 +20,4 @@ void SetJump(void *from, void *to);
 void SetJump(void *from, void *to, unsigned char (&oldCode)[5]);
 
 #endif
+

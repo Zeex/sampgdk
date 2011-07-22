@@ -177,3 +177,4 @@ bool Wrapper::ExecutePublicHook(AMX *amx, cell *retval, const std::string &name)
 }
 
 } // namespace samp
+

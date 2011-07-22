@@ -42,3 +42,4 @@ void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer
 } // namespace samp
 
 #endif
+

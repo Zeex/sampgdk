@@ -20,3 +20,4 @@ typedef void (*logprintf_t)(const char *fmt, ...);
 extern logprintf_t logprintf;
 
 #endif
+

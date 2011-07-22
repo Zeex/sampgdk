@@ -397,3 +397,4 @@ bool GetVehicleVirtualWorld(int vehicleid) {
 }
 
 } // namespace samp
+

@@ -52,3 +52,4 @@ void SetJump(void *from, void *to) {
     unsigned char dummy[5];
     SetJump(from, to, dummy);
 }
+

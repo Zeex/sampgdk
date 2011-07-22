@@ -67,3 +67,4 @@ cell OnPlayerClickPlayer(AMX *amx);
 } // namespace samp 
 
 #endif
+
