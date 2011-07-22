@@ -12,27 +12,73 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <string>
+
 #include "eventhandler.h"
-#include "logprintf.h"
+
+class StaticData {
+public:
+    static StaticData *GetInstance();
+    samp::EventHandler *first;
+private:
+    StaticData();
+};
+
+StaticData::StaticData() 
+    : first(0)
+{
+}
+
+StaticData *StaticData::GetInstance() {
+    static StaticData sd;
+    return &sd;
+}
 
 namespace samp { 
 
-static EventHandler theDefaultEventHandler;
+// Default ctor
+EventHandler::EventHandler() 
+    : registered_(false), next_(0), prev_(0)
+{
+}
 
-EventHandler *EventHandler::currentHandler_ = &theDefaultEventHandler;
+EventHandler::~EventHandler() {
+    this->Unregister();
+}
 
-EventHandler::~EventHandler() {}
+void EventHandler::Register() {
+    EventHandler *first = StaticData::GetInstance()->first;
+    next_ = first;
+    if (first != 0) {
+        first->prev_ = this;
+    }
+    StaticData::GetInstance()->first = this;
+    registered_ = true;
+}
 
-void EventHandler::SetEventHandler(EventHandler *handler) {
-    if (handler == 0) {
-        EventHandler::currentHandler_ = &theDefaultEventHandler;
-    } else {
-        EventHandler::currentHandler_ = handler;
+void EventHandler::Unregister() {
+    if (registered_) {
+        if (StaticData::GetInstance()->first == this) {
+            StaticData::GetInstance()->first = next_;
+            next_->prev_ = 0;
+        } else {
+            next_->prev_ = prev_;
+            prev_->next_ = next_;
+        }
+        registered_ = false;
     }
 }
 
-EventHandler *EventHandler::GetEventHandler() {
-    return EventHandler::currentHandler_;
+EventHandler *EventHandler::GetNext() const {
+    return next_;
+}
+
+EventHandler *EventHandler::GetFirstEventHandler() {
+    return StaticData::GetInstance()->first;
+}
+
+bool EventHandler::IsRegistered() const {
+    return registered_;   
 }
 
 void EventHandler::OnGameModeInit() { 
