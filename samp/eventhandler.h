@@ -75,7 +75,6 @@ public:
 
 private:
     bool registered_;
-
     EventHandler *next_;
     EventHandler *prev_;
 };

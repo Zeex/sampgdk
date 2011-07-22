@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string>
-
 #include "eventhandler.h"
+#include "logprintf.h"
 
 class StaticData {
 public:
@@ -36,8 +35,7 @@ StaticData *StaticData::GetInstance() {
 
 namespace samp { 
 
-// Default ctor
-EventHandler::EventHandler() 
+EventHandler::EventHandler()
     : registered_(false), next_(0), prev_(0)
 {
 }
@@ -78,7 +76,7 @@ EventHandler *EventHandler::GetFirstEventHandler() {
 }
 
 bool EventHandler::IsRegistered() const {
-    return registered_;   
+    return registered_;
 }
 
 void EventHandler::OnGameModeInit() { 
