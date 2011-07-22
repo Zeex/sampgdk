@@ -48,8 +48,8 @@ AMX fakeAmx = {
     0, // stk
     std::numeric_limits<int32_t>::max(), // stp
     0, // flags
-    0, // usertags
-    0, // userdata
+    {0}, // usertags
+    {0}, // userdata
     AMX_ERR_NONE, // error
     0, // paramcount 
     0, // pri
