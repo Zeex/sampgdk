@@ -21,16 +21,10 @@ namespace samp {
 
 class EventHandler {
 public:
-    EventHandler();
     virtual ~EventHandler();
 
-    void Register();
-    void Unregister();
-
-    bool IsRegistered() const;
-
-    static EventHandler *GetFirstEventHandler();
-    EventHandler *GetNext() const;
+    static void SetEventHandler(EventHandler *handler);
+    static EventHandler *GetEventHandler();
 
     virtual void OnGameModeInit();
     virtual void OnGameModeExit();
@@ -74,10 +68,7 @@ public:
     virtual bool OnPlayerClickPlayer(int playerid, int clickedplayerid, int source);
 
 private:
-    bool registered_;
-
-    EventHandler *next_;
-    EventHandler *prev_;
+    static EventHandler *currentHandler_;
 };
 
 } // namespace samp

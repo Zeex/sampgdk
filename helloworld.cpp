@@ -4,12 +4,6 @@ using namespace samp;
 
 static HelloWorld theGameMode;
 
-HelloWorld::HelloWorld() {
-    // Register our gamemode in order to catch events - if we don't do this 
-    // somewhere none of the HelloWorld callbacks will be ever called.
-    this->Register();
-}
-
 void HelloWorld::OnGameModeInit() {
     SetGameModeText("Hello, World!");
 
@@ -33,6 +27,8 @@ bool HelloWorld::OnPlayerRequestClass(int playerid, int classid) {
 }
 
 bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
+    // Define a command in a "classic" way.
+    // Most likely you will want to do this more efficiently, e.g. with a hash map.
     if (cmdtext == "/hello") {
         SendClientMessage(playerid, 0x00FF00FF, "Hello, " + GetPlayerName(playerid) + "!");
         return true;
@@ -45,9 +41,10 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports()  {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData)  {
-    // Initialize the wrapper - this always should  be done here.
+    // This always must be called first
     Wrapper::GetInstance()->Initialize(ppPluginData);
-    // Do not call any natives here - they are not yet prepared for use at this stage.
+    // Set our gamemode as the main event handler
+    EventHandler::SetEventHandler(&::theGameMode);
     return true;
 }
 

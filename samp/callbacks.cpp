@@ -24,12 +24,14 @@
 
 #include "plugin/amx/amx.h"
 
+// Gets a single cell from AMX stack with the specified index
 static cell GetCellFromStack(AMX *amx, int index) {
     AMX_HEADER *hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
     unsigned char *data = (amx->data != 0) ? amx->data : amx->base + hdr->dat;
     return *reinterpret_cast<cell*>(data + amx->stk + sizeof(cell)*index);
 }
 
+// Gets a string from AMX stack
 static std::string GetStringFromStack(AMX *amx, int index) {
     cell amxAddr = GetCellFromStack(amx, index);
     char *str;
@@ -37,9 +39,10 @@ static std::string GetStringFromStack(AMX *amx, int index) {
     return std::string(str);
 }
 
-namespace samp { 
+namespace samp {
+namespace callbacks {
 
-void Callbacks::Initialize() {
+void InitializeCallbacks() {
     using samp::Wrapper;
 
     Wrapper::GetInstance()->SetPublicHook("OnGameModeInit", PublicHook(OnGameModeInit, 0));
@@ -84,595 +87,247 @@ void Callbacks::Initialize() {
     Wrapper::GetInstance()->SetPublicHook("OnPlayerClickPlayer", PublicHook(OnPlayerClickPlayer, 0));
 }
 
-cell Callbacks::OnGameModeInit(AMX *amx) {
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        cur->OnGameModeInit();
-        cur = cur->GetNext();
-    }
+cell OnGameModeInit(AMX *amx) {
+    EventHandler::GetEventHandler()->OnGameModeInit();
     return 1;
 }
 
-cell Callbacks::OnGameModeExit(AMX *amx) {
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        cur->OnGameModeExit();
-        cur = cur->GetNext();
-    }
+cell OnGameModeExit(AMX *amx) {
+    EventHandler::GetEventHandler()->OnGameModeExit();
     return 1;
 }
 
-cell Callbacks::OnPlayerConnect(AMX *amx) {
+cell OnPlayerConnect(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerConnect(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerConnect(playerid);
 }
 
-cell Callbacks::OnPlayerDisconnect(AMX *amx) {
+cell OnPlayerDisconnect(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int reason = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerDisconnect(playerid, reason)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerDisconnect(playerid, reason);
 }
 
-cell Callbacks::OnPlayerSpawn(AMX *amx) {
+cell OnPlayerSpawn(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerSpawn(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerSpawn(playerid);
 }
 
-cell Callbacks::OnPlayerDeath(AMX *amx) {
+cell OnPlayerDeath(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int killerid = GetCellFromStack(amx, 1);
     int reason = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerDeath(playerid, killerid, reason)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerDeath(playerid, killerid, reason);
 }
 
-cell Callbacks::OnVehicleSpawn(AMX *amx) {
+cell OnVehicleSpawn(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleSpawn(vehicleid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnVehicleSpawn(vehicleid);
 }
 
-cell Callbacks::OnVehicleDeath(AMX *amx) {
+cell OnVehicleDeath(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int killerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleDeath(vehicleid, killerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnVehicleDeath(vehicleid, killerid);
 }
 
-cell Callbacks::OnPlayerText(AMX *amx) {
+cell OnPlayerText(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     std::string text = GetStringFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerText(playerid, text)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerText(playerid, text);
 }
 
-cell Callbacks::OnPlayerCommandText(AMX *amx) {
+cell OnPlayerCommandText(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     std::string cmdtext = GetStringFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerCommandText(playerid, cmdtext)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 0;
+    return EventHandler::GetEventHandler()->OnPlayerCommandText(playerid, cmdtext);
 }
 
-cell Callbacks::OnPlayerRequestClass(AMX *amx) {
+cell OnPlayerRequestClass(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int classid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerRequestClass(playerid, classid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerRequestClass(playerid, classid);
 }
 
-cell Callbacks::OnPlayerEnterVehicle(AMX *amx) {
+cell OnPlayerEnterVehicle(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
     bool ispassenger = GetCellFromStack(amx, 2) != 0;
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerEnterVehicle(playerid, vehicleid, ispassenger);
 }
 
-cell Callbacks::OnPlayerExitVehicle(AMX *amx) {
+cell OnPlayerExitVehicle(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerExitVehicle(playerid, vehicleid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerExitVehicle(playerid, vehicleid);
 }
 
-cell Callbacks::OnPlayerStateChange(AMX *amx) {
+cell OnPlayerStateChange(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int newstate = GetCellFromStack(amx, 1);
     int oldstate = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerStateChange(playerid, newstate, oldstate)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerStateChange(playerid, newstate, oldstate);
 }
 
-cell Callbacks::OnPlayerEnterCheckpoint(AMX *amx) {
+cell OnPlayerEnterCheckpoint(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerEnterCheckpoint(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerEnterCheckpoint(playerid);
 }
 
-cell Callbacks::OnPlayerLeaveCheckpoint(AMX *amx) {
+cell OnPlayerLeaveCheckpoint(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerLeaveCheckpoint(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerLeaveCheckpoint(playerid);
 }
 
-cell Callbacks::OnPlayerEnterRaceCheckpoint(AMX *amx) {
+cell OnPlayerEnterRaceCheckpoint(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerEnterRaceCheckpoint(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerEnterRaceCheckpoint(playerid);
 }
 
-cell Callbacks::OnPlayerLeaveRaceCheckpoint(AMX *amx) {
+cell OnPlayerLeaveRaceCheckpoint(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerLeaveRaceCheckpoint(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerLeaveRaceCheckpoint(playerid);
 }
 
-cell Callbacks::OnRconCommand(AMX *amx) {
+cell OnRconCommand(AMX *amx) {
     std::string cmd = GetStringFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnRconCommand(cmd)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 0;
+    return EventHandler::GetEventHandler()->OnRconCommand(cmd);
 }
 
-cell Callbacks::OnPlayerRequestSpawn(AMX *amx) {
+cell OnPlayerRequestSpawn(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerRequestSpawn(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerRequestSpawn(playerid);
 }
 
-cell Callbacks::OnObjectMoved(AMX *amx) {
+cell OnObjectMoved(AMX *amx) {
     int objectid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnObjectMoved(objectid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnObjectMoved(objectid);
 }
 
-cell Callbacks::OnPlayerObjectMoved(AMX *amx) {
+cell OnPlayerObjectMoved(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int objectid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerObjectMoved(playerid, objectid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerObjectMoved(playerid, objectid);
 }
 
-cell Callbacks::OnPlayerPickUpPickup(AMX *amx) {
+cell OnPlayerPickUpPickup(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int pickupid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerPickUpPickup(playerid, pickupid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerPickUpPickup(playerid, pickupid);
 }
 
-cell Callbacks::OnVehicleMod(AMX *amx) {
+cell OnVehicleMod(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
     int componentid = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleMod(playerid, vehicleid, componentid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnVehicleMod(playerid, vehicleid, componentid);
 }
 
-cell Callbacks::OnEnterExitModShop(AMX *amx) {
+cell OnEnterExitModShop(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     bool enterexit = GetCellFromStack(amx, 1) != 0;
     int interiorid = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnEnterExitModShop(playerid, enterexit, interiorid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnEnterExitModShop(playerid, enterexit, interiorid);
 }
 
-cell Callbacks::OnVehiclePaintjob(AMX *amx) {
+cell OnVehiclePaintjob(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
     int paintjobid = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehiclePaintjob(playerid, vehicleid, paintjobid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnVehiclePaintjob(playerid, vehicleid, paintjobid);
 }
 
-cell Callbacks::OnVehicleRespray(AMX *amx) {
+cell OnVehicleRespray(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
     int color1 = GetCellFromStack(amx, 2);
     int color2 = GetCellFromStack(amx, 3);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleRespray(playerid, vehicleid, color1, color2)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnVehicleRespray(playerid, vehicleid, color1, color2);
 }
 
-cell Callbacks::OnVehicleDamageStatusUpdate(AMX *amx) {
+cell OnVehicleDamageStatusUpdate(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int playerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleDamageStatusUpdate(vehicleid, playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnVehicleDamageStatusUpdate(vehicleid, playerid);
 }
 
-cell Callbacks::OnPlayerSelectedMenuRow(AMX *amx) {
+cell OnPlayerSelectedMenuRow(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int row = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerSelectedMenuRow(playerid, row)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerSelectedMenuRow(playerid, row);
 }
 
-cell Callbacks::OnPlayerExitedMenu(AMX *amx) {
+cell OnPlayerExitedMenu(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerExitedMenu(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerExitedMenu(playerid);
 }
 
-cell Callbacks::OnPlayerInteriorChange(AMX *amx) {
+cell OnPlayerInteriorChange(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int newinteriorid = GetCellFromStack(amx, 1);
     int oldinteriorid = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);
 }
 
-cell Callbacks::OnPlayerKeyStateChange(AMX *amx) {
+cell OnPlayerKeyStateChange(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int newkeys = GetCellFromStack(amx, 1);
     int oldkeys = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
 }
 
-cell Callbacks::OnRconLoginAttempt(AMX *amx) {
+cell OnRconLoginAttempt(AMX *amx) {
     std::string ip = GetStringFromStack(amx, 0);
     std::string password = GetStringFromStack(amx, 1);
     bool success = GetCellFromStack(amx, 2) != 0;
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnRconLoginAttempt(ip, password, success)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnRconLoginAttempt(ip, password, success);
 }
 
-cell Callbacks::OnPlayerUpdate(AMX *amx) {
+cell OnPlayerUpdate(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerUpdate(playerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerUpdate(playerid);
 }
 
-cell Callbacks::OnPlayerStreamIn(AMX *amx) {
+cell OnPlayerStreamIn(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int forplayerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerStreamIn(playerid, forplayerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerStreamIn(playerid, forplayerid);
 }
 
-cell Callbacks::OnPlayerStreamOut(AMX *amx) {
+cell OnPlayerStreamOut(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int forplayerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerStreamOut(playerid, forplayerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerStreamOut(playerid, forplayerid);
 }
 
-cell Callbacks::OnVehicleStreamIn(AMX *amx) {
+cell OnVehicleStreamIn(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int forplayerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleStreamIn(vehicleid, forplayerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnVehicleStreamIn(vehicleid, forplayerid);
 }
 
-cell Callbacks::OnVehicleStreamOut(AMX *amx) {
+cell OnVehicleStreamOut(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int forplayerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleStreamOut(vehicleid, forplayerid)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnVehicleStreamOut(vehicleid, forplayerid);
 }
 
-cell Callbacks::OnDialogResponse(AMX *amx) {
+cell OnDialogResponse(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int dialogid = GetCellFromStack(amx, 1);
     bool response = GetCellFromStack(amx, 2) != 0;
     int listitem = GetCellFromStack(amx, 3);
     std::string inputtext = GetStringFromStack(amx, 4);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnDialogResponse(playerid, dialogid, response, listitem, inputtext)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnDialogResponse(playerid, dialogid, response, listitem, inputtext);
 }
 
-cell Callbacks::OnPlayerClickPlayer(AMX *amx) {
+cell OnPlayerClickPlayer(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int clickedplayerid = GetCellFromStack(amx, 1);
     int source = GetCellFromStack(amx, 2);
-    
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerClickPlayer(playerid, clickedplayerid, source)) {
-            break;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+    return EventHandler::GetEventHandler()->OnPlayerClickPlayer(playerid, clickedplayerid, source);
 }
 
-} // namespace samp 
+} // namespace callbacks
+} // namespace samp
+
