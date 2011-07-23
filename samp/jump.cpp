@@ -38,7 +38,7 @@ static void Unprotect(void *address, int size) {
 
 void SetJump(void *from, void *to, unsigned char (&oldCode)[5]) {
     Unprotect(from, 5);
-    // Store the code we are goin to overwrite (probably to copy it back later)
+    // Store the code we are going to overwrite (probably to copy it back later)
     memcpy(oldCode, from, 5);
     // E9 - jump near, relative
     unsigned char JMP = 0xE9;
