@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libsampgdk.la
 
 libsampgdk_la_CPPFLAGS = -DLINUX -Iinclude -Iinclude/samp/plugin/amx
-libsampgdk_la_CXXFLAGS = -Wall 
+libsampgdk_la_CXXFLAGS = -Wall -fno-strict-aliasing
 
 libsampgdk_la_SOURCES = \
 	src/game/fakeamx.cpp\
