@@ -18,7 +18,7 @@
 #include <map>
 #include <string>
 
-#include <samp/plugin/plugin.h>
+#include <sampgdk/plugin/plugin.h>
 
 namespace samp {
 
