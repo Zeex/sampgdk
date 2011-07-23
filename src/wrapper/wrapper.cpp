@@ -15,10 +15,10 @@
 #include <cstring> // for memcpy()
 #include <string>
 
-#include <samp/logprintf.h>
-#include <samp/plugin/plugin.h>
-#include <samp/wrapper/callbacks.h>
-#include <samp/wrapper/wrapper.h>
+#include <sampgdk/logprintf.h>
+#include <sampgdk/plugin/plugin.h>
+#include <sampgdk/wrapper/callbacks.h>
+#include <sampgdk/wrapper/wrapper.h>
 
 #include "jump.h"
 

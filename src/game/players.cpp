@@ -14,8 +14,8 @@
 
 #include <string>
 
-#include <samp/game/samp.h>
-#include <samp/wrapper/wrapper.h>
+#include <sampgdk/game/samp.h>
+#include <sampgdk/wrapper/wrapper.h>
 
 #include "fakeamx.h"
 
