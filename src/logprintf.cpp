@@ -12,7 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "logprintf.h"
+#include <samp/logprintf.h>
+
+namespace samp {
 
 logprintf_t logprintf;
+
+}
 

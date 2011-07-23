@@ -18,11 +18,10 @@
     #include <malloc.h>
 #endif
 
-#include "callbacks.h"
-#include "eventhandler.h"
-#include "wrapper.h"
-
-#include "plugin/amx/amx.h"
+#include <samp/plugin/amx/amx.h>
+#include <samp/wrapper/callbacks.h>
+#include <samp/wrapper/eventhandler.h>
+#include <samp/wrapper/wrapper.h>
 
 using samp::EventHandler;
 

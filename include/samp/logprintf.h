@@ -15,9 +15,13 @@
 #ifndef SAMP_LOGPRINTF_H
 #define SAMP_LOGPRINTF_H
 
+namespace samp {
+
 typedef void (*logprintf_t)(const char *fmt, ...);
 
 extern logprintf_t logprintf;
+
+}
 
 #endif
 

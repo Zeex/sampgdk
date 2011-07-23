@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "eventhandler.h"
-#include "logprintf.h"
+#include <samp/wrapper/eventhandler.h>
 
 class StaticData {
 public:

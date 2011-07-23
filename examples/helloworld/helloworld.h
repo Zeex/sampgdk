@@ -1,11 +1,12 @@
-#ifndef SAMPLE_GAMEMODE_H
-#define SAMPLE_GAMEMODE_H
+#ifndef HELLOWORLD_H
+#define HELLOWORLD_H
 
-#include "samp/samp.h"
+#include <samp/wrapper/eventhandler.h>
 
 class HelloWorld : public samp::EventHandler {
 public:
     HelloWorld();
+    virtual ~HelloWorld();
     virtual void OnGameModeInit();
     virtual bool OnPlayerConnect(int playerid);
     virtual bool OnPlayerRequestClass(int playerid, int classid);

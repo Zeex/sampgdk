@@ -14,8 +14,9 @@
 
 #include <string>
 
+#include <samp/wrapper/wrapper.h>
+
 #include "fakeamx.h"
-#include "wrapper.h"
 
 namespace samp {
 
