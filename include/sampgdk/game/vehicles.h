@@ -17,7 +17,7 @@
 
 #include <string>
 
-namespace samp {
+namespace sampgdk {
 
 #define CARMODTYPE_SPOILER        0
 #define CARMODTYPE_HOOD           1
@@ -78,7 +78,7 @@ bool UpdateVehicleDamageStatus(int vehicleid, long panels, long doors, long ligh
 bool SetVehicleVirtualWorld(int vehicleid, int worldid);
 bool GetVehicleVirtualWorld(int vehicleid);
 
-} // namespace samp
+} // namespace sampgdk
 
 #endif
 

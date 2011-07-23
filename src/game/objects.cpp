@@ -16,7 +16,7 @@
 
 #include "fakeamx.h"
 
-namespace samp {
+namespace sampgdk {
 
 int CreateObject(int modelid, float X, float Y, float Z, float rX, float rY, float rZ, float DrawDistance) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("CreateObject");
@@ -292,5 +292,5 @@ void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer
     native(&::fakeAmx, params);
 }
 
-} // namespace samp
+} // namespace sampgdk
 

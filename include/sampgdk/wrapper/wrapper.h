@@ -20,7 +20,7 @@
 
 #include <sampgdk/plugin/plugin.h>
 
-namespace samp {
+namespace sampgdk {
 
 typedef std::basic_string<cell> cstring;
 
@@ -56,7 +56,7 @@ private:
     std::map<std::string, PublicHook> publicHooks_;
 };
 
-} // namespace samp
+} // namespace sampgdk
 
 #endif
 

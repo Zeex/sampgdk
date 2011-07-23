@@ -17,7 +17,7 @@
 
 #include <string>
 
-namespace samp {
+namespace sampgdk {
 
 class EventHandler {
 public:
@@ -79,7 +79,7 @@ private:
     EventHandler *prev_;
 };
 
-} // namespace samp
+} // namespace sampgdk
 
 #endif
 

@@ -6,7 +6,7 @@
 #include <sampgdk/plugin/plugin.h>
 #include <sampgdk/wrapper/wrapper.h>
 
-using namespace samp;
+using namespace sampgdk;
 
 static HelloWorld theGameMode;
 

@@ -36,7 +36,7 @@ static int my_amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
 
     // Store natives in our global container
     for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
-        samp::Wrapper::GetInstance()->SetNative(nativelist[i].name, nativelist[i].func);
+        sampgdk::Wrapper::GetInstance()->SetNative(nativelist[i].name, nativelist[i].func);
     }
 
     // Set the jump again to catch further calls
@@ -83,12 +83,12 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
         ::pGamemode = amx;
         // Manually call OnGameModeInit from here as it's usually called 
         // before main() and is impossible to catch using the current method
-        canDoExec = samp::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, "OnGameModeInit");
+        canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, "OnGameModeInit");
     }
 
     if (amx == ::pGamemode && ::pGamemode != 0) {
         if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-            canDoExec = samp::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, ::lastPublicName);
+            canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, ::lastPublicName);
         }
     } 
 
@@ -110,7 +110,7 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
     return error;
 }
 
-namespace samp {
+namespace sampgdk {
 
 PublicHook::PublicHook(PublicHook::Handler handler, cell breakingReturn)
     : handler_(handler), breakingReturn_(breakingReturn)
@@ -147,7 +147,7 @@ void Wrapper::Initialize(void **ppPluginData) {
     SetJump(reinterpret_cast<void*>(::amx_Exec_addr), (void*)::my_amx_Exec, ::amx_Exec_code);
 
     // Set handlers for all SA:MP callbacks
-    samp::InitializeCallbacks();
+    sampgdk::InitializeCallbacks();
 }
 
 void Wrapper::SetNative(const std::string &name, AMX_NATIVE native) {
@@ -176,5 +176,5 @@ bool Wrapper::ExecutePublicHook(AMX *amx, cell *retval, const std::string &name)
     return true;
 }
 
-} // namespace samp
+} // namespace sampgdk
 

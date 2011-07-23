@@ -14,7 +14,7 @@
 
 #include <sampgdk/logprintf.h>
 
-namespace samp {
+namespace sampgdk {
 
 logprintf_t logprintf;
 

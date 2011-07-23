@@ -23,7 +23,7 @@
 #include <sampgdk/wrapper/eventhandler.h>
 #include <sampgdk/wrapper/wrapper.h>
 
-using samp::EventHandler;
+using sampgdk::EventHandler;
 
 static cell GetCellFromStack(AMX *amx, int index) {
     AMX_HEADER *hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
@@ -634,10 +634,10 @@ static cell OnPlayerClickPlayer(AMX *amx) {
     return 1;
 }
 
-namespace samp { 
+namespace sampgdk { 
 
 void InitializeCallbacks() {
-    using samp::Wrapper;
+    using sampgdk::Wrapper;
 
     Wrapper::GetInstance()->SetPublicHook("OnGameModeInit", PublicHook(OnGameModeInit, 0));
     Wrapper::GetInstance()->SetPublicHook("OnGameModeExit", PublicHook(OnGameModeExit, 0));
@@ -681,5 +681,5 @@ void InitializeCallbacks() {
     Wrapper::GetInstance()->SetPublicHook("OnPlayerClickPlayer", PublicHook(OnPlayerClickPlayer, 0));
 }
 
-} // namespace samp 
+} // namespace sampgdk 
 

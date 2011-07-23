@@ -16,7 +16,7 @@
 
 #include "fakeamx.h"
 
-namespace samp {
+namespace sampgdk {
 
 int CreateVehicle(int vehicletype, float x, float y, float z, float rotation, 
     int color1, int color2, long respawn_delay)
@@ -397,5 +397,5 @@ bool GetVehicleVirtualWorld(int vehicleid) {
     return native(&::fakeAmx, params) != 0;
 }
 
-} // namespace samp
+} // namespace sampgdk
 

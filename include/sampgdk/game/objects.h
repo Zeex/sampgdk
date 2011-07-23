@@ -15,7 +15,7 @@
 #ifndef SAMP_OBJECTS_H
 #define SAMP_OBJECTS_H
 
-namespace samp {
+namespace sampgdk {
 
 int CreateObject(int modelid, float X, float Y, float Z, float rX, float rY, float rZ, float DrawDistance = 0.0);
 bool AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ);
@@ -39,7 +39,7 @@ bool StopPlayerObject(int playerid, int objectid);
 void AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
 void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
 
-} // namespace samp
+} // namespace sampgdk
 
 #endif
 

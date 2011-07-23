@@ -17,7 +17,7 @@
 
 #include <string>
 
-namespace samp {
+namespace sampgdk {
 
 // Limits and internal constants
 #define MAX_PLAYER_NAME            (24)
@@ -245,7 +245,7 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const std::string &
 
 #define CLICK_SOURCE_SCOREBOARD   (0)
 
-} // namespace samp
+} // namespace sampgdk
 
 #endif
 

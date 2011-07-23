@@ -18,7 +18,7 @@
 
 #include "fakeamx.h"
 
-namespace samp {
+namespace sampgdk {
 
 bool SendClientMessage(int playerid, long color, const std::string &message) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SendClientMessage");
@@ -1027,5 +1027,5 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const std::string &
     return native(&::fakeAmx, params) != 0;
 }
 
-} // namespace samp
+} // namespace sampgdk
 

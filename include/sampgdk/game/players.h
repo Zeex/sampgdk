@@ -17,7 +17,7 @@
 
 #include <string>
 
-namespace samp {
+namespace sampgdk {
 
 #define SPECIAL_ACTION_NONE              0
 #define SPECIAL_ACTION_DUCK              1
@@ -225,7 +225,7 @@ bool PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode = SPECTAT
 bool StartRecordingPlayerData(int playerid, int recordtype, const std::string &recordname);
 bool StopRecordingPlayerData(int playerid);
 
-} // namespace samp
+} // namespace sampgdk
 
 #endif
 
