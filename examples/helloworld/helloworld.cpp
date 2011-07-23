@@ -1,10 +1,10 @@
 #include "helloworld.h"
 
-#include <samp/logprintf.h>
-#include <samp/game/samp.h>
-#include <samp/game/players.h>
-#include <samp/plugin/plugin.h>
-#include <samp/wrapper/wrapper.h>
+#include <sampgdk/logprintf.h>
+#include <sampgdk/game/samp.h>
+#include <sampgdk/game/players.h>
+#include <sampgdk/plugin/plugin.h>
+#include <sampgdk/wrapper/wrapper.h>
 
 using namespace samp;
 
