@@ -17,7 +17,7 @@
 class StaticData {
 public:
     static StaticData *GetInstance();
-    samp::EventHandler *first;
+    sampgdk::EventHandler *first;
 private:
     StaticData();
 };
@@ -32,7 +32,7 @@ StaticData *StaticData::GetInstance() {
     return &sd;
 }
 
-namespace samp { 
+namespace sampgdk { 
 
 EventHandler::EventHandler()
     : registered_(false), next_(0), prev_(0)
@@ -236,5 +236,5 @@ bool EventHandler::OnPlayerClickPlayer(int playerid, int clickedplayerid, int so
     return true;
 }
 
-} // namespace samp
+} // namespace sampgdk
 

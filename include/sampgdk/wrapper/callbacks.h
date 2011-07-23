@@ -15,7 +15,7 @@
 #ifndef SAMP_CALLBACKS_H
 #define SAMP_CALLBACKS_H
 
-namespace samp { 
+namespace sampgdk { 
 
 void InitializeCallbacks();
 

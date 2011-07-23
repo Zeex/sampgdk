@@ -3,7 +3,7 @@
 
 #include <sampgdk/wrapper/eventhandler.h>
 
-class HelloWorld : public samp::EventHandler {
+class HelloWorld : public sampgdk::EventHandler {
 public:
     HelloWorld();
     virtual ~HelloWorld();

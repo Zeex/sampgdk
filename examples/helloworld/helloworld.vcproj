@@ -232,7 +232,23 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\..\include\sampgdk\plugin\amx\amx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\wrapper\callbacks.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\wrapper\eventhandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\game\fakeamx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\plugin\amx\getch.h"
 				>
 			</File>
 			<File
@@ -241,6 +257,46 @@
 			</File>
 			<File
 				RelativePath="..\..\src\wrapper\jump.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\logprintf.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\game\objects.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\plugin\amx\osdefs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\game\players.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\plugin\plugin.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\plugin\plugincommon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\game\samp.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\plugin\amx\sclinux.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\game\vehicles.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\include\sampgdk\wrapper\wrapper.h"
 				>
 			</File>
 		</Filter>

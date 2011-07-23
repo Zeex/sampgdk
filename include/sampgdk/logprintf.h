@@ -15,7 +15,7 @@
 #ifndef SAMP_LOGPRINTF_H
 #define SAMP_LOGPRINTF_H
 
-namespace samp {
+namespace sampgdk {
 
 typedef void (*logprintf_t)(const char *fmt, ...);
 

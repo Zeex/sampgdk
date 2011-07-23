@@ -7,7 +7,7 @@
 
 //
 // This provides an interface to call amx library functions
-// within samp-server.
+// within sampgdk-server.
 //
 // To use:
 //    Define the extern in your main source file:
