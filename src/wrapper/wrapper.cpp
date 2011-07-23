@@ -15,12 +15,12 @@
 #include <cstring> // for memcpy()
 #include <string>
 
-#include "callbacks.h"
-#include "jump.h"
-#include "logprintf.h"
-#include "wrapper.h"
+#include <samp/logprintf.h>
+#include <samp/plugin/plugin.h>
+#include <samp/wrapper/callbacks.h>
+#include <samp/wrapper/wrapper.h>
 
-#include "plugin/plugin.h"
+#include "jump.h"
 
 #define AMX_EXEC_CHEAT (-10)
 
@@ -132,7 +132,7 @@ Wrapper *Wrapper::GetInstance() {
 void Wrapper::Initialize(void **ppPluginData) {
     // Very important things
     ::pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
-    ::logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
+    logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
 
     // Hook amx_Register
     ::amx_Register_addr = reinterpret_cast<uint32_t>((static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);

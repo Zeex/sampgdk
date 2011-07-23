@@ -1,5 +1,11 @@
 #include "helloworld.h"
 
+#include <samp/logprintf.h>
+#include <samp/game/samp.h>
+#include <samp/game/players.h>
+#include <samp/plugin/plugin.h>
+#include <samp/wrapper/wrapper.h>
+
 using namespace samp;
 
 static HelloWorld theGameMode;
@@ -9,6 +15,8 @@ HelloWorld::HelloWorld() {
     // somewhere none of the HelloWorld callbacks will be ever called.
     this->Register();
 }
+
+HelloWorld::~HelloWorld() {}
 
 void HelloWorld::OnGameModeInit() {
     SetGameModeText("Hello, World!");

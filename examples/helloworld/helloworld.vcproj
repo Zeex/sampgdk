@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="$(ProjectDir)\..\..\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;HELLOWORLD_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -115,6 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="$(ProjectDir)\..\..\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;HELLOWORLD_EXPORTS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -172,19 +174,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\samp\plugin\amxplugin.cpp"
+				RelativePath="..\..\src\plugin\amxplugin.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\callbacks.cpp"
+				RelativePath="..\..\src\wrapper\callbacks.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\eventhandler.cpp"
+				RelativePath="..\..\src\wrapper\eventhandler.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\fakeamx.cpp"
+				RelativePath="..\..\src\game\fakeamx.cpp"
 				>
 			</File>
 			<File
@@ -196,31 +198,31 @@
 				>
 			</File>
 			<File
-				RelativePath=".\samp\jump.cpp"
+				RelativePath="..\..\src\wrapper\jump.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\logprintf.cpp"
+				RelativePath="..\..\src\logprintf.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\objects.cpp"
+				RelativePath="..\..\src\game\objects.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\players.cpp"
+				RelativePath="..\..\src\game\players.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\samp.cpp"
+				RelativePath="..\..\src\game\samp.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\vehicles.cpp"
+				RelativePath="..\..\src\game\vehicles.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\samp\wrapper.cpp"
+				RelativePath="..\..\src\wrapper\wrapper.cpp"
 				>
 			</File>
 		</Filter>
@@ -230,23 +232,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\samp\plugin\amx\amx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\callbacks.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\eventhandler.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\fakeamx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\plugin\amx\getch.h"
+				RelativePath="..\..\src\game\fakeamx.h"
 				>
 			</File>
 			<File
@@ -254,47 +240,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\samp\jump.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\logprintf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\objects.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\plugin\amx\osdefs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\players.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\plugin\plugin.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\plugin\plugincommon.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\samp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\plugin\amx\sclinux.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\vehicles.h"
-				>
-			</File>
-			<File
-				RelativePath=".\samp\wrapper.h"
+				RelativePath="..\..\src\wrapper\jump.h"
 				>
 			</File>
 		</Filter>

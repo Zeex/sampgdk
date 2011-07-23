@@ -14,9 +14,10 @@
 
 #include <string>
 
+#include <samp/game/samp.h>
+#include <samp/wrapper/wrapper.h>
+
 #include "fakeamx.h"
-#include "samp.h"
-#include "wrapper.h"
 
 namespace samp {
 

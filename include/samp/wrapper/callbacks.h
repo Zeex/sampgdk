@@ -15,8 +15,6 @@
 #ifndef SAMP_CALLBACKS_H
 #define SAMP_CALLBACKS_H
 
-#include "plugin/amx/amx.h"
-
 namespace samp { 
 
 void InitializeCallbacks();

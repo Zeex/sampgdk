@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <samp/wrapper/wrapper.h>
+
 #include "fakeamx.h"
-#include "wrapper.h"
 
 namespace samp {
 

@@ -18,7 +18,7 @@
 #include <map>
 #include <string>
 
-#include "plugin/amx/amx.h"
+#include <samp/plugin/plugin.h>
 
 namespace samp {
 
