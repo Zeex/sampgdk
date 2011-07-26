@@ -1,7 +1,5 @@
-Debug
-ipch
-Release
-
+bin
+obj
 *.ncb
 *.opensdf
 *.sdf
