@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\bin\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)\obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			>
@@ -61,7 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="sampgdk.lib"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\..\bin\$(ConfigurationName)"
 				ModuleDefinitionFile="$(ProjectName).def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -91,8 +93,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\bin\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)\obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -135,7 +137,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="sampgdk.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\bin\$(ConfigurationName)"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -174,55 +178,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\src\plugin\amxplugin.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\wrapper\callbacks.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\wrapper\eventhandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\fakeamx.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\helloworld.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\helloworld.def"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\wrapper\jump.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\logprintf.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\objects.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\players.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\samp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\vehicles.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\wrapper\wrapper.cpp"
 				>
 			</File>
 		</Filter>
@@ -232,71 +192,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\include\sampgdk\plugin\amx\amx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\wrapper\callbacks.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\wrapper\eventhandler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\fakeamx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\plugin\amx\getch.h"
-				>
-			</File>
-			<File
 				RelativePath=".\helloworld.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\wrapper\jump.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\logprintf.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\game\objects.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\plugin\amx\osdefs.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\game\players.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\plugin\plugin.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\plugin\plugincommon.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\game\samp.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\plugin\amx\sclinux.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\game\vehicles.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\include\sampgdk\wrapper\wrapper.h"
 				>
 			</File>
 		</Filter>
