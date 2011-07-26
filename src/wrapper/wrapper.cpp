@@ -95,12 +95,11 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
     // Restore the original code so we can call the function
     memcpy(reinterpret_cast<void*>(::amx_Exec_addr), ::amx_Exec_code, 5);
 
-    int error = AMX_ERR_NONE;
+    int error;
     if (canDoExec) {
-        if (index == AMX_EXEC_CHEAT) {
-            amx_Exec(amx, retval, index);
-        } else {
-            error = amx_Exec(amx, retval, index);
+        error = amx_Exec(amx, retval, index);
+        if (index == AMX_EXEC_CHEAT && error == AMX_ERR_INDEX) {
+            error == AMX_ERR_NONE;
         }
     }
 
