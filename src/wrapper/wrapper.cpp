@@ -99,6 +99,8 @@ static int my_amx_Exec(AMX *amx, cell *retval, int index) {
     if (canDoExec) {
         error = amx_Exec(amx, retval, index);
         if (index == AMX_EXEC_CHEAT && error == AMX_ERR_INDEX) {
+            // Pop public's parameters 
+            amx->stk += amx->paramcount * sizeof(cell);
             error == AMX_ERR_NONE;
         }
     }
