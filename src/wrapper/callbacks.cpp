@@ -170,7 +170,7 @@ static cell OnPlayerCommandText(AMX *amx) {
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
-        if (!cur->OnPlayerCommandText(playerid, cmdtext)) {
+        if (cur->OnPlayerCommandText(playerid, cmdtext)) {
             return 1;
         }
         cur = cur->GetNext();
@@ -302,7 +302,7 @@ static cell OnRconCommand(AMX *amx) {
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
-        if (!cur->OnRconCommand(cmd)) {
+        if (cur->OnRconCommand(cmd)) {
             return 1;
         }
         cur = cur->GetNext();
@@ -517,7 +517,7 @@ static cell OnRconLoginAttempt(AMX *amx) {
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
-        if (!cur->OnRconLoginAttempt(ip, password, success)) {
+        if (cur->OnRconLoginAttempt(ip, password, success)) {
             return 1;
         }
         cur = cur->GetNext();
