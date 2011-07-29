@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="sampgdk.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\bin\$(ConfigurationName)"
+				AdditionalLibraryDirectories="$(SAMPGDK)\bin\$(ConfigurationName)"
 				ModuleDefinitionFile="$(ProjectName).def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -89,6 +89,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="cmd /c copy $(OutDir)\$(TargetFileName) $(SAMPSVR)\plugins\$(TargetFileName)"
 			/>
 		</Configuration>
 		<Configuration
