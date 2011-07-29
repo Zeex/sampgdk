@@ -73,26 +73,26 @@ static unsigned char amx_Exec_code[5];
 static int Exec(AMX *amx, cell *retval, int index) {
     std::memcpy(reinterpret_cast<void*>(::amx_Exec_addr), ::amx_Exec_code, 5);
 
-    bool canDoExec = true;
-
     if (index == AMX_EXEC_MAIN) {
         ::pGamemode = amx;
-        canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, "OnGameModeInit");
+        sampgdk::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, "OnGameModeInit");
     }
-
-    if (amx == ::pGamemode && ::pGamemode != 0) {
-        if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-            canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, ::lastPublicName);
-        }
-    } 
 
     int error = AMX_ERR_NONE;
 
-    if (canDoExec) {
+    if (amx == ::pGamemode && ::pGamemode != 0) {
+        if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
+            bool canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(
+                ::pGamemode, retval, ::lastPublicName);
+            if (canDoExec) {
+                error = amx_Exec(amx, retval, index);
+                if (error == AMX_ERR_INDEX && index == AMX_EXEC_CHEAT) {
+                    error = AMX_ERR_NONE;
+                }
+            }
+        }
+    } else {
         error = amx_Exec(amx, retval, index);
-    }
-    if (!canDoExec || (index == AMX_EXEC_CHEAT && error == AMX_ERR_INDEX)) {
-        amx->stk += amx->paramcount * sizeof(cell);
     }
 
     SetJump(reinterpret_cast<void*>(::amx_Exec_addr), (void*)Exec, ::amx_Exec_code);
