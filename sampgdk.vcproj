@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ProjectDir)\bin\$(ConfigurationName)"
-			IntermediateDirectory="$(ProjectDir)\obj\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)\bin\$(ConfigurationName)"
+			IntermediateDirectory="$(SolutionDir)\obj\$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
 			>
