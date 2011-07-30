@@ -56,6 +56,7 @@ static int FindPublic(AMX *amx, const char *name, int *index) {
 
     if (amx == ::pGamemode && ::pGamemode != 0) {
         if (error != AMX_ERR_NONE) {
+            // Make it think that any public it wants does exist.
             *index = AMX_EXEC_CHEAT;
             error = AMX_ERR_NONE;
         }
@@ -73,26 +74,37 @@ static unsigned char amx_Exec_code[5];
 static int Exec(AMX *amx, cell *retval, int index) {
     std::memcpy(reinterpret_cast<void*>(::amx_Exec_addr), ::amx_Exec_code, 5);
 
-    if (index == AMX_EXEC_MAIN) {
-        ::pGamemode = amx;
-        sampgdk::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, "OnGameModeInit");
-    }
-
     int error = AMX_ERR_NONE;
-
-    if (amx == ::pGamemode && ::pGamemode != 0) {
-        if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-            bool canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(
-                ::pGamemode, retval, ::lastPublicName);
+    if (index == AMX_EXEC_MAIN) {
+        // main() is being called -> this is the game mode.
+        ::pGamemode = amx;
+        // OnGameModeInit is called before main so we must exec it manually somehow.
+        sampgdk::Wrapper::GetInstance()->ExecutePublicHook(::pGamemode, retval, "OnGameModeInit");
+        // Allow calls to main()
+        error = amx_Exec(amx, retval, index);
+    } else {
+        // Check whether we deal with a game mode
+        if (amx == ::pGamemode && ::pGamemode != 0) {
+            bool canDoExec = true;
+            if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
+                // Handle this public call.
+                canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(
+                    ::pGamemode, retval, ::lastPublicName);
+            }
+            // The handler could return a value indicating that the call should
+            // not be propagated to the gamemode or other handlers, if any (there can 
+            // be multiple handlers since recently).
             if (canDoExec) {
                 error = amx_Exec(amx, retval, index);
                 if (error == AMX_ERR_INDEX && index == AMX_EXEC_CHEAT) {
+                    // Return no error if it's our fault that it executes a non-existing public.
                     error = AMX_ERR_NONE;
                 }
             }
+        } else {
+            // Not a game mode - just call the original amx_Exec.
+            error = amx_Exec(amx, retval, index);
         }
-    } else {
-        error = amx_Exec(amx, retval, index);
     }
 
     SetJump(reinterpret_cast<void*>(::amx_Exec_addr), (void*)Exec, ::amx_Exec_code);
@@ -123,15 +135,19 @@ void Wrapper::Initialize(void **ppPluginData) {
     ::pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
     logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
 
+    // Hook amx_Register.
     ::amx_Register_addr = reinterpret_cast<uint32_t>((static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
     SetJump(reinterpret_cast<void*>(::amx_Register_addr), (void*)Register, ::amx_Register_code);
 
+    // Hook amx_FindPublic.
     ::amx_FindPublic_addr = reinterpret_cast<uint32_t>((static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_FindPublic]);
     SetJump(reinterpret_cast<void*>(::amx_FindPublic_addr), (void*)FindPublic, ::amx_FindPublic_code);
 
+    // Hook amx_Exec.
     ::amx_Exec_addr = reinterpret_cast<uint32_t>((static_cast<void**>(pAMXFunctions))[PLUGIN_AMX_EXPORT_Exec]);
     SetJump(reinterpret_cast<void*>(::amx_Exec_addr), (void*)Exec, ::amx_Exec_code);
 
+    // Set handlers for all known SA:MP callbacks.
     sampgdk::InitializeCallbacks();
 }
 
