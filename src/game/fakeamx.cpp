@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <cstring>
 #include <limits>
 
 #include "fakeamx.h"
+
+static cell fakeAmxData[4096];
 
 AMX_HEADER fakeAmxHeader = {
     0, // size
@@ -38,7 +41,7 @@ AMX_HEADER fakeAmxHeader = {
 
 AMX fakeAmx = {
     reinterpret_cast<unsigned char*>(&fakeAmxHeader), // base
-    0, // data
+    reinterpret_cast<unsigned char*>(fakeAmxData), // data
     amx_Callback, // callback
     0, // debug hook
     0, // cip
@@ -59,3 +62,15 @@ AMX fakeAmx = {
     0, // sysreq_d
 };
 
+cell FakeAmxPush(void *what, size_t cells) {
+    cell address = fakeAmx.hea;
+    fakeAmx.hea += cells * sizeof(cell);
+    std::memcpy(fakeAmxData + address, what, cells * sizeof(cell));
+    return address;
+}
+
+void FakeAmxPop(cell address) {
+    if (fakeAmx.hea > address) {
+        fakeAmx.hea = address;
+    }
+}
