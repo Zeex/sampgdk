@@ -14,7 +14,7 @@
 
 #include <string>
 
-#if defined WIN32 || defined _WIN32
+#if HAVE_MALLOC_H
     #include <malloc.h>
 #endif
 
