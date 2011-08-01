@@ -57,14 +57,21 @@ bool IsVehicleStreamedIn(int vehicleid, int forplayerid) {
 
 bool GetVehiclePos(int vehicleid, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehiclePos");
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         4 * 4,
         vehicleid,
-        reinterpret_cast<cell>(&x),
-        reinterpret_cast<cell>(&y),
-        reinterpret_cast<cell>(&z)
+        x_.address(),
+        y_.address(),
+        z_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    x = x_.GetAsFloat();
+    y = y_.GetAsFloat();
+    z = z_.GetAsFloat();
+    return ret;
 }
 
 bool SetVehiclePos(int vehicleid, float x, float y, float z) {
@@ -81,25 +88,38 @@ bool SetVehiclePos(int vehicleid, float x, float y, float z) {
 
 bool GetVehicleZAngle(int vehicleid, float &z_angle) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleZAngle");
+    FakeAmxHeapObject z_angle_;
     cell params[] = {
         2 * 4,
         vehicleid,
-        reinterpret_cast<cell>(&z_angle)
+        z_angle_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    z_angle = z_angle_.GetAsFloat();
+    return ret;
+
 }
 
 bool GetVehicleRotationQuat(int vehicleid, float &w, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleRotationQuat");
+    FakeAmxHeapObject w_;
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         5 * 4,
         vehicleid,
-        reinterpret_cast<cell>(&w),
-        reinterpret_cast<cell>(&x),
-        reinterpret_cast<cell>(&y),
-        reinterpret_cast<cell>(&z)
+        w_.address(),
+        x_.address(),
+        y_.address(),
+        z_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    w = w_.GetAsFloat();
+    x = x_.GetAsFloat();
+    y = y_.GetAsFloat();
+    z = z_.GetAsFloat();
+    return ret;
 }
 
 bool SetVehicleZAngle(int vehicleid, float z_angle) {
@@ -112,8 +132,22 @@ bool SetVehicleZAngle(int vehicleid, float z_angle) {
     return native(&::fakeAmx, params) != 0;
 }
 
-bool SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked);
-void ManualVehicleEngineAndLights();
+bool SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked) {
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleParamsForPlayer");
+    cell params[] = {
+        4 * 4,
+        vehicleid,
+        playerid,
+        objective,
+        doorslocked
+    };
+    return native(&::fakeAmx, params) != 0;
+}
+
+void ManualVehicleEngineAndLights() {
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("ManualVehicleEngineAndLights");
+    native(&::fakeAmx, 0);
+}
 
 bool SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, bool doors, 
     bool bonnet, bool boot, bool objective) 
@@ -137,18 +171,33 @@ bool GetVehicleParamsEx(int vehicleid, bool &engine, bool &lights, bool &alarm, 
     bool &bonnet, bool &boot, bool &objective) 
 {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleParamsEx");
+    FakeAmxHeapObject engine_;
+    FakeAmxHeapObject lights_;
+    FakeAmxHeapObject alarm_;
+    FakeAmxHeapObject doors_;
+    FakeAmxHeapObject bonnet_;
+    FakeAmxHeapObject boot_;
+    FakeAmxHeapObject objective_;
     cell params[] = {
         8 * 4,
         vehicleid,
-        reinterpret_cast<cell>(&engine),
-        reinterpret_cast<cell>(&lights),
-        reinterpret_cast<cell>(&alarm),
-        reinterpret_cast<cell>(&doors),
-        reinterpret_cast<cell>(&bonnet),
-        reinterpret_cast<cell>(&boot),
-        reinterpret_cast<cell>(&objective)
+        engine_.address(),
+        lights_.address(),
+        alarm_.address(),
+        doors_.address(),
+        bonnet_.address(),
+        boot_.address(),
+        objective_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    engine = engine_.Get() != 0;
+    lights = lights_.Get() != 0;
+    alarm  = alarm_.Get() != 0;
+    doors  = doors_.Get() != 0;
+    bonnet = bonnet_.Get() != 0;
+    engine = boot_.Get() != 0;
+    engine = objective_.Get() != 0;
+    return ret;
 }
 
 bool SetVehicleToRespawn(int vehicleid) {
@@ -223,12 +272,15 @@ bool SetVehicleHealth(int vehicleid, float health) {
 
 bool GetVehicleHealth(int vehicleid, float &health) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleHealth");
+    FakeAmxHeapObject health_;
     cell params[] = {
         2 * 4,
         vehicleid,
-        reinterpret_cast<cell>(&health)
+        health_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret =native(&::fakeAmx, params) != 0;
+    health = health_.GetAsFloat();
+    return ret;
 }
 
 void AttachTrailerToVehicle(int trailerid, int vehicleid) {
@@ -268,13 +320,13 @@ int GetVehicleTrailer(int vehicleid) {
     return native(&::fakeAmx, params);
 }
 
-bool SetVehicleNumberPlate(int vehicleid, const std::string &numberplate) {
+bool SetVehicleNumberPlate(int vehicleid, const char *numberplate) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleNumberPlate");
-    cstring numberplate_(numberplate.begin(), numberplate.end());
+    FakeAmxHeapObject numberplate_(numberplate);
     cell params[] = {
         2 * 4,
         vehicleid,
-        reinterpret_cast<cell>(numberplate_.c_str())
+        numberplate_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
@@ -316,53 +368,69 @@ bool RepairVehicle(int vehicleid) {
     return native(&::fakeAmx, params) != 0;
 }
 
-bool GetVehicleVelocity(int vehicleid, float &X, float &Y, float &Z) {
+bool GetVehicleVelocity(int vehicleid, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleVelocity");
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         4 * 4,
         vehicleid,
-        reinterpret_cast<cell>(&X),
-        reinterpret_cast<cell>(&Y),
-        reinterpret_cast<cell>(&Z)
+        x_.address(),
+        y_.address(),
+        z_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    x = x_.GetAsFloat();
+    y = y_.GetAsFloat();
+    z = z_.GetAsFloat();
+    return ret;
 }
 
-bool SetVehicleVelocity(int vehicleid, float X, float Y, float Z) {
+bool SetVehicleVelocity(int vehicleid, float x, float y, float z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleVelocity");
     cell params[] = {
         4 * 4,
         vehicleid,
-        amx_ftoc(X),
-        amx_ftoc(Y),
-        amx_ftoc(Z)
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z)
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-bool SetVehicleAngularVelocity(int vehicleid, float X, float Y, float Z) {
+bool SetVehicleAngularVelocity(int vehicleid, float x, float y, float z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetVehicleAngularVelocity");
     cell params[] = {
         4 * 4,
         vehicleid,
-        amx_ftoc(X),
-        amx_ftoc(Y),
-        amx_ftoc(Z)
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z)
     };
     return native(&::fakeAmx, params) != 0;
 }
 
 bool GetVehicleDamageStatus(int vehicleid, long &panels, long &doors, long &lights, long &tires) {
-    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleDamageStatus");
+    static AMX_NATIVE native =Wrapper::GetInstance()->GetNative("GetVehicleDamageStatus");
+    FakeAmxHeapObject panels_;
+    FakeAmxHeapObject doors_;
+    FakeAmxHeapObject lights_;
+    FakeAmxHeapObject tires_;
     cell params[] = {
         5 * 4,
         vehicleid,
-        reinterpret_cast<cell>(&panels),
-        reinterpret_cast<cell>(&doors),
-        reinterpret_cast<cell>(&lights),
-        reinterpret_cast<cell>(&tires)
+        panels_.address(),
+        doors_.address(),
+        lights_.address(),
+        tires_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    panels = panels_.Get();
+    doors  = doors_.Get();
+    lights = lights_.Get();
+    tires  = tires_.Get();
+    return ret;
 }
 
 bool UpdateVehicleDamageStatus(int vehicleid, long panels, long doors, long lights, long tires) {
