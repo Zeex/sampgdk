@@ -434,7 +434,7 @@ bool GetPlayerIp(int playerid, char *ip, size_t size) {
         size
     };
     bool ret = native(&::fakeAmx, params) != 0;
-    ip_.GetAsString(ip. size);
+    ip_.GetAsString(ip, size);
     return ret;
 }
 
@@ -639,7 +639,7 @@ bool SetPlayerShopName(int playerid, const char *shopname) {
     cell params[] = {
         2 * 4,
         playerid,
-        shopname_.address();
+        shopname_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
