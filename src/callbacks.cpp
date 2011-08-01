@@ -14,14 +14,14 @@
 
 #include <string>
 
-#if defined WIN32 || defined _WIN32
+#if HAVE_MALLOC_H
     #include <malloc.h>
 #endif
 
-#include <sampgdk/plugin/amx/amx.h>
-#include <sampgdk/wrapper/callbacks.h>
-#include <sampgdk/wrapper/eventhandler.h>
-#include <sampgdk/wrapper/wrapper.h>
+#include <sampgdk/amx/amx.h>
+#include <sampgdk/callbacks.h>
+#include <sampgdk/eventhandler.h>
+#include <sampgdk/wrapper.h>
 
 using sampgdk::EventHandler;
 
