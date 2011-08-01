@@ -15,8 +15,6 @@
 #ifndef SAMP_VEHICLES_H
 #define SAMP_VEHICLES_H
 
-#include <string>
-
 namespace sampgdk {
 
 #define CARMODTYPE_SPOILER        0
@@ -63,7 +61,7 @@ void AttachTrailerToVehicle(int trailerid, int vehicleid);
 void DetachTrailerFromVehicle(int vehicleid);
 bool IsTrailerAttachedToVehicle(int vehicleid);
 int GetVehicleTrailer(int vehicleid);
-bool SetVehicleNumberPlate(int vehicleid, const std::string &numberplate);
+bool SetVehicleNumberPlate(int vehicleid, const char *numberplate);
 int GetVehicleModel(int vehicleid);
 int GetVehicleComponentInSlot(int vehicleid, int slot); // There is 1 slot for each CARMODTYPE_*
 int GetVehicleComponentType(int component); // Find CARMODTYPE_* for component id
