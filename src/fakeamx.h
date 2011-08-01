@@ -1,9 +1,7 @@
 #ifndef FAKEAMX_H
 #define FAKEAMX_H
 
-#include <string>
-
-#include <sampgdk/plugin/amx/amx.h>
+#include <sampgdk/amx/amx.h>
 
 extern AMX fakeAmx;
 
