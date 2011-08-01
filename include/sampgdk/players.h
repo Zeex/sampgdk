@@ -108,7 +108,6 @@ int GetPlayerPing(int playerid);
 int GetPlayerWeapon(int playerid);
 bool GetPlayerKeys(int playerid, int &keys, int &updown, int &leftright);
 bool GetPlayerName(int playerid, char *name, size_t size);
-bool GetPlayerName(int playerid, char (&name)[MAX_PLAYER_NAME]);
 std::string GetPlayerName(int playerid);
 bool SetPlayerTime(int playerid, int hour, int minute);
 bool GetPlayerTime(int playerid, int &hour, int &minute);
@@ -227,6 +226,24 @@ bool PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode = SPECTAT
 
 bool StartRecordingPlayerData(int playerid, int recordtype, const char *recordname);
 bool StopRecordingPlayerData(int playerid);
+
+// Convenience templates for some functions (to avoid specifying output buffer size explicitly
+// when it's known at compile time (i.e. fixed-size buffers))
+template<size_t N> bool GetPlayerName(int playerid, char (&name)[N]) { 
+    return GetPlayerName(playerid, name, N); 
+}
+template<size_t N> bool GetPlayerIp(int playerid, char (&ip)[N]) { 
+    return GetPlayerIp(playerid, ip, N); 
+}
+template<size_t N> bool GetPVarString(int playerid, const char *varname, char (&value)[N]) {
+    return GetPVarString(playerid, varname, value, N);
+}
+template<size_t N> bool GetPVarNameAtIndex(int playerid, int index, char (&varname)[N]) {
+    return GetPVarNameAtIndex(playerid, index, varname, N);
+}
+template<size_t N1, size_t N2> bool GetAnimationName(int index, char (&animlib)[N1], char (&animname)[N2]) {
+    return GetAnimationName(index, animlib, N1, animname, N2);
+}
 
 } // namespace sampgdk
 
