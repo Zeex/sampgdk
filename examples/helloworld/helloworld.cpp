@@ -6,6 +6,8 @@
 #include <sampgdk/plugin/plugin.h>
 #include <sampgdk/wrapper/wrapper.h>
 
+#include <cstdio>
+
 using namespace sampgdk;
 
 static HelloWorld theGameMode;
@@ -42,7 +44,11 @@ bool HelloWorld::OnPlayerRequestClass(int playerid, int classid) {
 
 bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
     if (cmdtext == "/hello") {
-        SendClientMessage(playerid, 0x00FF00FF, "Hello, " + GetPlayerName(playerid) + "!");
+        char name[MAX_PLAYER_NAME];
+        GetPlayerName(playerid, name);
+        char message[128];
+        sprintf(message, "Hello, %s!", name);
+        SendClientMessage(playerid, 0x00FF00FF, message);
         return true;
     }
     return false;
