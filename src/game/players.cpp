@@ -77,9 +77,9 @@ bool SetPlayerPosFindZ(int playerid, float x, float y, float z) {
 
 bool GetPlayerPos(int playerid, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerPos");
-    FakeAmxHeapObject x_(1);
-    FakeAmxHeapObject y_(1);
-    FakeAmxHeapObject z_(1);
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         4 * 4,
         playerid,
@@ -106,7 +106,7 @@ bool SetPlayerFacingAngle(int playerid, float angle) {
 
 bool GetPlayerFacingAngle(int playerid, float &angle) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerFacingAngle");
-    FakeAmxHeapObject a_(1);
+    FakeAmxHeapObject a_;
     cell params[] = {
         2 * 4,
         playerid,
@@ -171,7 +171,7 @@ bool SetPlayerHealth(int playerid, float health) {
 
 bool GetPlayerHealth(int playerid, float &health) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerHealth");
-    FakeAmxHeapObject health_(1);
+    FakeAmxHeapObject health_;
     cell params[] = {
         2 * 4,
         playerid,
@@ -194,7 +194,7 @@ bool SetPlayerArmour(int playerid, float armour) {
 
 bool GetPlayerArmour(int playerid, float &armour) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerArmour");
-    FakeAmxHeapObject armour_(1);
+    FakeAmxHeapObject armour_;
     cell params[] = {
         2 * 4,
         playerid,
@@ -361,8 +361,8 @@ bool SetPlayerArmedWeapon(int playerid, int weaponid) {
 
 bool GetPlayerWeaponData(int playerid, int slot, int &weapon, int &ammo) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerWeaponData");
-    FakeAmxHeapObject weapon_(1);
-    FakeAmxHeapObject ammo_(1);
+    FakeAmxHeapObject weapon_;
+    FakeAmxHeapObject ammo_;
     cell params[] = {
         4 * 4,
         playerid,
@@ -462,9 +462,9 @@ int GetPlayerWeapon(int playerid) {
 
 bool GetPlayerKeys(int playerid, int &keys, int &updown, int &leftright) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerKeys");
-    FakeAmxHeapObject keys_(1);
-    FakeAmxHeapObject updown_(1);
-    FakeAmxHeapObject leftright_(1);
+    FakeAmxHeapObject keys_;
+    FakeAmxHeapObject updown_;
+    FakeAmxHeapObject leftright_;
     cell params[] = {
         4 * 4,
         playerid,
@@ -510,8 +510,8 @@ bool SetPlayerTime(int playerid, int hour, int minute) {
 
 bool GetPlayerTime(int playerid, int &hour, int &minute) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerTime");
-    FakeAmxHeapObject hour_(1);
-    FakeAmxHeapObject minute_(1);
+    FakeAmxHeapObject hour_;
+    FakeAmxHeapObject minute_;
     cell params[] = {
         3 * 4,
         playerid,
@@ -605,9 +605,9 @@ bool SetPlayerVelocity(int playerid, float x, float y, float z) {
 
 bool GetPlayerVelocity( int playerid, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerVelocity");
-    FakeAmxHeapObject x_(1);
-    FakeAmxHeapObject y_(1);
-    FakeAmxHeapObject z_(1);
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         4 * 4,
         playerid,
@@ -1138,9 +1138,9 @@ bool SetCameraBehindPlayer(int playerid) {
 
 bool GetPlayerCameraPos(int playerid, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerCameraPos");
-    FakeAmxHeapObject x_(1);
-    FakeAmxHeapObject y_(1);
-    FakeAmxHeapObject z_(1);
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         4 * 4,
         playerid,
@@ -1157,9 +1157,9 @@ bool GetPlayerCameraPos(int playerid, float &x, float &y, float &z) {
 
 bool GetPlayerCameraFrontVector(int playerid, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerCameraFrontVector");
-    FakeAmxHeapObject x_(1);
-    FakeAmxHeapObject y_(1);
-    FakeAmxHeapObject z_(1);
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         4 * 4,
         playerid,
