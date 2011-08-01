@@ -1,17 +1,32 @@
 #ifndef FAKEAMX_H
 #define FAKEAMX_H
 
+#include <string>
+
 #include <sampgdk/plugin/amx/amx.h>
 
 extern AMX fakeAmx;
 
-cell FakeAmxPush(void *what, size_t cells);
+cell FakeAmxPush(size_t cells);
+cell FakeAmxPush(const char *s);
+
+void FakeAmxGet(cell address, cell &value);
+void FakeAmxGet(cell address, char *value, size_t size);
+
 void FakeAmxPop(cell address);
 
 class FakeAmxHeapObject {
 public:
-    FakeAmxHeapObject(void *obj, size_t cells) 
-        : size_(cells), address_(FakeAmxPush(obj, cells))
+    FakeAmxHeapObject()
+        : size_(1), address_(FakeAmxPush(1))
+    {}
+
+    FakeAmxHeapObject(size_t cells) 
+        : size_(cells), address_(FakeAmxPush(cells))
+    {}
+
+    FakeAmxHeapObject(const char *s) 
+        : size_(strlen(s)), address_(FakeAmxPush(s))
     {}
 
     ~FakeAmxHeapObject() { FakeAmxPop(address_); }
@@ -20,17 +35,17 @@ public:
 
     size_t size() const { return size_; }
 
-    cell asCell() const { 
+    cell Get() const { 
         return *reinterpret_cast<cell*>(::fakeAmx.data + address_); 
     }
 
-    float asFloat() const {
-        cell v = this->asCell();
-        return amx_ctof(v);
+    float GetAsFloat() const {
+        cell value = this->Get();
+        return amx_ctof(value);
     }
 
-    char *asString() const {
-        return reinterpret_cast<char*>(::fakeAmx.data + address_);
+    void GetAsString(char *s, size_t size) const {
+        FakeAmxGet(address_, s, size);
     }
 
 private:
