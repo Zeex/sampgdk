@@ -20,48 +20,48 @@
 
 namespace sampgdk {
 
-bool SendClientMessage(int playerid, long color, const std::string &message) {
+bool SendClientMessage(int playerid, long color, const char *message) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SendClientMessage");
-    cstring message_(message.begin(), message.end());
+    FakeAmxHeapObject message_(message);
     cell params[] = {
         3 * 4,
         playerid,
         color,
-        reinterpret_cast<cell>(message_.c_str())
+        message_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-void SendClientMessageToAll(long color, const std::string &message) {
+void SendClientMessageToAll(long color, const char *message) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SendClientMessageToAll");
-    cstring message_(message.begin(), message.end());
+    FakeAmxHeapObject message_(message);
     cell params[] = {
         2 * 4,
         color,
-        reinterpret_cast<cell>(message_.c_str())
+        message_.address()
     };
     native(&::fakeAmx, params);
 }
 
-bool SendPlayerMessageToPlayer(int playerid, int senderid, const std::string &message) {
+bool SendPlayerMessageToPlayer(int playerid, int senderid, const char *message) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SendPlayerMessageToPlayer");
-    cstring message_(message.begin(), message.end());
+    FakeAmxHeapObject message_(message);
     cell params[] = {
         3 * 4,
         playerid,
         senderid,
-        reinterpret_cast<cell>(message_.c_str())
+        message_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-bool SendPlayerMessageToAll(int senderid, const std::string &message) {
+bool SendPlayerMessageToAll(int senderid, const char *message) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SendPlayerMessageToAll");
-    cstring message_(message.begin(), message.end());
+    FakeAmxHeapObject message_(message);
     cell params[] = {
         2 * 4,
         senderid,
-        reinterpret_cast<cell>(message_.c_str())
+        message_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
@@ -77,25 +77,25 @@ bool SendDeathMessage(int killer, int killee, int weapon) {
     return native(&::fakeAmx, params) != 0;
 }
 
-bool GameTextForAll(const std::string &text, long time, int style) {
+bool GameTextForAll(const char *text, long time, int style) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GameTextForAll");
-    cstring text_(text.begin(), text.end());
+    FakeAmxHeapObject text_(text);
     cell params[] = {
         3 * 4,
-        reinterpret_cast<cell>(text_.c_str()),
+        text_.address(),
         time,
         style
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-bool GameTextForPlayer(int playerid, const std::string &text, long time, int style) {
+bool GameTextForPlayer(int playerid, const char *text, long time, int style) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GameTextForPlayer");
-    cstring text_(text.begin(), text.end());
+    FakeAmxHeapObject text_(text);
     cell params[] = {
         4 * 4,
         playerid,
-        reinterpret_cast<cell>(text_.c_str()),
+        text_.address(),
         time,
         style
     };
@@ -112,12 +112,12 @@ int GetMaxPlayers() {
     return native(&::fakeAmx, 0);
 }
 
-void SetGameModeText(const std::string &text) {
+void SetGameModeText(const char *text) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetGameModeText");
-    cstring text_(text.begin(), text.end());
+    FakeAmxHeapObject text_(text);
     cell params[] = {
         1 * 4, 
-        reinterpret_cast<cell>(text_.c_str())
+        text_.address()
     };
     native(&::fakeAmx, params);
 }
@@ -278,19 +278,18 @@ bool SetWorldTime(int hour) {
     return native(&::fakeAmx, params) != 0;
 }
 
-std::string GetWeaponName(int weaponid) {
+bool GetWeaponName(int weaponid, char *name, size_t size) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetWeaponName");
-    cstring name_(50, 0); 
+    FakeAmxHeapObject name_(size);
     cell params[] = {
         3 * 4,
         weaponid,
-        reinterpret_cast<cell>(name_.data()),
-        50
+        name_.address(),
+        size
     };
-    native(&::fakeAmx, params);
-    int length;
-    amx_StrLen(name_.data(), &length);
-    return std::string(name_.begin(), name_.begin() + length);
+    bool ret = native(&::fakeAmx, params) != 0;
+    name_.GetAsString(name, size);
+    return ret;
 }
 
 void EnableTirePopping(bool enable) {
@@ -411,14 +410,14 @@ void LimitPlayerMarkerRadius(float marker_radius) {
     native(&::fakeAmx, params);
 }
 
-bool ConnectNPC(const std::string &name, const std::string &script) {
+bool ConnectNPC(const char *name, const char *script) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("ConnectNPC");
-    cstring name_(name.begin(), name.end());
-    cstring script_(script.begin(), script.end());
+    FakeAmxHeapObject name_(name);
+    FakeAmxHeapObject script_(script);
     cell params[] = {
         2 * 4,
-        reinterpret_cast<cell>(name_.c_str()),
-        reinterpret_cast<cell>(script_.c_str())
+        name_.address(),
+        script_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
@@ -459,65 +458,68 @@ bool Ban(int playerid) {
     return native(&::fakeAmx, params) != 0;
 }
 
-bool BanEx(int playerid, const std::string &reason) {
+bool BanEx(int playerid, const char *reason) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("BanEx");
+    FakeAmxHeapObject reason_(reason);
     cell params[] = {
-        1 * 4,
-        playerid
+        2 * 4,
+        playerid,
+        reason_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-void SendRconCommand(const std::string &command) {
+void SendRconCommand(const char *command) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SendRconCommand");
-    cstring command_(command.begin(), command.end());
+    FakeAmxHeapObject command_(command);
     cell params[] = {
         1 * 4,
-        reinterpret_cast<cell>(command_.c_str()),
+        command_.address(),
     };
     native(&::fakeAmx, params);
 }
 
-std::string GetServerVarAsString(const std::string &varname) {
+bool GetServerVarAsString(const char *varname, char *value, size_t size) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetServerVarAsString");
-    cstring varname_(varname.begin(), varname.end());
-    cstring var_(128, '\0'); 
+    FakeAmxHeapObject varname_(varname);
+    FakeAmxHeapObject value_(size); 
     cell params[] = {
         3 * 4,
-        reinterpret_cast<cell>(varname_.c_str()),
-        reinterpret_cast<cell>(var_.data()),
-        var_.length()
+        varname_.address(),
+        value_.address(),
+        size
     };
-    native(&::fakeAmx, params);
-    return std::string(var_.begin(), var_.end());
+    bool ret = native(&::fakeAmx, params) != 0;
+    value_.GetAsString(value, size);
+    return ret;
 }
 
-int GetServerVarAsInt(const std::string &varname) {
+int GetServerVarAsInt(const char *varname) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetServerVarAsInt");
-    cstring varname_(varname.begin(), varname.end());
+    FakeAmxHeapObject varname_(varname);
     cell params[] = {
         1 * 4,
-        reinterpret_cast<cell>(varname_.c_str())
+        varname_.address(),
     };
     return native(&::fakeAmx, params);
 }
 
-bool GetServerVarAsBool(const std::string &varname) {
+bool GetServerVarAsBool(const char *varname) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetServerVarAsBool");
-    cstring varname_(varname.begin(), varname.end());
+    FakeAmxHeapObject varname_(varname);
     cell params[] = {
         1 * 4,
-        reinterpret_cast<cell>(varname_.c_str())
+        varname_.address(),
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-int CreateMenu(const std::string &title, int columns, float x, float y, float col1width, float col2width) {
+int CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("CreateMenu");
-    cstring title_(title.begin(), title.end());
+    FakeAmxHeapObject title_(title);
     cell params[] = {
         6 * 4,
-        reinterpret_cast<cell>(title_.c_str()),
+        title_.address(),
         columns,
         amx_ftoc(x),
         amx_ftoc(y),
@@ -536,26 +538,26 @@ bool DestroyMenu(int menuid) {
     return native(&::fakeAmx, params) != 0;
 }
 
-int AddMenuItem(int menuid, int column, const std::string &menutext) {
+int AddMenuItem(int menuid, int column, const char *menutext) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("AddMenuItem");
-    cstring menutext_(menutext.begin(), menutext.end());
+    FakeAmxHeapObject menutext_(menutext);
     cell params[] = {
         3 * 4,
         menuid,
         column,
-        reinterpret_cast<cell>(menutext_.c_str())
+        menutext_.address()
     };
     return native(&::fakeAmx, params);
 }
 
-bool SetMenuColumnHeader(int menuid, int column, const std::string &columnheader) {
+bool SetMenuColumnHeader(int menuid, int column, const char *columnheader) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetMenuColumnHeader");
-    cstring columnheader_(columnheader.begin(), columnheader.end());
+    FakeAmxHeapObject columnheader_(columnheader);
     cell params[] = {
         3 * 4,
         menuid,
         column,
-        reinterpret_cast<cell>(columnheader_.c_str())
+        columnheader_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
@@ -617,14 +619,14 @@ int GetPlayerMenu(int playerid) {
     return native(&::fakeAmx, params);
 }
 
-int TextDrawCreate(float x, float y, const std::string &text) {
+int TextDrawCreate(float x, float y, const char *text) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("TextDrawCreate");
-    cstring text_(text.begin(), text.end());
+    FakeAmxHeapObject text_(text);
     cell params[] = {
         3 * 4,
         amx_ftoc(x),
         amx_ftoc(y),
-        reinterpret_cast<cell>(text_.c_str())
+        text_.address()
     };
     return native(&::fakeAmx, params);
 }
@@ -788,13 +790,13 @@ bool TextDrawHideForAll(int text) {
     return native(&::fakeAmx, params) != 0;
 }
 
-bool TextDrawSetString(int text, const std::string &string) {
+bool TextDrawSetString(int text, const char *string) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("TextDrawSetString");
-    cstring string_(string.begin(), string.end());
+    FakeAmxHeapObject string_(string);
     cell params[] = {
         2 * 4,
         text,
-        reinterpret_cast<cell>(string_.c_str())
+        string_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
@@ -900,12 +902,12 @@ bool GangZoneStopFlashForAll(int zone) {
     return native(&::fakeAmx, params) != 0;
 }
 
-int Create3DTextLabel(const std::string &text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS) {
+int Create3DTextLabel(const char *text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("Create3DTextLabel");
-    cstring text_(text.begin(), text.end());
+    FakeAmxHeapObject text_(text);
     cell params[] = {
         8 * 4,
-        reinterpret_cast<cell>(text_.c_str()),
+        text_.address(),
         color,
         amx_ftoc(x),
         amx_ftoc(y),
@@ -952,25 +954,25 @@ bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float Offs
     return native(&::fakeAmx, params) != 0;
 }
 
-bool Update3DTextLabelText(int id, long color, const std::string &text) {
+bool Update3DTextLabelText(int id, long color, const char *text) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("Update3DTextLabelText");
-    cstring text_(text.begin(), text.end());
+    FakeAmxHeapObject text_(text);
     cell params[] = {
         3 * 4,
         id,
         color,
-        reinterpret_cast<cell>(text_.c_str())
+        text_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-int CreatePlayer3DTextLabel(int playerid, const std::string &text, long color, float x, float y, float z, float DrawDistance, int attachedplayer, int attachedvehicle, bool testLOS) {
+int CreatePlayer3DTextLabel(int playerid, const char *text, long color, float x, float y, float z, float DrawDistance, int attachedplayer, int attachedvehicle, bool testLOS) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("CreatePlayer3DTextLabel");
-    cstring text_(text.begin(), text.end());
+    FakeAmxHeapObject text_(text);
     cell params[] = {
         10 * 4,
         playerid,
-        reinterpret_cast<cell>(text_.c_str()),
+        text_.address(),
         color,
         amx_ftoc(x),
         amx_ftoc(y),
@@ -993,36 +995,36 @@ bool DeletePlayer3DTextLabel(int playerid, int id) {
     return native(&::fakeAmx, params) != 0;
 }
 
-bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const std::string &text) {
+bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const char *text) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("UpdatePlayer3DTextLabelText");
-    cstring text_(text.begin(), text.end());
+    FakeAmxHeapObject text_(text);
     cell params[] = {
         4 * 4,
         playerid,
         id,
         color,
-        reinterpret_cast<cell>(text_.c_str())
+        text_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-bool ShowPlayerDialog(int playerid, int dialogid, int style, const std::string &caption, 
-    const std::string &info, const std::string &button1, const std::string &button2)
+bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, 
+    const char *info, const char *button1, const char *button2)
 {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("ShowPlayerDialog");
-    cstring caption_(caption.begin(), caption.end());
-    cstring info_(info.begin(), info.end());
-    cstring button1_(button1.begin(), button1.end());
-    cstring button2_(button2.begin(), button2.end());
+    FakeAmxHeapObject caption_(caption);
+    FakeAmxHeapObject info_(info);
+    FakeAmxHeapObject button1_(button1);
+    FakeAmxHeapObject button2_(button2);
     cell params[] = {
         7 * 4,
         playerid,
         dialogid,
         style,
-        reinterpret_cast<cell>(caption_.c_str()),
-        reinterpret_cast<cell>(info_.c_str()),
-        reinterpret_cast<cell>(button1_.c_str()),
-        reinterpret_cast<cell>(button2_.c_str())
+        caption_.address(),
+        info_.address(),
+        button1_.address(),
+        button2_.address()
     };
     return native(&::fakeAmx, params) != 0;
 }

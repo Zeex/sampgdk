@@ -15,8 +15,6 @@
 #ifndef SAMP_SAMP_H
 #define SAMP_SAMP_H
 
-#include <string>
-
 namespace sampgdk {
 
 // Limits and internal constants
@@ -40,18 +38,18 @@ namespace sampgdk {
 #define INVALID_3DTEXT_ID          (0xFFFF)
 
 // Util
-bool SendClientMessage(int playerid, long color, const std::string &message);
-void SendClientMessageToAll(long color, const std::string &message);
-bool SendPlayerMessageToPlayer(int playerid, int senderid, const std::string &message);
-bool SendPlayerMessageToAll(int senderid, const std::string &message);
+bool SendClientMessage(int playerid, long color, const char *message);
+void SendClientMessageToAll(long color, const char *message);
+bool SendPlayerMessageToPlayer(int playerid, int senderid, const char *message);
+bool SendPlayerMessageToAll(int senderid, const char *message);
 bool SendDeathMessage(int killer, int killee, int weapon);
-bool GameTextForAll(const std::string &text, long time, int style);
-bool GameTextForPlayer(int playerid, const std::string &text, long time, int style);
+bool GameTextForAll(const char *text, long time, int style);
+bool GameTextForPlayer(int playerid, const char *text, long time, int style);
 long GetTickCount();
 int GetMaxPlayers();
 
 // Game
-void SetGameModeText(const std::string &text);
+void SetGameModeText(const char *text);
 void SetTeamCount(long count);
 int AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
 int AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
@@ -64,7 +62,7 @@ void ShowNameTags(bool show);
 void ShowPlayerMarkers(bool mode);
 void GameModeExit();
 bool SetWorldTime(short hour);
-std::string GetWeaponName(int weaponid);
+bool GetWeaponName(int weaponid, char *name, size_t size);
 void EnableTirePopping(bool enable);
 void AllowInteriorWeapons(bool allow);
 void SetWeather(int weatherid);
@@ -81,24 +79,24 @@ void LimitGlobalChatRadius(float chat_radius);
 void LimitPlayerMarkerRadius(float marker_radius);
 
 // Npc
-bool ConnectNPC(const std::string &name, const std::string &script);
+bool ConnectNPC(const char *name, const char *script);
 bool IsPlayerNPC(int playerid);
 
 // Admin
 bool IsPlayerAdmin(int playerid);
 bool Kick(int playerid);
 bool Ban(int playerid);
-bool BanEx(int playerid, const std::string &reason);
-void SendRconCommand(const std::string &command);
-std::string GetServerVarAsString(const std::string &varname);
-int GetServerVarAsInt(const std::string &varname);
-bool GetServerVarAsBool(const std::string &varname);
+bool BanEx(int playerid, const char *reason);
+void SendRconCommand(const char *command);
+bool GetServerVarAsString(const char *varname, char *value, size_t size);
+int GetServerVarAsInt(const char *varname);
+bool GetServerVarAsBool(const char *varname);
 
 // Menu
-int CreateMenu(const std::string &title, int columns, float x, float y, float col1width, float col2width = 0.0f);
+int CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width = 0.0f);
 bool DestroyMenu(int menuid);
-int AddMenuItem(int menuid, int column, const std::string &menutext);
-bool SetMenuColumnHeader(int menuid, int column, const std::string &columnheader);
+int AddMenuItem(int menuid, int column, const char *menutext);
+bool SetMenuColumnHeader(int menuid, int column, const char *columnheader);
 bool ShowMenuForPlayer(int menuid, int playerid);
 bool HideMenuForPlayer(int menuid, int playerid);
 bool IsValidMenu(int menuid);
@@ -107,7 +105,7 @@ bool DisableMenuRow(int menuid, int row);
 int GetPlayerMenu(int playerid);
 
 // Text Draw
-int TextDrawCreate(float x, float y, const std::string &text);
+int TextDrawCreate(float x, float y, const char *text);
 bool TextDrawDestroy(int text);
 bool TextDrawLetterSize(int text, float x, float y);
 bool TextDrawTextSize(int text, float x, float y);
@@ -124,7 +122,7 @@ bool TextDrawShowForPlayer(int playerid, int text);
 bool TextDrawHideForPlayer(int playerid, int text);
 bool TextDrawShowForAll(int text);
 bool TextDrawHideForAll(int text);
-bool TextDrawSetString(int text, const std::string &string);
+bool TextDrawSetString(int text, const char *string);
 
 // Gang Zones
 int GangZoneCreate(float minx, float miny, float maxx, float maxy);
@@ -139,23 +137,23 @@ bool GangZoneStopFlashForPlayer(int playerid, int zone);
 bool GangZoneStopFlashForAll(int zone);
 
 // Global 3D Text Labels
-int Create3DTextLabel(const std::string &text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS = false);
+int Create3DTextLabel(const char *text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS = false);
 bool Delete3DTextLabel(int id);
 bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ);
 bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ);
-bool Update3DTextLabelText(int id, long color, const std::string &text);
+bool Update3DTextLabelText(int id, long color, const char *text);
 
 // Per-player 3D Text Labels
-int CreatePlayer3DTextLabel(int playerid, const std::string &text, long color, float x, float y, float z, float DrawDistance, int attachedplayer = INVALID_PLAYER_ID, int attachedvehicle = INVALID_VEHICLE_ID, bool testLOS = false);
+int CreatePlayer3DTextLabel(int playerid, const char *text, long color, float x, float y, float z, float DrawDistance, int attachedplayer = INVALID_PLAYER_ID, int attachedvehicle = INVALID_VEHICLE_ID, bool testLOS = false);
 bool DeletePlayer3DTextLabel(int playerid, int id);
-bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const std::string &text);
+bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const char *text);
 
 // Player GUI Dialog
 #define DIALOG_STYLE_MSGBOX    (0)
 #define DIALOG_STYLE_INPUT     (1)
 #define DIALOG_STYLE_LIST      (2)
 
-bool ShowPlayerDialog(int playerid, int dialogid, int style, const std::string &caption, const std::string &info, const std::string &button1, const std::string &button2);
+bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, const char *info, const char *button1, const char *button2);
 
 // States
 #define PLAYER_STATE_NONE                        (0)
