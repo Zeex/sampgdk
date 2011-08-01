@@ -15,8 +15,6 @@
 #ifndef SAMP_PLAYERS_H
 #define SAMP_PLAYERS_H
 
-#include <string>
-
 namespace sampgdk {
 
 #define SPECIAL_ACTION_NONE              0
@@ -99,14 +97,15 @@ bool SetPlayerArmedWeapon(int playerid, int weaponid);
 bool GetPlayerWeaponData(int playerid, int slot, int &weapon, int &ammo);
 bool GivePlayerMoney(int playerid, long money);
 bool ResetPlayerMoney(int playerid);
-int SetPlayerName(int playerid, const std::string &name);
+int SetPlayerName(int playerid, const char *name);
 long GetPlayerMoney(int playerid);
 int GetPlayerState(int playerid);
-std::string GetPlayerIp(int playerid);
+bool GetPlayerIp(int playerid, char *ip, size_t size);
 int GetPlayerPing(int playerid);
 int GetPlayerWeapon(int playerid);
 bool GetPlayerKeys(int playerid, int &keys, int &updown, int &leftright);
-std::string GetPlayerName(int playerid);
+bool GetPlayerName(int playerid, char *name, size_t size);
+bool GetPlayerName(int playerid, char (&name)[MAX_PLAYER_NAME]);
 bool SetPlayerTime(int playerid, int hour, int minute);
 bool GetPlayerTime(int playerid, int &hour, int &minute);
 bool TogglePlayerClock(int playerid, bool toggle);
@@ -119,7 +118,7 @@ int GetPlayerFightingStyle(int playerid);
 bool SetPlayerVelocity(int playerid, float x, float y, float z);
 bool GetPlayerVelocity( int playerid, float &x, float &y, float &z);
 bool PlayCrimeReportForPlayer(int playerid, int suspectid, int crime);
-bool SetPlayerShopName(int playerid, const std::string &shopname);
+bool SetPlayerShopName(int playerid, const char *shopname);
 bool SetPlayerSkillLevel(int playerid, int skill, int level);
 int GetPlayerSurfingVehicleID(int playerid);
 
@@ -132,13 +131,13 @@ bool RemovePlayerAttachedObject(int playerid, int index);
 bool IsPlayerAttachedObjectSlotUsed(int playerid, int index);
 
 // Per-player variable system (PVars)
-bool SetPVarInt(int playerid, const std::string &varname, int value);
-int GetPVarInt(int playerid, const std::string &varname);
-bool SetPVarString(int playerid, const std::string &varname, const std::string &value);
-bool GetPVarString(int playerid, const std::string &varname, std::string &value, size_t maxlength);
-bool SetPVarFloat(int playerid, const std::string &varname, float value);
-float GetPVarFloat(int playerid, const std::string &varname);
-bool DeletePVar(int playerid, const std::string &varname);
+bool SetPVarInt(int playerid, const char *varname, int value);
+int GetPVarInt(int playerid, const char *varname);
+bool SetPVarString(int playerid, const char *varname, const char *value);
+bool GetPVarString(int playerid, const char *varname, char *value, size_t size);
+bool SetPVarFloat(int playerid, const char *varname, float value);
+float GetPVarFloat(int playerid, const char *varname);
+bool DeletePVar(int playerid, const char *varname);
 
 // PVar enumeration
 #define PLAYER_VARTYPE_NONE         0
@@ -147,11 +146,11 @@ bool DeletePVar(int playerid, const std::string &varname);
 #define PLAYER_VARTYPE_FLOAT        3
 
 int GetPVarsUpperIndex(int playerid);
-bool GetPVarNameAtIndex(int playerid, int index, std::string &varname, size_t maxlength);
-int GetPVarType(int playerid, const std::string &varname);
+bool GetPVarNameAtIndex(int playerid, int index, char *varname, size_t size);
+int GetPVarType(int playerid, const char *varname);
 
 #define MAX_CHATBUBBLE_LENGTH 144
-bool SetPlayerChatBubble(int playerid, const std::string &text, long color, float drawdistance, long expiretime);
+bool SetPlayerChatBubble(int playerid, const char *text, long color, float drawdistance, long expiretime);
 
 // Player controls
 bool PutPlayerInVehicle(int playerid, int vehicleid, int seatid);
@@ -160,10 +159,10 @@ int GetPlayerVehicleSeat(int playerid);
 bool RemovePlayerFromVehicle(int playerid);
 bool TogglePlayerControllable(int playerid, bool toggle);
 bool PlayerPlaySound(int playerid, int soundid, float x, float y, float z);
-bool ApplyAnimation(int playerid, const std::string &animlib, const std::string &animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, long time, bool forcesync = false);
+bool ApplyAnimation(int playerid, const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, long time, bool forcesync = false);
 bool ClearAnimations(int playerid, bool forcesync = false);
 int GetPlayerAnimationIndex(int playerid); // return the index of any running applied animations (0 if none are running)
-bool GetAnimationName(int index, std::string &animlib, size_t len1, std::string &animname, size_t len2); // get the animation lib/name for the index
+bool GetAnimationName(int index, char *animlib, size_t animlib_size, char *animname, size_t animname_size); // get the animation lib/name for the index
 int GetPlayerSpecialAction(int playerid);
 bool SetPlayerSpecialAction(int playerid, int actionid);
 
@@ -222,7 +221,7 @@ bool PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode = SPECTAT
 #define PLAYER_RECORDING_TYPE_DRIVER    1
 #define PLAYER_RECORDING_TYPE_ONFOOT    2
 
-bool StartRecordingPlayerData(int playerid, int recordtype, const std::string &recordname);
+bool StartRecordingPlayerData(int playerid, int recordtype, const char *recordname);
 bool StopRecordingPlayerData(int playerid);
 
 } // namespace sampgdk
