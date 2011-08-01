@@ -442,6 +442,14 @@ bool GetPlayerIp(int playerid, char (&ip)[16]) {
     return GetPlayerIp(playerid, ip, 16);
 }
 
+std::string GetPlayerIp(int playerid) {
+    char ip[16];
+    if (GetPlayerIp(playerid, ip)) {
+        return std::string(ip);
+    }
+    return std::string();
+}
+
 int GetPlayerPing(int playerid) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerPing");
     cell params[] = {
@@ -495,6 +503,14 @@ bool GetPlayerName(int playerid, char *name, size_t size) {
 
 bool GetPlayerName(int playerid, char (&name)[MAX_PLAYER_NAME]) {
     return GetPlayerName(playerid, name, MAX_PLAYER_NAME);
+}
+
+std::string GetPlayerName(int playerid) {
+    char name[MAX_PLAYER_NAME];
+    if (GetPlayerName(playerid, name)) {
+        return std::string(name);
+    }
+    return std::string();
 }
 
 bool SetPlayerTime(int playerid, int hour, int minute) {
