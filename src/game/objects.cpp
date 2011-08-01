@@ -18,14 +18,14 @@
 
 namespace sampgdk {
 
-int CreateObject(int modelid, float X, float Y, float Z, float rX, float rY, float rZ, float DrawDistance) {
+int CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("CreateObject");
     cell params[] = {
         8 * 4,
         modelid,
-        amx_ftoc(X),
-        amx_ftoc(Y),
-        amx_ftoc(Z),
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z),
         amx_ftoc(rX),
         amx_ftoc(rY),
         amx_ftoc(rZ),
@@ -35,7 +35,7 @@ int CreateObject(int modelid, float X, float Y, float Z, float rX, float rY, flo
 }
 
 bool AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
-    float fRotX, float fRotY, float fRotZ)
+    float frotX, float frotY, float frotZ)
 {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("AttachObjectToVehicle");
     cell params[] = {
@@ -45,59 +45,73 @@ bool AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fO
         amx_ftoc(fOffsetX),
         amx_ftoc(fOffsetY),
         amx_ftoc(fOffsetZ),
-        amx_ftoc(fRotX),
-        amx_ftoc(fRotY),
-        amx_ftoc(fRotZ)
+        amx_ftoc(frotX),
+        amx_ftoc(frotY),
+        amx_ftoc(frotZ)
     };
     return native(&::fakeAmx, params) != 0;
 }
 
-void SetObjectPos(int objectid, float X, float Y, float Z) {
+void SetObjectPos(int objectid, float x, float y, float z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetObjectPos");
     cell params[] = {
         4 * 4,
         objectid,
-        amx_ftoc(X),
-        amx_ftoc(Y),
-        amx_ftoc(Z)
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z)
     };
     native(&::fakeAmx, params);
 }
 
-bool GetObjectPos(int objectid, float &X, float &Y, float &Z) {
+bool GetObjectPos(int objectid, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetObjectPos");
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         4 * 4,
         objectid,
-        reinterpret_cast<cell>(&X),
-        reinterpret_cast<cell>(&Y),
-        reinterpret_cast<cell>(&Z)
+        x_.address(),
+        y_.address(),
+        z_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    x = x_.GetAsFloat();
+    y = y_.GetAsFloat();
+    z = z_.GetAsFloat();
+    return ret;
 }
 
-void SetObjectRot(int objectid, float RotX, float RotY, float RotZ) {
+void SetObjectRot(int objectid, float rotX, float rotY, float rotZ) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetObjectRot");
     cell params[] = {
         4 * 4,
         objectid,
-        amx_ftoc(RotX),
-        amx_ftoc(RotY),
-        amx_ftoc(RotZ)
+        amx_ftoc(rotX),
+        amx_ftoc(rotY),
+        amx_ftoc(rotZ)
     };
     native(&::fakeAmx, params);
 }
 
-bool GetObjectRot(int objectid, float &RotX, float &RotY, float &RotZ) {
+bool GetObjectRot(int objectid, float &rotX, float &rotY, float &rotZ) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetObjectRot");
+    FakeAmxHeapObject rotX_;
+    FakeAmxHeapObject rotY_;
+    FakeAmxHeapObject rotZ_;
     cell params[] = {
         4 * 4,
         objectid,
-        reinterpret_cast<cell>(&RotX),
-        reinterpret_cast<cell>(&RotY),
-        reinterpret_cast<cell>(&RotZ)
+        rotX_.address(),
+        rotY_.address(),
+        rotZ_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    rotX = rotX_.GetAsFloat();
+    rotY = rotY_.GetAsFloat();
+    rotZ = rotZ_.GetAsFloat();
+    return ret;
 }
 
 bool IsValidObject(int objectid) {
@@ -118,14 +132,14 @@ void DestroyObject(int objectid) {
     native(&::fakeAmx, params);
 }
 
-int MoveObject(int objectid, float X, float Y, float Z, float Speed) {
+int MoveObject(int objectid, float x, float y, float z, float Speed) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("MoveObject");
     cell params[] = {
         5 * 4,
         objectid,
-        amx_ftoc(X),
-        amx_ftoc(Y),
-        amx_ftoc(Z),
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z),
         amx_ftoc(Speed)
     };
     return native(&::fakeAmx, params);
@@ -140,7 +154,7 @@ bool StopObject(int objectid) {
     return native(&::fakeAmx, params) != 0;
 }
 
-int CreatePlayerObject(int playerid, int modelid, float X, float Y, float Z, 
+int CreatePlayerObject(int playerid, int modelid, float x, float y, float z, 
     float rX, float rY, float rZ, float DrawDistance)
 {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("CreatePlayerObject");
@@ -148,9 +162,9 @@ int CreatePlayerObject(int playerid, int modelid, float X, float Y, float Z,
         9 * 4,
         playerid,
         modelid,
-        amx_ftoc(X),
-        amx_ftoc(Y),
-        amx_ftoc(Z),
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z),
         amx_ftoc(rX),
         amx_ftoc(rY),
         amx_ftoc(rZ),
@@ -159,56 +173,70 @@ int CreatePlayerObject(int playerid, int modelid, float X, float Y, float Z,
     return native(&::fakeAmx, params);
 }
 
-void SetPlayerObjectPos(int playerid, int objectid, float X, float Y, float Z) {
+void SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetPlayerObjectPos");
     cell params[] = {
         5 * 4,
         playerid,
         objectid,
-        amx_ftoc(X),
-        amx_ftoc(Y),
-        amx_ftoc(Z)
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z)
     };
     native(&::fakeAmx, params);
 }
 
-bool GetPlayerObjectPos(int playerid, int objectid, float &X, float &Y, float &Z) {
+bool GetPlayerObjectPos(int playerid, int objectid, float &x, float &y, float &z) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerObjectPos");
+    FakeAmxHeapObject x_;
+    FakeAmxHeapObject y_;
+    FakeAmxHeapObject z_;
     cell params[] = {
         5 * 4,
         playerid,
         objectid,
-        reinterpret_cast<cell>(&X),
-        reinterpret_cast<cell>(&Y),
-        reinterpret_cast<cell>(&Z)
+        x_.address(),
+        y_.address(),
+        z_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    x = x_.GetAsFloat();
+    y = y_.GetAsFloat();
+    z = z_.GetAsFloat();
+    return ret;
 }
 
-void SetPlayerObjectRot(int playerid, int objectid, float RotX, float RotY, float RotZ) {
+void SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, float rotZ) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("SetPlayerObjectRot");
     cell params[] = {
         5 * 4,
         playerid,
         objectid,
-        amx_ftoc(RotX),
-        amx_ftoc(RotY),
-        amx_ftoc(RotZ)
+        amx_ftoc(rotX),
+        amx_ftoc(rotY),
+        amx_ftoc(rotZ)
     };
     native(&::fakeAmx, params);
 }
 
-bool GetPlayerObjectRot(int playerid, int objectid, float &RotX, float &RotY, float &RotZ) {
+bool GetPlayerObjectRot(int playerid, int objectid, float &rotX, float &rotY, float &rotZ) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerObjectRot");
+    FakeAmxHeapObject rotX_;
+    FakeAmxHeapObject rotY_;
+    FakeAmxHeapObject rotZ_;
     cell params[] = {
         5 * 4,
         playerid,
         objectid,
-        reinterpret_cast<cell>(&RotX),
-        reinterpret_cast<cell>(&RotY),
-        reinterpret_cast<cell>(&RotZ)
+        rotX_.address(),
+        rotY_.address(),
+        rotZ_.address()
     };
-    return native(&::fakeAmx, params) != 0;
+    bool ret = native(&::fakeAmx, params) != 0;
+    rotX = rotX_.GetAsFloat();
+    rotY = rotY_.GetAsFloat();
+    rotZ = rotZ_.GetAsFloat();
+    return ret;
 }
 
 bool IsValidPlayerObject(int playerid, int objectid) {
@@ -231,15 +259,15 @@ void DestroyPlayerObject(int playerid, int objectid) {
     native(&::fakeAmx, params);
 }
 
-int MovePlayerObject(int playerid, int objectid, float X, float Y, float Z, float Speed) {
+int MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("MovePlayerObject");
     cell params[] = {
         6 * 4,
         playerid,
         objectid,
-        amx_ftoc(X),
-        amx_ftoc(Y),
-        amx_ftoc(Z),
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z),
         amx_ftoc(Speed)
     };
     return native(&::fakeAmx, params);
