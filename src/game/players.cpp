@@ -106,14 +106,14 @@ bool SetPlayerFacingAngle(int playerid, float angle) {
 
 bool GetPlayerFacingAngle(int playerid, float &angle) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerFacingAngle");
-    FakeAmxHeapObject a_;
+    FakeAmxHeapObject angle_;
     cell params[] = {
         2 * 4,
         playerid,
-        a_.address()
+        angle_.address()
     };
     bool ret = native(&::fakeAmx, params) != 0;
-    angle = a_.GetAsFloat();
+    angle = angle_.GetAsFloat();
     return ret;
 }
 
