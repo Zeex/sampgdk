@@ -13,7 +13,7 @@ cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params) {
     amx_StrParam(amx, params[1], funcname);
     int index;
     int error = amx_FindPublic(amx, funcname, &index);
-    if (error != AMX_ERR_NONE && !(error == AMX_ERR_INDEX && index == AMX_EXEC_GDK)) {
+    if (error != AMX_ERR_NONE || (error == AMX_ERR_NONE && index == AMX_EXEC_GDK)) {
         return -1;
     }
     return index;
