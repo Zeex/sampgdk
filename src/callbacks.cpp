@@ -19,9 +19,10 @@
 #endif
 
 #include <sampgdk/amx/amx.h>
-#include <sampgdk/callbacks.h>
 #include <sampgdk/eventhandler.h>
 #include <sampgdk/wrapper.h>
+
+#include "callbacks.h"
 
 using sampgdk::EventHandler;
 
