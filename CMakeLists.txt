@@ -40,7 +40,9 @@ add_library (sampgdk STATIC
     src/callbacks.cpp
     src/eventhandler.cpp
     src/fakeamx.cpp
+    src/funcidx.cpp
     src/gamemode.cpp
+    src/hooknative.cpp
     src/jump.cpp
     src/logprintf.cpp
     src/objects.cpp
