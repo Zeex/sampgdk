@@ -35,10 +35,12 @@ if (WIN32)
 endif (WIN32)
 
 add_library (sampgdk STATIC 
+    src/amxapihooks.cpp
     src/amxplugin.cpp
     src/callbacks.cpp
     src/eventhandler.cpp
     src/fakeamx.cpp
+    src/gamemode.cpp
     src/jump.cpp
     src/logprintf.cpp
     src/objects.cpp
