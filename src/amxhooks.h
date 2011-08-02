@@ -12,14 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMP_CALLBACKS_H
-#define SAMP_CALLBACKS_H
+#ifndef SAMPGDK_AMXHOOKS_H
+#define SAMPGDK_AMXHOOKS_H
 
-namespace sampgdk { 
+#include "jump.h"
 
-void InitializeCallbacks();
+#define AMX_EXEC_GDK (-10)
 
-} 
+class AmxHooks {
+public:
+    static AmxHooks *GetInstance() {
+        AmxHooks inst;
+        return &inst;
+    }
+
+    void Initialize();
+
+private:
+    AmxHooks();
+
+    static int Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number);
+    static int FindPublic(AMX *amx, const char *name, int *index);
+    static int Exec(AMX *amx, cell *retval, int index);
+
+    Jump amxRegisterHook;
+    Jump amxFindPublicHook;
+    Jump amxExecHook;
+};
 
 #endif
-
