@@ -17,6 +17,7 @@
 
 #include "amxapihooks.h"
 #include "gamemode.h"
+#include "hooknative.h"
 
 static std::string lastPublicName;
 
@@ -30,6 +31,10 @@ int AmxApiHooks::Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
     for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
         sampgdk::Wrapper::GetInstance()->SetNative(nativelist[i].name, nativelist[i].func);
     }
+
+    // Fix funcidx
+    extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
+    HookNative(amx, "funcidx", funcidx);
 
     AmxApiHooks::GetInstance()->amxRegisterHook.Reinstall();
 
