@@ -17,7 +17,6 @@
 
 #include "amxapihooks.h"
 #include "gamemode.h"
-#include "hooknative.h"
 
 extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
 
