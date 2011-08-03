@@ -5,7 +5,9 @@
 // So we provide our own implementation of funcidx which takes that fact into account.
 // Thanks to Incognito for finding this bug.
 
-#include <sampgdk/sampgdk.h>
+#if defined HAVE_MALLOC_H
+    #include <malloc.h>
+#endif
 
 #include "amxapihooks.h"
 
