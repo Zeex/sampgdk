@@ -1,6 +1,8 @@
 #ifndef FAKEAMX_H
 #define FAKEAMX_H
 
+#include <cstring>
+
 #include <sampgdk/amx/amx.h>
 
 extern AMX fakeAmx;
@@ -24,7 +26,7 @@ public:
     {}
 
     FakeAmxHeapObject(const char *s) 
-        : size_(strlen(s)), address_(FakeAmxPush(s))
+        : size_(std::strlen(s)), address_(FakeAmxPush(s))
     {}
 
     ~FakeAmxHeapObject() { FakeAmxPop(address_); }
