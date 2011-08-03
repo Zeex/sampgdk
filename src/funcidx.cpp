@@ -5,6 +5,8 @@
 // So we provide our own implementation of funcidx which takes that fact into account.
 // Thanks to Incognito for finding this bug.
 
+#include <sampgdk/sampgdk.h>
+
 #include "amxapihooks.h"
 
 // native funcidx(const funcname[]);
