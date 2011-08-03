@@ -23,7 +23,8 @@ if (HAVE_STDINT_H)
     add_definitions (-DHAVE_STDINT_H)
 endif (HAVE_STDINT_H)
 
-include_directories (include)
+include_directories ("include")
+include_directories ("include/sampgdk/amx") # amx.h includes <sclinux.h>
 
 if (UNIX)
     add_definitions (-DUNIX)
@@ -36,7 +37,11 @@ if (UNIX)
 endif (UNIX)
 
 if (WIN32)
-    add_definitions (-DWIN32)
+    add_definitions (-DWIN32 -DWINDOWS)
+    if (MINGW)
+        add_definitions (-DMINGW)
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include stddef.h") # fix for size_t issue
+    endif (MINGW)
 endif (WIN32)
 
 add_library (sampgdk STATIC 
