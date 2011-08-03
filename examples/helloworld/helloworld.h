@@ -1,7 +1,7 @@
 #ifndef HELLOWORLD_H
 #define HELLOWORLD_H
 
-#include <sampgdk/eventhandler.h>
+#include <sampgdk/sampgdk.h>
 
 class HelloWorld : public sampgdk::EventHandler {
 public:
