@@ -1,5 +1,13 @@
 #include "helloworld.h"
 
+#include <sampgdk/logprintf.h>
+#include <sampgdk/players.h>
+#include <sampgdk/plugin.h>
+#include <sampgdk/samp.h>
+#include <sampgdk/wrapper.h>
+
+#include <cstdio>
+
 using namespace sampgdk;
 
 static HelloWorld theGameMode;
