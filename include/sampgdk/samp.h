@@ -246,7 +246,7 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption
 // Convenience templates for some functions (to avoid specifying output buffer size explicitly
 // when it's known at compile time (i.e. fixed-size buffers))
 template<size_t N> bool GetWeaponName(int weaponid, char (&name)[N]) {
-    return GetWeaponName(playerid, name, N);
+    return GetWeaponName(weaponid, name, N);
 }
 
 } // namespace sampgdk
