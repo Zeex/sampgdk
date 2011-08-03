@@ -26,8 +26,13 @@ endif (HAVE_STDINT_H)
 include_directories (include)
 
 if (UNIX)
-    add_definitions (-DLINUX)
-    include_directories (include/sampgdk/amx) # amx.h includes <sclinux.h>
+    add_definitions (-DUNIX)
+    if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+        add_definitions (-DLINUX)
+    endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    if (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+        add_definitions (-DFREEBSD)
+    endif (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 endif (UNIX)
 
 if (WIN32)
