@@ -44,7 +44,9 @@ if (WIN32)
     add_definitions (-DWIN32 -DWINDOWS)
     if (MINGW)
         add_definitions (-DMINGW)
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include stddef.h") # fix for size_t issue
+        if (HAVE_STDDEF_H)
+            set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -include stddef.h") # fix for size_t issue
+        endif (HAVE_STDDEF_H)
     endif (MINGW)
 endif (WIN32)
 
