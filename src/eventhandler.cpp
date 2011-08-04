@@ -188,6 +188,10 @@ bool EventHandler::OnVehicleDamageStatusUpdate(int vehicleid, int playerid) {
     return true;
 }
 
+bool EventHandler::OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat) {
+	return true;
+}
+
 bool EventHandler::OnPlayerSelectedMenuRow(int playerid, int row) {
     return true;
 }

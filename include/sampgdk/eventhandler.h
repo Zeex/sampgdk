@@ -60,6 +60,7 @@ public:
     virtual bool OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid);
     virtual bool OnVehicleRespray(int playerid, int vehicleid, int color1, int color2);
     virtual bool OnVehicleDamageStatusUpdate(int vehicleid, int playerid);
+	virtual bool OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat);
     virtual bool OnPlayerSelectedMenuRow(int playerid, int row);
     virtual bool OnPlayerExitedMenu(int playerid);
     virtual bool OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid);
