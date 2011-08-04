@@ -15,6 +15,8 @@
 #ifndef SAMP_PLAYERS_H
 #define SAMP_PLAYERS_H
 
+#include <string>
+
 #include <sampgdk/samp.h>
 
 namespace sampgdk {
