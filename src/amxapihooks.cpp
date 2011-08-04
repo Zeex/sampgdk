@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sampgdk/plugin.h>
+#include <sampgdk/amxplugin.h>
 #include <sampgdk/wrapper.h>
 
 #include "amxapihooks.h"
