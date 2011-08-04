@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMP_OBJECTS_H
-#define SAMP_OBJECTS_H
+#ifndef SAMPGDK_OBJECTS_H
+#define SAMPGDK_OBJECTS_H
 
 namespace sampgdk {
 
