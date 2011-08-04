@@ -13,8 +13,9 @@
 #define AMXPLUGIN_H
 
 // detect stdint.h
-#if defined HAVE_STDINT_H || (!defined __STDC__ && __STDC_VERSION__ >= 199901L)
+#if defined HAVE_STDINT_H || (!defined __STDC__ && __STDC_VERSION__ >= 199901L) || defined __MINGW32__
     #include <stdint.h>
+    #define HAVE_STDINT_H
 #endif
 
 #include <stddef.h> // fix for size_t 

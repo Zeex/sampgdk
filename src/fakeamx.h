@@ -3,7 +3,7 @@
 
 #include <cstring>
 
-#include <sampgdk/amx/amx.h>
+#include <sampgdk/amxplugin.h>
 
 extern AMX fakeAmx;
 
@@ -21,11 +21,11 @@ public:
         : size_(1), address_(FakeAmxPush(1))
     {}
 
-    FakeAmxHeapObject(size_t cells) 
+    FakeAmxHeapObject(size_t cells)
         : size_(cells), address_(FakeAmxPush(cells))
     {}
 
-    FakeAmxHeapObject(const char *s) 
+    FakeAmxHeapObject(const char *s)
         : size_(std::strlen(s)), address_(FakeAmxPush(s))
     {}
 
@@ -35,8 +35,8 @@ public:
 
     size_t size() const { return size_; }
 
-    cell Get() const { 
-        return *reinterpret_cast<cell*>(::fakeAmx.data + address_); 
+    cell Get() const {
+        return *reinterpret_cast<cell*>(::fakeAmx.data + address_);
     }
 
     float GetAsFloat() const {
