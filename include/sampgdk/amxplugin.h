@@ -5,52 +5,48 @@
 //
 //----------------------------------------------------------
 
-#ifndef _PLUGINCOMMON_H_INCLUDED
-#define _PLUGINCOMMON_H_INCLUDED
+// This is a modified version of plugincommon.h which fixes 
+// some compiling problems arising in the amx.h header on 
+// some platforms (mainly on MinGW).
 
-//----------------------------------------------------------
+#ifndef AMXPLUGIN_H
+#define AMXPLUGIN_H
+
+// detect stdint.h
+#if defined HAVE_STDINT_H || (!defined __STDC__ && __STDC_VERSION__ >= 199901L)
+    #include <stdint.h>
+#endif
+
+#include <stddef.h> // fix for size_t 
+
+#if defined WIN32 || defined _WIN32 || defined __WIN32__ || defined HAVE_MALLOC_H
+    #include <malloc.h> // needed for _alloca() on Windows 
+#endif
+
+#include "amx/amx.h"
 
 #define SAMP_PLUGIN_VERSION 0x0200
 
-//----------------------------------------------------------
-
-#ifdef __cplusplus
-  #define PLUGIN_EXTERN_C extern "C"
+#if defined __cplusplus
+    #define PLUGIN_EXTERN_C extern "C"
 #else
-  #define PLUGIN_EXTERN_C 
+    #define PLUGIN_EXTERN_C 
 #endif
 
-#if defined(LINUX) || defined(FREEBSD) || defined(__FreeBSD__) || defined(__OpenBSD__)
-  #ifndef __GNUC__
-    #pragma message "Warning: Not using a GNU compiler."
-  #endif
-  #define PLUGIN_CALL 
-  #ifndef SAMPSVR
-    // Compile code with -fvisibility=hidden to hide non-exported functions.
-    #define PLUGIN_EXPORT PLUGIN_EXTERN_C __attribute__((visibility("default")))
-  #else
-    #define PLUGIN_EXPORT PLUGIN_EXTERN_C 
-  #endif
-#elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
-  #ifndef _MSC_VER
-    #pragma message "Warning: Not using a VC++ compiler."
-  #endif
-  #define PLUGIN_CALL __stdcall
-  #define PLUGIN_EXPORT PLUGIN_EXTERN_C
+#if defined WIN32 || defined _WIN32 || defined __WIN32__
+    #define PLUGIN_CALL __stdcall
+    #define PLUGIN_EXPORT PLUGIN_EXTERN_C __declspec(dllexport) 
 #else
-  #error "You must define one of WIN32, LINUX or FREEBSD"
+    #define PLUGIN_CALL
+    #define PLUGIN_EXPORT PLUGIN_EXTERN_C __attribute__ ((visibility ("default")))
 #endif
 
-//----------------------------------------------------------
-
-enum SUPPORTS_FLAGS 
-{
-	SUPPORTS_VERSION		= SAMP_PLUGIN_VERSION,
-	SUPPORTS_VERSION_MASK	= 0xffff,
-	SUPPORTS_AMX_NATIVES	= 0x10000,
+enum SUPPORTS_FLAGS {
+    SUPPORTS_VERSION        = SAMP_PLUGIN_VERSION,
+    SUPPORTS_VERSION_MASK   = 0xffff,
+    SUPPORTS_AMX_NATIVES    = 0x10000,
+    SUPPORTS_PROCESS_TICK   = 0x20000
 };
-
-//----------------------------------------------------------
 
 enum PLUGIN_DATA_TYPE
 {
@@ -64,7 +60,7 @@ enum PLUGIN_DATA_TYPE
 
 };
 
-//----------------------------------------------------------
+typedef void (*logprintf_t)(char* format, ...);
 
 enum PLUGIN_AMX_EXPORT
 {
@@ -114,9 +110,6 @@ enum PLUGIN_AMX_EXPORT
 	PLUGIN_AMX_EXPORT_UTF8Put		= 43,
 };
 
-//----------------------------------------------------------
+extern void *pAMXFunctions;
 
-#endif // _PLUGINCOMMON_H_INCLUDED
-
-//----------------------------------------------------------
-// EOF
+#endif

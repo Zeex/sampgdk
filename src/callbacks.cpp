@@ -18,7 +18,7 @@
     #include <malloc.h>
 #endif
 
-#include <sampgdk/amx/amx.h>
+#include <sampgdk/amxplugin.h>
 #include <sampgdk/eventhandler.h>
 #include <sampgdk/wrapper.h>
 
