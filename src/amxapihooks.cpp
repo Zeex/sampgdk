@@ -17,6 +17,7 @@
 
 #include "amxapihooks.h"
 #include "gamemode.h"
+#include "hooknative.h"
 
 static std::string lastPublicName;
 
