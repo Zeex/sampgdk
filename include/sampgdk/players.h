@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMP_PLAYERS_H
-#define SAMP_PLAYERS_H
+#ifndef SAMPGDK_PLAYERS_H
+#define SAMPGDK_PLAYERS_H
 
 #include <string>
 

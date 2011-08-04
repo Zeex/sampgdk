@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMP_VEHICLES_H
-#define SAMP_VEHICLES_H
+#ifndef SAMPGDK_VEHICLES_H
+#define SAMPGDK_VEHICLES_H
 
 namespace sampgdk {
 
