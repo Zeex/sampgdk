@@ -21,6 +21,8 @@
 #include "gamemode.h"
 #include "hooknative.h"
 
+extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
+
 static std::string lastPublicName;
 
 namespace sampgdk {
@@ -35,7 +37,6 @@ int AmxApiHooks::Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
     }
 
     // Fix funcidx
-    extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
     HookNative(amx, "funcidx", funcidx);
 
     AmxApiHooks::GetInstance()->amxRegisterHook.Reinstall();
@@ -83,7 +84,7 @@ int AmxApiHooks::Exec(AMX *amx, cell *retval, int index) {
                     GetGameMode(), retval, ::lastPublicName.c_str());
             }
             // The handler could return a value indicating that the call should
-            // not be propagated to the gamemode or other handlers, if any (there can 
+            // not be propagated to the gamemode or other handlers, if any (there can
             // be multiple handlers since recently).
             if (canDoExec) {
                 error = amx_Exec(amx, retval, index);
