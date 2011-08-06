@@ -15,8 +15,8 @@
 #include <cstring> // for memcpy()
 #include <string>
 
+#include <sampgdk/amxplugin.h>
 #include <sampgdk/logprintf.h>
-#include <sampgdk/plugin.h>
 #include <sampgdk/wrapper.h>
 
 #include "amxapihooks.h"

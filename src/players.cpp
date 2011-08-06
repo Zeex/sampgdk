@@ -130,6 +130,21 @@ bool IsPlayerInRangeOfPoint(int playerid, float range, float x, float y, float z
     return native(&::fakeAmx, params) != 0;
 }
 
+float GetPlayerDistanceFromPoint(int playerid, float x, float y, float z) {
+	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerDistanceFromPoint");
+	cell params[] = {
+		4 * 4,
+		playerid,
+		amx_ftoc(x),
+		amx_ftoc(y),
+		amx_ftoc(z)
+	};
+	cell ret = native(&::fakeAmx, params);
+	return amx_ctof(ret);
+}
+
+
+
 bool IsPlayerStreamedIn(int playerid, int forplayerid) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("IsPlayerStreamedIn");
     cell params[] = {
@@ -680,6 +695,15 @@ int GetPlayerSurfingVehicleID(int playerid) {
     return native(&::fakeAmx, params);
 }
 
+int GetPlayerSurfingObjectID(int playerid) {
+	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerSurfingObjectID");
+	cell params[] = {
+		1 * 4,
+		playerid
+	};
+	return native(&::fakeAmx, params);
+}
+
 bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX, 
     float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, 
     float fScaleY, float fScaleZ) 
@@ -1188,6 +1212,15 @@ bool GetPlayerCameraFrontVector(int playerid, float &x, float &y, float &z) {
     y = y_.GetAsFloat();
     z = z_.GetAsFloat();
     return ret;
+}
+
+int GetPlayerCameraMode(int playerid) {
+	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerCameraMode");
+	cell params[] = {
+		1 * 4,
+		playerid
+	};
+	return native(&::fakeAmx, params);
 }
 
 bool IsPlayerConnected(int playerid) {
