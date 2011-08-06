@@ -75,6 +75,7 @@ bool GetPlayerPos(int playerid, float &x, float &y, float &z);
 bool SetPlayerFacingAngle(int playerid, float angle);
 bool GetPlayerFacingAngle(int playerid, float &angle);
 bool IsPlayerInRangeOfPoint(int playerid, float range, float x, float y, float z);
+float GetPlayerDistanceFromPoint(int playerid, float x, float y, float z);
 bool IsPlayerStreamedIn(int playerid, int forplayerid);
 bool SetPlayerInterior(int playerid, int interiorid);
 int GetPlayerInterior(int playerid);
@@ -126,6 +127,7 @@ bool PlayCrimeReportForPlayer(int playerid, int suspectid, int crime);
 bool SetPlayerShopName(int playerid, const char *shopname);
 bool SetPlayerSkillLevel(int playerid, int skill, int level);
 int GetPlayerSurfingVehicleID(int playerid);
+int GetPlayerSurfingObjectID(int playerid);
 
 // Attached to bone objects
 
@@ -196,6 +198,7 @@ bool SetPlayerCameraLookAt(int playerid, float x, float y, float z);
 bool SetCameraBehindPlayer(int playerid);
 bool GetPlayerCameraPos(int playerid, float &x, float &y, float &z);
 bool GetPlayerCameraFrontVector(int playerid, float &x, float &y, float &z);
+int GetPlayerCameraMode(int playerid);
 
 // Player conditionals
 bool IsPlayerConnected(int playerid);

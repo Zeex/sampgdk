@@ -91,6 +91,10 @@ void SendRconCommand(const char *command);
 bool GetServerVarAsString(const char *varname, char *value, size_t size);
 int GetServerVarAsInt(const char *varname);
 bool GetServerVarAsBool(const char *varname);
+bool GetPlayerNetworkStats(int playerid, char *retstr, size_t size);
+std::string GetPlayerNetworkStats(int playerid);
+bool GetNetworkStats(char *retstr, size_t size);
+std::string GetNetworkStats();
 
 // Menu
 int CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width = 0.0f);
@@ -245,6 +249,15 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption
 
 // Convenience templates for some functions (to avoid specifying output buffer size explicitly
 // when it's known at compile time (i.e. fixed-size buffers))
+
+template<size_t N> bool GetNetworkStats(char (&retstr)[N]) { 
+	return GetNetworkStats(retstr, N); 
+}
+
+template<size_t N> bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) { 
+	return GetPlayerNetworkStats(playerid, retstr, N); 
+}
+
 template<size_t N> bool GetWeaponName(int weaponid, char (&name)[N]) {
     return GetWeaponName(weaponid, name, N);
 }

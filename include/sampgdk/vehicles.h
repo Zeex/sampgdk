@@ -44,6 +44,7 @@ bool GetVehiclePos(int vehicleid, float &x, float &y, float &z);
 bool SetVehiclePos(int vehicleid, float x, float y, float z);
 bool GetVehicleZAngle(int vehicleid, float &z_angle);
 bool GetVehicleRotationQuat(int vehicleid, float &w, float &x, float &y, float &z);
+float GetVehicleDistanceFromPoint(int vehicleid, float x, float y, float z);
 bool SetVehicleZAngle(int vehicleid, float z_angle);
 bool SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked);
 void ManualVehicleEngineAndLights();

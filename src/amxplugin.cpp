@@ -30,7 +30,9 @@
 
 //----------------------------------------------------------
 
-#include <sampgdk/plugin.h>
+//#include "plugin.h"
+// Modified by Zeex for SA:MP GDK Project
+#include <sampgdk/amxplugin.h>
 
 //----------------------------------------------------------
 

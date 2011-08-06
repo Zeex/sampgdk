@@ -18,7 +18,7 @@
 #include <map>
 #include <string>
 
-#include <sampgdk/plugin.h>
+#include <sampgdk/amxplugin.h>
 
 namespace sampgdk {
 

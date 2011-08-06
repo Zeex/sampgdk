@@ -1,7 +1,7 @@
 #ifndef SAMPGDK_GAMEMODE_H
 #define SAMPGDK_GAMEMODE_H
 
-#include <sampgdk/amx/amx.h>
+#include <sampgdk/amxplugin.h>
 
 AMX *GetGameMode();
 void SetGameMode(AMX *amx);

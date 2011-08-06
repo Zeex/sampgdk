@@ -12,12 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sampgdk/plugin.h>
+#include <sampgdk/amxplugin.h>
 #include <sampgdk/wrapper.h>
 
 #include "amxapihooks.h"
 #include "gamemode.h"
 #include "hooknative.h"
+
+extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
 
 static std::string lastPublicName;
 
@@ -33,7 +35,6 @@ int AmxApiHooks::Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
     }
 
     // Fix funcidx
-    extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
     HookNative(amx, "funcidx", funcidx);
 
     AmxApiHooks::GetInstance()->amxRegisterHook.Reinstall();

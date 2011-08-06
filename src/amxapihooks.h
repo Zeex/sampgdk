@@ -15,7 +15,7 @@
 #ifndef SAMPGDK_AMXAPIHOOKS_H
 #define SAMPGDK_AMXAPIHOOKS_H
 
-#include <sampgdk/amx/amx.h>
+#include <sampgdk/amxplugin.h>
 
 #include "jump.h"
 
