@@ -4,6 +4,10 @@
 cmake_minimum_required (VERSION 2.8)
 project (sampgdk)
 
+set (GDK_VERSION_MAJOR 1)
+set (GDK_VERSION_MINOR 0)
+set (GDK_VERSION ${GDK_VERSION_MAJOR}.${GDK_VERSION_MINOR})
+
 include (CheckIncludeFile)
 
 check_include_file (alloca.h HAVE_ALLOCA_H)
@@ -43,7 +47,7 @@ if (WIN32)
     endif (MINGW)
 endif (WIN32)
 
-add_library (sampgdk STATIC 
+set (SOURCES
     src/amxapihooks.cpp
     src/amxplugin.cpp
     src/callbacks.cpp
@@ -53,10 +57,27 @@ add_library (sampgdk STATIC
     src/gamemode.cpp
     src/hooknative.cpp
     src/jump.cpp
-    src/logprintf.cpp
     src/objects.cpp
     src/players.cpp
     src/samp.cpp
     src/vehicles.cpp
     src/wrapper.cpp
+    src/wrapperimpl.cpp
 )
+
+add_library (sampgdk SHARED ${SOURCES})
+add_library (sampgdk_static STATIC ${SOURCES})
+
+set_target_properties (sampgdk PROPERTIES 
+    VERSION   ${GDK_VERSION}
+    SOVERSION ${GDK_VERSION}
+)
+
+if (WIN32)
+    if (MSVC)
+        set_target_properties (sampgdk PROPERTIES SUFFIX "-${GDK_VERSION}.dll")
+    endif (MSVC)
+    if (MINGW)
+        set_target_properties (sampgdk PROPERTIES SUFFIX "-${GDK_VERSION}-gcc.dll")
+    endif (MINGW)
+endif (WIN32)

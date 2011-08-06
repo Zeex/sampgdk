@@ -108,11 +108,11 @@ bool EventHandler::OnVehicleDeath(int vehicleid, int killerid) {
     return true;
 }
 
-bool EventHandler::OnPlayerText(int playerid, const std::string &text) {
+bool EventHandler::OnPlayerText(int playerid, const char *text) {
     return true;
 }
 
-bool EventHandler::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
+bool EventHandler::OnPlayerCommandText(int playerid, const char *cmdtext) {
     return false;
 }
 
@@ -148,7 +148,7 @@ bool EventHandler::OnPlayerLeaveRaceCheckpoint(int playerid) {
     return true;
 }
 
-bool EventHandler::OnRconCommand(const std::string &cmd) {
+bool EventHandler::OnRconCommand(const char *cmd) {
     return false;
 }
 
@@ -208,7 +208,7 @@ bool EventHandler::OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys
     return true;
 }
 
-bool EventHandler::OnRconLoginAttempt(const std::string &ip, const std::string &password, bool success) {
+bool EventHandler::OnRconLoginAttempt(const char *ip, const char *password, bool success) {
     return true;
 }
 
@@ -232,7 +232,7 @@ bool EventHandler::OnVehicleStreamOut(int vehicleid, int forplayerid) {
     return true;
 }
 
-bool EventHandler::OnDialogResponse(int playerid, int dialogid, bool response, int listitem, const std::string &inputtext) {
+bool EventHandler::OnDialogResponse(int playerid, int dialogid, bool response, int listitem, const char *inputtext) {
     return true;
 }
 

@@ -5,9 +5,8 @@
 //
 //----------------------------------------------------------
 
-// This is a modified version of plugincommon.h which fixes 
-// some compiling problems arising in the amx.h header on 
-// some platforms (mainly on MinGW).
+// This is a modified version of the original plugincommon.h which is aimed
+// to fix some compiling issues due to amx.h on on Windows.
 
 #ifndef AMXPLUGIN_H
 #define AMXPLUGIN_H
@@ -15,7 +14,9 @@
 // detect stdint.h
 #if defined HAVE_STDINT_H || (!defined __STDC__ && __STDC_VERSION__ >= 199901L) || defined __MINGW32__
     #include <stdint.h>
-    #define HAVE_STDINT_H
+    #if !defind HAVE_STDINT_H
+        #define HAVE_STDINT_H
+    #endif
 #endif
 
 #include <stddef.h> // fix for size_t 

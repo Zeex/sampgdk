@@ -14,7 +14,7 @@
 
 #include <string>
 
-#if HAVE_MALLOC_H
+#ifdef _WIN32 
     #include <malloc.h>
 #endif
 
@@ -33,14 +33,14 @@ static cell GetCellFromStack(AMX *amx, int index) {
 }
 
 static std::string GetStringFromStack(AMX *amx, int index) {
-    cell amxAddr = GetCellFromStack(amx, index);
-    char *str;
-    amx_StrParam(amx, amxAddr, str);
-    return std::string(str);
+    cell *physAddr;
+    amx_GetAddr(amx, GetCellFromStack(amx, index), &physAddr);
+    int length = 0;
+    amx_StrLen(physAddr, &length);
+    return std::string(physAddr, physAddr + length);
 }
 
-
-static cell OnGameModeInit(AMX *amx) {
+static cell AMXAPI OnGameModeInit(AMX *amx) {
     EventHandler *cur = EventHandler::GetFirstEventHandler();
 
     while (cur != 0) {
@@ -51,7 +51,7 @@ static cell OnGameModeInit(AMX *amx) {
     return 1;
 }
 
-static cell OnGameModeExit(AMX *amx) {
+static cell AMXAPI OnGameModeExit(AMX *amx) {
     EventHandler *cur = EventHandler::GetFirstEventHandler();
 
     while (cur != 0) {
@@ -62,7 +62,7 @@ static cell OnGameModeExit(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerConnect(AMX *amx) {
+static cell AMXAPI OnPlayerConnect(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -76,7 +76,7 @@ static cell OnPlayerConnect(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerDisconnect(AMX *amx) {
+static cell AMXAPI OnPlayerDisconnect(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int reason = GetCellFromStack(amx, 1);
 
@@ -91,7 +91,7 @@ static cell OnPlayerDisconnect(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerSpawn(AMX *amx) {
+static cell AMXAPI OnPlayerSpawn(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -105,7 +105,7 @@ static cell OnPlayerSpawn(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerDeath(AMX *amx) {
+static cell AMXAPI OnPlayerDeath(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int killerid = GetCellFromStack(amx, 1);
     int reason = GetCellFromStack(amx, 2);
@@ -121,7 +121,7 @@ static cell OnPlayerDeath(AMX *amx) {
     return 1;
 }
 
-static cell OnVehicleSpawn(AMX *amx) {
+static cell AMXAPI OnVehicleSpawn(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -135,7 +135,7 @@ static cell OnVehicleSpawn(AMX *amx) {
     return 1;
 }
 
-static cell OnVehicleDeath(AMX *amx) {
+static cell AMXAPI OnVehicleDeath(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int killerid = GetCellFromStack(amx, 1);
 
@@ -150,13 +150,13 @@ static cell OnVehicleDeath(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerText(AMX *amx) {
+static cell AMXAPI OnPlayerText(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     std::string text = GetStringFromStack(amx, 1);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
-        if (!cur->OnPlayerText(playerid, text)) {
+        if (!cur->OnPlayerText(playerid, text.c_str())) {
             return 0;
         }
         cur = cur->GetNext();
@@ -165,13 +165,13 @@ static cell OnPlayerText(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerCommandText(AMX *amx) {
+static cell AMXAPI OnPlayerCommandText(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     std::string cmdtext = GetStringFromStack(amx, 1);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
-        if (cur->OnPlayerCommandText(playerid, cmdtext)) {
+        if (cur->OnPlayerCommandText(playerid, cmdtext.c_str())) {
             return 1;
         }
         cur = cur->GetNext();
@@ -180,7 +180,7 @@ static cell OnPlayerCommandText(AMX *amx) {
     return 0;
 }
 
-static cell OnPlayerRequestClass(AMX *amx) {
+static cell AMXAPI OnPlayerRequestClass(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int classid = GetCellFromStack(amx, 1);
 
@@ -195,7 +195,7 @@ static cell OnPlayerRequestClass(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerEnterVehicle(AMX *amx) {
+static cell AMXAPI OnPlayerEnterVehicle(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
     bool ispassenger = GetCellFromStack(amx, 2) != 0;
@@ -211,7 +211,7 @@ static cell OnPlayerEnterVehicle(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerExitVehicle(AMX *amx) {
+static cell AMXAPI OnPlayerExitVehicle(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
 
@@ -226,7 +226,7 @@ static cell OnPlayerExitVehicle(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerStateChange(AMX *amx) {
+static cell AMXAPI OnPlayerStateChange(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int newstate = GetCellFromStack(amx, 1);
     int oldstate = GetCellFromStack(amx, 2);
@@ -242,7 +242,7 @@ static cell OnPlayerStateChange(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerEnterCheckpoint(AMX *amx) {
+static cell AMXAPI OnPlayerEnterCheckpoint(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -256,7 +256,7 @@ static cell OnPlayerEnterCheckpoint(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerLeaveCheckpoint(AMX *amx) {
+static cell AMXAPI OnPlayerLeaveCheckpoint(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -270,7 +270,7 @@ static cell OnPlayerLeaveCheckpoint(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerEnterRaceCheckpoint(AMX *amx) {
+static cell AMXAPI OnPlayerEnterRaceCheckpoint(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -284,7 +284,7 @@ static cell OnPlayerEnterRaceCheckpoint(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerLeaveRaceCheckpoint(AMX *amx) {
+static cell AMXAPI OnPlayerLeaveRaceCheckpoint(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -298,12 +298,12 @@ static cell OnPlayerLeaveRaceCheckpoint(AMX *amx) {
     return 1;
 }
 
-static cell OnRconCommand(AMX *amx) {
+static cell AMXAPI OnRconCommand(AMX *amx) {
     std::string cmd = GetStringFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
-        if (cur->OnRconCommand(cmd)) {
+        if (cur->OnRconCommand(cmd.c_str())) {
             return 1;
         }
         cur = cur->GetNext();
@@ -312,7 +312,7 @@ static cell OnRconCommand(AMX *amx) {
     return 0;
 }
 
-static cell OnPlayerRequestSpawn(AMX *amx) {
+static cell AMXAPI OnPlayerRequestSpawn(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -326,7 +326,7 @@ static cell OnPlayerRequestSpawn(AMX *amx) {
     return 1;
 }
 
-static cell OnObjectMoved(AMX *amx) {
+static cell AMXAPI OnObjectMoved(AMX *amx) {
     int objectid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -340,7 +340,7 @@ static cell OnObjectMoved(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerObjectMoved(AMX *amx) {
+static cell AMXAPI OnPlayerObjectMoved(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int objectid = GetCellFromStack(amx, 1);
 
@@ -355,7 +355,7 @@ static cell OnPlayerObjectMoved(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerPickUpPickup(AMX *amx) {
+static cell AMXAPI OnPlayerPickUpPickup(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int pickupid = GetCellFromStack(amx, 1);
 
@@ -370,7 +370,7 @@ static cell OnPlayerPickUpPickup(AMX *amx) {
     return 1;
 }
 
-static cell OnVehicleMod(AMX *amx) {
+static cell AMXAPI OnVehicleMod(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
     int componentid = GetCellFromStack(amx, 2);
@@ -386,7 +386,7 @@ static cell OnVehicleMod(AMX *amx) {
     return 1;
 }
 
-static cell OnEnterExitModShop(AMX *amx) {
+static cell AMXAPI OnEnterExitModShop(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     bool enterexit = GetCellFromStack(amx, 1) != 0;
     int interiorid = GetCellFromStack(amx, 2);
@@ -402,7 +402,7 @@ static cell OnEnterExitModShop(AMX *amx) {
     return 1;
 }
 
-static cell OnVehiclePaintjob(AMX *amx) {
+static cell AMXAPI OnVehiclePaintjob(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
     int paintjobid = GetCellFromStack(amx, 2);
@@ -418,7 +418,7 @@ static cell OnVehiclePaintjob(AMX *amx) {
     return 1;
 }
 
-static cell OnVehicleRespray(AMX *amx) {
+static cell AMXAPI OnVehicleRespray(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int vehicleid = GetCellFromStack(amx, 1);
     int color1 = GetCellFromStack(amx, 2);
@@ -435,7 +435,7 @@ static cell OnVehicleRespray(AMX *amx) {
     return 1;
 }
 
-static cell OnVehicleDamageStatusUpdate(AMX *amx) {
+static cell AMXAPI OnVehicleDamageStatusUpdate(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int playerid = GetCellFromStack(amx, 1);
 
@@ -450,7 +450,7 @@ static cell OnVehicleDamageStatusUpdate(AMX *amx) {
     return 1;
 }
 
-static cell OnUnoccupiedVehicleUpdate(AMX *amx) {
+static cell AMXAPI OnUnoccupiedVehicleUpdate(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int playerid = GetCellFromStack(amx, 1);
     int passenger_seat = GetCellFromStack(amx, 2);
@@ -466,7 +466,7 @@ static cell OnUnoccupiedVehicleUpdate(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerSelectedMenuRow(AMX *amx) {
+static cell AMXAPI OnPlayerSelectedMenuRow(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int row = GetCellFromStack(amx, 1);
 
@@ -481,7 +481,7 @@ static cell OnPlayerSelectedMenuRow(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerExitedMenu(AMX *amx) {
+static cell AMXAPI OnPlayerExitedMenu(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -495,7 +495,7 @@ static cell OnPlayerExitedMenu(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerInteriorChange(AMX *amx) {
+static cell AMXAPI OnPlayerInteriorChange(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int newinteriorid = GetCellFromStack(amx, 1);
     int oldinteriorid = GetCellFromStack(amx, 2);
@@ -511,7 +511,7 @@ static cell OnPlayerInteriorChange(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerKeyStateChange(AMX *amx) {
+static cell AMXAPI OnPlayerKeyStateChange(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int newkeys = GetCellFromStack(amx, 1);
     int oldkeys = GetCellFromStack(amx, 2);
@@ -527,14 +527,14 @@ static cell OnPlayerKeyStateChange(AMX *amx) {
     return 1;
 }
 
-static cell OnRconLoginAttempt(AMX *amx) {
+static cell AMXAPI OnRconLoginAttempt(AMX *amx) {
     std::string ip = GetStringFromStack(amx, 0);
     std::string password = GetStringFromStack(amx, 1);
     bool success = GetCellFromStack(amx, 2) != 0;
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
-        if (cur->OnRconLoginAttempt(ip, password, success)) {
+        if (cur->OnRconLoginAttempt(ip.c_str(), password.c_str(), success)) {
             return 1;
         }
         cur = cur->GetNext();
@@ -543,7 +543,7 @@ static cell OnRconLoginAttempt(AMX *amx) {
     return 0;
 }
 
-static cell OnPlayerUpdate(AMX *amx) {
+static cell AMXAPI OnPlayerUpdate(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
@@ -557,7 +557,7 @@ static cell OnPlayerUpdate(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerStreamIn(AMX *amx) {
+static cell AMXAPI OnPlayerStreamIn(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int forplayerid = GetCellFromStack(amx, 1);
 
@@ -572,7 +572,7 @@ static cell OnPlayerStreamIn(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerStreamOut(AMX *amx) {
+static cell AMXAPI OnPlayerStreamOut(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int forplayerid = GetCellFromStack(amx, 1);
 
@@ -587,7 +587,7 @@ static cell OnPlayerStreamOut(AMX *amx) {
     return 1;
 }
 
-static cell OnVehicleStreamIn(AMX *amx) {
+static cell AMXAPI OnVehicleStreamIn(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int forplayerid = GetCellFromStack(amx, 1);
 
@@ -602,7 +602,7 @@ static cell OnVehicleStreamIn(AMX *amx) {
     return 1;
 }
 
-static cell OnVehicleStreamOut(AMX *amx) {
+static cell AMXAPI OnVehicleStreamOut(AMX *amx) {
     int vehicleid = GetCellFromStack(amx, 0);
     int forplayerid = GetCellFromStack(amx, 1);
 
@@ -617,7 +617,7 @@ static cell OnVehicleStreamOut(AMX *amx) {
     return 1;
 }
 
-static cell OnDialogResponse(AMX *amx) {
+static cell AMXAPI OnDialogResponse(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int dialogid = GetCellFromStack(amx, 1);
     bool response = GetCellFromStack(amx, 2) != 0;
@@ -626,7 +626,7 @@ static cell OnDialogResponse(AMX *amx) {
 
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
-        if (!cur->OnDialogResponse(playerid, dialogid, response, listitem, inputtext)) {
+        if (!cur->OnDialogResponse(playerid, dialogid, response, listitem, inputtext.c_str())) {
             return 0;
         }
         cur = cur->GetNext();
@@ -635,7 +635,7 @@ static cell OnDialogResponse(AMX *amx) {
     return 1;
 }
 
-static cell OnPlayerClickPlayer(AMX *amx) {
+static cell AMXAPI OnPlayerClickPlayer(AMX *amx) {
     int playerid = GetCellFromStack(amx, 0);
     int clickedplayerid = GetCellFromStack(amx, 1);
     int source = GetCellFromStack(amx, 2);
@@ -653,7 +653,7 @@ static cell OnPlayerClickPlayer(AMX *amx) {
 
 namespace sampgdk { 
 
-void InitializeCallbacks() {
+void HookSampCallbacks() {
     using sampgdk::Wrapper;
 
     Wrapper::GetInstance()->SetPublicHook("OnGameModeInit", PublicHook(OnGameModeInit, 0));
