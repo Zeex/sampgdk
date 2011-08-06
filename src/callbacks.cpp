@@ -451,19 +451,19 @@ static cell OnVehicleDamageStatusUpdate(AMX *amx) {
 }
 
 static cell OnUnoccupiedVehicleUpdate(AMX *amx) {
-	int vehicleid = GetCellFromStack(amx, 0);
-	int playerid = GetCellFromStack(amx, 1);
-	int passenger_seat = GetCellFromStack(amx, 2);
+    int vehicleid = GetCellFromStack(amx, 0);
+    int playerid = GetCellFromStack(amx, 1);
+    int passenger_seat = GetCellFromStack(amx, 2);
 
-	EventHandler *cur = EventHandler::GetFirstEventHandler();
-	while (cur != 0) {
-		if (!cur->OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat)) {
-			return 0;
-		}
-		cur = cur->GetNext();
-	}
+    EventHandler *cur = EventHandler::GetFirstEventHandler();
+    while (cur != 0) {
+        if (!cur->OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat)) {
+            return 0;
+        }
+        cur = cur->GetNext();
+    }
 
-	return 1;
+    return 1;
 }
 
 static cell OnPlayerSelectedMenuRow(AMX *amx) {
@@ -684,7 +684,7 @@ void InitializeCallbacks() {
     Wrapper::GetInstance()->SetPublicHook("OnVehiclePaintjob", PublicHook(OnVehiclePaintjob, 0));
     Wrapper::GetInstance()->SetPublicHook("OnVehicleRespray", PublicHook(OnVehicleRespray, 0));
     Wrapper::GetInstance()->SetPublicHook("OnVehicleDamageStatusUpdate", PublicHook(OnVehicleDamageStatusUpdate, 0));
-	Wrapper::GetInstance()->SetPublicHook("OnUnoccupiedVehicleUpdate", PublicHook(OnUnoccupiedVehicleUpdate, 0));
+    Wrapper::GetInstance()->SetPublicHook("OnUnoccupiedVehicleUpdate", PublicHook(OnUnoccupiedVehicleUpdate, 0));
     Wrapper::GetInstance()->SetPublicHook("OnPlayerSelectedMenuRow", PublicHook(OnPlayerSelectedMenuRow, 0));
     Wrapper::GetInstance()->SetPublicHook("OnPlayerExitedMenu", PublicHook(OnPlayerExitedMenu, 0));
     Wrapper::GetInstance()->SetPublicHook("OnPlayerInteriorChange", PublicHook(OnPlayerInteriorChange, 0));

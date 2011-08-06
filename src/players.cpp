@@ -131,16 +131,16 @@ bool IsPlayerInRangeOfPoint(int playerid, float range, float x, float y, float z
 }
 
 float GetPlayerDistanceFromPoint(int playerid, float x, float y, float z) {
-	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerDistanceFromPoint");
-	cell params[] = {
-		4 * 4,
-		playerid,
-		amx_ftoc(x),
-		amx_ftoc(y),
-		amx_ftoc(z)
-	};
-	cell ret = native(&::fakeAmx, params);
-	return amx_ctof(ret);
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerDistanceFromPoint");
+    cell params[] = {
+        4 * 4,
+        playerid,
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z)
+    };
+    cell ret = native(&::fakeAmx, params);
+    return amx_ctof(ret);
 }
 
 
@@ -696,12 +696,12 @@ int GetPlayerSurfingVehicleID(int playerid) {
 }
 
 int GetPlayerSurfingObjectID(int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerSurfingObjectID");
-	cell params[] = {
-		1 * 4,
-		playerid
-	};
-	return native(&::fakeAmx, params);
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerSurfingObjectID");
+    cell params[] = {
+        1 * 4,
+        playerid
+    };
+    return native(&::fakeAmx, params);
 }
 
 bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX, 
@@ -1215,12 +1215,12 @@ bool GetPlayerCameraFrontVector(int playerid, float &x, float &y, float &z) {
 }
 
 int GetPlayerCameraMode(int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerCameraMode");
-	cell params[] = {
-		1 * 4,
-		playerid
-	};
-	return native(&::fakeAmx, params);
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerCameraMode");
+    cell params[] = {
+        1 * 4,
+        playerid
+    };
+    return native(&::fakeAmx, params);
 }
 
 bool IsPlayerConnected(int playerid) {
