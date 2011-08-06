@@ -78,7 +78,7 @@ int AmxApiHooks::Exec(AMX *amx, cell *retval, int index) {
             if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
                 // Handle this public call.
                 canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(
-                    GetGameMode(), retval, ::lastPublicName);
+                    GetGameMode(), retval, ::lastPublicName.c_str());
             }
             // The handler could return a value indicating that the call should
             // not be propagated to the gamemode or other handlers, if any (there can 

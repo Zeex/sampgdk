@@ -10,7 +10,7 @@ public:
     virtual void OnGameModeInit();
     virtual bool OnPlayerConnect(int playerid);
     virtual bool OnPlayerRequestClass(int playerid, int classid);
-    virtual bool OnPlayerCommandText(int playerid, const std::string &cmdtext);
+    virtual bool OnPlayerCommandText(int playerid, const char *cmdtext);
 };
 
 #endif
