@@ -83,7 +83,6 @@ set_target_properties (sampgdk PROPERTIES
 if (WIN32)
     if (MSVC)
         set_target_properties (sampgdk PROPERTIES SUFFIX "-${GDK_VERSION}-vc${MSVC_VERSION}.dll")
-        set_target_properties (sampgdk_static PROPERTEIS OUTPUT_NAME "sampgdk-s.lib")
     endif (MSVC)
     if (MINGW)
         set_target_properties (sampgdk PROPERTIES SUFFIX "-${GDK_VERSION}-mingw.dll")
