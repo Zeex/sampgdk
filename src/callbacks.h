@@ -17,7 +17,7 @@
 
 namespace sampgdk { 
 
-void InitializeCallbacks();
+void HookSampCallbacks();
 
 } 
 

@@ -12,16 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMPGDK_LOGPRINTF_H
-#define SAMPGDK_LOGPRINTF_H
+#include <map>
+#include <string>
+
+#include <sampgdk/amx/amx.h>
+#include <sampgdk/wrapper.h>
 
 namespace sampgdk {
 
-typedef void (*logprintf_t)(const char *fmt, ...);
+class WrapperImpl {
+public:
+    WrapperImpl();
 
-extern logprintf_t logprintf;
+    void Initialize(void **ppPluginData);
 
-}
+    void SetNative(const char *name, AMX_NATIVE native);
+    AMX_NATIVE GetNative(const char *name) const;
 
-#endif
+    void SetPublicHook(const char *name, PublicHook handler);
+    bool ExecutePublicHook(AMX *amx, cell *retval, const char *name) const;
 
+private:
+    std::map<std::string, AMX_NATIVE> natives_;
+    std::map<std::string, PublicHook> publicHooks_;
+};
+
+} // namespace sampgdk
