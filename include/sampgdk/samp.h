@@ -251,11 +251,11 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption
 // when it's known at compile time (i.e. fixed-size buffers))
 
 template<size_t N> bool GetNetworkStats(char (&retstr)[N]) { 
-	return GetNetworkStats(retstr, N); 
+    return GetNetworkStats(retstr, N); 
 }
 
 template<size_t N> bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) { 
-	return GetPlayerNetworkStats(playerid, retstr, N); 
+    return GetPlayerNetworkStats(playerid, retstr, N); 
 }
 
 template<size_t N> bool GetWeaponName(int weaponid, char (&name)[N]) {

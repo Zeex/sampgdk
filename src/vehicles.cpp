@@ -123,16 +123,16 @@ bool GetVehicleRotationQuat(int vehicleid, float &w, float &x, float &y, float &
 }
 
 float GetVehicleDistanceFromPoint(int vehicleid, float x, float y, float z) {
-	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleDistanceFromPoint");
-	cell params[] = {
-		4 * 4,
-		vehicleid,
-		amx_ftoc(x),
-		amx_ftoc(y),
-		amx_ftoc(z)
-	};
-	cell ret = native(&::fakeAmx, params);
-	return amx_ctof(ret);
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetVehicleDistanceFromPoint");
+    cell params[] = {
+        4 * 4,
+        vehicleid,
+        amx_ftoc(x),
+        amx_ftoc(y),
+        amx_ftoc(z)
+    };
+    cell ret = native(&::fakeAmx, params);
+    return amx_ctof(ret);
 }
 
 

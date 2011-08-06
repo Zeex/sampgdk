@@ -515,54 +515,54 @@ bool GetServerVarAsBool(const char *varname) {
 }
 
 bool GetPlayerNetworkStats(int playerid, char *retstr, size_t size) {
-	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerNetworkStats");
-	FakeAmxHeapObject retstr_(size);
-	cell params[] = {
-		3 * 4,
-		playerid,
-		retstr_.address(),
-		size
-	};
-	bool ret = native(&::fakeAmx, params) != 0;
-	retstr_.GetAsString(retstr, size);
-	return ret;
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPlayerNetworkStats");
+    FakeAmxHeapObject retstr_(size);
+    cell params[] = {
+        3 * 4,
+        playerid,
+        retstr_.address(),
+        size
+    };
+    bool ret = native(&::fakeAmx, params) != 0;
+    retstr_.GetAsString(retstr, size);
+    return ret;
 }
 
 bool GetPlayerNetworkStats(int playerid, char (&retstr)[401]) {
-	return GetPlayerNetworkStats(playerid, retstr, 401);
+    return GetPlayerNetworkStats(playerid, retstr, 401);
 }
 
 std::string GetPlayerNetworkStats(int playerid) {
-	char retstr[401];
-	if (GetPlayerNetworkStats(playerid, retstr)) {
-		return std::string(retstr);
-	}
-	return std::string();
+    char retstr[401];
+    if (GetPlayerNetworkStats(playerid, retstr)) {
+        return std::string(retstr);
+    }
+    return std::string();
 }
 
 bool GetNetworkStats(char *retstr, size_t size) {
-	static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetNetworkStats");
-	FakeAmxHeapObject retstr_(size);
-	cell params[] = {
-		2 * 4,
-		retstr_.address(),
-		size
-	};
-	bool ret = native(&::fakeAmx, params) != 0;
-	retstr_.GetAsString(retstr, size);
-	return ret;
+    static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetNetworkStats");
+    FakeAmxHeapObject retstr_(size);
+    cell params[] = {
+        2 * 4,
+        retstr_.address(),
+        size
+    };
+    bool ret = native(&::fakeAmx, params) != 0;
+    retstr_.GetAsString(retstr, size);
+    return ret;
 }
 
 bool GetNetworkStats(char (&retstr)[401]) {
-	return GetNetworkStats(retstr, 401);
+    return GetNetworkStats(retstr, 401);
 }
 
 std::string GetNetworkStats() {
-	char retstr[401];
-	if (GetNetworkStats(retstr)) {
-		return std::string(retstr);
-	}
-	return std::string();
+    char retstr[401];
+    if (GetNetworkStats(retstr)) {
+        return std::string(retstr);
+    }
+    return std::string();
 }
 
 int CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width) {
