@@ -1,12 +1,14 @@
 #include "helloworld.h"
 
-#include <sampgdk/logprintf.h>
 #include <sampgdk/players.h>
 #include <sampgdk/plugin.h>
 #include <sampgdk/samp.h>
 #include <sampgdk/wrapper.h>
 
-#include <cstdio>
+#include <cstdio> // for sprintf
+
+typedef void (*logprintf_t)(const char *frm, ...);
+static logprintf_t logprintf;
 
 using namespace sampgdk;
 
@@ -42,7 +44,7 @@ bool HelloWorld::OnPlayerRequestClass(int playerid, int classid) {
     return true;
 }
 
-bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
+bool HelloWorld::OnPlayerCommandText(int playerid, const char *cmdtext) {
     if (cmdtext == "/hello") {
         char name[MAX_PLAYER_NAME];
         GetPlayerName(playerid, name);
@@ -59,6 +61,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
+    logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
     // Initialize the wrapper - this always should be done here.
     Wrapper::GetInstance()->Initialize(ppPluginData);
     // Do not call any natives here - they are not yet prepared for use at this stage.

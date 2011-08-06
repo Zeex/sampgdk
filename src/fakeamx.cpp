@@ -14,7 +14,6 @@
 
 #include <cstring>
 #include <limits>
-#include <string>
 
 #include "fakeamx.h"
 
