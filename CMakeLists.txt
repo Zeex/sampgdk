@@ -54,7 +54,7 @@ if (WIN32)
     endif (MINGW)
 endif (WIN32)
 
-add_library (sampgdk SHARED
+set (SOURCES
     src/amxapihooks.cpp
     src/amxplugin.cpp
     src/callbacks.cpp
@@ -72,14 +72,20 @@ add_library (sampgdk SHARED
     src/wrapperimpl.cpp
 )
 
+add_library (sampgdk SHARED ${SOURCES})
+add_library (sampgdk_static STATIC ${SOURCES})
+
 set_target_properties (sampgdk PROPERTIES 
-    PREFIX        "lib"
-    IMPORT_PREFIX "lib"
     VERSION   ${GDK_VERSION}
     SOVERSION ${GDK_VERSION}
 )
 
 if (WIN32)
-    # Append version number to the output .dll file name 
-    set_target_properties (sampgdk PROPERTIES SUFFIX "${GDK_VERSION}.dll")
+    if (MSVC)
+        set_target_properties (sampgdk PROPERTIES SUFFIX "-${GDK_VERSION}-vc${MSVC_VERSION}.dll")
+        set_target_properties (sampgdk_static PROPERTEIS OUTPUT_NAME "sampgdk-s.lib")
+    endif (MSVC)
+    if (MINGW)
+        set_target_properties (sampgdk PROPERTIES SUFFIX "-${GDK_VERSION}-mingw.dll")
+    endif (MINGW)
 endif (WIN32)
