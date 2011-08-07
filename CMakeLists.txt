@@ -55,6 +55,7 @@ set (SOURCES
     src/fakeamx.cpp
     src/funcidx.cpp
     src/gamemode.cpp
+    src/gpci.cpp
     src/hooknative.cpp
     src/jump.cpp
     src/objects.cpp
