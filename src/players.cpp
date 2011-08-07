@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sampgdk/samp.h>
+#include <sampgdk/players.h>
 #include <sampgdk/wrapper.h>
 
 #include "fakeamx.h"
@@ -792,7 +792,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarFloat(int playerid, const char *varname,
     return native(&::fakeAmx, params) != 0;
 }
 
-float GetPVarFloat(int playerid, const char *varname) {
+SAMPGDK_EXPORT float SAMPGDK_CALL GetPVarFloat(int playerid, const char *varname) {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("GetPVarFloat");
     FakeAmxHeapObject varname_(varname);
     cell params[] = {
