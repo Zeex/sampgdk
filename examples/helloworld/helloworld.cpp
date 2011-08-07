@@ -1,13 +1,13 @@
 #include "helloworld.h"
 
+#include <sampgdk/amxplugin.h>
 #include <sampgdk/players.h>
-#include <sampgdk/plugin.h>
 #include <sampgdk/samp.h>
 #include <sampgdk/wrapper.h>
 
 #include <cstdio> // for sprintf
+#include <cstring> // for strcmp
 
-typedef void (*logprintf_t)(const char *frm, ...);
 static logprintf_t logprintf;
 
 using namespace sampgdk;
@@ -45,11 +45,11 @@ bool HelloWorld::OnPlayerRequestClass(int playerid, int classid) {
 }
 
 bool HelloWorld::OnPlayerCommandText(int playerid, const char *cmdtext) {
-    if (cmdtext == "/hello") {
+    if (std::strcmp(cmdtext, "/hello") == 0) {
         char name[MAX_PLAYER_NAME];
         GetPlayerName(playerid, name);
         char message[128];
-        sprintf(message, "Hello, %s!", name);
+        std::sprintf(message, "Hello, %s!", name);
         SendClientMessage(playerid, 0x00FF00FF, message);
         return true;
     }
