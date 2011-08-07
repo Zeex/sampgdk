@@ -1,3 +1,6 @@
+// Copyright (c) 2011 SA:MP GDK Project
+// See file LICENSE for license details.
+
 // Some popular SA:MP scripts/includes use funcidx() to hook callbacks, etc.
 // Since we hook amx_FindPublic to force it always return AMX_ERR_NONE, 
 // the funcidx() function have become bugged and doesn't return -1 anymore
