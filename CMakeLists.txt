@@ -81,3 +81,11 @@ if (WIN32)
         set_target_properties (sampgdk PROPERTIES SUFFIX "-${GDK_VERSION}-gcc.dll")
     endif (MINGW)
 endif (WIN32)
+
+install (TARGETS sampgdk sampgdk_static
+    RUNTIME DESTINATION bin COMPONENT runtime
+    LIBRARY DESTINATION lib COMPONENT devel
+    ARCHIVE DESTINATION lib COMPONENT devel
+)
+
+install (DIRECTORY include/sampgdk DESTINATION include COMPONENT devel)
