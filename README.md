@@ -13,11 +13,11 @@ Installation
 On Windows:
 
 *    If you are using MinGW, download and install sampgdk-x.x-gcc-install.exe
-*    For Visual Studio, install sampgdk-x.x-install.exe
+*    For Microsoft Visual C++, install sampgdk-x.x-install.exe
 
 On Unix variants:
 
-There's no installation packages yet, you need to build and install yourself.
+There's no installation packages yet, you have to build it and install yourself.
 
 Compilation
 -----------
