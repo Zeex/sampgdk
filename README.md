@@ -9,10 +9,12 @@ and handle server events (i.e. callbacks) from within plugin.
 Installation
 ------------
 On Windows:
-- If you are using MinGW, download and install sampgdk-x.x-gcc-install.exe
-- For Visual Studio, install sampgdk-x.x-install.exe
+
+*    If you are using MinGW, download and install sampgdk-x.x-gcc-install.exe
+*    For Visual Studio, install sampgdk-x.x-install.exe
 
 On Unix variants:
+
 There's no installation packages yet, you need to build and install yourself.
 
 Compilation
