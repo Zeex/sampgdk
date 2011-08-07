@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <sampgdk/vehicles.h>
 #include <sampgdk/wrapper.h>
 
 #include "fakeamx.h"
@@ -158,7 +159,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsForPlayer(int vehicleid, int pl
     return native(&::fakeAmx, params) != 0;
 }
 
-void ManualVehicleEngineAndLights() {
+SAMPGDK_EXPORT void SAMPGDK_CALL ManualVehicleEngineAndLights() {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("ManualVehicleEngineAndLights");
     native(&::fakeAmx, 0);
 }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sampgdk/export.h>
+#include <sampgdk/samp.h>
 #include <sampgdk/wrapper.h>
 
 #include "fakeamx.h"
@@ -1042,7 +1042,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdatePlayer3DTextLabelText(int playerid, int i
     return native(&::fakeAmx, params) != 0;
 }
 
-bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, 
+SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, 
     const char *info, const char *button1, const char *button2)
 {
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("ShowPlayerDialog");
