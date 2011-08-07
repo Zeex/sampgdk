@@ -1,6 +1,3 @@
-# SA:MP Gamemode SDK for C++ 
-# CmakeLists.txt for building GDK as a static library
-
 cmake_minimum_required (VERSION 2.8)
 project (sampgdk)
 
