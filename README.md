@@ -7,8 +7,8 @@ Introduction
 This is a C++ wrapper for SA:MP Pawn scripting API. It allows you to call SA:MP built-in functions
 and handle server events (i.e. callbacks) from within a plugin. 
 
-Installing binaries
--------------------
+Getting binaries
+----------------
 
 On Windows:
 
@@ -19,8 +19,8 @@ On Unix variants:
 
 There's no packages yet, you have to compile it and install yourself.
 
-Compiling yourself
---------------------
+Compiling from source
+---------------------
 
 To compile from source you use CMake: http://cmake.org
 
@@ -35,6 +35,8 @@ For example:
     cmake -G "Visual Studio 9 2008" C:\sampgdk
 
 After compilation is done, either run 'make install' or build the 'INSTALL' project depending on your tool choice.
+
+If you're getting "libsampgdk.so.x.x: cannot open shared object file: No such file or directory)" error, run `ldconfig`.
 
 License
 -------
