@@ -3,7 +3,7 @@ project (sampgdk)
 
 set (GDK_VERSION_MAJOR 1)
 set (GDK_VERSION_MINOR 0)
-set (GDK_VERSION_PATCH 0)
+set (GDK_VERSION_PATCH 1)
 
 include (CheckIncludeFile)
 
@@ -39,9 +39,6 @@ endif (UNIX)
 
 if (WIN32)
     add_definitions (-DWIN32 -DWINDOWS)
-    if (MINGW)
-        add_definitions (-DMINGW)
-    endif (MINGW)
 endif (WIN32)
 
 set (SOURCES
@@ -63,48 +60,44 @@ set (SOURCES
     src/wrapperimpl.cpp
 )
 
-add_library (sampgdk SHARED ${SOURCES})
-add_library (sampgdk_static STATIC ${SOURCES})
+add_library (sampgdk-static STATIC ${SOURCES})
+add_library (sampgdk-dynamic SHARED ${SOURCES})
 
-set_target_properties (sampgdk PROPERTIES 
+if (UNIX AND NOT WIN32)
+    set_target_properties (sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
+    set_target_properties (sampgdk-dynamic PROPERTIES OUTPUT_NAME "sampgdk")
+elseif (WIN32)
+    set_target_properties (sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk_static")
+    set_target_properties (sampgdk-dynamic PROPERTIES OUTPUT_NAME "sampgdk")
+endif (UNIX AND NOT WIN32)
+
+set_target_properties (sampgdk-dynamic PROPERTIES 
     VERSION   ${GDK_VERSION_MAJOR}.${GDK_VERSION_MINOR}.${GDK_VERSION_PATCH}
     SOVERSION ${GDK_VERSION_MAJOR}.${GDK_VERSION_MINOR}
 )
 
-if (WIN32)
-    if (MSVC)
-        set_target_properties (sampgdk PROPERTIES SUFFIX "${GDK_VERSION_MAJOR}.dll")
-    endif (MSVC)
-    if (MINGW)
-        set_target_properties (sampgdk PROPERTIES SUFFIX "${GDK_VERSION_MAJOR}-gcc.dll")
-    endif (MINGW)
-endif (WIN32)
-
-install (TARGETS sampgdk sampgdk_static
-    RUNTIME DESTINATION bin COMPONENT Runtime
-    LIBRARY DESTINATION lib COMPONENT Development
-    ARCHIVE DESTINATION lib COMPONENT Development
+install (TARGETS sampgdk-dynamic sampgdk-static
+    RUNTIME DESTINATION bin COMPONENT runtime
+    LIBRARY DESTINATION lib COMPONENT devel
+    ARCHIVE DESTINATION lib COMPONENT devel
 )
 
-install (DIRECTORY include/sampgdk DESTINATION include COMPONENT Development)
+install (DIRECTORY "include/sampgdk" DESTINATION "include" COMPONENT "devel")
 
-set (CPACK_PACKAGE_NAME "sampgdk")
-set (CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
+if (MSVC)
+    set (CPACK_PACKAGE_NAME "sampgdk")
+endif (MSVC)
+if (MINGW)
+    set (CPACK_PACKAGE_NAME "sampgdk-mingw")
+endif (MINGW)
+
 set (CPACK_PACKAGE_VENDOR "Zeex")
+set (CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
 set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA:MP Gamemode Development Kit for C++")
 set (CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
 set (CPACK_PACKAGE_VERSION_MAJOR ${GDK_VERSION_MAJOR})
 set (CPACK_PACKAGE_VERSION_MINOR ${GDK_VERSION_MINOR})
 set (CPACK_PACKAGE_VERSION_PATCH ${GDK_VERSION_PATCH})
-
-if (WIN32)
-    set (CPACK_PACKAGE_FILE_NAME 
-        "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
-    if (MINGW)
-        set (CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_FILE_NAME}-gcc)
-    endif (MINGW)
-    set (CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}-install")
-endif (WIN32)
 
 include (CPack)
 
