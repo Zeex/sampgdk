@@ -7,8 +7,8 @@ Introduction
 This is a C++ wrapper for SA:MP Pawn scripting API. It allows you to call SA:MP built-in functions
 and handle server events (i.e. callbacks) from within a plugin. 
 
-Installation
-------------
+Installing binaries
+-------------------
 
 On Windows:
 
@@ -17,22 +17,34 @@ On Windows:
 
 On Unix variants:
 
-There's no installation packages yet, you have to build it and install yourself.
+There's no packages yet, you have to compile it and install yourself.
 
-Compilation
------------
+Compiling yourself
+--------------------
 
-Use CMake: http://cmake.org
+To compile from source you use CMake: http://cmake.org
+
+CMake is a tool which generates input files for platform specific build tools, e.g. make's Makefiles on *nix or Visual Stuido projects on Windows.
+
+The basic usage is:
+
+    cmake -G <generator> path/to/source
+
+For example:
+
+    cmake -G "Visual Studio 9 2008" C:\sampgdk
+
+After compilation is done, either run 'make install' or build the 'INSTALL' project depending on your tool choice.
 
 License
 -------
 
-The code is licensed under the Apache License version 2.0, see file LICENSE for details.
+The code is licensed under the Apache License version 2.0, see LICENSE for details.
 
 Authors
 -------
 
-Sergey Zolotarev (Zeex) 
+Zeex
 
 Contributors
 ------------
