@@ -22,7 +22,9 @@
 #include <stddef.h> // fix for size_t 
 
 #if defined WIN32 || defined _WIN32 || defined __WIN32__ || defined HAVE_MALLOC_H
-    #include <malloc.h> // needed for _alloca() on Windows 
+    #include <malloc.h> // for _alloca() on Windows 
+#elif defined __GNUC__ || defined HAVE_ALLOCA_H
+    #include <alloca.h> // for alloca() on *nix
 #endif
 
 #include "amx/amx.h"
