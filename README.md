@@ -42,7 +42,7 @@ run `ldconfig` command and restart the server.
 License
 -------
 
-Copyright 2011 Sergey Zolotarev
+Copyright 2011 Zeex
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
