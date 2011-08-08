@@ -36,7 +36,8 @@ For example:
 
 After compilation is done, either run 'make install' or build the 'INSTALL' project depending on your tool choice.
 
-If you're getting "libsampgdk.so.x.x: cannot open shared object file: No such file or directory)" error, run `ldconfig`.
+If you're getting "libsampgdk.so.x.x: cannot open shared object file: No such file or directory" when your plugin loads, 
+run `ldconfig` command and restart the server.
 
 License
 -------
