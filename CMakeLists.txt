@@ -68,7 +68,7 @@ if (UNIX AND NOT WIN32)
     set_target_properties (sampgdk-dynamic PROPERTIES OUTPUT_NAME "sampgdk")
 elseif (WIN32)
     set_target_properties (sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk_static")
-    set_target_properties (sampgdk-dynamic PROPERTIES OUTPUT_NAME "sampgdk")
+    set_target_properties (sampgdk-dynamic PROPERTIES OUTPUT_NAME "sampgdk${GDK_VERSION_MAJOR}${GDK_VERSION_MINOR}")
 endif (UNIX AND NOT WIN32)
 
 set_target_properties (sampgdk-dynamic PROPERTIES 
@@ -78,19 +78,13 @@ set_target_properties (sampgdk-dynamic PROPERTIES
 
 install (TARGETS sampgdk-dynamic sampgdk-static
     RUNTIME DESTINATION bin COMPONENT runtime
-    LIBRARY DESTINATION lib COMPONENT devel
-    ARCHIVE DESTINATION lib COMPONENT devel
+    LIBRARY DESTINATION lib COMPONENT libraries
+    ARCHIVE DESTINATION lib COMPONENT libraries
 )
 
-install (DIRECTORY "include/sampgdk" DESTINATION "include" COMPONENT "devel")
+install (DIRECTORY "include/sampgdk" DESTINATION "include" COMPONENT headers)
 
-if (MSVC)
-    set (CPACK_PACKAGE_NAME "sampgdk")
-endif (MSVC)
-if (MINGW)
-    set (CPACK_PACKAGE_NAME "sampgdk-mingw")
-endif (MINGW)
-
+set (CPACK_PACKAGE_NAME "sampgdk")
 set (CPACK_PACKAGE_VENDOR "Zeex")
 set (CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
 set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA:MP Gamemode Development Kit for C++")
@@ -98,6 +92,27 @@ set (CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
 set (CPACK_PACKAGE_VERSION_MAJOR ${GDK_VERSION_MAJOR})
 set (CPACK_PACKAGE_VERSION_MINOR ${GDK_VERSION_MINOR})
 set (CPACK_PACKAGE_VERSION_PATCH ${GDK_VERSION_PATCH})
+set (CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
+
+set (CPACK_COMPONENT_RUNTIME_DISPLAY_NAME "Runtime")
+set (CPACK_COMPONENT_RUNTIME_DESCRIPTION "GDK's runtime libraries")
+set (CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "Libraries")
+set (CPACK_COMPONENT_LIBRARIES_DESCRIPTION "Static and import libraries")
+set (CPACK_COMPONENT_LIBRARIES_GROUP "Development")
+set (CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ headers")
+set (CPACK_COMPONENT_HEADERS_DESCRIPTION "C++ Header files for developing GDK-based plugins")
+set (CPACK_COMPONENT_HEADERS_GROUP "Development")
+set (CPACK_COMPONENT_HEADERS_DEPENDS libraries)
+
+set (VERSION ${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH})
+
+if (WIN32)
+    if (MSVC)
+        set (CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${VERSION}-msvc-install")
+    elseif (MINGW)
+        set (CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${VERSION}-mingw-install")
+    endif (MSVC) 
+endif (WIN32)
 
 include (CPack)
 
