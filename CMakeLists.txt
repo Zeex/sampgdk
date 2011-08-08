@@ -88,8 +88,10 @@ install (TARGETS sampgdk sampgdk_static
 
 install (DIRECTORY include/sampgdk DESTINATION include COMPONENT Development)
 
-set (CPACK_PACKAGE_NAME sampgdk)
-set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA:MP Gamemode Development Kit for C/C++")
+set (CPACK_PACKAGE_NAME "sampgdk")
+set (CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
+set (CPACK_PACKAGE_VENDOR "Zeex")
+set (CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA:MP Gamemode Development Kit for C++")
 set (CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
 set (CPACK_PACKAGE_VERSION_MAJOR ${GDK_VERSION_MAJOR})
 set (CPACK_PACKAGE_VERSION_MINOR ${GDK_VERSION_MINOR})
