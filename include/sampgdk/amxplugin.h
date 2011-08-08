@@ -63,7 +63,7 @@ enum PLUGIN_DATA_TYPE {
     PLUGIN_DATA_CALLPUBLIC_GM    = 0x12, // int (*AmxCallPublicGameMode)(char *szFunctionName)
 };
 
-typedef void (*logprintf_t)(char* format, ...);
+typedef void (*logprintf_t)(const char* format, ...);
 
 enum PLUGIN_AMX_EXPORT {
     PLUGIN_AMX_EXPORT_Align16       = 0,
