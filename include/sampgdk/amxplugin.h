@@ -40,7 +40,7 @@
     #define PLUGIN_EXPORT PLUGIN_EXTERN_C __declspec(dllexport) 
 #else
     #define PLUGIN_CALL
-    #if __GNUC__
+    #if defined __GNUC__
         #define PLUGIN_EXPORT PLUGIN_EXTERN_C __attribute__ ((visibility("default")))
     #else
         #define PLUGIN_EXPORT PLUGIN_EXTERN_C
