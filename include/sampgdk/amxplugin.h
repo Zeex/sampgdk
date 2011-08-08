@@ -6,13 +6,13 @@
 //----------------------------------------------------------
 
 // This is a modified version of the original plugincommon.h which is aimed
-// to fix some compiling issues due to amx.h on on Windows.
+// to fix some compiling issues when including amx/amx.h on Windows.
 
 #ifndef AMXPLUGIN_H
 #define AMXPLUGIN_H
 
 // detect stdint.h
-#if defined HAVE_STDINT_H || (!defined __STDC__ && __STDC_VERSION__ >= 199901L) || defined __MINGW32__
+#if defined HAVE_STDINT_H || (!defined __STDC__ && __STDC_VERSION__ >= 199901L) || defined __GNUC__
     #include <stdint.h>
     #if !defined HAVE_STDINT_H
         #define HAVE_STDINT_H
@@ -40,10 +40,11 @@
     #define PLUGIN_EXPORT PLUGIN_EXTERN_C __declspec(dllexport) 
 #else
     #define PLUGIN_CALL
-    #define PLUGIN_EXPORT PLUGIN_EXTERN_C __attribute__ ((visibility ("default")))
+    #define PLUGIN_EXPORT PLUGIN_EXTERN_C __attribute__ ((visibility("default")))
 #endif
 
-enum SUPPORTS_FLAGS {
+enum SUPPORTS_FLAGS 
+{
     SUPPORTS_VERSION        = SAMP_PLUGIN_VERSION,
     SUPPORTS_VERSION_MASK   = 0xffff,
     SUPPORTS_AMX_NATIVES    = 0x10000,
