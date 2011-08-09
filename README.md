@@ -12,8 +12,8 @@ Getting binaries
 
 On Windows:
 
-*    If you are using MinGW, download and install sampgdk-mingw-x.x.x-win32.exe
-*    For Microsoft Visual C++, install sampgdk-x.x.x-win32.exe
+*    If you are using MinGW, download and install sampgdk-x.x.x-mingw.exe
+*    For Microsoft Visual C++, install sampgdk-x.x.x-msvc.exe
 
 On Unix variants:
 
