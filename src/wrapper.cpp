@@ -35,14 +35,6 @@ void Wrapper::Initialize(void **ppPluginData) {
     pimpl_->Initialize(ppPluginData);
 }
 
-void Wrapper::SetNative(const char *name, AMX_NATIVE native) {
-    pimpl_->SetNative(name, native);
-}
-
-AMX_NATIVE Wrapper::GetNative(const char *name) const {
-    return pimpl_->GetNative(name);
-}
-
 void Wrapper::SetPublicHook(const char *name, PublicHandler handler, cell badReturn) {
     pimpl_->SetPublicHook(name, PublicHook(handler, badReturn));
 }

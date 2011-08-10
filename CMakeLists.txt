@@ -56,6 +56,7 @@ set (SOURCES
     src/gpci.cpp
     src/hooknative.cpp
     src/jump.cpp
+    src/natives.cpp
     src/objects.cpp
     src/players.cpp
     src/samp.cpp

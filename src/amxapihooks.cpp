@@ -21,6 +21,7 @@
 #include "funcidx.h"
 #include "gamemode.h"
 #include "hooknative.h"
+#include "natives.h"
 
 static std::string lastPublicName;
 
@@ -32,7 +33,7 @@ int AmxApiHooks::Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
     int error = amx_Register(amx, nativelist, number);
 
     for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
-        sampgdk::Wrapper::GetInstance()->SetNative(nativelist[i].name, nativelist[i].func);
+        sampgdk::NativeManager::GetInstance()->SetNative(nativelist[i].name, nativelist[i].func);
     }
 
     // Fix funcidx

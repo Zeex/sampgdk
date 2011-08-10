@@ -12,35 +12,31 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMPGDK_WRAPPER_H
-#define SAMPGDK_WRAPPER_H
-
-#include <sampgdk/amxplugin.h>
-#include <sampgdk/export.h>
+#include "natives.h"
 
 namespace sampgdk {
 
-class WrapperImpl;
+NativeManager::NativeManager() 
+	: natives_()
+{
+}
 
-class SAMPGDK_EXPORT Wrapper {
-public:
-    typedef cell (SAMPGDK_CALL *PublicHandler)(AMX *amx);
+NativeManager *NativeManager::GetInstance() {
+	static NativeManager inst;
+	return &inst;
+}
 
-    ~Wrapper();
+AMX_NATIVE NativeManager::GetNative(const char *name) const {
+	std::map<std::string, AMX_NATIVE>::const_iterator iter = 
+		natives_.find(name);
+	if (iter == natives_.end()) {
+		return 0;
+	}
+	return iter->second;
+}
 
-    static Wrapper *GetInstance();
-
-    void Initialize(void **ppPluginData);
-
-    void SetPublicHook(const char *name, PublicHandler handler, cell badReturn);
-    bool ExecutePublicHook(AMX *amx, cell *retval, const char *name) const;
-
-private:
-    Wrapper();
-    WrapperImpl *pimpl_;
-};
+void NativeManager::SetNative(const char *name, AMX_NATIVE native) {
+	natives_[std::string(name)] = native;
+}
 
 } // namespace sampgdk
-
-#endif
-
