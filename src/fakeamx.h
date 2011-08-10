@@ -40,7 +40,7 @@ public:
     {}
 
     FakeAmxHeapObject(const char *s)
-        : size_(std::strlen(s)), address_(FakeAmxPush(s))
+        : size_(std::strlen(s) + 1), address_(FakeAmxPush(s))
     {}
 
     ~FakeAmxHeapObject() { FakeAmxPop(address_); }
