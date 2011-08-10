@@ -7,10 +7,9 @@
 #include <sampgdk/wrapper.h>
 
 #include "amxapihooks.h"
+#include "funcidx.h"
 #include "gamemode.h"
 #include "hooknative.h"
-
-extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
 
 static std::string lastPublicName;
 
