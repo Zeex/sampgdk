@@ -4,7 +4,6 @@
 #include <sampgdk/amxplugin.h>
 
 #include "amxapihooks.h"
-#include "callbacks.h"
 #include "wrapperimpl.h"
 
 extern void *pAMXFunctions;
@@ -18,9 +17,6 @@ void WrapperImpl::Initialize(void **ppPluginData) {
 
     // Hook amx_Register, amx_FindPublic and amx_Exec.
     AmxApiHooks::GetInstance()->Initialize(static_cast<void**>(pAMXFunctions)); 
-
-    // Set handlers for all known SA:MP callbacks.
-    sampgdk::HookSampCallbacks();
 }
 
 void WrapperImpl::SetNative(const char *name, AMX_NATIVE native) {
