@@ -9,27 +9,12 @@
 
 namespace sampgdk {
 
-class PublicHook {
-public:
-    typedef cell (AMXAPI *Handler)(AMX *amx);
-
-    PublicHook(Handler handler, cell badReturn) 
-        : handler_(handler), badReturn_(badReturn)
-    {}
-
-    inline bool Execute(AMX *amx, cell *retval) const {
-        return ((*retval = handler_(amx)) != badReturn_);
-    }
-
-private:
-    Handler handler_;
-    cell badReturn_;
-};
-
 class WrapperImpl;
 
 class SAMPGDK_EXPORT Wrapper {
 public:
+    typedef cell (SAMPGDK_CALL *PublicHandler)(AMX *amx);
+
     ~Wrapper();
 
     static Wrapper *GetInstance();
@@ -39,7 +24,7 @@ public:
     void SetNative(const char *name, AMX_NATIVE native);
     AMX_NATIVE GetNative(const char *name) const;
 
-    void SetPublicHook(const char *name, PublicHook handler);
+    void SetPublicHook(const char *name, PublicHandler handler, cell badReturn);
     bool ExecutePublicHook(AMX *amx, cell *retval, const char *name) const;
 
 private:

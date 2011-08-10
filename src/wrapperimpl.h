@@ -9,6 +9,21 @@
 
 namespace sampgdk {
 
+class PublicHook {
+public:
+    PublicHook(Wrapper::PublicHandler handler, cell badReturn) 
+        : handler_(handler), badReturn_(badReturn)
+    {}
+
+    inline bool Execute(AMX *amx, cell *retval) const {
+        return ((*retval = handler_(amx)) != badReturn_);
+    }
+
+private:
+    Wrapper::PublicHandler handler_;
+    cell                   badReturn_;
+};
+
 class WrapperImpl {
 public:
     WrapperImpl();
