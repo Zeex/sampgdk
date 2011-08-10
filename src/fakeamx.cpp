@@ -70,8 +70,9 @@ cell FakeAmxPush(size_t cells) {
 }
 
 cell FakeAmxPush(const char *s) {
-    cell address = FakeAmxPush(strlen(s));
-    amx_SetString(::fakeAmxData + address, s, 0, 0, strlen(s) + 1);
+    std::size_t size = std::strlen(s) + 1;
+    cell address = FakeAmxPush(size);
+    amx_SetString(::fakeAmxData + address, s, 0, 0, size);
     return address;
 }
 
