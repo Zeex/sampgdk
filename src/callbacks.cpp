@@ -53,11 +53,9 @@ void CallbackManager::PushArg(cell *value) {
 }
 
 bool CallbackManager::HandleCallback(const char *name) {
-	// Spawn a new call VM
 	DCCallVM *vm = dcNewCallVM(4096);
 	dcMode(vm, DC_CALL_C_X86_CDECL);
 
-	// Push the arguments (from left to right)
 	for (int i = 0; i < args_.size(); i++) {
 		if (args_[i].type == ARG_VALUE) {
 			dcArgInt(vm, args_[i].value);
@@ -71,7 +69,6 @@ bool CallbackManager::HandleCallback(const char *name) {
 	typedef std::map<std::string, void*> LocalCache;
 	typedef std::map<void*, LocalCache> Cache;
 
-	// Call each of the handlers 
 	for (Cache::iterator cIter = cache_.begin(); cIter != cache_.end(); ++cIter) {
 		void *function = 0;
 
@@ -93,7 +90,7 @@ bool CallbackManager::HandleCallback(const char *name) {
 		}
 	}
 
-	// Destroy the VM
+	args_.clear();
 	dcFree(vm);
 
 	return retval;
