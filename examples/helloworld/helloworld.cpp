@@ -8,7 +8,7 @@
 typedef void (*logprintf_t)(const char *fmt, ...);
 static logprintf_t logprintf;
 
-PLUGIN_EXPORT void PLUGIN_CALL OnGameModeInit() {
+PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 	SetGameModeText("Hello, World!");
 
 	AddPlayerClass(0, 1958.3783f, 1343.1572f, 15.3746f, 269.1425f, 0, 0, 0, 0, 0, 0);
@@ -16,6 +16,8 @@ PLUGIN_EXPORT void PLUGIN_CALL OnGameModeInit() {
 	logprintf("------------------------------------------\n");
 	logprintf(" HelloWorld gamemode got loaded. \n");
 	logprintf("------------------------------------------\n");
+
+	return true;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
