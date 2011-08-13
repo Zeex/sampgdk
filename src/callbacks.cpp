@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	 http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,729 +12,89 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string>
+#include <dyncall.h>
+#include <dyncall_callvm.h>
 
-#include <sampgdk/amxplugin.h>
-#include <sampgdk/eventhandler.h>
-#include <sampgdk/wrapper.h>
+#include <sampgdk/core.h>
 
-using sampgdk::EventHandler;
+#include "callbacks.h"
 
-#define DEFINE_EVENT_LONG(event, callback, br) \
-    static Callback event(#callback, callback, br); 
-
-#define DEFINE_EVENT(event, br) \
-    DEFINE_EVENT_LONG(event, On##event, br)
-
-struct Callback {
-    Callback(const char *name, sampgdk::Wrapper::PublicHandler handler, cell badReturn) {
-        sampgdk::Wrapper::GetInstance()->SetPublicHook(name, handler, badReturn);
-    }
-};
-
-static cell GetCellFromStack(AMX *amx, int index) {
-    AMX_HEADER *hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
-    unsigned char *data = (amx->data != 0) ? amx->data : amx->base + hdr->dat;
-    return *reinterpret_cast<cell*>(data + amx->stk + sizeof(cell)*index);
+CallbackManager::CallbackManager()
+	: cache_()
+{
 }
 
-static std::string GetStringFromStack(AMX *amx, int index) {
-    cell *physAddr;
-    amx_GetAddr(amx, GetCellFromStack(amx, index), &physAddr);
-    int length = 0;
-    amx_StrLen(physAddr, &length);
-    return std::string(physAddr, physAddr + length);
+CallbackManager *CallbackManager::GetInstance() {
+	static CallbackManager inst;
+	return &inst;
 }
 
-static cell SAMPGDK_CALL OnGameModeInit(AMX *amx) {
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-
-    while (cur != 0) {
-        cur->OnGameModeInit();
-        cur = cur->GetNext();
-    }
-
-    return 1;
+void CallbackManager::RegisterCallbackHandler(void *handler) {
+	cache_.insert(std::make_pair(handler, std::map<std::string, void*>()));
 }
 
-DEFINE_EVENT(GameModeInit, 0);
-
-static cell SAMPGDK_CALL OnGameModeExit(AMX *amx) {
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-
-    while (cur != 0) {
-        cur->OnGameModeExit();
-        cur = cur->GetNext();
-    }
-
-    return 1;
+void CallbackManager::PushArg(cell value) {
+	Arg arg;
+	arg.type = ARG_VALUE;
+	arg.value = value;
+	args_.push_front(arg);
 }
 
-DEFINE_EVENT(GameModeExit, 0);
+void CallbackManager::PushArg(cell *value) {
+	Arg arg;
+	arg.type = ARG_STRING;
+	
+	int length;
+	amx_StrLen(value, &length);
+	std::string string(value, value + length);
 
-static cell SAMPGDK_CALL OnPlayerConnect(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerConnect(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
+	arg.string = string;
+	args_.push_front(arg);
 }
 
-DEFINE_EVENT(PlayerConnect, 0);
+bool CallbackManager::HandleCallback(const char *name) {
+	// Spawn a new call VM
+	DCCallVM *vm = dcNewCallVM(4096);
+	dcMode(vm, DC_CALL_C_X86_CDECL);
 
-static cell SAMPGDK_CALL OnPlayerDisconnect(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int reason = GetCellFromStack(amx, 1);
+	// Push the arguments (from left to right)
+	for (int i = 0; i < args_.size(); i++) {
+		if (args_[i].type == ARG_VALUE) {
+			dcArgInt(vm, args_[i].value);
+		} else {
+			dcArgPointer(vm, (DCpointer)args_[i].string.c_str());
+		}
+	}
 
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerDisconnect(playerid, reason)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
+	bool retval = true;
 
-    return 1;
+	typedef std::map<std::string, void*> LocalCache;
+	typedef std::map<void*, LocalCache> Cache;
+
+	// Call each of the handlers 
+	for (Cache::iterator cIter = cache_.begin(); cIter != cache_.end(); ++cIter) {
+		void *function = 0;
+
+		LocalCache lc = cIter->second;
+		LocalCache::iterator lcIter = lc.find(name);
+		if (lcIter == lc.end()) {
+			if ((function = SampGdkFindSymbol(cIter->first, name)) != 0) {
+				lc.insert(std::make_pair(name, function));
+			}
+		} else {
+			function = lcIter->second;
+		}
+
+		if (function != 0) {
+			retval = dcCallBool(vm, function) != 0;
+			if (!retval) {
+				break;
+			}
+		}
+	}
+
+	// Destroy the VM
+	dcFree(vm);
+
+	return retval;
 }
-
-DEFINE_EVENT(PlayerDisconnect, 0);
-
-static cell SAMPGDK_CALL OnPlayerSpawn(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerSpawn(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerSpawn, 0);
-
-static cell SAMPGDK_CALL OnPlayerDeath(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int killerid = GetCellFromStack(amx, 1);
-    int reason = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerDeath(playerid, killerid, reason)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerDeath, 0);
-
-static cell SAMPGDK_CALL OnVehicleSpawn(AMX *amx) {
-    int vehicleid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleSpawn(vehicleid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(VehicleSpawn, 0);
-
-static cell SAMPGDK_CALL OnVehicleDeath(AMX *amx) {
-    int vehicleid = GetCellFromStack(amx, 0);
-    int killerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleDeath(vehicleid, killerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(VehicleDeath, 0);
-
-static cell SAMPGDK_CALL OnPlayerText(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    std::string text = GetStringFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerText(playerid, text.c_str())) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerText, 0);
-
-static cell SAMPGDK_CALL OnPlayerCommandText(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    std::string cmdtext = GetStringFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (cur->OnPlayerCommandText(playerid, cmdtext.c_str())) {
-            return 1;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 0;
-}
-
-DEFINE_EVENT(PlayerCommandText, 1);
-
-static cell SAMPGDK_CALL OnPlayerRequestClass(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int classid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerRequestClass(playerid, classid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerRequestClass, 0);
-
-static cell SAMPGDK_CALL OnPlayerEnterVehicle(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int vehicleid = GetCellFromStack(amx, 1);
-    bool ispassenger = GetCellFromStack(amx, 2) != 0;
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerEnterVehicle, 0);
-
-static cell SAMPGDK_CALL OnPlayerExitVehicle(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int vehicleid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerExitVehicle(playerid, vehicleid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerExitVehicle, 0);
-
-static cell SAMPGDK_CALL OnPlayerStateChange(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int newstate = GetCellFromStack(amx, 1);
-    int oldstate = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerStateChange(playerid, newstate, oldstate)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerStateChange, 0);
-
-static cell SAMPGDK_CALL OnPlayerEnterCheckpoint(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerEnterCheckpoint(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerEnterCheckpoint, 0);
-
-static cell SAMPGDK_CALL OnPlayerLeaveCheckpoint(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerLeaveCheckpoint(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerLeaveCheckpoint, 0);
-
-static cell SAMPGDK_CALL OnPlayerEnterRaceCheckpoint(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerEnterRaceCheckpoint(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerEnterRaceCheckpoint, 0);
-
-static cell SAMPGDK_CALL OnPlayerLeaveRaceCheckpoint(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerLeaveRaceCheckpoint(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerLeaveRaceCheckpoint, 0);
-
-static cell SAMPGDK_CALL OnRconCommand(AMX *amx) {
-    std::string cmd = GetStringFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (cur->OnRconCommand(cmd.c_str())) {
-            return 1;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 0;
-}
-
-DEFINE_EVENT(RconCommand, 1);
-
-static cell SAMPGDK_CALL OnPlayerRequestSpawn(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerRequestSpawn(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerRequestSpawn, 0);
-
-static cell SAMPGDK_CALL OnObjectMoved(AMX *amx) {
-    int objectid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnObjectMoved(objectid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(ObjectMoved, 0);
-
-static cell SAMPGDK_CALL OnPlayerObjectMoved(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int objectid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerObjectMoved(playerid, objectid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerObjectMoved, 0);
-
-static cell SAMPGDK_CALL OnPlayerPickUpPickup(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int pickupid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerPickUpPickup(playerid, pickupid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerPickUpPickup, 0);
-
-static cell SAMPGDK_CALL OnVehicleMod(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int vehicleid = GetCellFromStack(amx, 1);
-    int componentid = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleMod(playerid, vehicleid, componentid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(VehicleMod, 0);
-
-static cell SAMPGDK_CALL OnEnterExitModShop(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    bool enterexit = GetCellFromStack(amx, 1) != 0;
-    int interiorid = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnEnterExitModShop(playerid, enterexit, interiorid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(EnterExitModShop, 0);
-
-static cell SAMPGDK_CALL OnVehiclePaintjob(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int vehicleid = GetCellFromStack(amx, 1);
-    int paintjobid = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehiclePaintjob(playerid, vehicleid, paintjobid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(VehiclePaintjob, 0);
-
-static cell SAMPGDK_CALL OnVehicleRespray(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int vehicleid = GetCellFromStack(amx, 1);
-    int color1 = GetCellFromStack(amx, 2);
-    int color2 = GetCellFromStack(amx, 3);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleRespray(playerid, vehicleid, color1, color2)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(VehicleRespray, 0);
-
-static cell SAMPGDK_CALL OnVehicleDamageStatusUpdate(AMX *amx) {
-    int vehicleid = GetCellFromStack(amx, 0);
-    int playerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleDamageStatusUpdate(vehicleid, playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(VehicleDamageStatusUpdate, 0);
-
-static cell SAMPGDK_CALL OnUnoccupiedVehicleUpdate(AMX *amx) {
-    int vehicleid = GetCellFromStack(amx, 0);
-    int playerid = GetCellFromStack(amx, 1);
-    int passenger_seat = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(UnoccupiedVehicleUpdate, 0);
-
-static cell SAMPGDK_CALL OnPlayerSelectedMenuRow(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int row = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerSelectedMenuRow(playerid, row)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerSelectedMenuRow, 0);
-
-static cell SAMPGDK_CALL OnPlayerExitedMenu(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerExitedMenu(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerExitedMenu, 0);
-
-static cell SAMPGDK_CALL OnPlayerInteriorChange(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int newinteriorid = GetCellFromStack(amx, 1);
-    int oldinteriorid = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerInteriorChange, 0);
-
-static cell SAMPGDK_CALL OnPlayerKeyStateChange(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int newkeys = GetCellFromStack(amx, 1);
-    int oldkeys = GetCellFromStack(amx, 2);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerKeyStateChange(playerid, newkeys, oldkeys)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerKeyStateChange, 0);
-
-static cell SAMPGDK_CALL OnRconLoginAttempt(AMX *amx) {
-    std::string ip = GetStringFromStack(amx, 0);
-    std::string password = GetStringFromStack(amx, 1);
-    bool success = GetCellFromStack(amx, 2) != 0;
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (cur->OnRconLoginAttempt(ip.c_str(), password.c_str(), success)) {
-            return 1;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 0;
-}
-
-DEFINE_EVENT(RconLoginAttempt, 1);
-
-static cell SAMPGDK_CALL OnPlayerUpdate(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerUpdate(playerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerUpdate, 0);
-
-static cell SAMPGDK_CALL OnPlayerStreamIn(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int forplayerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerStreamIn(playerid, forplayerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerStreamIn, 0);
-
-static cell SAMPGDK_CALL OnPlayerStreamOut(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int forplayerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerStreamOut(playerid, forplayerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerStreamOut, 0);
-
-static cell SAMPGDK_CALL OnVehicleStreamIn(AMX *amx) {
-    int vehicleid = GetCellFromStack(amx, 0);
-    int forplayerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleStreamIn(vehicleid, forplayerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(VehicleStreamIn, 0);
-
-static cell SAMPGDK_CALL OnVehicleStreamOut(AMX *amx) {
-    int vehicleid = GetCellFromStack(amx, 0);
-    int forplayerid = GetCellFromStack(amx, 1);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnVehicleStreamOut(vehicleid, forplayerid)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(VehicleStreamOut, 0);
-
-static cell SAMPGDK_CALL OnDialogResponse(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int dialogid = GetCellFromStack(amx, 1);
-    bool response = GetCellFromStack(amx, 2) != 0;
-    int listitem = GetCellFromStack(amx, 3);
-    std::string inputtext = GetStringFromStack(amx, 4);
-
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnDialogResponse(playerid, dialogid, response, listitem, inputtext.c_str())) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(DialogResponse, 0);
-
-static cell SAMPGDK_CALL OnPlayerClickPlayer(AMX *amx) {
-    int playerid = GetCellFromStack(amx, 0);
-    int clickedplayerid = GetCellFromStack(amx, 1);
-    int source = GetCellFromStack(amx, 2);
-    
-    EventHandler *cur = EventHandler::GetFirstEventHandler();
-    while (cur != 0) {
-        if (!cur->OnPlayerClickPlayer(playerid, clickedplayerid, source)) {
-            return 0;
-        }
-        cur = cur->GetNext();
-    }
-
-    return 1;
-}
-
-DEFINE_EVENT(PlayerClickPlayer, 0);

@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMPGDK_FUNCIDX_H
-#define SAMPGDK_FUNCIDX_H
+#define AMX_EXEC_GDK (-10)
 
-#include "amx/amx.h"
+#include <sampgdk/export.h>
 
-extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
+SAMPGDK_EXPORT void SAMPGDK_CALL SampGdkInit(void **data);
+SAMPGDK_EXPORT void SAMPGDK_CALL SampGdkRegisterPlugin(void *plugin);
 
-#endif
+SAMPGDK_EXPORT void *SAMPGDK_CALL SampGdkGetPluginHandle(void *symbol);
+SAMPGDK_EXPORT void *SAMPGDK_CALL SampGdkFindSymbol(void *plugin, const char *name);

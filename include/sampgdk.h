@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//	 http://www.apache.org/licenses/LICENSE-2.0
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMPGDK_FUNCIDX_H
-#define SAMPGDK_FUNCIDX_H
+#include <sampgdk/core.h>
+#include <sampgdk/objects.h>
+#include <sampgdk/players.h>
+#include <sampgdk/samp.h>
+#include <sampgdk/vehicles.h>
 
-#include "amx/amx.h"
-
-extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
-
-#endif
