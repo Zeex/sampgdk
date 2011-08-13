@@ -54,9 +54,17 @@ void CallbackManager::PushArg(cell *value) {
 
 bool CallbackManager::HandleCallback(const char *name) {
 	DCCallVM *vm = dcNewCallVM(4096);
-	dcMode(vm, DC_CALL_C_X86_CDECL);
 
-	for (int i = 0; i < args_.size(); i++) {
+#ifdef _WIN32
+	// Assuming they are using PLUGIN_CALL when defining callbacks
+	dcMode(vm, DC_CALL_C_X86_WIN32_STD);
+#else
+	// On Linux, the GCC default calling convention is used (which is AFAIK cdecl)
+	dcMode(vm, DC_CALL_C_X86_CDECL);
+#endif
+
+	// Push the arguments from left to right
+	for (std::size_t i = 0; i < args_.size(); i++) {
 		if (args_[i].type == ARG_VALUE) {
 			dcArgInt(vm, args_[i].value);
 		} else {
@@ -69,6 +77,7 @@ bool CallbackManager::HandleCallback(const char *name) {
 	typedef std::map<std::string, void*> LocalCache;
 	typedef std::map<void*, LocalCache> Cache;
 
+	// Call each of the registered handlers until false returned
 	for (Cache::iterator cIter = cache_.begin(); cIter != cache_.end(); ++cIter) {
 		void *function = 0;
 
@@ -90,7 +99,10 @@ bool CallbackManager::HandleCallback(const char *name) {
 		}
 	}
 
+	// Pop stored args 
 	args_.clear();
+
+	// Destroy the call VM
 	dcFree(vm);
 
 	return retval;
