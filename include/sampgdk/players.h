@@ -20,8 +20,6 @@
 #include <sampgdk/export.h>
 #include <sampgdk/samp.h>
 
-namespace sampgdk {
-
 #define SPECIAL_ACTION_NONE              0
 #define SPECIAL_ACTION_DUCK              1
 #define SPECIAL_ACTION_USEJETPACK        2
@@ -248,8 +246,6 @@ template<size_t N> bool GetPVarNameAtIndex(int playerid, int index, char (&varna
 template<size_t N1, size_t N2> bool GetAnimationName(int index, char (&animlib)[N1], char (&animname)[N2]) {
     return GetAnimationName(index, animlib, N1, animname, N2);
 }
-
-} // namespace sampgdk
 
 #endif
 

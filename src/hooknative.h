@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sampgdk/amx/amx.h>
+#include "amx/amx.h"
 
 AMX_NATIVE HookNative(AMX *amx, const char *nativeName, AMX_NATIVE native);
 

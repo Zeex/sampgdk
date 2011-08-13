@@ -17,8 +17,6 @@
 
 #include <sampgdk/export.h>
 
-namespace sampgdk {
-
 #define CARMODTYPE_SPOILER        0
 #define CARMODTYPE_HOOD           1
 #define CARMODTYPE_ROOF           2
@@ -79,7 +77,4 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdateVehicleDamageStatus(int vehicleid, long p
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVirtualWorld(int vehicleid, int worldid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid);
 
-} // namespace sampgdk
-
 #endif
-

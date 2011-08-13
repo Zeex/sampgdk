@@ -19,8 +19,6 @@
 
 #include <sampgdk/export.h>
 
-namespace sampgdk {
-
 // Limits and internal constants
 #define MAX_PLAYER_NAME            (24)
 #define MAX_PLAYERS                (500)
@@ -57,8 +55,8 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetGameModeText(const char *text);
 SAMPGDK_EXPORT void SAMPGDK_CALL SetTeamCount(long count);
 SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
 SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
-SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int color1, int color2);
-SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, int color1, int color2, int respawn_delay);
+SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, long color1, long color2);
+SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, long color1, long color2, long respawn_delay);
 SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticPickup(int model, int type, float x, float y, float z, long virtualworld = 0);
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePickup(int model, int type, float x, float y, float z, long virtualworld = 0);
 SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyPickup(int pickup);
@@ -96,9 +94,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetServerVarAsInt(const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsBool(const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, size_t size);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char (&retstr)[401]);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char (&retstr)[401]);
 
 // Menu
 SAMPGDK_EXPORT int SAMPGDK_CALL CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width = 0.0f);
@@ -266,7 +262,4 @@ template<size_t N> bool GetWeaponName(int weaponid, char (&name)[N]) {
     return GetWeaponName(weaponid, name, N);
 }
 
-} // namespace sampgdk
-
 #endif
-
