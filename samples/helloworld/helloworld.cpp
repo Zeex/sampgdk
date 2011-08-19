@@ -14,7 +14,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 	AddPlayerClass(0, 1958.3783f, 1343.1572f, 15.3746f, 269.1425f, 0, 0, 0, 0, 0, 0);
 
 	logprintf("------------------------------------------\n");
-	logprintf(" HelloWorld gamemode got loaded. \n");
+	logprintf("      HelloWorld gamemode got loaded.     \n");
 	logprintf("------------------------------------------\n");
 
 	return true;
