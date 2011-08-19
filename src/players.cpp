@@ -381,7 +381,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerWeaponData(int playerid, int slot, int
 	};
 	bool ret = native(&::fakeAmx, params) != 0;
 	weapon = weapon_.Get();
-	ammo = weapon_.Get();
+	ammo = ammo_.Get();
 	return ret;
 }
 
