@@ -12,7 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef SAMPGDK_HOOKNATIVE_H
+#define SAMPGDK_HOOKNATIVE_H
+
 #include <sampgdk/amx/amx.h>
 
 AMX_NATIVE HookNative(AMX *amx, const char *nativeName, AMX_NATIVE native);
+
+#endif
 
