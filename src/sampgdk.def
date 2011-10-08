@@ -1,4 +1,3 @@
-LIBRARY amxplugin
 EXPORTS
 	amx_Align16
 	amx_Align32
