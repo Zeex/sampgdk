@@ -244,5 +244,9 @@ bool EventHandler::OnPlayerTakeDamage(int playerid, int issuerid, float amount, 
 	return true;
 }
 
+bool EventHandler::OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid) {
+	return true;
+}
+
 } // namespace sampgdk
 
