@@ -73,8 +73,8 @@ public:
     virtual bool OnVehicleStreamOut(int vehicleid, int forplayerid);
     virtual bool OnDialogResponse(int playerid, int dialogid, bool response, int listitem, const char *inputtext);
     virtual bool OnPlayerClickPlayer(int playerid, int clickedplayerid, int source);
-	virtual bool OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid);
-	virtual bool OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid);
+    virtual bool OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid);
+    virtual bool OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid);
 
 private:
     bool registered_;
