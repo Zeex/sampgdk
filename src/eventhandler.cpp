@@ -241,11 +241,11 @@ bool EventHandler::OnPlayerClickPlayer(int playerid, int clickedplayerid, int so
 }
 
 bool EventHandler::OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid) {
-	return true;
+    return true;
 }
 
 bool EventHandler::OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid) {
-	return true;
+    return true;
 }
 
 } // namespace sampgdk
