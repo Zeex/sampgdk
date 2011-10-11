@@ -64,6 +64,10 @@ set (SOURCES
 
 add_library (sampgdk SHARED ${SOURCES})
 
+if (UNIX OR MINGW)
+	set (CMAKE_CXX_FLAGS "-m32")
+endif (UNIX OR MINGW)
+
 if (WIN32)
 	set_target_properties (sampgdk PROPERTIES SUFFIX ${VERSION_MAJOR}${VERSION_MINOR}.dll)
 	if (MINGW OR CYGWIN)
