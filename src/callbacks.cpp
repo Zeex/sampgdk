@@ -762,3 +762,22 @@ static cell SAMPGDK_CALL OnPlayerTakeDamage(AMX *amx) {
 }
 
 DEFINE_EVENT(PlayerTakeDamage, 0);
+
+static cell SAMPGDK_CALL OnPlayerGiveDamage(AMX *amx) {
+    int playerid = GetCellFromStack(amx, 0);
+	int damagedid = GetCellFromStack(amx, 1);
+	float amount = GetFloatFromStack(amx, 2);
+	int weaponid = GetCellFromStack(amx, 3);
+    
+    EventHandler *cur = EventHandler::GetFirstEventHandler();
+    while (cur != 0) {
+        if (!cur->OnPlayerGiveDamage(playerid, damagedid, amount, weaponid)) {
+            return 0;
+        }
+        cur = cur->GetNext();
+    }
+
+    return 1;
+}
+
+DEFINE_EVENT(PlayerGiveDamage, 0);
