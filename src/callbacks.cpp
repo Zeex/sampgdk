@@ -38,6 +38,11 @@ static cell GetCellFromStack(AMX *amx, int index) {
     return *reinterpret_cast<cell*>(data + amx->stk + sizeof(cell)*index);
 }
 
+static float GetFloatFromStack(AMX *amx, int index) {
+	cell c = GetCellFromStack(amx, index);
+	return amx_ctof(c);
+}
+
 static std::string GetStringFromStack(AMX *amx, int index) {
     cell *physAddr;
     amx_GetAddr(amx, GetCellFromStack(amx, index), &physAddr);
@@ -738,3 +743,22 @@ static cell SAMPGDK_CALL OnPlayerClickPlayer(AMX *amx) {
 }
 
 DEFINE_EVENT(PlayerClickPlayer, 0);
+
+static cell SAMPGDK_CALL OnPlayerTakeDamage(AMX *amx) {
+    int playerid = GetCellFromStack(amx, 0);
+	int issuerid = GetCellFromStack(amx, 1);
+	float amount = GetFloatFromStack(amx, 2);
+	int weaponid = GetCellFromStack(amx, 3);
+    
+    EventHandler *cur = EventHandler::GetFirstEventHandler();
+    while (cur != 0) {
+        if (!cur->OnPlayerTakeDamage(playerid, issuerid, amount, weaponid)) {
+            return 0;
+        }
+        cur = cur->GetNext();
+    }
+
+    return 1;
+}
+
+DEFINE_EVENT(PlayerTakeDamage, 0);

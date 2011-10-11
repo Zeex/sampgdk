@@ -240,5 +240,9 @@ bool EventHandler::OnPlayerClickPlayer(int playerid, int clickedplayerid, int so
     return true;
 }
 
+bool EventHandler::OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid) {
+	return true;
+}
+
 } // namespace sampgdk
 
