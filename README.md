@@ -2,6 +2,7 @@ SA:MP Gamemode Development Kit for C++ 2.0
 ==========================================
 
 Major differences from 1.x:
+---------------------------
 
 *    Callback system is fully rewritten
 
@@ -16,4 +17,4 @@ Major differences from 1.x:
 
 *    Single header 
   
-     Just #include <sampgdk.h> and you're done.
+     Just #include &lt;sampgdk.h&gt; and you're done.
