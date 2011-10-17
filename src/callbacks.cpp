@@ -21,7 +21,7 @@
 using sampgdk::EventHandler;
 
 #define DEFINE_EVENT_LONG(event, handler, br) \
-	cell SAMPGDK_CALL handler(AMX *amx); \
+	static cell SAMPGDK_CALL handler(AMX *amx); \
     static SampCallback event(#handler, handler, br); \
 	static cell SAMPGDK_CALL handler(AMX *amx)
 
@@ -652,7 +652,7 @@ DEFINE_EVENT(PlayerClickPlayer, 0) {
     int playerid = GetCellFromStack(amx, 0);
     int clickedplayerid = GetCellFromStack(amx, 1);
     int source = GetCellFromStack(amx, 2);
-    
+
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
         if (!cur->OnPlayerClickPlayer(playerid, clickedplayerid, source)) {
@@ -669,7 +669,7 @@ DEFINE_EVENT(PlayerTakeDamage, 0) {
     int issuerid = GetCellFromStack(amx, 1);
     float amount = GetFloatFromStack(amx, 2);
     int weaponid = GetCellFromStack(amx, 3);
-    
+
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
         if (!cur->OnPlayerTakeDamage(playerid, issuerid, amount, weaponid)) {
@@ -686,7 +686,7 @@ DEFINE_EVENT(PlayerGiveDamage, 0) {
     int damagedid = GetCellFromStack(amx, 1);
     float amount = GetFloatFromStack(amx, 2);
     int weaponid = GetCellFromStack(amx, 3);
-    
+
     EventHandler *cur = EventHandler::GetFirstEventHandler();
     while (cur != 0) {
         if (!cur->OnPlayerGiveDamage(playerid, damagedid, amount, weaponid)) {
