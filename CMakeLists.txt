@@ -62,27 +62,35 @@ set (SOURCES
 	src/wrapperimpl.cpp
 )
 
-add_library (sampgdk SHARED ${SOURCES})
-
 if (UNIX OR MINGW)
 	set (CMAKE_CXX_FLAGS "-m32")
 endif (UNIX OR MINGW)
 
+add_library (sampgdk-shared SHARED ${SOURCES})
+set_target_properties (sampgdk-shared PROPERTIES OUTPUT_NAME sampgdk)
+
 if (WIN32)
-	set_target_properties (sampgdk PROPERTIES SUFFIX ${VERSION_MAJOR}${VERSION_MINOR}.dll)
+	set (DEF_FILE "${CMAKE_SOURCE_DIR}/src/sampgdk.def")
 	if (MINGW OR CYGWIN)
-		set (CMAKE_SHARED_LINKER_FLAGS "--def=${CMAKE_SOURCE_DIR}/src/sampgdk.def")
+		set (CMAKE_SHARED_LINKER_FLAGS "--def=${DEF_FILE}")
 	else (MINGW OR CYGWIN)
-		set (CMAKE_SHARED_LINKER_FLAGS "/DEF:${CMAKE_SOURCE_DIR}/src/sampgdk.def")
+		set (CMAKE_SHARED_LINKER_FLAGS "/DEF:${DEF_FILE}")
 	endif (MINGW OR CYGWIN)
 endif (WIN32)
 
-set_target_properties (sampgdk PROPERTIES 
+add_library (sampgdk-static STATIC ${SOURCES})
+set_target_properties (sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
+
+if (MSVC)
+	set_target_properties (sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk_static")
+endif (MSVC)
+
+set_target_properties (sampgdk-shared PROPERTIES 
 	VERSION   ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
 	SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
 )
 
-install (TARGETS sampgdk
+install (TARGETS sampgdk-shared sampgdk-static
 	RUNTIME DESTINATION "bin" COMPONENT runtime
 	LIBRARY DESTINATION "lib" COMPONENT libraries
 	ARCHIVE DESTINATION "lib" COMPONENT libraries
@@ -106,7 +114,7 @@ set (CPACK_COMPONENT_RUNTIME_DISPLAY_NAME "Runtime")
 set (CPACK_COMPONENT_RUNTIME_DESCRIPTION "Runtime library")
 set (CPACK_COMPONENT_RUNTIME_INSTALL_TYPES "Full" "Runtime Only")
 set (CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "Libraries")
-set (CPACK_COMPONENT_LIBRARIES_DESCRIPTION "Import library")
+set (CPACK_COMPONENT_LIBRARIES_DESCRIPTION "Static and import libraries")
 set (CPACK_COMPONENT_LIBRARIES_GROUP "Development")
 set (CPACK_COMPONENT_LIBRARIES_INSTALL_TYPES "Full")
 set (CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ headers")
