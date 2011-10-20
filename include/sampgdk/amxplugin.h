@@ -12,11 +12,11 @@
 #define AMXPLUGIN_H
 
 // detect stdint.h
-#if defined HAVE_STDINT_H || (!defined __STDC__ && __STDC_VERSION__ >= 199901L) || defined __GNUC__
-    #include <stdint.h>
-    #if !defined HAVE_STDINT_H
-        #define HAVE_STDINT_H
-    #endif
+#if !defined HAVE_STDINT_H 
+	#if (!defined __STDC__ && __STDC_VERSION__ >= 199901L)\
+			|| defined __cplusplus || defined __GNUC__
+		#define HAVE_STDINT_H
+	#endif
 #endif
 
 #include <stddef.h> // fix for size_t 
