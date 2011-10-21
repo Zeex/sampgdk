@@ -69,26 +69,22 @@ int AmxApiHooks::Exec(AMX *amx, cell *retval, int index) {
     if (index == AMX_EXEC_MAIN) {
         // main() is being called -> this is the game mode.
         SetGameMode(amx);
-        // OnGameModeInit is called before main so we must exec it manually somehow.
+        // OnGameModeInit is called before main so we must exec it manually somehow...
         sampgdk::Wrapper::GetInstance()->ExecutePublicHook(amx, retval, "OnGameModeInit");
-        // Allow calls to main()
         error = amx_Exec(amx, retval, index);
     } else {
         // Check whether we deal with a game mode
         if (amx == GetGameMode() && GetGameMode() != 0) {
             bool canDoExec = true;
             if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-                // Handle this public call.
                 canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(
                     GetGameMode(), retval, ::lastPublicName.c_str());
             }
-            // The handler could return a value indicating that the call should
-            // not be propagated to the gamemode or other handlers, if any (there can
-            // be multiple handlers since recently).
+            // The handler could return a value indicating that this call shouldn't
+            // propagate to the gamemode or the rest of handlers (if any)
             if (canDoExec) {
                 error = amx_Exec(amx, retval, index);
                 if (error == AMX_ERR_INDEX && index == AMX_EXEC_GDK) {
-                    // Return no error if it's our fault that it executes a non-existing public.
                     error = AMX_ERR_NONE;
                 }
             }
@@ -113,3 +109,4 @@ void AmxApiHooks::Initialize(void **amxExportsTable) {
 }
 
 } // namespace sampgdk
+
