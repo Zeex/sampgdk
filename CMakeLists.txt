@@ -29,6 +29,8 @@ endif (HAVE_STDINT_H)
 include_directories ("include")
 include_directories ("include/sampgdk/amx") # amx.h includes <sclinux.h>
 
+add_definitions (-DIN_SAMPGDK)
+
 if (UNIX)
 	add_definitions (-DUNIX)
 	if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -80,6 +82,7 @@ endif (WIN32)
 
 add_library (sampgdk-static STATIC ${SOURCES})
 set_target_properties (sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
+set_target_properties (sampgdk-static PROPERTIES COMPILE_DEFINITIONS "SAMPGDK_STATIC")
 
 if (MSVC)
 	set_target_properties (sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk_static")
