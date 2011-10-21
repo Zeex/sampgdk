@@ -321,16 +321,21 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid)
     native(&::fakeAmx, params);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed) {
+SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, 
+	float RotX, float RotY, float RotZ)
+{
     static AMX_NATIVE native = Wrapper::GetInstance()->GetNative("MovePlayerObject");
     cell params[] = {
-        6 * 4,
+        9 * 4,
         playerid,
         objectid,
         amx_ftoc(x),
         amx_ftoc(y),
         amx_ftoc(z),
-        amx_ftoc(Speed)
+        amx_ftoc(Speed),
+        amx_ftoc(RotX),
+        amx_ftoc(RotY),
+        amx_ftoc(RotZ)
     };
     return native(&::fakeAmx, params);
 }
