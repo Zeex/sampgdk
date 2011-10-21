@@ -83,10 +83,11 @@ int AmxApiHooks::Exec(AMX *amx, cell *retval, int index) {
             // The handler could return a value indicating that this call shouldn't
             // propagate to the gamemode or the rest of handlers (if any)
             if (canDoExec) {
-                error = amx_Exec(amx, retval, index);
-                if (error == AMX_ERR_INDEX && index == AMX_EXEC_GDK) {
-                    error = AMX_ERR_NONE;
-                }
+				if (index != AMX_EXEC_GDK) {
+					error = amx_Exec(amx, retval, index);
+                } else {
+					error = AMX_ERR_NONE;
+				}
             }
         } else {
             // Not a game mode - just call the original amx_Exec.
