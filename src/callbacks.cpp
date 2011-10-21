@@ -22,7 +22,7 @@ using sampgdk::EventHandler;
 
 #define DEFINE_EVENT_LONG(event, handler, br) \
 	static cell SAMPGDK_CALL handler(AMX *amx); \
-    static SampCallback event(#handler, handler, br); \
+    static volatile SampCallback event(#handler, handler, br); \
 	static cell SAMPGDK_CALL handler(AMX *amx)
 
 #define DEFINE_EVENT(event, br) \
