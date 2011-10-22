@@ -28,7 +28,7 @@ public:
 
 	~Wrapper();
 
-	static Wrapper *GetInstance();
+	static Wrapper &GetInstance();
 
 	void Initialize(void **ppPluginData);
 

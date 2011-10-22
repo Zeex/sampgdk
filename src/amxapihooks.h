@@ -26,7 +26,7 @@ namespace sampgdk {
 
 class AmxApiHooks {
 public:
-	static AmxApiHooks *GetInstance();
+	static AmxApiHooks &GetInstance();
 	void Initialize(void **amxExportsTable);
 
 private:

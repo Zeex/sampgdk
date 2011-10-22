@@ -30,7 +30,7 @@ using sampgdk::EventHandler;
 
 struct SampCallback {
 	SampCallback(const char *name, sampgdk::Wrapper::PublicHandler handler, cell badReturn) {
-		sampgdk::Wrapper::GetInstance()->SetPublicHook(name, handler, badReturn);
+		sampgdk::Wrapper::GetInstance().SetPublicHook(name, handler, badReturn);
 	}
 };
 
