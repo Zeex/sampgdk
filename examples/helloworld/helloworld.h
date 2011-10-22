@@ -5,12 +5,12 @@
 
 class HelloWorld : public sampgdk::EventHandler {
 public:
-    HelloWorld();
-    virtual ~HelloWorld();
-    virtual void OnGameModeInit();
-    virtual bool OnPlayerConnect(int playerid);
-    virtual bool OnPlayerRequestClass(int playerid, int classid);
-    virtual bool OnPlayerCommandText(int playerid, const char *cmdtext);
+	HelloWorld();
+	virtual ~HelloWorld();
+	virtual void OnGameModeInit();
+	virtual bool OnPlayerConnect(int playerid);
+	virtual bool OnPlayerRequestClass(int playerid, int classid);
+	virtual bool OnPlayerCommandText(int playerid, const char *cmdtext);
 };
 
 #endif

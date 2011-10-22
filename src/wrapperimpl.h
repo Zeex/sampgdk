@@ -22,34 +22,34 @@ namespace sampgdk {
 
 class PublicHook {
 public:
-    PublicHook(Wrapper::PublicHandler handler, cell badReturn) 
-        : handler_(handler), badReturn_(badReturn)
-    {}
+	PublicHook(Wrapper::PublicHandler handler, cell badReturn) 
+		: handler_(handler), badReturn_(badReturn)
+	{}
 
-    inline bool Execute(AMX *amx, cell *retval) const {
-        return ((*retval = handler_(amx)) != badReturn_);
-    }
+	inline bool Execute(AMX *amx, cell *retval) const {
+		return ((*retval = handler_(amx)) != badReturn_);
+	}
 
 private:
-    Wrapper::PublicHandler handler_;
-    cell                   badReturn_;
+	Wrapper::PublicHandler handler_;
+	cell                   badReturn_;
 };
 
 class WrapperImpl {
 public:
-    WrapperImpl();
+	WrapperImpl();
 
-    void Initialize(void **ppPluginData);
+	void Initialize(void **ppPluginData);
 
-    void SetNative(const char *name, AMX_NATIVE native);
-    AMX_NATIVE GetNative(const char *name) const;
+	void SetNative(const char *name, AMX_NATIVE native);
+	AMX_NATIVE GetNative(const char *name) const;
 
-    void SetPublicHook(const char *name, PublicHook handler);
-    bool ExecutePublicHook(AMX *amx, cell *retval, const char *name) const;
+	void SetPublicHook(const char *name, PublicHook handler);
+	bool ExecutePublicHook(AMX *amx, cell *retval, const char *name) const;
 
 private:
-    std::map<std::string, AMX_NATIVE> natives_;
-    std::map<std::string, PublicHook> publicHooks_;
+	std::map<std::string, AMX_NATIVE> natives_;
+	std::map<std::string, PublicHook> publicHooks_;
 };
 
 } // namespace sampgdk

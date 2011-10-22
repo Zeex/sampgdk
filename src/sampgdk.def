@@ -41,5 +41,5 @@ EXPORTS
 	amx_UTF8Check
 	amx_UTF8Get
 	amx_UTF8Len
-    amx_UTF8Put
+	amx_UTF8Put
 

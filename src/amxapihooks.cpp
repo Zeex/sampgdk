@@ -27,86 +27,86 @@ static std::string lastPublicName;
 namespace sampgdk {
 
 int AmxApiHooks::Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
-    AmxApiHooks::GetInstance()->amxRegisterHook.Remove();
+	AmxApiHooks::GetInstance()->amxRegisterHook.Remove();
 
-    int error = amx_Register(amx, nativelist, number);
+	int error = amx_Register(amx, nativelist, number);
 
-    for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
-        sampgdk::Wrapper::GetInstance()->SetNative(nativelist[i].name, nativelist[i].func);
-    }
+	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
+		sampgdk::Wrapper::GetInstance()->SetNative(nativelist[i].name, nativelist[i].func);
+	}
 
-    // Fix funcidx
-    HookNative(amx, "funcidx", funcidx);
+	// Fix funcidx
+	HookNative(amx, "funcidx", funcidx);
 
-    AmxApiHooks::GetInstance()->amxRegisterHook.Reinstall();
+	AmxApiHooks::GetInstance()->amxRegisterHook.Reinstall();
 
-    return error;
+	return error;
 }
 
 int AmxApiHooks::FindPublic(AMX *amx, const char *name, int *index) {
-    AmxApiHooks::GetInstance()->amxFindPublicHook.Remove();
+	AmxApiHooks::GetInstance()->amxFindPublicHook.Remove();
 
-    int error = amx_FindPublic(amx, name, index);
+	int error = amx_FindPublic(amx, name, index);
 
-    if (amx == GetGameMode() && GetGameMode() != 0) {
-        if (error != AMX_ERR_NONE) {
-            // Make it think that any public it wants does exist.
-            *index = AMX_EXEC_GDK;
-            error = AMX_ERR_NONE;
-        }
-        ::lastPublicName = name;
-    }
+	if (amx == GetGameMode() && GetGameMode() != 0) {
+		if (error != AMX_ERR_NONE) {
+			// Make it think that any public it wants does exist.
+			*index = AMX_EXEC_GDK;
+			error = AMX_ERR_NONE;
+		}
+		::lastPublicName = name;
+	}
 
-    AmxApiHooks::GetInstance()->amxFindPublicHook.Reinstall();
+	AmxApiHooks::GetInstance()->amxFindPublicHook.Reinstall();
 
-    return error;
+	return error;
 }
 
 int AmxApiHooks::Exec(AMX *amx, cell *retval, int index) {
-    AmxApiHooks::GetInstance()->amxExecHook.Remove();
+	AmxApiHooks::GetInstance()->amxExecHook.Remove();
 
-    int error = AMX_ERR_NONE;
-    if (index == AMX_EXEC_MAIN) {
-        // main() is being called -> this is the game mode.
-        SetGameMode(amx);
-        // OnGameModeInit is called before main so we must exec it manually somehow...
-        sampgdk::Wrapper::GetInstance()->ExecutePublicHook(amx, retval, "OnGameModeInit");
-        error = amx_Exec(amx, retval, index);
-    } else {
-        // Check whether we deal with a game mode
-        if (amx == GetGameMode() && GetGameMode() != 0) {
-            bool canDoExec = true;
-            if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-                canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(
-                    GetGameMode(), retval, ::lastPublicName.c_str());
-            }
-            // The handler could return a value indicating that this call shouldn't
-            // propagate to the gamemode or the rest of handlers (if any)
-            if (canDoExec) {
+	int error = AMX_ERR_NONE;
+	if (index == AMX_EXEC_MAIN) {
+		// main() is being called -> this is the game mode.
+		SetGameMode(amx);
+		// OnGameModeInit is called before main so we must exec it manually somehow...
+		sampgdk::Wrapper::GetInstance()->ExecutePublicHook(amx, retval, "OnGameModeInit");
+		error = amx_Exec(amx, retval, index);
+	} else {
+		// Check whether we deal with a game mode
+		if (amx == GetGameMode() && GetGameMode() != 0) {
+			bool canDoExec = true;
+			if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
+				canDoExec = sampgdk::Wrapper::GetInstance()->ExecutePublicHook(
+					GetGameMode(), retval, ::lastPublicName.c_str());
+			}
+			// The handler could return a value indicating that this call shouldn't
+			// propagate to the gamemode or the rest of handlers (if any)
+			if (canDoExec) {
 				if (index != AMX_EXEC_GDK) {
 					error = amx_Exec(amx, retval, index);
-                } else {
+				} else {
 					error = AMX_ERR_NONE;
 				}
-            }
-        } else {
-            // Not a game mode - just call the original amx_Exec.
-            error = amx_Exec(amx, retval, index);
-        }
-    }
+			}
+		} else {
+			// Not a game mode - just call the original amx_Exec.
+			error = amx_Exec(amx, retval, index);
+		}
+	}
 
-    AmxApiHooks::GetInstance()->amxExecHook.Reinstall();
+	AmxApiHooks::GetInstance()->amxExecHook.Reinstall();
 
-    return error;
+	return error;
 }
 
 
 AmxApiHooks::AmxApiHooks() {}
 
 void AmxApiHooks::Initialize(void **amxExportsTable) {
-    amxRegisterHook.Install(amxExportsTable[PLUGIN_AMX_EXPORT_Register], (void*)Register);
-    amxFindPublicHook.Install(amxExportsTable[PLUGIN_AMX_EXPORT_FindPublic], (void*)FindPublic);
-    amxExecHook.Install(amxExportsTable[PLUGIN_AMX_EXPORT_Exec], (void*)Exec);
+	amxRegisterHook.Install(amxExportsTable[PLUGIN_AMX_EXPORT_Register], (void*)Register);
+	amxFindPublicHook.Install(amxExportsTable[PLUGIN_AMX_EXPORT_FindPublic], (void*)FindPublic);
+	amxExecHook.Install(amxExportsTable[PLUGIN_AMX_EXPORT_Exec], (void*)Exec);
 }
 
 } // namespace sampgdk

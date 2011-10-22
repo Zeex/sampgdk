@@ -7,10 +7,10 @@
 #if defined IN_SAMPGDK 
 	#if !defined SAMPGDK_STATIC
 		#if defined WIN32 || defined _WIN32
-    		#define SAMPGDK_EXPORT __declspec(dllexport)
-    		#define SAMPGDK_CALL   __stdcall
+			#define SAMPGDK_EXPORT __declspec(dllexport)
+			#define SAMPGDK_CALL   __stdcall
 		#else
-    		#define SAMPGDK_EXPORT __attribute__((visibility("default")))
+			#define SAMPGDK_EXPORT __attribute__((visibility("default")))
 		#endif 
 	#endif
 #else // !IN_SAMPGDK
