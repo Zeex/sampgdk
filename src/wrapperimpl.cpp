@@ -27,7 +27,7 @@ void WrapperImpl::Initialize(void **ppPluginData) {
 	::pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
 
 	// Hook amx_Register, amx_FindPublic and amx_Exec.
-	AmxApiHooks::GetInstance()->Initialize(static_cast<void**>(pAMXFunctions)); 
+	AmxApiHooks::GetInstance().Initialize(static_cast<void**>(pAMXFunctions)); 
 }
 
 void WrapperImpl::SetNative(const char *name, AMX_NATIVE native) {

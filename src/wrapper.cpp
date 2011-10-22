@@ -26,9 +26,9 @@ Wrapper::~Wrapper() {
 	delete pimpl_;
 }
 
-Wrapper *Wrapper::GetInstance() {
+Wrapper &Wrapper::GetInstance() {
 	static Wrapper w;
-	return &w;
+	return w;
 }
 
 void Wrapper::Initialize(void **ppPluginData) {
