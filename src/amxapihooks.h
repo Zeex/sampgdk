@@ -25,23 +25,21 @@ namespace sampgdk {
 
 class AmxApiHooks {
 public:
-	static AmxApiHooks *GetInstance() {
-		static AmxApiHooks inst;
-		return &inst;
-	}
-
+	static AmxApiHooks *GetInstance();
 	void Initialize(void **amxExportsTable);
 
 private:
 	AmxApiHooks();
 
-	static int AMXAPI Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number);
-	static int AMXAPI FindPublic(AMX *amx, const char *name, int *index);
-	static int AMXAPI Exec(AMX *amx, cell *retval, int index);
+	static int AMXAPI amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number);
+	static int AMXAPI amx_FindPublic(AMX *amx, const char *name, int *index);
+	static int AMXAPI amx_Exec(AMX *amx, cell *retval, int index);
 
-	Jump amxRegisterHook;
-	Jump amxFindPublicHook;
-	Jump amxExecHook;
+	Jump registerHook_;
+	Jump findPublicHook_;
+	Jump execHook_;
+	
+	std::string currentPublic_;
 };
 
 } // namespace sampgdk
