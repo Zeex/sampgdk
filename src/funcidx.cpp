@@ -6,20 +6,20 @@
 // Thanks to Incognito for finding this bug.
 
 #if defined HAVE_MALLOC_H
-    #include <malloc.h>
+	#include <malloc.h>
 #endif
 
 #include "amxapihooks.h"
 
 // native funcidx(const funcname[]);
 cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params) {
-    char *funcname;
-    amx_StrParam(amx, params[1], funcname);
-    int index;
-    int error = amx_FindPublic(amx, funcname, &index);
-    if (error != AMX_ERR_NONE || (error == AMX_ERR_NONE && index == AMX_EXEC_GDK)) {
-        return -1;
-    }
-    return index;
+	char *funcname;
+	amx_StrParam(amx, params[1], funcname);
+	int index;
+	int error = amx_FindPublic(amx, funcname, &index);
+	if (error != AMX_ERR_NONE || (error == AMX_ERR_NONE && index == AMX_EXEC_GDK)) {
+		return -1;
+	}
+	return index;
 }
 

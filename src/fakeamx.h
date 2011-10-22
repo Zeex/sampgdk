@@ -31,40 +31,40 @@ void FakeAmxPop(cell address);
 
 class FakeAmxHeapObject {
 public:
-    FakeAmxHeapObject()
-        : size_(1), address_(FakeAmxPush(1))
-    {}
+	FakeAmxHeapObject()
+		: size_(1), address_(FakeAmxPush(1))
+	{}
 
-    FakeAmxHeapObject(size_t cells)
-        : size_(cells), address_(FakeAmxPush(cells))
-    {}
+	FakeAmxHeapObject(size_t cells)
+		: size_(cells), address_(FakeAmxPush(cells))
+	{}
 
-    FakeAmxHeapObject(const char *s)
-        : size_(std::strlen(s) + 1), address_(FakeAmxPush(s))
-    {}
+	FakeAmxHeapObject(const char *s)
+		: size_(std::strlen(s) + 1), address_(FakeAmxPush(s))
+	{}
 
-    ~FakeAmxHeapObject() { FakeAmxPop(address_); }
+	~FakeAmxHeapObject() { FakeAmxPop(address_); }
 
-    cell address() const { return address_; }
+	cell address() const { return address_; }
 
-    size_t size() const { return size_; }
+	size_t size() const { return size_; }
 
-    cell Get() const {
-        return *reinterpret_cast<cell*>(::fakeAmx.data + address_);
-    }
+	cell Get() const {
+		return *reinterpret_cast<cell*>(::fakeAmx.data + address_);
+	}
 
-    float GetAsFloat() const {
-        cell value = this->Get();
-        return amx_ctof(value);
-    }
+	float GetAsFloat() const {
+		cell value = this->Get();
+		return amx_ctof(value);
+	}
 
-    void GetAsString(char *s, size_t size) const {
-        FakeAmxGet(address_, s, size);
-    }
+	void GetAsString(char *s, size_t size) const {
+		FakeAmxGet(address_, s, size);
+	}
 
 private:
-    size_t size_;
-    cell address_;
+	size_t size_;
+	cell address_;
 };
 
 #endif
