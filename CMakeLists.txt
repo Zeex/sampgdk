@@ -1,9 +1,10 @@
 cmake_minimum_required (VERSION 2.8)
 
 project (sampgdk)
-include (CheckIncludeFile)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
-set (LIBRARY_NAME sampgdk)
+include (CheckIncludeFile)
+include (FindDynCall)
 
 set (VERSION_MAJOR 2)
 set (VERSION_MINOR 0)
@@ -63,12 +64,7 @@ set (SOURCES
 )
 
 add_library (sampgdk SHARED ${SOURCES})
-set_target_properties (sampgdk PROPERTIES OUTPUT_NAME ${LIBRARY_NAME})
-
-if (WIN32 AND NOT UNIX)
-	include_directories (${DYNCALL_INCLUDE_DIR})
-	target_link_libraries (sampgdk ${DYNCALL_LIBRARY_DIR}/libdyncall_s.lib)
-endif (WIN32 AND NOT UNIX)
+set_target_properties (sampgdk PROPERTIES OUTPUT_NAME "sampgdk")
 
 if (WIN32)
 	set_target_properties (sampgdk PROPERTIES PREFIX "")
@@ -79,6 +75,10 @@ set_target_properties (sampgdk PROPERTIES
 	VERSION   ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
 	SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
 )
+
+find_package (DynCall REQUIRED)
+include_directories (${DYNCALL_INCLUDE_DIRS})
+target_link_libraries (sampgdk ${DYNCALL_LIBRARIES})
 
 install (TARGETS sampgdk 
 	RUNTIME DESTINATION bin COMPONENT runtime
