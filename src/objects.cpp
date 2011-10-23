@@ -33,24 +33,6 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreateObject(int modelid, float x, float y, floa
 	return native(&::fakeAmx, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
-	float frotX, float frotY, float frotZ)
-{
-	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("AttachObjectToVehicle");
-	cell params[] = {
-		8 * 4,
-		objectid,
-		vehicleid,
-		amx_ftoc(fOffsetX),
-		amx_ftoc(fOffsetY),
-		amx_ftoc(fOffsetZ),
-		amx_ftoc(frotX),
-		amx_ftoc(frotY),
-		amx_ftoc(frotZ)
-	};
-	return native(&::fakeAmx, params) != 0;
-}
-
 SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, float z) {
 	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("SetObjectPos");
 	cell params[] = {
@@ -131,15 +113,20 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DestroyObject(int objectid) {
 	native(&::fakeAmx, params);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float x, float y, float z, float Speed) {
+SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float Z, float Speed, 
+	float RotX, float RotY, float RotZ)
+{
 	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("MoveObject");
 	cell params[] = {
-		5 * 4,
+		8 * 4,
 		objectid,
-		amx_ftoc(x),
-		amx_ftoc(y),
-		amx_ftoc(z),
-		amx_ftoc(Speed)
+		amx_ftoc(X),
+		amx_ftoc(Y),
+		amx_ftoc(Z),
+		amx_ftoc(Speed),
+		amx_ftoc(RotX),
+		amx_ftoc(RotY),
+		amx_ftoc(RotZ)
 	};
 	return native(&::fakeAmx, params);
 }
@@ -258,16 +245,21 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid)
 	native(&::fakeAmx, params);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed) {
+SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, 
+	float RotX, float RotY, float RotZ)
+{
 	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("MovePlayerObject");
 	cell params[] = {
-		6 * 4,
+		9 * 4,
 		playerid,
 		objectid,
 		amx_ftoc(x),
 		amx_ftoc(y),
 		amx_ftoc(z),
-		amx_ftoc(Speed)
+		amx_ftoc(Speed),
+		amx_ftoc(RotX),
+		amx_ftoc(RotY),
+		amx_ftoc(RotZ)
 	};
 	return native(&::fakeAmx, params);
 }
@@ -296,6 +288,43 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid
 		amx_ftoc(rX),
 		amx_ftoc(rY),
 		amx_ftoc(rZ)
+	};
+	native(&::fakeAmx, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
+	float frotX, float frotY, float frotZ)
+{
+	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("AttachObjectToVehicle");
+	cell params[] = {
+		8 * 4,
+		objectid,
+		vehicleid,
+		amx_ftoc(fOffsetX),
+		amx_ftoc(fOffsetY),
+		amx_ftoc(fOffsetZ),
+		amx_ftoc(frotX),
+		amx_ftoc(frotY),
+		amx_ftoc(frotZ)
+	};
+	return native(&::fakeAmx, params) != 0;
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float OffsetY, float OffsetZ, 
+	float RotX, float RotY, float RotZ, bool SyncRotation)
+{
+	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("AttachObjectToObject");
+	cell params[] = {
+		9 * 4,
+		objectid,
+		attachtoid,
+		amx_ftoc(OffsetX),
+		amx_ftoc(OffsetY),
+		amx_ftoc(OffsetZ),
+		amx_ftoc(RotX),
+		amx_ftoc(RotY),
+		amx_ftoc(RotZ),
+		SyncRotation
 	};
 	native(&::fakeAmx, params);
 }
