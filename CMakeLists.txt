@@ -28,6 +28,7 @@ if (HAVE_STDINT_H)
 	add_definitions (-DHAVE_STDINT_H)
 endif (HAVE_STDINT_H)
 
+add_definitions (-DIN_SAMPGDK)
 include_directories ("include")
 
 if (UNIX)
