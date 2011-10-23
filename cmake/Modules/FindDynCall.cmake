@@ -29,7 +29,7 @@
 #
 
 find_path(DYNCALL_INCLUDE_DIR NAMES dyncall.h)
-find_library(DYNCALL_LIBRARY libdyncall_s)
+find_library(DYNCALL_LIBRARY dyncall_s)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(DynCall DEFAULT_MSG DYNCALL_LIBRARY DYNCALL_INCLUDE_DIR)
