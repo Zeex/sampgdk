@@ -98,13 +98,12 @@ namespace hooks {
 					canDoExec = CallbackManager::GetInstance()->HandleCallback(::lastPublicName.c_str());
 					*retval = cell(canDoExec);
 				}
-				// The handler could return a value indicating that the call should
-				// not be propagated to the gamemode or other handlers, if any (there can
-				// be multiple handlers since recently).
+				// The handler could return a value indicating that this call shouldn't
+				// propagate to the gamemode or the rest of handlers (if any)
 				if (canDoExec) {
-					error = ::amx_Exec(amx, retval, index);
-					if (error == AMX_ERR_INDEX && index == AMX_EXEC_GDK) {
-						// Return no error if it's our fault that it executes a non-existing public.
+					if (index != AMX_EXEC_GDK) {
+						error = ::amx_Exec(amx, retval, index);
+					} else {
 						error = AMX_ERR_NONE;
 					}
 				}
