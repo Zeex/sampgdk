@@ -634,6 +634,33 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL PlayCrimeReportForPlayer(int playerid, int susp
 	return native(&::fakeAmx, params) != 0;
 }
 
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayAudioStreamForPlayer(int playerid, const char *url, 
+	float posX, float posY, float posZ, float distance, bool usepos)
+{
+	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("PlayAudioStreamForPlayer");
+	FakeAmxHeapObject url_(url);
+	cell params[] = {
+		7 * 4,
+		playerid,
+		url_.address(),
+		amx_ftoc(posX),
+		amx_ftoc(posY),
+		amx_ftoc(posZ),
+		amx_ftoc(distance),
+		usepos
+	};
+	return native(&::fakeAmx, params) != 0;
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL StopAudioStreamForPlayer(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("StopAudioStreamForPlayer");
+	cell params[] = {
+		1 * 4,
+		playerid
+	};
+	return native(&::fakeAmx, params) != 0;
+}
+
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerShopName(int playerid, const char *shopname) {
 	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("SetPlayerShopName");
 	FakeAmxHeapObject shopname_(shopname);
@@ -672,6 +699,22 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerSurfingObjectID(int playerid) {
 		playerid
 	};
 	return native(&::fakeAmx, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveBuildingForPlayer(int playerid, int modelid, 
+	float fX, float fY, float fZ, float fRadius)
+{
+	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("RemoveBuildingForPlayer");
+	cell params[] = {
+		6 * 4,
+		playerid,
+		modelid,
+		amx_ftoc(fX),
+		amx_ftoc(fY),
+		amx_ftoc(fZ),
+		amx_ftoc(fRadius)
+	};
+	return native(&::fakeAmx, params) != 0;
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX, 
