@@ -27,7 +27,6 @@ if (HAVE_STDINT_H)
 endif (HAVE_STDINT_H)
 
 include_directories ("include")
-include_directories ("include/sampgdk/amx") # amx.h includes <sclinux.h>
 
 add_definitions (-DIN_SAMPGDK)
 
