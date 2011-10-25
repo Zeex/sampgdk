@@ -18,9 +18,9 @@ function(check_include_and_define include_file define)
 endfunction()
 
 check_include_and_define(alloca.h HAVE_ALLOCA_H)
-check_include_and_define(inttypes.h HAVE_ALLOCA_H)
-check_include_and_define(malloc.h HAVE_ALLOCA_H)
-check_include_and_define(stdint.h HAVE_ALLOCA_H)
+check_include_and_define(inttypes.h HAVE_INTTYPES_H)
+check_include_and_define(malloc.h HAVE_MALLOC_H)
+check_include_and_define(stdint.h HAVE_STDINT_H)
 
 if(UNIX)
 	add_definitions(-DUNIX)
