@@ -63,7 +63,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
 	logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
 	// Initialize the wrapper - this always should be done here.
-	Wrapper::GetInstance()->Initialize(ppPluginData);
+	Wrapper::GetInstance().Initialize(ppPluginData);
 	// Do not call any natives here - they are not yet prepared for use at this stage.
 	return true;
 }
