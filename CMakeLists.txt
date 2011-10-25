@@ -73,9 +73,9 @@ add_library(sampgdk-static STATIC ${SOURCES})
 set_target_properties(sampgdk-static  PROPERTIES 
 	COMPILE_DEFINITIONS "IN_SAMPGDK; SAMPGDK_STATIC")
 if(WIN32 AND NOT MINGW)
-	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
-else()
 	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk_static")
+else()
+	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
 endif()
 
 if(UNIX OR MINGW)
