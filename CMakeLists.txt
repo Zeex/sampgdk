@@ -88,7 +88,6 @@ install(TARGETS sampgdk-shared sampgdk-static
 	ARCHIVE DESTINATION "lib" COMPONENT libraries
 )
 
-install(DIRECTORY "src"     DESTINATION "." COMPONENT sources)
 install(DIRECTORY "include" DESTINATION "." COMPONENT headers)
 
 set(CPACK_PACKAGE_NAME sampgdk) 
