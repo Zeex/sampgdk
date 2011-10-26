@@ -107,6 +107,7 @@ if(WIN32)
 		message(FATAL_ERROR "Unsupported compiler")
 	endif()
 	set_target_properties(sampgdk-shared PROPERTIES SUFFIX "${compiler}.dll")
+	set_target_properties(sampgdk-shared PROPERTIES IMPORT_SUFFIX "${compiler}.lib")
 	set_target_properties(sampgdk-static PROPERTIES SUFFIX "${compiler}.lib")
 endif()
 
