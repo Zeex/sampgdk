@@ -15,7 +15,7 @@
 #ifndef SAMPGDK_HOOKNATIVE_H
 #define SAMPGDK_HOOKNATIVE_H
 
-#include <sampgdk/amx/amx.h>
+#include <sampgdk/amxplugin.h>
 
 AMX_NATIVE HookNative(AMX *amx, const char *nativeName, AMX_NATIVE native);
 
