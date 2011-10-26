@@ -25,75 +25,65 @@
 namespace sampgdk {
 
 int AMXAPI AmxApiHooks::amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
-	AmxApiHooks::GetInstance().registerHook_.Remove();
-
 	int error = ::amx_Register(amx, nativelist, number);
 
 	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
 		sampgdk::Wrapper::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
 	}
 
-	// Fix funcidx
+	// Fix for funcidx()
 	HookNative(amx, "funcidx", funcidx);
-
-	AmxApiHooks::GetInstance().registerHook_.Reinstall();
 
 	return error;
 }
 
 int AMXAPI AmxApiHooks::amx_FindPublic(AMX *amx, const char *name, int *index) {
-	AmxApiHooks::GetInstance().findPublicHook_.Remove();
+	int error = ::amx_FindPublic(amx, name, index);	
 
-	int error = ::amx_FindPublic(amx, name, index);
-
-	if (amx == GetGameMode() && GetGameMode() != 0) {
+	if (amx == GetGameMode()) {
 		if (error != AMX_ERR_NONE) {
-			// Make it think that any public it wants does exist.
 			*index = AMX_EXEC_GDK;
 			error = AMX_ERR_NONE;
 		}
+		//printf("amx_FindPublic(%s) returns %d\n", name, error);
 		AmxApiHooks::GetInstance().currentPublic_ = name;
 	}
-
-	AmxApiHooks::GetInstance().findPublicHook_.Reinstall();
 
 	return error;
 }
 
 int AMXAPI AmxApiHooks::amx_Exec(AMX *amx, cell *retval, int index) {
-	AmxApiHooks::GetInstance().execHook_.Remove();
+	if (amx == GetGameMode()) {
+		//printf("BEGIN amx_Exec(%s[%d]) [paramcount = %d]\n", 
+		//	AmxApiHooks::GetInstance().currentPublic_.c_str(), index, amx->paramcount);
+	}
 
-	int error = AMX_ERR_NONE;
+	bool canDoExec = true;	
 	if (index == AMX_EXEC_MAIN) {
-		// main() is being called -> this is the game mode.
+		//printf("main()\n");
 		SetGameMode(amx);
-		// OnGameModeInit is called before main so we must exec it manually somehow...
 		sampgdk::Wrapper::GetInstance().ExecutePublicHook(amx, retval, "OnGameModeInit");
-		error = ::amx_Exec(amx, retval, index);
 	} else {
-		// Check whether we deal with a game mode
-		if (amx == GetGameMode() && GetGameMode() != 0) {
-			bool canDoExec = true;
-			if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-				canDoExec = sampgdk::Wrapper::GetInstance().ExecutePublicHook(
-					GetGameMode(), retval, AmxApiHooks::GetInstance().currentPublic_.c_str());
-			}
-			// The handler could return a value indicating that this call shouldn't
-			// propagate to the gamemode or the rest of handlers (if any)
-			if (canDoExec) {
-				if (index != AMX_EXEC_GDK) {
-					error = ::amx_Exec(amx, retval, index);
-				} else {
-					error = AMX_ERR_NONE;
-				}
-			}
-		} else {
-			// Not a game mode - just call the original amx_Exec.
-			error = ::amx_Exec(amx, retval, index);
+		if (amx == GetGameMode() && index != AMX_EXEC_CONT) {
+			canDoExec = sampgdk::Wrapper::GetInstance().ExecutePublicHook(amx, 
+					retval, AmxApiHooks::GetInstance().currentPublic_.c_str());
+		}
+		if (index == AMX_EXEC_GDK) {
+			canDoExec = false;
+			//printf("stk: %d --> ", amx->stk);
+			amx->stk += amx->paramcount * sizeof(cell);
+			amx->paramcount = 0;
+			//printf("%d (stp = %d)\n", amx->stk, amx->stp);
 		}
 	}
 
-	AmxApiHooks::GetInstance().execHook_.Reinstall();
+	int error = AMX_ERR_NONE;
+	if (canDoExec) {
+		error = ::amx_Exec(amx, retval, index);
+		//if (error != AMX_ERR_NONE) printf("AMX ERROR: %d\n", error);
+	} 
+
+	//if (amx == GetGameMode()) printf("END   amx_Exec(%d) [paramcount = %d]\n", index, amx->paramcount);
 
 	return error;
 }
@@ -101,12 +91,9 @@ int AMXAPI AmxApiHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 AmxApiHooks::AmxApiHooks() {}
 
 void AmxApiHooks::Initialize(void **amxExportsTable) {
-	registerHook_.Install(amxExportsTable[PLUGIN_AMX_EXPORT_Register], 
-		(void*)AmxApiHooks::amx_Register);
-	findPublicHook_.Install(amxExportsTable[PLUGIN_AMX_EXPORT_FindPublic], 
-		(void*)AmxApiHooks::amx_FindPublic);
-	execHook_.Install(amxExportsTable[PLUGIN_AMX_EXPORT_Exec], 
-		(void*)AmxApiHooks::amx_Exec);
+	SetJump(amxExportsTable[PLUGIN_AMX_EXPORT_Register], (void*)AmxApiHooks::amx_Register);
+	SetJump(amxExportsTable[PLUGIN_AMX_EXPORT_FindPublic], (void*)AmxApiHooks::amx_FindPublic);
+	SetJump(amxExportsTable[PLUGIN_AMX_EXPORT_Exec], (void*)AmxApiHooks::amx_Exec);
 }
 
 AmxApiHooks &AmxApiHooks::GetInstance() {
