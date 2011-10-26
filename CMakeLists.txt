@@ -53,6 +53,8 @@ set(SOURCES
 	src/wrapperimpl.cpp
 )
 
+set(CMAKE_DEBUG_POSTFIX "D")
+
 add_library(sampgdk-shared SHARED ${SOURCES})
 set_target_properties(sampgdk-shared PROPERTIES 
 	OUTPUT_NAME "sampgdk"
@@ -73,13 +75,39 @@ add_library(sampgdk-static STATIC ${SOURCES})
 set_target_properties(sampgdk-static  PROPERTIES 
 	COMPILE_DEFINITIONS "IN_SAMPGDK; SAMPGDK_STATIC")
 if(WIN32 AND NOT MINGW)
-	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk_static")
+	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdkS")
 else()
 	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
 endif()
 
 if(UNIX OR MINGW)
 	set(CMAKE_CXX_FLAGS "-m32 -Wno-attributes")
+endif()
+
+if(WIN32)
+	if(MSVC)
+		if(MSVC10)
+			set(compiler "vc10")
+		elseif(MSVC9)
+			set(compiler "vc9")
+		elseif(MSVC8)
+			set(compiler "vc9")
+		elseif(MSVC71)
+			set(compiler "vc71")
+		elseif(MSVC7)
+			set(compiler "vc7")
+		elseif(MSVC6)
+			set(compiler "vc6")
+		else()
+			message(FATAL_ERROR "Unknown MSVC version")
+		endif()
+	elseif(MINGW)
+		set(compiler "mingw")
+	else()
+		message(FATAL_ERROR "Unsupported compiler")
+	endif()
+	set_target_properties(sampgdk-shared PROPERTIES SUFFIX "-${compiler}.dll")
+	set_target_properties(sampgdk-static PROPERTIES SUFFIX "-${compiler}.lib")
 endif()
 
 install(TARGETS sampgdk-shared sampgdk-static
