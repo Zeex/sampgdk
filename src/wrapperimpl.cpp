@@ -24,8 +24,7 @@ namespace sampgdk {
 WrapperImpl::WrapperImpl() {}
 
 void WrapperImpl::Initialize(void **ppPluginData) {
-	::pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
-
+	void *pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
 	// Hook amx_Register, amx_FindPublic and amx_Exec.
 	AmxApiHooks::GetInstance().Initialize(static_cast<void**>(pAMXFunctions)); 
 }

@@ -16,6 +16,7 @@
 #define SAMPGDK_AMXAPIHOOKS_H
 
 #include <string>
+
 #include <sampgdk/amxplugin.h>
 
 #include "jump.h"
@@ -35,10 +36,6 @@ private:
 	static int AMXAPI amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number);
 	static int AMXAPI amx_FindPublic(AMX *amx, const char *name, int *index);
 	static int AMXAPI amx_Exec(AMX *amx, cell *retval, int index);
-
-	Jump registerHook_;
-	Jump findPublicHook_;
-	Jump execHook_;
 	
 	std::string currentPublic_;
 };
