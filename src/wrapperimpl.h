@@ -15,7 +15,6 @@
 #include <map>
 #include <string>
 
-#include <sampgdk/amx/amx.h>
 #include <sampgdk/wrapper.h>
 
 namespace sampgdk {
