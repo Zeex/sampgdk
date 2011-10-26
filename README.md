@@ -1,8 +1,5 @@
 SA:MP Gamemode Development Kit for C++
-======================================
-
-Introduction
-------------
+--------------------------------------
 
 This is a C++ wrapper for SA:MP Pawn scripting API. It allows you to call SA:MP built-in functions
 and handle server events (i.e. callbacks) from within a plugin. 
