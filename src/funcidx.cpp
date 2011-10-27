@@ -25,9 +25,8 @@
 	#include <malloc.h>
 #endif
 
+#include <sampgdk/amxplugin.h>
 #include <sampgdk/core.h>
-
-#include "amx/amx.h"
 
 // native funcidx(const funcname[]);
 cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params) {

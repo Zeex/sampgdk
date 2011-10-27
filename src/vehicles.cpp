@@ -477,3 +477,4 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid) {
 	};
 	return native(&::fakeAmx, params) != 0;
 }
+

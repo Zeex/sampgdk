@@ -18,7 +18,7 @@
 #include <map>
 #include <string>
 
-#include "amx/amx.h"
+#include <sampgdk/amxplugin.h>
 
 class NativeManager {
 public:

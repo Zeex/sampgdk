@@ -15,7 +15,7 @@
 #ifndef SAMPGDK_FUNCIDX_H
 #define SAMPGDK_FUNCIDX_H
 
-#include "amx/amx.h"
+#include <sampgdk/amxplugin.h>
 
 extern cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params);
 

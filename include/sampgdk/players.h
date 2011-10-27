@@ -20,48 +20,48 @@
 #include <sampgdk/export.h>
 #include <sampgdk/samp.h>
 
-#define SPECIAL_ACTION_NONE              0
-#define SPECIAL_ACTION_DUCK              1
-#define SPECIAL_ACTION_USEJETPACK        2
-#define SPECIAL_ACTION_ENTER_VEHICLE     3
-#define SPECIAL_ACTION_EXIT_VEHICLE      4
-#define SPECIAL_ACTION_DANCE1            5
-#define SPECIAL_ACTION_DANCE2            6
-#define SPECIAL_ACTION_DANCE3            7
-#define SPECIAL_ACTION_DANCE4            8
-#define SPECIAL_ACTION_HANDSUP           10
-#define SPECIAL_ACTION_USECELLPHONE      11
-#define SPECIAL_ACTION_SITTING           12
-#define SPECIAL_ACTION_STOPUSECELLPHONE  13
-#define SPECIAL_ACTION_DRINK_BEER        20
-#define SPECIAL_ACTION_SMOKE_CIGGY       21
-#define SPECIAL_ACTION_DRINK_WINE        22
-#define SPECIAL_ACTION_DRINK_SPRUNK      23
+const int SPECIAL_ACTION_NONE = 0;
+const int SPECIAL_ACTION_DUCK = 1;
+const int SPECIAL_ACTION_USEJETPACK = 2;
+const int SPECIAL_ACTION_ENTER_VEHICLE = 3;
+const int SPECIAL_ACTION_EXIT_VEHICLE = 4;
+const int SPECIAL_ACTION_DANCE1 = 5;
+const int SPECIAL_ACTION_DANCE2 = 6;
+const int SPECIAL_ACTION_DANCE3 = 7;
+const int SPECIAL_ACTION_DANCE4 = 8;
+const int SPECIAL_ACTION_HANDSUP = 10;
+const int SPECIAL_ACTION_USECELLPHONE = 11;
+const int SPECIAL_ACTION_SITTING = 12;
+const int SPECIAL_ACTION_STOPUSECELLPHONE = 13;
+const int SPECIAL_ACTION_DRINK_BEER = 20;
+const int SPECIAL_ACTION_SMOKE_CIGGY = 21;
+const int SPECIAL_ACTION_DRINK_WINE = 22;
+const int SPECIAL_ACTION_DRINK_SPRUNK = 23;
 
-#define FIGHT_STYLE_NORMAL               4
-#define FIGHT_STYLE_BOXING               5
-#define FIGHT_STYLE_KUNGFU               6
-#define FIGHT_STYLE_KNEEHEAD             7
-#define FIGHT_STYLE_GRABKICK             15
-#define FIGHT_STYLE_ELBOW                16
+const int FIGHT_STYLE_NORMAL = 4;
+const int FIGHT_STYLE_BOXING = 5;
+const int FIGHT_STYLE_KUNGFU = 6;
+const int FIGHT_STYLE_KNEEHEAD = 7;
+const int FIGHT_STYLE_GRABKICK = 15;
+const int FIGHT_STYLE_ELBOW = 16;
 
-#define WEAPONSKILL_PISTOL                0
-#define WEAPONSKILL_PISTOL_SILENCED       1
-#define WEAPONSKILL_DESERT_EAGLE          2
-#define WEAPONSKILL_SHOTGUN               3
-#define WEAPONSKILL_SAWNOFF_SHOTGUN       4
-#define WEAPONSKILL_SPAS12_SHOTGUN        5
-#define WEAPONSKILL_MICRO_UZI             6
-#define WEAPONSKILL_MP5                   7
-#define WEAPONSKILL_AK47                  8
-#define WEAPONSKILL_M4                    9
-#define WEAPONSKILL_SNIPERRIFLE           10
+const int WEAPONSKILL_PISTOL = 0;
+const int WEAPONSKILL_PISTOL_SILENCED = 1;
+const int WEAPONSKILL_DESERT_EAGLE = 2;
+const int WEAPONSKILL_SHOTGUN = 3;
+const int WEAPONSKILL_SAWNOFF_SHOTGUN = 4;
+const int WEAPONSKILL_SPAS12_SHOTGUN = 5;
+const int WEAPONSKILL_MICRO_UZI = 6;
+const int WEAPONSKILL_MP5 = 7;
+const int WEAPONSKILL_AK47 = 8;
+const int WEAPONSKILL_M4 = 9;
+const int WEAPONSKILL_SNIPERRIFLE = 10;
 
-#define WEAPONSTATE_UNKNOWN              -1
-#define WEAPONSTATE_NO_BULLETS            0
-#define WEAPONSTATE_LAST_BULLET           1
-#define WEAPONSTATE_MORE_BULLETS          2
-#define WEAPONSTATE_RELOADING             3
+const int WEAPONSTATE_UNKNOWN = -1;
+const int WEAPONSTATE_NO_BULLETS = 0;
+const int WEAPONSTATE_LAST_BULLET = 1;
+const int WEAPONSTATE_MORE_BULLETS = 2;
+const int WEAPONSTATE_RELOADING = 3;
 
 // Player
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetSpawnInfo(int playerid, int team, int skin, float x, float y, float z, float rotation, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo);
@@ -131,7 +131,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveBuildingForPlayer(int playerid, int model
 
 // Attached to bone objects
 
-#define MAX_PLAYER_ATTACHED_OBJECTS 5 // This is the number of attached indexes available ie 5 = 0-4
+const int MAX_PLAYER_ATTACHED_OBJECTS = 5; // This is the number of attached indexes available ie 5 = 0-4
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX = 0.0, float fOffsetY = 0.0, float fOffsetZ = 0.0, float fRotX = 0.0, float fRotY = 0.0, float fRotZ = 0.0, float fScaleX = 1.0, float fScaleY = 1.0, float fScaleZ = 1.0);
 SAMPGDK_EXPORT bool SAMPGDK_CALL RemovePlayerAttachedObject(int playerid, int index);
@@ -147,16 +147,16 @@ SAMPGDK_EXPORT float SAMPGDK_CALL GetPVarFloat(int playerid, const char *varname
 SAMPGDK_EXPORT bool SAMPGDK_CALL DeletePVar(int playerid, const char *varname);
 
 // PVar enumeration
-#define PLAYER_VARTYPE_NONE         0
-#define PLAYER_VARTYPE_INT          1
-#define PLAYER_VARTYPE_STRING       2
-#define PLAYER_VARTYPE_FLOAT        3
+const int PLAYER_VARTYPE_NONE = 0;
+const int PLAYER_VARTYPE_INT = 1;
+const int PLAYER_VARTYPE_STRING = 2;
+const int PLAYER_VARTYPE_FLOAT = 3;
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarsUpperIndex(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarNameAtIndex(int playerid, int index, char *varname, size_t size);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarType(int playerid, const char *varname);
 
-#define MAX_CHATBUBBLE_LENGTH 144
+const int MAX_CHATBUBBLE_LENGTH = 144;
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerChatBubble(int playerid, const char *text, long color, float drawdistance, long expiretime);
 
 // Player controls
@@ -182,10 +182,10 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerWorldBounds(int playerid, float x_max,
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerMarkerForPlayer(int playerid, int showplayerid, long color);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerNameTagForPlayer(int playerid, int showplayerid, bool show);
 
-#define MAPICON_LOCAL             0 // displays in the player's local are
-#define MAPICON_GLOBAL            1 // displays always
-#define MAPICON_LOCAL_CHECKPOINT  2 // displays in the player's local area and has a checkpoint marker
-#define MAPICON_GLOBAL_CHECKPOINT 3 // displays always and has a checkpoint marker
+const int MAPICON_LOCAL = 0; // displays in the player's local are
+const int MAPICON_GLOBAL = 1; // displays always
+const int MAPICON_LOCAL_CHECKPOINT = 2; // displays in the player's local area and has a checkpoint marker
+const int MAPICON_GLOBAL_CHECKPOINT = 3; // displays always and has a checkpoint marker
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerMapIcon(int playerid, int iconid, float x, float y, float z, int markertype, long color, int style = MAPICON_LOCAL);
 SAMPGDK_EXPORT bool SAMPGDK_CALL RemovePlayerMapIcon(int playerid, int iconid);
@@ -216,18 +216,18 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL EnableStuntBonusForPlayer(int playerid, bool en
 SAMPGDK_EXPORT void SAMPGDK_CALL EnableStuntBonusForAll(bool enable);
 
 // Spectating
-#define SPECTATE_MODE_NORMAL    1
-#define SPECTATE_MODE_FIXED     2
-#define SPECTATE_MODE_SIDE      3
+const int SPECTATE_MODE_NORMAL = 1;
+const int SPECTATE_MODE_FIXED = 2;
+const int SPECTATE_MODE_SIDE = 3;
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TogglePlayerSpectating(int playerid, bool toggle);
 SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerSpectatePlayer(int playerid, int targetplayerid, int mode = SPECTATE_MODE_NORMAL);
 SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode = SPECTATE_MODE_NORMAL);
 
 // Recording for NPC playback
-#define PLAYER_RECORDING_TYPE_NONE      0
-#define PLAYER_RECORDING_TYPE_DRIVER    1
-#define PLAYER_RECORDING_TYPE_ONFOOT    2
+const int PLAYER_RECORDING_TYPE_NONE = 0;
+const int PLAYER_RECORDING_TYPE_DRIVER = 1;
+const int PLAYER_RECORDING_TYPE_ONFOOT = 2;
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL StartRecordingPlayerData(int playerid, int recordtype, const char *recordname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopRecordingPlayerData(int playerid);
@@ -235,19 +235,19 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL StopRecordingPlayerData(int playerid);
 // Convenience templates for some functions (to avoid specifying output buffer size explicitly
 // when it's known at compile time (i.e. fixed-size buffers))
 template<size_t N> bool GetPlayerName(int playerid, char (&name)[N]) { 
-    return GetPlayerName(playerid, name, N); 
+	return GetPlayerName(playerid, name, N); 
 }
 template<size_t N> bool GetPlayerIp(int playerid, char (&ip)[N]) { 
-    return GetPlayerIp(playerid, ip, N); 
+	return GetPlayerIp(playerid, ip, N); 
 }
 template<size_t N> bool GetPVarString(int playerid, const char *varname, char (&value)[N]) {
-    return GetPVarString(playerid, varname, value, N);
+	return GetPVarString(playerid, varname, value, N);
 }
 template<size_t N> bool GetPVarNameAtIndex(int playerid, int index, char (&varname)[N]) {
-    return GetPVarNameAtIndex(playerid, index, varname, N);
+	return GetPVarNameAtIndex(playerid, index, varname, N);
 }
 template<size_t N1, size_t N2> bool GetAnimationName(int index, char (&animlib)[N1], char (&animname)[N2]) {
-    return GetAnimationName(index, animlib, N1, animname, N2);
+	return GetAnimationName(index, animlib, N1, animname, N2);
 }
 
 #endif

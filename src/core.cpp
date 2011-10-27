@@ -30,19 +30,12 @@
 #include "hooknative.h"
 #include "jump.h"
 #include "natives.h"
-#include "plugin.h"
-
-extern void *pAMXFunctions;
-
-static std::string lastPublicName;
 
 namespace hooks {
 
-	Jump amx_Register_hook;	
+	static std::string currentPublic;
 
 	int amx_Register(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
-		amx_Register_hook.Remove();
-
 		int error = ::amx_Register(amx, nativelist, number);
 
 		for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
@@ -52,132 +45,88 @@ namespace hooks {
 		// Fix funcidx
 		HookNative(amx, "funcidx", funcidx);
 
-		amx_Register_hook.Reinstall();
-
 		return error;
 	}
 
-	Jump amx_FindPublic_hook;
+	int AMXAPI amx_FindPublic(AMX *amx, const char *name, int *index) {
+		int error = ::amx_FindPublic(amx, name, index);	
 
-	int amx_FindPublic(AMX *amx, const char *name, int *index) {
-		amx_FindPublic_hook.Remove();
-
-		int error = ::amx_FindPublic(amx, name, index);
-
-		if (amx == GetGameMode() && GetGameMode() != 0) {
+		if (amx == GetGameMode()) {
 			if (error != AMX_ERR_NONE) {
-				// Make it think that any public it wants does exist.
 				*index = AMX_EXEC_GDK;
 				error = AMX_ERR_NONE;
 			}
-			::lastPublicName = name;
+			//printf("amx_FindPublic(%s) returns %d\n", name, error);
+			currentPublic = name;
 		}
-
-		amx_FindPublic_hook.Reinstall();
 
 		return error;
 	}
 
-	Jump amx_Exec_hook;
+	int AMXAPI amx_Exec(AMX *amx, cell *retval, int index) {
+		if (amx == GetGameMode()) {
+			//printf("BEGIN amx_Exec(%s[%d]) [paramcount = %d]\n", 
+			//	currentPublic.c_str(), index, amx->paramcount);
+		}
 
-	int amx_Exec(AMX *amx, cell *retval, int index) {
-		amx_Exec_hook.Remove();
-
-		int error = AMX_ERR_NONE;
+		bool canDoExec = true;	
 		if (index == AMX_EXEC_MAIN) {
-			// main() is being called -> this is the game mode.
+			//printf("main()\n");
 			SetGameMode(amx);
-			// OnGameModeInit is called before main so we must exec it manually somehow.
 			CallbackManager::GetInstance()->HandleCallback("OnGameModeInit");
-			error = ::amx_Exec(amx, retval, index);
 		} else {
-			// Check whether we deal with a game mode
-			if (amx == GetGameMode() && GetGameMode() != 0) {
-				bool canDoExec = true;
-				if (index != AMX_EXEC_MAIN && index != AMX_EXEC_CONT) {
-					canDoExec = CallbackManager::GetInstance()->HandleCallback(::lastPublicName.c_str());
-					*retval = cell(canDoExec);
-				}
-				// The handler could return a value indicating that this call shouldn't
-				// propagate to the gamemode or the rest of handlers (if any)
-				if (canDoExec) {
-					if (index != AMX_EXEC_GDK) {
-						error = ::amx_Exec(amx, retval, index);
-					} else {
-						error = AMX_ERR_NONE;
-					}
-				}
-			} else {
-				// Not a game mode - just call the original amx_Exec.
-				error = ::amx_Exec(amx, retval, index);
+			if (amx == GetGameMode() && index != AMX_EXEC_CONT) {
+				canDoExec = CallbackManager::GetInstance()->HandleCallback(currentPublic.c_str());
+			}
+			if (index == AMX_EXEC_GDK) {
+				canDoExec = false;
+				//printf("stk: %d --> ", amx->stk);
+				amx->stk += amx->paramcount * sizeof(cell);
+				amx->paramcount = 0;
+				//printf("%d (stp = %d)\n", amx->stk, amx->stp);
 			}
 		}
 
-		amx_Exec_hook.Reinstall();
+		int error = AMX_ERR_NONE;
+		if (canDoExec) {
+			error = ::amx_Exec(amx, retval, index);
+			//if (error != AMX_ERR_NONE) printf("AMX ERROR: %d\n", error);
+		} 
+
+		//if (amx == GetGameMode()) printf("END   amx_Exec(%d) [paramcount = %d]\n", index, amx->paramcount);
 
 		return error;
 	}
 
-	Jump amx_PushString_hook;
-
 	int amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, const char *string, int pack, int wchar) {
-		amx_PushString_hook.Remove();
-
 		int error = ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 		if (amx == GetGameMode()) {
 			CallbackManager::GetInstance()->PushArg(*phys_addr);
 		}
-
-		amx_PushString_hook.Reinstall();
 		return error;
 	}
 
-	Jump amx_Push_hook;
-
 	int amx_Push(AMX *amx, cell value) {
-		amx_Push_hook.Remove();
-
 		int error = ::amx_Push(amx, value);
-		if (amx == GetGameMode() && amx_PushString_hook.IsInstalled()) {
+		if (amx == GetGameMode()) {
 			CallbackManager::GetInstance()->PushArg(value);
 		}
-
-		amx_Push_hook.Reinstall();
 		return error;
 	}
 
 } // namespace hooks
 
-SAMPGDK_EXPORT void SAMPGDK_CALL SampGdkInit(void **data) {
+SAMPGDK_EXPORT void SAMPGDK_CALL SampGdkInit(void **pluginData) {
 	static bool initialized = false;
 
 	if (!initialized) {
-		pAMXFunctions = data[PLUGIN_DATA_AMX_EXPORTS];
+		void **amxApiExports = (void**)pluginData[PLUGIN_DATA_AMX_EXPORTS];
 
-		hooks::amx_Register_hook.Install(
-			((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Register], 
-			(void*)hooks::amx_Register
-		);
-
-		hooks::amx_FindPublic_hook.Install(
-			((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_FindPublic], 
-			(void*)hooks::amx_FindPublic
-		);
-
-		hooks::amx_Exec_hook.Install(
-			((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Exec], 
-			(void*)hooks::amx_Exec
-		);
-
-		hooks::amx_Push_hook.Install(
-			((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Push], 
-			(void*)hooks::amx_Push
-		);
-
-		hooks::amx_PushString_hook.Install(
-			((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_PushString], 
-			(void*)hooks::amx_PushString
-		);
+		SetJump(amxApiExports[PLUGIN_AMX_EXPORT_Register], (void*)hooks::amx_Register);
+		SetJump(amxApiExports[PLUGIN_AMX_EXPORT_FindPublic], (void*)hooks::amx_FindPublic);
+		SetJump(amxApiExports[PLUGIN_AMX_EXPORT_Exec], (void*)hooks::amx_Exec);
+		SetJump(amxApiExports[PLUGIN_AMX_EXPORT_Push], (void*)hooks::amx_Push);
+		SetJump(amxApiExports[PLUGIN_AMX_EXPORT_PushString], (void*)hooks::amx_PushString);
 
 		initialized = true;
 	}

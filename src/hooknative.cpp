@@ -14,7 +14,7 @@
 
 #include <cstring>
 
-#include "hooknative.h"
+#include <sampgdk/amxplugin.h>
 
 AMX_NATIVE HookNative(AMX *amx, const char *nativeName, AMX_NATIVE native) {
 	AMX_HEADER *hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
