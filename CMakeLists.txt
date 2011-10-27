@@ -60,9 +60,8 @@ set(SOURCES
 add_library(sampgdk SHARED ${SOURCES})
 
 set_target_properties(sampgdk PROPERTIES 
-	OUTPUT_NAME   "sampgdk"
-	SUFFIX        "${VERSION_MAJOR}.dll"
-	IMPORT_SUFFIX "${VERSION_MAJOR}.lib"
+	OUTPUT_NAME   "sampgdk${VERSION_MAJOR}"
+	IMPORT_PREFIX ""
 	DEBUG_POSTFIX "D"
 )
 
