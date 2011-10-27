@@ -35,6 +35,13 @@ elseif(WIN32)
 	add_definitions(-DWIN32 -D_WIN32)
 endif()
 
+add_definitions(
+	-DAMX_NODYNLOAD
+	-DAMX_EXEC
+	-DAMX_XXXPUBLICS
+	-DAMX_REGISTER
+)
+
 set(SOURCES
 	src/amx/amx.c
 	src/amxapihooks.cpp
