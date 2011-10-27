@@ -232,8 +232,9 @@ const int PLAYER_RECORDING_TYPE_ONFOOT = 2;
 SAMPGDK_EXPORT bool SAMPGDK_CALL StartRecordingPlayerData(int playerid, int recordtype, const char *recordname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopRecordingPlayerData(int playerid);
 
-// Convenience templates for some functions (to avoid specifying output buffer size explicitly
+// Convenience templates for some functions for C++ (to avoid specifying output buffer size explicitly
 // when it's known at compile time (i.e. fixed-size buffers))
+#ifdef __cplusplus
 template<size_t N> bool GetPlayerName(int playerid, char (&name)[N]) { 
 	return GetPlayerName(playerid, name, N); 
 }
@@ -249,6 +250,8 @@ template<size_t N> bool GetPVarNameAtIndex(int playerid, int index, char (&varna
 template<size_t N1, size_t N2> bool GetAnimationName(int index, char (&animlib)[N1], char (&animname)[N2]) {
 	return GetAnimationName(index, animlib, N1, animname, N2);
 }
+#endif // __cplusplus
+
 
 #endif
 
