@@ -23,6 +23,12 @@ check_include_and_define(inttypes.h HAVE_INTTYPES_H)
 check_include_and_define(malloc.h HAVE_MALLOC_H)
 check_include_and_define(stdint.h HAVE_STDINT_H)
 
+# AMX definitions
+add_definitions(
+	-DAMX_NODYNLOAD # Disable dynamically loaded modules 
+)
+
+# OS definitions
 if(UNIX)
 	add_definitions(-DUNIX)
 	if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -62,6 +68,7 @@ set_target_properties(sampgdk-shared PROPERTIES
 	SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
 )
 if(WIN32)
+	# Set DLL exports file on Windows
 	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
 		set_property(TARGET sampgdk-shared APPEND PROPERTY LINK_FLAGS "-Wl,--kill-at --def=${DEF_FILE}")
