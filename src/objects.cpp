@@ -292,7 +292,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid
 	native(&::fakeAmx, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
 	float frotX, float frotY, float frotZ)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("AttachObjectToVehicle");
@@ -307,7 +307,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicle
 		amx_ftoc(frotY),
 		amx_ftoc(frotZ)
 	};
-	return native(&::fakeAmx, params) != 0;
+	native(&::fakeAmx, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float OffsetY, float OffsetZ, 
@@ -347,3 +347,4 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, in
 	};
 	native(&::fakeAmx, params);
 }
+

@@ -4,37 +4,30 @@ project(sampgdk)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 include(CheckIncludeFile)
-include(FindDynCall)
-
-find_package(DynCall REQUIRED)
 
 set(VERSION_MAJOR 2)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
-	
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
-check_include_file(alloca.h HAVE_ALLOCA_H)
-if(HAVE_ALLOCA_H)
-	add_definitions(-DHAVE_ALLOCA_H)
-endif()
-check_include_file(inttypes.h HAVE_INTTYPES_H)
-if(HAVE_INTTYPES_H)
-	add_definitions(-DHAVE_INTTYPES_H)
-endif()
-check_include_file(malloc.h HAVE_MALLOC_H)
-if(HAVE_MALLOC_H)
-	add_definitions(-DHAVE_MALLOC_H)
-endif()
-check_include_file(stdint.h HAVE_STDINT_H)	 
-if(HAVE_STDINT_H)
-	add_definitions(-DHAVE_STDINT_H)
-endif()
+function(check_include_and_define include_file define)
+	check_include_file(${include_file} HAVE_${include_file})
+	if(HAVE_${include_file})
+		add_definitions(-D${define})
+	endif()
+endfunction()
+
+check_include_and_define(alloca.h HAVE_ALLOCA_H)
+check_include_and_define(inttypes.h HAVE_INTTYPES_H)
+check_include_and_define(malloc.h HAVE_MALLOC_H)
+check_include_and_define(stdint.h HAVE_STDINT_H)
 
 add_definitions(-DIN_SAMPGDK)
 
-include_directories("include")
-include_directories(${DYNCALL_INCLUDE_DIRS})
+include_directories(
+	"${sampgdk_SOURCE_DIR}/include"
+	"${sampgdk_SOURCE_DIR}/include/sampgdk/amx"
+)
 
 if(UNIX)
 	include_directories("src/amx") 
@@ -48,7 +41,7 @@ elseif(WIN32)
 endif()
 
 set(SOURCES
-	src/amxplugin.cpp
+	src/amx/amx.c
 	src/callbacks.cpp
 	src/core.cpp
 	src/fakeamx.cpp
@@ -65,9 +58,19 @@ set(SOURCES
 )
 
 add_library(sampgdk SHARED ${SOURCES})
-set_target_properties(sampgdk PROPERTIES OUTPUT_NAME "sampgdk")
+
+set_target_properties(sampgdk PROPERTIES 
+	OUTPUT_NAME "sampgdk"
+	DEBUG_POSTFIX "D"
+)
 
 if(WIN32)
+	set(DEF_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.def")
+	if(MINGW)
+		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "-Wl,--kill-at --def=${DEF_FILE}")
+	else()
+		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "/DEF:${DEF_FILE}")
+	endif()
 	set_target_properties(sampgdk PROPERTIES PREFIX "")
 	set_target_properties(sampgdk PROPERTIES SUFFIX ${VERSION_MAJOR}${VERSION_MINOR}.dll)
 endif()
@@ -77,12 +80,14 @@ set_target_properties(sampgdk PROPERTIES
 	SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
 )
 
+find_package(DynCall REQUIRED)
+include_directories(${DYNCALL_INCLUDE_DIRS})
 target_link_libraries(sampgdk ${DYNCALL_LIBRARIES})
 
 install(TARGETS sampgdk 
-	RUNTIME DESTINATION bin COMPONENT runtime
-	LIBRARY DESTINATION lib COMPONENT libraries
-	ARCHIVE DESTINATION lib COMPONENT libraries
+	RUNTIME DESTINATION "bin" COMPONENT runtime
+	LIBRARY DESTINATION "lib" COMPONENT libraries
+	ARCHIVE DESTINATION "lib" COMPONENT libraries
 )
 
 install(DIRECTORY "include" DESTINATION "." COMPONENT headers)

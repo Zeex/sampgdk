@@ -12,9 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef SAMPGDK_H
+#define SAMPGDK_H
+
+#include <sampgdk/amxplugin.h>
 #include <sampgdk/core.h>
 #include <sampgdk/objects.h>
 #include <sampgdk/players.h>
 #include <sampgdk/samp.h>
 #include <sampgdk/vehicles.h>
+
+#endif // !SAMPGDK_H
 

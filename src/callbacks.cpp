@@ -107,3 +107,4 @@ bool CallbackManager::HandleCallback(const char *name) {
 
 	return retval;
 }
+

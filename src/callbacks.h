@@ -19,7 +19,7 @@
 #include <map>
 #include <string>
 
-#include "amx/amx.h"
+#include <sampgdk/amxplugin.h>
 
 class CallbackManager {
 public:

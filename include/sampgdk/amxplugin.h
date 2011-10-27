@@ -114,6 +114,4 @@ enum PLUGIN_AMX_EXPORT {
 	PLUGIN_AMX_EXPORT_UTF8Put       = 43
 };
 
-extern void *pAMXFunctions;
-
 #endif

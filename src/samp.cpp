@@ -99,7 +99,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForPlayer(int playerid, const char *tex
 	return native(&::fakeAmx, params) != 0;
 }
 
-SAMPGDK_EXPORT long SAMPGDK_CALL GetServerTickCount() {
+SAMPGDK_EXPORT long SAMPGDK_CALL GetTickCount() {
 	static AMX_NATIVE native = NativeManager::GetInstance()->GetNative("GetTickCount");
 	return native(&::fakeAmx, 0);
 }
@@ -1052,3 +1052,4 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, in
 	};
 	return native(&::fakeAmx, params) != 0;
 }
+

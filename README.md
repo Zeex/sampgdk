@@ -16,6 +16,3 @@ Major differences from 1.x:
      different .dll's for MinGW and VC++.  
                                    
 
-*    Single header 
-  
-     Just #include &lt;sampgdk.h&gt; and you're done.
