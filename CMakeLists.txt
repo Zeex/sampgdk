@@ -60,7 +60,9 @@ set(SOURCES
 add_library(sampgdk SHARED ${SOURCES})
 
 set_target_properties(sampgdk PROPERTIES 
-	OUTPUT_NAME "sampgdk"
+	OUTPUT_NAME   "sampgdk"
+	SUFFIX        "${VERSION_MAJOR}.dll"
+	IMPORT_SUFFIX "${VERSION_MAJOR}.lib"
 	DEBUG_POSTFIX "D"
 )
 
@@ -72,7 +74,6 @@ if(WIN32)
 		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "/DEF:${DEF_FILE}")
 	endif()
 	set_target_properties(sampgdk PROPERTIES PREFIX "")
-	set_target_properties(sampgdk PROPERTIES SUFFIX ${VERSION_MAJOR}${VERSION_MINOR}.dll)
 endif()
 
 set_target_properties(sampgdk PROPERTIES 
