@@ -40,7 +40,6 @@ EventHandler::EventHandler()
 }
 
 EventHandler::~EventHandler() {
-	this->Unregister();
 }
 
 void EventHandler::Register() {
