@@ -11,7 +11,7 @@ if(WIN32)
 				LINK_FLAGS "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/helloworld.def")
 	elseif(MINGW)
 		set_target_properties(helloworld PROPERTIES
-				LINK_FLAGS "--def=${CMAKE_CURRENT_SOURCE_DIR}/helloworld.def")
+				LINK_FLAGS "-Wl,--kill-at --def=${CMAKE_CURRENT_SOURCE_DIR}/helloworld.def")
 	endif()
 endif()
 
