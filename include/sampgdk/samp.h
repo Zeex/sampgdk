@@ -249,17 +249,16 @@ const int CLICK_SOURCE_SCOREBOARD = 0;
 
 // Convenience templates for some functions (to avoid specifying output buffer size explicitly
 // when it's known at compile time (i.e. fixed-size buffers))
-
+#ifdef __cplusplus
 template<size_t N> bool GetNetworkStats(char (&retstr)[N]) { 
 	return GetNetworkStats(retstr, N); 
 }
-
 template<size_t N> bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) { 
 	return GetPlayerNetworkStats(playerid, retstr, N); 
 }
-
 template<size_t N> bool GetWeaponName(int weaponid, char (&name)[N]) {
 	return GetWeaponName(weaponid, name, N);
 }
+#endif // __cplusplus
 
 #endif
