@@ -3,9 +3,6 @@
 
 #include <sampgdk.h>
 
-#include "amxplugin.h"
-
-typedef void (*logprintf_t)(const char *fmt, ...);
 static logprintf_t logprintf;
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
