@@ -61,8 +61,6 @@ set(SOURCES
 	src/wrapperimpl.cpp
 )
 
-set(CMAKE_DEBUG_POSTFIX "D")
-
 add_library(sampgdk-shared SHARED ${SOURCES})
 set_target_properties(sampgdk-shared PROPERTIES 
 	OUTPUT_NAME "sampgdk"
@@ -71,7 +69,7 @@ set_target_properties(sampgdk-shared PROPERTIES
 	SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
 )
 if(WIN32)
-	set(DEF_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.def")
+	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
 		set_property(TARGET sampgdk-shared APPEND PROPERTY LINK_FLAGS "-Wl,--kill-at --def=${DEF_FILE}")
 	else()
@@ -88,8 +86,11 @@ else()
 	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
 endif()
 
+set_target_properties(sampgdk-shared sampgdk-static PROPERTIES DEBUG_POSTFIX "D")
+
 if(UNIX OR MINGW)
-	set(CMAKE_CXX_FLAGS "-m32 -Wno-attributes")
+	set_target_properties(sampgdk-shared sampgdk-static PROPERTIES
+		COMPILE_FLAGS "-m32 -Wno-attibutes" LINK_FLAGS "-m32")
 endif()
 
 if(WIN32)
