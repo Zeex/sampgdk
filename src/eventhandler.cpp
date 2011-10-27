@@ -14,22 +14,9 @@
 
 #include <sampgdk/eventhandler.h>
 
-class StaticData {
-public:
-	static StaticData *GetInstance();
-	sampgdk::EventHandler *first;
-private:
-	StaticData();
-};
-
-StaticData::StaticData() 
-	: first(0)
-{
-}
-
-StaticData *StaticData::GetInstance() {
-	static StaticData sd;
-	return &sd;
+static sampgdk::EventHandler *&First() {
+	static sampgdk::EventHandler *first;
+	return first;
 }
 
 namespace sampgdk { 
@@ -43,19 +30,19 @@ EventHandler::~EventHandler() {
 }
 
 void EventHandler::Register() {
-	EventHandler *first = StaticData::GetInstance()->first;
+	EventHandler *first = First();
 	next_ = first;
 	if (first != 0) {
 		first->prev_ = this;
 	}
-	StaticData::GetInstance()->first = this;
+	First() = this;
 	registered_ = true;
 }
 
 void EventHandler::Unregister() {
 	if (registered_) {
-		if (StaticData::GetInstance()->first == this) {
-			StaticData::GetInstance()->first = next_;
+		if (First() == this) {
+			First() = next_;
 			next_->prev_ = 0;
 		} else {
 			next_->prev_ = prev_;
@@ -70,7 +57,7 @@ EventHandler *EventHandler::GetNext() const {
 }
 
 EventHandler *EventHandler::GetFirstEventHandler() {
-	return StaticData::GetInstance()->first;
+	return First();
 }
 
 bool EventHandler::IsRegistered() const {
