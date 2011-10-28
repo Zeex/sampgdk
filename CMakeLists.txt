@@ -8,7 +8,6 @@ include(CheckIncludeFile)
 set(VERSION_MAJOR 2)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
-set(VERSION_API   2)
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
 function(check_include_and_define include_file define)
@@ -66,7 +65,7 @@ set_target_properties(sampgdk PROPERTIES
 )
 
 if(WIN32)
-	set(DEF_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.def")
+	set(DEF_FILE "${sampgdk_CURRENT_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
 		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "-Wl,--kill-at --def=${DEF_FILE}")
 	else()
@@ -78,7 +77,7 @@ if(WIN32)
 elseif(UNIX)
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
-		SOVERSION ${VERSION_API}
+		SOVERSION ${VERSION_MAJOR}
 	)
 endif()
 
