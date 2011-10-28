@@ -8,6 +8,7 @@ include(CheckIncludeFile)
 set(VERSION_MAJOR 2)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
+set(VERSION_API   2)
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
 function(check_include_and_define include_file define)
@@ -60,7 +61,6 @@ set(SOURCES
 add_library(sampgdk SHARED ${SOURCES})
 
 set_target_properties(sampgdk PROPERTIES 
-	OUTPUT_NAME   "sampgdk${VERSION_MAJOR}"
 	IMPORT_PREFIX ""
 	DEBUG_POSTFIX "D"
 )
@@ -72,22 +72,29 @@ if(WIN32)
 	else()
 		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "/DEF:${DEF_FILE}")
 	endif()
-	set_target_properties(sampgdk PROPERTIES PREFIX "")
+	set_target_properties(sampgdk PROPERTIES 
+		PREFIX      ""
+		OUTPUT_NAME "sampgdk${VERSION_MAJOR}")
+elseif(UNIX)
+	set_target_properties(sampgdk PROPERTIES 
+		VERSION   ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+		SOVERSION ${VERSION_API}
+	)
 endif()
 
-set_target_properties(sampgdk PROPERTIES 
-	VERSION   ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
-	SOVERSION ${VERSION_MAJOR}.${VERSION_MINOR}
-)
+if(UNIX OR MINGW)
+	set_target_properties(sampgdk PROPERTIES
+		COMPILE_FLAGS "-m32 -Wno-attributes" LINK_FLAGS "-m32")
+endif()
 
 find_package(DynCall REQUIRED)
 include_directories(${DYNCALL_INCLUDE_DIRS})
 target_link_libraries(sampgdk ${DYNCALL_LIBRARIES})
 
 install(TARGETS sampgdk 
-	RUNTIME DESTINATION "bin" COMPONENT runtime
-	LIBRARY DESTINATION "lib" COMPONENT libraries
-	ARCHIVE DESTINATION "lib" COMPONENT libraries
+	RUNTIME DESTINATION "bin" COMPONENT "runtime"
+	LIBRARY DESTINATION "lib" COMPONENT "libraries"
+	ARCHIVE DESTINATION "lib" COMPONENT "libraries"
 )
 
 install(DIRECTORY "include" DESTINATION "." COMPONENT headers)
@@ -96,7 +103,7 @@ set(CPACK_PACKAGE_NAME "sampgdk")
 set(CPACK_PACKAGE_VENDOR "Zeex")
 set(CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA:MP Gamemode Development Kit for C++")
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE)
+set(CPACK_RESOURCE_FILE_LICENSE ${sampgdk_SOURCE_DIR}/LICENSE)
 set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
@@ -113,7 +120,7 @@ set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ headers")
 set(CPACK_COMPONENT_HEADERS_DESCRIPTION "C++ header files for plugin developers")
 set(CPACK_COMPONENT_HEADERS_GROUP "Development")
 set(CPACK_COMPONENT_HEADERS_INSTALL_TYPES "Full")
-set(CPACK_COMPONENT_HEADERS_DEPENDS libraries)
+set(CPACK_COMPONENT_HEADERS_DEPENDS "libraries")
 
 include(CPack)
 
