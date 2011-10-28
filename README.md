@@ -25,7 +25,7 @@ SA-MP functions not included in GDK
 
 Known issues
 ------------
-*    Callbacks like 'OnPlayerCommandText`, `OnRconCommand`, etc with "non-standard" return values are treted in the same way
+*    Callbacks like `OnPlayerCommandText`, `OnRconCommand`, etc with *non-standard* return values are treted in the same way
      as the rest, which means you should return 0 if you want to prevent them from being called in other GDK-enabled plugins, if any. 
      Furthermore, the returned 0 is passed directly to SA-MP server resulting in an `Server: Unknown Command`message though the command 
      has been found.  
