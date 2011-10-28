@@ -65,7 +65,7 @@ set_target_properties(sampgdk PROPERTIES
 )
 
 if(WIN32)
-	set(DEF_FILE "${sampgdk_CURRENT_SOURCE_DIR}/src/sampgdk.def")
+	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
 		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "-Wl,--kill-at --def=${DEF_FILE}")
 	else()
