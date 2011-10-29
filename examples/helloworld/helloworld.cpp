@@ -6,7 +6,7 @@
 #include <sampgdk/wrapper.h>
 
 #include <cstdio> // for sprintf
-#include <cstring> // for strcmp
+#include <string>
 
 static logprintf_t logprintf;
 
@@ -44,8 +44,8 @@ bool HelloWorld::OnPlayerRequestClass(int playerid, int classid) {
 	return true;
 }
 
-bool HelloWorld::OnPlayerCommandText(int playerid, const char *cmdtext) {
-	if (std::strcmp(cmdtext, "/hello") == 0) {
+bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
+	if (cmdtext == "/hello") {
 		char name[MAX_PLAYER_NAME];
 		GetPlayerName(playerid, name);
 		char message[128];
