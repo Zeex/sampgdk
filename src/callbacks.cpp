@@ -69,9 +69,6 @@ struct Event {
 		}\
 		return cell(!badRet_);\
 	}
-
-#define EVENT_BODY()\
-	while (eh_ != 0) {\
 		
 #define ARG(type_, index_)\
 	StackArg<type_>::Get(amx, index_)
