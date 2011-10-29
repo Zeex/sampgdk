@@ -14,7 +14,8 @@
 // detect stdint.h
 #if !defined HAVE_STDINT_H 
 	#if (!defined __STDC__ && __STDC_VERSION__ >= 199901L)\
-			|| defined __cplusplus || defined __GNUC__
+			|| (defined _MSC_VER_ && _MSC_VER >= 1600  /*VS 2010 and later */)\
+			|| (defined __GNUC__)
 		#define HAVE_STDINT_H
 	#endif
 #endif
