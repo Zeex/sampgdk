@@ -15,6 +15,8 @@
 #ifndef SAMPGDK_EVENTHANDLER_H
 #define SAMPGDK_EVENTHANDLER_H
 
+#include <string>
+
 #include <sampgdk/export.h>
 
 namespace sampgdk {
@@ -40,8 +42,8 @@ public:
 	virtual bool OnPlayerDeath(int playerid, int killerid, int reason);
 	virtual bool OnVehicleSpawn(int vehicleid);
 	virtual bool OnVehicleDeath(int vehicleid, int killerid);
-	virtual bool OnPlayerText(int playerid, const char *text);
-	virtual bool OnPlayerCommandText(int playerid, const char *cmdtext);
+	virtual bool OnPlayerText(int playerid, const std::string &text);
+	virtual bool OnPlayerCommandText(int playerid, const std::string &cmdtext);
 	virtual bool OnPlayerRequestClass(int playerid, int classid);
 	virtual bool OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger);
 	virtual bool OnPlayerExitVehicle(int playerid, int vehicleid);
@@ -50,7 +52,7 @@ public:
 	virtual bool OnPlayerLeaveCheckpoint(int playerid);
 	virtual bool OnPlayerEnterRaceCheckpoint(int playerid);
 	virtual bool OnPlayerLeaveRaceCheckpoint(int playerid);
-	virtual bool OnRconCommand(const char *cmd);
+	virtual bool OnRconCommand(const std::string &cmd);
 	virtual bool OnPlayerRequestSpawn(int playerid);
 	virtual bool OnObjectMoved(int objectid);
 	virtual bool OnPlayerObjectMoved(int playerid, int objectid);
@@ -65,13 +67,13 @@ public:
 	virtual bool OnPlayerExitedMenu(int playerid);
 	virtual bool OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid);
 	virtual bool OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys);
-	virtual bool OnRconLoginAttempt(const char *ip, const char *password, bool success);
+	virtual bool OnRconLoginAttempt(const std::string &ip, const std::string &password, bool success);
 	virtual bool OnPlayerUpdate(int playerid);
 	virtual bool OnPlayerStreamIn(int playerid, int forplayerid);
 	virtual bool OnPlayerStreamOut(int playerid, int forplayerid);
 	virtual bool OnVehicleStreamIn(int vehicleid, int forplayerid);
 	virtual bool OnVehicleStreamOut(int vehicleid, int forplayerid);
-	virtual bool OnDialogResponse(int playerid, int dialogid, bool response, int listitem, const char *inputtext);
+	virtual bool OnDialogResponse(int playerid, int dialogid, bool response, int listitem, const std::string &inputtext);
 	virtual bool OnPlayerClickPlayer(int playerid, int clickedplayerid, int source);
 	virtual bool OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid);
 	virtual bool OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid);
