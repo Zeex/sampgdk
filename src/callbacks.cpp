@@ -18,7 +18,12 @@
 #include <sampgdk/eventhandler.h>
 #include <sampgdk/wrapper.h>
 
-template<typename T> struct StackArg {};
+template<typename T> struct StackArg {
+	// MSVc 2008 required a Get implementation
+	static T Get(AMX *amx, int index) {
+		return T(); 
+	}
+};
 
 template<> struct StackArg<cell> {
 	static cell Get(AMX *amx, int index) {
