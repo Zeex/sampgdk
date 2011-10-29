@@ -96,28 +96,35 @@ endif()
 if(WIN32)
 	if(MSVC)
 		if(MSVC10)
-			set(compiler "VC10")
+			set(VC "VC10")
 		elseif(MSVC90)
-			set(compiler "VC9")
+			set(VC "VC9")
 		elseif(MSVC80)
-			set(compiler "VC9")
+			set(VC "VC9")
 		elseif(MSVC71)
-			set(compiler "VC71")
+			set(VC "VC71")
 		elseif(MSVC70)
-			set(compiler "VC7")
+			set(VC "VC7")
 		elseif(MSVC60)
-			set(compiler "VC6")
+			set(VC "VC6")
 		else()
 			message(FATAL_ERROR "Unknown MSVC version")
 		endif()
+		set_target_properties(sampgdk-shared sampgdk-static PROPERTIES 
+			SUFFIX        "${VC}.dll"
+			IMPORT_SUFFIX "${VC}.lib")
 	elseif(MINGW)
-		set(compiler "G")
+		set_target_properties(sampgdk-shared PROPERTIES
+			PREFIX        ""
+			SUFFIX        "G.dll"
+			IMPORT_PREFIX ""
+			IMPORT_SUFFIX "G.dll.a")
+		set_target_properties(sampgdk-static PROPERTIES
+			PREFIX        ""
+			SUFFIX        "G.a")
 	else()
 		message(FATAL_ERROR "Unsupported compiler")
 	endif()
-	set_target_properties(sampgdk-shared PROPERTIES SUFFIX "${compiler}.dll")
-	set_target_properties(sampgdk-shared PROPERTIES IMPORT_SUFFIX "${compiler}.lib")
-	set_target_properties(sampgdk-static PROPERTIES SUFFIX "${compiler}.lib")
 endif()
 
 install(TARGETS sampgdk-shared sampgdk-static
