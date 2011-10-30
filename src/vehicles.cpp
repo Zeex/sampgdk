@@ -34,7 +34,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreateVehicle(int vehicletype, float x, float y,
 		color2,
 		respawn_delay
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyVehicle(int vehicleid) {
@@ -43,7 +43,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyVehicle(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsVehicleStreamedIn(int vehicleid, int forplayerid) {
@@ -53,7 +53,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsVehicleStreamedIn(int vehicleid, int forplaye
 		vehicleid,
 		forplayerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehiclePos(int vehicleid, float &x, float &y, float &z) {
@@ -68,7 +68,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehiclePos(int vehicleid, float &x, float &y
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -84,7 +84,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehiclePos(int vehicleid, float x, float y, 
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleZAngle(int vehicleid, float &z_angle) {
@@ -95,7 +95,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleZAngle(int vehicleid, float &z_angle)
 		vehicleid,
 		z_angle_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	z_angle = z_angle_.GetAsFloat();
 	return ret;
 
@@ -115,7 +115,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleRotationQuat(int vehicleid, float &w,
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	w = w_.GetAsFloat();
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
@@ -132,7 +132,7 @@ SAMPGDK_EXPORT float SAMPGDK_CALL GetVehicleDistanceFromPoint(int vehicleid, flo
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	cell ret = native(&::fakeAmx, params);
+	cell ret = FakeAmx::GetInstance().CallNative(native, params);
 	return amx_ctof(ret);
 }
 
@@ -144,7 +144,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleZAngle(int vehicleid, float z_angle) 
 		vehicleid,
 		amx_ftoc(z_angle)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked) {
@@ -156,12 +156,12 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsForPlayer(int vehicleid, int pl
 		objective,
 		doorslocked
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL ManualVehicleEngineAndLights() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ManualVehicleEngineAndLights");
-	native(&::fakeAmx, 0);
+	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, bool doors, 
@@ -179,7 +179,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, 
 		boot,
 		objective
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, bool &engine, bool &lights, bool &alarm, bool &doors, 
@@ -204,7 +204,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, bool &engine,
 		boot_.address(),
 		objective_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	engine = engine_.Get() != 0;
 	lights = lights_.Get() != 0;
 	alarm  = alarm_.Get() != 0;
@@ -221,7 +221,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleToRespawn(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL LinkVehicleToInterior(int vehicleid, int interiorid) {
@@ -231,7 +231,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL LinkVehicleToInterior(int vehicleid, int interi
 		vehicleid,
 		interiorid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL AddVehicleComponent(int vehicleid, int componentid) {
@@ -241,7 +241,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AddVehicleComponent(int vehicleid, int componen
 		vehicleid,
 		componentid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveVehicleComponent(int vehicleid, int componentid) {
@@ -251,7 +251,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveVehicleComponent(int vehicleid, int compo
 		vehicleid,
 		componentid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehicleColor(int vehicleid, int color1, int color2) {
@@ -262,7 +262,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehicleColor(int vehicleid, int color1, i
 		color1,
 		color2
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehiclePaintjob(int vehicleid, int paintjobid) {
@@ -272,7 +272,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehiclePaintjob(int vehicleid, int paintj
 		vehicleid,
 		paintjobid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleHealth(int vehicleid, float health) {
@@ -282,7 +282,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleHealth(int vehicleid, float health) {
 		vehicleid,
 		amx_ftoc(health)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleHealth(int vehicleid, float &health) {
@@ -293,7 +293,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleHealth(int vehicleid, float &health) 
 		vehicleid,
 		health_.address()
 	};
-	bool ret =native(&::fakeAmx, params) != 0;
+	bool ret =FakeAmx::GetInstance().CallBooleanNative(native, params);
 	health = health_.GetAsFloat();
 	return ret;
 }
@@ -305,7 +305,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachTrailerToVehicle(int trailerid, int vehic
 		trailerid,
 		vehicleid
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL DetachTrailerFromVehicle(int vehicleid) {
@@ -314,7 +314,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DetachTrailerFromVehicle(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsTrailerAttachedToVehicle(int vehicleid) {
@@ -323,7 +323,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsTrailerAttachedToVehicle(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleTrailer(int vehicleid) {
@@ -332,7 +332,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleTrailer(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleNumberPlate(int vehicleid, const char *numberplate) {
@@ -343,7 +343,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleNumberPlate(int vehicleid, const char
 		vehicleid,
 		numberplate_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleModel(int vehicleid) {
@@ -352,7 +352,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleModel(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentInSlot(int vehicleid, int slot) {
@@ -362,7 +362,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentInSlot(int vehicleid, int slo
 		vehicleid,
 		slot
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentType(int component) {
@@ -371,7 +371,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentType(int component) {
 		1 * 4,
 		component
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL RepairVehicle(int vehicleid) {
@@ -380,7 +380,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL RepairVehicle(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVelocity(int vehicleid, float &x, float &y, float &z) {
@@ -395,7 +395,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVelocity(int vehicleid, float &x, flo
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -411,7 +411,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVelocity(int vehicleid, float x, floa
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleAngularVelocity(int vehicleid, float x, float y, float z) {
@@ -423,7 +423,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleAngularVelocity(int vehicleid, float 
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleDamageStatus(int vehicleid, long &panels, long &doors, long &lights, long &tires) {
@@ -440,7 +440,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleDamageStatus(int vehicleid, long &pan
 		lights_.address(),
 		tires_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	panels = panels_.Get();
 	doors  = doors_.Get();
 	lights = lights_.Get();
@@ -458,7 +458,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdateVehicleDamageStatus(int vehicleid, long p
 		amx_ftoc(lights),
 		amx_ftoc(tires)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVirtualWorld(int vehicleid, int worldid) {
@@ -468,7 +468,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVirtualWorld(int vehicleid, int world
 		vehicleid,
 		worldid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid) {
@@ -477,7 +477,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 } // namespace sampgdk

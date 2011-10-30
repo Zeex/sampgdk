@@ -32,7 +32,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreateObject(int modelid, float x, float y, floa
 		amx_ftoc(rZ),
 		amx_ftoc(DrawDistance)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
@@ -50,7 +50,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicle
 		amx_ftoc(frotY),
 		amx_ftoc(frotZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float OffsetY, float OffsetZ, 
@@ -69,7 +69,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToObject(int objectid, int attachto
 		amx_ftoc(RotZ),
 		SyncRotation
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float OffsetY, float OffsetZ, 
@@ -87,7 +87,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid
 		amx_ftoc(rY),
 		amx_ftoc(rZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, 
@@ -106,7 +106,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, in
 		amx_ftoc(rY),
 		amx_ftoc(rZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, float z) {
@@ -118,7 +118,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, fl
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float &x, float &y, float &z) {
@@ -133,7 +133,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float &x, float &y, 
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -149,7 +149,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectRot(int objectid, float rotX, float ro
 		amx_ftoc(rotY),
 		amx_ftoc(rotZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float &rotX, float &rotY, float &rotZ) {
@@ -164,7 +164,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float &rotX, float &
 		rotY_.address(),
 		rotZ_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	rotX = rotX_.GetAsFloat();
 	rotY = rotY_.GetAsFloat();
 	rotZ = rotZ_.GetAsFloat();
@@ -177,7 +177,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidObject(int objectid) {
 		1 * 4,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL DestroyObject(int objectid) {
@@ -186,7 +186,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DestroyObject(int objectid) {
 		1 * 4,
 		objectid
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float Z, float Speed, 
@@ -204,7 +204,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float
 		amx_ftoc(RotY),
 		amx_ftoc(RotZ)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopObject(int objectid) {
@@ -213,7 +213,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL StopObject(int objectid) {
 		1 * 4,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z, 
@@ -232,7 +232,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, fl
 		amx_ftoc(rZ),
 		amx_ftoc(DrawDistance)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {
@@ -245,7 +245,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectPos(int playerid, int objectid, 
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, float &x, float &y, float &z) {
@@ -261,7 +261,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, 
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -278,7 +278,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectRot(int playerid, int objectid, 
 		amx_ftoc(rotY),
 		amx_ftoc(rotZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, float &rotX, float &rotY, float &rotZ) {
@@ -294,7 +294,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, 
 		rotY_.address(),
 		rotZ_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	rotX = rotX_.GetAsFloat();
 	rotY = rotY_.GetAsFloat();
 	rotZ = rotZ_.GetAsFloat();
@@ -308,7 +308,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidPlayerObject(int playerid, int objectid)
 		playerid,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid) {
@@ -318,7 +318,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid)
 		playerid,
 		objectid
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, 
@@ -337,7 +337,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, flo
 		amx_ftoc(RotY),
 		amx_ftoc(RotZ)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid) {
@@ -347,7 +347,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid) {
 		playerid,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 } // namespace sampgdk
