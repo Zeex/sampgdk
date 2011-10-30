@@ -1,7 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampgdk", "sampgdk.vcproj", "{A39100F7-8D93-2B40-971E-0AA5BA59AE4A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampgdk", "sampgdk.vcproj", "{024B3735-B2A2-9F42-8262-3D01B0CCF70B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloworld", "helloworld.vcproj", "{683E53AE-A821-FC47-A412-D0B032C9BAE8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{024B3735-B2A2-9F42-8262-3D01B0CCF70B} = {024B3735-B2A2-9F42-8262-3D01B0CCF70B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +14,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A39100F7-8D93-2B40-971E-0AA5BA59AE4A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A39100F7-8D93-2B40-971E-0AA5BA59AE4A}.Debug|Win32.Build.0 = Debug|Win32
-		{A39100F7-8D93-2B40-971E-0AA5BA59AE4A}.Release|Win32.ActiveCfg = Release|Win32
-		{A39100F7-8D93-2B40-971E-0AA5BA59AE4A}.Release|Win32.Build.0 = Release|Win32
+		{024B3735-B2A2-9F42-8262-3D01B0CCF70B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{024B3735-B2A2-9F42-8262-3D01B0CCF70B}.Debug|Win32.Build.0 = Debug|Win32
+		{024B3735-B2A2-9F42-8262-3D01B0CCF70B}.Release|Win32.ActiveCfg = Release|Win32
+		{024B3735-B2A2-9F42-8262-3D01B0CCF70B}.Release|Win32.Build.0 = Release|Win32
+		{683E53AE-A821-FC47-A412-D0B032C9BAE8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{683E53AE-A821-FC47-A412-D0B032C9BAE8}.Debug|Win32.Build.0 = Debug|Win32
+		{683E53AE-A821-FC47-A412-D0B032C9BAE8}.Release|Win32.ActiveCfg = Release|Win32
+		{683E53AE-A821-FC47-A412-D0B032C9BAE8}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

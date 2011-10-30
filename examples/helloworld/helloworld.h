@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <sampgdk/eventhandler.h>
+#include <sampgdk.h>
 
 class HelloWorld : public sampgdk::EventHandler {
 public:

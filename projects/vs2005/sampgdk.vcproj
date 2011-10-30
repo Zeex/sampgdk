@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sampgdk"
-	ProjectGUID="{A39100F7-8D93-2B40-971E-0AA5BA59AE4A}"
+	ProjectGUID="{024B3735-B2A2-9F42-8262-3D01B0CCF70B}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -18,7 +18,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\bin\Debug"
-			IntermediateDirectory="..\..\obj\Debug\x32"
+			IntermediateDirectory="..\..\obj\Debug\x32\Debug\sampgdk"
 			ConfigurationType="4"
 			CharacterSet="2"
 			>
@@ -41,7 +41,6 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
-				PreprocessorDefinitions="IN_SAMPGDK"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -57,7 +56,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="IN_SAMPGDK"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
 			/>
 			<Tool
@@ -95,7 +93,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\..\bin\Release"
-			IntermediateDirectory="..\..\obj\Release\x32"
+			IntermediateDirectory="..\..\obj\Release\x32\Release\sampgdk"
 			ConfigurationType="4"
 			CharacterSet="2"
 			>
@@ -118,7 +116,6 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
-				PreprocessorDefinitions="IN_SAMPGDK"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -133,7 +130,6 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="IN_SAMPGDK"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
 			/>
 			<Tool

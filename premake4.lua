@@ -2,8 +2,6 @@
 -- Premake 4 script
 
 solution "sampgdk"
-
-	kind "StaticLib"
 	language "C++"
 
 	configurations {
@@ -12,10 +10,6 @@ solution "sampgdk"
 	}
 
 	platforms "x32"
-
-	defines {
-		"IN_SAMPGDK"
-	}
 
 	includedirs {
 		"include",         -- public headers 
@@ -45,10 +39,18 @@ solution "sampgdk"
 	location("projects/".._ACTION)
 
 	project "sampgdk"
+		kind "StaticLib"
 		files {
 			"src/**.c",
 			"src/**.cpp",
 			"src/**.h",
 			"include/**.h"
 		}
+
+	project "helloworld"
+		kind "SharedLib"
+		files {
+			"examples/helloworld/*.*"
+		}
+		links "sampgdk"
 
