@@ -48,6 +48,7 @@ solution "sampgdk"
 		files {
 			"src/**.c",
 			"src/**.cpp",
+			"src/**.h",
 			"include/**.h"
 		}
 
