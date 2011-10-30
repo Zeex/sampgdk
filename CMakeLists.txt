@@ -80,7 +80,7 @@ endif()
 add_library(sampgdk-static STATIC ${SOURCES})
 set_target_properties(sampgdk-static  PROPERTIES 
 	COMPILE_DEFINITIONS "IN_SAMPGDK; SAMPGDK_STATIC")
-if(WIN32)
+if(WIN32 AND NOT MINGW)
 	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdkS")
 else()
 	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
@@ -117,12 +117,7 @@ if(WIN32)
 	elseif(MINGW)
 		set_target_properties(sampgdk-shared PROPERTIES
 			PREFIX        ""
-			SUFFIX        "G.dll"
-			IMPORT_PREFIX ""
-			IMPORT_SUFFIX "G.a")
-		set_target_properties(sampgdk-static PROPERTIES
-			PREFIX        ""
-			SUFFIX        "G.a")
+			SUFFIX        "G.dll")
 	else()
 		message(FATAL_ERROR "Unsupported compiler")
 	endif()
