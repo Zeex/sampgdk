@@ -22,7 +22,7 @@ endif
 ifeq ($(config),debuglib32)
   OBJDIR     = ../../obj/Debug/x32/DebugLib
   TARGETDIR  = ../../bin/Debug
-  TARGET     = $(TARGETDIR)/sampgdkSDG.a
+  TARGET     = $(TARGETDIR)/libsampgdk.a
   DEFINES   += -DIN_SAMPGDK -DSAMPGDK_STATIC
   INCLUDES  += -I../../include -I../../include/sampgdk/amx
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
@@ -50,7 +50,7 @@ ifeq ($(config),debugdll32)
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -shared -Wl,--out-implib="../../bin/Debug/sampgdkDG.a" -m32 -L/usr/lib32
+  LDFLAGS   += -shared -Wl,--out-implib="../../bin/Debug/libsampgdk.dll.a" -m32 -L/usr/lib32
   LIBS      += 
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
@@ -66,7 +66,7 @@ endif
 ifeq ($(config),releaselib32)
   OBJDIR     = ../../obj/Release/x32/ReleaseLib
   TARGETDIR  = ../../bin/Release
-  TARGET     = $(TARGETDIR)/sampgdkSG.a
+  TARGET     = $(TARGETDIR)/libsampgdk.a
   DEFINES   += -DIN_SAMPGDK -DSAMPGDK_STATIC
   INCLUDES  += -I../../include -I../../include/sampgdk/amx
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
@@ -94,7 +94,7 @@ ifeq ($(config),releasedll32)
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s -shared -Wl,--out-implib="../../bin/Release/sampgdkG.a" -m32 -L/usr/lib32
+  LDFLAGS   += -s -shared -Wl,--out-implib="../../bin/Release/libsampgdk.dll.a" -m32 -L/usr/lib32
   LIBS      += 
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 

@@ -53,11 +53,6 @@ solution "sampgdk"
 		objdir    "obj/Release"
 		targetdir "bin/Release"
 
-	-- MinGW or Cygwin
-	configuration {"windows", "gmake or codeblocks"}
-		implibprefix ""
-		targetprefix ""
-
 	function getCompilerAbbrev()
 		local action2compiler = {
 			vs2010 = "VC10",
@@ -75,15 +70,19 @@ solution "sampgdk"
 	compiler = getCompilerAbbrev()
 	configuration {"windows", "ReleaseDLL"}
 		targetsuffix(compiler)
-	configuration {"windows", "ReleaseLib"}
+	configuration {"windows", "vs*", "ReleaseLib"}
 		targetsuffix("S"..compiler)
 	configuration {"windows", "DebugDLL"}
 		targetsuffix("D"..compiler)
-	configuration {"windows", "DebugLib"}
+	configuration {"windows", "vs*", "DebugLib"}
 		targetsuffix("SD"..compiler)
 
 	-- set project files locaiton
 	location("project/".._ACTION)
+
+	configuration {"windows", "gmake or codeblocks"}
+		implibsuffix ""
+		implibextension ".dll.a"
 
 	-- main project
 	project "sampgdk"
