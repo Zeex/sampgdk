@@ -86,14 +86,13 @@ else()
 	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
 endif()
 
-set_target_properties(sampgdk-shared sampgdk-static PROPERTIES DEBUG_POSTFIX "D")
-
 if(UNIX OR MINGW)
 	set_target_properties(sampgdk-shared sampgdk-static PROPERTIES
 		COMPILE_FLAGS "-m32 -Wno-attibutes" LINK_FLAGS "-m32")
 endif()
 
 if(WIN32)
+	set_target_properties(sampgdk-shared sampgdk-static PROPERTIES DEBUG_POSTFIX "D")
 	if(MSVC)
 		if(MSVC10)
 			set(VC "VC10")
