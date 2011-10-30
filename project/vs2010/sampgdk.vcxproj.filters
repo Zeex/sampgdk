@@ -2,19 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="include">
-			<UniqueIdentifier>{603D67F4-9DFF-6946-B65C-D6FD9E09D9A5}</UniqueIdentifier>
+			<UniqueIdentifier>{7EE4E400-993A-E84F-8C6F-C698C43A0A7A}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{713984B5-5D65-7D46-ABAA-A1AA29FE3E5F}</UniqueIdentifier>
+			<UniqueIdentifier>{E3A0CD87-A7EA-424B-B0C9-876054A225CB}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{355BF983-71FF-4A4E-9FDA-061F97E20629}</UniqueIdentifier>
+			<UniqueIdentifier>{F4AA12DB-32C7-024C-9E76-5E8A3A89A408}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src">
-			<UniqueIdentifier>{C7992F64-73B7-274C-B60D-51BBF14F126E}</UniqueIdentifier>
+			<UniqueIdentifier>{B08363D8-D7E1-3E43-B1B0-BBDDEC6D22F5}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\amx">
-			<UniqueIdentifier>{79846F94-3EDC-624D-93E5-6D1A1BF61E2E}</UniqueIdentifier>
+			<UniqueIdentifier>{A9581354-405D-B24D-AC62-C9DC9DFCEA17}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
@@ -25,9 +25,6 @@
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\include\sampgdk\eventhandler.h">
-			<Filter>include\sampgdk</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\include\sampgdk\events.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\include\sampgdk\export.h">

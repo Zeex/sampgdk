@@ -1,25 +1,25 @@
 -- SA:MP Gamemode Development Kit for C++
--- Premake 4 build script
+-- Premake 4 script
 
 solution "sampgdk"
+
+	kind "StaticLib"
+	language "C++"
+
 	configurations {
-		"DebugLib",   -- static library - Debug
-		"DebugDLL",   -- shared library - Debug
-		"ReleaseLib", -- static library 
-		"ReleaseDLL"  -- shared library
+		"Debug",  
+		"Release"  
 	}
 
-	platforms {
-		"x32"
-	}
+	platforms "x32"
 
 	defines {
-		"IN_SAMPGDK"  -- used to define appropriate SAMPGDK_EXPORT macro
+		"IN_SAMPGDK"
 	}
 
 	includedirs {
-		"include",             -- GDK public headers directory
-		"include/sampgdk/amx"  -- some source files #include "amx.h" 
+		"include",             -- public headers 
+		"include/sampgdk/amx"  -- some files include "amx.h" directly
 	}
 
 	flags {
@@ -27,17 +27,7 @@ solution "sampgdk"
 		"NoPCH"
 	}
 
-	-- static libraries
-	configuration "*Lib"
-		kind "StaticLib"
-		defines "SAMPGDK_STATIC"
-
-	-- dynamic libraries
-	configuration "*DLL"
-		kind "SharedLib"
-
-	-- debug builds
-	configuration "Debug*"
+	configuration "Debug"
 		flags {
 			"ExtraWarnings",
 			"Symbols"
@@ -45,49 +35,16 @@ solution "sampgdk"
 		objdir    "obj/Debug"
 		targetdir "bin/Debug"
 
-	-- release builds
-	configuration "Release*"
+	configuration "Release"
 		flags {
 			"Optimize"
 		}
 		objdir    "obj/Release"
 		targetdir "bin/Release"
 
-	function getCompilerAbbrev()
-		local action2compiler = {
-			vs2010 = "VC10",
-			vs2008 = "VC9",
-			vs2005 = "VC8",
-			vs2003 = "VC71",
-			vs2002 = "VC7",
-			gmake = "G",
-			codeblocks = "G"
-		}
-		return action2compiler[_ACTION]
-	end
-
-	-- short string describing build configuration and toolset (Windows only)
-	compiler = getCompilerAbbrev()
-	configuration {"windows", "ReleaseDLL"}
-		targetsuffix(compiler)
-	configuration {"windows", "vs*", "ReleaseLib"}
-		targetsuffix("S"..compiler)
-	configuration {"windows", "DebugDLL"}
-		targetsuffix("D"..compiler)
-	configuration {"windows", "vs*", "DebugLib"}
-		targetsuffix("SD"..compiler)
-
-	-- set project files locaiton
 	location("project/".._ACTION)
 
-	configuration {"windows", "gmake or codeblocks"}
-		implibsuffix ""
-		implibextension ".dll.a"
-
-	-- main project
 	project "sampgdk"
-		language "C++"
-
 		files {
 			"src/**.c",
 			"src/**.cpp",

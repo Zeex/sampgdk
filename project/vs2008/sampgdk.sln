@@ -1,24 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampgdk", "sampgdk.vcproj", "{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampgdk", "sampgdk.vcproj", "{746B28E5-6813-4B4E-A546-5D30FAA74F52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		DebugLib|Win32 = DebugLib|Win32
-		DebugDLL|Win32 = DebugDLL|Win32
-		ReleaseLib|Win32 = ReleaseLib|Win32
-		ReleaseDLL|Win32 = ReleaseDLL|Win32
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}.DebugLib|Win32.ActiveCfg = DebugLib|Win32
-		{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}.DebugLib|Win32.Build.0 = DebugLib|Win32
-		{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}.DebugDLL|Win32.ActiveCfg = DebugDLL|Win32
-		{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}.DebugDLL|Win32.Build.0 = DebugDLL|Win32
-		{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}.ReleaseLib|Win32.ActiveCfg = ReleaseLib|Win32
-		{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}.ReleaseLib|Win32.Build.0 = ReleaseLib|Win32
-		{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}.ReleaseDLL|Win32.ActiveCfg = ReleaseDLL|Win32
-		{48EFF4AF-1BD1-2E42-AB37-C502283F53B4}.ReleaseDLL|Win32.Build.0 = ReleaseDLL|Win32
+		{746B28E5-6813-4B4E-A546-5D30FAA74F52}.Debug|Win32.ActiveCfg = Debug|Win32
+		{746B28E5-6813-4B4E-A546-5D30FAA74F52}.Debug|Win32.Build.0 = Debug|Win32
+		{746B28E5-6813-4B4E-A546-5D30FAA74F52}.Release|Win32.ActiveCfg = Release|Win32
+		{746B28E5-6813-4B4E-A546-5D30FAA74F52}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
