@@ -80,7 +80,7 @@ endif()
 add_library(sampgdk-static STATIC ${SOURCES})
 set_target_properties(sampgdk-static  PROPERTIES 
 	COMPILE_DEFINITIONS "IN_SAMPGDK; SAMPGDK_STATIC")
-if(WIN32 AND NOT MINGW)
+if(WIN32)
 	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdkS")
 else()
 	set_target_properties(sampgdk-static PROPERTIES OUTPUT_NAME "sampgdk")
@@ -109,15 +109,17 @@ if(WIN32)
 		else()
 			message(FATAL_ERROR "Unknown MSVC version")
 		endif()
-		set_target_properties(sampgdk-shared sampgdk-static PROPERTIES 
+		set_target_properties(sampgdk-shared PROPERTIES 
 			SUFFIX        "${VC}.dll"
 			IMPORT_SUFFIX "${VC}.lib")
+		set_target_properties(sampgdk-static PROPERTIES
+			SUFFIX        "${VC}.lib")
 	elseif(MINGW)
 		set_target_properties(sampgdk-shared PROPERTIES
 			PREFIX        ""
 			SUFFIX        "G.dll"
 			IMPORT_PREFIX ""
-			IMPORT_SUFFIX "G.dll.a")
+			IMPORT_SUFFIX "G.a")
 		set_target_properties(sampgdk-static PROPERTIES
 			PREFIX        ""
 			SUFFIX        "G.a")
