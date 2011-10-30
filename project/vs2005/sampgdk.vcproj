@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sampgdk"
-	ProjectGUID="{3B512AEE-3A82-5D4F-BA49-5D01A9186FB9}"
+	ProjectGUID="{4A60B0CF-D63B-0245-A220-73DEBB29DD40}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -16,87 +16,10 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="DebugLib|Win32"
+			Name="Debug|Win32"
 			OutputDirectory="..\..\bin\Debug"
-			IntermediateDirectory="..\..\obj\Debug\x32\DebugLib"
+			IntermediateDirectory="..\..\obj\Debug\x32"
 			ConfigurationType="4"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
-				PreprocessorDefinitions="IN_SAMPGDK;SAMPGDK_STATIC"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				ProgramDataBaseFileName="$(OutDir)\sampgdkSDVC8.pdb"
-				DebugInformationFormat="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="IN_SAMPGDK;SAMPGDK_STATIC"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\sampgdkSDVC8.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="DebugDLL|Win32"
-			OutputDirectory="..\..\bin\Debug"
-			IntermediateDirectory="..\..\obj\Debug\x32\DebugDLL"
-			ConfigurationType="2"
 			CharacterSet="2"
 			>
 			<Tool
@@ -126,7 +49,7 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="false"
-				ProgramDataBaseFileName="$(OutDir)\sampgdkDVC8.pdb"
+				ProgramDataBaseFileName="$(OutDir)\sampgdk.pdb"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -141,15 +64,8 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\sampgdkDVC8.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="true"
-				ProgramDataBaseFileName="$(OutDir)\sampgdkDVC8.pdb"
-				SubSystem="2"
-				ImportLibrary="..\..\bin\Debug\sampgdkDVC8.lib"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\sampgdk.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -177,9 +93,9 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="ReleaseLib|Win32"
+			Name="Release|Win32"
 			OutputDirectory="..\..\bin\Release"
-			IntermediateDirectory="..\..\obj\Release\x32\ReleaseLib"
+			IntermediateDirectory="..\..\obj\Release\x32"
 			ConfigurationType="4"
 			CharacterSet="2"
 			>
@@ -202,14 +118,14 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
-				PreprocessorDefinitions="IN_SAMPGDK;SAMPGDK_STATIC"
+				PreprocessorDefinitions="IN_SAMPGDK"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
-				ProgramDataBaseFileName="$(OutDir)\sampgdkSVC8.pdb"
+				ProgramDataBaseFileName="$(OutDir)\sampgdk.pdb"
 				DebugInformationFormat="0"
 			/>
 			<Tool
@@ -217,7 +133,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="IN_SAMPGDK;SAMPGDK_STATIC"
+				PreprocessorDefinitions="IN_SAMPGDK"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
 			/>
 			<Tool
@@ -225,91 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\sampgdkSVC8.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="ReleaseDLL|Win32"
-			OutputDirectory="..\..\bin\Release"
-			IntermediateDirectory="..\..\obj\Release\x32\ReleaseDLL"
-			ConfigurationType="2"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="3"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
-				PreprocessorDefinitions="IN_SAMPGDK"
-				StringPooling="true"
-				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
-				ProgramDataBaseFileName="$(OutDir)\sampgdkVC8.pdb"
-				DebugInformationFormat="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="IN_SAMPGDK"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\sampgdkVC8.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="false"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\bin\Release\sampgdkVC8.lib"
-				TargetMachine="1"
+				OutputFile="$(OutDir)\sampgdk.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -445,10 +277,6 @@
 				</File>
 				<File
 					RelativePath="..\..\include\sampgdk\eventhandler.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\events.h"
 					>
 				</File>
 				<File
