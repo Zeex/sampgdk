@@ -64,10 +64,12 @@ bool EventHandler::IsRegistered() const {
 	return registered_;
 }
 
-void EventHandler::OnGameModeInit() { 
+bool EventHandler::OnGameModeInit() { 
+	return true;
 }
 
-void EventHandler::OnGameModeExit() { 
+bool EventHandler::OnGameModeExit() { 
+	return true;
 }
 
 bool EventHandler::OnPlayerConnect(int playerid) { 

@@ -80,32 +80,32 @@ struct Event {
 
 #define EVENT_0_(event_, on_event_, badRet_)\
 	EVENT_BEGIN(event_, on_event_, badRet_)\
-	eh_->on_event_();\
+	if (eh_->on_event_() == badRet_) break;\
 	EVENT_END(badRet_);
 
 #define EVENT_1_(event_, on_event_, badRet_, t1_)\
 	EVENT_BEGIN(event_, on_event_, badRet_)\
-	eh_->on_event_(ARG(t1_, 0));\
+	if (eh_->on_event_(ARG(t1_, 0)) == badRet_) break;\
 	EVENT_END(badRet_);
 
 #define EVENT_2_(event_, on_event_, badRet_, t1_, t2_)\
 	EVENT_BEGIN(event_, on_event_, badRet_)\
-	eh_->on_event_(ARG(t1_, 0), ARG(t2_, 1));\
+	if (eh_->on_event_(ARG(t1_, 0), ARG(t2_, 1)) == badRet_) break;\
 	EVENT_END(badRet_);
 
 #define EVENT_3_(event_, on_event_, badRet_, t1_, t2_, t3_)\
 	EVENT_BEGIN(event_, on_event_, badRet_)\
-	eh_->on_event_(ARG(t1_, 0), ARG(t2_, 1), ARG(t3_, 2));\
+	if (eh_->on_event_(ARG(t1_, 0), ARG(t2_, 1), ARG(t3_, 2)) == badRet_) break;\
 	EVENT_END(badRet_);
 
 #define EVENT_4_(event_, on_event_, badRet_, t1_, t2_, t3_, t4_)\
 	EVENT_BEGIN(event_, on_event_, badRet_)\
-	eh_->on_event_(ARG(t1_, 0), ARG(t2_, 1), ARG(t3_, 2), ARG(t4_, 3));\
+	if (eh_->on_event_(ARG(t1_, 0), ARG(t2_, 1), ARG(t3_, 2), ARG(t4_, 3)) == badRet_) break;\
 	EVENT_END(badRet_);
 
 #define EVENT_5_(event_, on_event_, badRet_, t1_, t2_, t3_, t4_, t5_)\
 	EVENT_BEGIN(event_, on_event_, badRet_)\
-	eh_->on_event_(ARG(t1_, 0), ARG(t2_, 1), ARG(t3_, 2), ARG(t4_, 3), ARG(t5_, 4));\
+	if (eh_->on_event_(ARG(t1_, 0), ARG(t2_, 1), ARG(t3_, 2), ARG(t4_, 3), ARG(t5_, 4)) == badRet_) break;\
 	EVENT_END(badRet_);
 
 #define EVENT_0(event_, badRet_) EVENT_0_(event_, On##event_, badRet_)
