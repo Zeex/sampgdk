@@ -6,7 +6,7 @@ ifndef config
 endif
 export config
 
-PROJECTS := sampgdk
+PROJECTS := sampgdk helloworld
 
 .PHONY: all clean help $(PROJECTS)
 
@@ -16,8 +16,13 @@ sampgdk:
 	@echo "==== Building sampgdk ($(config)) ===="
 	@${MAKE} --no-print-directory -C . -f sampgdk.make
 
+helloworld: sampgdk
+	@echo "==== Building helloworld ($(config)) ===="
+	@${MAKE} --no-print-directory -C . -f helloworld.make
+
 clean:
 	@${MAKE} --no-print-directory -C . -f sampgdk.make clean
+	@${MAKE} --no-print-directory -C . -f helloworld.make clean
 
 help:
 	@echo "Usage: make [config=name] [target]"
@@ -30,5 +35,6 @@ help:
 	@echo "   all (default)"
 	@echo "   clean"
 	@echo "   sampgdk"
+	@echo "   helloworld"
 	@echo ""
 	@echo "For more information, see http://industriousone.com/premake/quick-start"

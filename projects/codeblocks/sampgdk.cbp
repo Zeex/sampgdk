@@ -8,14 +8,13 @@
 		<Build>
 			<Target title="Debug|x32">
 				<Option output="../../bin/Debug/libsampgdk.a" prefix_auto="0" extension_auto="0" />
-				<Option object_output="../../obj/Debug/x32" />
+				<Option object_output="../../obj/Debug/x32/Debug/sampgdk" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-m32" />
-					<Add option="-DIN_SAMPGDK" />
 					<Add directory="../../include" />
 					<Add directory="../../include/sampgdk" />
 				</Compiler>
@@ -26,13 +25,12 @@
 			</Target>
 			<Target title="Release|x32">
 				<Option output="../../bin/Release/libsampgdk.a" prefix_auto="0" extension_auto="0" />
-				<Option object_output="../../obj/Release/x32" />
+				<Option object_output="../../obj/Release/x32/Release/sampgdk" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-m32" />
-					<Add option="-DIN_SAMPGDK" />
 					<Add directory="../../include" />
 					<Add directory="../../include/sampgdk" />
 				</Compiler>

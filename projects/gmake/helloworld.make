@@ -20,19 +20,19 @@ ifndef AR
 endif
 
 ifeq ($(config),debug32)
-  OBJDIR     = ../../obj/Debug/x32/Debug/sampgdk
+  OBJDIR     = ../../obj/Debug/x32/Debug/helloworld
   TARGETDIR  = ../../bin/Debug
-  TARGET     = $(TARGETDIR)/libsampgdk.a
+  TARGET     = $(TARGETDIR)/helloworld.dll
   DEFINES   += 
   INCLUDES  += -I../../include -I../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -m32 -L/usr/lib32
-  LIBS      += 
+  LDFLAGS   += -shared -Wl,--out-implib="../../bin/Debug/libhelloworld.a" -m32 -L/usr/lib32 -L../../bin/Debug
+  LIBS      += -lsampgdk
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LDDEPS    += 
-  LINKCMD    = $(AR) -rcs $(TARGET) $(OBJECTS)
+  LDDEPS    += ../../bin/Debug/libsampgdk.a
+  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -42,19 +42,19 @@ ifeq ($(config),debug32)
 endif
 
 ifeq ($(config),release32)
-  OBJDIR     = ../../obj/Release/x32/Release/sampgdk
+  OBJDIR     = ../../obj/Release/x32/Release/helloworld
   TARGETDIR  = ../../bin/Release
-  TARGET     = $(TARGETDIR)/libsampgdk.a
+  TARGET     = $(TARGETDIR)/helloworld.dll
   DEFINES   += 
   INCLUDES  += -I../../include -I../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s -m32 -L/usr/lib32
-  LIBS      += 
+  LDFLAGS   += -s -shared -Wl,--out-implib="../../bin/Release/libhelloworld.a" -m32 -L/usr/lib32 -L../../bin/Release
+  LIBS      += -lsampgdk
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LDDEPS    += 
-  LINKCMD    = $(AR) -rcs $(TARGET) $(OBJECTS)
+  LDDEPS    += ../../bin/Release/libsampgdk.a
+  LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
   define PREBUILDCMDS
   endef
   define PRELINKCMDS
@@ -64,17 +64,7 @@ ifeq ($(config),release32)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/amx.o \
-	$(OBJDIR)/callbacks.o \
-	$(OBJDIR)/eventhandler.o \
-	$(OBJDIR)/fakeamx.o \
-	$(OBJDIR)/gpci.o \
-	$(OBJDIR)/jump.o \
-	$(OBJDIR)/objects.o \
-	$(OBJDIR)/players.o \
-	$(OBJDIR)/samp.o \
-	$(OBJDIR)/vehicles.o \
-	$(OBJDIR)/wrapper.o \
+	$(OBJDIR)/helloworld.o \
 
 RESOURCES := \
 
@@ -92,7 +82,7 @@ all: $(TARGETDIR) $(OBJDIR) prebuild prelink $(TARGET)
 	@:
 
 $(TARGET): $(GCH) $(OBJECTS) $(LDDEPS) $(RESOURCES)
-	@echo Linking sampgdk
+	@echo Linking helloworld
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)
 
@@ -113,7 +103,7 @@ else
 endif
 
 clean:
-	@echo Cleaning sampgdk
+	@echo Cleaning helloworld
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
 	$(SILENT) rm -rf $(OBJDIR)
@@ -135,37 +125,7 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/amx.o: ../../src/amx/amx.c
-	@echo $(notdir $<)
-	$(SILENT) $(CC) $(CFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/callbacks.o: ../../src/callbacks.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/eventhandler.o: ../../src/eventhandler.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/fakeamx.o: ../../src/fakeamx.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/gpci.o: ../../src/gpci.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/jump.o: ../../src/jump.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/objects.o: ../../src/objects.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/players.o: ../../src/players.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/samp.o: ../../src/samp.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/vehicles.o: ../../src/vehicles.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/wrapper.o: ../../src/wrapper.cpp
+$(OBJDIR)/helloworld.o: ../../examples/helloworld/helloworld.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 

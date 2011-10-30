@@ -3,5 +3,8 @@
 	<Workspace title="sampgdk">
 		<Project filename="sampgdk.cbp" active="1">
 		</Project>
+		<Project filename="helloworld.cbp">
+			<Depends filename="sampgdk.cbp" />
+		</Project>
 	</Workspace>
 </CodeBlocks_workspace_file>

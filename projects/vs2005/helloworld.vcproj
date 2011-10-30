@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
-	Name="sampgdk"
-	ProjectGUID="{B32EBF0A-B60C-EE40-A6F5-5281406075B1}"
-	RootNamespace="sampgdk"
+	Version="8.00"
+	Name="helloworld"
+	ProjectGUID="{683E53AE-A821-FC47-A412-D0B032C9BAE8}"
+	RootNamespace="helloworld"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -18,8 +18,8 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="..\..\bin\Debug"
-			IntermediateDirectory="..\..\obj\Debug\x32\Debug\sampgdk"
-			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\Debug\x32\Debug\helloworld"
+			ConfigurationType="2"
 			CharacterSet="2"
 			>
 			<Tool
@@ -47,7 +47,8 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				ProgramDataBaseFileName="$(OutDir)\sampgdk.pdb"
+				Detect64BitPortabilityProblems="false"
+				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -61,8 +62,17 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\sampgdk.lib"
+				Name="VCLinkerTool"
+				AdditionalDependencies="..\..\bin\Debug\sampgdk.lib"
+				OutputFile="$(OutDir)\helloworld.dll"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="../../examples/helloworld/helloworld.def"
+				GenerateDebugInformation="true"
+				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
+				SubSystem="2"
+				ImportLibrary="..\..\bin\Debug\helloworld.lib"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -92,8 +102,8 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="..\..\bin\Release"
-			IntermediateDirectory="..\..\obj\Release\x32\Release\sampgdk"
-			ConfigurationType="4"
+			IntermediateDirectory="..\..\obj\Release\x32\Release\helloworld"
+			ConfigurationType="2"
 			CharacterSet="2"
 			>
 			<Tool
@@ -120,7 +130,8 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				ProgramDataBaseFileName="$(OutDir)\sampgdk.pdb"
+				Detect64BitPortabilityProblems="false"
+				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				DebugInformationFormat="0"
 			/>
 			<Tool
@@ -134,8 +145,18 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\sampgdk.lib"
+				Name="VCLinkerTool"
+				AdditionalDependencies="..\..\bin\Release\sampgdk.lib"
+				OutputFile="$(OutDir)\helloworld.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
+				ModuleDefinitionFile="../../examples/helloworld/helloworld.def"
+				GenerateDebugInformation="false"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ImportLibrary="..\..\bin\Release\helloworld.lib"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -167,137 +188,30 @@
 	</References>
 	<Files>
 		<Filter
-			Name="src"
+			Name="examples"
 			Filter=""
 			>
 			<Filter
-				Name="amx"
+				Name="helloworld"
 				Filter=""
 				>
 				<File
-					RelativePath="..\..\src\amx\amx.c"
+					RelativePath="..\..\examples\helloworld\helloworld.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\amx\osdefs.h"
+					RelativePath="..\..\examples\helloworld\helloworld.def"
+					>
+				</File>
+				<File
+					RelativePath="..\..\examples\helloworld\helloworld.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\examples\helloworld\helloworld.suo"
 					>
 				</File>
 			</Filter>
-			<File
-				RelativePath="..\..\src\callbacks.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\eventhandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\fakeamx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gpci.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\jump.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\objects.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\players.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\samp.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\vehicles.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\wrapper.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\fakeamx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\jump.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="include"
-			Filter=""
-			>
-			<Filter
-				Name="sampgdk"
-				Filter=""
-				>
-				<Filter
-					Name="amx"
-					Filter=""
-					>
-					<File
-						RelativePath="..\..\include\sampgdk\amx\amx.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\sampgdk\amx\getch.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\sampgdk\amx\sclinux.h"
-						>
-					</File>
-				</Filter>
-				<File
-					RelativePath="..\..\include\sampgdk\amx.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\eventhandler.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\gpci.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\objects.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\players.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\plugincommon.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\samp.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\vehicles.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\wrapper.h"
-					>
-				</File>
-			</Filter>
-			<File
-				RelativePath="..\..\include\sampgdk.h"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>

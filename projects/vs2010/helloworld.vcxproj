@@ -11,18 +11,18 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{70EE9C89-8066-A547-B970-5855B305541B}</ProjectGuid>
-		<RootNamespace>sampgdk</RootNamespace>
+		<ProjectGuid>{BA9D330D-9428-964D-8442-42CABBDEE072}</ProjectGuid>
+		<RootNamespace>helloworld</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
 		<CharacterSet>MultiByte</CharacterSet>
 		<UseDebugLibraries>true</UseDebugLibraries>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-		<ConfigurationType>StaticLibrary</ConfigurationType>
+		<ConfigurationType>DynamicLibrary</ConfigurationType>
 		<CharacterSet>MultiByte</CharacterSet>
 		<WholeProgramOptimization>true</WholeProgramOptimization>
 		<UseDebugLibraries>false</UseDebugLibraries>
@@ -40,11 +40,15 @@
 	<PropertyGroup>
 		<_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
 		<OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\bin\Debug\</OutDir>
-		<IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\obj\Debug\x32\Debug\sampgdk\</IntDir>
-		<TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sampgdk</TargetName>
+		<IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\obj\Debug\x32\Debug\helloworld\</IntDir>
+		<TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">helloworld</TargetName>
+		<IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</IgnoreImportLibrary>
+		<LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
 		<OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\Release\</OutDir>
-		<IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\obj\Release\x32\Release\sampgdk\</IntDir>
-		<TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sampgdk</TargetName>
+		<IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\obj\Release\x32\Release\helloworld\</IntDir>
+		<TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">helloworld</TargetName>
+		<IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</IgnoreImportLibrary>
+		<LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
 		<ClCompile>
@@ -64,13 +68,15 @@
 			<PreprocessorDefinitions></PreprocessorDefinitions>
 			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
-	<Lib>
-		<OutputFile>$(OutDir)sampgdk.lib</OutputFile>
-	</Lib>
 		<Link>
+			<AdditionalDependencies>..\..\bin\Debug\sampgdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)helloworld.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
-			<ProgramDataBaseFileName>$(OutDir)sampgdk.pdb</ProgramDataBaseFileName>
+			<ProgramDataBaseFileName>$(OutDir)helloworld.pdb</ProgramDataBaseFileName>
+			<ImportLibrary>..\..\bin\Debug\helloworld.lib</ImportLibrary>
+			<TargetMachine>MachineX86</TargetMachine>
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,57 +96,28 @@
 			<PreprocessorDefinitions></PreprocessorDefinitions>
 			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
-	<Lib>
-		<OutputFile>$(OutDir)sampgdk.lib</OutputFile>
-	</Lib>
 		<Link>
+			<AdditionalDependencies>..\..\bin\Release\sampgdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<OutputFile>$(OutDir)helloworld.dll</OutputFile>
+			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
 			<GenerateDebugInformation>false</GenerateDebugInformation>
 			<OptimizeReferences>true</OptimizeReferences>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
+			<ImportLibrary>..\..\bin\Release\helloworld.lib</ImportLibrary>
+			<TargetMachine>MachineX86</TargetMachine>
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
-		<ClInclude Include="..\..\src\fakeamx.h" />
-		<ClInclude Include="..\..\src\jump.h" />
-		<ClInclude Include="..\..\src\amx\osdefs.h" />
-		<ClInclude Include="..\..\include\sampgdk.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx.h" />
-		<ClInclude Include="..\..\include\sampgdk\eventhandler.h" />
-		<ClInclude Include="..\..\include\sampgdk\gpci.h" />
-		<ClInclude Include="..\..\include\sampgdk\objects.h" />
-		<ClInclude Include="..\..\include\sampgdk\players.h" />
-		<ClInclude Include="..\..\include\sampgdk\plugincommon.h" />
-		<ClInclude Include="..\..\include\sampgdk\samp.h" />
-		<ClInclude Include="..\..\include\sampgdk\vehicles.h" />
-		<ClInclude Include="..\..\include\sampgdk\wrapper.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx\amx.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx\getch.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx\sclinux.h" />
+		<ClInclude Include="..\..\examples\helloworld\helloworld.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="..\..\src\amx\amx.c">
+		<ClCompile Include="..\..\examples\helloworld\helloworld.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\callbacks.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\eventhandler.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\fakeamx.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\gpci.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\jump.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\objects.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\players.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\samp.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\vehicles.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\wrapper.cpp">
-		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\examples\helloworld\helloworld.def" />
+		<None Include="..\..\examples\helloworld\helloworld.suo" />
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 	<ImportGroup Label="ExtensionTargets">

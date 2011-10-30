@@ -1,13 +1,9 @@
-#include "helloworld.h"
-
-#include <sampgdk/amxplugin.h>
-#include <sampgdk/players.h>
-#include <sampgdk/samp.h>
-#include <sampgdk/wrapper.h>
-
 #include <cstdio> // for sprintf
 #include <string>
 
+#include "helloworld.h"
+
+typedef void (*logprintf_t)(const char *format, ...);
 static logprintf_t logprintf;
 
 using namespace sampgdk;
@@ -65,7 +61,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
 	logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
 	// Initialize the wrapper - this always should be done here.
-	Wrapper::GetInstance().Initialize(ppPluginData);
+	Wrapper::Initialize(ppPluginData);
 	// Do not call any natives here - they are not yet prepared for use at this stage.
 	return true;
 }
