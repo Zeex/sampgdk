@@ -34,8 +34,8 @@ public:
 	static EventHandler *GetFirstEventHandler();
 	EventHandler *GetNext() const;
 
-	virtual void OnGameModeInit();
-	virtual void OnGameModeExit();
+	virtual bool OnGameModeInit();
+	virtual bool OnGameModeExit();
 	virtual bool OnPlayerConnect(int playerid);
 	virtual bool OnPlayerDisconnect(int playerid, int reason);
 	virtual bool OnPlayerSpawn(int playerid);
