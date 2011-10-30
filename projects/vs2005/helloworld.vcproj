@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="helloworld"
-	ProjectGUID="{683E53AE-A821-FC47-A412-D0B032C9BAE8}"
+	ProjectGUID="{EC69D592-E035-4241-B211-1F43C90F7F97}"
 	RootNamespace="helloworld"
 	Keyword="Win32Proj"
 	>
@@ -63,11 +63,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/DEF:../../examples/helloworld/helloworld.def"
 				AdditionalDependencies="..\..\bin\Debug\sampgdk.lib"
 				OutputFile="$(OutDir)\helloworld.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="../../examples/helloworld/helloworld.def"
 				GenerateDebugInformation="true"
 				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				SubSystem="2"
@@ -146,11 +146,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalOptions="/DEF:../../examples/helloworld/helloworld.def"
 				AdditionalDependencies="..\..\bin\Release\sampgdk.lib"
 				OutputFile="$(OutDir)\helloworld.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
-				ModuleDefinitionFile="../../examples/helloworld/helloworld.def"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -200,15 +200,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\examples\helloworld\helloworld.def"
-					>
-				</File>
-				<File
 					RelativePath="..\..\examples\helloworld\helloworld.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\examples\helloworld\helloworld.suo"
 					>
 				</File>
 			</Filter>

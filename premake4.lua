@@ -50,7 +50,12 @@ solution "sampgdk"
 	project "helloworld"
 		kind "SharedLib"
 		files {
-			"examples/helloworld/*.*"
+			"examples/helloworld/helloworld.cpp",
+			"examples/helloworld/helloworld.h"
 		}
 		links "sampgdk"
+		configuration {"windows", "vs*"}
+			linkoptions "/DEF:../../examples/helloworld/helloworld.def"
+		configuration {"windows", "gmake or codeblocks"}
+			linkoptions "-Wl,--kill-at --def ../../examples/helloworld/helloworld.def"
 

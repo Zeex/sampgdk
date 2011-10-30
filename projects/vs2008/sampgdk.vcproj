@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="sampgdk"
-	ProjectGUID="{B32EBF0A-B60C-EE40-A6F5-5281406075B1}"
+	ProjectGUID="{4E0571B6-DDB1-F04A-9D69-467349B1D523}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -46,8 +47,8 @@
 				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				WarningLevel="4"
 				ProgramDataBaseFileName="$(OutDir)\sampgdk.pdb"
+				WarningLevel="4"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -68,9 +69,6 @@
 				Name="VCALinkTool"
 			/>
 			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
 				Name="VCXDCMakeTool"
 			/>
 			<Tool
@@ -78,12 +76,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -119,8 +111,8 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				WarningLevel="3"
 				ProgramDataBaseFileName="$(OutDir)\sampgdk.pdb"
+				WarningLevel="3"
 				DebugInformationFormat="0"
 			/>
 			<Tool
@@ -141,9 +133,6 @@
 				Name="VCALinkTool"
 			/>
 			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
 				Name="VCXDCMakeTool"
 			/>
 			<Tool
@@ -151,12 +140,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -168,21 +151,7 @@
 	<Files>
 		<Filter
 			Name="src"
-			Filter=""
 			>
-			<Filter
-				Name="amx"
-				Filter=""
-				>
-				<File
-					RelativePath="..\..\src\amx\amx.c"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\amx\osdefs.h"
-					>
-				</File>
-			</Filter>
 			<File
 				RelativePath="..\..\src\callbacks.cpp"
 				>
@@ -196,11 +165,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\fakeamx.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\gpci.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\src\jump.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\jump.h"
 				>
 			</File>
 			<File
@@ -223,40 +200,29 @@
 				RelativePath="..\..\src\wrapper.cpp"
 				>
 			</File>
-			<File
-				RelativePath="..\..\src\fakeamx.h"
+			<Filter
+				Name="amx"
 				>
-			</File>
-			<File
-				RelativePath="..\..\src\jump.h"
-				>
-			</File>
+				<File
+					RelativePath="..\..\src\amx\amx.c"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\amx\osdefs.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="include"
-			Filter=""
 			>
+			<File
+				RelativePath="..\..\include\sampgdk.h"
+				>
+			</File>
 			<Filter
 				Name="sampgdk"
-				Filter=""
 				>
-				<Filter
-					Name="amx"
-					Filter=""
-					>
-					<File
-						RelativePath="..\..\include\sampgdk\amx\amx.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\sampgdk\amx\getch.h"
-						>
-					</File>
-					<File
-						RelativePath="..\..\include\sampgdk\amx\sclinux.h"
-						>
-					</File>
-				</Filter>
 				<File
 					RelativePath="..\..\include\sampgdk\amx.h"
 					>
@@ -293,11 +259,23 @@
 					RelativePath="..\..\include\sampgdk\wrapper.h"
 					>
 				</File>
+				<Filter
+					Name="amx"
+					>
+					<File
+						RelativePath="..\..\include\sampgdk\amx\amx.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\include\sampgdk\amx\getch.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\include\sampgdk\amx\sclinux.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
-			<File
-				RelativePath="..\..\include\sampgdk.h"
-				>
-			</File>
 		</Filter>
 	</Files>
 	<Globals>
