@@ -26,6 +26,8 @@ public:
 	static const size_t INIT_HEAP_CAPACITY = 1024;
 
 	FakeAmx();
+	~FakeAmx();
+
 	static FakeAmx &GetInstance();
 
 	AMX *amx() const;

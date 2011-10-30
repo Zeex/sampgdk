@@ -37,6 +37,10 @@ FakeAmx::FakeAmx()
 	amx_.error = AMX_ERR_NONE;
 }
 
+FakeAmx::~FakeAmx() {
+	delete heap_;
+}
+
 FakeAmx &FakeAmx::GetInstance() {
 	static FakeAmx instance;
 	return instance;
