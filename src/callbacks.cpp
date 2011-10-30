@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include <sampgdk/amxplugin.h>
+#include <sampgdk/amx.h>
 #include <sampgdk/eventhandler.h>
 #include <sampgdk/wrapper.h>
 
@@ -57,15 +57,15 @@ template<> struct StackArg<float> {
 };
 
 struct Event {
-	Event(const char *name, sampgdk::Wrapper::PublicHandler handler, cell badReturn) {
-		sampgdk::Wrapper::GetInstance().SetPublicHook(name, handler, badReturn);
+	Event(const char *name, sampgdk::PublicHook hook) {
+		sampgdk::Wrapper::GetInstance().SetPublicHook(name, hook);
 	}
 };
 
 #define EVENT_BEGIN(event_, on_event_, badRet_)\
-	static cell SAMPGDK_CALL on_event_(AMX *amx);\
-	static volatile Event event_(#on_event_, on_event_, badRet_);\
-	static cell SAMPGDK_CALL on_event_(AMX *amx) {\
+	static cell on_event_(AMX *amx);\
+	static volatile Event event_(#on_event_, sampgdk::PublicHook(on_event_, badRet_));\
+	static cell on_event_(AMX *amx) {\
 		sampgdk::EventHandler *eh_ = sampgdk::EventHandler::GetFirstEventHandler();\
 		while (eh_ != 0) {
 

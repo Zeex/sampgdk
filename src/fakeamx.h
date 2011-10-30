@@ -17,7 +17,7 @@
 
 #include <cstring>
 
-#include <sampgdk/amxplugin.h>
+#include <sampgdk/amx.h>
 
 extern AMX fakeAmx;
 

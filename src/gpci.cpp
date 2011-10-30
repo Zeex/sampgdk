@@ -19,7 +19,7 @@
 
 namespace sampgdk {
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, std::size_t size) {
+bool gpci(int playerid, char *buffer, std::size_t size) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("gpci");
 	FakeAmxHeapObject buffer_(size);
 	cell params[] = {

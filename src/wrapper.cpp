@@ -12,43 +12,127 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <string>
+
+#include <sampgdk/amx.h>
+#include <sampgdk/plugincommon.h>
 #include <sampgdk/wrapper.h>
 
-#include "wrapperimpl.h"
+#include "jump.h"
+
+// A pointer to game mode's AMX
+static AMX *gamemode = 0;
+
+// Curently Exec'ing public function
+static std::string currentPublic;
+
+// Some popular SA:MP scripts/includes use funcidx() to hook callbacks, etc.
+// Since we hook amx_FindPublic to force it always return AMX_ERR_NONE,
+// the funcidx() function have become bugged and doesn't return -1 anymore
+// but AMX_EXEC_GDK (which is not -1).
+// So we provide our own implementation of funcidx which takes that fact into account.
+// Thanks to Incognito for finding this bug.
+static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
+	char *funcname;
+	amx_StrParam(amx, params[1], funcname);
+	int index;
+	int error = amx_FindPublic(amx, funcname, &index);
+	if (error != AMX_ERR_NONE || (error == AMX_ERR_NONE && index == AMX_EXEC_GDK)) {
+		return -1;
+	}
+	return index;
+}
+
+static int AMXAPI amx_Register_(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
+	int error = ::amx_Register(amx, nativelist, number);
+
+	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
+		sampgdk::Wrapper::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
+		// Fix funcidx() issue
+		if (strcmp(nativelist[i].name, "funcidx") == 0) {
+			SetJump((void*)nativelist[i].func, (void*)fixed_funcidx);
+		}
+	}
+
+	return error;
+}
+
+static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
+	int error = ::amx_FindPublic(amx, name, index);
+
+	if (amx == gamemode) {
+		if (error != AMX_ERR_NONE) {
+			*index = AMX_EXEC_GDK;
+			error = AMX_ERR_NONE;
+		}
+		currentPublic = name;
+	}
+
+	return error;
+}
+
+static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
+	bool canDoExec = true;
+
+	if (index == AMX_EXEC_MAIN) {
+		gamemode = amx;
+		sampgdk::Wrapper::GetInstance().CallPublicHook(amx, retval, "OnGameModeInit");
+	} else {
+		if (amx == gamemode && index != AMX_EXEC_CONT) {
+			canDoExec = sampgdk::Wrapper::GetInstance().CallPublicHook(amx, retval, currentPublic.c_str());
+		}
+		if (index == AMX_EXEC_GDK) {
+			canDoExec = false;
+			amx->stk += amx->paramcount * sizeof(cell);
+			amx->paramcount = 0;
+		}
+	}
+
+	int error = AMX_ERR_NONE;
+	if (canDoExec) {
+		error = ::amx_Exec(amx, retval, index);
+	}
+
+	return error;
+}
 
 namespace sampgdk {
 
-Wrapper::Wrapper() {
-	pimpl_ = new WrapperImpl;
-}
-
-Wrapper::~Wrapper() {
-	delete pimpl_;
-}
-
 Wrapper &Wrapper::GetInstance() {
-	static Wrapper w;
-	return w;
+	static Wrapper wrapper;
+	return wrapper;
 }
 
 void Wrapper::Initialize(void **ppPluginData) {
-	pimpl_->Initialize(ppPluginData);
+	void **amxExports = static_cast<void**>(ppPluginData[PLUGIN_DATA_AMX_EXPORTS]);
+
+	SetJump(amxExports[PLUGIN_AMX_EXPORT_Register],   (void*)amx_Register_);
+	SetJump(amxExports[PLUGIN_AMX_EXPORT_FindPublic], (void*)amx_FindPublic_);
+	SetJump(amxExports[PLUGIN_AMX_EXPORT_Exec],       (void*)amx_Exec_);
 }
 
 void Wrapper::SetNative(const char *name, AMX_NATIVE native) {
-	pimpl_->SetNative(name, native);
+	natives_[std::string(name)] = native;
 }
 
 AMX_NATIVE Wrapper::GetNative(const char *name) const {
-	return pimpl_->GetNative(name);
+	std::map<std::string, AMX_NATIVE>::const_iterator it = natives_.find(name);
+	if (it != natives_.end()) {
+		return it->second;
+	}
+	return 0;
 }
 
-void Wrapper::SetPublicHook(const char *name, PublicHandler handler, cell badReturn) {
-	pimpl_->SetPublicHook(name, PublicHook(handler, badReturn));
+void Wrapper::SetPublicHook(const char *name, PublicHook hook) {
+	publicHooks_.insert(std::make_pair(std::string(name), hook));
 }
 
-bool Wrapper::ExecutePublicHook(AMX *amx, cell *retval, const char *name) const {
-	return pimpl_->ExecutePublicHook(amx, retval, name);
+bool Wrapper::CallPublicHook(AMX *amx, cell *retval, const char *name) const {
+	std::map<std::string, PublicHook>::const_iterator it = publicHooks_.find(name);
+	if (it != publicHooks_.end()) {
+		return it->second.Call(amx, retval);
+	}
+	return true;
 }
 
 } // namespace sampgdk

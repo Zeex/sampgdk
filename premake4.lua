@@ -18,8 +18,8 @@ solution "sampgdk"
 	}
 
 	includedirs {
-		"include",             -- public headers 
-		"include/sampgdk/amx"  -- some files include "amx.h" directly
+		"include",         -- public headers 
+		"include/sampgdk"  -- some files include "amx.h" directly
 	}
 
 	flags {
@@ -42,7 +42,7 @@ solution "sampgdk"
 		objdir    "obj/Release"
 		targetdir "bin/Release"
 
-	location("project/".._ACTION)
+	location("projects/".._ACTION)
 
 	project "sampgdk"
 		files {
