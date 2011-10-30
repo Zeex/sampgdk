@@ -50,7 +50,7 @@ private:
 	AMX amx_;
 	AMX_HEADER hdr_;
 	cell *heap_;
-	size_t heapSize_;
+	cell heapSize_;
 };
 
 class FakeAmxHeapObject {
