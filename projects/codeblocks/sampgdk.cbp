@@ -17,7 +17,7 @@
 					<Add option="-m32" />
 					<Add option="-DIN_SAMPGDK" />
 					<Add directory="../../include" />
-					<Add directory="../../include/sampgdk/amx" />
+					<Add directory="../../include/sampgdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -34,7 +34,7 @@
 					<Add option="-m32" />
 					<Add option="-DIN_SAMPGDK" />
 					<Add directory="../../include" />
-					<Add directory="../../include/sampgdk/amx" />
+					<Add directory="../../include/sampgdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -46,21 +46,13 @@
 		<Unit filename="../../src/amx/amx.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="../../src/amxapihooks.cpp">
-		</Unit>
 		<Unit filename="../../src/callbacks.cpp">
 		</Unit>
 		<Unit filename="../../src/eventhandler.cpp">
 		</Unit>
 		<Unit filename="../../src/fakeamx.cpp">
 		</Unit>
-		<Unit filename="../../src/funcidx.cpp">
-		</Unit>
-		<Unit filename="../../src/gamemode.cpp">
-		</Unit>
 		<Unit filename="../../src/gpci.cpp">
-		</Unit>
-		<Unit filename="../../src/hooknative.cpp">
 		</Unit>
 		<Unit filename="../../src/jump.cpp">
 		</Unit>
@@ -74,21 +66,25 @@
 		</Unit>
 		<Unit filename="../../src/wrapper.cpp">
 		</Unit>
-		<Unit filename="../../src/wrapperimpl.cpp">
+		<Unit filename="../../src/fakeamx.h">
+		</Unit>
+		<Unit filename="../../src/jump.h">
+		</Unit>
+		<Unit filename="../../src/amx/osdefs.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk.h">
 		</Unit>
-		<Unit filename="../../include/sampgdk/amxplugin.h">
+		<Unit filename="../../include/sampgdk/amx.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/eventhandler.h">
-		</Unit>
-		<Unit filename="../../include/sampgdk/export.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/gpci.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/objects.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/players.h">
+		</Unit>
+		<Unit filename="../../include/sampgdk/plugincommon.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/samp.h">
 		</Unit>

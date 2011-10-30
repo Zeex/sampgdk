@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{C122F286-DADF-694D-BAE0-A669179217EE}</ProjectGuid>
+		<ProjectGuid>{32FEF143-C9AA-844F-87CA-573E7BDA0569}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -49,7 +49,7 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
 		<ClCompile>
 			<Optimization>Disabled</Optimization>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk\amx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>IN_SAMPGDK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>true</MinimalRebuild>
 			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -62,7 +62,7 @@
 		</ClCompile>
 		<ResourceCompile>
 			<PreprocessorDefinitions>IN_SAMPGDK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk\amx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 	<Lib>
 		<OutputFile>$(OutDir)sampgdk.lib</OutputFile>
@@ -76,7 +76,7 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
 		<ClCompile>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk\amx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 			<PreprocessorDefinitions>IN_SAMPGDK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>false</MinimalRebuild>
 			<StringPooling>true</StringPooling>
@@ -88,7 +88,7 @@
 		</ClCompile>
 		<ResourceCompile>
 			<PreprocessorDefinitions>IN_SAMPGDK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk\amx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 	<Lib>
 		<OutputFile>$(OutDir)sampgdk.lib</OutputFile>
@@ -101,13 +101,16 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
+		<ClInclude Include="..\..\src\fakeamx.h" />
+		<ClInclude Include="..\..\src\jump.h" />
+		<ClInclude Include="..\..\src\amx\osdefs.h" />
 		<ClInclude Include="..\..\include\sampgdk.h" />
-		<ClInclude Include="..\..\include\sampgdk\amxplugin.h" />
+		<ClInclude Include="..\..\include\sampgdk\amx.h" />
 		<ClInclude Include="..\..\include\sampgdk\eventhandler.h" />
-		<ClInclude Include="..\..\include\sampgdk\export.h" />
 		<ClInclude Include="..\..\include\sampgdk\gpci.h" />
 		<ClInclude Include="..\..\include\sampgdk\objects.h" />
 		<ClInclude Include="..\..\include\sampgdk\players.h" />
+		<ClInclude Include="..\..\include\sampgdk\plugincommon.h" />
 		<ClInclude Include="..\..\include\sampgdk\samp.h" />
 		<ClInclude Include="..\..\include\sampgdk\vehicles.h" />
 		<ClInclude Include="..\..\include\sampgdk\wrapper.h" />
@@ -118,21 +121,13 @@
 	<ItemGroup>
 		<ClCompile Include="..\..\src\amx\amx.c">
 		</ClCompile>
-		<ClCompile Include="..\..\src\amxapihooks.cpp">
-		</ClCompile>
 		<ClCompile Include="..\..\src\callbacks.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\eventhandler.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\fakeamx.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\funcidx.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\gamemode.cpp">
-		</ClCompile>
 		<ClCompile Include="..\..\src\gpci.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\hooknative.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\jump.cpp">
 		</ClCompile>
@@ -145,8 +140,6 @@
 		<ClCompile Include="..\..\src\vehicles.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\wrapper.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\wrapperimpl.cpp">
 		</ClCompile>
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

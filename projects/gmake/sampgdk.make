@@ -24,7 +24,7 @@ ifeq ($(config),debug32)
   TARGETDIR  = ../../bin/Debug
   TARGET     = $(TARGETDIR)/libsampgdk.a
   DEFINES   += -DIN_SAMPGDK
-  INCLUDES  += -I../../include -I../../include/sampgdk/amx
+  INCLUDES  += -I../../include -I../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
   CXXFLAGS  += $(CFLAGS) 
@@ -46,7 +46,7 @@ ifeq ($(config),release32)
   TARGETDIR  = ../../bin/Release
   TARGET     = $(TARGETDIR)/libsampgdk.a
   DEFINES   += -DIN_SAMPGDK
-  INCLUDES  += -I../../include -I../../include/sampgdk/amx
+  INCLUDES  += -I../../include -I../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
   CXXFLAGS  += $(CFLAGS) 
@@ -65,21 +65,16 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/amx.o \
-	$(OBJDIR)/amxapihooks.o \
 	$(OBJDIR)/callbacks.o \
 	$(OBJDIR)/eventhandler.o \
 	$(OBJDIR)/fakeamx.o \
-	$(OBJDIR)/funcidx.o \
-	$(OBJDIR)/gamemode.o \
 	$(OBJDIR)/gpci.o \
-	$(OBJDIR)/hooknative.o \
 	$(OBJDIR)/jump.o \
 	$(OBJDIR)/objects.o \
 	$(OBJDIR)/players.o \
 	$(OBJDIR)/samp.o \
 	$(OBJDIR)/vehicles.o \
 	$(OBJDIR)/wrapper.o \
-	$(OBJDIR)/wrapperimpl.o \
 
 RESOURCES := \
 
@@ -143,9 +138,6 @@ endif
 $(OBJDIR)/amx.o: ../../src/amx/amx.c
 	@echo $(notdir $<)
 	$(SILENT) $(CC) $(CFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/amxapihooks.o: ../../src/amxapihooks.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/callbacks.o: ../../src/callbacks.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
@@ -155,16 +147,7 @@ $(OBJDIR)/eventhandler.o: ../../src/eventhandler.cpp
 $(OBJDIR)/fakeamx.o: ../../src/fakeamx.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/funcidx.o: ../../src/funcidx.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/gamemode.o: ../../src/gamemode.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/gpci.o: ../../src/gpci.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/hooknative.o: ../../src/hooknative.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/jump.o: ../../src/jump.cpp
@@ -183,9 +166,6 @@ $(OBJDIR)/vehicles.o: ../../src/vehicles.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/wrapper.o: ../../src/wrapper.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/wrapperimpl.o: ../../src/wrapperimpl.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 
