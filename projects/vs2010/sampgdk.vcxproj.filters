@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
-		<Filter Include="include">
-			<UniqueIdentifier>{603D67F4-9DFF-6946-B65C-D6FD9E09D9A5}</UniqueIdentifier>
-		</Filter>
-		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{713984B5-5D65-7D46-ABAA-A1AA29FE3E5F}</UniqueIdentifier>
-		</Filter>
-		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{355BF983-71FF-4A4E-9FDA-061F97E20629}</UniqueIdentifier>
-		</Filter>
 		<Filter Include="src">
-			<UniqueIdentifier>{C7992F64-73B7-274C-B60D-51BBF14F126E}</UniqueIdentifier>
+			<UniqueIdentifier>{DC88756C-528F-064B-87CA-688D8AD46A82}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\amx">
-			<UniqueIdentifier>{79846F94-3EDC-624D-93E5-6D1A1BF61E2E}</UniqueIdentifier>
+			<UniqueIdentifier>{5528F381-00D8-E140-B701-D338DF5572D6}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="include">
+			<UniqueIdentifier>{749EC60B-E838-9641-B654-EC24171D67CE}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="include\sampgdk">
+			<UniqueIdentifier>{EC49413D-BB46-FC47-A556-B581A723E4C2}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="include\sampgdk\amx">
+			<UniqueIdentifier>{EEB9CADC-0246-2646-ADBC-0E8762A89748}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
+		<ClInclude Include="..\..\src\fakeamx.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\jump.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\src\amx\osdefs.h">
+			<Filter>src\amx</Filter>
+		</ClInclude>
 		<ClInclude Include="..\..\include\sampgdk.h">
 			<Filter>include</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\include\sampgdk\amxplugin.h">
+		<ClInclude Include="..\..\include\sampgdk\amx.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\include\sampgdk\eventhandler.h">
-			<Filter>include\sampgdk</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\include\sampgdk\events.h">
-			<Filter>include\sampgdk</Filter>
-		</ClInclude>
-		<ClInclude Include="..\..\include\sampgdk\export.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\include\sampgdk\gpci.h">
@@ -40,6 +43,9 @@
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\include\sampgdk\players.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\include\sampgdk\plugincommon.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\include\sampgdk\samp.h">
@@ -65,9 +71,6 @@
 		<ClCompile Include="..\..\src\amx\amx.c">
 			<Filter>src\amx</Filter>
 		</ClCompile>
-		<ClCompile Include="..\..\src\amxapihooks.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
 		<ClCompile Include="..\..\src\callbacks.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
@@ -77,16 +80,7 @@
 		<ClCompile Include="..\..\src\fakeamx.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
-		<ClCompile Include="..\..\src\funcidx.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\src\gamemode.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
 		<ClCompile Include="..\..\src\gpci.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\src\hooknative.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
 		<ClCompile Include="..\..\src\jump.cpp">
@@ -105,9 +99,6 @@
 			<Filter>src</Filter>
 		</ClCompile>
 		<ClCompile Include="..\..\src\wrapper.cpp">
-			<Filter>src</Filter>
-		</ClCompile>
-		<ClCompile Include="..\..\src\wrapperimpl.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
 	</ItemGroup>

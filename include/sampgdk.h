@@ -15,14 +15,16 @@
 #ifndef SAMPGDK_H
 #define SAMPGDK_H
 
-#include <sampgdk/amxplugin.h>
+#include <sampgdk/amx.h>
+#include <sampgdk/plugincommon.h>
+
 #include <sampgdk/eventhandler.h>
-#include <sampgdk/export.h>
+#include <sampgdk/wrapper.h>
+
 #include <sampgdk/gpci.h>
 #include <sampgdk/objects.h>
 #include <sampgdk/players.h>
 #include <sampgdk/samp.h>
 #include <sampgdk/vehicles.h>
-#include <sampgdk/wrapper.h>
 
 #endif // !SAMPGDK_H

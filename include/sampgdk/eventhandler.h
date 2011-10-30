@@ -17,11 +17,9 @@
 
 #include <string>
 
-#include <sampgdk/export.h>
-
 namespace sampgdk {
 
-class SAMPGDK_EXPORT EventHandler {
+class EventHandler {
 public:
 	EventHandler();
 	virtual ~EventHandler();

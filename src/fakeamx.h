@@ -17,7 +17,7 @@
 
 #include <cstddef>
 
-#include <sampgdk/amxplugin.h>
+#include <sampgdk/amx.h>
 
 class FakeAmxHeap;
 

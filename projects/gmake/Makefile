@@ -2,7 +2,7 @@
 # Type "make help" for usage help
 
 ifndef config
-  config=debuglib32
+  config=debug32
 endif
 export config
 
@@ -23,10 +23,8 @@ help:
 	@echo "Usage: make [config=name] [target]"
 	@echo ""
 	@echo "CONFIGURATIONS:"
-	@echo "   debuglib32"
-	@echo "   debugdll32"
-	@echo "   releaselib32"
-	@echo "   releasedll32"
+	@echo "   debug32"
+	@echo "   release32"
 	@echo ""
 	@echo "TARGETS:"
 	@echo "   all (default)"
