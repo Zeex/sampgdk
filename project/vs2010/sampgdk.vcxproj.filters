@@ -2,19 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="include">
-			<UniqueIdentifier>{CB5EB8CB-C45B-D04D-9A4A-4845B0CD7E75}</UniqueIdentifier>
+			<UniqueIdentifier>{603D67F4-9DFF-6946-B65C-D6FD9E09D9A5}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{42B201F4-055A-F44B-BDA2-AA2D35E373E1}</UniqueIdentifier>
+			<UniqueIdentifier>{713984B5-5D65-7D46-ABAA-A1AA29FE3E5F}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{DB003836-7B27-D84A-A88D-D271070C5298}</UniqueIdentifier>
+			<UniqueIdentifier>{355BF983-71FF-4A4E-9FDA-061F97E20629}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src">
-			<UniqueIdentifier>{B02ED699-0CC9-FB47-87A2-022A158C1130}</UniqueIdentifier>
+			<UniqueIdentifier>{C7992F64-73B7-274C-B60D-51BBF14F126E}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\amx">
-			<UniqueIdentifier>{62BEB154-DE98-2E45-9DBE-DEC6BCEF9BAF}</UniqueIdentifier>
+			<UniqueIdentifier>{79846F94-3EDC-624D-93E5-6D1A1BF61E2E}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>

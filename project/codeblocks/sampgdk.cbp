@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="DebugLib|x32">
-				<Option output="../../bin/Debug/sampgdkSDG.a" prefix_auto="0" extension_auto="0" />
+				<Option output="../../bin/Debug/libsampgdk.a" prefix_auto="0" extension_auto="0" />
 				<Option object_output="../../obj/Debug/x32/DebugLib" />
 				<Option type="2" />
 				<Option compiler="gcc" />
@@ -42,13 +42,13 @@
 				</Compiler>
 				<Linker>
 					<Add option="-shared" />
-					<Add option="-Wl,--out-implib=&quot;../../bin/Debug/sampgdkDG.a&quot;" />
+					<Add option="-Wl,--out-implib=&quot;../../bin/Debug/libsampgdk.dll.a&quot;" />
 					<Add option="-m32" />
 					<Add option="-L/usr/lib32" />
 				</Linker>
 			</Target>
 			<Target title="ReleaseLib|x32">
-				<Option output="../../bin/Release/sampgdkSG.a" prefix_auto="0" extension_auto="0" />
+				<Option output="../../bin/Release/libsampgdk.a" prefix_auto="0" extension_auto="0" />
 				<Option object_output="../../obj/Release/x32/ReleaseLib" />
 				<Option type="2" />
 				<Option compiler="gcc" />
@@ -83,7 +83,7 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="-shared" />
-					<Add option="-Wl,--out-implib=&quot;../../bin/Release/sampgdkG.a&quot;" />
+					<Add option="-Wl,--out-implib=&quot;../../bin/Release/libsampgdk.dll.a&quot;" />
 					<Add option="-m32" />
 					<Add option="-L/usr/lib32" />
 				</Linker>
