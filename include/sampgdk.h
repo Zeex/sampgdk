@@ -21,6 +21,7 @@
 #include <sampgdk/gpci.h>
 #include <sampgdk/objects.h>
 #include <sampgdk/players.h>
+#include <sampgdk/samp.h>
 #include <sampgdk/vehicles.h>
 #include <sampgdk/wrapper.h>
 
