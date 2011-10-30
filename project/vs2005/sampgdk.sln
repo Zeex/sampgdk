@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampgdk", "sampgdk.vcproj", "{414EC5A4-A6B3-2247-97EE-0A6A540F2645}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		DebugLib|Win32 = DebugLib|Win32
+		DebugDLL|Win32 = DebugDLL|Win32
+		ReleaseLib|Win32 = ReleaseLib|Win32
+		ReleaseDLL|Win32 = ReleaseDLL|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{414EC5A4-A6B3-2247-97EE-0A6A540F2645}.DebugLib|Win32.ActiveCfg = DebugLib|Win32
+		{414EC5A4-A6B3-2247-97EE-0A6A540F2645}.DebugLib|Win32.Build.0 = DebugLib|Win32
+		{414EC5A4-A6B3-2247-97EE-0A6A540F2645}.DebugDLL|Win32.ActiveCfg = DebugDLL|Win32
+		{414EC5A4-A6B3-2247-97EE-0A6A540F2645}.DebugDLL|Win32.Build.0 = DebugDLL|Win32
+		{414EC5A4-A6B3-2247-97EE-0A6A540F2645}.ReleaseLib|Win32.ActiveCfg = ReleaseLib|Win32
+		{414EC5A4-A6B3-2247-97EE-0A6A540F2645}.ReleaseLib|Win32.Build.0 = ReleaseLib|Win32
+		{414EC5A4-A6B3-2247-97EE-0A6A540F2645}.ReleaseDLL|Win32.ActiveCfg = ReleaseDLL|Win32
+		{414EC5A4-A6B3-2247-97EE-0A6A540F2645}.ReleaseDLL|Win32.Build.0 = ReleaseDLL|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
