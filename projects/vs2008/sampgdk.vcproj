@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="sampgdk"
-	ProjectGUID="{4A60B0CF-D63B-0245-A220-73DEBB29DD40}"
+	ProjectGUID="{D3F02934-EEB9-DC44-AA90-5B320F649076}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
+				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
 				PreprocessorDefinitions="IN_SAMPGDK"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -48,7 +48,6 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
 				ProgramDataBaseFileName="$(OutDir)\sampgdk.pdb"
 				DebugInformationFormat="4"
 			/>
@@ -58,7 +57,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="IN_SAMPGDK"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
+				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -117,14 +116,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
+				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
 				PreprocessorDefinitions="IN_SAMPGDK"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
 				ProgramDataBaseFileName="$(OutDir)\sampgdk.pdb"
 				DebugInformationFormat="0"
 			/>
@@ -134,7 +132,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="IN_SAMPGDK"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk\amx"
+				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -184,11 +182,11 @@
 					RelativePath="..\..\src\amx\amx.c"
 					>
 				</File>
+				<File
+					RelativePath="..\..\src\amx\osdefs.h"
+					>
+				</File>
 			</Filter>
-			<File
-				RelativePath="..\..\src\amxapihooks.cpp"
-				>
-			</File>
 			<File
 				RelativePath="..\..\src\callbacks.cpp"
 				>
@@ -202,19 +200,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\funcidx.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\gamemode.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\gpci.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\hooknative.cpp"
 				>
 			</File>
 			<File
@@ -242,7 +228,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\wrapperimpl.cpp"
+				RelativePath="..\..\src\fakeamx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\jump.h"
 				>
 			</File>
 		</Filter>
@@ -272,15 +262,11 @@
 					</File>
 				</Filter>
 				<File
-					RelativePath="..\..\include\sampgdk\amxplugin.h"
+					RelativePath="..\..\include\sampgdk\amx.h"
 					>
 				</File>
 				<File
 					RelativePath="..\..\include\sampgdk\eventhandler.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\export.h"
 					>
 				</File>
 				<File
@@ -293,6 +279,10 @@
 				</File>
 				<File
 					RelativePath="..\..\include\sampgdk\players.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\sampgdk\plugincommon.h"
 					>
 				</File>
 				<File
