@@ -98,6 +98,8 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 
 namespace sampgdk {
 
+Wrapper::Wrapper() {}
+
 Wrapper &Wrapper::GetInstance() {
 	static Wrapper wrapper;
 	return wrapper;
