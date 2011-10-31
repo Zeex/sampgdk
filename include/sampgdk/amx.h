@@ -34,6 +34,10 @@
 	#include <alloca.h> // For alloca() on Linux
 #endif
 
+#if !defined AMX_NODYNLOAD
+	#define AMX_NODYNLOAD
+#endif
+
 #include "amx/amx.h"
 
 #endif // !SAMPGDK_AMX_H
