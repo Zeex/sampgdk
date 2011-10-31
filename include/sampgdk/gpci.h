@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef SAMPGDK_GPCI_H
+#define SAMPGDK_GPCI_H
+
 #include <cstddef>
 
 namespace sampgdk {
@@ -19,3 +22,5 @@ namespace sampgdk {
 bool gpci(int playerid, char *buffer, std::size_t size);
 
 } // namespace sampgdk
+
+#endif // !SAMPGDK_GPCI_H
