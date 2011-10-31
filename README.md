@@ -34,7 +34,7 @@ in your project's Makefile directly though I didn't try.
 
 ### Write some code ###
 
-See the helloworld example, it will teach you some basics.
+If you are new to GDK you may have a look at the helloworld example, it will teach you some basics.
 
 Bugs
 ----
