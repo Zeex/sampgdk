@@ -32,6 +32,9 @@ to your solution (the .sln) and setup include/library paths in your project's se
 To compile GDK on Linux you can use a Makefile from `projects/gmake`. I think you can even `include` it 
 in your project's Makefile directly though I didn't try.
 
+### Write some code ###
+
+See the helloworld example, it will teach you some basics.
 
 Bugs
 ----
