@@ -18,6 +18,7 @@
 #include <sampgdk/plugincommon.h>
 #include <sampgdk/wrapper.h>
 
+#include "callbacks.h"
 #include "jump.h"
 
 // A pointer to game mode's AMX
@@ -111,6 +112,8 @@ void Wrapper::Initialize(void **ppPluginData) {
 	SetJump(amxExports[PLUGIN_AMX_EXPORT_Register],   (void*)amx_Register_);
 	SetJump(amxExports[PLUGIN_AMX_EXPORT_FindPublic], (void*)amx_FindPublic_);
 	SetJump(amxExports[PLUGIN_AMX_EXPORT_Exec],       (void*)amx_Exec_);
+
+	SetupSampCallbackHooks();
 }
 
 void Wrapper::SetNative(const char *name, AMX_NATIVE native) {

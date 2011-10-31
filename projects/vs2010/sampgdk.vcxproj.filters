@@ -2,22 +2,25 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="src">
-			<UniqueIdentifier>{1DBDDEFB-BD52-6848-A887-A79C0508D807}</UniqueIdentifier>
+			<UniqueIdentifier>{9AA2A79B-DADD-EE42-8920-136B1724BE6D}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src\amx">
-			<UniqueIdentifier>{F31E5545-30E0-F348-A160-161673CBA95A}</UniqueIdentifier>
+			<UniqueIdentifier>{F75E30A7-5919-164D-9936-BAA0B54E82F4}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include">
-			<UniqueIdentifier>{5C7ABFDE-A994-E343-AC7B-A3325E8BF769}</UniqueIdentifier>
+			<UniqueIdentifier>{66754D9C-2982-6244-9C9C-8AC766E68B9C}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{769174B2-DF54-9847-B909-A01EB904A8A3}</UniqueIdentifier>
+			<UniqueIdentifier>{318C08CE-DDFA-6E4B-B4A7-63AFE291E202}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{726985FF-45D9-FE49-9A69-77E3EE664837}</UniqueIdentifier>
+			<UniqueIdentifier>{3AC3D5D9-4AF1-A040-BF93-5EA3D4A69B50}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
+		<ClInclude Include="..\..\src\callbacks.h">
+			<Filter>src</Filter>
+		</ClInclude>
 		<ClInclude Include="..\..\src\fakeamx.h">
 			<Filter>src</Filter>
 		</ClInclude>

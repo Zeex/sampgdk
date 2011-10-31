@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sampgdk"
-	ProjectGUID="{A5F5479F-051D-2A41-B047-292DACBBBC59}"
+	ProjectGUID="{1908A7CA-2951-FD43-BB59-E46DD6248954}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -223,6 +223,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\wrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\callbacks.h"
 				>
 			</File>
 			<File

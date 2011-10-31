@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{C0DA49C5-0721-7C47-A3A9-A318B5AD2ABC}</ProjectGuid>
+		<ProjectGuid>{80CAB5FE-0138-6541-B28F-34C3E4983AC7}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -101,6 +101,7 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
+		<ClInclude Include="..\..\src\callbacks.h" />
 		<ClInclude Include="..\..\src\fakeamx.h" />
 		<ClInclude Include="..\..\src\jump.h" />
 		<ClInclude Include="..\..\src\amx\osdefs.h" />

@@ -64,6 +64,8 @@
 		</Unit>
 		<Unit filename="../../src/wrapper.cpp">
 		</Unit>
+		<Unit filename="../../src/callbacks.h">
+		</Unit>
 		<Unit filename="../../src/fakeamx.h">
 		</Unit>
 		<Unit filename="../../src/jump.h">
