@@ -40,6 +40,9 @@ solution "sampgdk"
 
 	project "sampgdk"
 		kind "StaticLib"
+		defines {
+			"AMX_NODYNLOAD"
+		}
 		files {
 			"src/**.c",
 			"src/**.cpp",
