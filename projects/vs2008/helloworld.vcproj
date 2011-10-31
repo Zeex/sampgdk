@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="helloworld"
-	ProjectGUID="{CCE83531-0640-A44F-B8A6-C7267263857E}"
+	ProjectGUID="{3DAFBBB4-DA02-0F46-B5A8-F42E95C5499A}"
 	RootNamespace="helloworld"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -47,8 +46,8 @@
 				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				WarningLevel="4"
+				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -69,6 +68,7 @@
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
+				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				SubSystem="2"
 				ImportLibrary="..\..\bin\Debug\helloworld.lib"
 				TargetMachine="1"
@@ -90,6 +90,9 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -125,8 +128,8 @@
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
-				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				WarningLevel="3"
+				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				DebugInformationFormat="0"
 			/>
 			<Tool
@@ -172,6 +175,9 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
@@ -181,9 +187,11 @@
 	<Files>
 		<Filter
 			Name="examples"
+			Filter=""
 			>
 			<Filter
 				Name="helloworld"
+				Filter=""
 				>
 				<File
 					RelativePath="..\..\examples\helloworld\helloworld.cpp"
