@@ -34,6 +34,11 @@ static std::string GetStringFromStack(AMX *amx, int index) {
     return std::string(physAddr, physAddr + length);
 }
 
+static float GetFloatFromStack(AMX *amx, int index) {
+	cell c = GetCellFromStack(amx, index);
+	return amx_ctof(c);
+}
+
 static cell OnGameModeInit(AMX *amx) {
     EventHandler *cur = EventHandler::GetFirstEventHandler();
 
@@ -645,6 +650,40 @@ static cell AMXAPI OnPlayerClickPlayer(AMX *amx) {
     return 1;
 }
 
+static cell OnPlayerTakeDamage(AMX *amx) {
+    int playerid = GetCellFromStack(amx, 0);
+	int issuerid = GetCellFromStack(amx, 1);
+	float amount = GetFloatFromStack(amx, 2);
+	int weaponid = GetCellFromStack(amx, 3);
+    
+    EventHandler *cur = EventHandler::GetFirstEventHandler();
+    while (cur != 0) {
+        if (!cur->OnPlayerTakeDamage(playerid, issuerid, amount, weaponid)) {
+            return 0;
+        }
+        cur = cur->GetNext();
+    }
+
+    return 1;
+}
+
+static cell OnPlayerGiveDamage(AMX *amx) {
+    int playerid = GetCellFromStack(amx, 0);
+	int damagedid = GetCellFromStack(amx, 1);
+	float amount = GetFloatFromStack(amx, 2);
+	int weaponid = GetCellFromStack(amx, 3);
+    
+    EventHandler *cur = EventHandler::GetFirstEventHandler();
+    while (cur != 0) {
+        if (!cur->OnPlayerGiveDamage(playerid, damagedid, amount, weaponid)) {
+            return 0;
+        }
+        cur = cur->GetNext();
+    }
+
+    return 1;
+}
+
 namespace sampgdk { 
 
 void SetupSampCallbackHooks() {
@@ -691,6 +730,8 @@ void SetupSampCallbackHooks() {
     Wrapper::GetInstance().SetPublicHook("OnVehicleStreamOut", PublicHook(OnVehicleStreamOut, 0));
     Wrapper::GetInstance().SetPublicHook("OnDialogResponse", PublicHook(OnDialogResponse, 0));
     Wrapper::GetInstance().SetPublicHook("OnPlayerClickPlayer", PublicHook(OnPlayerClickPlayer, 0));
+	Wrapper::GetInstance().SetPublicHook("OnPlayerTakeDamage", PublicHook(OnPlayerTakeDamage, 0));
+	Wrapper::GetInstance().SetPublicHook("OnPlayerGiveDamage", PublicHook(OnPlayerGiveDamage, 0));
 }
 
 } // namespace sampgdk 
