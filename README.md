@@ -22,10 +22,10 @@ to do this:
 
 ### Integrate with your project ###
 
-There are ready-to-use project files for various popular IDE's, you find them in the `projects` folder. 
-It is recommended that you use these to build the GDK as a static library and link against it. 
+There are ready-to-use project files for various popular IDE's, you can find them in the `projects` 
+directory (it is recommended that you use these to build the GDK).
 	
-If you're using Microsoft Visual Studio 2010, just add `projects/vs2010/sampgdk.vcxproj` 
+For examples, if you're using Microsoft Visual Studio 2010, just add `projects/vs2010/sampgdk.vcxproj` 
 to your solution (the .sln) and setup include/library paths in your project's settings. 
 
 To compile GDK on Linux you can use the Makefile from `projects/gmake/`. You can even `include` it 
