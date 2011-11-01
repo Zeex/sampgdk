@@ -22,7 +22,7 @@ to do this:
 
 ### Integrate with your project ###
 
-There are ready-to-use projects for various popular IDE's, you find themd in the `projects` folder. 
+There are ready-to-use project files for various popular IDE's, you find themd in the `projects` folder. 
 It is recommended that you use these to build the GDK as a static library and link against it. 
 	
 If you're using Microsoft Visual Studio 2010, just add `projects/vs2010/sampgdk.vcxproj` 
