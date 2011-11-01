@@ -15,22 +15,21 @@ Quick Setup
 
 ### Download the source ###
 
-Download the source code via GitHub Download interface and unpack it to a separate directory project.
-
-Alternatively, you can use Git and clone the GDK repository:
+Download the source code via GitHub Download interface and unpack it. Or you can use Git 
+to do this:
 
 `git clone git://github.com/Zeex/sampgdk.git`
 
-### Connect to your project ###
+### Integrate with your project ###
 
-There are ready-to-use projects for various IDE's which can be found in `projects` folder. 
-It is generally recommended that you use these to compile the GDK. 
+There are ready-to-use projects for various popular IDE's, you find themd in the `projects` folder. 
+It is recommended that you use these to build the GDK as a static library and link against it. 
 	
-For instance, if you're using Microsoft Visual Studio 2010, just add `projects/vs2010/sampgdk.vcxproj` 
+If you're using Microsoft Visual Studio 2010, just add `projects/vs2010/sampgdk.vcxproj` 
 to your solution (the .sln) and setup include/library paths in your project's settings. 
 
-To compile GDK on Linux you can use a Makefile from `projects/gmake`. I think you can even `include` it 
-in your project's Makefile directly though I didn't try.
+To compile GDK on Linux you can use the Makefile from `projects/gmake/`. You can even `include` it 
+in your project's Makefile directly though I didn't try doing so.
 
 ### Write some code ###
 
