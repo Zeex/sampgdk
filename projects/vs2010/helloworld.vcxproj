@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{D2603A6A-1D4C-CE46-8774-403DC609AB73}</ProjectGuid>
+		<ProjectGuid>{B5FD1BAB-BA32-17BE-6D8E-6B7FE0F48E0F}</ProjectGuid>
 		<RootNamespace>helloworld</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -42,12 +42,12 @@
 		<OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\bin\Debug\</OutDir>
 		<IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\obj\Debug\x32\Debug\helloworld\</IntDir>
 		<TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">helloworld</TargetName>
-		<IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</IgnoreImportLibrary>
+		<IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
 		<LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
 		<OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\Release\</OutDir>
 		<IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\obj\Release\x32\Release\helloworld\</IntDir>
 		<TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">helloworld</TargetName>
-		<IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</IgnoreImportLibrary>
+		<IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
 		<LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -75,7 +75,7 @@
 			<SubSystem>Windows</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<ProgramDataBaseFileName>$(OutDir)helloworld.pdb</ProgramDataBaseFileName>
-			<ImportLibrary>..\..\bin\Debug\helloworld.lib</ImportLibrary>
+			<ImportLibrary>..\..\obj\Debug\x32\Debug\helloworld\helloworld.lib</ImportLibrary>
 			<TargetMachine>MachineX86</TargetMachine>
 			<AdditionalOptions>/DEF:../../examples/helloworld/helloworld.def %(AdditionalOptions)</AdditionalOptions>
 		</Link>
@@ -105,7 +105,7 @@
 			<GenerateDebugInformation>false</GenerateDebugInformation>
 			<OptimizeReferences>true</OptimizeReferences>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
-			<ImportLibrary>..\..\bin\Release\helloworld.lib</ImportLibrary>
+			<ImportLibrary>..\..\obj\Release\x32\Release\helloworld\helloworld.lib</ImportLibrary>
 			<TargetMachine>MachineX86</TargetMachine>
 			<AdditionalOptions>/DEF:../../examples/helloworld/helloworld.def %(AdditionalOptions)</AdditionalOptions>
 		</Link>

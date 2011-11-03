@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sampgdk"
-	ProjectGUID="{9A78E48E-A24D-3D43-8BF0-EA5489B9ADFF}"
+	ProjectGUID="{5E6B7DA4-0955-616A-D6D9-2031F2CA7CA1}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -41,6 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
+				PreprocessorDefinitions="AMX_NODYNLOAD"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -55,6 +56,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="AMX_NODYNLOAD"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
 			/>
 			<Tool
@@ -115,6 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
+				PreprocessorDefinitions="AMX_NODYNLOAD"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -128,6 +131,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="AMX_NODYNLOAD"
 				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
 			/>
 			<Tool
@@ -184,7 +188,7 @@
 				</File>
 			</Filter>
 			<File
-				RelativePath="..\..\src\callbacks.cpp"
+				RelativePath="..\..\src\samp.cpp"
 				>
 			</File>
 			<File
@@ -192,19 +196,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\fakeamx.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\gpci.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\jump.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\objects.cpp"
+				RelativePath="..\..\src\fakeamx.cpp"
 				>
 			</File>
 			<File
@@ -212,7 +208,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\samp.cpp"
+				RelativePath="..\..\src\objects.cpp"
 				>
 			</File>
 			<File
@@ -220,7 +216,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\callbacks.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\jump.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\wrapper.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\jump.h"
 				>
 			</File>
 			<File
@@ -229,10 +237,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\fakeamx.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\jump.h"
 				>
 			</File>
 		</Filter>
@@ -249,6 +253,10 @@
 					Filter=""
 					>
 					<File
+						RelativePath="..\..\include\sampgdk\amx\sclinux.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\include\sampgdk\amx\amx.h"
 						>
 					</File>
@@ -256,21 +264,13 @@
 						RelativePath="..\..\include\sampgdk\amx\getch.h"
 						>
 					</File>
-					<File
-						RelativePath="..\..\include\sampgdk\amx\sclinux.h"
-						>
-					</File>
 				</Filter>
 				<File
+					RelativePath="..\..\include\sampgdk\wrapper.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\include\sampgdk\amx.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\eventhandler.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\gpci.h"
 					>
 				</File>
 				<File
@@ -278,15 +278,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\include\sampgdk\players.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\plugincommon.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\samp.h"
+					RelativePath="..\..\include\sampgdk\gpci.h"
 					>
 				</File>
 				<File
@@ -294,7 +286,19 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\include\sampgdk\wrapper.h"
+					RelativePath="..\..\include\sampgdk\eventhandler.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\sampgdk\plugincommon.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\sampgdk\players.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\sampgdk\samp.h"
 					>
 				</File>
 			</Filter>

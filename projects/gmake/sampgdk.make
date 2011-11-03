@@ -23,7 +23,7 @@ ifeq ($(config),debug32)
   OBJDIR     = ../../obj/Debug/x32/Debug/sampgdk
   TARGETDIR  = ../../bin/Debug
   TARGET     = $(TARGETDIR)/libsampgdk.a
-  DEFINES   += 
+  DEFINES   += -DAMX_NODYNLOAD
   INCLUDES  += -I../../include -I../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
@@ -45,7 +45,7 @@ ifeq ($(config),release32)
   OBJDIR     = ../../obj/Release/x32/Release/sampgdk
   TARGETDIR  = ../../bin/Release
   TARGET     = $(TARGETDIR)/libsampgdk.a
-  DEFINES   += 
+  DEFINES   += -DAMX_NODYNLOAD
   INCLUDES  += -I../../include -I../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
@@ -65,15 +65,15 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/amx.o \
-	$(OBJDIR)/callbacks.o \
-	$(OBJDIR)/eventhandler.o \
-	$(OBJDIR)/fakeamx.o \
-	$(OBJDIR)/gpci.o \
-	$(OBJDIR)/jump.o \
-	$(OBJDIR)/objects.o \
-	$(OBJDIR)/players.o \
 	$(OBJDIR)/samp.o \
+	$(OBJDIR)/eventhandler.o \
+	$(OBJDIR)/gpci.o \
+	$(OBJDIR)/fakeamx.o \
+	$(OBJDIR)/players.o \
+	$(OBJDIR)/objects.o \
 	$(OBJDIR)/vehicles.o \
+	$(OBJDIR)/callbacks.o \
+	$(OBJDIR)/jump.o \
 	$(OBJDIR)/wrapper.o \
 
 RESOURCES := \
@@ -138,31 +138,31 @@ endif
 $(OBJDIR)/amx.o: ../../src/amx/amx.c
 	@echo $(notdir $<)
 	$(SILENT) $(CC) $(CFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/callbacks.o: ../../src/callbacks.cpp
+$(OBJDIR)/samp.o: ../../src/samp.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/eventhandler.o: ../../src/eventhandler.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/fakeamx.o: ../../src/fakeamx.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/gpci.o: ../../src/gpci.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/jump.o: ../../src/jump.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/objects.o: ../../src/objects.cpp
+$(OBJDIR)/fakeamx.o: ../../src/fakeamx.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/players.o: ../../src/players.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/samp.o: ../../src/samp.cpp
+$(OBJDIR)/objects.o: ../../src/objects.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/vehicles.o: ../../src/vehicles.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/callbacks.o: ../../src/callbacks.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/jump.o: ../../src/jump.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/wrapper.o: ../../src/wrapper.cpp

@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{80CAB5FE-0138-6541-B28F-34C3E4983AC7}</ProjectGuid>
+		<ProjectGuid>{384EEFE0-EAF9-C3E9-C5A1-520E7235D20E}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -50,7 +50,7 @@
 		<ClCompile>
 			<Optimization>Disabled</Optimization>
 			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions></PreprocessorDefinitions>
+			<PreprocessorDefinitions>AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>true</MinimalRebuild>
 			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
 			<SmallerTypeCheck>true</SmallerTypeCheck>
@@ -61,7 +61,7 @@
 			<DebugInformationFormat>EditAndContinue</DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions></PreprocessorDefinitions>
+			<PreprocessorDefinitions>AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 	<Lib>
@@ -77,7 +77,7 @@
 		<ClCompile>
 			<Optimization>Full</Optimization>
 			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions></PreprocessorDefinitions>
+			<PreprocessorDefinitions>AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>false</MinimalRebuild>
 			<StringPooling>true</StringPooling>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -87,7 +87,7 @@
 			<DebugInformationFormat></DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions></PreprocessorDefinitions>
+			<PreprocessorDefinitions>AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 	<Lib>
@@ -101,44 +101,44 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
+		<ClInclude Include="..\..\src\jump.h" />
 		<ClInclude Include="..\..\src\callbacks.h" />
 		<ClInclude Include="..\..\src\fakeamx.h" />
-		<ClInclude Include="..\..\src\jump.h" />
 		<ClInclude Include="..\..\src\amx\osdefs.h" />
 		<ClInclude Include="..\..\include\sampgdk.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx.h" />
-		<ClInclude Include="..\..\include\sampgdk\eventhandler.h" />
-		<ClInclude Include="..\..\include\sampgdk\gpci.h" />
-		<ClInclude Include="..\..\include\sampgdk\objects.h" />
-		<ClInclude Include="..\..\include\sampgdk\players.h" />
-		<ClInclude Include="..\..\include\sampgdk\plugincommon.h" />
-		<ClInclude Include="..\..\include\sampgdk\samp.h" />
-		<ClInclude Include="..\..\include\sampgdk\vehicles.h" />
 		<ClInclude Include="..\..\include\sampgdk\wrapper.h" />
+		<ClInclude Include="..\..\include\sampgdk\amx.h" />
+		<ClInclude Include="..\..\include\sampgdk\objects.h" />
+		<ClInclude Include="..\..\include\sampgdk\gpci.h" />
+		<ClInclude Include="..\..\include\sampgdk\vehicles.h" />
+		<ClInclude Include="..\..\include\sampgdk\eventhandler.h" />
+		<ClInclude Include="..\..\include\sampgdk\plugincommon.h" />
+		<ClInclude Include="..\..\include\sampgdk\players.h" />
+		<ClInclude Include="..\..\include\sampgdk\samp.h" />
+		<ClInclude Include="..\..\include\sampgdk\amx\sclinux.h" />
 		<ClInclude Include="..\..\include\sampgdk\amx\amx.h" />
 		<ClInclude Include="..\..\include\sampgdk\amx\getch.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx\sclinux.h" />
 	</ItemGroup>
 	<ItemGroup>
 		<ClCompile Include="..\..\src\amx\amx.c">
 		</ClCompile>
-		<ClCompile Include="..\..\src\callbacks.cpp">
+		<ClCompile Include="..\..\src\samp.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\eventhandler.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\fakeamx.cpp">
-		</ClCompile>
 		<ClCompile Include="..\..\src\gpci.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\jump.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\objects.cpp">
+		<ClCompile Include="..\..\src\fakeamx.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\players.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\samp.cpp">
+		<ClCompile Include="..\..\src\objects.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\vehicles.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\callbacks.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\jump.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\wrapper.cpp">
 		</ClCompile>

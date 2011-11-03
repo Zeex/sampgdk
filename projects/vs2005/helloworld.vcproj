@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="helloworld"
-	ProjectGUID="{0271302C-5FA2-D242-BA26-FE401B5260FF}"
+	ProjectGUID="{543B1AAD-20FE-189D-2105-2F264B1228AC}"
 	RootNamespace="helloworld"
 	Keyword="Win32Proj"
 	>
@@ -63,6 +63,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
 				AdditionalOptions="/DEF:../../examples/helloworld/helloworld.def"
 				AdditionalDependencies="..\..\bin\Debug\sampgdk.lib"
 				OutputFile="$(OutDir)\helloworld.dll"
@@ -71,7 +72,7 @@
 				GenerateDebugInformation="true"
 				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\bin\Debug\helloworld.lib"
+				ImportLibrary="..\..\obj\Debug\x32\Debug\helloworld\helloworld.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -146,6 +147,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				IgnoreImportLibrary="true"
 				AdditionalOptions="/DEF:../../examples/helloworld/helloworld.def"
 				AdditionalDependencies="..\..\bin\Release\sampgdk.lib"
 				OutputFile="$(OutDir)\helloworld.dll"
@@ -155,7 +157,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\bin\Release\helloworld.lib"
+				ImportLibrary="..\..\obj\Release\x32\Release\helloworld\helloworld.lib"
 				TargetMachine="1"
 			/>
 			<Tool

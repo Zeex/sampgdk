@@ -52,6 +52,9 @@ solution "sampgdk"
 
 	project "helloworld"
 		kind "SharedLib"
+		flags {
+			"NoImportLib"
+		}
 		files {
 			"examples/helloworld/helloworld.cpp",
 			"examples/helloworld/helloworld.h"
