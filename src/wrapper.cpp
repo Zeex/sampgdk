@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <cstdio>
 #include <string>
 
 #include <sampgdk/amx.h>
@@ -92,7 +93,6 @@ static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 			canDoExec = sampgdk::Wrapper::GetInstance().CallPublicHook(amx, retval, currentPublic.c_str());
 		}
 		if (index == AMX_EXEC_GDK) {
-			canDoExec = false;
 			amx->stk += amx->paramcount * sizeof(cell);
 			amx->paramcount = 0;
 		}
@@ -101,6 +101,9 @@ static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 	int error = AMX_ERR_NONE;
 	if (canDoExec) {
 		error = amx_Exec(amx, retval, index);
+		if (index == AMX_EXEC_GDK) {
+			error = AMX_ERR_NONE;
+		}
 	}
 
 	amx_ExecHook.Reinstall();
