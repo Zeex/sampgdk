@@ -110,12 +110,12 @@ static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 static int AMXAPI amx_CallbackHookProc(AMX *amx, cell index, cell *result, cell *params) {
 	amx_CallbackHook.Remove();
 
+	// Forbid SYSREQ.D
+	amx->sysreq_d = 0;
+
 	// Natives can call amx_Exec()
 	amx_ExecHook.Reinstall();
-
 	int error = amx_Callback(amx, index, result, params);
-
-	// Turn it back
 	amx_ExecHook.Remove();
 
 	amx_CallbackHook.Reinstall();

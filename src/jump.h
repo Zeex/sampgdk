@@ -24,23 +24,34 @@ void SetJump(void *from, void *to, unsigned char (&oldCode)[5]);
 
 class Jump {
 public:
+	Jump() : installed_(false) {}
+
 	inline void Install(void *from, void *to) {
-		from_ = from; to_ = to;
+		from_ = from; 
+		to_   = to;
 		SetJump(from_, to_, code_);
+		installed_ = true;
 	}
 
 	inline void Remove() {
 		std::memcpy(from_, code_, 5);
+		installed_ = false;
 	}
 
 	inline void Reinstall() {
 		SetJump(from_, to_, code_);
+		installed_ = true;
+	}
+
+	inline bool IsInstalled() const { 
+		return installed_;
 	}
 
 private:
 	void *from_;
 	void *to_;
 	unsigned char code_[5];
+	bool installed_;
 };
 
 #endif
