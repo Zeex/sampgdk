@@ -21,6 +21,8 @@
 #include "callbacks.h"
 #include "jump.h"
 
+extern void *pAMXFunctions;
+
 // Gamemode's AMX
 static AMX *gamemode = 0;
 
@@ -44,7 +46,7 @@ static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	return index;
 }
 
-static int AMXAPI amx_RegisterHookProc(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
+static int AMXAPI amx_RegisterHookProc(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
 	amx_RegisterHook.Remove();
 
 	int error = amx_Register(amx, nativelist, number);
@@ -108,10 +110,13 @@ static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 static int AMXAPI amx_CallbackHookProc(AMX *amx, cell index, cell *result, cell *params) {
 	amx_CallbackHook.Remove();
 
-	int error = amx_Callback(amx, index, result, params);
-
 	// Natives can call amx_Exec()
 	amx_ExecHook.Reinstall();
+
+	int error = amx_Callback(amx, index, result, params);
+
+	// Turn it back
+	amx_ExecHook.Remove();
 
 	amx_CallbackHook.Reinstall();
 	return error;
@@ -127,7 +132,8 @@ Wrapper &Wrapper::GetInstance() {
 }
 
 void Wrapper::Initialize(void **ppPluginData) {
-	void **amxExports = static_cast<void**>(ppPluginData[PLUGIN_DATA_AMX_EXPORTS]);
+	pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
+	void **amxExports = static_cast<void**>(pAMXFunctions);
 
 	amx_RegisterHook.Install(
 		amxExports[PLUGIN_AMX_EXPORT_Register],   
