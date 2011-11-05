@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sampgdk"
-	ProjectGUID="{9A30CB2B-64D5-2B4C-9DB6-EA46CD355DFC}"
+	ProjectGUID="{F19D916D-D1D2-4842-9613-8F48D1BA2D15}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>

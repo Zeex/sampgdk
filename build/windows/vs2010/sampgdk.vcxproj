@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{79F97574-7575-FD46-B39D-68FDA16CD5FE}</ProjectGuid>
+		<ProjectGuid>{FD405FFC-50B3-8A43-8935-09E1C65479DA}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="helloworld"
-	ProjectGUID="{4127FCD9-A950-7C42-BEA8-DD9A8C4472E3}"
+	ProjectGUID="{6C215DF4-C0B9-7042-859B-5336B25206FD}"
 	RootNamespace="helloworld"
 	Keyword="Win32Proj"
 	>
@@ -65,7 +65,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalOptions="/DEF:../../examples/helloworld/helloworld.def"
+				AdditionalOptions="/DEF:../../../examples/helloworld/helloworld.def"
 				AdditionalDependencies="..\..\..\bin\Debug\sampgdk.lib"
 				OutputFile="$(OutDir)\helloworld.dll"
 				LinkIncremental="2"
@@ -150,7 +150,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
-				AdditionalOptions="/DEF:../../examples/helloworld/helloworld.def"
+				AdditionalOptions="/DEF:../../../examples/helloworld/helloworld.def"
 				AdditionalDependencies="..\..\..\bin\Release\sampgdk.lib"
 				OutputFile="$(OutDir)\helloworld.dll"
 				LinkIncremental="1"
