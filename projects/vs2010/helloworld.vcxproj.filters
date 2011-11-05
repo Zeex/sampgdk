@@ -2,10 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="examples">
-			<UniqueIdentifier>{4A2CF94F-BCEB-4C42-8AA3-633AD93196E8}</UniqueIdentifier>
+			<UniqueIdentifier>{072C04ED-A9BC-D045-8E7F-3851EADEE4CB}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="examples\helloworld">
-			<UniqueIdentifier>{DB4E598E-0551-174E-89C3-FD802F25FF42}</UniqueIdentifier>
+			<UniqueIdentifier>{1DDDB5AD-D1C9-E941-8FD9-1FE99218887E}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
