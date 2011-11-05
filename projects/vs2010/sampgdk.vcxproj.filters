@@ -2,16 +2,16 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="src">
-			<UniqueIdentifier>{5FD1A012-347E-8F42-B76A-EF7C59A20604}</UniqueIdentifier>
+			<UniqueIdentifier>{A900F782-1045-BF44-A08B-2FBA89807582}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include">
-			<UniqueIdentifier>{1E0A9618-BFF5-FD45-8C4C-821135546D94}</UniqueIdentifier>
+			<UniqueIdentifier>{FFF53EA0-4E28-7749-8AC5-86B78FB3EE79}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{1CE3E581-924C-394B-BA0B-B1D09D68426F}</UniqueIdentifier>
+			<UniqueIdentifier>{9A48811C-57CF-BD48-AD4E-574B57A3359F}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{0E272D64-4354-144D-9FE0-F9D83826AE3C}</UniqueIdentifier>
+			<UniqueIdentifier>{1A957E98-E78C-8748-8624-009BF11B6A71}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
@@ -65,6 +65,9 @@
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
+		<ClCompile Include="..\..\src\amxplugin.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
 		<ClCompile Include="..\..\src\callbacks.cpp">
 			<Filter>src</Filter>
 		</ClCompile>

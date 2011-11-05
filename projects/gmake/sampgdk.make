@@ -64,6 +64,7 @@ ifeq ($(config),release32)
 endif
 
 OBJECTS := \
+	$(OBJDIR)/amxplugin.o \
 	$(OBJDIR)/callbacks.o \
 	$(OBJDIR)/eventhandler.o \
 	$(OBJDIR)/fakeamx.o \
@@ -134,6 +135,9 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
+$(OBJDIR)/amxplugin.o: ../../src/amxplugin.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/callbacks.o: ../../src/callbacks.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"

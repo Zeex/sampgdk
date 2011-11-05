@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{4075D105-7997-B147-8168-50D7E0B1C5EB}</ProjectGuid>
+		<ProjectGuid>{68D4A8CB-CD66-A146-B6B1-2F6F65B653B4}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -119,6 +119,8 @@
 		<ClInclude Include="..\..\include\sampgdk\amx\sclinux.h" />
 	</ItemGroup>
 	<ItemGroup>
+		<ClCompile Include="..\..\src\amxplugin.cpp">
+		</ClCompile>
 		<ClCompile Include="..\..\src\callbacks.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\eventhandler.cpp">
