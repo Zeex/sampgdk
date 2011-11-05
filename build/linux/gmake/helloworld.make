@@ -20,18 +20,18 @@ ifndef AR
 endif
 
 ifeq ($(config),debug32)
-  OBJDIR     = ../../obj/Debug/x32/Debug/helloworld
-  TARGETDIR  = ../../bin/Debug
-  TARGET     = $(TARGETDIR)/helloworld.dll
-  DEFINES   += 
-  INCLUDES  += -I../../include -I../../include/sampgdk
+  OBJDIR     = ../../../obj/Debug/x32/Debug/helloworld
+  TARGETDIR  = ../../../bin/Debug
+  TARGET     = $(TARGETDIR)/helloworld.so
+  DEFINES   += -DLINUX
+  INCLUDES  += -I../../../include -I../../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32 -fPIC
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -shared -m32 -L/usr/lib32 -Wl,--kill-at --def ../../examples/helloworld/helloworld.def -L../../bin/Debug
+  LDFLAGS   += -shared -m32 -L/usr/lib32 -L../../../bin/Debug
   LIBS      += -lsampgdk
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LDDEPS    += ../../bin/Debug/libsampgdk.a
+  LDDEPS    += ../../../bin/Debug/libsampgdk.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -42,18 +42,18 @@ ifeq ($(config),debug32)
 endif
 
 ifeq ($(config),release32)
-  OBJDIR     = ../../obj/Release/x32/Release/helloworld
-  TARGETDIR  = ../../bin/Release
-  TARGET     = $(TARGETDIR)/helloworld.dll
-  DEFINES   += 
-  INCLUDES  += -I../../include -I../../include/sampgdk
+  OBJDIR     = ../../../obj/Release/x32/Release/helloworld
+  TARGETDIR  = ../../../bin/Release
+  TARGET     = $(TARGETDIR)/helloworld.so
+  DEFINES   += -DLINUX
+  INCLUDES  += -I../../../include -I../../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32 -fPIC
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s -shared -m32 -L/usr/lib32 -Wl,--kill-at --def ../../examples/helloworld/helloworld.def -L../../bin/Release
+  LDFLAGS   += -s -shared -m32 -L/usr/lib32 -L../../../bin/Release
   LIBS      += -lsampgdk
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
-  LDDEPS    += ../../bin/Release/libsampgdk.a
+  LDDEPS    += ../../../bin/Release/libsampgdk.a
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -125,7 +125,7 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/helloworld.o: ../../examples/helloworld/helloworld.cpp
+$(OBJDIR)/helloworld.o: ../../../examples/helloworld/helloworld.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 

@@ -3,7 +3,10 @@
 	<Workspace title="sampgdk">
 		<Project filename="sampgdk.cbp" active="1">
 		</Project>
-		<Project filename="helloworld.cbp">
+		<Project filename="helloworld1.cbp">
+			<Depends filename="sampgdk.cbp" />
+		</Project>
+		<Project filename="helloworld2.cbp">
 			<Depends filename="sampgdk.cbp" />
 		</Project>
 	</Workspace>
