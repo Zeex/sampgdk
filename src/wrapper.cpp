@@ -21,18 +21,18 @@
 #include "callbacks.h"
 #include "jump.h"
 
-// A pointer to game mode's AMX
+// Gamemode's AMX
 static AMX *gamemode = 0;
 
-// Curently Exec'ing public function
+// Curently Exec()'ing public 
 static std::string currentPublic;
 
-// Some popular SA:MP scripts/includes use funcidx() to hook callbacks, etc.
-// Since we hook amx_FindPublic to force it always return AMX_ERR_NONE,
-// the funcidx() function have become bugged and doesn't return -1 anymore
-// but AMX_EXEC_GDK (which is not -1).
-// So we provide our own implementation of funcidx which takes that fact into account.
-// Thanks to Incognito for finding this bug.
+// AMX hooks
+static Jump amx_FindPublicHook;
+static Jump amx_ExecHook;
+static Jump amx_RegisterHook;
+static Jump amx_CallbackHook;
+
 static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	char *funcname;
 	amx_StrParam(amx, params[1], funcname);
@@ -44,22 +44,27 @@ static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	return index;
 }
 
-static int AMXAPI amx_Register_(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
-	int error = ::amx_Register(amx, nativelist, number);
+static int AMXAPI amx_RegisterHookProc(AMX *amx, AMX_NATIVE_INFO *nativelist, int number) {
+	amx_RegisterHook.Remove();
+
+	int error = amx_Register(amx, nativelist, number);
 
 	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
 		sampgdk::Wrapper::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
-		// Fix funcidx() issue
+		// Fix for funcidx() issue
 		if (strcmp(nativelist[i].name, "funcidx") == 0) {
 			SetJump((void*)nativelist[i].func, (void*)fixed_funcidx);
 		}
 	}
 
+	amx_RegisterHook.Reinstall();
 	return error;
 }
 
-static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
-	int error = ::amx_FindPublic(amx, name, index);
+static int AMXAPI amx_FindPublicHookProc(AMX *amx, const char *name, int *index) {
+	amx_FindPublicHook.Remove();
+
+	int error = amx_FindPublic(amx, name, index);
 
 	if (amx == gamemode) {
 		if (error != AMX_ERR_NONE) {
@@ -69,12 +74,14 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 		currentPublic = name;
 	}
 
+	amx_FindPublicHook.Reinstall();
 	return error;
 }
 
-static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
-	bool canDoExec = true;
+static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
+	amx_ExecHook.Remove();
 
+	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode = amx;
 		sampgdk::Wrapper::GetInstance().CallPublicHook(amx, retval, "OnGameModeInit");
@@ -91,9 +98,22 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 
 	int error = AMX_ERR_NONE;
 	if (canDoExec) {
-		error = ::amx_Exec(amx, retval, index);
+		error = amx_Exec(amx, retval, index);
 	}
 
+	amx_ExecHook.Reinstall();
+	return error;
+}
+
+static int AMXAPI amx_CallbackHookProc(AMX *amx, cell index, cell *result, cell *params) {
+	amx_CallbackHook.Remove();
+
+	int error = amx_Callback(amx, index, result, params);
+
+	// Natives can call amx_Exec()
+	amx_ExecHook.Reinstall();
+
+	amx_CallbackHook.Reinstall();
 	return error;
 }
 
@@ -109,9 +129,21 @@ Wrapper &Wrapper::GetInstance() {
 void Wrapper::Initialize(void **ppPluginData) {
 	void **amxExports = static_cast<void**>(ppPluginData[PLUGIN_DATA_AMX_EXPORTS]);
 
-	SetJump(amxExports[PLUGIN_AMX_EXPORT_Register],   (void*)amx_Register_);
-	SetJump(amxExports[PLUGIN_AMX_EXPORT_FindPublic], (void*)amx_FindPublic_);
-	SetJump(amxExports[PLUGIN_AMX_EXPORT_Exec],       (void*)amx_Exec_);
+	amx_RegisterHook.Install(
+		amxExports[PLUGIN_AMX_EXPORT_Register],   
+		(void*)amx_RegisterHookProc);
+
+	amx_FindPublicHook.Install(
+		amxExports[PLUGIN_AMX_EXPORT_FindPublic], 
+		(void*)amx_FindPublicHookProc);
+
+	amx_ExecHook.Install(
+		amxExports[PLUGIN_AMX_EXPORT_Exec],       
+		(void*)amx_ExecHookProc);
+
+	amx_CallbackHook.Install(
+		amxExports[PLUGIN_AMX_EXPORT_Callback],
+		(void*)amx_CallbackHookProc);
 
 	SetupSampCallbackHooks();
 }

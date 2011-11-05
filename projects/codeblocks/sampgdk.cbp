@@ -43,62 +43,57 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../../src/amx/amx.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="../../src/samp.cpp">
+		<Unit filename="../../src/callbacks.cpp">
 		</Unit>
 		<Unit filename="../../src/eventhandler.cpp">
 		</Unit>
-		<Unit filename="../../src/gpci.cpp">
-		</Unit>
 		<Unit filename="../../src/fakeamx.cpp">
 		</Unit>
-		<Unit filename="../../src/players.cpp">
-		</Unit>
-		<Unit filename="../../src/objects.cpp">
-		</Unit>
-		<Unit filename="../../src/vehicles.cpp">
-		</Unit>
-		<Unit filename="../../src/callbacks.cpp">
+		<Unit filename="../../src/gpci.cpp">
 		</Unit>
 		<Unit filename="../../src/jump.cpp">
 		</Unit>
-		<Unit filename="../../src/wrapper.cpp">
+		<Unit filename="../../src/objects.cpp">
 		</Unit>
-		<Unit filename="../../src/jump.h">
+		<Unit filename="../../src/players.cpp">
+		</Unit>
+		<Unit filename="../../src/samp.cpp">
+		</Unit>
+		<Unit filename="../../src/vehicles.cpp">
+		</Unit>
+		<Unit filename="../../src/wrapper.cpp">
 		</Unit>
 		<Unit filename="../../src/callbacks.h">
 		</Unit>
 		<Unit filename="../../src/fakeamx.h">
 		</Unit>
-		<Unit filename="../../src/amx/osdefs.h">
+		<Unit filename="../../src/jump.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk.h">
 		</Unit>
-		<Unit filename="../../include/sampgdk/wrapper.h">
-		</Unit>
 		<Unit filename="../../include/sampgdk/amx.h">
-		</Unit>
-		<Unit filename="../../include/sampgdk/objects.h">
-		</Unit>
-		<Unit filename="../../include/sampgdk/gpci.h">
-		</Unit>
-		<Unit filename="../../include/sampgdk/vehicles.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/eventhandler.h">
 		</Unit>
-		<Unit filename="../../include/sampgdk/plugincommon.h">
+		<Unit filename="../../include/sampgdk/gpci.h">
+		</Unit>
+		<Unit filename="../../include/sampgdk/objects.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/players.h">
 		</Unit>
+		<Unit filename="../../include/sampgdk/plugincommon.h">
+		</Unit>
 		<Unit filename="../../include/sampgdk/samp.h">
 		</Unit>
-		<Unit filename="../../include/sampgdk/amx/sclinux.h">
+		<Unit filename="../../include/sampgdk/vehicles.h">
+		</Unit>
+		<Unit filename="../../include/sampgdk/wrapper.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/amx/amx.h">
 		</Unit>
 		<Unit filename="../../include/sampgdk/amx/getch.h">
+		</Unit>
+		<Unit filename="../../include/sampgdk/amx/sclinux.h">
 		</Unit>
 		<Extensions />
 	</Project>

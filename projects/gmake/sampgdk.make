@@ -64,16 +64,15 @@ ifeq ($(config),release32)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/amx.o \
-	$(OBJDIR)/samp.o \
-	$(OBJDIR)/eventhandler.o \
-	$(OBJDIR)/gpci.o \
-	$(OBJDIR)/fakeamx.o \
-	$(OBJDIR)/players.o \
-	$(OBJDIR)/objects.o \
-	$(OBJDIR)/vehicles.o \
 	$(OBJDIR)/callbacks.o \
+	$(OBJDIR)/eventhandler.o \
+	$(OBJDIR)/fakeamx.o \
+	$(OBJDIR)/gpci.o \
 	$(OBJDIR)/jump.o \
+	$(OBJDIR)/objects.o \
+	$(OBJDIR)/players.o \
+	$(OBJDIR)/samp.o \
+	$(OBJDIR)/vehicles.o \
 	$(OBJDIR)/wrapper.o \
 
 RESOURCES := \
@@ -135,34 +134,31 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/amx.o: ../../src/amx/amx.c
-	@echo $(notdir $<)
-	$(SILENT) $(CC) $(CFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/samp.o: ../../src/samp.cpp
+$(OBJDIR)/callbacks.o: ../../src/callbacks.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/eventhandler.o: ../../src/eventhandler.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/gpci.o: ../../src/gpci.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/fakeamx.o: ../../src/fakeamx.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/players.o: ../../src/players.cpp
+$(OBJDIR)/gpci.o: ../../src/gpci.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/jump.o: ../../src/jump.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/objects.o: ../../src/objects.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/players.o: ../../src/players.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/samp.o: ../../src/samp.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/vehicles.o: ../../src/vehicles.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/callbacks.o: ../../src/callbacks.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/jump.o: ../../src/jump.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/wrapper.o: ../../src/wrapper.cpp

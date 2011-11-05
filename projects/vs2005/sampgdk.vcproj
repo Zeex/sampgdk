@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sampgdk"
-	ProjectGUID="{3F039874-8AB3-F56F-ADE1-C6986AC77A69}"
+	ProjectGUID="{6B1BD131-8E47-B841-BED8-332A88284B94}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -176,21 +176,8 @@
 			Name="src"
 			Filter=""
 			>
-			<Filter
-				Name="amx"
-				Filter=""
-				>
-				<File
-					RelativePath="..\..\src\amx\amx.c"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\amx\osdefs.h"
-					>
-				</File>
-			</Filter>
 			<File
-				RelativePath="..\..\src\samp.cpp"
+				RelativePath="..\..\src\callbacks.cpp"
 				>
 			</File>
 			<File
@@ -198,27 +185,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\gpci.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\fakeamx.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\players.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\objects.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\vehicles.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\callbacks.cpp"
+				RelativePath="..\..\src\gpci.cpp"
 				>
 			</File>
 			<File
@@ -226,11 +197,23 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\wrapper.cpp"
+				RelativePath="..\..\src\objects.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\jump.h"
+				RelativePath="..\..\src\players.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\samp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\vehicles.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\wrapper.cpp"
 				>
 			</File>
 			<File
@@ -239,6 +222,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\fakeamx.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\jump.h"
 				>
 			</File>
 		</Filter>
@@ -255,10 +242,6 @@
 					Filter=""
 					>
 					<File
-						RelativePath="..\..\include\sampgdk\amx\sclinux.h"
-						>
-					</File>
-					<File
 						RelativePath="..\..\include\sampgdk\amx\amx.h"
 						>
 					</File>
@@ -266,25 +249,13 @@
 						RelativePath="..\..\include\sampgdk\amx\getch.h"
 						>
 					</File>
+					<File
+						RelativePath="..\..\include\sampgdk\amx\sclinux.h"
+						>
+					</File>
 				</Filter>
 				<File
-					RelativePath="..\..\include\sampgdk\wrapper.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\include\sampgdk\amx.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\objects.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\gpci.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\include\sampgdk\vehicles.h"
 					>
 				</File>
 				<File
@@ -292,7 +263,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\include\sampgdk\plugincommon.h"
+					RelativePath="..\..\include\sampgdk\gpci.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\sampgdk\objects.h"
 					>
 				</File>
 				<File
@@ -300,7 +275,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\include\sampgdk\plugincommon.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\include\sampgdk\samp.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\sampgdk\vehicles.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\include\sampgdk\wrapper.h"
 					>
 				</File>
 			</Filter>
