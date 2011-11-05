@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{29F0154F-F1E2-B448-A824-BBCA804BCD81}</ProjectGuid>
+		<ProjectGuid>{79F97574-7575-FD46-B39D-68FDA16CD5FE}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -39,18 +39,18 @@
 	<PropertyGroup Label="UserMacros" />
 	<PropertyGroup>
 		<_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-		<OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\bin\Debug\</OutDir>
-		<IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\obj\Debug\x32\Debug\sampgdk\</IntDir>
+		<OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\bin\Debug\</OutDir>
+		<IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\obj\Debug\x32\Debug\sampgdk\</IntDir>
 		<TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">sampgdk</TargetName>
-		<OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\Release\</OutDir>
-		<IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\obj\Release\x32\Release\sampgdk\</IntDir>
+		<OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\bin\Release\</OutDir>
+		<IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\obj\Release\x32\Release\sampgdk\</IntDir>
 		<TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">sampgdk</TargetName>
 	</PropertyGroup>
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
 		<ClCompile>
 			<Optimization>Disabled</Optimization>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_WIN32;AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>true</MinimalRebuild>
 			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
 			<SmallerTypeCheck>true</SmallerTypeCheck>
@@ -61,8 +61,8 @@
 			<DebugInformationFormat>EditAndContinue</DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions>AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_WIN32;AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 	<Lib>
 		<OutputFile>$(OutDir)sampgdk.lib</OutputFile>
@@ -76,8 +76,8 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
 		<ClCompile>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions>AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_WIN32;AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>false</MinimalRebuild>
 			<StringPooling>true</StringPooling>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -87,8 +87,8 @@
 			<DebugInformationFormat></DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions>AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_WIN32;AMX_NODYNLOAD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 	<Lib>
 		<OutputFile>$(OutDir)sampgdk.lib</OutputFile>
@@ -101,45 +101,45 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
-		<ClInclude Include="..\..\src\callbacks.h" />
-		<ClInclude Include="..\..\src\fakeamx.h" />
-		<ClInclude Include="..\..\src\jump.h" />
-		<ClInclude Include="..\..\include\sampgdk.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx.h" />
-		<ClInclude Include="..\..\include\sampgdk\eventhandler.h" />
-		<ClInclude Include="..\..\include\sampgdk\gpci.h" />
-		<ClInclude Include="..\..\include\sampgdk\objects.h" />
-		<ClInclude Include="..\..\include\sampgdk\players.h" />
-		<ClInclude Include="..\..\include\sampgdk\plugincommon.h" />
-		<ClInclude Include="..\..\include\sampgdk\samp.h" />
-		<ClInclude Include="..\..\include\sampgdk\vehicles.h" />
-		<ClInclude Include="..\..\include\sampgdk\wrapper.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx\amx.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx\getch.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx\sclinux.h" />
+		<ClInclude Include="..\..\..\src\callbacks.h" />
+		<ClInclude Include="..\..\..\src\fakeamx.h" />
+		<ClInclude Include="..\..\..\src\jump.h" />
+		<ClInclude Include="..\..\..\include\sampgdk.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\amx.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\eventhandler.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\gpci.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\objects.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\players.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\plugincommon.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\samp.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\vehicles.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\wrapper.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\amx\amx.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\amx\getch.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\amx\sclinux.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="..\..\src\amxplugin.cpp">
+		<ClCompile Include="..\..\..\src\amxplugin.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\callbacks.cpp">
+		<ClCompile Include="..\..\..\src\callbacks.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\eventhandler.cpp">
+		<ClCompile Include="..\..\..\src\eventhandler.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\fakeamx.cpp">
+		<ClCompile Include="..\..\..\src\fakeamx.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\gpci.cpp">
+		<ClCompile Include="..\..\..\src\gpci.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\jump.cpp">
+		<ClCompile Include="..\..\..\src\jump.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\objects.cpp">
+		<ClCompile Include="..\..\..\src\objects.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\players.cpp">
+		<ClCompile Include="..\..\..\src\players.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\samp.cpp">
+		<ClCompile Include="..\..\..\src\samp.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\vehicles.cpp">
+		<ClCompile Include="..\..\..\src\vehicles.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\wrapper.cpp">
+		<ClCompile Include="..\..\..\src\wrapper.cpp">
 		</ClCompile>
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

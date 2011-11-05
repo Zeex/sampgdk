@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{9DCE18AF-79E4-1C4E-8CC6-48878E06E172}</ProjectGuid>
+		<ProjectGuid>{173C3323-022A-9249-9C56-F0A6589D145D}</ProjectGuid>
 		<RootNamespace>helloworld</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -39,13 +39,13 @@
 	<PropertyGroup Label="UserMacros" />
 	<PropertyGroup>
 		<_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-		<OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\bin\Debug\</OutDir>
-		<IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\obj\Debug\x32\Debug\helloworld\</IntDir>
+		<OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\bin\Debug\</OutDir>
+		<IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\..\obj\Debug\x32\Debug\helloworld\</IntDir>
 		<TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">helloworld</TargetName>
 		<IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
 		<LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-		<OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\Release\</OutDir>
-		<IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\obj\Release\x32\Release\helloworld\</IntDir>
+		<OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\bin\Release\</OutDir>
+		<IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\..\obj\Release\x32\Release\helloworld\</IntDir>
 		<TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">helloworld</TargetName>
 		<IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
 		<LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
@@ -53,8 +53,8 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
 		<ClCompile>
 			<Optimization>Disabled</Optimization>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions></PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>true</MinimalRebuild>
 			<BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
 			<SmallerTypeCheck>true</SmallerTypeCheck>
@@ -65,17 +65,17 @@
 			<DebugInformationFormat>EditAndContinue</DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions></PreprocessorDefinitions>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>..\..\bin\Debug\sampgdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>..\..\..\bin\Debug\sampgdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)helloworld.dll</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
 			<GenerateDebugInformation>true</GenerateDebugInformation>
 			<ProgramDataBaseFileName>$(OutDir)helloworld.pdb</ProgramDataBaseFileName>
-			<ImportLibrary>..\..\obj\Debug\x32\Debug\helloworld\helloworld.lib</ImportLibrary>
+			<ImportLibrary>..\..\..\obj\Debug\x32\Debug\helloworld\helloworld.lib</ImportLibrary>
 			<TargetMachine>MachineX86</TargetMachine>
 			<AdditionalOptions>/DEF:../../examples/helloworld/helloworld.def %(AdditionalOptions)</AdditionalOptions>
 		</Link>
@@ -83,8 +83,8 @@
 	<ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
 		<ClCompile>
 			<Optimization>Full</Optimization>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-			<PreprocessorDefinitions></PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 			<MinimalRebuild>false</MinimalRebuild>
 			<StringPooling>true</StringPooling>
 			<RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -94,27 +94,27 @@
 			<DebugInformationFormat></DebugInformationFormat>
 		</ClCompile>
 		<ResourceCompile>
-			<PreprocessorDefinitions></PreprocessorDefinitions>
-			<AdditionalIncludeDirectories>..\..\include;..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<PreprocessorDefinitions>WIN32;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+			<AdditionalIncludeDirectories>..\..\..\include;..\..\..\include\sampgdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>..\..\bin\Release\sampgdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>..\..\..\bin\Release\sampgdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)helloworld.dll</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
 			<GenerateDebugInformation>false</GenerateDebugInformation>
 			<OptimizeReferences>true</OptimizeReferences>
 			<EnableCOMDATFolding>true</EnableCOMDATFolding>
-			<ImportLibrary>..\..\obj\Release\x32\Release\helloworld\helloworld.lib</ImportLibrary>
+			<ImportLibrary>..\..\..\obj\Release\x32\Release\helloworld\helloworld.lib</ImportLibrary>
 			<TargetMachine>MachineX86</TargetMachine>
 			<AdditionalOptions>/DEF:../../examples/helloworld/helloworld.def %(AdditionalOptions)</AdditionalOptions>
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
-		<ClInclude Include="..\..\examples\helloworld\helloworld.h" />
+		<ClInclude Include="..\..\..\examples\helloworld\helloworld.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="..\..\examples\helloworld\helloworld.cpp">
+		<ClCompile Include="..\..\..\examples\helloworld\helloworld.cpp">
 		</ClCompile>
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

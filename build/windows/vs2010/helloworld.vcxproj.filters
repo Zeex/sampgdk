@@ -2,19 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="examples">
-			<UniqueIdentifier>{072C04ED-A9BC-D045-8E7F-3851EADEE4CB}</UniqueIdentifier>
+			<UniqueIdentifier>{D0D6A07E-4F61-0F43-86DD-D3F193E31D51}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="examples\helloworld">
-			<UniqueIdentifier>{1DDDB5AD-D1C9-E941-8FD9-1FE99218887E}</UniqueIdentifier>
+			<UniqueIdentifier>{E9C1BEEC-D1AD-7C46-ABB0-5F8DEF5E14C1}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
-		<ClInclude Include="..\..\examples\helloworld\helloworld.h">
+		<ClInclude Include="..\..\..\examples\helloworld\helloworld.h">
 			<Filter>examples\helloworld</Filter>
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="..\..\examples\helloworld\helloworld.cpp">
+		<ClCompile Include="..\..\..\examples\helloworld\helloworld.cpp">
 			<Filter>examples\helloworld</Filter>
 		</ClCompile>
 	</ItemGroup>

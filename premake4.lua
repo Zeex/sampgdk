@@ -36,7 +36,13 @@ solution "sampgdk"
 		objdir    "obj/Release"
 		targetdir "bin/Release"
 
-	location("projects/".._ACTION)
+	configuration "windows"
+		defines {"WIN32", "_WIN32"}
+
+	configuration "linux"
+		defines {"LINUX"}
+
+	location("build/"..os.get().."/".._ACTION.."/")
 
 	project "sampgdk"
 		kind "StaticLib"
@@ -50,19 +56,35 @@ solution "sampgdk"
 			"include/**.h"
 		}
 
-	project "helloworld"
+	project "helloworld1"
 		kind "SharedLib"
+		targetprefix ""
 		flags {
 			"NoImportLib"
 		}
 		files {
-			"examples/helloworld/helloworld.cpp",
-			"examples/helloworld/helloworld.h"
+			"examples/helloworld1/helloworld.cpp",
+			"examples/helloworld1/helloworld.h"
 		}
 		links "sampgdk"
 		targetprefix ""
 		configuration {"windows", "vs*"}
-			linkoptions "/DEF:../../examples/helloworld/helloworld.def"
+			linkoptions "/DEF:../../../examples/helloworld1/helloworld.def"
 		configuration {"windows", "gmake or codeblocks"}
-			linkoptions "-Wl,--kill-at --def ../../examples/helloworld/helloworld.def"
+			linkoptions "-Wl,--kill-at --def ../../../examples/helloworld2/helloworld.def"
 
+	project "helloworld2"
+		kind "SharedLib"
+		targetprefix ""
+		flags {
+			"NoImportLib"
+		}
+		files {
+			"examples/helloworld2/helloworld.cpp",
+			"examples/helloworld2/helloworld.h"
+		}
+		links "sampgdk"
+		configuration {"windows", "vs*"}
+			linkoptions "/DEF:../../../examples/helloworld2/helloworld.def"
+		configuration {"windows", "gmake or codeblocks"}
+			linkoptions "-Wl,--kill-at --def ../../../examples/helloworld2/helloworld.def"

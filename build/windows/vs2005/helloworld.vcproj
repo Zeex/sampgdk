@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="8.00"
 	Name="helloworld"
-	ProjectGUID="{9B55C754-48F8-484E-892E-F9D41EA2A464}"
+	ProjectGUID="{C7E106DC-DD4C-9F4C-A9BA-BCCABDAA32D1}"
 	RootNamespace="helloworld"
 	Keyword="Win32Proj"
 	>
@@ -17,8 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\bin\Debug"
-			IntermediateDirectory="..\..\obj\Debug\x32\Debug\helloworld"
+			OutputDirectory="..\..\..\bin\Debug"
+			IntermediateDirectory="..\..\..\obj\Debug\x32\Debug\helloworld"
 			ConfigurationType="2"
 			CharacterSet="2"
 			>
@@ -40,13 +40,15 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\sampgdk"
+				PreprocessorDefinitions="WIN32;_WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
+				Detect64BitPortabilityProblems="false"
 				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				DebugInformationFormat="4"
 			/>
@@ -55,7 +57,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
+				PreprocessorDefinitions="WIN32;_WIN32"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\sampgdk"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -64,14 +67,14 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/DEF:../../examples/helloworld/helloworld.def"
-				AdditionalDependencies="..\..\bin\Debug\sampgdk.lib"
+				AdditionalDependencies="..\..\..\bin\Debug\sampgdk.lib"
 				OutputFile="$(OutDir)\helloworld.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				SubSystem="2"
-				ImportLibrary="..\..\obj\Debug\x32\Debug\helloworld\helloworld.lib"
+				ImportLibrary="..\..\..\obj\Debug\x32\Debug\helloworld\helloworld.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -101,8 +104,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\bin\Release"
-			IntermediateDirectory="..\..\obj\Release\x32\Release\helloworld"
+			OutputDirectory="..\..\..\bin\Release"
+			IntermediateDirectory="..\..\..\obj\Release\x32\Release\helloworld"
 			ConfigurationType="2"
 			CharacterSet="2"
 			>
@@ -124,12 +127,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\sampgdk"
+				PreprocessorDefinitions="WIN32;_WIN32"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
 				ProgramDataBaseFileName="$(OutDir)\helloworld.pdb"
 				DebugInformationFormat="0"
 			/>
@@ -138,7 +143,8 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\sampgdk"
+				PreprocessorDefinitions="WIN32;_WIN32"
+				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\sampgdk"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -147,7 +153,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/DEF:../../examples/helloworld/helloworld.def"
-				AdditionalDependencies="..\..\bin\Release\sampgdk.lib"
+				AdditionalDependencies="..\..\..\bin\Release\sampgdk.lib"
 				OutputFile="$(OutDir)\helloworld.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
@@ -155,7 +161,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\obj\Release\x32\Release\helloworld\helloworld.lib"
+				ImportLibrary="..\..\..\obj\Release\x32\Release\helloworld\helloworld.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -196,11 +202,11 @@
 				Filter=""
 				>
 				<File
-					RelativePath="..\..\examples\helloworld\helloworld.cpp"
+					RelativePath="..\..\..\examples\helloworld\helloworld.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\examples\helloworld\helloworld.h"
+					RelativePath="..\..\..\examples\helloworld\helloworld.h"
 					>
 				</File>
 			</Filter>

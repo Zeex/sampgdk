@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug|x32">
-				<Option output="../../bin/Debug/helloworld.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="../../obj/Debug/x32/Debug/helloworld" />
+				<Option output="../../../bin/Debug/helloworld.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../../../obj/Debug/x32/Debug/helloworld" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="0" />
@@ -17,21 +17,23 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-m32" />
-					<Add directory="../../include" />
-					<Add directory="../../include/sampgdk" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WIN32" />
+					<Add directory="../../../include" />
+					<Add directory="../../../include/sampgdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-shared" />
 					<Add option="-m32" />
 					<Add option="-L/usr/lib32" />
 					<Add option="-Wl,--kill-at --def ../../examples/helloworld/helloworld.def" />
-					<Add directory="../../bin/Debug" />
+					<Add directory="../../../bin/Debug" />
 					<Add library="sampgdk" />
 				</Linker>
 			</Target>
 			<Target title="Release|x32">
-				<Option output="../../bin/Release/helloworld.dll" prefix_auto="0" extension_auto="0" />
-				<Option object_output="../../obj/Release/x32/Release/helloworld" />
+				<Option output="../../../bin/Release/helloworld.dll" prefix_auto="0" extension_auto="0" />
+				<Option object_output="../../../obj/Release/x32/Release/helloworld" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="0" />
@@ -39,8 +41,10 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-m32" />
-					<Add directory="../../include" />
-					<Add directory="../../include/sampgdk" />
+					<Add option="-DWIN32" />
+					<Add option="-D_WIN32" />
+					<Add directory="../../../include" />
+					<Add directory="../../../include/sampgdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -48,14 +52,14 @@
 					<Add option="-m32" />
 					<Add option="-L/usr/lib32" />
 					<Add option="-Wl,--kill-at --def ../../examples/helloworld/helloworld.def" />
-					<Add directory="../../bin/Release" />
+					<Add directory="../../../bin/Release" />
 					<Add library="sampgdk" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../../examples/helloworld/helloworld.cpp">
+		<Unit filename="../../../examples/helloworld/helloworld.cpp">
 		</Unit>
-		<Unit filename="../../examples/helloworld/helloworld.h">
+		<Unit filename="../../../examples/helloworld/helloworld.h">
 		</Unit>
 		<Extensions />
 	</Project>

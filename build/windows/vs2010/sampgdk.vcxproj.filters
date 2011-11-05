@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{FF01321F-A730-8B4B-9A2B-C1C86F62B0E9}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="include">
+			<UniqueIdentifier>{41731700-FAE6-8E4F-963C-B3CA48C7D1F5}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="include\sampgdk">
+			<UniqueIdentifier>{1382AE3B-B94F-194C-81C4-36C821976C08}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="include\sampgdk\amx">
+			<UniqueIdentifier>{0B6B49F5-5078-9445-8AB7-0494AAEFFAE2}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="..\..\..\src\callbacks.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\src\fakeamx.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\src\jump.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk.h">
+			<Filter>include</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\amx.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\eventhandler.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\gpci.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\objects.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\players.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\plugincommon.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\samp.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\vehicles.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\wrapper.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\amx\amx.h">
+			<Filter>include\sampgdk\amx</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\amx\getch.h">
+			<Filter>include\sampgdk\amx</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\amx\sclinux.h">
+			<Filter>include\sampgdk\amx</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="..\..\..\src\amxplugin.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\callbacks.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\eventhandler.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\fakeamx.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\gpci.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\jump.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\objects.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\players.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\samp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\vehicles.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\wrapper.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>
