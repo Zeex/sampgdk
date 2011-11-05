@@ -58,3 +58,5 @@ add_library(sampgdk STATIC
 	"src/vehicles.cpp"
 	"src/wrapper.cpp")
 
+add_subdirectory(examples)
+
