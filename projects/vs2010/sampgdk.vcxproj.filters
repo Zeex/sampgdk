@@ -2,16 +2,16 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="src">
-			<UniqueIdentifier>{A900F782-1045-BF44-A08B-2FBA89807582}</UniqueIdentifier>
+			<UniqueIdentifier>{2980B9B3-5330-474C-86E1-38D439AB2412}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include">
-			<UniqueIdentifier>{FFF53EA0-4E28-7749-8AC5-86B78FB3EE79}</UniqueIdentifier>
+			<UniqueIdentifier>{0DE8919F-A7CC-5343-8701-6B4C2B0A4186}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{9A48811C-57CF-BD48-AD4E-574B57A3359F}</UniqueIdentifier>
+			<UniqueIdentifier>{2A792127-E58D-6440-B260-2776D1E74974}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{1A957E98-E78C-8748-8624-009BF11B6A71}</UniqueIdentifier>
+			<UniqueIdentifier>{CF803A63-22C1-B744-B22F-9DB475FA611A}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>

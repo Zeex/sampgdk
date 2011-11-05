@@ -60,6 +60,7 @@ solution "sampgdk"
 			"examples/helloworld/helloworld.h"
 		}
 		links "sampgdk"
+		targetprefix ""
 		configuration {"windows", "vs*"}
 			linkoptions "/DEF:../../examples/helloworld/helloworld.def"
 		configuration {"windows", "gmake or codeblocks"}
