@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="sampgdk"
-	ProjectGUID="{6B1BD131-8E47-B841-BED8-332A88284B94}"
+	ProjectGUID="{EFE74CD9-041A-AD4C-93AA-6AC2141C0553}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -176,6 +176,10 @@
 			Name="src"
 			Filter=""
 			>
+			<File
+				RelativePath="..\..\src\amxplugin.cpp"
+				>
+			</File>
 			<File
 				RelativePath="..\..\src\callbacks.cpp"
 				>

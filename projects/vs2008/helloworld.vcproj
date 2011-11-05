@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="helloworld"
-	ProjectGUID="{6E816567-3FEE-1E44-90DD-EDB6BA46723D}"
+	ProjectGUID="{E62DE358-04E2-F844-97BA-12DC7BA438BF}"
 	RootNamespace="helloworld"
 	Keyword="Win32Proj"
 	>
