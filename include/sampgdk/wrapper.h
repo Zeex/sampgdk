@@ -56,7 +56,7 @@ private:
 	Wrapper();
 
 	std::map<std::string, AMX_NATIVE> natives_;
-	std::map<std::string, PublicHook> publicHooks_;
+	std::map<std::string, PublicHook> publicHooks_;	
 };
 
 } // namespace sampgdk

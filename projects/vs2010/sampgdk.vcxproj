@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{384EEFE0-EAF9-C3E9-C5A1-520E7235D20E}</ProjectGuid>
+		<ProjectGuid>{4075D105-7997-B147-8168-50D7E0B1C5EB}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -101,44 +101,41 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
-		<ClInclude Include="..\..\src\jump.h" />
 		<ClInclude Include="..\..\src\callbacks.h" />
 		<ClInclude Include="..\..\src\fakeamx.h" />
-		<ClInclude Include="..\..\src\amx\osdefs.h" />
+		<ClInclude Include="..\..\src\jump.h" />
 		<ClInclude Include="..\..\include\sampgdk.h" />
-		<ClInclude Include="..\..\include\sampgdk\wrapper.h" />
 		<ClInclude Include="..\..\include\sampgdk\amx.h" />
-		<ClInclude Include="..\..\include\sampgdk\objects.h" />
-		<ClInclude Include="..\..\include\sampgdk\gpci.h" />
-		<ClInclude Include="..\..\include\sampgdk\vehicles.h" />
 		<ClInclude Include="..\..\include\sampgdk\eventhandler.h" />
-		<ClInclude Include="..\..\include\sampgdk\plugincommon.h" />
+		<ClInclude Include="..\..\include\sampgdk\gpci.h" />
+		<ClInclude Include="..\..\include\sampgdk\objects.h" />
 		<ClInclude Include="..\..\include\sampgdk\players.h" />
+		<ClInclude Include="..\..\include\sampgdk\plugincommon.h" />
 		<ClInclude Include="..\..\include\sampgdk\samp.h" />
-		<ClInclude Include="..\..\include\sampgdk\amx\sclinux.h" />
+		<ClInclude Include="..\..\include\sampgdk\vehicles.h" />
+		<ClInclude Include="..\..\include\sampgdk\wrapper.h" />
 		<ClInclude Include="..\..\include\sampgdk\amx\amx.h" />
 		<ClInclude Include="..\..\include\sampgdk\amx\getch.h" />
+		<ClInclude Include="..\..\include\sampgdk\amx\sclinux.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="..\..\src\amx\amx.c">
-		</ClCompile>
-		<ClCompile Include="..\..\src\samp.cpp">
+		<ClCompile Include="..\..\src\callbacks.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\eventhandler.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\gpci.cpp">
-		</ClCompile>
 		<ClCompile Include="..\..\src\fakeamx.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\src\players.cpp">
+		<ClCompile Include="..\..\src\gpci.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\jump.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\objects.cpp">
 		</ClCompile>
+		<ClCompile Include="..\..\src\players.cpp">
+		</ClCompile>
+		<ClCompile Include="..\..\src\samp.cpp">
+		</ClCompile>
 		<ClCompile Include="..\..\src\vehicles.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\callbacks.cpp">
-		</ClCompile>
-		<ClCompile Include="..\..\src\jump.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\src\wrapper.cpp">
 		</ClCompile>

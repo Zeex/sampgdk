@@ -22,13 +22,13 @@ endif
 ifeq ($(config),debug32)
   OBJDIR     = ../../obj/Debug/x32/Debug/helloworld
   TARGETDIR  = ../../bin/Debug
-  TARGET     = $(TARGETDIR)/libhelloworld.so
+  TARGET     = $(TARGETDIR)/helloworld.dll
   DEFINES   += 
   INCLUDES  += -I../../include -I../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32 -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -shared -m32 -L/usr/lib32 -L../../bin/Debug
+  LDFLAGS   += -shared -m32 -L/usr/lib32 -Wl,--kill-at --def ../../examples/helloworld/helloworld.def -L../../bin/Debug
   LIBS      += -lsampgdk
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += ../../bin/Debug/libsampgdk.a
@@ -44,13 +44,13 @@ endif
 ifeq ($(config),release32)
   OBJDIR     = ../../obj/Release/x32/Release/helloworld
   TARGETDIR  = ../../bin/Release
-  TARGET     = $(TARGETDIR)/libhelloworld.so
+  TARGET     = $(TARGETDIR)/helloworld.dll
   DEFINES   += 
   INCLUDES  += -I../../include -I../../include/sampgdk
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32 -fPIC
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s -shared -m32 -L/usr/lib32 -L../../bin/Release
+  LDFLAGS   += -s -shared -m32 -L/usr/lib32 -Wl,--kill-at --def ../../examples/helloworld/helloworld.def -L../../bin/Release
   LIBS      += -lsampgdk
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += ../../bin/Release/libsampgdk.a
