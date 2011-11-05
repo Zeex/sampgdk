@@ -28,7 +28,7 @@ ifeq ($(config),debug32)
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -shared -m32 -L/usr/lib32 -Wl,--kill-at --def ../../examples/helloworld/helloworld.def -L../../../bin/Debug
+  LDFLAGS   += -shared -m32 -L/usr/lib32 -Wl,--kill-at --def ../../../examples/helloworld/helloworld.def -L../../../bin/Debug
   LIBS      += -lsampgdk
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += ../../../bin/Debug/libsampgdk.a
@@ -50,7 +50,7 @@ ifeq ($(config),release32)
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
   CXXFLAGS  += $(CFLAGS) 
-  LDFLAGS   += -s -shared -m32 -L/usr/lib32 -Wl,--kill-at --def ../../examples/helloworld/helloworld.def -L../../../bin/Release
+  LDFLAGS   += -s -shared -m32 -L/usr/lib32 -Wl,--kill-at --def ../../../examples/helloworld/helloworld.def -L../../../bin/Release
   LIBS      += -lsampgdk
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += ../../../bin/Release/libsampgdk.a

@@ -56,35 +56,20 @@ solution "sampgdk"
 			"include/**.h"
 		}
 
-	project "helloworld1"
+	project "helloworld"
 		kind "SharedLib"
 		targetprefix ""
 		flags {
 			"NoImportLib"
 		}
 		files {
-			"examples/helloworld1/helloworld.cpp",
-			"examples/helloworld1/helloworld.h"
+			"examples/helloworld/helloworld.cpp",
+			"examples/helloworld/helloworld.h"
 		}
 		links "sampgdk"
 		targetprefix ""
 		configuration {"windows", "vs*"}
-			linkoptions "/DEF:../../../examples/helloworld1/helloworld.def"
+			linkoptions "/DEF:../../../examples/helloworld/helloworld.def"
 		configuration {"windows", "gmake or codeblocks"}
-			linkoptions "-Wl,--kill-at --def ../../../examples/helloworld2/helloworld.def"
+			linkoptions "-Wl,--kill-at --def ../../../examples/helloworld/helloworld.def"
 
-	project "helloworld2"
-		kind "SharedLib"
-		targetprefix ""
-		flags {
-			"NoImportLib"
-		}
-		files {
-			"examples/helloworld2/helloworld.cpp",
-			"examples/helloworld2/helloworld.h"
-		}
-		links "sampgdk"
-		configuration {"windows", "vs*"}
-			linkoptions "/DEF:../../../examples/helloworld2/helloworld.def"
-		configuration {"windows", "gmake or codeblocks"}
-			linkoptions "-Wl,--kill-at --def ../../../examples/helloworld2/helloworld.def"

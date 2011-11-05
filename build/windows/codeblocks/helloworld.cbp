@@ -26,7 +26,7 @@
 					<Add option="-shared" />
 					<Add option="-m32" />
 					<Add option="-L/usr/lib32" />
-					<Add option="-Wl,--kill-at --def ../../examples/helloworld/helloworld.def" />
+					<Add option="-Wl,--kill-at --def ../../../examples/helloworld/helloworld.def" />
 					<Add directory="../../../bin/Debug" />
 					<Add library="sampgdk" />
 				</Linker>
@@ -51,7 +51,7 @@
 					<Add option="-shared" />
 					<Add option="-m32" />
 					<Add option="-L/usr/lib32" />
-					<Add option="-Wl,--kill-at --def ../../examples/helloworld/helloworld.def" />
+					<Add option="-Wl,--kill-at --def ../../../examples/helloworld/helloworld.def" />
 					<Add directory="../../../bin/Release" />
 					<Add library="sampgdk" />
 				</Linker>
