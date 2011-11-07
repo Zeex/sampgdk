@@ -14,7 +14,7 @@ if(MSVC)
 elseif(UNIX OR MINGW)
 	set_target_properties(helloworld PROPERTIES 
 		PREFIX ""
-		LINK_FLAGS "-Wl,--kill-at, --def ${def_file}")
+		LINK_FLAGS "-Wl,--kill-at --def ${def_file}")
 endif()
 
 target_link_libraries(helloworld sampgdk)
