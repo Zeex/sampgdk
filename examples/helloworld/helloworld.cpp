@@ -46,11 +46,25 @@ bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
 	if (cmdtext == "/hello") {
 		char name[MAX_PLAYER_NAME];
 		GetPlayerName(playerid, name);
+
 		char message[128];
 		std::sprintf(message, "Hello, %s!", name);
 		SendClientMessage(playerid, 0x00FF00FF, message);
+
 		return true;
 	}
+
+	if (cmdtext == "/pos") {
+		float x, y, z;
+		GetPlayerPos(playerid, x, y, z);
+		
+		char message[128];
+		std::sprintf(message, "Your position is (%f, %f, %f)", x, y, z);
+		SendClientMessage(playerid, 0xFFFFFFFF, message);
+
+		return true;
+	}
+
 	return false;
 }
 
