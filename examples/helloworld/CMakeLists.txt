@@ -7,7 +7,7 @@ if(MSVC)
 	set_target_properties(helloworld PROPERTIES LINK_FLAGS 
 		"/DEF:${helloworld_SOURCE_DIR}/helloworld.def")
 elseif(UNIX OR MINGW)
-	set_target_properties(helloworld PROPERTIES PROPERTIES 
+	set_target_properties(helloworld PROPERTIES LINK_FLAGS 
 		"-Wl,--kill-at, --def ${helloworld_SOURCE_DIR}/helloworld.def")
 endif()
 
