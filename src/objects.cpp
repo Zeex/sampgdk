@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sampgdk/objects.h>
-#include <sampgdk/wrapper.h>
+#include <sampgdk.h>
 
 #include "fakeamx.h"
 

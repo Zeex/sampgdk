@@ -33,7 +33,7 @@ add_library(sampgdk STATIC
 	"include/sampgdk/amx/amx.h"
 	"include/sampgdk/amx/getch.h"
 	"include/sampgdk/amx/sclinux.h"
-	"include/sampgdk/amx.h"
+	"include/sampgdk/config.h"
 	"include/sampgdk/eventhandler.h"
 	"include/sampgdk/gpci.h"
 	"include/sampgdk/objects.h"

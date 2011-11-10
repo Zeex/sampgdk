@@ -14,9 +14,7 @@
 
 #include <string>
 
-#include <sampgdk/amx.h>
-#include <sampgdk/eventhandler.h>
-#include <sampgdk/wrapper.h>
+#include <sampgdk.h>
 
 using sampgdk::EventHandler;
 

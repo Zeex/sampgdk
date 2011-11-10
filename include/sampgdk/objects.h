@@ -15,6 +15,8 @@
 #ifndef SAMPGDK_OBJECTS_H
 #define SAMPGDK_OBJECTS_H
 
+#include <sampgdk.h>
+
 namespace sampgdk {
 
 int CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance = 0.0);

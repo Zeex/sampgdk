@@ -15,7 +15,7 @@
 #ifndef SAMPGDK_SAMP_H
 #define SAMPGDK_SAMP_H
 
-#include <cstddef> // size_t
+#include <sampgdk.h>
 
 namespace sampgdk {
 
