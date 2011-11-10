@@ -15,7 +15,7 @@
 #include <cstring>
 #include <limits>
 
-#include "fakeamx.h"
+#include <sampgdk.h>
 
 static cell fakeAmxData[4096];
 

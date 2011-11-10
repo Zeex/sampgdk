@@ -15,9 +15,7 @@
 #include <cstdio>
 #include <string>
 
-#include <sampgdk/amx.h>
-#include <sampgdk/plugincommon.h>
-#include <sampgdk/wrapper.h>
+#include <sampgdk.h>
 
 #include "callbacks.h"
 #include "jump.h"

@@ -12,32 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// This file wraps amx/amx.h 
+#ifndef SAMPGDK_CONFIG_H 
+#define SAMPGDK_CONFIG_H 
 
-#ifndef SAMPGDK_AMX_H 
-#define SAMPGDK_AMX_H 
+// Windows
+#if defined WIN32 || defined _WIN32 || defined __WIN32__ 
+	#define SAMPGDK_WINDOWS 1
+#endif
 
+// Linux 
+#if defined __linux__ || defined __linux || defined linux
+	#if !defined LINUX
+		#define LINUX
+	#endif
+	#define SAMPGDK_LINUX 1
+#endif
+
+// stdint.h
 #if !defined HAVE_STDINT_H 
-	// Attempt to detect stdint.h
 	#if (!defined __STDC__ && __STDC_VERSION__ >= 199901L /* C99 or newer */)\
 		|| (defined _MSC_VER_ && _MSC_VER >= 1600 /* Visual Studio 2010 and later */)\
 		|| defined __GNUC__ /* GCC, MinGW, etc */
-		#define HAVE_STDINT_H
+		#define HAVE_STDINT_H 1
 	#endif
 #endif
 
-#include <stddef.h> // Fix for undefined size_t 
+// size_t
+#include <stddef.h> 
 
-#if defined HAVE_MALLOC_H || defined WIN32 || defined _WIN32 || defined __WIN32__ 
-	#include <malloc.h> // For _alloca() on Windows 
-#elif defined __GNUC__ || defined HAVE_ALLOCA_H
-	#include <alloca.h> // For alloca() on Linux
+// alloca()
+#if SAMPGDK_WINDOWS
+	#undef HAVE_ALLOCA_H
+	#include <malloc.h> // For _alloca()
+	#undef alloca // amx.h 
+#elif SAMPGDK_LINUX && defined __GNUC__ 
+	#define HAVE_ALLOCA_H 1
 #endif
 
-#if !defined AMX_NODYNLOAD
-	#define AMX_NODYNLOAD
-#endif
-
-#include "amx/amx.h"
-
-#endif // !SAMPGDK_AMX_H
+#endif // !SAMPGDK_CONFIG_H

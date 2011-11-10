@@ -18,7 +18,7 @@
 #include <map>
 #include <string>
 
-#include <sampgdk/amx.h>
+#include <sampgdk.h>
 
 #define AMX_EXEC_GDK (-10)
 

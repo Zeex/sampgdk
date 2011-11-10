@@ -15,7 +15,13 @@
 #ifndef SAMPGDK_H
 #define SAMPGDK_H
 
-#include <sampgdk/amx.h>
+#if (defined _MSC_VER && _MSC_VER >= 1020) || defined __GNUC__
+	#pragma once
+#endif
+
+#include <sampgdk/config.h>
+
+#include <sampgdk/amx/amx.h>
 #include <sampgdk/plugincommon.h>
 
 #include <sampgdk/eventhandler.h>

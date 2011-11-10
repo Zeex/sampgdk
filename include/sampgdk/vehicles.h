@@ -15,6 +15,8 @@
 #ifndef SAMPGDK_VEHICLES_H
 #define SAMPGDK_VEHICLES_H
 
+#include <sampgdk.h>
+
 namespace sampgdk {
 
 const int CARMODTYPE_SPOILER = 0;
