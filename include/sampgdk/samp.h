@@ -242,6 +242,10 @@ const int KEY_ANALOG_DOWN = 4096;
 const int KEY_ANALOG_LEFT = 8192;
 const int KEY_ANALOG_RIGHT = 16384;
 
+const int KEY_YES = 65536;
+const int KEY_NO = 131072;
+const int KEY_CTRL_BACK = 262144;
+
 const int KEY_UP = -128;
 const int KEY_DOWN = 128;
 const int KEY_LEFT = -128;
