@@ -44,9 +44,16 @@
 #if SAMPGDK_WINDOWS
 	#undef HAVE_ALLOCA_H
 	#include <malloc.h> // For _alloca()
-	#undef alloca // amx.h 
-#elif SAMPGDK_LINUX && defined __GNUC__ 
-	#define HAVE_ALLOCA_H 1
+	#if !defined alloca
+		#define alloca _alloca
+	#endif
+#elif SAMPGDK_LINUX 
+	#if defined __GNUC__ 
+		#define HAVE_ALLOCA_H 1
+		#if !defined alloca
+			#define alloca __builtin_alloca
+		#endif
+	#endif
 #endif
 
 #endif // !SAMPGDK_CONFIG_H
