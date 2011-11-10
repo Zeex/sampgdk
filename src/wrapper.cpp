@@ -83,7 +83,7 @@ static int AMXAPI amx_FindPublicHookProc(AMX *amx, const char *name, int *index)
 
 static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 	amx_ExecHook.Remove();
-
+	
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode = amx;
@@ -92,19 +92,22 @@ static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 		if (amx == gamemode && index != AMX_EXEC_CONT) {
 			canDoExec = sampgdk::Wrapper::GetInstance().CallPublicHook(amx, retval, currentPublic.c_str());
 		}
-		if (index == AMX_EXEC_GDK) {
-			amx->stk += amx->paramcount * sizeof(cell);
-			amx->paramcount = 0;
-		}
+		printf("amx_Exec(%s)\n", currentPublic.c_str());
 	}
 
 	int error = AMX_ERR_NONE;
-	if (canDoExec) {
+	if (canDoExec && index != AMX_EXEC_GDK) {
 		error = amx_Exec(amx, retval, index);
-		if (index == AMX_EXEC_GDK) {
-			error = AMX_ERR_NONE;
-		}
+	} else {
+		// Pop parameters from stack 
+		amx->stk += amx->paramcount * sizeof(cell);			
 	}
+
+	// Reset parameter count 
+	// <weird>
+	// Sometimes it is not auto-reset by amx_Exec though it normally should. 
+	// </weird>
+	amx->paramcount = 0;	
 
 	amx_ExecHook.Reinstall();
 	return error;
