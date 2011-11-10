@@ -92,7 +92,6 @@ static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 		if (amx == gamemode && index != AMX_EXEC_CONT) {
 			canDoExec = sampgdk::Wrapper::GetInstance().CallPublicHook(amx, retval, currentPublic.c_str());
 		}
-		printf("amx_Exec(%s)\n", currentPublic.c_str());
 	}
 
 	int error = AMX_ERR_NONE;
