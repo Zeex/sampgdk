@@ -133,7 +133,7 @@ bool RemoveBuildingForPlayer(int playerid, int modelid, float fX, float fY, floa
 
 // Attached to bone objects
 
-const int MAX_PLAYER_ATTACHED_OBJECTS = 5; // This is the number of attached indexes available ie 5 = 0-4
+const int MAX_PLAYER_ATTACHED_OBJECTS = 10; // This is the number of attached indexes available ie 5 = 0-4
 
 bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX = 0.0, float fOffsetY = 0.0, float fOffsetZ = 0.0, float fRotX = 0.0, float fRotY = 0.0, float fRotZ = 0.0, float fScaleX = 1.0, float fScaleY = 1.0, float fScaleZ = 1.0);
 bool RemovePlayerAttachedObject(int playerid, int index);
