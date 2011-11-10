@@ -216,6 +216,15 @@ bool StopObject(int objectid) {
 	return native(&::fakeAmx, params) != 0;
 }
 
+bool IsObjectMoving(int objectid) {
+	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsObjectMoving");
+	cell params[] = {
+		1 * 4,
+		objectid
+	};
+	return native(&::fakeAmx, params) != 0;
+}
+
 int CreatePlayerObject(int playerid, int modelid, float x, float y, float z, 
 	float rX, float rY, float rZ, float DrawDistance)
 {
@@ -342,6 +351,16 @@ int MovePlayerObject(int playerid, int objectid, float x, float y, float z, floa
 
 bool StopPlayerObject(int playerid, int objectid) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("StopPlayerObject");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		objectid
+	};
+	return native(&::fakeAmx, params) != 0;
+}
+
+bool IsPlayerObjectMoving(int playerid, int objectid) {
+	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsPlayerObjectMoving");
 	cell params[] = {
 		2 * 4,
 		playerid,
