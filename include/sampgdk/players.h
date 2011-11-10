@@ -86,6 +86,7 @@ bool GetPlayerArmour(int playerid, float &armour);
 bool SetPlayerAmmo(int playerid, int weaponslot, int ammo);
 int GetPlayerAmmo(int playerid);
 int GetPlayerWeaponState(int playerid);
+int GetPlayerTargetPlayer(int playerid);
 bool SetPlayerTeam(int playerid, int teamid);
 int GetPlayerTeam(int playerid);
 bool SetPlayerScore(int playerid, long score);
