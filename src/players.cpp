@@ -245,6 +245,15 @@ int GetPlayerWeaponState(int playerid) {
 	return native(&::fakeAmx, params);
 }
 
+int GetPlayerTargetPlayer(int playerid) {
+	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetPlayerTargetPlayer");
+	cell params[] = {
+		1 * 4,
+		playerid
+	};
+	return native(&::fakeAmx, params);
+}
+
 bool SetPlayerTeam(int playerid, int teamid) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetPlayerTeam");
 	cell params[] = {
