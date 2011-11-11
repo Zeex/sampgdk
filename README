@@ -13,8 +13,9 @@ Getting started
 ### Download the source ###
 
 You have two options:
-*	Download the source archive from https://github.com/Zeex/sampgdk/downloads 
-*	Or clone the repository with Git: `git clone git://github.com/Zeex/sampgdk.git`
+
+1) Download the source archive from https://github.com/Zeex/sampgdk/downloads 
+2) Clone the repository with Git: `git clone git://github.com/Zeex/sampgdk.git`
 
 ### Add to your project ###
 
