@@ -20,10 +20,10 @@ You have two options:
 ### Add to your project ###
 
 There are ready-to-use project files for some popular IDE's, you can find them in `build/<os-name>/<tool-name>`. 
-Generally it is recommended that you use these to build the GDK (as a static library) and link with it. 
+Generally it is recommended that you use these to build GDK (as a static library) and link against it. 
 
-For example, if you're using Visual Studio 2010, just add `projects/vs2010/sampgdk.vcxproj` 
-to your solution (the .sln) and setup include/library paths in your project's settings. 
+For example, if you're using Visual Studio 2010, just add `build/windows/vs2010/sampgdk.vcxproj` 
+to your Solution (the .sln) and set up include/library paths via Project Properties dialog. 
 
 ### Write some code ###
 
