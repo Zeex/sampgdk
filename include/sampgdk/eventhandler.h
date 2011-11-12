@@ -75,6 +75,7 @@ public:
 	virtual bool OnPlayerClickPlayer(int playerid, int clickedplayerid, int source);
 	virtual bool OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid);
 	virtual bool OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid);
+	virtual bool OnPlayerClickMap(int playerid, float x, float y, float z);
 
 private:
 	bool registered_;
