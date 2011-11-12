@@ -236,5 +236,9 @@ bool EventHandler::OnPlayerGiveDamage(int /*playerid*/, int /*damagedid*/, float
 	return true;
 }
 
+bool EventHandler::OnPlayerClickMap(int /*playerid*/, float /*x*/, float /*y*/, float /*z*/) {
+	return true;
+}
+
 } // namespace sampgdk
 
