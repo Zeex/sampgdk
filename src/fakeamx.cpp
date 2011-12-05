@@ -22,6 +22,7 @@
 
 FakeAmx::FakeAmx() 
 	: heap_(new cell[INIT_HEAP_CAPACITY])
+	, heapSize_(INIT_HEAP_CAPACITY)
 {
 	std::memset(&hdr_, 0, sizeof(hdr_));
 	std::memset(&amx_, 0, sizeof(amx_));
