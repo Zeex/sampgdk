@@ -15,52 +15,57 @@
 #ifndef FAKEAMX_H
 #define FAKEAMX_H
 
-#include <cstring>
+#include <cstddef>
 
 #include <sampgdk.h>
 
-extern AMX fakeAmx;
+class FakeAmxHeap;
 
-cell FakeAmxPush(size_t cells);
-cell FakeAmxPush(const char *s);
+class FakeAmx {
+public:
+	static const size_t INIT_HEAP_CAPACITY = 1024;
 
-void FakeAmxGet(cell address, cell &value);
-void FakeAmxGet(cell address, char *value, size_t size);
+	FakeAmx();
+	~FakeAmx();
 
-void FakeAmxPop(cell address);
+	static FakeAmx &GetInstance();
+
+	AMX *amx() const;
+	FakeAmxHeap &heap() const;
+
+	cell Push(size_t cells);
+	cell Push(const char *s);
+
+	void Get(cell address, cell &value) const;
+	void Get(cell address, char *value, size_t size) const;
+
+	void Pop(cell address);
+
+	cell CallNative(AMX_NATIVE native, cell *params);
+	bool CallBooleanNative(AMX_NATIVE native, cell *params);
+
+private:
+	void ResizeHeap(size_t newSize);
+
+	AMX amx_;
+	AMX_HEADER hdr_;
+	cell *heap_;
+	cell heapSize_;
+};
 
 class FakeAmxHeapObject {
 public:
-	FakeAmxHeapObject()
-		: size_(1), address_(FakeAmxPush(1))
-	{}
+	FakeAmxHeapObject();
+	FakeAmxHeapObject(size_t cells);
+	FakeAmxHeapObject(const char *s);
+	~FakeAmxHeapObject();
 
-	FakeAmxHeapObject(size_t cells)
-		: size_(cells), address_(FakeAmxPush(cells))
-	{}
+	cell address() const;
+	size_t size() const;
 
-	FakeAmxHeapObject(const char *s)
-		: size_(std::strlen(s) + 1), address_(FakeAmxPush(s))
-	{}
-
-	~FakeAmxHeapObject() { FakeAmxPop(address_); }
-
-	cell address() const { return address_; }
-
-	size_t size() const { return size_; }
-
-	cell Get() const {
-		return *reinterpret_cast<cell*>(::fakeAmx.data + address_);
-	}
-
-	float GetAsFloat() const {
-		cell value = this->Get();
-		return amx_ctof(value);
-	}
-
-	void GetAsString(char *s, size_t size) const {
-		FakeAmxGet(address_, s, size);
-	}
+	cell  Get() const;
+	float GetAsFloat() const;
+	void  GetAsString(char *s, size_t size) const;
 
 private:
 	size_t size_;

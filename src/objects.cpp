@@ -31,7 +31,7 @@ int CreateObject(int modelid, float x, float y, float z, float rX, float rY, flo
 		amx_ftoc(rZ),
 		amx_ftoc(DrawDistance)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 void AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
@@ -49,7 +49,7 @@ void AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fO
 		amx_ftoc(frotY),
 		amx_ftoc(frotZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 void AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float OffsetY, float OffsetZ, 
@@ -68,7 +68,7 @@ void AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float Off
 		amx_ftoc(RotZ),
 		SyncRotation
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 void AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float OffsetY, float OffsetZ, 
@@ -86,7 +86,7 @@ void AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float Offse
 		amx_ftoc(rY),
 		amx_ftoc(rZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, 
@@ -105,7 +105,7 @@ void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer
 		amx_ftoc(rY),
 		amx_ftoc(rZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 void SetObjectPos(int objectid, float x, float y, float z) {
@@ -117,7 +117,7 @@ void SetObjectPos(int objectid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GetObjectPos(int objectid, float &x, float &y, float &z) {
@@ -132,7 +132,7 @@ bool GetObjectPos(int objectid, float &x, float &y, float &z) {
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -148,7 +148,7 @@ void SetObjectRot(int objectid, float rotX, float rotY, float rotZ) {
 		amx_ftoc(rotY),
 		amx_ftoc(rotZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GetObjectRot(int objectid, float &rotX, float &rotY, float &rotZ) {
@@ -163,7 +163,7 @@ bool GetObjectRot(int objectid, float &rotX, float &rotY, float &rotZ) {
 		rotY_.address(),
 		rotZ_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	rotX = rotX_.GetAsFloat();
 	rotY = rotY_.GetAsFloat();
 	rotZ = rotZ_.GetAsFloat();
@@ -176,7 +176,7 @@ bool IsValidObject(int objectid) {
 		1 * 4,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 void DestroyObject(int objectid) {
@@ -185,7 +185,7 @@ void DestroyObject(int objectid) {
 		1 * 4,
 		objectid
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int MoveObject(int objectid, float X, float Y, float Z, float Speed, 
@@ -203,7 +203,7 @@ int MoveObject(int objectid, float X, float Y, float Z, float Speed,
 		amx_ftoc(RotY),
 		amx_ftoc(RotZ)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool StopObject(int objectid) {
@@ -212,7 +212,7 @@ bool StopObject(int objectid) {
 		1 * 4,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool IsObjectMoving(int objectid) {
@@ -221,7 +221,7 @@ bool IsObjectMoving(int objectid) {
 		1 * 4,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallNative(native, params) != 0;
 }
 
 int CreatePlayerObject(int playerid, int modelid, float x, float y, float z, 
@@ -240,7 +240,7 @@ int CreatePlayerObject(int playerid, int modelid, float x, float y, float z,
 		amx_ftoc(rZ),
 		amx_ftoc(DrawDistance)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 void SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {
@@ -253,7 +253,7 @@ void SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GetPlayerObjectPos(int playerid, int objectid, float &x, float &y, float &z) {
@@ -269,7 +269,7 @@ bool GetPlayerObjectPos(int playerid, int objectid, float &x, float &y, float &z
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -286,7 +286,7 @@ void SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, floa
 		amx_ftoc(rotY),
 		amx_ftoc(rotZ)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GetPlayerObjectRot(int playerid, int objectid, float &rotX, float &rotY, float &rotZ) {
@@ -302,7 +302,7 @@ bool GetPlayerObjectRot(int playerid, int objectid, float &rotX, float &rotY, fl
 		rotY_.address(),
 		rotZ_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	rotX = rotX_.GetAsFloat();
 	rotY = rotY_.GetAsFloat();
 	rotZ = rotZ_.GetAsFloat();
@@ -316,7 +316,7 @@ bool IsValidPlayerObject(int playerid, int objectid) {
 		playerid,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 void DestroyPlayerObject(int playerid, int objectid) {
@@ -326,7 +326,7 @@ void DestroyPlayerObject(int playerid, int objectid) {
 		playerid,
 		objectid
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, 
@@ -345,7 +345,7 @@ int MovePlayerObject(int playerid, int objectid, float x, float y, float z, floa
 		amx_ftoc(RotY),
 		amx_ftoc(RotZ)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool StopPlayerObject(int playerid, int objectid) {
@@ -355,7 +355,7 @@ bool StopPlayerObject(int playerid, int objectid) {
 		playerid,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool IsPlayerObjectMoving(int playerid, int objectid) {
@@ -365,7 +365,7 @@ bool IsPlayerObjectMoving(int playerid, int objectid) {
 		playerid,
 		objectid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallNative(native, params) != 0;
 }
 
 } // namespace sampgdk
