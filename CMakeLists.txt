@@ -41,6 +41,7 @@ add_library(sampgdk STATIC
 	"include/sampgdk/plugincommon.h"
 	"include/sampgdk/samp.h"
 	"include/sampgdk/vehicles.h"
+	"include/sampgdk/version.h"
 	"include/sampgdk/wrapper.h"
 	"include/sampgdk.h"
 	"src/amxplugin.cpp"
