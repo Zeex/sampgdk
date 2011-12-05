@@ -69,7 +69,7 @@ OBJECTS := \
 	$(OBJDIR)/eventhandler.o \
 	$(OBJDIR)/fakeamx.o \
 	$(OBJDIR)/gpci.o \
-	$(OBJDIR)/jump.o \
+	$(OBJDIR)/jump-x86.o \
 	$(OBJDIR)/objects.o \
 	$(OBJDIR)/players.o \
 	$(OBJDIR)/samp.o \
@@ -150,7 +150,7 @@ $(OBJDIR)/fakeamx.o: ../../../src/fakeamx.cpp
 $(OBJDIR)/gpci.o: ../../../src/gpci.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/jump.o: ../../../src/jump.cpp
+$(OBJDIR)/jump-x86.o: ../../../src/jump-x86.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/objects.o: ../../../src/objects.cpp

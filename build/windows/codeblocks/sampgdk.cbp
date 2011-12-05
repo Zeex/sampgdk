@@ -57,7 +57,7 @@
 		</Unit>
 		<Unit filename="../../../src/gpci.cpp">
 		</Unit>
-		<Unit filename="../../../src/jump.cpp">
+		<Unit filename="../../../src/jump-x86.cpp">
 		</Unit>
 		<Unit filename="../../../src/objects.cpp">
 		</Unit>
@@ -73,11 +73,11 @@
 		</Unit>
 		<Unit filename="../../../src/fakeamx.h">
 		</Unit>
-		<Unit filename="../../../src/jump.h">
+		<Unit filename="../../../src/jump-x86.h">
 		</Unit>
 		<Unit filename="../../../include/sampgdk.h">
 		</Unit>
-		<Unit filename="../../../include/sampgdk/amx.h">
+		<Unit filename="../../../include/sampgdk/config.h">
 		</Unit>
 		<Unit filename="../../../include/sampgdk/eventhandler.h">
 		</Unit>

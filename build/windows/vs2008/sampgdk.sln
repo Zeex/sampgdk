@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampgdk", "sampgdk.vcproj", "{F19D916D-D1D2-4842-9613-8F48D1BA2D15}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sampgdk", "sampgdk.vcproj", "{6D6137F9-1B00-7C4B-9E8C-D139F9C2C1A8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloworld", "helloworld.vcproj", "{6C215DF4-C0B9-7042-859B-5336B25206FD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "helloworld", "helloworld.vcproj", "{B08667F4-8808-5948-959B-DA5DC5D9818A}"
 	ProjectSection(ProjectDependencies) = postProject
-		{F19D916D-D1D2-4842-9613-8F48D1BA2D15} = {F19D916D-D1D2-4842-9613-8F48D1BA2D15}
+		{6D6137F9-1B00-7C4B-9E8C-D139F9C2C1A8} = {6D6137F9-1B00-7C4B-9E8C-D139F9C2C1A8}
 	EndProjectSection
 EndProject
 Global
@@ -14,14 +14,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F19D916D-D1D2-4842-9613-8F48D1BA2D15}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F19D916D-D1D2-4842-9613-8F48D1BA2D15}.Debug|Win32.Build.0 = Debug|Win32
-		{F19D916D-D1D2-4842-9613-8F48D1BA2D15}.Release|Win32.ActiveCfg = Release|Win32
-		{F19D916D-D1D2-4842-9613-8F48D1BA2D15}.Release|Win32.Build.0 = Release|Win32
-		{6C215DF4-C0B9-7042-859B-5336B25206FD}.Debug|Win32.ActiveCfg = Debug|Win32
-		{6C215DF4-C0B9-7042-859B-5336B25206FD}.Debug|Win32.Build.0 = Debug|Win32
-		{6C215DF4-C0B9-7042-859B-5336B25206FD}.Release|Win32.ActiveCfg = Release|Win32
-		{6C215DF4-C0B9-7042-859B-5336B25206FD}.Release|Win32.Build.0 = Release|Win32
+		{6D6137F9-1B00-7C4B-9E8C-D139F9C2C1A8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6D6137F9-1B00-7C4B-9E8C-D139F9C2C1A8}.Debug|Win32.Build.0 = Debug|Win32
+		{6D6137F9-1B00-7C4B-9E8C-D139F9C2C1A8}.Release|Win32.ActiveCfg = Release|Win32
+		{6D6137F9-1B00-7C4B-9E8C-D139F9C2C1A8}.Release|Win32.Build.0 = Release|Win32
+		{B08667F4-8808-5948-959B-DA5DC5D9818A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B08667F4-8808-5948-959B-DA5DC5D9818A}.Debug|Win32.Build.0 = Debug|Win32
+		{B08667F4-8808-5948-959B-DA5DC5D9818A}.Release|Win32.ActiveCfg = Release|Win32
+		{B08667F4-8808-5948-959B-DA5DC5D9818A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
