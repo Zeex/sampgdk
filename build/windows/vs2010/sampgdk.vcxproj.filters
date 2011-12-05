@@ -2,16 +2,16 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="src">
-			<UniqueIdentifier>{520B61CC-0CBC-2549-9BA9-8F4A15CB4B24}</UniqueIdentifier>
+			<UniqueIdentifier>{8EA53F97-98C7-E949-A6C3-7A4459B35434}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include">
-			<UniqueIdentifier>{C2A315C8-3761-5F42-84E6-BA26A12B14D2}</UniqueIdentifier>
+			<UniqueIdentifier>{BB44420B-E0A8-614B-BFE0-2567C471CC90}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{D279AACD-E2CC-1744-84AF-E0D76F468977}</UniqueIdentifier>
+			<UniqueIdentifier>{1F86DD9E-41F6-B14B-BA39-48FB96164C4F}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{237A16F3-29E2-EF49-9ECD-D9F17074D866}</UniqueIdentifier>
+			<UniqueIdentifier>{1209E79C-E8E3-4545-8F28-E6A7E7954EF4}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
@@ -21,13 +21,13 @@
 		<ClInclude Include="..\..\..\src\fakeamx.h">
 			<Filter>src</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\src\jump.h">
+		<ClInclude Include="..\..\..\src\jump-x86.h">
 			<Filter>src</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\..\include\sampgdk.h">
 			<Filter>include</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\include\sampgdk\amx.h">
+		<ClInclude Include="..\..\..\include\sampgdk\config.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\..\include\sampgdk\eventhandler.h">
@@ -80,7 +80,7 @@
 		<ClCompile Include="..\..\..\src\gpci.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
-		<ClCompile Include="..\..\..\src\jump.cpp">
+		<ClCompile Include="..\..\..\src\jump-x86.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
 		<ClCompile Include="..\..\..\src\objects.cpp">

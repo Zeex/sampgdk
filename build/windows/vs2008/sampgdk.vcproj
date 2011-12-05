@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sampgdk"
-	ProjectGUID="{F19D916D-D1D2-4842-9613-8F48D1BA2D15}"
+	ProjectGUID="{6D6137F9-1B00-7C4B-9E8C-D139F9C2C1A8}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -195,7 +195,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\jump.cpp"
+				RelativePath="..\..\..\src\jump-x86.cpp"
 				>
 			</File>
 			<File
@@ -227,7 +227,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\jump.h"
+				RelativePath="..\..\..\src\jump-x86.h"
 				>
 			</File>
 		</Filter>
@@ -257,7 +257,7 @@
 					</File>
 				</Filter>
 				<File
-					RelativePath="..\..\..\include\sampgdk\amx.h"
+					RelativePath="..\..\..\include\sampgdk\config.h"
 					>
 				</File>
 				<File

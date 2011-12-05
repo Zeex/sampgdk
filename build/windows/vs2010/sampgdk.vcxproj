@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{FD405FFC-50B3-8A43-8935-09E1C65479DA}</ProjectGuid>
+		<ProjectGuid>{11A7CC21-55AF-AD49-955F-C68FAA8451A7}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -103,9 +103,9 @@
 	<ItemGroup>
 		<ClInclude Include="..\..\..\src\callbacks.h" />
 		<ClInclude Include="..\..\..\src\fakeamx.h" />
-		<ClInclude Include="..\..\..\src\jump.h" />
+		<ClInclude Include="..\..\..\src\jump-x86.h" />
 		<ClInclude Include="..\..\..\include\sampgdk.h" />
-		<ClInclude Include="..\..\..\include\sampgdk\amx.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\config.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\eventhandler.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\gpci.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\objects.h" />
@@ -129,7 +129,7 @@
 		</ClCompile>
 		<ClCompile Include="..\..\..\src\gpci.cpp">
 		</ClCompile>
-		<ClCompile Include="..\..\..\src\jump.cpp">
+		<ClCompile Include="..\..\..\src\jump-x86.cpp">
 		</ClCompile>
 		<ClCompile Include="..\..\..\src\objects.cpp">
 		</ClCompile>

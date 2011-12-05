@@ -18,7 +18,7 @@
 #include <sampgdk.h>
 
 #include "callbacks.h"
-#include "jump.h"
+#include "jump-x86.h"
 
 extern void *pAMXFunctions;
 
@@ -29,10 +29,10 @@ static AMX *gamemode = 0;
 static std::string currentPublic;
 
 // AMX hooks
-static Jump amx_FindPublicHook;
-static Jump amx_ExecHook;
-static Jump amx_RegisterHook;
-static Jump amx_CallbackHook;
+static JumpX86 amx_FindPublicHook;
+static JumpX86 amx_ExecHook;
+static JumpX86 amx_RegisterHook;
+static JumpX86 amx_CallbackHook;
 
 static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	char *funcname;
@@ -54,11 +54,11 @@ static int AMXAPI amx_RegisterHookProc(AMX *amx, const AMX_NATIVE_INFO *nativeli
 		sampgdk::Wrapper::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
 		// Fix for funcidx() issue
 		if (strcmp(nativelist[i].name, "funcidx") == 0) {
-			SetJump((void*)nativelist[i].func, (void*)fixed_funcidx);
+			new JumpX86((void*)nativelist[i].func, (void*)fixed_funcidx);
 		}
 	}
 
-	amx_RegisterHook.Reinstall();
+	amx_RegisterHook.Install();
 	return error;
 }
 
@@ -75,12 +75,13 @@ static int AMXAPI amx_FindPublicHookProc(AMX *amx, const char *name, int *index)
 		currentPublic = name;
 	}
 
-	amx_FindPublicHook.Reinstall();
+	amx_FindPublicHook.Install();
 	return error;
 }
 
 static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 	amx_ExecHook.Remove();
+	amx_CallbackHook.Install();
 	
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
@@ -106,22 +107,24 @@ static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 	// </weird>
 	amx->paramcount = 0;	
 
-	amx_ExecHook.Reinstall();
+	amx_CallbackHook.Remove();
+	amx_ExecHook.Install();
+
 	return error;
 }
 
 static int AMXAPI amx_CallbackHookProc(AMX *amx, cell index, cell *result, cell *params) {
 	amx_CallbackHook.Remove();
+	amx_ExecHook.Install();
 
 	// Forbid SYSREQ.D
 	amx->sysreq_d = 0;
-
-	// Natives can call amx_Exec()
-	amx_ExecHook.Reinstall();
+	
 	int error = amx_Callback(amx, index, result, params);
+	
 	amx_ExecHook.Remove();
+	amx_CallbackHook.Install();
 
-	amx_CallbackHook.Reinstall();
 	return error;
 }
 
