@@ -12,23 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMPGDK_H
-#define SAMPGDK_H
+#ifndef SAMPGDK_VERSION_H
+#define SAMPGDK_VERSION_H
 
-#include <sampgdk/version.h>
+#define SAMPGDK_VERSION_MAJOR 1
+#define SAMPGDK_VERSION_MINOR 0
+#define SAMPGDK_VERSION_PATCH 0
+#define SAMPGDK_VERSION_STRING "1.0.0"
 
-#include <sampgdk/config.h>
+#endif // !SAMPGDK_VERSION_H
 
-#include <sampgdk/amx/amx.h>
-#include <sampgdk/plugincommon.h>
-
-#include <sampgdk/eventhandler.h>
-#include <sampgdk/wrapper.h>
-
-#include <sampgdk/gpci.h>
-#include <sampgdk/objects.h>
-#include <sampgdk/players.h>
-#include <sampgdk/samp.h>
-#include <sampgdk/vehicles.h>
-
-#endif // !SAMPGDK_H
