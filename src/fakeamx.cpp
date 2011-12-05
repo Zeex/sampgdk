@@ -41,7 +41,7 @@ FakeAmx::FakeAmx()
 }
 
 FakeAmx::~FakeAmx() {
-	delete heap_;
+	delete[] heap_;
 }
 
 FakeAmx &FakeAmx::GetInstance() {
@@ -89,7 +89,7 @@ bool FakeAmx::CallBooleanNative(AMX_NATIVE native, cell *params) {
 }
 
 void FakeAmx::ResizeHeap(size_t newSize) {
-	delete heap_;
+	delete[] heap_;
 	heap_ = new cell[newSize];
 	heapSize_ = newSize;
 }
