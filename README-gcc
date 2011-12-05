@@ -1,0 +1,1 @@
+I would recommend you not to use the -O3 switch of GCC as it's likely will break something (e.g. GetPlayerPos, see https://github.com/Zeex/sampgdk/issues/18)
