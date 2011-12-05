@@ -36,7 +36,7 @@ bool SetSpawnInfo(int playerid, int team, int skin, float x, float y, float z, f
 		weapon3,
 		weapon3_ammo
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SpawnPlayer(int playerid) {
@@ -45,7 +45,7 @@ bool SpawnPlayer(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerPos(int playerid, float x, float y, float z) {
@@ -57,7 +57,7 @@ bool SetPlayerPos(int playerid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerPosFindZ(int playerid, float x, float y, float z) {
@@ -69,7 +69,7 @@ bool SetPlayerPosFindZ(int playerid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPlayerPos(int playerid, float &x, float &y, float &z) {
@@ -84,7 +84,7 @@ bool GetPlayerPos(int playerid, float &x, float &y, float &z) {
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -98,7 +98,7 @@ bool SetPlayerFacingAngle(int playerid, float angle) {
 		playerid,
 		amx_ftoc(angle)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPlayerFacingAngle(int playerid, float &angle) {
@@ -109,7 +109,7 @@ bool GetPlayerFacingAngle(int playerid, float &angle) {
 		playerid,
 		angle_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	angle = angle_.GetAsFloat();
 	return ret;
 }
@@ -124,7 +124,7 @@ bool IsPlayerInRangeOfPoint(int playerid, float range, float x, float y, float z
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 float GetPlayerDistanceFromPoint(int playerid, float x, float y, float z) {
@@ -136,7 +136,7 @@ float GetPlayerDistanceFromPoint(int playerid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	cell ret = native(&::fakeAmx, params);
+	cell ret = FakeAmx::GetInstance().CallNative(native, params);
 	return amx_ctof(ret);
 }
 
@@ -147,7 +147,7 @@ bool IsPlayerStreamedIn(int playerid, int forplayerid) {
 		playerid,
 		forplayerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerInterior(int playerid, int interiorid) {
@@ -157,7 +157,7 @@ bool SetPlayerInterior(int playerid, int interiorid) {
 		playerid,
 		interiorid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerInterior(int playerid) {
@@ -166,7 +166,7 @@ int GetPlayerInterior(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPlayerHealth(int playerid, float health) {
@@ -176,7 +176,7 @@ bool SetPlayerHealth(int playerid, float health) {
 		playerid,
 		amx_ftoc(health)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPlayerHealth(int playerid, float &health) {
@@ -187,7 +187,7 @@ bool GetPlayerHealth(int playerid, float &health) {
 		playerid,
 		health_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	health = health_.GetAsFloat();
 	return ret;
 }
@@ -199,7 +199,7 @@ bool SetPlayerArmour(int playerid, float armour) {
 		playerid,
 		amx_ftoc(armour)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPlayerArmour(int playerid, float &armour) {
@@ -210,7 +210,7 @@ bool GetPlayerArmour(int playerid, float &armour) {
 		playerid,
 		armour_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	armour = armour_.GetAsFloat();
 	return ret;
 }
@@ -223,7 +223,7 @@ bool SetPlayerAmmo(int playerid, int weaponslot, int ammo) {
 		weaponslot,
 		ammo
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerAmmo(int playerid) {
@@ -232,7 +232,7 @@ int GetPlayerAmmo(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int GetPlayerWeaponState(int playerid) {
@@ -241,7 +241,7 @@ int GetPlayerWeaponState(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int GetPlayerTargetPlayer(int playerid) {
@@ -250,7 +250,7 @@ int GetPlayerTargetPlayer(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPlayerTeam(int playerid, int teamid) {
@@ -260,7 +260,7 @@ bool SetPlayerTeam(int playerid, int teamid) {
 		playerid,
 		teamid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerTeam(int playerid) {
@@ -269,7 +269,7 @@ int GetPlayerTeam(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerScore(int playerid, long score) {
@@ -279,7 +279,7 @@ bool SetPlayerScore(int playerid, long score) {
 		playerid,
 		score
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 long GetPlayerScore(int playerid) {
@@ -288,7 +288,7 @@ long GetPlayerScore(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int GetPlayerDrunkLevel(int playerid) {
@@ -297,7 +297,7 @@ int GetPlayerDrunkLevel(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPlayerDrunkLevel(int playerid, int level) {
@@ -307,7 +307,7 @@ bool SetPlayerDrunkLevel(int playerid, int level) {
 		playerid,
 		level
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerColor(int playerid, long color) {
@@ -317,7 +317,7 @@ bool SetPlayerColor(int playerid, long color) {
 		playerid,
 		color
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 long GetPlayerColor(int playerid) {
@@ -326,7 +326,7 @@ long GetPlayerColor(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPlayerSkin(int playerid, int skinid) {
@@ -336,7 +336,7 @@ bool SetPlayerSkin(int playerid, int skinid) {
 		playerid,
 		skinid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerSkin(int playerid) {
@@ -345,7 +345,7 @@ int GetPlayerSkin(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GivePlayerWeapon(int playerid, int weaponid, int ammo) {
@@ -356,7 +356,7 @@ bool GivePlayerWeapon(int playerid, int weaponid, int ammo) {
 		weaponid,
 		ammo
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool ResetPlayerWeapons(int playerid) {
@@ -365,7 +365,7 @@ bool ResetPlayerWeapons(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerArmedWeapon(int playerid, int weaponid) {
@@ -375,7 +375,7 @@ bool SetPlayerArmedWeapon(int playerid, int weaponid) {
 		playerid,
 		weaponid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPlayerWeaponData(int playerid, int slot, int &weapon, int &ammo) {
@@ -389,7 +389,7 @@ bool GetPlayerWeaponData(int playerid, int slot, int &weapon, int &ammo) {
 		weapon_.address(),
 		ammo_.address(),
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	weapon = weapon_.Get();
 	ammo = ammo_.Get();
 	return ret;
@@ -402,7 +402,7 @@ bool GivePlayerMoney(int playerid, long money) {
 		playerid,
 		money
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool ResetPlayerMoney(int playerid) {
@@ -411,7 +411,7 @@ bool ResetPlayerMoney(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int SetPlayerName(int playerid, const char *name) {
@@ -422,7 +422,7 @@ int SetPlayerName(int playerid, const char *name) {
 		playerid,
 		name_.address()
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 long GetPlayerMoney(int playerid) {
@@ -431,7 +431,7 @@ long GetPlayerMoney(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int GetPlayerState(int playerid) {
@@ -440,7 +440,7 @@ int GetPlayerState(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GetPlayerIp(int playerid, char *ip, size_t size) {
@@ -452,7 +452,7 @@ bool GetPlayerIp(int playerid, char *ip, size_t size) {
 		ip_.address(),
 		size
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	ip_.GetAsString(ip, size);
 	return ret;
 }
@@ -467,7 +467,7 @@ int GetPlayerPing(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int GetPlayerWeapon(int playerid) {
@@ -476,7 +476,7 @@ int GetPlayerWeapon(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GetPlayerKeys(int playerid, int &keys, int &updown, int &leftright) {
@@ -491,7 +491,7 @@ bool GetPlayerKeys(int playerid, int &keys, int &updown, int &leftright) {
 		updown_.address(),
 		leftright_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	keys = keys_.Get();
 	updown = updown_.Get();
 	leftright = leftright_.Get();
@@ -507,7 +507,7 @@ bool GetPlayerName(int playerid, char *name, size_t size) {
 		name_.address(),
 		size
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	name_.GetAsString(name, size);
 	return ret;
 }
@@ -524,7 +524,7 @@ bool SetPlayerTime(int playerid, int hour, int minute) {
 		hour,
 		minute
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPlayerTime(int playerid, int &hour, int &minute) {
@@ -537,7 +537,7 @@ bool GetPlayerTime(int playerid, int &hour, int &minute) {
 		hour_.address(),
 		minute_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	hour = hour_.Get();
 	minute = minute_.Get();
 	return ret;
@@ -550,7 +550,7 @@ bool TogglePlayerClock(int playerid, bool toggle) {
 		playerid,
 		toggle
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerWeather(int playerid, int weather) {
@@ -560,7 +560,7 @@ bool SetPlayerWeather(int playerid, int weather) {
 		playerid,
 		weather
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool ForceClassSelection(int playerid) {
@@ -569,7 +569,7 @@ bool ForceClassSelection(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerWantedLevel(int playerid, int level) {
@@ -579,7 +579,7 @@ bool SetPlayerWantedLevel(int playerid, int level) {
 		playerid,
 		level
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerWantedLevel(int playerid) {
@@ -588,7 +588,7 @@ int GetPlayerWantedLevel(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPlayerFightingStyle(int playerid, int style) {
@@ -598,7 +598,7 @@ bool SetPlayerFightingStyle(int playerid, int style) {
 		playerid,
 		style
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerFightingStyle(int playerid) {
@@ -607,7 +607,7 @@ int GetPlayerFightingStyle(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPlayerVelocity(int playerid, float x, float y, float z) {
@@ -619,7 +619,7 @@ bool SetPlayerVelocity(int playerid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPlayerVelocity( int playerid, float &x, float &y, float &z) {
@@ -634,7 +634,7 @@ bool GetPlayerVelocity( int playerid, float &x, float &y, float &z) {
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -649,7 +649,7 @@ bool PlayCrimeReportForPlayer(int playerid, int suspectid, int crime) {
 		suspectid,
 		crime
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool PlayAudioStreamForPlayer(int playerid, const char *url, 
@@ -667,7 +667,7 @@ bool PlayAudioStreamForPlayer(int playerid, const char *url,
 		amx_ftoc(distance),
 		usepos
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool StopAudioStreamForPlayer(int playerid) {
@@ -676,7 +676,7 @@ bool StopAudioStreamForPlayer(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerShopName(int playerid, const char *shopname) {
@@ -687,7 +687,7 @@ bool SetPlayerShopName(int playerid, const char *shopname) {
 		playerid,
 		shopname_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerSkillLevel(int playerid, int skill, int level) {
@@ -698,7 +698,7 @@ bool SetPlayerSkillLevel(int playerid, int skill, int level) {
 		skill,
 		level
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerSurfingVehicleID(int playerid) {
@@ -707,7 +707,7 @@ int GetPlayerSurfingVehicleID(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int GetPlayerSurfingObjectID(int playerid) {
@@ -716,7 +716,7 @@ int GetPlayerSurfingObjectID(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool RemoveBuildingForPlayer(int playerid, int modelid, 
@@ -732,7 +732,7 @@ bool RemoveBuildingForPlayer(int playerid, int modelid,
 		amx_ftoc(fZ),
 		amx_ftoc(fRadius)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX, 
@@ -756,7 +756,7 @@ bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, flo
 		amx_ftoc(fScaleY),
 		amx_ftoc(fScaleZ)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool RemovePlayerAttachedObject(int playerid, int index) {
@@ -766,7 +766,7 @@ bool RemovePlayerAttachedObject(int playerid, int index) {
 		playerid,
 		index
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool IsPlayerAttachedObjectSlotUsed(int playerid, int index) {
@@ -776,7 +776,7 @@ bool IsPlayerAttachedObjectSlotUsed(int playerid, int index) {
 		playerid,
 		index
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPVarInt(int playerid, const char *varname, int value) {
@@ -788,7 +788,7 @@ bool SetPVarInt(int playerid, const char *varname, int value) {
 		varname_.address(),
 		value
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPVarInt(int playerid, const char *varname) {
@@ -799,7 +799,7 @@ int GetPVarInt(int playerid, const char *varname) {
 		playerid,
 		varname_.address()
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPVarString(int playerid, const char *varname, const char *value) {
@@ -812,7 +812,7 @@ bool SetPVarString(int playerid, const char *varname, const char *value) {
 		varname_.address(),
 		value_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPVarString(int playerid, const char *varname, char *value, size_t size) {
@@ -826,7 +826,7 @@ bool GetPVarString(int playerid, const char *varname, char *value, size_t size) 
 		value_.address(),
 		size
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	value_.GetAsString(value, size);
 	return ret;
 }
@@ -840,7 +840,7 @@ bool SetPVarFloat(int playerid, const char *varname, float value) {
 		varname_.address(),
 		amx_ftoc(value)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 float GetPVarFloat(int playerid, const char *varname) {
@@ -851,7 +851,7 @@ float GetPVarFloat(int playerid, const char *varname) {
 		playerid,
 		varname_.address()
 	};
-	cell ret = native(&::fakeAmx, params);
+	cell ret = FakeAmx::GetInstance().CallNative(native, params);
 	return amx_ctof(ret);
 }
 
@@ -863,7 +863,7 @@ bool DeletePVar(int playerid, const char *varname) {
 		playerid,
 		varname_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPVarsUpperIndex(int playerid) {
@@ -872,7 +872,7 @@ int GetPVarsUpperIndex(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GetPVarNameAtIndex(int playerid, int index, char *varname, size_t size) {
@@ -885,7 +885,7 @@ bool GetPVarNameAtIndex(int playerid, int index, char *varname, size_t size) {
 		varname_.address(),
 		size
 	};
-	bool ret =  native(&::fakeAmx, params) != 0;
+	bool ret =  FakeAmx::GetInstance().CallBooleanNative(native, params);
 	return ret;
 }
 
@@ -897,7 +897,7 @@ int GetPVarType(int playerid, const char *varname) {
 		playerid,
 		varname_.address()
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPlayerChatBubble(int playerid, const char *text, long color, float drawdistance, long expiretime) {
@@ -911,7 +911,7 @@ bool SetPlayerChatBubble(int playerid, const char *text, long color, float drawd
 		amx_ftoc(drawdistance),
 		expiretime
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool PutPlayerInVehicle(int playerid, int vehicleid, int seatid) {
@@ -922,7 +922,7 @@ bool PutPlayerInVehicle(int playerid, int vehicleid, int seatid) {
 		vehicleid,
 		seatid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerVehicleID(int playerid) {
@@ -931,7 +931,7 @@ int GetPlayerVehicleID(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 int GetPlayerVehicleSeat(int playerid) {
@@ -940,7 +940,7 @@ int GetPlayerVehicleSeat(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool RemovePlayerFromVehicle(int playerid) {
@@ -949,7 +949,7 @@ bool RemovePlayerFromVehicle(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool TogglePlayerControllable(int playerid, bool toggle) {
@@ -959,7 +959,7 @@ bool TogglePlayerControllable(int playerid, bool toggle) {
 		playerid,
 		toggle
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool PlayerPlaySound(int playerid, int soundid, float x, float y, float z) {
@@ -972,7 +972,7 @@ bool PlayerPlaySound(int playerid, int soundid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool ApplyAnimation(int playerid, const char *animlib, const char *animname, 
@@ -994,7 +994,7 @@ bool ApplyAnimation(int playerid, const char *animlib, const char *animname,
 		time,
 		forcesync
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool ClearAnimations(int playerid, bool forcesync) {
@@ -1004,7 +1004,7 @@ bool ClearAnimations(int playerid, bool forcesync) {
 		playerid,
 		forcesync
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 int GetPlayerAnimationIndex(int playerid) {
@@ -1013,7 +1013,7 @@ int GetPlayerAnimationIndex(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool GetAnimationName(int index, char *animlib, size_t animlib_size, char *animname, size_t animname_size) {
@@ -1028,7 +1028,7 @@ bool GetAnimationName(int index, char *animlib, size_t animlib_size, char *animn
 		animname_.address(),
 		animname_size
 	};
-	bool ret =  native(&::fakeAmx, params) != 0;
+	bool ret =  FakeAmx::GetInstance().CallBooleanNative(native, params);
 	animlib_.GetAsString(animlib, animlib_size);
 	animname_.GetAsString(animname, animname_size);
 	return ret;
@@ -1040,7 +1040,7 @@ int GetPlayerSpecialAction(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool SetPlayerSpecialAction(int playerid, int actionid) {
@@ -1050,7 +1050,7 @@ bool SetPlayerSpecialAction(int playerid, int actionid) {
 		playerid,
 		actionid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerCheckpoint(int playerid, float x, float y, float z, float size) {
@@ -1063,7 +1063,7 @@ bool SetPlayerCheckpoint(int playerid, float x, float y, float z, float size) {
 		amx_ftoc(z),
 		amx_ftoc(size)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool DisablePlayerCheckpoint(int playerid) {
@@ -1072,7 +1072,7 @@ bool DisablePlayerCheckpoint(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerRaceCheckpoint(int playerid, int type, float x, float y, float z, 
@@ -1091,7 +1091,7 @@ bool SetPlayerRaceCheckpoint(int playerid, int type, float x, float y, float z,
 		amx_ftoc(nextz),
 		amx_ftoc(size)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool DisablePlayerRaceCheckpoint(int playerid) {
@@ -1100,7 +1100,7 @@ bool DisablePlayerRaceCheckpoint(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerWorldBounds(int playerid, float x_max, float x_min, float y_max, float y_min) {
@@ -1113,7 +1113,7 @@ bool SetPlayerWorldBounds(int playerid, float x_max, float x_min, float y_max, f
 		amx_ftoc(y_max),
 		amx_ftoc(y_min)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerMarkerForPlayer(int playerid, int showplayerid, long color) {
@@ -1124,7 +1124,7 @@ bool SetPlayerMarkerForPlayer(int playerid, int showplayerid, long color) {
 		showplayerid,
 		color
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool ShowPlayerNameTagForPlayer(int playerid, int showplayerid, bool show) {
@@ -1135,7 +1135,7 @@ bool ShowPlayerNameTagForPlayer(int playerid, int showplayerid, bool show) {
 		showplayerid,
 		show
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerMapIcon(int playerid, int iconid, float x, float y, float z, int markertype, long color, int style) {
@@ -1151,7 +1151,7 @@ bool SetPlayerMapIcon(int playerid, int iconid, float x, float y, float z, int m
 		color,
 		style
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool RemovePlayerMapIcon(int playerid, int iconid) {
@@ -1161,7 +1161,7 @@ bool RemovePlayerMapIcon(int playerid, int iconid) {
 		playerid,
 		iconid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool AllowPlayerTeleport(int playerid, bool allow) {
@@ -1171,7 +1171,7 @@ bool AllowPlayerTeleport(int playerid, bool allow) {
 		playerid,
 		allow
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerCameraPos(int playerid, float x, float y, float z) {
@@ -1183,7 +1183,7 @@ bool SetPlayerCameraPos(int playerid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerCameraLookAt(int playerid, float x, float y, float z) {
@@ -1195,7 +1195,7 @@ bool SetPlayerCameraLookAt(int playerid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetCameraBehindPlayer(int playerid) {
@@ -1204,7 +1204,7 @@ bool SetCameraBehindPlayer(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool GetPlayerCameraPos(int playerid, float &x, float &y, float &z) {
@@ -1219,7 +1219,7 @@ bool GetPlayerCameraPos(int playerid, float &x, float &y, float &z) {
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -1238,7 +1238,7 @@ bool GetPlayerCameraFrontVector(int playerid, float &x, float &y, float &z) {
 		y_.address(),
 		z_.address()
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -1251,7 +1251,7 @@ int GetPlayerCameraMode(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool IsPlayerConnected(int playerid) {
@@ -1260,7 +1260,7 @@ bool IsPlayerConnected(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool IsPlayerInVehicle(int playerid, int vehicleid) {
@@ -1269,7 +1269,7 @@ bool IsPlayerInVehicle(int playerid, int vehicleid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool IsPlayerInAnyVehicle(int playerid) {
@@ -1278,7 +1278,7 @@ bool IsPlayerInAnyVehicle(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool IsPlayerInCheckpoint(int playerid) {
@@ -1287,7 +1287,7 @@ bool IsPlayerInCheckpoint(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool IsPlayerInRaceCheckpoint(int playerid) {
@@ -1296,7 +1296,7 @@ bool IsPlayerInRaceCheckpoint(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool SetPlayerVirtualWorld(int playerid, long worldid) {
@@ -1306,7 +1306,7 @@ bool SetPlayerVirtualWorld(int playerid, long worldid) {
 		playerid,
 		worldid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 long GetPlayerVirtualWorld(int playerid) {
@@ -1315,7 +1315,7 @@ long GetPlayerVirtualWorld(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool EnableStuntBonusForPlayer(int playerid, bool enable) {
@@ -1325,7 +1325,7 @@ bool EnableStuntBonusForPlayer(int playerid, bool enable) {
 		playerid,
 		enable
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 void EnableStuntBonusForAll(bool enable) {
@@ -1334,7 +1334,7 @@ void EnableStuntBonusForAll(bool enable) {
 		1 * 4,
 		enable
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 bool TogglePlayerSpectating(int playerid, bool toggle) {
@@ -1344,7 +1344,7 @@ bool TogglePlayerSpectating(int playerid, bool toggle) {
 		playerid,
 		toggle
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool PlayerSpectatePlayer(int playerid, int targetplayerid, int mode) {
@@ -1355,7 +1355,7 @@ bool PlayerSpectatePlayer(int playerid, int targetplayerid, int mode) {
 		targetplayerid,
 		mode
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode) {
@@ -1366,7 +1366,7 @@ bool PlayerSpectateVehicle(int playerid, int targetvehicleid, int mode) {
 		targetvehicleid,
 		mode
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool StartRecordingPlayerData(int playerid, int recordtype, const char *recordname) {
@@ -1378,7 +1378,7 @@ bool StartRecordingPlayerData(int playerid, int recordtype, const char *recordna
 		recordtype,
 		recordname_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 bool StopRecordingPlayerData(int playerid) {
@@ -1387,7 +1387,7 @@ bool StopRecordingPlayerData(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 } // namespace sampgdk
