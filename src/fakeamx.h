@@ -12,18 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FAKEAMX_H
-#define FAKEAMX_H
+#ifndef SAMPGDK_FAKEAMX_H
+#define SAMPGDK_FAKEAMX_H
 
 #include <cstddef>
 
 #include <sampgdk.h>
 
-class FakeAmxHeap;
+namespace sampgdk {
 
 class FakeAmx {
 public:
-	static const size_t INIT_HEAP_CAPACITY = 1024;
+	static const size_t INITIAL_HEAP_SIZE = 1024;
 
 	FakeAmx();
 	~FakeAmx();
@@ -31,7 +31,6 @@ public:
 	static FakeAmx &GetInstance();
 
 	AMX *amx() const;
-	FakeAmxHeap &heap() const;
 
 	cell Push(size_t cells);
 	cell Push(const char *s);
@@ -72,5 +71,7 @@ private:
 	cell address_;
 };
 
-#endif
+} // namespace sampgdk
+
+#endif // !SAMPGDK_FAKEAMX
 
