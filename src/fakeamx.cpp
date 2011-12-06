@@ -20,9 +20,11 @@
 
 #include "fakeamx.h"
 
+namespace sampgdk {
+
 FakeAmx::FakeAmx() 
-	: heap_(new cell[INIT_HEAP_CAPACITY])
-	, heapSize_(INIT_HEAP_CAPACITY)
+	: heap_(new cell[INITIAL_HEAP_SIZE])
+	, heapSize_(INITIAL_HEAP_SIZE)
 {
 	std::memset(&hdr_, 0, sizeof(hdr_));
 	std::memset(&amx_, 0, sizeof(amx_));
@@ -126,3 +128,5 @@ float FakeAmxHeapObject::GetAsFloat() const {
 void FakeAmxHeapObject::GetAsString(char *s, size_t size) const {
 	FakeAmx::GetInstance().Get(address_, s, size);
 }
+
+} // namespace sampgdk
