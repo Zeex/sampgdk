@@ -48,7 +48,11 @@ JumpX86::JumpX86()
 	, installed_(false)
 {}
 
-JumpX86::JumpX86(void *src, void *dst) {
+JumpX86::JumpX86(void *src, void *dst) 
+	: src_(0)
+	, dst_(0)
+	, installed_(false)
+{
 	Install(src, dst);
 }
 
