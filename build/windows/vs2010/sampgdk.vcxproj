@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{11A7CC21-55AF-AD49-955F-C68FAA8451A7}</ProjectGuid>
+		<ProjectGuid>{3BB3CA7F-402E-DE4F-85F2-1DF86307953A}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -113,6 +113,7 @@
 		<ClInclude Include="..\..\..\include\sampgdk\plugincommon.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\samp.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\vehicles.h" />
+		<ClInclude Include="..\..\..\include\sampgdk\version.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\wrapper.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\amx\amx.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\amx\getch.h" />

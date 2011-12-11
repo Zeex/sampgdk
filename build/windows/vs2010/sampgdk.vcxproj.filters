@@ -2,16 +2,16 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="src">
-			<UniqueIdentifier>{8EA53F97-98C7-E949-A6C3-7A4459B35434}</UniqueIdentifier>
+			<UniqueIdentifier>{84DE0437-3C7B-3442-8B29-A08C4F231B0A}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include">
-			<UniqueIdentifier>{BB44420B-E0A8-614B-BFE0-2567C471CC90}</UniqueIdentifier>
+			<UniqueIdentifier>{6878DE71-00C8-D041-AC2C-7A5A34BC4FEF}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{1F86DD9E-41F6-B14B-BA39-48FB96164C4F}</UniqueIdentifier>
+			<UniqueIdentifier>{2230DC13-EDFB-4847-9D5A-F44201F71E31}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{1209E79C-E8E3-4545-8F28-E6A7E7954EF4}</UniqueIdentifier>
+			<UniqueIdentifier>{66D6CCA4-AFD8-ED47-9EFB-D69DF279D93A}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
@@ -49,6 +49,9 @@
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\..\include\sampgdk\vehicles.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\version.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\..\include\sampgdk\wrapper.h">

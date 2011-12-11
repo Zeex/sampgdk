@@ -93,6 +93,8 @@
 		</Unit>
 		<Unit filename="../../../include/sampgdk/vehicles.h">
 		</Unit>
+		<Unit filename="../../../include/sampgdk/version.h">
+		</Unit>
 		<Unit filename="../../../include/sampgdk/wrapper.h">
 		</Unit>
 		<Unit filename="../../../include/sampgdk/amx/amx.h">
