@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <cstdio>
+#include <cstring>
 #include <string>
 
 #include <sampgdk.h>
