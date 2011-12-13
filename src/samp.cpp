@@ -27,7 +27,7 @@ bool SendClientMessage(int playerid, long color, const char *message) {
 		color,
 		message_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 void SendClientMessageToAll(long color, const char *message) {
@@ -38,7 +38,7 @@ void SendClientMessageToAll(long color, const char *message) {
 		color,
 		message_.address()
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 bool SendPlayerMessageToPlayer(int playerid, int senderid, const char *message) {
@@ -50,7 +50,7 @@ bool SendPlayerMessageToPlayer(int playerid, int senderid, const char *message) 
 		senderid,
 		message_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool SendPlayerMessageToAll(int senderid, const char *message) {
@@ -61,7 +61,7 @@ bool SendPlayerMessageToAll(int senderid, const char *message) {
 		senderid,
 		message_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool SendDeathMessage(int killer, int killee, int weapon) {
@@ -72,7 +72,7 @@ bool SendDeathMessage(int killer, int killee, int weapon) {
 		killee,
 		weapon
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GameTextForAll(const char *text, long time, int style) {
@@ -84,7 +84,7 @@ bool GameTextForAll(const char *text, long time, int style) {
 		time,
 		style
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GameTextForPlayer(int playerid, const char *text, long time, int style) {
@@ -97,17 +97,17 @@ bool GameTextForPlayer(int playerid, const char *text, long time, int style) {
 		time,
 		style
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 long GetTickCount() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetTickCount");
-	return FakeAmx::GetInstance().CallNative(native, 0);
+	return native(&::fakeAmx, 0);
 }
 
 int GetMaxPlayers() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetMaxPlayers");
-	return FakeAmx::GetInstance().CallNative(native, 0);
+	return native(&::fakeAmx, 0);
 }
 
 void SetGameModeText(const char *text) {
@@ -117,7 +117,7 @@ void SetGameModeText(const char *text) {
 		1 * 4, 
 		text_.address()
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void SetTeamCount(int count) {
@@ -126,7 +126,7 @@ void SetTeamCount(int count) {
 		1 * 4, 
 		count
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 int AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, 
@@ -147,7 +147,7 @@ int AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z,
 		weapon3,
 		weapon3_ammo
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 int AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
@@ -169,7 +169,7 @@ int AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, floa
 		weapon3,
 		weapon3_ammo
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 int AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, 
@@ -186,7 +186,7 @@ int AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z,
 		color1,
 		color2
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 int AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, 
@@ -204,7 +204,7 @@ int AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z,
 		color2,
 		respawn_delay
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 int AddStaticPickup(int model, int type, float x, float y, float z, long virtualworld) {
@@ -218,7 +218,7 @@ int AddStaticPickup(int model, int type, float x, float y, float z, long virtual
 		amx_ftoc(z),
 		virtualworld
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 int CreatePickup(int model, int type, float x, float y, float z, long virtualworld) {
@@ -232,7 +232,7 @@ int CreatePickup(int model, int type, float x, float y, float z, long virtualwor
 		amx_ftoc(z),
 		virtualworld
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool DestroyPickup(int pickup) {
@@ -241,7 +241,7 @@ bool DestroyPickup(int pickup) {
 		1 * 4,
 		pickup
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 void ShowNameTags(int show) {
@@ -250,7 +250,7 @@ void ShowNameTags(int show) {
 		1 * 4,
 		show
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void ShowPlayerMarkers(int mode) {
@@ -259,12 +259,12 @@ void ShowPlayerMarkers(int mode) {
 		1 * 4,
 		mode
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void GameModeExit() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GameModeExit");
-	FakeAmx::GetInstance().CallNative(native, 0);
+	native(&::fakeAmx, 0);
 }
 
 bool SetWorldTime(int hour) {
@@ -273,7 +273,7 @@ bool SetWorldTime(int hour) {
 		1 * 4,
 		hour
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetWeaponName(int weaponid, char *name, size_t size) {
@@ -285,7 +285,7 @@ bool GetWeaponName(int weaponid, char *name, size_t size) {
 		name_.address(),
 		size
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	name_.GetAsString(name, size);
 	return ret;
 }
@@ -296,7 +296,7 @@ void EnableTirePopping(bool enable) {
 		1 * 4,
 		enable
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void AllowInteriorWeapons(bool allow) {
@@ -305,7 +305,7 @@ void AllowInteriorWeapons(bool allow) {
 		1 * 4,
 		allow
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void SetWeather(int weatherid) {
@@ -314,7 +314,7 @@ void SetWeather(int weatherid) {
 		1 * 4,
 		weatherid
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void SetGravity(float gravity) {
@@ -323,7 +323,7 @@ void SetGravity(float gravity) {
 		1 * 4,
 		amx_ftoc(gravity)
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void AllowAdminTeleport(bool allow) {
@@ -332,7 +332,7 @@ void AllowAdminTeleport(bool allow) {
 		1 * 4,
 		allow
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void SetDeathDropAmount(long amount) {
@@ -341,7 +341,7 @@ void SetDeathDropAmount(long amount) {
 		1 * 4,
 		amount
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void CreateExplosion(float x, float y, float z, short type, float radius) {
@@ -354,7 +354,7 @@ void CreateExplosion(float x, float y, float z, short type, float radius) {
 		type,
 		amx_ftoc(radius)
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void EnableZoneNames(bool enable) {
@@ -363,17 +363,17 @@ void EnableZoneNames(bool enable) {
 		1 * 4,
 		enable
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void UsePlayerPedAnims() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("UsePlayerPedAnims");
-	FakeAmx::GetInstance().CallNative(native, 0);
+	native(&::fakeAmx, 0);
 }
 
 void DisableInteriorEnterExits() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DisableInteriorEnterExits");
-	FakeAmx::GetInstance().CallNative(native, 0);
+	native(&::fakeAmx, 0);
 }
 
 void SetNameTagDrawDistance(float distance) {
@@ -382,12 +382,12 @@ void SetNameTagDrawDistance(float distance) {
 		1 * 4,
 		amx_ftoc(distance)
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void DisableNameTagLOS() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DisableNameTagLOS");
-	FakeAmx::GetInstance().CallNative(native, 0);
+	native(&::fakeAmx, 0);
 }
 
 void LimitGlobalChatRadius(float chat_radius) {
@@ -396,7 +396,7 @@ void LimitGlobalChatRadius(float chat_radius) {
 		1 * 4,
 		amx_ftoc(chat_radius)
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void LimitPlayerMarkerRadius(float marker_radius) {
@@ -405,7 +405,7 @@ void LimitPlayerMarkerRadius(float marker_radius) {
 		1 * 4,
 		amx_ftoc(marker_radius)
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 bool ConnectNPC(const char *name, const char *script) {
@@ -417,7 +417,7 @@ bool ConnectNPC(const char *name, const char *script) {
 		name_.address(),
 		script_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerNPC(int playerid) {
@@ -426,7 +426,7 @@ bool IsPlayerNPC(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool IsPlayerAdmin(int playerid) {
@@ -435,7 +435,7 @@ bool IsPlayerAdmin(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool Kick(int playerid) {
@@ -444,7 +444,7 @@ bool Kick(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool Ban(int playerid) {
@@ -453,7 +453,7 @@ bool Ban(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool BanEx(int playerid, const char *reason) {
@@ -464,7 +464,7 @@ bool BanEx(int playerid, const char *reason) {
 		playerid,
 		reason_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 void SendRconCommand(const char *command) {
@@ -474,7 +474,7 @@ void SendRconCommand(const char *command) {
 		1 * 4,
 		command_.address(),
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 bool GetServerVarAsString(const char *varname, char *value, size_t size) {
@@ -487,7 +487,7 @@ bool GetServerVarAsString(const char *varname, char *value, size_t size) {
 		value_.address(),
 		size
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	value_.GetAsString(value, size);
 	return ret;
 }
@@ -499,7 +499,7 @@ int GetServerVarAsInt(const char *varname) {
 		1 * 4,
 		varname_.address(),
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool GetServerVarAsBool(const char *varname) {
@@ -509,7 +509,7 @@ bool GetServerVarAsBool(const char *varname) {
 		1 * 4,
 		varname_.address(),
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetPlayerNetworkStats(int playerid, char *retstr, size_t size) {
@@ -521,7 +521,7 @@ bool GetPlayerNetworkStats(int playerid, char *retstr, size_t size) {
 		retstr_.address(),
 		size
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	retstr_.GetAsString(retstr, size);
 	return ret;
 }
@@ -538,7 +538,7 @@ bool GetNetworkStats(char *retstr, size_t size) {
 		retstr_.address(),
 		size
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	retstr_.GetAsString(retstr, size);
 	return ret;
 }
@@ -559,7 +559,7 @@ int CreateMenu(const char *title, int columns, float x, float y, float col1width
 		amx_ftoc(col1width),
 		amx_ftoc(col2width)
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool DestroyMenu(int menuid) {
@@ -568,7 +568,7 @@ bool DestroyMenu(int menuid) {
 		1 * 4,
 		menuid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 int AddMenuItem(int menuid, int column, const char *menutext) {
@@ -580,7 +580,7 @@ int AddMenuItem(int menuid, int column, const char *menutext) {
 		column,
 		menutext_.address()
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool SetMenuColumnHeader(int menuid, int column, const char *columnheader) {
@@ -592,7 +592,7 @@ bool SetMenuColumnHeader(int menuid, int column, const char *columnheader) {
 		column,
 		columnheader_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool ShowMenuForPlayer(int menuid, int playerid) {
@@ -602,7 +602,7 @@ bool ShowMenuForPlayer(int menuid, int playerid) {
 		menuid,
 		playerid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool HideMenuForPlayer(int menuid, int playerid) {
@@ -612,7 +612,7 @@ bool HideMenuForPlayer(int menuid, int playerid) {
 		menuid,
 		playerid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool IsValidMenu(int menuid) {
@@ -621,7 +621,7 @@ bool IsValidMenu(int menuid) {
 		1 * 4,
 		menuid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool DisableMenu(int menuid) {
@@ -630,7 +630,7 @@ bool DisableMenu(int menuid) {
 		1 * 4,
 		menuid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool DisableMenuRow(int menuid, int row) {
@@ -640,7 +640,7 @@ bool DisableMenuRow(int menuid, int row) {
 		menuid,
 		row
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 int GetPlayerMenu(int playerid) {
@@ -649,7 +649,7 @@ int GetPlayerMenu(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 int TextDrawCreate(float x, float y, const char *text) {
@@ -661,7 +661,7 @@ int TextDrawCreate(float x, float y, const char *text) {
 		amx_ftoc(y),
 		text_.address()
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool TextDrawDestroy(int text) {
@@ -670,7 +670,7 @@ bool TextDrawDestroy(int text) {
 		1 * 4,
 		text
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawLetterSize(int text, float x, float y) {
@@ -681,7 +681,7 @@ bool TextDrawLetterSize(int text, float x, float y) {
 		amx_ftoc(x),
 		amx_ftoc(y)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawTextSize(int text, float x, float y) {
@@ -692,7 +692,7 @@ bool TextDrawTextSize(int text, float x, float y) {
 		amx_ftoc(x),
 		amx_ftoc(y)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawAlignment(int text, int alignment) {
@@ -702,7 +702,7 @@ bool TextDrawAlignment(int text, int alignment) {
 		text,
 		alignment
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawColor(int text, long color) {
@@ -712,7 +712,7 @@ bool TextDrawColor(int text, long color) {
 		text,
 		color
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawUseBox(int text, bool use) {
@@ -722,7 +722,7 @@ bool TextDrawUseBox(int text, bool use) {
 		text,
 		use
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawBoxColor(int text, long color) {
@@ -732,7 +732,7 @@ bool TextDrawBoxColor(int text, long color) {
 		text,
 		color
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawSetShadow(int text, int size) {
@@ -742,7 +742,7 @@ bool TextDrawSetShadow(int text, int size) {
 		text,
 		size
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawSetOutline(int text, int size) {
@@ -752,7 +752,7 @@ bool TextDrawSetOutline(int text, int size) {
 		text,
 		size
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawBackgroundColor(int text, long color) {
@@ -762,7 +762,7 @@ bool TextDrawBackgroundColor(int text, long color) {
 		text,
 		color
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawFont(int text, int font) {
@@ -772,7 +772,7 @@ bool TextDrawFont(int text, int font) {
 		text,
 		font
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawSetProportional(int text, bool set) {
@@ -782,7 +782,7 @@ bool TextDrawSetProportional(int text, bool set) {
 		text,
 		set
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawShowForPlayer(int playerid, int text) {
@@ -792,7 +792,7 @@ bool TextDrawShowForPlayer(int playerid, int text) {
 		text,
 		text
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawHideForPlayer(int playerid, int text) {
@@ -802,7 +802,7 @@ bool TextDrawHideForPlayer(int playerid, int text) {
 		playerid,
 		text
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawShowForAll(int text) {
@@ -811,7 +811,7 @@ bool TextDrawShowForAll(int text) {
 		1 * 4,
 		text
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawHideForAll(int text) {
@@ -820,7 +820,7 @@ bool TextDrawHideForAll(int text) {
 		1 * 4,
 		text
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool TextDrawSetString(int text, const char *string) {
@@ -831,7 +831,7 @@ bool TextDrawSetString(int text, const char *string) {
 		text,
 		string_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 int GangZoneCreate(float minx, float miny, float maxx, float maxy) {
@@ -843,7 +843,7 @@ int GangZoneCreate(float minx, float miny, float maxx, float maxy) {
 		amx_ftoc(maxx),
 		amx_ftoc(maxy)
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool GangZoneDestroy(int zone) {
@@ -852,7 +852,7 @@ bool GangZoneDestroy(int zone) {
 		1 * 4,
 		zone
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneShowForPlayer(int playerid, int zone, long color) {
@@ -863,7 +863,7 @@ bool GangZoneShowForPlayer(int playerid, int zone, long color) {
 		zone,
 		color
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneShowForAll(int zone, long color) {
@@ -873,7 +873,7 @@ bool GangZoneShowForAll(int zone, long color) {
 		zone,
 		color
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneHideForPlayer(int playerid, int zone) {
@@ -883,7 +883,7 @@ bool GangZoneHideForPlayer(int playerid, int zone) {
 		playerid,
 		zone
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneHideForAll(int zone) {
@@ -892,7 +892,7 @@ bool GangZoneHideForAll(int zone) {
 		1 * 4,
 		zone
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneFlashForPlayer(int playerid, int zone, long flashcolor) {
@@ -903,7 +903,7 @@ bool GangZoneFlashForPlayer(int playerid, int zone, long flashcolor) {
 		zone,
 		flashcolor
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneFlashForAll(int zone, long flashcolor) {
@@ -913,7 +913,7 @@ bool GangZoneFlashForAll(int zone, long flashcolor) {
 		zone,
 		flashcolor
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneStopFlashForPlayer(int playerid, int zone) {
@@ -923,7 +923,7 @@ bool GangZoneStopFlashForPlayer(int playerid, int zone) {
 		playerid,
 		zone
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GangZoneStopFlashForAll(int zone) {
@@ -932,7 +932,7 @@ bool GangZoneStopFlashForAll(int zone) {
 		1 * 4,
 		zone
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 int Create3DTextLabel(const char *text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS) {
@@ -949,7 +949,7 @@ int Create3DTextLabel(const char *text, long color, float x, float y, float z, f
 		virtualworld,
 		testLOS
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool Delete3DTextLabel(int id) {
@@ -958,7 +958,7 @@ bool Delete3DTextLabel(int id) {
 		1 * 4,
 		id
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ) {
@@ -971,7 +971,7 @@ bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float Offset
 		amx_ftoc(OffsetY),
 		amx_ftoc(OffsetZ)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ) {
@@ -984,7 +984,7 @@ bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float Offs
 		amx_ftoc(OffsetY),
 		amx_ftoc(OffsetZ)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool Update3DTextLabelText(int id, long color, const char *text) {
@@ -996,7 +996,7 @@ bool Update3DTextLabelText(int id, long color, const char *text) {
 		color,
 		text_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 int CreatePlayer3DTextLabel(int playerid, const char *text, long color, float x, float y, float z, float DrawDistance, int attachedplayer, int attachedvehicle, bool testLOS) {
@@ -1015,7 +1015,7 @@ int CreatePlayer3DTextLabel(int playerid, const char *text, long color, float x,
 		attachedvehicle,
 		testLOS
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool DeletePlayer3DTextLabel(int playerid, int id) {
@@ -1025,7 +1025,7 @@ bool DeletePlayer3DTextLabel(int playerid, int id) {
 		playerid,
 		id
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const char *text) {
@@ -1038,7 +1038,7 @@ bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const char *t
 		color,
 		text_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, 
@@ -1059,7 +1059,7 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption
 		button1_.address(),
 		button2_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 } // namespace sampgdk
