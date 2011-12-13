@@ -44,12 +44,12 @@ public:
 	bool CallBooleanNative(AMX_NATIVE native, cell *params);
 
 private:
-	void ResizeHeap(size_t newSize);
+	void ResizeHeap(std::size_t newSize);
 
 	AMX amx_;
 	AMX_HEADER hdr_;
 	cell *heap_;
-	cell heapSize_;
+	std::size_t heapSize_;
 };
 
 class FakeAmxHeapObject {
