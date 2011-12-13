@@ -33,7 +33,7 @@ int CreateVehicle(int vehicletype, float x, float y, float z, float rotation,
 		color2,
 		respawn_delay
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool DestroyVehicle(int vehicleid) {
@@ -42,7 +42,7 @@ bool DestroyVehicle(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool IsVehicleStreamedIn(int vehicleid, int forplayerid) {
@@ -52,7 +52,7 @@ bool IsVehicleStreamedIn(int vehicleid, int forplayerid) {
 		vehicleid,
 		forplayerid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetVehiclePos(int vehicleid, float &x, float &y, float &z) {
@@ -67,7 +67,7 @@ bool GetVehiclePos(int vehicleid, float &x, float &y, float &z) {
 		y_.address(),
 		z_.address()
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -83,7 +83,7 @@ bool SetVehiclePos(int vehicleid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetVehicleZAngle(int vehicleid, float &z_angle) {
@@ -94,7 +94,7 @@ bool GetVehicleZAngle(int vehicleid, float &z_angle) {
 		vehicleid,
 		z_angle_.address()
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	z_angle = z_angle_.GetAsFloat();
 	return ret;
 
@@ -114,7 +114,7 @@ bool GetVehicleRotationQuat(int vehicleid, float &w, float &x, float &y, float &
 		y_.address(),
 		z_.address()
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	w = w_.GetAsFloat();
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
@@ -131,7 +131,7 @@ float GetVehicleDistanceFromPoint(int vehicleid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	cell ret = FakeAmx::GetInstance().CallNative(native, params);
+	cell ret = native(&::fakeAmx, params);
 	return amx_ctof(ret);
 }
 
@@ -143,7 +143,7 @@ bool SetVehicleZAngle(int vehicleid, float z_angle) {
 		vehicleid,
 		amx_ftoc(z_angle)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked) {
@@ -155,12 +155,12 @@ bool SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool
 		objective,
 		doorslocked
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 void ManualVehicleEngineAndLights() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ManualVehicleEngineAndLights");
-	FakeAmx::GetInstance().CallNative(native, 0);
+	native(&::fakeAmx, 0);
 }
 
 bool SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, bool doors, 
@@ -178,7 +178,7 @@ bool SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, boo
 		boot,
 		objective
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetVehicleParamsEx(int vehicleid, bool &engine, bool &lights, bool &alarm, bool &doors, 
@@ -203,7 +203,7 @@ bool GetVehicleParamsEx(int vehicleid, bool &engine, bool &lights, bool &alarm, 
 		boot_.address(),
 		objective_.address()
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	engine = engine_.Get() != 0;
 	lights = lights_.Get() != 0;
 	alarm  = alarm_.Get() != 0;
@@ -220,7 +220,7 @@ bool SetVehicleToRespawn(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool LinkVehicleToInterior(int vehicleid, int interiorid) {
@@ -230,7 +230,7 @@ bool LinkVehicleToInterior(int vehicleid, int interiorid) {
 		vehicleid,
 		interiorid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool AddVehicleComponent(int vehicleid, int componentid) {
@@ -240,7 +240,7 @@ bool AddVehicleComponent(int vehicleid, int componentid) {
 		vehicleid,
 		componentid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool RemoveVehicleComponent(int vehicleid, int componentid) {
@@ -250,7 +250,7 @@ bool RemoveVehicleComponent(int vehicleid, int componentid) {
 		vehicleid,
 		componentid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool ChangeVehicleColor(int vehicleid, int color1, int color2) {
@@ -261,7 +261,7 @@ bool ChangeVehicleColor(int vehicleid, int color1, int color2) {
 		color1,
 		color2
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool ChangeVehiclePaintjob(int vehicleid, int paintjobid) {
@@ -271,7 +271,7 @@ bool ChangeVehiclePaintjob(int vehicleid, int paintjobid) {
 		vehicleid,
 		paintjobid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool SetVehicleHealth(int vehicleid, float health) {
@@ -281,7 +281,7 @@ bool SetVehicleHealth(int vehicleid, float health) {
 		vehicleid,
 		amx_ftoc(health)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetVehicleHealth(int vehicleid, float &health) {
@@ -292,7 +292,7 @@ bool GetVehicleHealth(int vehicleid, float &health) {
 		vehicleid,
 		health_.address()
 	};
-	bool ret =FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret =native(&::fakeAmx, params) != 0;
 	health = health_.GetAsFloat();
 	return ret;
 }
@@ -304,7 +304,7 @@ void AttachTrailerToVehicle(int trailerid, int vehicleid) {
 		trailerid,
 		vehicleid
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 void DetachTrailerFromVehicle(int vehicleid) {
@@ -313,7 +313,7 @@ void DetachTrailerFromVehicle(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	FakeAmx::GetInstance().CallNative(native, params);
+	native(&::fakeAmx, params);
 }
 
 bool IsTrailerAttachedToVehicle(int vehicleid) {
@@ -322,7 +322,7 @@ bool IsTrailerAttachedToVehicle(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 int GetVehicleTrailer(int vehicleid) {
@@ -331,7 +331,7 @@ int GetVehicleTrailer(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool SetVehicleNumberPlate(int vehicleid, const char *numberplate) {
@@ -342,7 +342,7 @@ bool SetVehicleNumberPlate(int vehicleid, const char *numberplate) {
 		vehicleid,
 		numberplate_.address()
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 int GetVehicleModel(int vehicleid) {
@@ -351,7 +351,7 @@ int GetVehicleModel(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 int GetVehicleComponentInSlot(int vehicleid, int slot) {
@@ -361,7 +361,7 @@ int GetVehicleComponentInSlot(int vehicleid, int slot) {
 		vehicleid,
 		slot
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 int GetVehicleComponentType(int component) {
@@ -370,7 +370,7 @@ int GetVehicleComponentType(int component) {
 		1 * 4,
 		component
 	};
-	return FakeAmx::GetInstance().CallNative(native, params);
+	return native(&::fakeAmx, params);
 }
 
 bool RepairVehicle(int vehicleid) {
@@ -379,7 +379,7 @@ bool RepairVehicle(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetVehicleVelocity(int vehicleid, float &x, float &y, float &z) {
@@ -394,7 +394,7 @@ bool GetVehicleVelocity(int vehicleid, float &x, float &y, float &z) {
 		y_.address(),
 		z_.address()
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	x = x_.GetAsFloat();
 	y = y_.GetAsFloat();
 	z = z_.GetAsFloat();
@@ -410,7 +410,7 @@ bool SetVehicleVelocity(int vehicleid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool SetVehicleAngularVelocity(int vehicleid, float x, float y, float z) {
@@ -422,7 +422,7 @@ bool SetVehicleAngularVelocity(int vehicleid, float x, float y, float z) {
 		amx_ftoc(y),
 		amx_ftoc(z)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetVehicleDamageStatus(int vehicleid, long &panels, long &doors, long &lights, long &tires) {
@@ -439,7 +439,7 @@ bool GetVehicleDamageStatus(int vehicleid, long &panels, long &doors, long &ligh
 		lights_.address(),
 		tires_.address()
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	panels = panels_.Get();
 	doors  = doors_.Get();
 	lights = lights_.Get();
@@ -457,7 +457,7 @@ bool UpdateVehicleDamageStatus(int vehicleid, long panels, long doors, long ligh
 		amx_ftoc(lights),
 		amx_ftoc(tires)
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool SetVehicleVirtualWorld(int vehicleid, int worldid) {
@@ -467,7 +467,7 @@ bool SetVehicleVirtualWorld(int vehicleid, int worldid) {
 		vehicleid,
 		worldid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 bool GetVehicleVirtualWorld(int vehicleid) {
@@ -476,7 +476,7 @@ bool GetVehicleVirtualWorld(int vehicleid) {
 		1 * 4,
 		vehicleid
 	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+	return native(&::fakeAmx, params) != 0;
 }
 
 } // namespace sampgdk
