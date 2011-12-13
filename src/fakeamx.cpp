@@ -93,7 +93,7 @@ bool FakeAmx::CallBooleanNative(AMX_NATIVE native, cell *params) {
 void FakeAmx::ResizeHeap(std::size_t newSize) {	
 	cell *newHeap = new cell[newSize];	
 	if (newHeap != 0) {
-		std::memcpy(heap_, newHeap, heapSize_);
+		std::memcpy(newHeap, heap_, heapSize_);
 		delete[] heap_;
 		heap_ = newHeap;
 		heapSize_ = newSize;
