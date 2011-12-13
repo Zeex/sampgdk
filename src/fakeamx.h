@@ -25,7 +25,6 @@ class FakeAmx {
 public:
 	static const size_t INITIAL_HEAP_SIZE = 1024;
 
-	FakeAmx();
 	~FakeAmx();
 
 	static FakeAmx &GetInstance();
@@ -44,6 +43,9 @@ public:
 	bool CallBooleanNative(AMX_NATIVE native, cell *params);
 
 private:
+	FakeAmx();
+	FakeAmx(const FakeAmx &rhs);
+
 	void ResizeHeap(std::size_t newSize);
 
 	AMX amx_;
