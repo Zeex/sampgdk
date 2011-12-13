@@ -27,7 +27,7 @@ bool gpci(int playerid, char *buffer, std::size_t size) {
 		buffer_.address(),
 		size
 	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	bool ret = native(&::fakeAmx, params) != 0;
 	buffer_.GetAsString(buffer, size);
 	return ret;
 }
