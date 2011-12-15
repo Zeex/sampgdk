@@ -789,7 +789,7 @@ bool TextDrawShowForPlayer(int playerid, int text) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawShowForPlayer");
 	cell params[] = {
 		2 * 4,
-		text,
+		playerid,
 		text
 	};
 	return native(&::fakeAmx, params) != 0;
