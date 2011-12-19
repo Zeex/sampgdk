@@ -15,6 +15,10 @@
 #ifndef JUMP_X86_H
 #define JUMP_X86_H
 
+#if !defined _M_IX86 && !defined __i386__
+	#error "Unsupported architecture"
+#endif
+
 class JumpX86 {
 public:
 	static const int kJmpInstrSize = 5;
