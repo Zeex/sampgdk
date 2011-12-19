@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="helloworld"
-	ProjectGUID="{7A0241C1-7599-B949-9E53-67791E1D5B14}"
+	ProjectGUID="{FB29FE67-BD17-4147-935F-4B7CA8050610}"
 	RootNamespace="helloworld"
 	Keyword="Win32Proj"
 	>
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\sampgdk"
+				AdditionalIncludeDirectories="..\..\..\lib;..\..\..\lib\amx;..\..\..\include"
 				PreprocessorDefinitions="WIN32;_WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -58,7 +58,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WIN32"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\sampgdk"
+				AdditionalIncludeDirectories="..\..\..\lib;..\..\..\lib\amx;..\..\..\include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -127,7 +127,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\sampgdk"
+				AdditionalIncludeDirectories="..\..\..\lib;..\..\..\lib\amx;..\..\..\include"
 				PreprocessorDefinitions="WIN32;_WIN32"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -144,7 +144,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="WIN32;_WIN32"
-				AdditionalIncludeDirectories="..\..\..\include;..\..\..\include\sampgdk"
+				AdditionalIncludeDirectories="..\..\..\lib;..\..\..\lib\amx;..\..\..\include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"

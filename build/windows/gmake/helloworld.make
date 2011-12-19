@@ -24,7 +24,7 @@ ifeq ($(config),debug32)
   TARGETDIR  = ../../../bin/Debug
   TARGET     = $(TARGETDIR)/helloworld.dll
   DEFINES   += -DWIN32 -D_WIN32
-  INCLUDES  += -I../../../include -I../../../include/sampgdk
+  INCLUDES  += -I../../../lib -I../../../lib/amx -I../../../include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
   CXXFLAGS  += $(CFLAGS) 
@@ -46,7 +46,7 @@ ifeq ($(config),release32)
   TARGETDIR  = ../../../bin/Release
   TARGET     = $(TARGETDIR)/helloworld.dll
   DEFINES   += -DWIN32 -D_WIN32
-  INCLUDES  += -I../../../include -I../../../include/sampgdk
+  INCLUDES  += -I../../../lib -I../../../lib/amx -I../../../include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
   CXXFLAGS  += $(CFLAGS) 

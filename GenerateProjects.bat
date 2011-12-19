@@ -9,3 +9,4 @@ echo Generating Visual Studio 2008 project
 premake4 vs2008 
 echo Generating Visual Studio 2010 project
 premake4 vs2010
+pause

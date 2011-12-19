@@ -24,7 +24,7 @@ ifeq ($(config),debug32)
   TARGETDIR  = ../../../bin/Debug
   TARGET     = $(TARGETDIR)/libsampgdk.a
   DEFINES   += -DWIN32 -D_WIN32 -DAMX_NODYNLOAD
-  INCLUDES  += -I../../../include -I../../../include/sampgdk
+  INCLUDES  += -I../../../lib -I../../../lib/amx -I../../../include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -Wall -g -m32
   CXXFLAGS  += $(CFLAGS) 
@@ -46,7 +46,7 @@ ifeq ($(config),release32)
   TARGETDIR  = ../../../bin/Release
   TARGET     = $(TARGETDIR)/libsampgdk.a
   DEFINES   += -DWIN32 -D_WIN32 -DAMX_NODYNLOAD
-  INCLUDES  += -I../../../include -I../../../include/sampgdk
+  INCLUDES  += -I../../../lib -I../../../lib/amx -I../../../include
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -m32
   CXXFLAGS  += $(CFLAGS) 
@@ -135,7 +135,7 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/amxplugin.o: ../../../src/amxplugin.cpp
+$(OBJDIR)/amxplugin.o: ../../../lib/amxplugin.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/callbacks.o: ../../../src/callbacks.cpp

@@ -18,8 +18,9 @@
 					<Add option="-DWIN32" />
 					<Add option="-D_WIN32" />
 					<Add option="-DAMX_NODYNLOAD" />
+					<Add directory="../../../lib" />
+					<Add directory="../../../lib/amx" />
 					<Add directory="../../../include" />
-					<Add directory="../../../include/sampgdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -37,8 +38,9 @@
 					<Add option="-DWIN32" />
 					<Add option="-D_WIN32" />
 					<Add option="-DAMX_NODYNLOAD" />
+					<Add directory="../../../lib" />
+					<Add directory="../../../lib/amx" />
 					<Add directory="../../../include" />
-					<Add directory="../../../include/sampgdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -47,35 +49,17 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../../../src/amxplugin.cpp">
+		<Unit filename="../../../lib/amx/amx.h">
 		</Unit>
-		<Unit filename="../../../src/callbacks.cpp">
+		<Unit filename="../../../lib/amx/getch.h">
 		</Unit>
-		<Unit filename="../../../src/eventhandler.cpp">
+		<Unit filename="../../../lib/amx/sclinux.h">
 		</Unit>
-		<Unit filename="../../../src/fakeamx.cpp">
+		<Unit filename="../../../lib/amxplugin.cpp">
 		</Unit>
-		<Unit filename="../../../src/gpci.cpp">
+		<Unit filename="../../../lib/plugin.h">
 		</Unit>
-		<Unit filename="../../../src/jump-x86.cpp">
-		</Unit>
-		<Unit filename="../../../src/objects.cpp">
-		</Unit>
-		<Unit filename="../../../src/players.cpp">
-		</Unit>
-		<Unit filename="../../../src/samp.cpp">
-		</Unit>
-		<Unit filename="../../../src/vehicles.cpp">
-		</Unit>
-		<Unit filename="../../../src/wrapper.cpp">
-		</Unit>
-		<Unit filename="../../../src/callbacks.h">
-		</Unit>
-		<Unit filename="../../../src/fakeamx.h">
-		</Unit>
-		<Unit filename="../../../src/jump-x86.h">
-		</Unit>
-		<Unit filename="../../../include/sampgdk.h">
+		<Unit filename="../../../lib/plugincommon.h">
 		</Unit>
 		<Unit filename="../../../include/sampgdk/config.h">
 		</Unit>
@@ -87,8 +71,6 @@
 		</Unit>
 		<Unit filename="../../../include/sampgdk/players.h">
 		</Unit>
-		<Unit filename="../../../include/sampgdk/plugincommon.h">
-		</Unit>
 		<Unit filename="../../../include/sampgdk/samp.h">
 		</Unit>
 		<Unit filename="../../../include/sampgdk/vehicles.h">
@@ -97,11 +79,33 @@
 		</Unit>
 		<Unit filename="../../../include/sampgdk/wrapper.h">
 		</Unit>
-		<Unit filename="../../../include/sampgdk/amx/amx.h">
+		<Unit filename="../../../include/sampgdk.h">
 		</Unit>
-		<Unit filename="../../../include/sampgdk/amx/getch.h">
+		<Unit filename="../../../src/callbacks.cpp">
 		</Unit>
-		<Unit filename="../../../include/sampgdk/amx/sclinux.h">
+		<Unit filename="../../../src/callbacks.h">
+		</Unit>
+		<Unit filename="../../../src/eventhandler.cpp">
+		</Unit>
+		<Unit filename="../../../src/fakeamx.cpp">
+		</Unit>
+		<Unit filename="../../../src/fakeamx.h">
+		</Unit>
+		<Unit filename="../../../src/gpci.cpp">
+		</Unit>
+		<Unit filename="../../../src/jump-x86.cpp">
+		</Unit>
+		<Unit filename="../../../src/jump-x86.h">
+		</Unit>
+		<Unit filename="../../../src/objects.cpp">
+		</Unit>
+		<Unit filename="../../../src/players.cpp">
+		</Unit>
+		<Unit filename="../../../src/samp.cpp">
+		</Unit>
+		<Unit filename="../../../src/vehicles.cpp">
+		</Unit>
+		<Unit filename="../../../src/wrapper.cpp">
 		</Unit>
 		<Extensions />
 	</Project>

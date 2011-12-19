@@ -19,8 +19,9 @@
 					<Add option="-m32" />
 					<Add option="-DWIN32" />
 					<Add option="-D_WIN32" />
+					<Add directory="../../../lib" />
+					<Add directory="../../../lib/amx" />
 					<Add directory="../../../include" />
-					<Add directory="../../../include/sampgdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-shared" />
@@ -43,8 +44,9 @@
 					<Add option="-m32" />
 					<Add option="-DWIN32" />
 					<Add option="-D_WIN32" />
+					<Add directory="../../../lib" />
+					<Add directory="../../../lib/amx" />
 					<Add directory="../../../include" />
-					<Add directory="../../../include/sampgdk" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
