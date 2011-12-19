@@ -48,7 +48,6 @@ add_library(sampgdk STATIC
 	"include/sampgdk/vehicles.h"
 	"include/sampgdk/version.h"
 	"include/sampgdk/wrapper.h"
-	"include/sampgdk.h"
 	"src/callbacks.cpp"
 	"src/callbacks.h"
 	"src/eventhandler.cpp"

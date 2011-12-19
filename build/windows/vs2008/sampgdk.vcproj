@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sampgdk"
-	ProjectGUID="{174129AE-AD13-5440-B943-87ED9DF4D53E}"
+	ProjectGUID="{53FBEB4F-1FA4-F042-9A1C-4AC0D932610F}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -249,10 +249,6 @@
 					>
 				</File>
 			</Filter>
-			<File
-				RelativePath="..\..\..\include\sampgdk.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="src"

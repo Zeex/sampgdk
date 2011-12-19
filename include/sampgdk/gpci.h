@@ -15,6 +15,8 @@
 #ifndef SAMPGDK_GPCI_H
 #define SAMPGDK_GPCI_H
 
+#include <sampgdk/config.h>
+
 #include <cstddef>
 
 namespace sampgdk {

@@ -12,9 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string>
+#include <sampgdk/config.h>
+#include <sampgdk/eventhandler.h>
+#include <sampgdk/wrapper.h>
 
-#include <sampgdk.h>
+#include <string>
 
 using sampgdk::EventHandler;
 

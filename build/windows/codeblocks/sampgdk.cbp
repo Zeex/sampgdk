@@ -79,8 +79,6 @@
 		</Unit>
 		<Unit filename="../../../include/sampgdk/wrapper.h">
 		</Unit>
-		<Unit filename="../../../include/sampgdk.h">
-		</Unit>
 		<Unit filename="../../../src/callbacks.cpp">
 		</Unit>
 		<Unit filename="../../../src/callbacks.h">

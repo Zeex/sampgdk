@@ -15,9 +15,10 @@
 #ifndef SAMPGDK_FAKEAMX_H
 #define SAMPGDK_FAKEAMX_H
 
-#include <cstring>
+#include <sampgdk/config.h>
 
-#include <sampgdk.h>
+#include <cstring>
+#include <amx.h>
 
 extern AMX fakeAmx;
 

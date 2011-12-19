@@ -15,7 +15,7 @@
 #ifndef SAMPGDK_PLAYERS_H
 #define SAMPGDK_PLAYERS_H
 
-#include <sampgdk.h>
+#include <sampgdk/config.h>
 
 namespace sampgdk {
 

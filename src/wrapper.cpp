@@ -12,14 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstdio>
-#include <cstring>
-#include <string>
+#include <sampgdk/config.h>
+#include <sampgdk/wrapper.h>
 
-#include <sampgdk.h>
+#include <plugin.h>
 
 #include "callbacks.h"
 #include "jump-x86.h"
+
+#include <cstdio>
+#include <cstring>
+#include <string>
 
 extern void *pAMXFunctions;
 
