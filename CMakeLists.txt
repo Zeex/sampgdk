@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 project(sampgdk)
 
 include(CheckIncludeFile)
+
+include_directories("${sampgdk_SOURCE_DIR}/lib")
+include_directories("${sampgdk_SOURCE_DIR}/lib/amx")
 include_directories("${sampgdk_SOURCE_DIR}/include")
 
 function(check_include_and_define include_file define)
@@ -30,21 +33,22 @@ elseif(WIN32)
 endif()
 
 add_library(sampgdk STATIC
-	"include/sampgdk/amx/amx.h"
-	"include/sampgdk/amx/getch.h"
-	"include/sampgdk/amx/sclinux.h"
+	"lib/amx/amx.h"
+	"lib/amx/getch.h"
+	"lib/amx/sclinux.h"
+	"lib/amxplugin.cpp"
+	"lib/plugin.h"
+	"lib/plugincommon.h"
 	"include/sampgdk/config.h"
 	"include/sampgdk/eventhandler.h"
 	"include/sampgdk/gpci.h"
 	"include/sampgdk/objects.h"
 	"include/sampgdk/players.h"
-	"include/sampgdk/plugincommon.h"
 	"include/sampgdk/samp.h"
 	"include/sampgdk/vehicles.h"
 	"include/sampgdk/version.h"
 	"include/sampgdk/wrapper.h"
 	"include/sampgdk.h"
-	"src/amxplugin.cpp"
 	"src/callbacks.cpp"
 	"src/callbacks.h"
 	"src/eventhandler.cpp"
@@ -57,7 +61,8 @@ add_library(sampgdk STATIC
 	"src/players.cpp"
 	"src/samp.cpp"
 	"src/vehicles.cpp"
-	"src/wrapper.cpp")
+	"src/wrapper.cpp"
+)
 
 add_subdirectory(examples)
 
