@@ -16,19 +16,16 @@
 #define SAMPGDK_H
 
 #include <sampgdk/version.h>
-
 #include <sampgdk/config.h>
 
-#include <sampgdk/amx/amx.h>
-#include <sampgdk/plugincommon.h>
+#include <plugin.h>
 
 #include <sampgdk/eventhandler.h>
-#include <sampgdk/wrapper.h>
-
 #include <sampgdk/gpci.h>
 #include <sampgdk/objects.h>
 #include <sampgdk/players.h>
 #include <sampgdk/samp.h>
 #include <sampgdk/vehicles.h>
+#include <sampgdk/wrapper.h>
 
 #endif // !SAMPGDK_H

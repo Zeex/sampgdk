@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
-		<Filter Include="src">
-			<UniqueIdentifier>{84DE0437-3C7B-3442-8B29-A08C4F231B0A}</UniqueIdentifier>
+		<Filter Include="lib">
+			<UniqueIdentifier>{76C0FC11-B6F2-9946-AAF2-FAE76D1A430C}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="lib\amx">
+			<UniqueIdentifier>{E9011F12-4255-6C4B-B5A0-ABFCE179B50F}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include">
-			<UniqueIdentifier>{6878DE71-00C8-D041-AC2C-7A5A34BC4FEF}</UniqueIdentifier>
+			<UniqueIdentifier>{051AAEC7-BB10-6B42-9553-B23758D61479}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{2230DC13-EDFB-4847-9D5A-F44201F71E31}</UniqueIdentifier>
+			<UniqueIdentifier>{7A8034C3-252D-664E-894B-3DDE2182EF4E}</UniqueIdentifier>
 		</Filter>
-		<Filter Include="include\sampgdk\amx">
-			<UniqueIdentifier>{66D6CCA4-AFD8-ED47-9EFB-D69DF279D93A}</UniqueIdentifier>
+		<Filter Include="src">
+			<UniqueIdentifier>{D7902C40-4AA4-E941-BAAD-ED2508F044A4}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
-		<ClInclude Include="..\..\..\src\callbacks.h">
-			<Filter>src</Filter>
+		<ClInclude Include="..\..\..\lib\amx\amx.h">
+			<Filter>lib\amx</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\src\fakeamx.h">
-			<Filter>src</Filter>
+		<ClInclude Include="..\..\..\lib\amx\getch.h">
+			<Filter>lib\amx</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\src\jump-x86.h">
-			<Filter>src</Filter>
+		<ClInclude Include="..\..\..\lib\amx\sclinux.h">
+			<Filter>lib\amx</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\include\sampgdk.h">
-			<Filter>include</Filter>
+		<ClInclude Include="..\..\..\lib\plugin.h">
+			<Filter>lib</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\lib\plugincommon.h">
+			<Filter>lib</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\..\include\sampgdk\config.h">
 			<Filter>include\sampgdk</Filter>
@@ -42,9 +48,6 @@
 		<ClInclude Include="..\..\..\include\sampgdk\players.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\include\sampgdk\plugincommon.h">
-			<Filter>include\sampgdk</Filter>
-		</ClInclude>
 		<ClInclude Include="..\..\..\include\sampgdk\samp.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
@@ -57,19 +60,22 @@
 		<ClInclude Include="..\..\..\include\sampgdk\wrapper.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\include\sampgdk\amx\amx.h">
-			<Filter>include\sampgdk\amx</Filter>
+		<ClInclude Include="..\..\..\include\sampgdk.h">
+			<Filter>include</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\include\sampgdk\amx\getch.h">
-			<Filter>include\sampgdk\amx</Filter>
+		<ClInclude Include="..\..\..\src\callbacks.h">
+			<Filter>src</Filter>
 		</ClInclude>
-		<ClInclude Include="..\..\..\include\sampgdk\amx\sclinux.h">
-			<Filter>include\sampgdk\amx</Filter>
+		<ClInclude Include="..\..\..\src\fakeamx.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\src\jump-x86.h">
+			<Filter>src</Filter>
 		</ClInclude>
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="..\..\..\src\amxplugin.cpp">
-			<Filter>src</Filter>
+		<ClCompile Include="..\..\..\lib\amxplugin.cpp">
+			<Filter>lib</Filter>
 		</ClCompile>
 		<ClCompile Include="..\..\..\src\callbacks.cpp">
 			<Filter>src</Filter>

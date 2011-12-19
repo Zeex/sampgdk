@@ -12,8 +12,9 @@ solution "sampgdk"
 	platforms "x32"
 
 	includedirs {
-		"include",         -- public headers 
-		"include/sampgdk"  -- some files include "amx.h" directly
+		"lib",
+		"lib/amx",
+		"include" 
 	}
 
 	flags {
@@ -50,10 +51,35 @@ solution "sampgdk"
 			"AMX_NODYNLOAD"
 		}
 		files {
-			"src/**.c",
-			"src/**.cpp",
-			"src/**.h",
-			"include/**.h"
+			"lib/amx/amx.h",
+			"lib/amx/getch.h",
+			"lib/amx/sclinux.h",
+			"lib/amxplugin.cpp",
+			"lib/plugin.h",
+			"lib/plugincommon.h",
+			"include/sampgdk/config.h",
+			"include/sampgdk/eventhandler.h",
+			"include/sampgdk/gpci.h",
+			"include/sampgdk/objects.h",
+			"include/sampgdk/players.h",
+			"include/sampgdk/samp.h",
+			"include/sampgdk/vehicles.h",
+			"include/sampgdk/version.h",
+			"include/sampgdk/wrapper.h",
+			"include/sampgdk.h",
+			"src/callbacks.cpp",
+			"src/callbacks.h",
+			"src/eventhandler.cpp",
+			"src/fakeamx.cpp",
+			"src/fakeamx.h",
+			"src/gpci.cpp",
+			"src/jump-x86.cpp",
+			"src/jump-x86.h",
+			"src/objects.cpp",
+			"src/players.cpp",
+			"src/samp.cpp",
+			"src/vehicles.cpp",
+			"src/wrapper.cpp"
 		}
 
 	project "helloworld"
