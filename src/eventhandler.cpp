@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sampgdk.h>
+#include <sampgdk/config.h>
+#include <sampgdk/eventhandler.h>
 
 static sampgdk::EventHandler *&First() {
 	static sampgdk::EventHandler *first;

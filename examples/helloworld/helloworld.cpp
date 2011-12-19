@@ -1,6 +1,12 @@
 #include <cstdio> // for sprintf
 #include <string>
 
+#include <plugin.h>
+
+#include <sampgdk/samp.h>
+#include <sampgdk/players.h>
+#include <sampgdk/wrapper.h>
+
 #include "helloworld.h"
 
 typedef void (*logprintf_t)(const char *format, ...);

@@ -15,6 +15,8 @@
 #ifndef SAMPGDK_EVENTHANDLER_H
 #define SAMPGDK_EVENTHANDLER_H
 
+#include <sampgdk/config.h>
+
 #include <string>
 
 namespace sampgdk {

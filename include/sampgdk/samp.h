@@ -15,7 +15,7 @@
 #ifndef SAMPGDK_SAMP_H
 #define SAMPGDK_SAMP_H
 
-#include <sampgdk.h>
+#include <sampgdk/config.h>
 
 namespace sampgdk {
 

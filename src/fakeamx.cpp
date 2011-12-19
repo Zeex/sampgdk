@@ -12,10 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <sampgdk/config.h>
+
+#include "fakeamx.h"
+
 #include <cstring>
 #include <limits>
-
-#include <sampgdk.h>
+#include <amx.h>
 
 static cell fakeAmxData[4096];
 

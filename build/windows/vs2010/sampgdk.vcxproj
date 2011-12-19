@@ -11,7 +11,7 @@
 		</ProjectConfiguration>
 	</ItemGroup>
 	<PropertyGroup Label="Globals">
-		<ProjectGuid>{D8809DCF-4D96-0B4C-86A0-3F08B20BDA05}</ProjectGuid>
+		<ProjectGuid>{FBCE5329-DA04-7F43-98E8-600BE2844214}</ProjectGuid>
 		<RootNamespace>sampgdk</RootNamespace>
 		<Keyword>Win32Proj</Keyword>
 	</PropertyGroup>
@@ -115,7 +115,6 @@
 		<ClInclude Include="..\..\..\include\sampgdk\vehicles.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\version.h" />
 		<ClInclude Include="..\..\..\include\sampgdk\wrapper.h" />
-		<ClInclude Include="..\..\..\include\sampgdk.h" />
 		<ClInclude Include="..\..\..\src\callbacks.h" />
 		<ClInclude Include="..\..\..\src\fakeamx.h" />
 		<ClInclude Include="..\..\..\src\jump-x86.h" />

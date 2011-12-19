@@ -15,10 +15,12 @@
 #ifndef SAMPGDK_WRAPPER_H
 #define SAMPGDK_WRAPPER_H
 
+#include <sampgdk/config.h>
+
 #include <map>
 #include <string>
 
-#include <sampgdk.h>
+#include <amx.h>
 
 #define AMX_EXEC_GDK (-10)
 
