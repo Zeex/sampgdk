@@ -45,6 +45,7 @@ class Wrapper {
 public:
 	static Wrapper &GetInstance();
 	static void Initialize(void **ppPluginData);
+	static void Finalize();
 
 	void SetNative(const char *name, AMX_NATIVE native);
 	AMX_NATIVE GetNative(const char *name) const;

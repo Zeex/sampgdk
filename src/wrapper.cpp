@@ -13,12 +13,12 @@
 // limitations under the License.
 
 #include <sampgdk/config.h>
-#include <sampgdk/wrapper.h>
 
 #include <plugin.h>
 
 #include "callbacks.h"
 #include "jump-x86.h"
+#include "wrapper.h"
 
 #include <cstdio>
 #include <cstring>
@@ -160,6 +160,13 @@ void Wrapper::Initialize(void **ppPluginData) {
 		(void*)amx_CallbackHookProc);
 
 	SetupSampCallbackHooks();
+}
+
+void Wrapper::Finalize() {
+	amx_RegisterHook.Remove();
+	amx_FindPublicHook.Remove();
+	amx_ExecHook.Remove();
+	amx_CallbackHook.Remove();
 }
 
 void Wrapper::SetNative(const char *name, AMX_NATIVE native) {

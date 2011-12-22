@@ -14,9 +14,9 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/wrapper.h>
 
 #include "fakeamx.h"
+#include "wrapper.h"
 
 namespace sampgdk {
 

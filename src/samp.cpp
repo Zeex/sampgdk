@@ -14,9 +14,9 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/wrapper.h>
 
 #include "fakeamx.h"
+#include "wrapper.h"
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendClientMessage(int playerid, long color, const char *message) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SendClientMessage");

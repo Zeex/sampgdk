@@ -15,9 +15,9 @@
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
 #include <sampgdk/samp.h>
-#include <sampgdk/wrapper.h>
 
 #include "fakeamx.h"
+#include "wrapper.h"
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetSpawnInfo(int playerid, int team, int skin, float x, float y, float z, float rotation, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetSpawnInfo");
