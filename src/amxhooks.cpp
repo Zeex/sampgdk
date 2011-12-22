@@ -165,18 +165,30 @@ int AMXAPI AmxHooks::amx_Callback(AMX *amx, cell index, cell *result, cell *para
 }
 
 int AMXAPI AmxHooks::amx_Push(AMX *amx, cell value) {
+	amx_PushHook_.Remove();
+
 	int error = ::amx_Push(amx, value);
 	if (amx == gamemode_) {
 		CallbackManager::GetInstance().PushArg(value);
 	}
+
+	amx_PushHook_.Install();
+
 	return error;
 }
 
 int AMXAPI AmxHooks::amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, const char *string, int pack, int wchar) {
+	amx_PushHook_.Remove(); // PushString calls Push
+	amx_PushStringHook_.Remove();
+
 	int error = ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 	if (amx == gamemode_) {
 		CallbackManager::GetInstance().PushArg(*phys_addr);
 	}
+
+	amx_PushHook_.Install();
+	amx_PushStringHook_.Install();
+
 	return error;
 }
 
