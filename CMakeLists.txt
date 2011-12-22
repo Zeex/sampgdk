@@ -28,6 +28,7 @@ add_library(sampgdk SHARED
 	"lib/plugin.h"
 	"lib/plugincommon.h"
 	"include/sampgdk/config.h"
+	"include/sampgdk/core.h"
 	"include/sampgdk/eventhandler.h"
 	"include/sampgdk/export.h"
 	"include/sampgdk/gpci.h"
@@ -36,9 +37,9 @@ add_library(sampgdk SHARED
 	"include/sampgdk/samp.h"
 	"include/sampgdk/vehicles.h"
 	"include/sampgdk/version.h"
-	"include/sampgdk/wrapper.h"
 	"src/callbacks.cpp"
 	"src/callbacks.h"
+	"src/core.cpp"
 	"src/eventhandler.cpp"
 	"src/fakeamx.cpp"
 	"src/fakeamx.h"
@@ -49,6 +50,7 @@ add_library(sampgdk SHARED
 	"src/players.cpp"
 	"src/samp.cpp"
 	"src/vehicles.cpp"
+	"src/wrapper.h"
 	"src/wrapper.cpp"
 )
 

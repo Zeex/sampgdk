@@ -14,9 +14,9 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/wrapper.h>
 
 #include "fakeamx.h"
+#include "wrapper.h"
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreateObject");

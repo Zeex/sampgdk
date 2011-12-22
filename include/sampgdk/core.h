@@ -12,23 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef SAMPGDK_CORE_H
+#define SAMPGDK_CORE_H
+
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/gpci.h>
 
-#include "fakeamx.h"
-#include "wrapper.h"
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData);
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize();
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, std::size_t size) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("gpci");
-	FakeAmxHeapObject buffer_(size);
-	cell params[] = {
-		3 * 4,
-		playerid,
-		buffer_.address(),
-		size
-	};
-	bool ret = native(&::fakeAmx, params) != 0;
-	buffer_.GetAsString(buffer, size);
-	return ret;
-}
+// Runtime version query
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_major();
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_minor();
+SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version();
+
+#endif // SAMPGDK_CORE_H

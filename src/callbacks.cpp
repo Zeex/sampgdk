@@ -14,7 +14,8 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/eventhandler.h>
-#include <sampgdk/wrapper.h>
+
+#include "wrapper.h"
 
 #include <string>
 
