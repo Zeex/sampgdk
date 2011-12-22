@@ -21,6 +21,8 @@
 #include "jump-x86.h"
 #include "natives.h"
 
+#include <cstring>
+
 extern void *pAMXFunctions;
 
 // Gamemode's AMX
