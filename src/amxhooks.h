@@ -18,6 +18,7 @@
 #include <sampgdk/config.h>
 #include <sampgdk/amx/amx.h>
 
+#include <map>
 #include <string>
 
 #include "jump-x86.h"
@@ -35,6 +36,8 @@ public:
 	static int amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, const char *string, int pack, int wchar);
 
 private:
+	static void RegisterCallbacks();
+
 	// Gamemode's AMX
 	static AMX *gamemode_;
 
@@ -48,6 +51,9 @@ private:
 	static JumpX86 amx_CallbackHook_;
 	static JumpX86 amx_PushHook_;
 	static JumpX86 amx_PushStringHook_;
+
+	// Maps callback name to its 'bad' return value
+	static std::map<std::string, int> callbacks_;
 };
 
 #endif // !SAMPGDK_AMXHOOKS_H

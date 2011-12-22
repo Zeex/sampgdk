@@ -37,6 +37,8 @@ JumpX86 AmxHooks::amx_CallbackHook_;
 JumpX86 AmxHooks::amx_PushHook_;
 JumpX86 AmxHooks::amx_PushStringHook_;
 
+std::map<std::string, int> AmxHooks::callbacks_;
+
 static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	char *funcname;
 	amx_StrParam(amx, params[1], funcname);
@@ -48,10 +50,56 @@ static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	return index;
 }
 
+void AmxHooks::RegisterCallbacks() {
+	callbacks_["OnGameModeExit"] = 0;
+	callbacks_["OnPlayerConnect"] = 0;
+	callbacks_["OnPlayerDisconnect"] = 0;
+	callbacks_["OnPlayerSpawn"] = 0;
+	callbacks_["OnPlayerDeath"] = 0;
+	callbacks_["OnVehicleSpawn"] = 0;
+	callbacks_["OnVehicleDeath"] = 0;
+	callbacks_["OnPlayerText"] = 0;
+	callbacks_["OnPlayerCommandText"] = 1;
+	callbacks_["OnPlayerRequestClass"] = 0;
+	callbacks_["OnPlayerEnterVehicle"] = 0;
+	callbacks_["OnPlayerExitVehicle"] = 0;
+	callbacks_["OnPlayerStateChange"] = 0;
+	callbacks_["OnPlayerEnterCheckpoint"] = 0;
+	callbacks_["OnPlayerLeaveCheckpoint"] = 0;
+	callbacks_["OnPlayerEnterRaceCheckpoint"] = 0;
+	callbacks_["OnPlayerLeaveRaceCheckpoint"] = 0;
+	callbacks_["OnRconCommand"] = 1;
+	callbacks_["OnPlayerRequestSpawn"] = 0;
+	callbacks_["OnObjectMoved"] = 0;
+	callbacks_["OnPlayerObjectMoved"] = 0;
+	callbacks_["OnPlayerPickUpPickup"] = 0;
+	callbacks_["OnVehicleMod"] = 0;
+	callbacks_["OnEnterExitModShop"] = 0;
+	callbacks_["OnVehiclePaintjob"] = 0;
+	callbacks_["OnVehicleRespray"] = 0;
+	callbacks_["OnVehicleDamageStatusUpdate"] = 0;
+	callbacks_["OnUnoccupiedVehicleUpdate"] = 0;
+	callbacks_["OnPlayerSelectedMenuRow"] = 0;
+	callbacks_["OnPlayerExitedMenu"] = 0;
+	callbacks_["OnPlayerInteriorChange"] = 0;
+	callbacks_["OnPlayerKeyStateChange"] = 0;
+	callbacks_["OnRconLoginAttempt"] = 1;
+	callbacks_["OnPlayerUpdate"] = 0;
+	callbacks_["OnPlayerStreamIn"] = 0;
+	callbacks_["OnPlayerStreamOut"] = 0;
+	callbacks_["OnVehicleStreamIn"] = 0;
+	callbacks_["OnVehicleStreamOut"] = 0;
+	callbacks_["OnDialogResponse"] = 0;
+	callbacks_["OnPlayerClickPlayer"] = 0;
+	callbacks_["OnPlayerTakeDamage"] = 0;
+	callbacks_["OnPlayerGiveDamage"] = 0;
+	callbacks_["OnPlayerClickMap"] = 0;
+}
+
 void AmxHooks::Initialize(void **ppPluginData) {
 	pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
-	void **amxExports = static_cast<void**>(pAMXFunctions);
 
+	void **amxExports = static_cast<void**>(pAMXFunctions);
 	amx_RegisterHook_.Install(
 		amxExports[PLUGIN_AMX_EXPORT_Register],   
 		(void*)amx_Register);
@@ -70,6 +118,8 @@ void AmxHooks::Initialize(void **ppPluginData) {
 	amx_PushStringHook_.Install(
 		amxExports[PLUGIN_AMX_EXPORT_PushString],
 		(void*)amx_PushString);
+
+	RegisterCallbacks();
 }
 
 void AmxHooks::Finalize() {
@@ -122,10 +172,17 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode_ = amx;
-		CallbackManager::GetInstance().HandleCallback("OnGameModeInit");
+		CallbackManager::GetInstance().HandleCallback("OnGameModeInit", false);
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
-			canDoExec = CallbackManager::GetInstance().HandleCallback(currentPublic_.c_str());
+			std::map<std::string, int>::const_iterator iterator = callbacks_.find(currentPublic_.c_str());
+			if (iterator != callbacks_.end()) {
+				int badRetVal = iterator->second;
+				*retval = CallbackManager::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
+				if (*retval == badRetVal) {
+					canDoExec = false;
+				}
+			}
 		}
 	}
 
