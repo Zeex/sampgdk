@@ -27,7 +27,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendClientMessage(int playerid, long color, con
 		color,
 		message_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SendClientMessageToAll(long color, const char *message) {
@@ -38,7 +38,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SendClientMessageToAll(long color, const char *
 		color,
 		message_.address()
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToPlayer(int playerid, int senderid, const char *message) {
@@ -50,7 +50,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToPlayer(int playerid, int sen
 		senderid,
 		message_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToAll(int senderid, const char *message) {
@@ -61,7 +61,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToAll(int senderid, const char
 		senderid,
 		message_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendDeathMessage(int killer, int killee, int weapon) {
@@ -72,7 +72,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendDeathMessage(int killer, int killee, int we
 		killee,
 		weapon
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForAll(const char *text, long time, int style) {
@@ -84,7 +84,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForAll(const char *text, long time, int
 		time,
 		style
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForPlayer(int playerid, const char *text, long time, int style) {
@@ -97,17 +97,17 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForPlayer(int playerid, const char *tex
 		time,
 		style
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT long SAMPGDK_CALL GetTickCount() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetTickCount");
-	return native(&::fakeAmx, 0);
+	return FakeAmx::GetInstance().CallNative(native, 0);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetMaxPlayers() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetMaxPlayers");
-	return native(&::fakeAmx, 0);
+	return FakeAmx::GetInstance().CallNative(native, 0);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetGameModeText(const char *text) {
@@ -117,7 +117,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetGameModeText(const char *text) {
 		1 * 4, 
 		text_.address()
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetTeamCount(long count) {
@@ -126,7 +126,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetTeamCount(long count) {
 		1 * 4, 
 		count
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, 
@@ -147,7 +147,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClass(int modelid, float spawn_x, float
 		weapon3,
 		weapon3_ammo
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
@@ -169,7 +169,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClassEx(int teamid, int modelid, float 
 		weapon3,
 		weapon3_ammo
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, 
@@ -186,7 +186,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicle(int modelid, float spawn_x, flo
 		color1,
 		color2
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, 
@@ -204,7 +204,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicleEx(int modelid, float spawn_x, f
 		color2,
 		respawn_delay
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticPickup(int model, int type, float x, float y, float z, long virtualworld) {
@@ -218,7 +218,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticPickup(int model, int type, float x, fl
 		amx_ftoc(z),
 		virtualworld
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePickup(int model, int type, float x, float y, float z, long virtualworld) {
@@ -232,7 +232,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreatePickup(int model, int type, float x, float
 		amx_ftoc(z),
 		virtualworld
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyPickup(int pickup) {
@@ -241,7 +241,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyPickup(int pickup) {
 		1 * 4,
 		pickup
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL ShowNameTags(bool show) {
@@ -250,7 +250,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL ShowNameTags(bool show) {
 		1 * 4,
 		show
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL ShowPlayerMarkers(bool show) {
@@ -259,12 +259,12 @@ SAMPGDK_EXPORT void SAMPGDK_CALL ShowPlayerMarkers(bool show) {
 		1 * 4,
 		show
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL GameModeExit() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GameModeExit");
-	native(&::fakeAmx, 0);
+	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetWorldTime(short hour) {
@@ -273,7 +273,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetWorldTime(short hour) {
 		1 * 4,
 		hour
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetWeaponName(int weaponid, char *name, size_t size) {
@@ -285,7 +285,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetWeaponName(int weaponid, char *name, size_t 
 		name_.address(),
 		size
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	name_.GetAsString(name, size);
 	return ret;
 }
@@ -296,7 +296,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL EnableTirePopping(bool enable) {
 		1 * 4,
 		enable
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL AllowInteriorWeapons(bool allow) {
@@ -305,7 +305,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AllowInteriorWeapons(bool allow) {
 		1 * 4,
 		allow
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetWeather(int weatherid) {
@@ -314,7 +314,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetWeather(int weatherid) {
 		1 * 4,
 		weatherid
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetGravity(float gravity) {
@@ -323,7 +323,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetGravity(float gravity) {
 		1 * 4,
 		amx_ftoc(gravity)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL AllowAdminTeleport(bool allow) {
@@ -332,7 +332,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AllowAdminTeleport(bool allow) {
 		1 * 4,
 		allow
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetDeathDropAmount(long amount) {
@@ -341,7 +341,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetDeathDropAmount(long amount) {
 		1 * 4,
 		amount
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL CreateExplosion(float x, float y, float z, short type, float radius) {
@@ -354,7 +354,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL CreateExplosion(float x, float y, float z, shor
 		type,
 		amx_ftoc(radius)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL EnableZoneNames(bool enable) {
@@ -363,17 +363,17 @@ SAMPGDK_EXPORT void SAMPGDK_CALL EnableZoneNames(bool enable) {
 		1 * 4,
 		enable
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL UsePlayerPedAnims() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("UsePlayerPedAnims");
-	native(&::fakeAmx, 0);
+	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL DisableInteriorEnterExits() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DisableInteriorEnterExits");
-	native(&::fakeAmx, 0);
+	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetNameTagDrawDistance(float distance) {
@@ -382,12 +382,12 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetNameTagDrawDistance(float distance) {
 		1 * 4,
 		amx_ftoc(distance)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL DisableNameTagLOS() {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DisableNameTagLOS");
-	native(&::fakeAmx, 0);
+	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL LimitGlobalChatRadius(float chat_radius) {
@@ -396,7 +396,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL LimitGlobalChatRadius(float chat_radius) {
 		1 * 4,
 		amx_ftoc(chat_radius)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL LimitPlayerMarkerRadius(float marker_radius) {
@@ -405,7 +405,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL LimitPlayerMarkerRadius(float marker_radius) {
 		1 * 4,
 		amx_ftoc(marker_radius)
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ConnectNPC(const char *name, const char *script) {
@@ -417,7 +417,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ConnectNPC(const char *name, const char *script
 		name_.address(),
 		script_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerNPC(int playerid) {
@@ -426,7 +426,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerNPC(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerAdmin(int playerid) {
@@ -435,7 +435,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerAdmin(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL Kick(int playerid) {
@@ -444,7 +444,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL Kick(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL Ban(int playerid) {
@@ -453,7 +453,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL Ban(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL BanEx(int playerid, const char *reason) {
@@ -464,7 +464,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL BanEx(int playerid, const char *reason) {
 		playerid,
 		reason_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SendRconCommand(const char *command) {
@@ -474,7 +474,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SendRconCommand(const char *command) {
 		1 * 4,
 		command_.address(),
 	};
-	native(&::fakeAmx, params);
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char *value, size_t size) {
@@ -487,7 +487,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char 
 		value_.address(),
 		size
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	value_.GetAsString(value, size);
 	return ret;
 }
@@ -499,7 +499,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetServerVarAsInt(const char *varname) {
 		1 * 4,
 		varname_.address(),
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsBool(const char *varname) {
@@ -509,7 +509,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsBool(const char *varname) {
 		1 * 4,
 		varname_.address(),
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, size_t size) {
@@ -521,7 +521,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retst
 		retstr_.address(),
 		size
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	retstr_.GetAsString(retstr, size);
 	return ret;
 }
@@ -534,7 +534,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size) {
 		retstr_.address(),
 		size
 	};
-	bool ret = native(&::fakeAmx, params) != 0;
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
 	retstr_.GetAsString(retstr, size);
 	return ret;
 }
@@ -551,7 +551,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreateMenu(const char *title, int columns, float
 		amx_ftoc(col1width),
 		amx_ftoc(col2width)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyMenu(int menuid) {
@@ -560,7 +560,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyMenu(int menuid) {
 		1 * 4,
 		menuid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL AddMenuItem(int menuid, int column, const char *menutext) {
@@ -572,7 +572,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddMenuItem(int menuid, int column, const char *
 		column,
 		menutext_.address()
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetMenuColumnHeader(int menuid, int column, const char *columnheader) {
@@ -584,7 +584,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetMenuColumnHeader(int menuid, int column, con
 		column,
 		columnheader_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ShowMenuForPlayer(int menuid, int playerid) {
@@ -594,7 +594,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowMenuForPlayer(int menuid, int playerid) {
 		menuid,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL HideMenuForPlayer(int menuid, int playerid) {
@@ -604,7 +604,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL HideMenuForPlayer(int menuid, int playerid) {
 		menuid,
 		playerid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidMenu(int menuid) {
@@ -613,7 +613,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidMenu(int menuid) {
 		1 * 4,
 		menuid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenu(int menuid) {
@@ -622,7 +622,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenu(int menuid) {
 		1 * 4,
 		menuid
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenuRow(int menuid, int row) {
@@ -632,7 +632,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenuRow(int menuid, int row) {
 		menuid,
 		row
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMenu(int playerid) {
@@ -641,7 +641,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMenu(int playerid) {
 		1 * 4,
 		playerid
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL TextDrawCreate(float x, float y, const char *text) {
@@ -653,7 +653,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL TextDrawCreate(float x, float y, const char *tex
 		amx_ftoc(y),
 		text_.address()
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawDestroy(int text) {
@@ -662,7 +662,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawDestroy(int text) {
 		1 * 4,
 		text
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawLetterSize(int text, float x, float y) {
@@ -673,7 +673,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawLetterSize(int text, float x, float y) 
 		amx_ftoc(x),
 		amx_ftoc(y)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawTextSize(int text, float x, float y) {
@@ -684,7 +684,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawTextSize(int text, float x, float y) {
 		amx_ftoc(x),
 		amx_ftoc(y)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawAlignment(int text, int alignment) {
@@ -694,7 +694,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawAlignment(int text, int alignment) {
 		text,
 		alignment
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawColor(int text, long color) {
@@ -704,7 +704,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawColor(int text, long color) {
 		text,
 		color
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawUseBox(int text, bool use) {
@@ -714,7 +714,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawUseBox(int text, bool use) {
 		text,
 		use
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawBoxColor(int text, long color) {
@@ -724,7 +724,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawBoxColor(int text, long color) {
 		text,
 		color
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetShadow(int text, int size) {
@@ -734,7 +734,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetShadow(int text, int size) {
 		text,
 		size
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetOutline(int text, int size) {
@@ -744,7 +744,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetOutline(int text, int size) {
 		text,
 		size
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawBackgroundColor(int text, long color) {
@@ -754,7 +754,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawBackgroundColor(int text, long color) {
 		text,
 		color
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawFont(int text, int font) {
@@ -764,7 +764,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawFont(int text, int font) {
 		text,
 		font
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetProportional(int text, bool set) {
@@ -774,7 +774,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetProportional(int text, bool set) {
 		text,
 		set
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForPlayer(int playerid, int text) {
@@ -784,7 +784,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForPlayer(int playerid, int text) {
 		playerid,
 		text
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawHideForPlayer(int playerid, int text) {
@@ -794,7 +794,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawHideForPlayer(int playerid, int text) {
 		playerid,
 		text
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForAll(int text) {
@@ -803,7 +803,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForAll(int text) {
 		1 * 4,
 		text
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawHideForAll(int text) {
@@ -812,7 +812,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawHideForAll(int text) {
 		1 * 4,
 		text
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetString(int text, const char *string) {
@@ -823,7 +823,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetString(int text, const char *string)
 		text,
 		string_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GangZoneCreate(float minx, float miny, float maxx, float maxy) {
@@ -835,7 +835,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GangZoneCreate(float minx, float miny, float max
 		amx_ftoc(maxx),
 		amx_ftoc(maxy)
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneDestroy(int zone) {
@@ -844,7 +844,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneDestroy(int zone) {
 		1 * 4,
 		zone
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneShowForPlayer(int playerid, int zone, long color) {
@@ -855,7 +855,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneShowForPlayer(int playerid, int zone, l
 		zone,
 		color
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneShowForAll(int zone, long color) {
@@ -865,7 +865,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneShowForAll(int zone, long color) {
 		zone,
 		color
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneHideForPlayer(int playerid, int zone) {
@@ -875,7 +875,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneHideForPlayer(int playerid, int zone) {
 		playerid,
 		zone
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneHideForAll(int zone) {
@@ -884,7 +884,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneHideForAll(int zone) {
 		1 * 4,
 		zone
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneFlashForPlayer(int playerid, int zone, long flashcolor) {
@@ -895,7 +895,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneFlashForPlayer(int playerid, int zone, 
 		zone,
 		flashcolor
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneFlashForAll(int zone, long flashcolor) {
@@ -905,7 +905,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneFlashForAll(int zone, long flashcolor) 
 		zone,
 		flashcolor
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneStopFlashForPlayer(int playerid, int zone) {
@@ -915,7 +915,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneStopFlashForPlayer(int playerid, int zo
 		playerid,
 		zone
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneStopFlashForAll(int zone) {
@@ -924,7 +924,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneStopFlashForAll(int zone) {
 		1 * 4,
 		zone
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL Create3DTextLabel(const char *text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS) {
@@ -941,7 +941,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL Create3DTextLabel(const char *text, long color, 
 		virtualworld,
 		testLOS
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL Delete3DTextLabel(int id) {
@@ -950,7 +950,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL Delete3DTextLabel(int id) {
 		1 * 4,
 		id
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ) {
@@ -963,7 +963,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL Attach3DTextLabelToPlayer(int id, int playerid,
 		amx_ftoc(OffsetY),
 		amx_ftoc(OffsetZ)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ) {
@@ -976,7 +976,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL Attach3DTextLabelToVehicle(int id, int vehiclei
 		amx_ftoc(OffsetY),
 		amx_ftoc(OffsetZ)
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL Update3DTextLabelText(int id, long color, const char *text) {
@@ -988,7 +988,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL Update3DTextLabelText(int id, long color, const
 		color,
 		text_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayer3DTextLabel(int playerid, const char *text, long color, float x, float y, float z, float DrawDistance, int attachedplayer, int attachedvehicle, bool testLOS) {
@@ -1007,7 +1007,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayer3DTextLabel(int playerid, const char
 		attachedvehicle,
 		testLOS
 	};
-	return native(&::fakeAmx, params);
+	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL DeletePlayer3DTextLabel(int playerid, int id) {
@@ -1017,7 +1017,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DeletePlayer3DTextLabel(int playerid, int id) {
 		playerid,
 		id
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL UpdatePlayer3DTextLabelText(int playerid, int id, long color, const char *text) {
@@ -1030,7 +1030,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdatePlayer3DTextLabelText(int playerid, int i
 		color,
 		text_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, 
@@ -1051,5 +1051,5 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, in
 		button1_.address(),
 		button2_.address()
 	};
-	return native(&::fakeAmx, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
