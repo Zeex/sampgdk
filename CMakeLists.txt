@@ -61,3 +61,7 @@ set_target_properties(sampgdk2 PROPERTIES
 	PREFIX ""
 	DEBUG_POSTFIX "D")
 
+if(MINGW AND WIN32)
+	set_property(TARGET sampgdk2 APPEND_STRING PROPERTY 
+		LINK_FLAGS " -static-libgcc -static-libstdc++")
+endif()
