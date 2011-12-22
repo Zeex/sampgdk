@@ -5,3 +5,4 @@ obj
 *.ncb
 *.suo
 *.user
+*.o
