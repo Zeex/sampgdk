@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(sampgdk)
+project(sampgdk2)
 
 include(CheckIncludeFile)
 
-include_directories("${sampgdk_SOURCE_DIR}/lib")
-include_directories("${sampgdk_SOURCE_DIR}/lib/amx")
-include_directories("${sampgdk_SOURCE_DIR}/include")
+include_directories("${sampgdk2_SOURCE_DIR}/lib")
+include_directories("${sampgdk2_SOURCE_DIR}/lib/amx")
+include_directories("${sampgdk2_SOURCE_DIR}/include")
 
 function(check_include_and_define include_file define)
 	check_include_file(${include_file} HAVE_${include_file})
@@ -20,7 +20,7 @@ check_include_and_define("inttypes.h" "HAVE_INTTYPES_H")
 check_include_and_define("malloc.h"   "HAVE_MALLOC_H")
 check_include_and_define("stdint.h"   "HAVE_STDINT_H")
 
-add_library(sampgdk SHARED 
+add_library(sampgdk2 SHARED 
 	"lib/amx/amx.h"
 	"lib/amx/getch.h"
 	"lib/amx/sclinux.h"
@@ -54,6 +54,6 @@ add_library(sampgdk SHARED
 	"src/wrapper.cpp"
 )
 
-set_property(TARGET sampgdk APPEND PROPERTY 
+set_property(TARGET sampgdk2 APPEND PROPERTY 
 	COMPILE_DEFINITIONS "IN_SAMPGDK")
 
