@@ -70,11 +70,11 @@ cell FakeAmx::Push(const char *s) {
 }
 
 void FakeAmx::Get(cell address, cell &value) const {
-	value = *reinterpret_cast<cell*>(heap_ + address);
+	value = heap_[address/sizeof(cell)];
 }
 
 void FakeAmx::Get(cell address, char *value, size_t size) const {
-	cell *ptr = reinterpret_cast<cell*>(heap_ + address);
+	cell *ptr = heap_ + address/sizeof(cell);
 	amx_GetString(value, ptr, 0, size);
 }
 
