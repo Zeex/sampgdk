@@ -63,5 +63,3 @@ add_library(sampgdk STATIC
 	"src/wrapper.cpp"
 )
 
-add_subdirectory(examples)
-
