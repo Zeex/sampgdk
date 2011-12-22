@@ -172,7 +172,7 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode_ = amx;
-		CallbackManager::GetInstance().HandleCallback("OnGameModeInit", false);
+		CallbackManager::GetInstance().HandleCallback("OnGameModeInit", 0);
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
 			std::map<std::string, int>::const_iterator iterator = callbacks_.find(currentPublic_.c_str());
