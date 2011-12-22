@@ -11,8 +11,8 @@ set(VERSION_MINOR 1)
 set(VERSION_PATCH 0)
 set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
 
-include_directories("${sampgdk2_SOURCE_DIR}/include")
-include_directories("${sampgdk2_SOURCE_DIR}/include/amx")
+include_directories("${sampgdk_SOURCE_DIR}/include")
+include_directories("${sampgdk_SOURCE_DIR}/include/amx")
 
 function(check_include_and_define include_file define)
 	check_include_file(${include_file} HAVE_${include_file})
