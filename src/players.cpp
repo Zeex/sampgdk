@@ -74,7 +74,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerPosFindZ(int playerid, float x, float 
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerPos(int playerid, float &x, float &y, float &z) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerPos(int playerid, float *x, float *y, float *z) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerPos");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
@@ -87,9 +87,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerPos(int playerid, float &x, float &y, 
 		z_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	x = x_.GetAsFloat();
-	y = y_.GetAsFloat();
-	z = z_.GetAsFloat();
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
 	return ret;
 }
 
@@ -103,7 +103,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerFacingAngle(int playerid, float angle)
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerFacingAngle(int playerid, float &angle) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerFacingAngle(int playerid, float *angle) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerFacingAngle");
 	FakeAmxHeapObject angle_;
 	cell params[] = {
@@ -112,7 +112,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerFacingAngle(int playerid, float &angle
 		angle_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	angle = angle_.GetAsFloat();
+	*angle = angle_.GetAsFloat();
 	return ret;
 }
 
@@ -181,7 +181,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerHealth(int playerid, float health) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerHealth(int playerid, float &health) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerHealth(int playerid, float *health) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerHealth");
 	FakeAmxHeapObject health_;
 	cell params[] = {
@@ -190,7 +190,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerHealth(int playerid, float &health) {
 		health_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	health = health_.GetAsFloat();
+	*health = health_.GetAsFloat();
 	return ret;
 }
 
@@ -204,7 +204,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerArmour(int playerid, float armour) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerArmour(int playerid, float &armour) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerArmour(int playerid, float *armour) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerArmour");
 	FakeAmxHeapObject armour_;
 	cell params[] = {
@@ -213,7 +213,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerArmour(int playerid, float &armour) {
 		armour_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	armour = armour_.GetAsFloat();
+	*armour = armour_.GetAsFloat();
 	return ret;
 }
 
@@ -380,7 +380,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerArmedWeapon(int playerid, int weaponid
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerWeaponData(int playerid, int slot, int &weapon, int &ammo) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerWeaponData(int playerid, int slot, int *weapon, int *ammo) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerWeaponData");
 	FakeAmxHeapObject weapon_;
 	FakeAmxHeapObject ammo_;
@@ -392,8 +392,8 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerWeaponData(int playerid, int slot, int
 		ammo_.address(),
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	weapon = weapon_.Get();
-	ammo = ammo_.Get();
+	*weapon = weapon_.Get();
+	*ammo = ammo_.Get();
 	return ret;
 }
 
@@ -477,7 +477,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerWeapon(int playerid) {
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerKeys(int playerid, int &keys, int &updown, int &leftright) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerKeys(int playerid, int *keys, int *updown, int *leftright) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerKeys");
 	FakeAmxHeapObject keys_;
 	FakeAmxHeapObject updown_;
@@ -490,9 +490,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerKeys(int playerid, int &keys, int &upd
 		leftright_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	keys = keys_.Get();
-	updown = updown_.Get();
-	leftright = leftright_.Get();
+	*keys = keys_.Get();
+	*updown = updown_.Get();
+	*leftright = leftright_.Get();
 	return ret;
 }
 
@@ -521,7 +521,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerTime(int playerid, int hour, int minut
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerTime(int playerid, int &hour, int &minute) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerTime(int playerid, int *hour, int *minute) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerTime");
 	FakeAmxHeapObject hour_;
 	FakeAmxHeapObject minute_;
@@ -532,8 +532,8 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerTime(int playerid, int &hour, int &min
 		minute_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	hour = hour_.Get();
-	minute = minute_.Get();
+	*hour = hour_.Get();
+	*minute = minute_.Get();
 	return ret;
 }
 
@@ -616,7 +616,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerVelocity(int playerid, float x, float 
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVelocity( int playerid, float &x, float &y, float &z) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVelocity( int playerid, float *x, float *y, float *z) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerVelocity");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
@@ -629,9 +629,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVelocity( int playerid, float &x, floa
 		z_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	x = x_.GetAsFloat();
-	y = y_.GetAsFloat();
-	z = z_.GetAsFloat();
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
 	return ret;
 }
 
@@ -1201,7 +1201,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetCameraBehindPlayer(int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerCameraPos(int playerid, float &x, float &y, float &z) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerCameraPos(int playerid, float *x, float *y, float *z) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerCameraPos");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
@@ -1214,13 +1214,13 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerCameraPos(int playerid, float &x, floa
 		z_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	x = x_.GetAsFloat();
-	y = y_.GetAsFloat();
-	z = z_.GetAsFloat();
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
 	return ret;
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerCameraFrontVector(int playerid, float &x, float &y, float &z) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerCameraFrontVector(int playerid, float *x, float *y, float *z) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerCameraFrontVector");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
@@ -1233,9 +1233,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerCameraFrontVector(int playerid, float 
 		z_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	x = x_.GetAsFloat();
-	y = y_.GetAsFloat();
-	z = z_.GetAsFloat();
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
 	return ret;
 }
 
