@@ -15,14 +15,22 @@
 #include <sampgdk/config.h>
 #include <sampgdk/core.h>
 
-#include <sampgdk/version.h>
+#ifdef SAMPGDK_WINDOWS
+	#include <windows.h>
+#else
+	#ifndef _GNU_SOURCE
+		#define _GNU_SOURCE 1
+	#endif
+	#include <dlfcn.h>
+#endif
 
-#include "wrapper.h"
+#include "amxhooks.h"
+#include "callbacks.h"
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData) {
 	static bool initialized = false;
 	if (!initialized) {
-		Wrapper::Initialize(ppPluginData);
+		AmxHooks::Initialize(ppPluginData);
 		initialized = true;
 	}
 }
@@ -31,14 +39,26 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 	// nothing
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_major() {
-	return SAMPGDK_VERSION_MAJOR;
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
+	CallbackManager::GetInstance().RegisterCallbackHandler(plugin);	
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_minor() {
-	return SAMPGDK_VERSION_MINOR;
+SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
+#ifdef SAMPGDK_WINDOWS
+	MEMORY_BASIC_INFORMATION mbi;
+	VirtualQuery(symbol, &mbi, sizeof(mbi));
+	return (void*)mbi.AllocationBase;
+#else
+	Dl_info info;
+	dladdr(symbol, &info);
+	return (void*)info.dli_fbase;
+#endif
 }
 
-SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version() {
-	return SAMPGDK_VERSION_STRING;
+SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name)  {
+#ifdef SAMPGDK_WINDOWS 
+	return (void*)GetProcAddress((HMODULE)plugin, name);
+#else
+	return dlsym(plugin, name);
+#endif
 }

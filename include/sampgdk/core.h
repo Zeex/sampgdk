@@ -18,12 +18,13 @@
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
 
+#define AMX_EXEC_GDK (-10)
+
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize();
 
-// Runtime version query
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_major();
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_minor();
-SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version();
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
+SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol);
+SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name);
 
 #endif // SAMPGDK_CORE_H

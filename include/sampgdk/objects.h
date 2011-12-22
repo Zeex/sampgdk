@@ -43,4 +43,4 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, flo
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid);
 
-#endif // SAMPGDK_OBJECTS_H
+#endif // !SAMPGDK_OBJECTS_H

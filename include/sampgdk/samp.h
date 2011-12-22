@@ -18,25 +18,27 @@
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
 
+#include <cstddef>
+
 // Limits and internal constants
-const int MAX_PLAYER_NAME = 24;
-const int MAX_PLAYERS = 500;
-const int MAX_VEHICLES = 2000;
-const int INVALID_PLAYER_ID = 0xFFFF;
-const int INVALID_VEHICLE_ID = 0xFFFF;
-const int NO_TEAM = 255;
-const int MAX_OBJECTS = 1000;
-const int INVALID_OBJECT_ID = 0xFFFF;
-const int MAX_GANG_ZONES = 1024;
-const int MAX_TEXT_DRAWS = 2048;
-const int MAX_MENUS = 128;
-const int MAX_3DTEXT_GLOBAL = 1024;
-const int MAX_3DTEXT_PLAYER = 1024;
-const int MAX_PICKUPS = 4096;
-const int INVALID_MENU = 0xFF;
-const int INVALID_TEXT_DRAW = 0xFFFF;
-const int INVALID_GANG_ZONE = -1;
-const int INVALID_3DTEXT_ID = 0xFFFF;
+#define MAX_PLAYER_NAME     (24)
+#define MAX_PLAYERS         (500)
+#define MAX_VEHICLES        (2000)
+#define INVALID_PLAYER_ID   (0xFFFF)
+#define INVALID_VEHICLE_ID  (0xFFFF)
+#define NO_TEAM             (255)
+#define MAX_OBJECTS         (1000)
+#define INVALID_OBJECT_ID   (0xFFFF)
+#define MAX_GANG_ZONES      (1024)
+#define MAX_TEXT_DRAWS      (2048)
+#define MAX_MENUS           (128)
+#define MAX_3DTEXT_GLOBAL   (1024)
+#define MAX_3DTEXT_PLAYER   (1024)
+#define MAX_PICKUPS         (4096)
+#define INVALID_MENU        (0xFF)
+#define INVALID_TEXT_DRAW   (0xFFFF)
+#define INVALID_GANG_ZONE   (-1)
+#define INVALID_3DTEXT_ID   (0xFFFF)
 
 // Util
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendClientMessage(int playerid, long color, const char *message);
@@ -46,7 +48,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToAll(int senderid, const char
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendDeathMessage(int killer, int killee, int weapon);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForAll(const char *text, long time, int style);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForPlayer(int playerid, const char *text, long time, int style);
-SAMPGDK_EXPORT long SAMPGDK_CALL GetTickCount();
+SAMPGDK_EXPORT long SAMPGDK_CALL GetServerTickCount();
 SAMPGDK_EXPORT int SAMPGDK_CALL GetMaxPlayers();
 
 // Game
@@ -96,15 +98,15 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retst
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size);
 
 // Menu
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width = 0.0f);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyMenu(int menuid);
-SAMPGDK_EXPORT int SAMPGDK_CALL AddMenuItem(int menuid, int column, const char *menutext);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetMenuColumnHeader(int menuid, int column, const char *columnheader);
-SAMPGDK_EXPORT bool SAMPGDK_CALL ShowMenuForPlayer(int menuid, int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL HideMenuForPlayer(int menuid, int playerid);
+SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width = 0.0f);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid);
+SAMPGDK_EXPORT int SAMPGDK_CALL MenuAddItem(int menuid, int column, const char *menutext);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuSetColumnHeader(int menuid, int column, const char *columnheader);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuShowForPlayer(int menuid, int playerid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuHideForPlayer(int menuid, int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidMenu(int menuid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenu(int menuid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenuRow(int menuid, int row);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisableRow(int menuid, int row);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMenu(int playerid);
 
 // Text Draw
@@ -152,117 +154,114 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DeletePlayer3DTextLabel(int playerid, int id);
 SAMPGDK_EXPORT bool SAMPGDK_CALL UpdatePlayer3DTextLabelText(int playerid, int id, long color, const char *text);
 
 // Player GUI Dialog
-const int DIALOG_STYLE_MSGBOX = 0;
-const int DIALOG_STYLE_INPUT = 1;
-const int DIALOG_STYLE_LIST = 2;
+#define DIALOG_STYLE_MSGBOX (0)
+#define DIALOG_STYLE_INPUT  (1)
+#define DIALOG_STYLE_LIST   (2)
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, const char *info, const char *button1, const char *button2);
 
 // States
-const int PLAYER_STATE_NONE = 0;
-const int PLAYER_STATE_ONFOOT = 1;
-const int PLAYER_STATE_DRIVER = 2;
-const int PLAYER_STATE_PASSENGER = 3;
-const int PLAYER_STATE_EXIT_VEHICLE = 4; 
-const int PLAYER_STATE_ENTER_VEHICLE_DRIVER = 5; 
-const int PLAYER_STATE_ENTER_VEHICLE_PASSENGER = 6; 
-const int PLAYER_STATE_WASTED = 7;
-const int PLAYER_STATE_SPAWNED = 8;
-const int PLAYER_STATE_SPECTATING = 9;
+#define PLAYER_STATE_NONE                    (0)
+#define PLAYER_STATE_ONFOOT                  (1)
+#define PLAYER_STATE_DRIVER                  (2)
+#define PLAYER_STATE_PASSENGER               (3)
+#define PLAYER_STATE_EXIT_VEHICLE            (4) 
+#define PLAYER_STATE_ENTER_VEHICLE_DRIVER    (5) 
+#define PLAYER_STATE_ENTER_VEHICLE_PASSENGER (6) 
+#define PLAYER_STATE_WASTED                  (7)
+#define PLAYER_STATE_SPAWNED                 (8)
+#define PLAYER_STATE_SPECTATING              (9)
 
-// Marker modes used SAMPGDK_EXPORT by SAMPGDK_CALL ShowPlayerMarkers()
-const int PLAYER_MARKERS_MODE_OFF = 0;
-const int PLAYER_MARKERS_MODE_GLOBAL = 1;
-const int PLAYER_MARKERS_MODE_STREAMED = 2;
+// Marker modes used by ShowPlayerMarkers()
+#define PLAYER_MARKERS_MODE_OFF              (0)
+#define PLAYER_MARKERS_MODE_GLOBAL           (1)
+#define PLAYER_MARKERS_MODE_STREAMED         (2)
 
 // Weapons
-const int WEAPON_BRASSKNUCKLE = 1;
-const int WEAPON_GOLFCLUB = 2;
-const int WEAPON_NITESTICK = 3;
-const int WEAPON_KNIFE = 4;
-const int WEAPON_BAT = 5;
-const int WEAPON_SHOVEL = 6;
-const int WEAPON_POOLSTICK = 7;
-const int WEAPON_KATANA = 8;
-const int WEAPON_CHAINSAW = 9;
-const int WEAPON_DILDO = 10;
-const int WEAPON_DILDO2 = 11;
-const int WEAPON_VIBRATOR = 12;
-const int WEAPON_VIBRATOR2 = 13;
-const int WEAPON_FLOWER = 14;
-const int WEAPON_CANE = 15;
-const int WEAPON_GRENADE = 16;
-const int WEAPON_TEARGAS = 17;
-const int WEAPON_MOLTOV = 18;
-const int WEAPON_COLT45 = 22;
-const int WEAPON_SILENCED = 23;
-const int WEAPON_DEAGLE = 24;
-const int WEAPON_SHOTGUN = 25;
-const int WEAPON_SAWEDOFF = 26;
-const int WEAPON_SHOTGSPA = 27;
-const int WEAPON_UZI = 28;
-const int WEAPON_MP5 = 29;
-const int WEAPON_AK47 = 30;
-const int WEAPON_M4 = 31;
-const int WEAPON_TEC9 = 32;
-const int WEAPON_RIFLE = 33;
-const int WEAPON_SNIPER = 34;
-const int WEAPON_ROCKETLAUNCHER = 35;
-const int WEAPON_HEATSEEKER = 36;
-const int WEAPON_FLAMETHROWER = 37;
-const int WEAPON_MINIGUN = 38;
-const int WEAPON_SATCHEL = 39;
-const int WEAPON_BOMB = 40;
-const int WEAPON_SPRAYCAN = 41;
-const int WEAPON_FIREEXTINGUISHER = 42;
-const int WEAPON_CAMERA = 43;
-const int WEAPON_PARACHUTE = 46;
-const int WEAPON_VEHICLE = 49;
-const int WEAPON_DROWN = 53;
-const int WEAPON_COLLISION = 54;
+#define WEAPON_BRASSKNUCKLE       (1)
+#define WEAPON_GOLFCLUB           (2)
+#define WEAPON_NITESTICK          (3)
+#define WEAPON_KNIFE              (4)
+#define WEAPON_BAT                (5)
+#define WEAPON_SHOVEL             (6)
+#define WEAPON_POOLSTICK          (7)
+#define WEAPON_KATANA             (8)
+#define WEAPON_CHAINSAW           (9)
+#define WEAPON_DILDO              (10)
+#define WEAPON_DILDO2             (11)
+#define WEAPON_VIBRATOR           (12)
+#define WEAPON_VIBRATOR2          (13)
+#define WEAPON_FLOWER             (14)
+#define WEAPON_CANE               (15)
+#define WEAPON_GRENADE            (16)
+#define WEAPON_TEARGAS            (17)
+#define WEAPON_MOLTOV             (18)
+#define WEAPON_COLT45             (22)
+#define WEAPON_SILENCED           (23)
+#define WEAPON_DEAGLE             (24)
+#define WEAPON_SHOTGUN            (25)
+#define WEAPON_SAWEDOFF           (26)
+#define WEAPON_SHOTGSPA           (27)
+#define WEAPON_UZI                (28)
+#define WEAPON_MP5                (29)
+#define WEAPON_AK47               (30)
+#define WEAPON_M4                 (31)
+#define WEAPON_TEC9               (32)
+#define WEAPON_RIFLE              (33)
+#define WEAPON_SNIPER             (34)
+#define WEAPON_ROCKETLAUNCHER     (35)
+#define WEAPON_HEATSEEKER         (36)
+#define WEAPON_FLAMETHROWER       (37)
+#define WEAPON_MINIGUN            (38)
+#define WEAPON_SATCHEL            (39)
+#define WEAPON_BOMB               (40)
+#define WEAPON_SPRAYCAN           (41)
+#define WEAPON_FIREEXTINGUISHER   (42)
+#define WEAPON_CAMERA             (43)
+#define WEAPON_PARACHUTE          (46)
+#define WEAPON_VEHICLE            (49)
+#define WEAPON_DROWN              (53)
+#define WEAPON_COLLISION          (54)
 
 // Keys
-const int KEY_ACTION = 1;
-const int KEY_CROUCH = 2;
-const int KEY_FIRE = 4;
-const int KEY_SPRINT = 8;
-const int KEY_SECONDARY_ATTACK = 16;
-const int KEY_JUMP = 32;
-const int KEY_LOOK_RIGHT = 64;
-const int KEY_HANDBRAKE = 128;
-const int KEY_LOOK_LEFT = 256;
-const int KEY_SUBMISSION = 512;
-const int KEY_LOOK_BEHIND = 512;
-const int KEY_WALK = 1024;
-const int KEY_ANALOG_UP = 2048;
-const int KEY_ANALOG_DOWN = 4096;
-const int KEY_ANALOG_LEFT = 8192;
-const int KEY_ANALOG_RIGHT = 16384;
+#define KEY_ACTION                (1)
+#define KEY_CROUCH                (2)
+#define KEY_FIRE                  (4)
+#define KEY_SPRINT                (8)
+#define KEY_SECONDARY_ATTACK      (16)
+#define KEY_JUMP                  (32)
+#define KEY_LOOK_RIGHT            (64)
+#define KEY_HANDBRAKE             (128)
+#define KEY_LOOK_LEFT             (256)
+#define KEY_SUBMISSION            (512)
+#define KEY_LOOK_BEHIND           (512)
+#define KEY_WALK                  (1024)
+#define KEY_ANALOG_UP             (2048)
+#define KEY_ANALOG_DOWN           (4096)
+#define KEY_ANALOG_LEFT           (8192)
+#define KEY_ANALOG_RIGHT          (16384)
+#define KEY_YES                   (65536)
+#define KEY_NO                    (131072)
+#define KEY_CTRL_BACK             (262144)
+#define KEY_UP                    (-128)
+#define KEY_DOWN                  (128)
+#define KEY_LEFT                  (-128)
+#define KEY_RIGHT                 (128)
 
-const int KEY_YES = 65536;
-const int KEY_NO = 131072;
-const int KEY_CTRL_BACK = 262144;
-
-const int KEY_UP = -128;
-const int KEY_DOWN = 128;
-const int KEY_LEFT = -128;
-const int KEY_RIGHT = 128;
-
-const int CLICK_SOURCE_SCOREBOARD = 0;
+#define CLICK_SOURCE_SCOREBOARD   (0)
 
 // Convenience templates for some functions (to avoid specifying output buffer size explicitly
 // when it's known at compile time (i.e. fixed-size buffers))
-
+#ifdef __cplusplus
 template<size_t N> inline bool GetNetworkStats(char (&retstr)[N]) { 
 	return GetNetworkStats(retstr, N); 
 }
-
 template<size_t N> inline bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) { 
 	return GetPlayerNetworkStats(playerid, retstr, N); 
 }
-
 template<size_t N> inline bool GetWeaponName(int weaponid, char (&name)[N]) {
 	return GetWeaponName(weaponid, name, N);
 }
+#endif // __cplusplus
 
-#endif // SAMPGDK_SAMP_H
+#endif // !SAMPGDK_SAMP_H

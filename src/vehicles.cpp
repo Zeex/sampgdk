@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	 http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,16 +14,15 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
+#include <sampgdk/amx/amx.h>
 
 #include "fakeamx.h"
-#include "wrapper.h"
-
-namespace sampgdk {
+#include "natives.h"
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreateVehicle(int vehicletype, float x, float y, float z, float rotation, 
 	int color1, int color2, long respawn_delay)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreateVehicle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreateVehicle");
 	cell params[] = {
 		8 * 4,
 		vehicletype,
@@ -39,7 +38,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreateVehicle(int vehicletype, float x, float y,
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyVehicle(int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DestroyVehicle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DestroyVehicle");
 	cell params[] = {
 		1 * 4,
 		vehicleid
@@ -48,7 +47,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyVehicle(int vehicleid) {
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsVehicleStreamedIn(int vehicleid, int forplayerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsVehicleStreamedIn");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsVehicleStreamedIn");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -58,7 +57,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsVehicleStreamedIn(int vehicleid, int forplaye
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehiclePos(int vehicleid, float &x, float &y, float &z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehiclePos");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehiclePos");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
 	FakeAmxHeapObject z_;
@@ -77,7 +76,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehiclePos(int vehicleid, float &x, float &y
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehiclePos(int vehicleid, float x, float y, float z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehiclePos");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehiclePos");
 	cell params[] = {
 		4 * 4,
 		vehicleid,
@@ -89,7 +88,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehiclePos(int vehicleid, float x, float y, 
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleZAngle(int vehicleid, float &z_angle) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleZAngle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleZAngle");
 	FakeAmxHeapObject z_angle_;
 	cell params[] = {
 		2 * 4,
@@ -103,7 +102,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleZAngle(int vehicleid, float &z_angle)
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleRotationQuat(int vehicleid, float &w, float &x, float &y, float &z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleRotationQuat");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleRotationQuat");
 	FakeAmxHeapObject w_;
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
@@ -125,7 +124,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleRotationQuat(int vehicleid, float &w,
 }
 
 SAMPGDK_EXPORT float SAMPGDK_CALL GetVehicleDistanceFromPoint(int vehicleid, float x, float y, float z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleDistanceFromPoint");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleDistanceFromPoint");
 	cell params[] = {
 		4 * 4,
 		vehicleid,
@@ -139,7 +138,7 @@ SAMPGDK_EXPORT float SAMPGDK_CALL GetVehicleDistanceFromPoint(int vehicleid, flo
 
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleZAngle(int vehicleid, float z_angle) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsVehicleStreamedIn");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsVehicleStreamedIn");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -149,7 +148,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleZAngle(int vehicleid, float z_angle) 
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehicleParamsForPlayer");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleParamsForPlayer");
 	cell params[] = {
 		4 * 4,
 		vehicleid,
@@ -161,14 +160,14 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsForPlayer(int vehicleid, int pl
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL ManualVehicleEngineAndLights() {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ManualVehicleEngineAndLights");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ManualVehicleEngineAndLights");
 	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, bool doors, 
 	bool bonnet, bool boot, bool objective) 
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehicleParamsEx");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleParamsEx");
 	cell params[] = {
 		8 * 4,
 		vehicleid,
@@ -186,7 +185,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, bool &engine, bool &lights, bool &alarm, bool &doors, 
 	bool &bonnet, bool &boot, bool &objective) 
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleParamsEx");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleParamsEx");
 	FakeAmxHeapObject engine_;
 	FakeAmxHeapObject lights_;
 	FakeAmxHeapObject alarm_;
@@ -217,7 +216,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, bool &engine,
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleToRespawn(int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehicleToRespawn");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleToRespawn");
 	cell params[] = {
 		1 * 4,
 		vehicleid
@@ -226,7 +225,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleToRespawn(int vehicleid) {
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL LinkVehicleToInterior(int vehicleid, int interiorid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("LinkVehicleToInterior");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("LinkVehicleToInterior");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -236,7 +235,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL LinkVehicleToInterior(int vehicleid, int interi
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL AddVehicleComponent(int vehicleid, int componentid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AddVehicleComponent");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddVehicleComponent");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -246,7 +245,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AddVehicleComponent(int vehicleid, int componen
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveVehicleComponent(int vehicleid, int componentid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("RemoveVehicleComponent");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("RemoveVehicleComponent");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -256,7 +255,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveVehicleComponent(int vehicleid, int compo
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehicleColor(int vehicleid, int color1, int color2) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ChangeVehicleColor");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ChangeVehicleColor");
 	cell params[] = {
 		3 * 4,
 		vehicleid,
@@ -267,7 +266,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehicleColor(int vehicleid, int color1, i
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehiclePaintjob(int vehicleid, int paintjobid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ChangeVehiclePaintjob");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ChangeVehiclePaintjob");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -277,7 +276,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehiclePaintjob(int vehicleid, int paintj
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleHealth(int vehicleid, float health) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehicleHealth");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleHealth");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -287,7 +286,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleHealth(int vehicleid, float health) {
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleHealth(int vehicleid, float &health) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleHealth");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleHealth");
 	FakeAmxHeapObject health_;
 	cell params[] = {
 		2 * 4,
@@ -300,7 +299,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleHealth(int vehicleid, float &health) 
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL AttachTrailerToVehicle(int trailerid, int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AttachTrailerToVehicle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachTrailerToVehicle");
 	cell params[] = {
 		2 * 4,
 		trailerid,
@@ -310,7 +309,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachTrailerToVehicle(int trailerid, int vehic
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL DetachTrailerFromVehicle(int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DetachTrailerFromVehicle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DetachTrailerFromVehicle");
 	cell params[] = {
 		1 * 4,
 		vehicleid
@@ -319,7 +318,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DetachTrailerFromVehicle(int vehicleid) {
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsTrailerAttachedToVehicle(int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsTrailerAttachedToVehicle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsTrailerAttachedToVehicle");
 	cell params[] = {
 		1 * 4,
 		vehicleid
@@ -328,7 +327,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsTrailerAttachedToVehicle(int vehicleid) {
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleTrailer(int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleTrailer");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleTrailer");
 	cell params[] = {
 		1 * 4,
 		vehicleid
@@ -337,7 +336,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleTrailer(int vehicleid) {
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleNumberPlate(int vehicleid, const char *numberplate) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehicleNumberPlate");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleNumberPlate");
 	FakeAmxHeapObject numberplate_(numberplate);
 	cell params[] = {
 		2 * 4,
@@ -348,7 +347,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleNumberPlate(int vehicleid, const char
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleModel(int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleModel");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleModel");
 	cell params[] = {
 		1 * 4,
 		vehicleid
@@ -357,7 +356,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleModel(int vehicleid) {
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentInSlot(int vehicleid, int slot) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleComponentInSlot");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleComponentInSlot");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -367,7 +366,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentInSlot(int vehicleid, int slo
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentType(int component) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleComponentType");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleComponentType");
 	cell params[] = {
 		1 * 4,
 		component
@@ -376,7 +375,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentType(int component) {
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL RepairVehicle(int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("RepairVehicle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("RepairVehicle");
 	cell params[] = {
 		1 * 4,
 		vehicleid
@@ -385,7 +384,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL RepairVehicle(int vehicleid) {
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVelocity(int vehicleid, float &x, float &y, float &z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleVelocity");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleVelocity");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
 	FakeAmxHeapObject z_;
@@ -404,7 +403,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVelocity(int vehicleid, float &x, flo
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVelocity(int vehicleid, float x, float y, float z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehicleVelocity");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleVelocity");
 	cell params[] = {
 		4 * 4,
 		vehicleid,
@@ -416,7 +415,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVelocity(int vehicleid, float x, floa
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleAngularVelocity(int vehicleid, float x, float y, float z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehicleAngularVelocity");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleAngularVelocity");
 	cell params[] = {
 		4 * 4,
 		vehicleid,
@@ -428,7 +427,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleAngularVelocity(int vehicleid, float 
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleDamageStatus(int vehicleid, long &panels, long &doors, long &lights, long &tires) {
-	static AMX_NATIVE native =Wrapper::GetInstance().GetNative("GetVehicleDamageStatus");
+	static AMX_NATIVE native =NativeManager::GetInstance().GetNative("GetVehicleDamageStatus");
 	FakeAmxHeapObject panels_;
 	FakeAmxHeapObject doors_;
 	FakeAmxHeapObject lights_;
@@ -450,7 +449,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleDamageStatus(int vehicleid, long &pan
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL UpdateVehicleDamageStatus(int vehicleid, long panels, long doors, long lights, long tires) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("UpdateVehicleDamageStatus");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("UpdateVehicleDamageStatus");
 	cell params[] = {
 		5 * 4,
 		vehicleid,
@@ -463,7 +462,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdateVehicleDamageStatus(int vehicleid, long p
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVirtualWorld(int vehicleid, int worldid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetVehicleVirtualWorld");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleVirtualWorld");
 	cell params[] = {
 		2 * 4,
 		vehicleid,
@@ -473,13 +472,11 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVirtualWorld(int vehicleid, int world
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetVehicleVirtualWorld");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleVirtualWorld");
 	cell params[] = {
 		1 * 4,
 		vehicleid
 	};
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
-
-} // namespace sampgdk
 

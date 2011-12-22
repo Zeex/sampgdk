@@ -34,7 +34,7 @@
 	#include <stddef.h>
 #endif
 
-#include "plugin.h"
+#include <sampgdk/plugin.h>
 
 //----------------------------------------------------------
 
