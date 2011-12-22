@@ -15,12 +15,10 @@
 #include <sampgdk/config.h>
 #include <sampgdk/eventhandler.h>
 
-static sampgdk::EventHandler *&First() {
-	static sampgdk::EventHandler *first;
+static EventHandler *&First() {
+	static EventHandler *first;
 	return first;
 }
-
-namespace sampgdk { 
 
 EventHandler::EventHandler()
 	: registered_(false), next_(0), prev_(0)
@@ -240,6 +238,3 @@ bool EventHandler::OnPlayerGiveDamage(int /*playerid*/, int /*damagedid*/, float
 bool EventHandler::OnPlayerClickMap(int /*playerid*/, float /*x*/, float /*y*/, float /*z*/) {
 	return true;
 }
-
-} // namespace sampgdk
-

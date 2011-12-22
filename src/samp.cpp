@@ -18,8 +18,6 @@
 
 #include "fakeamx.h"
 
-namespace sampgdk {
-
 bool SendClientMessage(int playerid, long color, const char *message) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SendClientMessage");
 	FakeAmxHeapObject message_(message);
@@ -1063,6 +1061,3 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption
 	};
 	return native(&::fakeAmx, params) != 0;
 }
-
-} // namespace sampgdk
-

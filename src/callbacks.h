@@ -15,9 +15,7 @@
 #ifndef SAMPGDK_CALLBACKS_H
 #define SAMPGDK_CALLBACKS_H
 
-namespace sampgdk {
-	void SetupSampCallbackHooks();
-} 
+void SetupSampCallbackHooks();
 
 #endif // !SAMPGDK_CALLBACKS_H
 
