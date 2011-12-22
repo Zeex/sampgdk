@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
+
 project(sampgdk)
 
 include(CheckIncludeFile)
@@ -19,20 +20,7 @@ check_include_and_define("inttypes.h" "HAVE_INTTYPES_H")
 check_include_and_define("malloc.h"   "HAVE_MALLOC_H")
 check_include_and_define("stdint.h"   "HAVE_STDINT_H")
 
-# OS definitions
-if(UNIX)
-	add_definitions(-DUNIX)
-	if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-		add_definitions(-DLINUX)
-	endif()
-	if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-		add_definitions(-DFREEBSD)
-	endif()
-elseif(WIN32)
-	add_definitions(-DWIN32 -D_WIN32)
-endif()
-
-add_library(sampgdk STATIC
+add_library(sampgdk SHARED 
 	"lib/amx/amx.h"
 	"lib/amx/getch.h"
 	"lib/amx/sclinux.h"
@@ -41,6 +29,7 @@ add_library(sampgdk STATIC
 	"lib/plugincommon.h"
 	"include/sampgdk/config.h"
 	"include/sampgdk/eventhandler.h"
+	"include/sampgdk/export.h"
 	"include/sampgdk/gpci.h"
 	"include/sampgdk/objects.h"
 	"include/sampgdk/players.h"
@@ -62,4 +51,7 @@ add_library(sampgdk STATIC
 	"src/vehicles.cpp"
 	"src/wrapper.cpp"
 )
+
+set_property(TARGET sampgdk APPEND PROPERTY 
+	COMPILE_DEFINITIONS "IN_SAMPGDK")
 

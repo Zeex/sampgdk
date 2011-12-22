@@ -24,8 +24,6 @@
 
 #define AMX_EXEC_GDK (-10)
 
-namespace sampgdk {
-
 typedef cell (*PublicHookProc)(AMX *amx);
 
 class PublicHook {
@@ -61,7 +59,4 @@ private:
 	std::map<std::string, PublicHook> publicHooks_;	
 };
 
-} // namespace sampgdk
-
-#endif
-
+#endif // SAMPGDK_WRAPPER_H

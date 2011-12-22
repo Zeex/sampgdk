@@ -19,8 +19,6 @@
 
 #include <string>
 
-namespace sampgdk {
-
 class EventHandler {
 public:
 	EventHandler();
@@ -85,7 +83,4 @@ private:
 	EventHandler *prev_;
 };
 
-} // namespace sampgdk
-
-#endif
-
+#endif // SAMPGDK_EVENTHANDLER_H
