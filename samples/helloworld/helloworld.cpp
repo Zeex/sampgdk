@@ -50,10 +50,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
 	logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
-
-	sampgdk_initialize(ppPluginData);
-	sampgdk_register_plugin(sampgdk_get_plugin_handle((void*)Load));
-
+	sampgdk_initialize_plugin(ppPluginData);
 	return true;
 }
 
