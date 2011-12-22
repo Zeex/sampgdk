@@ -16,13 +16,10 @@
 #define SAMPGDK_GPCI_H
 
 #include <sampgdk/config.h>
+#include <sampgdk/export.h>
 
 #include <cstddef>
 
-namespace sampgdk {
-
-bool gpci(int playerid, char *buffer, std::size_t size);
-
-} // namespace sampgdk
+SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, std::size_t size);
 
 #endif // !SAMPGDK_GPCI_H

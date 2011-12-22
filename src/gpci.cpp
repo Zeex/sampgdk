@@ -13,12 +13,13 @@
 // limitations under the License.
 
 #include <sampgdk/config.h>
+#include <sampgdk/export.h>
 #include <sampgdk/gpci.h>
 #include <sampgdk/wrapper.h>
 
 #include "fakeamx.h"
 
-bool gpci(int playerid, char *buffer, std::size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, std::size_t size) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("gpci");
 	FakeAmxHeapObject buffer_(size);
 	cell params[] = {
