@@ -57,3 +57,7 @@ add_library(sampgdk2 SHARED
 set_property(TARGET sampgdk2 APPEND PROPERTY 
 	COMPILE_DEFINITIONS "IN_SAMPGDK")
 
+set_target_properties(sampgdk2 PROPERTIES
+	PREFIX ""
+	DEBUG_POSTFIX "D")
+
