@@ -43,7 +43,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmd
 	}
 	if (std::strcmp(cmdtext, "/pos") == 0) {
 		float x, y, z;
-		GetPlayerPos(playerid, x, y, z);
+		GetPlayerPos(playerid, &x, &y, &z);
 		char message[128];
 		std::sprintf(message, "You are at (%f, %f, %f)", x, y, z);
 		SendClientMessage(playerid, 0xFFFFFFFF, message);

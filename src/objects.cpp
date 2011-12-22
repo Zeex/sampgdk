@@ -121,7 +121,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, fl
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float &x, float &y, float &z) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float *x, float *y, float *z) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetObjectPos");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
@@ -134,9 +134,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float &x, float &y, 
 		z_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	x = x_.GetAsFloat();
-	y = y_.GetAsFloat();
-	z = z_.GetAsFloat();
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
 	return ret;
 }
 
@@ -152,7 +152,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectRot(int objectid, float rotX, float ro
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float &rotX, float &rotY, float &rotZ) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float *rotX, float *rotY, float *rotZ) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetObjectRot");
 	FakeAmxHeapObject rotX_;
 	FakeAmxHeapObject rotY_;
@@ -165,9 +165,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float &rotX, float &
 		rotZ_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	rotX = rotX_.GetAsFloat();
-	rotY = rotY_.GetAsFloat();
-	rotZ = rotZ_.GetAsFloat();
+	*rotX = rotX_.GetAsFloat();
+	*rotY = rotY_.GetAsFloat();
+	*rotZ = rotZ_.GetAsFloat();
 	return ret;
 }
 
@@ -257,7 +257,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectPos(int playerid, int objectid, 
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, float &x, float &y, float &z) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, float *x, float *y, float *z) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerObjectPos");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
@@ -271,9 +271,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, 
 		z_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	x = x_.GetAsFloat();
-	y = y_.GetAsFloat();
-	z = z_.GetAsFloat();
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
 	return ret;
 }
 
@@ -290,7 +290,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectRot(int playerid, int objectid, 
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, float &rotX, float &rotY, float &rotZ) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, float *rotX, float *rotY, float *rotZ) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerObjectRot");
 	FakeAmxHeapObject rotX_;
 	FakeAmxHeapObject rotY_;
@@ -304,9 +304,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, 
 		rotZ_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	rotX = rotX_.GetAsFloat();
-	rotY = rotY_.GetAsFloat();
-	rotZ = rotZ_.GetAsFloat();
+	*rotX = rotX_.GetAsFloat();
+	*rotY = rotY_.GetAsFloat();
+	*rotZ = rotZ_.GetAsFloat();
 	return ret;
 }
 
