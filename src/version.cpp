@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef SAMPGDK_VERSION_H
-#define SAMPGDK_VERSION_H
+#include <sampgdk/config.h>
+#include <sampgdk/export.h>
+#include <sampgdk/version.h>
 
-#define SAMPGDK_VERSION_MAJOR 1
-#define SAMPGDK_VERSION_MINOR 1
-#define SAMPGDK_VERSION_PATCH 0
-#define SAMPGDK_VERSION_STRING "1.1.0"
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_major() {
+	return SAMPGDK_VERSION_MAJOR;
+}
 
-// Runtime version info
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_major();
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_minor();
-SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version();
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_minor() {
+	return SAMPGDK_VERSION_MINOR;
+}
 
-#endif // !SAMPGDK_VERSION_H
+SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version() {
+	return SAMPGDK_VERSION_STRING;
+}

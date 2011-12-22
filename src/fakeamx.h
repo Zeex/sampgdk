@@ -16,10 +16,10 @@
 #define SAMPGDK_FAKEAMX_H
 
 #include <sampgdk/config.h>
-#include <cstddef>
+#include <sampgdk/amx/amx.h>
 
+#include <cstddef>
 #include <cstring>
-#include <amx.h>
 
 class FakeAmx {
 public:

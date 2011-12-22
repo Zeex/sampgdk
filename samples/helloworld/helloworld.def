@@ -1,0 +1,9 @@
+LIBRARY helloworld
+EXPORTS
+	Supports
+	Load
+	Unload
+	OnGameModeInit
+	OnPlayerConnect
+	OnPlayerRequestClass
+	OnPlayerCommandText

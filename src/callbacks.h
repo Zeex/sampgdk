@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+// http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,41 @@
 #ifndef SAMPGDK_CALLBACKS_H
 #define SAMPGDK_CALLBACKS_H
 
-void SetupSampCallbackHooks();
+#include <sampgdk/config.h>
+#include <sampgdk/amx/amx.h>
 
-#endif // !SAMPGDK_CALLBACKS_H
+#include <deque>
+#include <map>
+#include <string>
 
+class CallbackManager {
+public:
+	static CallbackManager &GetInstance();
+
+	void RegisterCallbackHandler(void *handler);
+
+	void PushArg(cell value);
+	void PushArg(cell *value);
+
+	bool HandleCallback(const char *name);
+
+private:
+	CallbackManager();
+
+	enum ArgType {
+		ARG_VALUE,
+		ARG_STRING
+	};
+
+	struct Arg {
+		cell        value;
+		std::string string;
+		ArgType     type;
+	};
+
+	std::deque<Arg> args_;
+
+	std::map<void*, std::map<std::string, void*> > cache_;
+};
+
+#endif

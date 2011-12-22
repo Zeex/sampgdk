@@ -1,12 +1,18 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(sampgdk2)
+project(sampgdk)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 include(CheckIncludeFile)
 
-include_directories("${sampgdk2_SOURCE_DIR}/lib")
-include_directories("${sampgdk2_SOURCE_DIR}/lib/amx")
+set(VERSION_MAJOR 2)
+set(VERSION_MINOR 0)
+set(VERSION_PATCH 0)
+set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
+
 include_directories("${sampgdk2_SOURCE_DIR}/include")
+include_directories("${sampgdk2_SOURCE_DIR}/include/amx")
 
 function(check_include_and_define include_file define)
 	check_include_file(${include_file} HAVE_${include_file})
@@ -20,16 +26,14 @@ check_include_and_define("inttypes.h" "HAVE_INTTYPES_H")
 check_include_and_define("malloc.h"   "HAVE_MALLOC_H")
 check_include_and_define("stdint.h"   "HAVE_STDINT_H")
 
-add_library(sampgdk2 SHARED 
-	"lib/amx/amx.h"
-	"lib/amx/getch.h"
-	"lib/amx/sclinux.h"
-	"lib/amxplugin.cpp"
-	"lib/plugin.h"
-	"lib/plugincommon.h"
+add_library(sampgdk SHARED 
+	"include/sampgdk/amx/amx.h"
+	"include/sampgdk/amx/getch.h"
+	"include/sampgdk/amx/sclinux.h"
+	"include/sampgdk/plugin.h"
+	"include/sampgdk/plugincommon.h"
 	"include/sampgdk/config.h"
 	"include/sampgdk/core.h"
-	"include/sampgdk/eventhandler.h"
 	"include/sampgdk/export.h"
 	"include/sampgdk/gpci.h"
 	"include/sampgdk/objects.h"
@@ -37,31 +41,91 @@ add_library(sampgdk2 SHARED
 	"include/sampgdk/samp.h"
 	"include/sampgdk/vehicles.h"
 	"include/sampgdk/version.h"
+	"src/amxhooks.cpp"
+	"src/amxhooks.h"
+	"src/amxplugin.cpp"
 	"src/callbacks.cpp"
 	"src/callbacks.h"
 	"src/core.cpp"
-	"src/eventhandler.cpp"
 	"src/fakeamx.cpp"
 	"src/fakeamx.h"
 	"src/gpci.cpp"
 	"src/jump-x86.cpp"
 	"src/jump-x86.h"
+	"src/natives.cpp"
+	"src/natives.h"
 	"src/objects.cpp"
 	"src/players.cpp"
 	"src/samp.cpp"
 	"src/vehicles.cpp"
-	"src/wrapper.h"
-	"src/wrapper.cpp"
+	"src/version.cpp"
 )
 
-set_property(TARGET sampgdk2 APPEND PROPERTY 
-	COMPILE_DEFINITIONS "IN_SAMPGDK")
+set_target_properties(sampgdk PROPERTIES 
+	IMPORT_PREFIX ""
+	DEBUG_POSTFIX "D"
+)
 
-set_target_properties(sampgdk2 PROPERTIES
-	PREFIX ""
-	DEBUG_POSTFIX "D")
+add_definitions(-DIN_SAMPGDK)
 
-if(MINGW AND WIN32)
-	set_property(TARGET sampgdk2 APPEND_STRING PROPERTY 
-		LINK_FLAGS " -static-libgcc -static-libstdc++")
+if(WIN32)
+	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
+	if(MINGW)
+		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "-Wl,--kill-at --def=${DEF_FILE}")
+	else()
+		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "/DEF:${DEF_FILE}")
+	endif()
+	set_target_properties(sampgdk PROPERTIES 
+		PREFIX      ""
+		OUTPUT_NAME "sampgdk${VERSION_MAJOR}")
+elseif(UNIX)
+	set_target_properties(sampgdk PROPERTIES 
+		VERSION   ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
+		SOVERSION ${VERSION_MAJOR}
+	)
 endif()
+
+if(UNIX OR MINGW)
+	set_target_properties(sampgdk PROPERTIES
+		COMPILE_FLAGS "-m32 -Wno-attributes" LINK_FLAGS "-m32")
+endif()
+
+find_package(DynCall REQUIRED)
+include_directories(${DYNCALL_INCLUDE_DIRS})
+target_link_libraries(sampgdk ${DYNCALL_LIBRARIES})
+
+install(TARGETS sampgdk 
+	RUNTIME DESTINATION "bin" COMPONENT "runtime"
+	LIBRARY DESTINATION "lib" COMPONENT "libraries"
+	ARCHIVE DESTINATION "lib" COMPONENT "libraries"
+)
+
+install(DIRECTORY "include" DESTINATION "." COMPONENT headers)
+
+set(CPACK_PACKAGE_NAME "sampgdk") 
+set(CPACK_PACKAGE_VENDOR "Zeex")
+set(CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA:MP Gamemode Development Kit for C++")
+set(CPACK_RESOURCE_FILE_LICENSE ${sampgdk_SOURCE_DIR}/LICENSE)
+set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
+set(CPACK_NSIS_MODIFY_PATH ON)
+
+set(CPACK_COMPONENT_RUNTIME_DISPLAY_NAME "Runtime")
+set(CPACK_COMPONENT_RUNTIME_DESCRIPTION "Runtime library")
+set(CPACK_COMPONENT_RUNTIME_INSTALL_TYPES "Full" "Runtime Only")
+set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "Libraries")
+set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION "Import library")
+set(CPACK_COMPONENT_LIBRARIES_GROUP "Development")
+set(CPACK_COMPONENT_LIBRARIES_INSTALL_TYPES "Full")
+set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ headers")
+set(CPACK_COMPONENT_HEADERS_DESCRIPTION "C++ header files for plugin developers")
+set(CPACK_COMPONENT_HEADERS_GROUP "Development")
+set(CPACK_COMPONENT_HEADERS_INSTALL_TYPES "Full")
+set(CPACK_COMPONENT_HEADERS_DEPENDS "libraries")
+
+include(CPack)
+
+# Build sample projects
+add_subdirectory(samples)
