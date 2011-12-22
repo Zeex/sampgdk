@@ -31,7 +31,7 @@ public:
 	void PushArg(cell value);
 	void PushArg(cell *value);
 
-	bool HandleCallback(const char *name);
+	int HandleCallback(const char *name,  int badRetVal);
 
 private:
 	CallbackManager();
@@ -48,7 +48,6 @@ private:
 	};
 
 	std::deque<Arg> args_;
-
 	std::map<void*, std::map<std::string, void*> > cache_;
 };
 

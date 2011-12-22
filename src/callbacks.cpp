@@ -54,7 +54,7 @@ void CallbackManager::PushArg(cell *value) {
 	args_.push_front(arg);
 }
 
-bool CallbackManager::HandleCallback(const char *name) {
+int CallbackManager::HandleCallback(const char *name, int badRetVal) {
 	DCCallVM *vm = dcNewCallVM(4096);
 
 #ifdef _WIN32
@@ -72,30 +72,31 @@ bool CallbackManager::HandleCallback(const char *name) {
 		} else {
 			dcArgPointer(vm, (DCpointer)args_[i].string.c_str());
 		}
-	}
+	}	
 
-	bool retval = true;
+	int retVal = !badRetVal;
 
-	typedef std::map<std::string, void*> LocalCache;
-	typedef std::map<void*, LocalCache> Cache;
+	typedef std::map<std::string, void*> PluginCache;
+	typedef std::map<void*, PluginCache> Cache;
 
 	// Call each of the registered handlers until false returned
 	for (Cache::iterator cIter = cache_.begin(); cIter != cache_.end(); ++cIter) {
 		void *function = 0;
 
-		LocalCache lc = cIter->second;
-		LocalCache::iterator lcIter = lc.find(name);
-		if (lcIter == lc.end()) {
+		PluginCache pc = cIter->second;
+		PluginCache::iterator pcIter = pc.find(name);
+
+		if (pcIter == pc.end()) {
 			if ((function = sampgdk_get_plugin_symbol(cIter->first, name)) != 0) {
-				lc.insert(std::make_pair(name, function));
+				pc.insert(std::make_pair(name, function));
 			}
 		} else {
-			function = lcIter->second;
+			function = pcIter->second;
 		}
 
 		if (function != 0) {
-			retval = dcCallBool(vm, function) != 0;
-			if (!retval) {
+			retVal = dcCallInt(vm, function);
+			if (retVal == badRetVal) {
 				break;
 			}
 		}
@@ -107,6 +108,6 @@ bool CallbackManager::HandleCallback(const char *name) {
 	// Destroy the call VM
 	dcFree(vm);
 
-	return retval;
+	return retVal;
 }
 
