@@ -16,57 +16,62 @@
 #define SAMPGDK_FAKEAMX_H
 
 #include <sampgdk/config.h>
+#include <cstddef>
 
 #include <cstring>
 #include <amx.h>
 
-extern AMX fakeAmx;
+class FakeAmx {
+public:
+	static const size_t INITIAL_HEAP_SIZE = 1024;
 
-cell FakeAmxPush(size_t cells);
-cell FakeAmxPush(const char *s);
+	~FakeAmx();
 
-void FakeAmxGet(cell address, cell &value);
-void FakeAmxGet(cell address, char *value, size_t size);
+	static FakeAmx &GetInstance();
 
-void FakeAmxPop(cell address);
+	AMX *amx() const;
+
+	cell Push(size_t cells);
+	cell Push(const char *s);
+
+	void Get(cell address, cell &value) const;
+	void Get(cell address, char *value, size_t size) const;
+
+	void Pop(cell address);
+
+	cell CallNative(AMX_NATIVE native, cell *params);
+	bool CallBooleanNative(AMX_NATIVE native, cell *params);
+
+private:
+	FakeAmx();
+	FakeAmx(const FakeAmx &rhs);
+
+	void ResizeHeap(std::size_t newSize);
+
+	AMX amx_;
+	AMX_HEADER hdr_;
+	cell *heap_;
+	std::size_t heapSize_;
+};
 
 class FakeAmxHeapObject {
 public:
-	FakeAmxHeapObject()
-		: size_(1), address_(FakeAmxPush(1))
-	{}
+	FakeAmxHeapObject();
+	FakeAmxHeapObject(size_t cells);
+	FakeAmxHeapObject(const char *s);
+	~FakeAmxHeapObject();
 
-	FakeAmxHeapObject(size_t cells)
-		: size_(cells), address_(FakeAmxPush(cells))
-	{}
+	cell address() const;
+	size_t size() const;
 
-	FakeAmxHeapObject(const char *s)
-		: size_(std::strlen(s) + 1), address_(FakeAmxPush(s))
-	{}
-
-	~FakeAmxHeapObject() { FakeAmxPop(address_); }
-
-	cell address() const { return address_; }
-
-	size_t size() const { return size_; }
-
-	cell Get() const {
-		return *reinterpret_cast<cell*>(::fakeAmx.data + address_);
-	}
-
-	float GetAsFloat() const {
-		cell value = this->Get();
-		return amx_ctof(value);
-	}
-
-	void GetAsString(char *s, size_t size) const {
-		FakeAmxGet(address_, s, size);
-	}
+	cell  Get() const;
+	float GetAsFloat() const;
+	void  GetAsString(char *s, size_t size) const;
 
 private:
 	size_t size_;
 	cell address_;
 };
 
-#endif // !SAMPGDK_FAKEAMX_H
+#endif // !SAMPGDK_FAKEAMX
 
