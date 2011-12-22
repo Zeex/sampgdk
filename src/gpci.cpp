@@ -18,8 +18,6 @@
 
 #include "fakeamx.h"
 
-namespace sampgdk {
-
 bool gpci(int playerid, char *buffer, std::size_t size) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("gpci");
 	FakeAmxHeapObject buffer_(size);
@@ -33,5 +31,3 @@ bool gpci(int playerid, char *buffer, std::size_t size) {
 	buffer_.GetAsString(buffer, size);
 	return ret;
 }
-
-} // namespace sampgdk

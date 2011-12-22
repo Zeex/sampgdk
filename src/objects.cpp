@@ -18,8 +18,6 @@
 
 #include "fakeamx.h"
 
-namespace sampgdk {
-
 int CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreateObject");
 	cell params[] = {
@@ -369,6 +367,3 @@ bool IsPlayerObjectMoving(int playerid, int objectid) {
 	};
 	return native(&::fakeAmx, params) != 0;
 }
-
-} // namespace sampgdk
-

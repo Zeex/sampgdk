@@ -19,8 +19,6 @@
 
 #include "fakeamx.h"
 
-namespace sampgdk {
-
 bool SetSpawnInfo(int playerid, int team, int skin, float x, float y, float z, float rotation, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) {
 	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetSpawnInfo");
 	cell params[] = {
@@ -1392,6 +1390,3 @@ bool StopRecordingPlayerData(int playerid) {
 	};
 	return native(&::fakeAmx, params) != 0;
 }
-
-} // namespace sampgdk
-

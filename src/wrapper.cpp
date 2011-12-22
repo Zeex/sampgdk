@@ -55,7 +55,7 @@ static int AMXAPI amx_RegisterHookProc(AMX *amx, const AMX_NATIVE_INFO *nativeli
 	int error = amx_Register(amx, nativelist, number);
 
 	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
-		sampgdk::Wrapper::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
+		Wrapper::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
 		// Fix for funcidx() issue
 		if (strcmp(nativelist[i].name, "funcidx") == 0) {
 			new JumpX86((void*)nativelist[i].func, (void*)fixed_funcidx);
@@ -90,10 +90,10 @@ static int AMXAPI amx_ExecHookProc(AMX *amx, cell *retval, int index) {
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode = amx;
-		sampgdk::Wrapper::GetInstance().CallPublicHook(amx, retval, "OnGameModeInit");
+		Wrapper::GetInstance().CallPublicHook(amx, retval, "OnGameModeInit");
 	} else {
 		if (amx == gamemode && index != AMX_EXEC_CONT) {
-			canDoExec = sampgdk::Wrapper::GetInstance().CallPublicHook(amx, retval, currentPublic.c_str());
+			canDoExec = Wrapper::GetInstance().CallPublicHook(amx, retval, currentPublic.c_str());
 		}
 	}
 
@@ -131,8 +131,6 @@ static int AMXAPI amx_CallbackHookProc(AMX *amx, cell index, cell *result, cell 
 
 	return error;
 }
-
-namespace sampgdk {
 
 Wrapper::Wrapper() {}
 
@@ -187,6 +185,3 @@ bool Wrapper::CallPublicHook(AMX *amx, cell *retval, const char *name) const {
 	}
 	return true;
 }
-
-} // namespace sampgdk
-

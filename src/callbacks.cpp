@@ -18,8 +18,6 @@
 
 #include <string>
 
-using sampgdk::EventHandler;
-
 static cell GetCellFromStack(AMX *amx, int index) {
 	AMX_HEADER *hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
 	unsigned char *data = (amx->data != 0) ? amx->data : amx->base + hdr->dat;
@@ -701,11 +699,7 @@ static cell OnPlayerClickMap(AMX *amx) {
 	return 1;
 }
 
-namespace sampgdk { 
-
 void SetupSampCallbackHooks() {
-	using sampgdk::Wrapper;
-
 	Wrapper::GetInstance().SetPublicHook("OnGameModeInit", PublicHook(OnGameModeInit, 0));
 	Wrapper::GetInstance().SetPublicHook("OnGameModeExit", PublicHook(OnGameModeExit, 0));
 	Wrapper::GetInstance().SetPublicHook("OnPlayerConnect", PublicHook(OnPlayerConnect, 0));
@@ -751,6 +745,3 @@ void SetupSampCallbackHooks() {
 	Wrapper::GetInstance().SetPublicHook("OnPlayerGiveDamage", PublicHook(OnPlayerGiveDamage, 0));
 	Wrapper::GetInstance().SetPublicHook("OnPlayerClickMap", PublicHook(OnPlayerClickMap, 0));
 }
-
-} // namespace sampgdk 
-
