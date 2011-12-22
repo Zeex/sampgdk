@@ -1,0 +1,12 @@
+CXX = g++
+CPPFLAGS = -DLINUX 
+CXXFLAGS = -c -fPIC -O2 -Wall -Wno-attributes
+LDFLAGS = -shared -fPIC -lsampgdk -Wl,--no-undefined
+
+all: helloworld.so
+
+helloworld.so: helloworld.o
+	$(CXX) $(LDFLAGS) $^ -o $@
+
+clean:
+	rm -vf helloworld.o helloworld.so
