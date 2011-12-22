@@ -80,6 +80,7 @@ if(WIN32)
 		PREFIX      ""
 		OUTPUT_NAME "sampgdk${VERSION_MAJOR}")
 elseif(UNIX)
+	add_definitions(-DLINUX)
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
 		SOVERSION ${VERSION_MAJOR}
