@@ -555,7 +555,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreateMenu(const char *title, int columns, float
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyMenu(int menuid) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DestroyMenu");
 	cell params[] = {
 		1 * 4,
@@ -564,7 +564,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL MenuAddItem(int menuid, int column, const char *menutext) {
+SAMPGDK_EXPORT int SAMPGDK_CALL AddMenuItem(int menuid, int column, const char *menutext) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddMenuItem");
 	FakeAmxHeapObject menutext_(menutext);
 	cell params[] = {
@@ -576,7 +576,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MenuAddItem(int menuid, int column, const char *
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuSetColumnHeader(int menuid, int column, const char *columnheader) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetMenuColumnHeader(int menuid, int column, const char *columnheader) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetMenuColumnHeader");
 	FakeAmxHeapObject columnheader_(columnheader);
 	cell params[] = {
@@ -588,7 +588,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL MenuSetColumnHeader(int menuid, int column, con
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuShowForPlayer(int menuid, int playerid) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL ShowMenuForPlayer(int menuid, int playerid) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ShowMenuForPlayer");
 	cell params[] = {
 		2 * 4,
@@ -598,7 +598,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL MenuShowForPlayer(int menuid, int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuHideForPlayer(int menuid, int playerid) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL HideMenuForPlayer(int menuid, int playerid) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("HideMenuForPlayer");
 	cell params[] = {
 		2 * 4,
@@ -617,7 +617,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidMenu(int menuid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenu(int menuid) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DisableMenu");
 	cell params[] = {
 		1 * 4,
@@ -626,7 +626,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisableRow(int menuid, int row) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenuRow(int menuid, int row) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DisableMenuRow");
 	cell params[] = {
 		2 * 4,
