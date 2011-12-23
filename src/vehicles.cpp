@@ -20,7 +20,7 @@
 #include "natives.h"
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreateVehicle(int vehicletype, float x, float y, float z, float rotation, 
-	int color1, int color2, long respawn_delay)
+	int color1, int color2, int respawn_delay)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreateVehicle");
 	cell params[] = {
@@ -448,7 +448,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleDamageStatus(int vehicleid, int *pane
 	return ret;
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL UpdateVehicleDamageStatus(int vehicleid, long panels, long doors, long lights, long tires) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL UpdateVehicleDamageStatus(int vehicleid, int panels, int doors, int lights, int tires) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("UpdateVehicleDamageStatus");
 	cell params[] = {
 		5 * 4,
