@@ -125,7 +125,7 @@ if(WIN32)
 elseif(UNIX)
 	add_definitions(-DLINUX)
 	set_target_properties(sampgdk PROPERTIES 
-		VERSION   ${version_major}.${versio_minor}.${version_patch}
+		VERSION   ${version_major}.${version_minor}.${version_patch}
 		SOVERSION ${version_major}
 	)
 endif()
