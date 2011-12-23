@@ -5,7 +5,6 @@
 	#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
 		/* have a C99 compiler */
 		#include <stdbool.h>
-		typedef _Bool bool;
 	#else
 		typedef unsigned char bool;
 		#define true 1
