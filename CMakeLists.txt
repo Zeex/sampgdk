@@ -144,6 +144,13 @@ install(TARGETS sampgdk
 
 install(DIRECTORY "include" DESTINATION "." COMPONENT headers)
 
+if(MSVC)
+	get_target_property(output_name sampgdk OUTPUT_NAME)
+	set(PDB_NAME "${output_name}.pdb")
+	set(PDB_PATH "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}/${PDB_NAME}")
+	install(FILES ${PDB_PATH} DESTINATION "bin" COMPONENT "runtime")
+endif()
+
 set(CPACK_PACKAGE_NAME "sampgdk") 
 set(CPACK_PACKAGE_VENDOR "Zeex")
 set(CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
