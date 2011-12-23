@@ -134,12 +134,13 @@ endif()
 if(UNIX OR MINGW)
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY 
 		COMPILE_FLAGS " -m32 -Wno-attributes")
-	set_property(TARGET sampgdk APPEND_STRING PROPERTY
-		LINK_FLAGS " -m32 -Wl,--export-all-symbols")
 	if(WIN32)
 		# Link with static libgcc/libstdc++
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
-			LINK_FLAGS " -static-libgcc -static-libstdc++")
+			LINK_FLAGS " -m32 -static-libgcc -static-libstdc++ -Wl,--export-all-symbols")
+	else()
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY
+			LINK_FLAGS " -m32 -Wl,--export-dynamic")
 	endif()
 elseif(MSVC)
 	# Use static VC++ runtime 
