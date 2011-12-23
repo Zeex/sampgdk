@@ -113,9 +113,11 @@ if(WIN32)
 	# Set module definition file
 	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
-		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "-Wl,--kill-at --def=${DEF_FILE}")
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY 
+			LINK_FLAGS " -Wl,--kill-at --def ${DEF_FILE}")
 	else()
-		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "/DEF:${DEF_FILE}")
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY 
+			LINK_FLAGS " /DEF:${DEF_FILE}")
 	endif()
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
@@ -130,8 +132,15 @@ endif()
 
 # Compiler/linker options
 if(UNIX OR MINGW)
-	set_target_properties(sampgdk PROPERTIES
-		COMPILE_FLAGS "-m32 -Wno-attributes" LINK_FLAGS "-m32")
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY 
+		COMPILE_FLAGS " -m32 -Wno-attributes")
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY
+		LINK_FLAGS " -m32")
+	if(WIN32)
+		# Link with static libgcc/libstdc++
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY
+			LINK_FLAGS " -static-libgcc -static-libstdc++")
+	endif()
 elseif(MSVC)
 	# Use static VC++ runtime 
 	foreach(flag_var
