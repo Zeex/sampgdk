@@ -89,22 +89,22 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerWeaponState(int playerid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerTargetPlayer(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerTeam(int playerid, int teamid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerTeam(int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerScore(int playerid, long score);
-SAMPGDK_EXPORT long SAMPGDK_CALL GetPlayerScore(int playerid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerScore(int playerid, int score);
+SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerScore(int playerid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerDrunkLevel(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerDrunkLevel(int playerid, int level);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerColor(int playerid, long color);
-SAMPGDK_EXPORT long SAMPGDK_CALL GetPlayerColor(int playerid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerColor(int playerid, int color);
+SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerColor(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerSkin(int playerid, int skinid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerSkin(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GivePlayerWeapon(int playerid, int weaponid, int ammo);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ResetPlayerWeapons(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerArmedWeapon(int playerid, int weaponid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerWeaponData(int playerid, int slot, int *weapon, int *ammo);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GivePlayerMoney(int playerid, long money);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GivePlayerMoney(int playerid, int money);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ResetPlayerMoney(int playerid);
 SAMPGDK_EXPORT int SAMPGDK_CALL SetPlayerName(int playerid, const char *name);
-SAMPGDK_EXPORT long SAMPGDK_CALL GetPlayerMoney(int playerid);
+SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMoney(int playerid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerState(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerIp(int playerid, char *ip, size_t size);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerPing(int playerid);
@@ -155,7 +155,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarNameAtIndex(int playerid, int index, cha
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarType(int playerid, const char *varname);
 
 #define MAX_CHATBUBBLE_LENGTH (144)
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerChatBubble(int playerid, const char *text, long color, float drawdistance, long expiretime);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerChatBubble(int playerid, const char *text, int color, float drawdistance, int expiretime);
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL PutPlayerInVehicle(int playerid, int vehicleid, int seatid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerVehicleID(int playerid);
@@ -163,7 +163,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerVehicleSeat(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL RemovePlayerFromVehicle(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TogglePlayerControllable(int playerid, bool toggle);
 SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerPlaySound(int playerid, int soundid, float x, float y, float z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL ApplyAnimation(int playerid, const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, long time, bool forcesync);
+SAMPGDK_EXPORT bool SAMPGDK_CALL ApplyAnimation(int playerid, const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ClearAnimations(int playerid, bool forcesync);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerAnimationIndex(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetAnimationName(int index, char *animlib, size_t animlib_size, char *animname, size_t animname_size); 
@@ -175,7 +175,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DisablePlayerCheckpoint(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerRaceCheckpoint(int playerid, int type, float x, float y, float z, float nextx, float nexty, float nextz, float size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL DisablePlayerRaceCheckpoint(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerWorldBounds(int playerid, float x_max, float x_min, float y_max, float y_min);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerMarkerForPlayer(int playerid, int showplayerid, long color);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerMarkerForPlayer(int playerid, int showplayerid, int color);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerNameTagForPlayer(int playerid, int showplayerid, bool show);
 
 #define MAPICON_LOCAL             (0)
@@ -183,7 +183,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerNameTagForPlayer(int playerid, int sh
 #define MAPICON_LOCAL_CHECKPOINT  (2)
 #define MAPICON_GLOBAL_CHECKPOINT (3)
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerMapIcon(int playerid, int iconid, float x, float y, float z, int markertype, long color, int style);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerMapIcon(int playerid, int iconid, float x, float y, float z, int markertype, int color, int style);
 SAMPGDK_EXPORT bool SAMPGDK_CALL RemovePlayerMapIcon(int playerid, int iconid);
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL AllowPlayerTeleport(int playerid, bool allow);
@@ -201,8 +201,8 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerInAnyVehicle(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerInCheckpoint(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerInRaceCheckpoint(int playerid);
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerVirtualWorld(int playerid, long worldid);
-SAMPGDK_EXPORT long SAMPGDK_CALL GetPlayerVirtualWorld(int playerid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerVirtualWorld(int playerid, int worldid);
+SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerVirtualWorld(int playerid);
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL EnableStuntBonusForPlayer(int playerid, bool enable);
 SAMPGDK_EXPORT void SAMPGDK_CALL EnableStuntBonusForAll(bool enable);
