@@ -105,9 +105,12 @@ set_target_properties(sampgdk PROPERTIES
 	DEBUG_POSTFIX "D"
 )
 
+# Needed for SAMPGDK_EXPORT macro to be defined correctly on Windows
 add_definitions(-DIN_SAMPGDK)
 
+# Output library properties
 if(WIN32)
+	# Set module definition file
 	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
 		set_target_properties(sampgdk PROPERTIES LINK_FLAGS "-Wl,--kill-at --def=${DEF_FILE}")
@@ -125,9 +128,19 @@ elseif(UNIX)
 	)
 endif()
 
+# Compiler/linker options
 if(UNIX OR MINGW)
 	set_target_properties(sampgdk PROPERTIES
 		COMPILE_FLAGS "-m32 -Wno-attributes" LINK_FLAGS "-m32")
+elseif(MSVC)
+	# Use static VC++ runtime 
+	foreach(flag_var
+        	CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+        	CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+   	   if(${flag_var} MATCHES "/MD")
+      	      string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+   	   endif()
+	endforeach(flag_var)
 endif()
 
 find_package(DynCall REQUIRED)
