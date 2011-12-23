@@ -51,7 +51,7 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
 #else
 	Dl_info info;
 	dladdr(symbol, &info);
-	return (void*)info.dli_fbase;
+	return dlopen(info.dli_fname, RTLD_NOW); /* should be already loaded by the server */
 #endif
 }
 
