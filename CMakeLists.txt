@@ -5,11 +5,7 @@ project(sampgdk)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 include(CheckIncludeFile)
-
-set(VERSION_MAJOR 2)
-set(VERSION_MINOR 1)
-set(VERSION_PATCH 0)
-set(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH})
+include(GetGitRevisionDescription)
 
 include_directories("${sampgdk_SOURCE_DIR}/include")
 include_directories("${sampgdk_SOURCE_DIR}/include/amx")
@@ -58,9 +54,51 @@ add_library(sampgdk SHARED
 	"src/objects.cpp"
 	"src/players.cpp"
 	"src/samp.cpp"
+	"src/sampgdk.rc"
 	"src/vehicles.cpp"
 	"src/version.cpp"
 )
+
+set(version_tag_regex "v([0-9]+)\\.([0-9]+)\\.([0-9]+)-?([0-9]*)-?g?([a-f0-9]*)")
+git_describe(description --match v[0-9]*.[0-9]*.[0-9]*)
+if(description MATCHES ${version_tag_regex})
+	string(REGEX REPLACE ${version_tag_regex} 
+		"\\1;\\2;\\3;\\4;\\5" version_components ${description})
+	list(GET version_components 0 version_major)
+	list(GET version_components 1 version_minor)
+	list(GET version_components 2 version_patch)
+	list(GET version_components 3 version_commit)
+	if(version_commit STREQUAL "")
+		set(version_commit 0)
+		set(version_string ${version_major}.${version_minor}.${version_patch})
+	else()
+		set(version_string ${version_major}.${version_minor}.${version_patch}.${version_commit})
+	endif()
+else()
+	message(FATAL_ERROR "Couldn't obtain version info")
+endif()
+
+file(WRITE "include/sampgdk/version.h" 
+"/* Version information */ 
+
+#ifndef SAMPGDK_VERSION_H
+#define SAMPGDK_VERSION_H
+
+#include <sampgdk/config.h>
+#include <sampgdk/export.h>
+
+#define SAMPGDK_VERSION_MAJOR ${version_major}
+#define SAMPGDK_VERSION_MINOR ${version_minor}
+#define SAMPGDK_VERSION_PATCH ${version_patch}
+#define SAMPGDK_VERSION_COMMIT ${version_commit}
+#define SAMPGDK_VERSION_STRING \"${version_string}\"
+
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_major();
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_minor();
+SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version();
+
+#endif
+")
 
 set_target_properties(sampgdk PROPERTIES 
 	IMPORT_PREFIX ""
@@ -78,12 +116,12 @@ if(WIN32)
 	endif()
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
-		OUTPUT_NAME "sampgdk${VERSION_MAJOR}")
+		OUTPUT_NAME "sampgdk${version_major}")
 elseif(UNIX)
 	add_definitions(-DLINUX)
 	set_target_properties(sampgdk PROPERTIES 
-		VERSION   ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}
-		SOVERSION ${VERSION_MAJOR}
+		VERSION   ${version_major}.${versio_minor}.${version_patch}
+		SOVERSION ${version_major}
 	)
 endif()
 
@@ -96,6 +134,8 @@ find_package(DynCall REQUIRED)
 include_directories(${DYNCALL_INCLUDE_DIRS})
 target_link_libraries(sampgdk ${DYNCALL_LIBRARIES})
 
+message(STATUS "Version: ${version_string}")
+
 install(TARGETS sampgdk 
 	RUNTIME DESTINATION "bin" COMPONENT "runtime"
 	LIBRARY DESTINATION "lib" COMPONENT "libraries"
@@ -107,11 +147,11 @@ install(DIRECTORY "include" DESTINATION "." COMPONENT headers)
 set(CPACK_PACKAGE_NAME "sampgdk") 
 set(CPACK_PACKAGE_VENDOR "Zeex")
 set(CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA:MP Gamemode Development Kit for C++")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA-MP Gamemode Development Kit for C/C++")
 set(CPACK_RESOURCE_FILE_LICENSE ${sampgdk_SOURCE_DIR}/LICENSE)
-set(CPACK_PACKAGE_VERSION_MAJOR ${VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
+set(CPACK_PACKAGE_VERSION_MAJOR ${version_major})
+set(CPACK_PACKAGE_VERSION_MINOR ${version_minor})
+set(CPACK_PACKAGE_VERSION_PATCH ${version_patch})
 set(CPACK_NSIS_MODIFY_PATH ON)
 
 set(CPACK_COMPONENT_RUNTIME_DISPLAY_NAME "Runtime")
@@ -122,7 +162,7 @@ set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION "Import library")
 set(CPACK_COMPONENT_LIBRARIES_GROUP "Development")
 set(CPACK_COMPONENT_LIBRARIES_INSTALL_TYPES "Full")
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ headers")
-set(CPACK_COMPONENT_HEADERS_DESCRIPTION "C++ header files for plugin developers")
+set(CPACK_COMPONENT_HEADERS_DESCRIPTION "C++ header files for developers")
 set(CPACK_COMPONENT_HEADERS_GROUP "Development")
 set(CPACK_COMPONENT_HEADERS_INSTALL_TYPES "Full")
 set(CPACK_COMPONENT_HEADERS_DEPENDS "libraries")
