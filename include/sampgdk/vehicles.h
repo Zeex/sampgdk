@@ -69,7 +69,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleModel(int vehicleid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentInSlot(int vehicleid, int slot);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentType(int component); 
 SAMPGDK_EXPORT bool SAMPGDK_CALL RepairVehicle(int vehicleid); 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVelocity(int vehicleid, float *X, float *Y, float Z);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVelocity(int vehicleid, float *X, float *Y, float *Z);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVelocity(int vehicleid, float X, float Y, float Z);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleAngularVelocity(int vehicleid, float X, float Y, float Z);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleDamageStatus(int vehicleid, int *panels, int *doors, int *lights, int *tires);
