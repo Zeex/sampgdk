@@ -237,6 +237,17 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, in
 
 #define CLICK_SOURCE_SCOREBOARD   (0)
 
+/* Backwards compatibility */
+#define GetServerTickCount  GetTickCount        /* deprecated */
+#define MenuCreate          CreateMenu          /* deprecated */
+#define MenuDestroy         DestroyMenu         /* deprecated */
+#define MenuAddItem         AddMenuItem         /* deprecated */
+#define MenuSetColumnHeader SetMenuColumnHeader /* deprecated */
+#define MenuShowForPlayer   ShowMenuForPlayer   /* deprecated */
+#define MenuHideForPlayer   HideMenuForPlayer   /* deprecated */
+#define MenuDisable         DisableMenu         /* deprecated */
+#define MenuDisableRow      DisableMenuRow      /* deprecated */
+
 #ifdef __cplusplus
 template<size_t N> inline bool GetNetworkStats(char (&retstr)[N]) { 
 	return GetNetworkStats(retstr, N); 
