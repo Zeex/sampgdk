@@ -151,6 +151,10 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdatePlayer3DTextLabelText(int playerid, int i
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, const char *info, const char *button1, const char *button2);
 
+typedef void (SAMPGDK_CALL *TimerHandler)(int timerid, void *param);
+SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler hander, void *param);
+SAMPGDK_EXPORT void SAMPGDK_CALL DestroyTimer(int timerid);
+
 #define PLAYER_STATE_NONE                    (0)
 #define PLAYER_STATE_ONFOOT                  (1)
 #define PLAYER_STATE_DRIVER                  (2)

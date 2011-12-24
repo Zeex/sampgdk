@@ -9,6 +9,10 @@
 typedef void (*logprintf_t)(const char *format, ...);
 static logprintf_t logprintf;
 
+void SAMPGDK_CALL Timer(int timerid, void *param) {
+	logprintf("timer!");
+};
+
 PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit() {
 	SetGameModeText("Hello, World!");
 
@@ -17,6 +21,8 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit() {
 	logprintf("------------------------------------------\n");
 	logprintf("      HelloWorld gamemode got loaded.     \n");
 	logprintf("------------------------------------------\n");
+
+	CreateTimer(1000, true, Timer, 0);
 
 	return true;
 }
@@ -54,7 +60,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmdt
 }
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
-	return SUPPORTS_VERSION;
+	return SUPPORTS_VERSION | SUPPORTS_PROCESS_TICK;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
@@ -65,4 +71,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
 	return;
+}
+
+PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
+	sampgdk_process_timers();
 }
