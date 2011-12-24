@@ -15,9 +15,8 @@
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
 
-#include <algorithm>
-#include <functional>
 #include <set>
+#include <vector>
 
 #ifdef SAMPGDK_WINDOWS
 	#include <Windows.h>
@@ -27,7 +26,7 @@
 
 #include "timers.h"
 
-std::set<Timer*> Timer::timers_;
+std::vector<Timer*> Timer::timers_;
 
 Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param) 
 	: interval_(interval)
@@ -42,7 +41,13 @@ Timer::~Timer() {
 }
 
 void Timer::Fire(int elapsedTime) {
-	handler_(reinterpret_cast<int>(this), param_);
+	size_t timerid = 0;
+	while (timerid < timers_.size()) {
+		if (timers_[timerid] == this) {
+			break;
+		}
+	}
+	handler_(timerid, param_);
 	if (repeating_) {
 		startTime_ = GetTime() - (elapsedTime - interval_);
 	}
@@ -60,27 +65,47 @@ void Timer::Fire(int elapsedTime) {
 	}
 #endif
 
-Timer *Timer::CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
+int Timer::CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
 	Timer *timer = new Timer(interval, repeat, handler, param);
-	timers_.insert(timer);
-	return timer;
+	size_t timerid = 0;
+	while (timerid < timers_.size()) {
+		if (timers_[timerid] == 0) {
+			timers_[timerid] = timer;
+			break;
+		}
+	}
+	if (timerid == timers_.size()) {
+		timers_.push_back(timer);
+	}
+	return timerid;
 }
 
-void Timer::DestroyTimer(Timer *timer) {
-	timers_.erase(timer);
+bool Timer::DestroyTimer(int timerid) {
+	if (timerid < 0 || timerid >= static_cast<int>(timers_.size())) {
+		return false;
+	}
+
+	Timer *timer = timers_[timerid];
 	delete timer;
+
+	if (timerid == timers_.size()) {
+		timers_.pop_back();
+	} else {
+		timers_[timerid] = 0;
+	}
+
+	return true;
 }
 
 void Timer::ProcessTimers() {
 	int time = Timer::GetTime();
-	for (std::set<Timer*>::iterator iterator = timers_.begin();
-			iterator != timers_.end(); ++iterator) {
-		Timer *timer = *iterator;
+	for (size_t i = 0; i < timers_.size(); ++i) {
+		Timer *timer = timers_[i];
 		int elapsedTime = time - timer->GetStartTime();
 		if (elapsedTime >= timer->GetInterval()) {
-			(*iterator)->Fire(elapsedTime);
+			timer->Fire(elapsedTime);
 			if (!timer->IsRepeating()) {
-				timers_.erase(iterator);
+				DestroyTimer(i);
 			}
 		}
 	}
@@ -90,10 +115,10 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
 	Timer::ProcessTimers();
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler hander, void *param) {
-	return reinterpret_cast<int>(Timer::CreateTimer(interval, repeat, hander, param));
+SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
+	return Timer::CreateTimer(interval, repeat, handler, param);
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL DestroyTimer(int timerid) {
-	Timer::DestroyTimer(reinterpret_cast<Timer*>(timerid));
+SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid) {
+	return Timer::DestroyTimer(timerid);
 }
