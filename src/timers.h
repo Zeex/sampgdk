@@ -22,7 +22,9 @@
 
 class Timer {
 public:
-	Timer(int interval, bool repeat, TimerHandler hander, void *param);
+	static Timer *CreateTimer(int interval, bool repeat, TimerHandler handler, void *param);
+	static void DestroyTimer(Timer *timer);
+	
 	~Timer();
 
 	int GetInterval() const 
@@ -31,30 +33,23 @@ public:
 		{ return repeating_; }
 	int GetStartTime() const 
 		{ return startTime_; }
-	bool IsAlive() const
-		{ return isAlive_; }
 
 	void Fire(int elapsedTime);
 
 	static int GetTime();
 
+	static void ProcessTimers();
+
 private:
+	Timer(int interval, bool repeat, TimerHandler hander, void *param);
+
 	int interval_;
 	bool repeating_;
 	TimerHandler handler_;
 	void *param_;
+
 	int startTime_;
-	bool isAlive_;
-};
 
-class Timers {
-public:
-	static void CreateTimer(Timer *timer);
-	static void DestroyTimer(Timer *timer);
-
-	static void ProcessTimers();
-
-private:
 	static std::set<Timer*> timers_;
 };
 

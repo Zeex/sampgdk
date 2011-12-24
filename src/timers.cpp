@@ -27,7 +27,7 @@
 
 #include "timers.h"
 
-std::set<Timer*> Timers::timers_;
+std::set<Timer*> Timer::timers_;
 
 Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param) 
 	: interval_(interval)
@@ -35,21 +35,16 @@ Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
 	, handler_(hander)
 	, param_(param)
 	, startTime_(GetTime())
-	, isAlive_(true)
 {
-	Timers::CreateTimer(this);
 }
 
 Timer::~Timer() {
-	Timers::DestroyTimer(this);
 }
 
 void Timer::Fire(int elapsedTime) {
 	handler_(reinterpret_cast<int>(this), param_);
 	if (repeating_) {
 		startTime_ = GetTime() - (elapsedTime - interval_);
-	} else {
-		isAlive_ = false;
 	}
 }
 
@@ -65,15 +60,18 @@ void Timer::Fire(int elapsedTime) {
 	}
 #endif
 
-void Timers::CreateTimer(Timer *timer) {
+Timer *Timer::CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
+	Timer *timer = new Timer(interval, repeat, handler, param);
 	timers_.insert(timer);
+	return timer;
 }
 
-void Timers::DestroyTimer(Timer *timer) {
+void Timer::DestroyTimer(Timer *timer) {
 	timers_.erase(timer);
+	delete timer;
 }
 
-void Timers::ProcessTimers() {
+void Timer::ProcessTimers() {
 	int time = Timer::GetTime();
 	for (std::set<Timer*>::iterator iterator = timers_.begin();
 			iterator != timers_.end(); ++iterator) {
@@ -89,13 +87,13 @@ void Timers::ProcessTimers() {
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
-	Timers::ProcessTimers();
+	Timer::ProcessTimers();
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler hander, void *param) {
-	return reinterpret_cast<int>(new Timer(interval, repeat, hander, param));
+	return reinterpret_cast<int>(Timer::CreateTimer(interval, repeat, hander, param));
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL DestroyTimer(int timerid) {
-	delete reinterpret_cast<Timer*>(timerid);
+	Timer::DestroyTimer(reinterpret_cast<Timer*>(timerid));
 }
