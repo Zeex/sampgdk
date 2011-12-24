@@ -55,6 +55,8 @@ add_library(sampgdk SHARED
 	"src/players.cpp"
 	"src/samp.cpp"
 	"src/sampgdk.rc"
+	"src/timers.cpp"
+	"src/timers.h"
 	"src/vehicles.cpp"
 	"src/version.cpp"
 )

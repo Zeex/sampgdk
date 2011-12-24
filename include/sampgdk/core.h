@@ -35,4 +35,6 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const 
 		sampgdk_register_plugin(sampgdk_get_plugin_handle((void*)Load));\
 	} while (false);
 
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers();
+
 #endif /* !SAMPGDK_CORE_H */
