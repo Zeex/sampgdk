@@ -25,17 +25,11 @@ HelloWorld::HelloWorld() {
 
 HelloWorld::~HelloWorld() {}
 
-static long oneSecondTimer = 0;
+static Timer *oneSecondTimer = 0;
 
-static void OneSecondTimer(long timerid, void *param) {
+static void OneSecondTimer(Timer *timer, void *param) {
 	logprintf("one second timer");
 };
-
-static Timer *twoSecondTimer = 0;
-
-static void TwoSecondTimer(long timerid, void *param) {
-	logprintf("two second timer");
-}
 
 bool HelloWorld::OnGameModeInit() {
 	SetGameModeText("Hello, World!");
@@ -48,7 +42,6 @@ bool HelloWorld::OnGameModeInit() {
 
 	// Set two timers using two different methods
 	oneSecondTimer = SetTimer(1000, true, OneSecondTimer, 0);
-	twoSecondTimer = new Timer(2000, true, TwoSecondTimer);
 
 	return true;
 }
@@ -87,7 +80,6 @@ bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
 
 bool HelloWorld::OnGameModeExit() {
 	KillTimer(oneSecondTimer);
-	delete twoSecondTimer;
 	return true;
 }
 
@@ -108,5 +100,5 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload() {
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
-	Timers::ProcessTimers();
+	Timer::ProcessTimers();
 }

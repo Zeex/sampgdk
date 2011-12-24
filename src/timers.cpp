@@ -25,7 +25,7 @@
 
 namespace sampgdk {
 
-std::set<Timer*> Timers::timers_;
+std::set<Timer*> Timer::timers_;
 
 Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param) 
 	: interval_(interval)
@@ -33,22 +33,17 @@ Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
 	, handler_(hander)
 	, param_(param)
 	, startTime_(GetTime())
-	, isAlive_(true)
 {
-	Timers::CreateTimer(this);
 }
 
 Timer::~Timer() {
-	Timers::DestroyTimer(this);
 }
 
 void Timer::Fire(int elapsedTime) {
-	handler_(reinterpret_cast<long>(this), param_);
+	handler_(this, param_);
 	if (repeating_) {
 		startTime_ = GetTime() - (elapsedTime - interval_);
-	} else {
-		isAlive_ = false;
-	}
+	} 
 }
 
 #ifdef SAMPGDK_WINDOWS
@@ -63,15 +58,18 @@ void Timer::Fire(int elapsedTime) {
 	}
 #endif
 
-void Timers::CreateTimer(Timer *timer) {
+Timer *Timer::CreateTimer(long interval, bool repeat, TimerHandler handler, void *param) {
+	Timer *timer = new Timer(interval, repeat, handler, param);
 	timers_.insert(timer);
+	return timer;
 }
 
-void Timers::DestroyTimer(Timer *timer) {
+void Timer::DestroyTimer(Timer *timer) {
 	timers_.erase(timer);
+	delete timer;
 }
 
-void Timers::ProcessTimers() {
+void Timer::ProcessTimers() {
 	int time = Timer::GetTime();
 	for (std::set<Timer*>::iterator iterator = timers_.begin();
 			iterator != timers_.end(); ++iterator) {
@@ -86,12 +84,13 @@ void Timers::ProcessTimers() {
 	}
 }
 
-long SetTimer(long interval, bool repeat, TimerHandler hander, void *param) {
-	return reinterpret_cast<long>(new Timer(interval, repeat, hander, param));
+Timer *SetTimer(long interval, bool repeat, TimerHandler handler, void *param) {
+	return Timer::CreateTimer(interval, repeat, handler, param);
 }
 
-void KillTimer(long timerid) {
-	delete reinterpret_cast<Timer*>(timerid);
+void KillTimer(Timer *timer) {
+	Timer::DestroyTimer(timer);
+	timer = 0;
 }
 
 } // namespace sampgdk
