@@ -22,11 +22,15 @@
 
 namespace sampgdk {
 
-typedef void (*TimerHandler)(long timerid, void *param);
+class Timer;
+typedef void (*TimerHandler)(Timer *timer, void *param);
 
 class Timer {
-public:
-	Timer(int interval, bool repeat, TimerHandler hander, void *param = 0);
+public:	
+	static Timer *CreateTimer(long interval, bool repeat, 
+		                    TimerHandler handler, void *param = 0);
+	static void DestroyTimer(Timer *timer);
+
 	~Timer();
 
 	int GetInterval() const 
@@ -35,35 +39,28 @@ public:
 		{ return repeating_; }
 	int GetStartTime() const 
 		{ return startTime_; }
-	bool IsAlive() const
-		{ return isAlive_; }
 
 	void Fire(int elapsedTime);
 
 	static long GetTime();
 
+	static void ProcessTimers();
+	static void DestroyAllTimers();
+
 private:
+	Timer(int interval, bool repeat, TimerHandler hander, void *param);
+
 	int interval_;
 	bool repeating_;
 	TimerHandler handler_;
 	void *param_;
 	int startTime_;
-	bool isAlive_;
-};
 
-class Timers {
-public:
-	static void CreateTimer(Timer *timer);
-	static void DestroyTimer(Timer *timer);
-
-	static void ProcessTimers();
-
-private:
 	static std::set<Timer*> timers_;
 };
 
-long SetTimer(long interval, bool repeat, TimerHandler handler, void *param = 0);
-void KillTimer(long timerid);
+Timer *SetTimer(long interval, bool repeat, TimerHandler handler, void *param);
+void KillTimer(Timer *timer);
 
 } // namespace sampgdk
 
