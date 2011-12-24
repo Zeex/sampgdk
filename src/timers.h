@@ -19,11 +19,12 @@
 #include <sampgdk/samp.h>
 
 #include <set>
+#include <vector>
 
 class Timer {
 public:
-	static Timer *CreateTimer(int interval, bool repeat, TimerHandler handler, void *param);
-	static void DestroyTimer(Timer *timer);
+	static int CreateTimer(int interval, bool repeat, TimerHandler handler, void *param);
+	static bool DestroyTimer(int timerid);
 	
 	~Timer();
 
@@ -50,7 +51,7 @@ private:
 
 	int startTime_;
 
-	static std::set<Timer*> timers_;
+	static std::vector<Timer*> timers_;
 };
 
 #endif // SAMPGDK_TIMERS_H
