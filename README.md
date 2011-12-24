@@ -21,8 +21,7 @@ Quick setup
 	*	Pass -lsampgdk flag to the linker.
 	*	Done!
 
-If you are new to GDK you look at the code of helloworld example in `examples/helloworld/` first, 
-it will teach you some basics.
+If you are new to GDK have a look at the code of helloworld example first, it will teach you some basics.
 
 Bugs 
 ----
