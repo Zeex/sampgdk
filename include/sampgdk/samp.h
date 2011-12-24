@@ -48,7 +48,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToAll(int senderid, const char
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendDeathMessage(int killer, int killee, int weapon);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForAll(const char *text, int time, int style);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForPlayer(int playerid, const char *text, int time, int style);
-SAMPGDK_EXPORT int SAMPGDK_CALL GetTickCount();
+SAMPGDK_EXPORT int SAMPGDK_CALL GetServerTickCount();
 SAMPGDK_EXPORT int SAMPGDK_CALL GetMaxPlayers();
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetGameModeText(const char *text);
@@ -94,15 +94,15 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsBool(const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, size_t size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size);
 
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyMenu(int menuid);
-SAMPGDK_EXPORT int SAMPGDK_CALL AddMenuItem(int menuid, int column, const char *menutext);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetMenuColumnHeader(int menuid, int column, const char *columnheader);
-SAMPGDK_EXPORT bool SAMPGDK_CALL ShowMenuForPlayer(int menuid, int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL HideMenuForPlayer(int menuid, int playerid);
+SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid);
+SAMPGDK_EXPORT int SAMPGDK_CALL MenuAddItem(int menuid, int column, const char *menutext);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuSetColumnHeader(int menuid, int column, const char *columnheader);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuShowForPlayer(int menuid, int playerid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuHideForPlayer(int menuid, int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidMenu(int menuid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenu(int menuid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenuRow(int menuid, int row);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisableRow(int menuid, int row);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMenu(int playerid);
 
 SAMPGDK_EXPORT int SAMPGDK_CALL TextDrawCreate(float x, float y, const char *text);
