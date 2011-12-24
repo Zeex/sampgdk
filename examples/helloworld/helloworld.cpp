@@ -5,6 +5,7 @@
 
 #include <sampgdk/samp.h>
 #include <sampgdk/players.h>
+#include <sampgdk/timers.h>
 #include <sampgdk/wrapper.h>
 
 #include "helloworld.h"
@@ -24,6 +25,18 @@ HelloWorld::HelloWorld() {
 
 HelloWorld::~HelloWorld() {}
 
+static long oneSecondTimer = 0;
+
+static void OneSecondTimer(long timerid, void *param) {
+	logprintf("one second timer");
+};
+
+static Timer *twoSecondTimer = 0;
+
+static void TwoSecondTimer(long timerid, void *param) {
+	logprintf("two second timer");
+}
+
 bool HelloWorld::OnGameModeInit() {
 	SetGameModeText("Hello, World!");
 
@@ -32,6 +45,10 @@ bool HelloWorld::OnGameModeInit() {
 	logprintf("------------------------------------------\n");
 	logprintf(" HelloWorld gamemode got loaded. \n");
 	logprintf("------------------------------------------\n");
+
+	// Set two timers using two different methods
+	oneSecondTimer = SetTimer(1000, true, OneSecondTimer, 0);
+	twoSecondTimer = new Timer(2000, true, TwoSecondTimer);
 
 	return true;
 }
@@ -52,30 +69,30 @@ bool HelloWorld::OnPlayerCommandText(int playerid, const std::string &cmdtext) {
 	if (cmdtext == "/hello") {
 		char name[MAX_PLAYER_NAME];
 		GetPlayerName(playerid, name);
-
 		char message[128];
 		std::sprintf(message, "Hello, %s!", name);
 		SendClientMessage(playerid, 0x00FF00FF, message);
-
 		return true;
 	}
-
 	if (cmdtext == "/pos") {
 		float x, y, z;
 		GetPlayerPos(playerid, x, y, z);
-		
 		char message[128];
 		std::sprintf(message, "Your position is (%f, %f, %f)", x, y, z);
 		SendClientMessage(playerid, 0xFFFFFFFF, message);
-
 		return true;
 	}
-
 	return false;
 }
 
+bool HelloWorld::OnGameModeExit() {
+	KillTimer(oneSecondTimer);
+	delete twoSecondTimer;
+	return true;
+}
+
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
-	return SUPPORTS_VERSION;
+	return SUPPORTS_VERSION | SUPPORTS_PROCESS_TICK;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
@@ -88,4 +105,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
 	return;
+}
+
+PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
+	Timers::ProcessTimers();
 }

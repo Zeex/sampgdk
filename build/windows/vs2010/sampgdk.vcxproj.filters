@@ -2,19 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<ItemGroup>
 		<Filter Include="lib">
-			<UniqueIdentifier>{04C0D2C6-19D1-1E4B-942F-865CC1B523DC}</UniqueIdentifier>
+			<UniqueIdentifier>{5BD8C579-669B-1241-A09E-C8E709C1A1C1}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="lib\amx">
-			<UniqueIdentifier>{C7BF2AEE-D2E8-D04A-A74B-238E689C32AE}</UniqueIdentifier>
+			<UniqueIdentifier>{580227CB-06ED-074E-9F53-FE58F8D79577}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include">
-			<UniqueIdentifier>{F0B2D20F-2AF7-3849-A0A0-851B9DA99A85}</UniqueIdentifier>
+			<UniqueIdentifier>{18546D22-4D45-0249-863C-DCF5E7104B13}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="include\sampgdk">
-			<UniqueIdentifier>{278998F5-BF36-9C40-BB08-CBCE91B55A17}</UniqueIdentifier>
+			<UniqueIdentifier>{B30A28D9-77D5-EC43-AA52-653740BDB4C8}</UniqueIdentifier>
 		</Filter>
 		<Filter Include="src">
-			<UniqueIdentifier>{CDE71A55-F1A2-DA4C-989A-A098F095C1DA}</UniqueIdentifier>
+			<UniqueIdentifier>{07E1DCF4-6401-2F4B-899C-03D5183C45D4}</UniqueIdentifier>
 		</Filter>
 	</ItemGroup>
 	<ItemGroup>
@@ -49,6 +49,9 @@
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\..\include\sampgdk\samp.h">
+			<Filter>include\sampgdk</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\include\sampgdk\timers.h">
 			<Filter>include\sampgdk</Filter>
 		</ClInclude>
 		<ClInclude Include="..\..\..\include\sampgdk\vehicles.h">
@@ -96,6 +99,9 @@
 			<Filter>src</Filter>
 		</ClCompile>
 		<ClCompile Include="..\..\..\src\samp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\src\timers.cpp">
 			<Filter>src</Filter>
 		</ClCompile>
 		<ClCompile Include="..\..\..\src\vehicles.cpp">

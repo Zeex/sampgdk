@@ -63,6 +63,7 @@ solution "sampgdk"
 			"include/sampgdk/objects.h",
 			"include/sampgdk/players.h",
 			"include/sampgdk/samp.h",
+			"include/sampgdk/timers.h",
 			"include/sampgdk/vehicles.h",
 			"include/sampgdk/version.h",
 			"include/sampgdk/wrapper.h",
@@ -77,6 +78,7 @@ solution "sampgdk"
 			"src/objects.cpp",
 			"src/players.cpp",
 			"src/samp.cpp",
+			"src/timers.cpp",
 			"src/vehicles.cpp",
 			"src/wrapper.cpp"
 		}

@@ -73,6 +73,7 @@ OBJECTS := \
 	$(OBJDIR)/objects.o \
 	$(OBJDIR)/players.o \
 	$(OBJDIR)/samp.o \
+	$(OBJDIR)/timers.o \
 	$(OBJDIR)/vehicles.o \
 	$(OBJDIR)/wrapper.o \
 
@@ -160,6 +161,9 @@ $(OBJDIR)/players.o: ../../../src/players.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/samp.o: ../../../src/samp.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/timers.o: ../../../src/timers.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/vehicles.o: ../../../src/vehicles.cpp

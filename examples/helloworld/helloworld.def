@@ -2,3 +2,4 @@ EXPORTS
 	Supports
 	Load
 	Unload
+	ProcessTick
