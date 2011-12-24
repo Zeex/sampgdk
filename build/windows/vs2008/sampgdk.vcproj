@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="sampgdk"
-	ProjectGUID="{53FBEB4F-1FA4-F042-9A1C-4AC0D932610F}"
+	ProjectGUID="{ADB613FD-4DD0-5648-BC5A-DA85EE59F236}"
 	RootNamespace="sampgdk"
 	Keyword="Win32Proj"
 	>
@@ -237,6 +237,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\include\sampgdk\timers.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\include\sampgdk\vehicles.h"
 					>
 				</File>
@@ -296,6 +300,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\samp.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\timers.cpp"
 				>
 			</File>
 			<File

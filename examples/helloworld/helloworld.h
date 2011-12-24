@@ -10,6 +10,7 @@ public:
 	HelloWorld();
 	virtual ~HelloWorld();
 	virtual bool OnGameModeInit();
+	virtual bool OnGameModeExit();
 	virtual bool OnPlayerConnect(int playerid);
 	virtual bool OnPlayerRequestClass(int playerid, int classid);
 	virtual bool OnPlayerCommandText(int playerid, const std::string &cmdtext);
