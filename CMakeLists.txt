@@ -200,4 +200,4 @@ set(CPACK_COMPONENT_HEADERS_DEPENDS "libraries")
 include(CPack)
 
 # Build sample projects
-add_subdirectory(samples)
+add_subdirectory(examples)
