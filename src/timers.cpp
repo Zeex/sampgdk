@@ -14,49 +14,32 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/timers.h>
+#include <sampgdk/samp.h>
 
 #include <set>
-
-#ifdef SAMPGDK_WINDOWS
-	#include <Windows.h>
-#else
-	#include <time.h>
-#endif
 
 namespace sampgdk {
 
 std::set<Timer*> Timer::timers_;
 
-Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param) 
+Timer::Timer(long interval, bool repeat, TimerHandler hander, void *param) 
 	: interval_(interval)
 	, repeating_(repeat)
 	, handler_(hander)
 	, param_(param)
-	, startTime_(GetTime())
+	, startTime_(GetTickCount())
 {
 }
 
 Timer::~Timer() {
 }
 
-void Timer::Fire(int elapsedTime) {
+void Timer::Fire(long elapsedTime) {
 	handler_(this, param_);
 	if (repeating_) {
-		startTime_ = GetTime() - (elapsedTime - interval_);
+		startTime_ = GetTickCount() - (elapsedTime - interval_);
 	} 
 }
-
-#ifdef SAMPGDK_WINDOWS
-	long Timer::GetTime() {
-		return ::GetTickCount();
-	}
-#else 
-	long Timer::GetTime() {
-		struct timespec ts;
-		clock_gettime(CLOCK_MONOTONIC, &ts);
-		return ts.tv_nsec / 1000L;
-	}
-#endif
 
 Timer *Timer::CreateTimer(long interval, bool repeat, TimerHandler handler, void *param) {
 	Timer *timer = new Timer(interval, repeat, handler, param);
@@ -70,11 +53,11 @@ void Timer::DestroyTimer(Timer *timer) {
 }
 
 void Timer::ProcessTimers() {
-	int time = Timer::GetTime();
+	long time = GetTickCount();
 	for (std::set<Timer*>::iterator iterator = timers_.begin();
 			iterator != timers_.end(); ++iterator) {
 		Timer *timer = *iterator;
-		int elapsedTime = time - timer->GetStartTime();
+		long elapsedTime = time - timer->GetStartTime();
 		if (elapsedTime >= timer->GetInterval()) {
 			(*iterator)->Fire(elapsedTime);
 			if (!timer->IsRepeating()) {
