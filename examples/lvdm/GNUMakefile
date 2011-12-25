@@ -1,0 +1,12 @@
+CXX = g++
+CPPFLAGS = -DLINUX 
+CXXFLAGS = -c -fPIC -O2 -Wall -Wno-attributes
+LDFLAGS = -shared -fPIC -lsampgdk -Wl,--no-undefined
+
+all: lvdm.so
+
+lvdm.so: lvdm.o
+	$(CXX) $(LDFLAGS) $^ -o $@
+
+clean:
+	rm -vf lvdm.o lvdm.so

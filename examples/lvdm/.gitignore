@@ -1,0 +1,8 @@
+bin
+obj
+*.depend
+*.layout
+*.ncb
+*.suo
+*.user
+*.o
