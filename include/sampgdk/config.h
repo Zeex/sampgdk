@@ -17,8 +17,8 @@
 #define SAMPGDK_CONFIG_H 
 
 #define STATIC_ASSERT(COND, MSG) typedef char static_assertion_##MSG[(COND) ? 1 : -1]
+
 STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits); 
-#undef STATIC_ASSERT
 
 /* Windows */
 #if defined WIN32 || defined _WIN32 || defined __WIN32__ 
@@ -60,5 +60,19 @@ STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits);
 		#endif
 	#endif
 #endif
+
+/* bool */
+#if !defined __cplusplus
+	#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+		/* have a C99 compiler */
+		#include <stdbool.h>
+	#else
+		typedef unsigned char bool;
+		#define true 1
+		#define false 0
+	#endif
+#endif 
+
+#undef STATIC_ASSERT
 
 #endif /* !SAMPGDK_CONFIG_H */

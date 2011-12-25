@@ -18,7 +18,6 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/stdbool.h>
 
 #define CARMODTYPE_SPOILER      (0)
 #define CARMODTYPE_HOOD         (1)
