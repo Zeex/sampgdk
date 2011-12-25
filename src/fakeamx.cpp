@@ -53,7 +53,7 @@ FakeAmx &FakeAmx::GetInstance() {
 cell FakeAmx::Push(size_t cells) {
 	cell address = amx_.hea;
 	amx_.hea += cells * sizeof(cell);
-	if (amx_.hea >= heapSize_) {
+	if (amx_.hea >= static_cast<cell>(heapSize_)) {
 		ResizeHeap(amx_.hea);
 	}
 	return address;
