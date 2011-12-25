@@ -41,6 +41,7 @@ void Timer::Fire(int elapsedTime) {
 		if (timers_[timerid] == this) {
 			break;
 		}
+		++timerid;
 	}
 	handler_(timerid, param_);
 	if (repeating_) {
@@ -56,6 +57,7 @@ int Timer::CreateTimer(int interval, bool repeat, TimerHandler handler, void *pa
 			timers_[timerid] = timer;
 			break;
 		}
+		++timerid;
 	}
 	if (timerid == timers_.size()) {
 		timers_.push_back(timer);
