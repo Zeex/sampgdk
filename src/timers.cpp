@@ -14,15 +14,10 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
+#include <sampgdk/samp.h>
 
 #include <set>
 #include <vector>
-
-#ifdef SAMPGDK_WINDOWS
-	#include <Windows.h>
-#else
-	#include <time.h>
-#endif
 
 #include "timers.h"
 
@@ -33,7 +28,7 @@ Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
 	, repeating_(repeat)
 	, handler_(hander)
 	, param_(param)
-	, startTime_(GetTime())
+	, startTime_(GetServerTickCount())
 {
 }
 
@@ -49,21 +44,9 @@ void Timer::Fire(int elapsedTime) {
 	}
 	handler_(timerid, param_);
 	if (repeating_) {
-		startTime_ = GetTime() - (elapsedTime - interval_);
+		startTime_ = GetServerTickCount() - (elapsedTime - interval_);
 	}
 }
-
-#ifdef SAMPGDK_WINDOWS
-	int Timer::GetTime() {
-		return GetTickCount();
-	}
-#else 
-	int Timer::GetTime() {
-		struct timespec ts;
-		clock_gettime(CLOCK_MONOTONIC, &ts);
-		return static_cast<int>(ts.tv_nsec / 1000L);
-	}
-#endif
 
 int Timer::CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
 	Timer *timer = new Timer(interval, repeat, handler, param);
@@ -98,7 +81,7 @@ bool Timer::DestroyTimer(int timerid) {
 }
 
 void Timer::ProcessTimers() {
-	int time = Timer::GetTime();
+	int time = GetServerTickCount();
 	for (size_t i = 0; i < timers_.size(); ++i) {
 		Timer *timer = timers_[i];
 		int elapsedTime = time - timer->GetStartTime();
