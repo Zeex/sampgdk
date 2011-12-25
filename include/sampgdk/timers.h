@@ -33,28 +33,26 @@ public:
 
 	~Timer();
 
-	int GetInterval() const 
+	long GetInterval() const 
 		{ return interval_; }
 	bool IsRepeating() const 
 		{ return repeating_; }
-	int GetStartTime() const 
+	long GetStartTime() const 
 		{ return startTime_; }
 
-	void Fire(int elapsedTime);
-
-	static long GetTime();
+	void Fire(long elapsedTime);
 
 	static void ProcessTimers();
 	static void DestroyAllTimers();
 
 private:
-	Timer(int interval, bool repeat, TimerHandler hander, void *param);
+	Timer(long interval, bool repeat, TimerHandler hander, void *param);
 
-	int interval_;
+	long interval_;
 	bool repeating_;
 	TimerHandler handler_;
 	void *param_;
-	int startTime_;
+	long startTime_;
 
 	static std::set<Timer*> timers_;
 };
