@@ -101,7 +101,7 @@ SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version();
 #endif
 ")
 
-set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "D")
+set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
 
 # Needed for SAMPGDK_EXPORT macro to be defined correctly on Windows
 add_definitions(-DIN_SAMPGDK)
