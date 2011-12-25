@@ -18,7 +18,6 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/stdbool.h>
 
 #include <stddef.h>
 
