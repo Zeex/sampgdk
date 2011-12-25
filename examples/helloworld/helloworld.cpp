@@ -24,19 +24,19 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit() {
 
 	CreateTimer(1000, true, Timer, 0);
 
-	return true;
+	return 1;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerConnect(int playerid) {
 	SendClientMessage(playerid, 0xFFFFFFFF, "Welcome to the HelloWorld server!");
-	return true;
+	return 1;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
 	SetPlayerPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
 	SetPlayerCameraPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
 	SetPlayerCameraLookAt(playerid, 1958.3783f, 1343.1572f, 15.3746f);
-	return true;
+	return 1;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmdtext) {
@@ -66,7 +66,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
 	logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
 	sampgdk_initialize_plugin(ppPluginData);
-	return true;
+	return 1;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
