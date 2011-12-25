@@ -1,0 +1,13 @@
+LIBRARY helloworld
+EXPORTS
+	Supports
+	Load
+	Unload
+	ProcessTick
+	OnGameModeInit
+	OnPlayerConnect
+	OnPlayerDisconnect
+	OnPlayerCommandText
+	OnPlayerSpawn
+	OnPlayerDeath
+	OnPlayerRequestClass
