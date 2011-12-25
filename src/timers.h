@@ -37,8 +37,6 @@ public:
 
 	void Fire(int elapsedTime);
 
-	static int GetTime();
-
 	static void ProcessTimers();
 
 private:
