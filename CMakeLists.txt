@@ -172,7 +172,7 @@ if(MSVC)
 	install(FILES ${PDB_PATH} DESTINATION "bin" COMPONENT "runtime")
 endif()
 
-set(CPACK_PACKAGE_NAME "sampgdk") 
+set(CPACK_PACKAGE_NAME "libsampgdk") 
 set(CPACK_PACKAGE_VENDOR "Zeex")
 set(CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA-MP Gamemode Development Kit for C/C++")
@@ -180,7 +180,6 @@ set(CPACK_RESOURCE_FILE_LICENSE ${sampgdk_SOURCE_DIR}/LICENSE)
 set(CPACK_PACKAGE_VERSION_MAJOR ${version_major})
 set(CPACK_PACKAGE_VERSION_MINOR ${version_minor})
 set(CPACK_PACKAGE_VERSION_PATCH ${version_patch})
-set(CPACK_NSIS_MODIFY_PATH ON)
 
 set(CPACK_COMPONENT_RUNTIME_DISPLAY_NAME "Runtime")
 set(CPACK_COMPONENT_RUNTIME_DESCRIPTION "Runtime library")
@@ -194,6 +193,9 @@ set(CPACK_COMPONENT_HEADERS_DESCRIPTION "C/C++ header files for developers")
 set(CPACK_COMPONENT_HEADERS_GROUP "Development")
 set(CPACK_COMPONENT_HEADERS_INSTALL_TYPES "Full")
 set(CPACK_COMPONENT_HEADERS_DEPENDS "libraries")
+
+# NSIS
+set(CPACK_NSIS_MODIFY_PATH ON)
 
 include(CPack)
 
