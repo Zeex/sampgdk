@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 2.8.6)
 
 project(sampgdk)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
+	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 include(CheckIncludeFile)
 include(GetGitRevisionDescription)
@@ -10,17 +11,18 @@ include(GetGitRevisionDescription)
 include_directories("${sampgdk_SOURCE_DIR}/include")
 include_directories("${sampgdk_SOURCE_DIR}/include/amx")
 
-function(check_include_and_define include_file define)
+function(check_include include_file define)
 	check_include_file(${include_file} HAVE_${include_file})
 	if(HAVE_${include_file})
 		add_definitions(-D${define})
 	endif()
 endfunction()
 
-check_include_and_define("alloca.h"   "HAVE_ALLOCA_H")
-check_include_and_define("inttypes.h" "HAVE_INTTYPES_H")
-check_include_and_define("malloc.h"   "HAVE_MALLOC_H")
-check_include_and_define("stdint.h"   "HAVE_STDINT_H")
+check_include(alloca.h HAVE_ALLOCA_H)
+check_include(inttypes.h HAVE_INTTYPES_H)
+check_include(malloc.h HAVE_MALLOC_H)
+check_include(stdint.h HAVE_STDINT_H)
+check_include(stdbool.h HAVE_STDBOOL_H)
 
 add_library(sampgdk SHARED 
 	"include/sampgdk/amx/amx.h"
@@ -170,7 +172,7 @@ install(TARGETS sampgdk
 	ARCHIVE DESTINATION "lib" COMPONENT "libraries"
 )
 
-install(DIRECTORY "include" DESTINATION "." COMPONENT headers)
+install(DIRECTORY "include" DESTINATION "." COMPONENT "headers")
 
 if(MSVC)
 	get_target_property(output_name sampgdk OUTPUT_NAME)

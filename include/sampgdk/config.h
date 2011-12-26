@@ -63,7 +63,8 @@ STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits);
 
 /* bool */
 #if !defined __cplusplus
-	#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+	#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L\
+			|| defined HAVE_STDBOOL_H
 		/* have a C99 compiler */
 		#include <stdbool.h>
 	#else
