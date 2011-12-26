@@ -94,9 +94,8 @@ file(WRITE "include/sampgdk/version.h"
 #define SAMPGDK_VERSION_COMMIT ${version_commit}
 #define SAMPGDK_VERSION_STRING \"${version_string}\"
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_major();
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_minor();
-SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version();
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version();
+SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string();
 
 #endif
 ")
