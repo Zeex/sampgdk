@@ -13,7 +13,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	{
 		BLOCK "04090025"
 		{
-			VALUE "FileDescription",  "GDK Runtime"
+			VALUE "FileDescription",  "SA-MP GDK runtime"
 			VALUE "FileVersion",      SAMPGDK_VERSION_STRING
 			VALUE "ProductVersion",   SAMPGDK_VERSION_STRING
 			VALUE "InternalName",     "sampgdk"
