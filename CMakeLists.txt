@@ -127,6 +127,8 @@ elseif(UNIX)
 	)
 endif()
 
+option(USE_STATIC_CXX_RUNTIME "Prefer static C/C++ runtime" ON)
+
 # Compiler/linker options
 if(UNIX OR MINGW)
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY 
@@ -134,20 +136,26 @@ if(UNIX OR MINGW)
 	if(WIN32)
 		# Link with static libgcc/libstdc++
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
-			LINK_FLAGS " -m32 -static-libgcc -static-libstdc++ -Wl,--export-all-symbols")
+			LINK_FLAGS " -m32 -Wl,--export-all-symbols")
+		if(USE_STATIC_CXX_RUNTIME)
+			set_property(TARGET sampgdk APPEND_STRING PROPERTY
+				LINK_FLAGS " -static-libgcc -static-libstdc++")
+		endif()
 	else()
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
 			LINK_FLAGS " -m32 -Wl,--export-dynamic")
 	endif()
 elseif(MSVC)
-	# Use static VC++ runtime 
-	foreach(flag_var
-        	CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-        	CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-   	   if(${flag_var} MATCHES "/MD" AND NOT ${flag_var} MATCHES "/MDd")
-      	      string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-   	   endif()
-	endforeach(flag_var)
+	if(USE_STATIC_CXX_RUNTIME)
+		# Use static VC++ runtime in all configuraions except Debug
+		foreach(flag_var
+        		CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_RELEASE
+        		CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+   	   	   if(${flag_var} MATCHES "/MD" AND NOT ${flag_var} MATCHES "/MDd")
+      	      	      string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+   	   	   endif()
+		endforeach(flag_var)
+	endif()
 endif()
 
 find_package(DynCall REQUIRED)
