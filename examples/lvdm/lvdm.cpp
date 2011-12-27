@@ -128,7 +128,7 @@ static void SetPlayerRandomSpawn(int playerid)
 
 //------------------------------------------------------------------------------------------------------
 
-SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerConnect(int playerid)
+PLUGIN_EXPORT int PLUGIN_CALL OnPlayerConnect(int playerid)
 {
 	GameTextForPlayer(playerid,"~w~SA-MP: ~r~Las Venturas ~g~MoneyGrub", 5000, 5);
 	SendPlayerFormattedText(playerid, "Welcome to Las Venturas MoneyGrub, For help type /help.", 0);
@@ -138,14 +138,14 @@ SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerConnect(int playerid)
 }
 
 //------------------------------------------------------------------------------------------------------
-SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerDisconnect(int playerid)
+PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDisconnect(int playerid)
 {
 	gActivePlayers[playerid]--;
 	return 1;
 }
 //------------------------------------------------------------------------------------------------------
 
-SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerCommandText(int playerid, char cmdtext[])
+PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 {
 	char string[128];
 	int playermoney;
@@ -228,7 +228,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerCommandText(int playerid, char cmdtext[]
 
 //------------------------------------------------------------------------------------------------------
 
-SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerSpawn(int playerid)
+PLUGIN_EXPORT int PLUGIN_CALL OnPlayerSpawn(int playerid)
 {
 	GivePlayerMoney(playerid, PocketMoney);
 	SetPlayerInterior(playerid,0);
@@ -239,7 +239,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerSpawn(int playerid)
 
 //------------------------------------------------------------------------------------------------------
 
-SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerDeath(int playerid, int killerid, int reason)
+PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason)
 {
     int playercash;
 	if(killerid == INVALID_PLAYER_ID) {
@@ -268,14 +268,14 @@ static void SetupPlayerForClassSelection(int playerid)
 	SetPlayerCameraLookAt(playerid,258.4893f,-41.4008f,1002.0234f);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL OnPlayerRequestClass(int playerid, int classid)
+PLUGIN_EXPORT int PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
 {
 	iSpawnSet[playerid] = 0;
 	SetupPlayerForClassSelection(playerid);
 	return 1;
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL OnGameModeInit()
+PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 {
 	logprintf("\n----------------------------------");
 	logprintf("  Running LVDM ~MoneyGrub\n");
