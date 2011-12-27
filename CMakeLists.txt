@@ -160,10 +160,6 @@ elseif(MSVC)
 	endif()
 endif()
 
-find_package(DynCall REQUIRED)
-include_directories(${DYNCALL_INCLUDE_DIRS})
-target_link_libraries(sampgdk ${DYNCALL_LIBRARIES})
-
 message(STATUS "Version: ${version_string}")
 
 install(TARGETS sampgdk 
