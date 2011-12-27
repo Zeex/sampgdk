@@ -138,7 +138,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerConnect(int playerid)
 }
 
 //------------------------------------------------------------------------------------------------------
-PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDisconnect(int playerid)
+PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {
 	gActivePlayers[playerid]--;
 	return 1;
