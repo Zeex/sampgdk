@@ -35,25 +35,6 @@ void CallbackManager::RegisterCallbackHandler(void *handler) {
 	cache_.insert(std::make_pair(handler, std::map<std::string, void*>()));
 }
 
-void CallbackManager::PushArg(cell value) {
-	Arg arg;
-	arg.type = ARG_VALUE;
-	arg.value = value;
-	args_.push_front(arg);
-}
-
-void CallbackManager::PushArg(cell *value) {
-	Arg arg;
-	arg.type = ARG_STRING;
-	
-	int length;
-	amx_StrLen(value, &length);
-	std::string string(value, value + length);
-
-	arg.string = string;
-	args_.push_front(arg);
-}
-
 int CallbackManager::HandleCallback(const char *name, int badRetVal) {
 	DCCallVM *vm = dcNewCallVM(4096);
 
@@ -67,10 +48,10 @@ int CallbackManager::HandleCallback(const char *name, int badRetVal) {
 
 	// Push the arguments from left to right
 	for (std::size_t i = 0; i < args_.size(); i++) {
-		if (args_[i].type == ARG_VALUE) {
-			dcArgInt(vm, args_[i].value);
+		if (args_[i].type() == ARG_VALUE) {
+			dcArgInt(vm, args_[i].value());
 		} else {
-			dcArgPointer(vm, (DCpointer)args_[i].string.c_str());
+			dcArgPointer(vm, (DCpointer)args_[i].string().c_str());
 		}
 	}	
 

@@ -28,8 +28,11 @@ public:
 
 	void RegisterCallbackHandler(void *handler);
 
-	void PushArg(cell value);
-	void PushArg(cell *value);
+	template<typename T>
+	void PushBack(const T &v) { args_.push_back(v); }
+
+	template<typename T>
+	void PushFront(const T &v) { args_.push_front(v); }
 
 	int HandleCallback(const char *name,  int badRetVal);
 
@@ -41,10 +44,19 @@ private:
 		ARG_STRING
 	};
 
-	struct Arg {
-		cell        value;
-		std::string string;
-		ArgType     type;
+	class Arg {
+	public:
+		Arg(cell value) : value_(value), type_(ARG_VALUE) {}
+		Arg(const char *string) : string_(string), type_(ARG_STRING) {}
+
+		cell value() const { return value_; }
+		const std::string &string() const {return string_; }
+		ArgType type() const { return type_; }
+
+	private:
+		cell        value_;
+		std::string string_;
+		ArgType     type_;
 	};
 
 	std::deque<Arg> args_;

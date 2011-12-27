@@ -228,7 +228,7 @@ int AMXAPI AmxHooks::amx_Push(AMX *amx, cell value) {
 
 	int error = ::amx_Push(amx, value);
 	if (amx == gamemode_) {
-		CallbackManager::GetInstance().PushArg(value);
+		CallbackManager::GetInstance().PushFront(value);
 	}
 
 	amx_PushHook_.Install();
@@ -242,7 +242,7 @@ int AMXAPI AmxHooks::amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, 
 
 	int error = ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 	if (amx == gamemode_) {
-		CallbackManager::GetInstance().PushArg(*phys_addr);
+		CallbackManager::GetInstance().PushFront(string);
 	}
 
 	amx_PushHook_.Install();
