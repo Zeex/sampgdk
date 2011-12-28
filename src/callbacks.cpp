@@ -80,7 +80,7 @@ int CallbackManager::HandleCallback(const char *name, int badRetVal) {
 		}
 
 		if (function != 0) {
-			// Since we are on x86 and cell/char*/float is of the same size...
+			// Since we are on x86 cell/char*/float are all of the same size
 			switch (args_.size()) {
 			case 0:
 				retVal = ((int (PLUGIN_CALL*)())function)();
