@@ -12,14 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <dyncall.h>
-#include <dyncall_callvm.h>
-
 #include <sampgdk/config.h>
 #include <sampgdk/core.h>
-#include <sampgdk/amx/amx.h>
+#include <sampgdk/plugin.h>
 
 #include "callbacks.h"
+
+#include <cassert>
+#include <cstddef>
+#include <cstdio>
+#include <cstring>
+
+CallbackArg::CallbackArg(cell value)
+	: type_(CELL)
+{
+	value_.as_cell = value;
+}
+
+CallbackArg::CallbackArg(const char *string)
+	: type_(STRING)
+{
+	std::size_t size = std::strlen(string) + 1;
+	char *buf = new char[size];
+	std::memcpy(buf, string, size);
+	value_.as_string = buf;
+}
+
+CallbackArg::~CallbackArg() {
+	if (type_ == STRING) {
+		delete[] value_.as_string;
+	}
+}
 
 CallbackManager::CallbackManager()
 	: cache_()
@@ -36,25 +59,6 @@ void CallbackManager::RegisterCallbackHandler(void *handler) {
 }
 
 int CallbackManager::HandleCallback(const char *name, int badRetVal) {
-	DCCallVM *vm = dcNewCallVM(4096);
-
-#ifdef _WIN32
-	// Assuming they are using PLUGIN_CALL when defining callbacks
-	dcMode(vm, DC_CALL_C_X86_WIN32_STD);
-#else
-	// On Linux, the GCC default calling convention is used (which is AFAIK cdecl)
-	dcMode(vm, DC_CALL_C_X86_CDECL);
-#endif
-
-	// Push the arguments from left to right
-	for (std::size_t i = 0; i < args_.size(); i++) {
-		if (args_[i].type() == ARG_VALUE) {
-			dcArgInt(vm, args_[i].value());
-		} else {
-			dcArgPointer(vm, (DCpointer)args_[i].string().c_str());
-		}
-	}	
-
 	int retVal = !badRetVal;
 
 	typedef std::map<std::string, void*> PluginCache;
@@ -76,19 +80,58 @@ int CallbackManager::HandleCallback(const char *name, int badRetVal) {
 		}
 
 		if (function != 0) {
-			retVal = dcCallInt(vm, function);
+			// Since we are on x86 and cell/char*/float is of the same size...
+			switch (args_.size()) {
+			case 0:
+				retVal = ((int (PLUGIN_CALL*)())function)();
+				break;
+			case 1:
+				retVal = ((int (PLUGIN_CALL*)(cell))function)(
+					args_[0]->as_cell());
+				break;
+			case 2:
+				retVal = ((int (PLUGIN_CALL*)(cell, cell))function)(
+					args_[0]->as_cell(),
+					args_[1]->as_cell());
+				break;
+			case 3:
+				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell))function)(
+					args_[0]->as_cell(),
+					args_[1]->as_cell(),
+					args_[2]->as_cell());
+				break;
+			case 4:
+				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell, cell))function)(
+					args_[0]->as_cell(),
+					args_[1]->as_cell(),
+					args_[2]->as_cell(),
+					args_[3]->as_cell());
+				break;
+			case 5:
+				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell, cell, cell))function)(
+					args_[0]->as_cell(),
+					args_[1]->as_cell(),
+					args_[2]->as_cell(),
+					args_[3]->as_cell(),
+					args_[4]->as_cell());
+				break;
+			default:
+				assert(0 && "Got more than 5 arguments");
+			}
 			if (retVal == badRetVal) {
 				break;
 			}
 		}
 	}
 
-	// Pop stored args 
-	args_.clear();
-
-	// Destroy the call VM
-	dcFree(vm);
-
+	ClearArgs();
 	return retVal;
 }
 
+void CallbackManager::ClearArgs() {
+	for (std::deque<CallbackArg*>::iterator iterator = args_.begin();
+			iterator != args_.end(); ++iterator) {
+		delete *iterator;
+	}
+	args_.clear();
+}

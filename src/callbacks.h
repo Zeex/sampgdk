@@ -22,6 +22,37 @@
 #include <map>
 #include <string>
 
+class CallbackArg {
+public:
+	enum Type {
+		CELL,
+		STRING
+	};
+
+	CallbackArg(cell value);
+	CallbackArg(const char *string);
+	~CallbackArg();
+
+	cell as_cell() const 
+		{ return value_.as_cell; }
+	const char *as_string() const 
+		{ return value_.as_string; }
+
+	Type type() const 
+		{ return type_; }
+
+private:
+	// Disable copying
+	CallbackArg(const CallbackArg &);
+	CallbackArg &operator=(const CallbackArg &);
+
+	union {
+		cell        as_cell;
+		const char *as_string;
+	} value_;
+	Type     type_;
+};
+
 class CallbackManager {
 public:
 	static CallbackManager &GetInstance();
@@ -29,37 +60,19 @@ public:
 	void RegisterCallbackHandler(void *handler);
 
 	template<typename T>
-	void PushBack(const T &v) { args_.push_back(v); }
+	void PushArgBack(const T &v) { args_.push_back(new CallbackArg(v)); }
 
 	template<typename T>
-	void PushFront(const T &v) { args_.push_front(v); }
+	void PushArgFront(const T &v) { args_.push_front(new CallbackArg(v)); }
+
+	void ClearArgs();
 
 	int HandleCallback(const char *name,  int badRetVal);
 
 private:
 	CallbackManager();
 
-	enum ArgType {
-		ARG_VALUE,
-		ARG_STRING
-	};
-
-	class Arg {
-	public:
-		Arg(cell value) : value_(value), type_(ARG_VALUE) {}
-		Arg(const char *string) : string_(string), type_(ARG_STRING) {}
-
-		cell value() const { return value_; }
-		const std::string &string() const {return string_; }
-		ArgType type() const { return type_; }
-
-	private:
-		cell        value_;
-		std::string string_;
-		ArgType     type_;
-	};
-
-	std::deque<Arg> args_;
+	std::deque<CallbackArg*> args_;
 	std::map<void*, std::map<std::string, void*> > cache_;
 };
 
