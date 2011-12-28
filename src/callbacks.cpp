@@ -20,7 +20,6 @@
 
 #include <cassert>
 #include <cstddef>
-#include <cstdio>
 #include <cstring>
 
 CallbackArg::CallbackArg(cell value)
