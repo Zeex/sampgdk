@@ -115,8 +115,27 @@ int CallbackManager::HandleCallback(const char *name, int badRetVal) {
 					args_[3]->as_cell(),
 					args_[4]->as_cell());
 				break;
+			case 6:
+				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell, cell, cell, cell))function)(
+					args_[0]->as_cell(),
+					args_[1]->as_cell(),
+					args_[2]->as_cell(),
+					args_[3]->as_cell(),
+					args_[4]->as_cell(),
+					args_[5]->as_cell());
+				break;
+			case 7:
+				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell, cell, cell, cell, cell))function)(
+					args_[0]->as_cell(),
+					args_[1]->as_cell(),
+					args_[2]->as_cell(),
+					args_[3]->as_cell(),
+					args_[4]->as_cell(),
+					args_[5]->as_cell(),
+					args_[6]->as_cell());
+				break;
 			default:
-				assert(0 && "Got more than 5 arguments");
+				assert(0 && "Got more than 7 arguments");
 			}
 			if (retVal == badRetVal) {
 				break;
