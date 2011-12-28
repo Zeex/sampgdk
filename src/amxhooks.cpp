@@ -184,6 +184,8 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 				if (*retval == badRetVal) {
 					canDoExec = false;
 				}
+			} else {
+				CallbackManager::GetInstance().ClearArgs();
 			}
 		}
 	}
@@ -196,10 +198,7 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 		amx->stk += amx->paramcount * sizeof(cell);			
 	}
 
-	// Reset parameter count 
-	// <weird>
-	// Sometimes it is not auto-reset by amx_Exec though it normally should. 
-	// </weird>
+	// Reset parameter count
 	amx->paramcount = 0;	
 
 	amx_CallbackHook_.Remove();
@@ -228,7 +227,7 @@ int AMXAPI AmxHooks::amx_Push(AMX *amx, cell value) {
 
 	int error = ::amx_Push(amx, value);
 	if (amx == gamemode_) {
-		CallbackManager::GetInstance().PushFront(value);
+		CallbackManager::GetInstance().PushArgFront(value);
 	}
 
 	amx_PushHook_.Install();
@@ -242,7 +241,7 @@ int AMXAPI AmxHooks::amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, 
 
 	int error = ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 	if (amx == gamemode_) {
-		CallbackManager::GetInstance().PushFront(string);
+		CallbackManager::GetInstance().PushArgFront(string);
 	}
 
 	amx_PushHook_.Install();
