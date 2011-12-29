@@ -17,7 +17,7 @@ Quick setup
 	*	Set the right include and library directories in your IDE.
 
 *	Linux, etc
-	*	Download and install `sampgdk-x.x.x-Linux.rpm`. 
+	*	Download and install `sampgdk-x.x.x-Linux.sh`. 
 	*	Pass -lsampgdk flag to the linker.
 	*	Done!
 
