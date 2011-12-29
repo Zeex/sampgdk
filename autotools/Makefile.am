@@ -1,4 +1,4 @@
-TOP = .
+TOP = ..
 
 lib_LTLIBRARIES = libsampgdk.la
 libsampgdk_la_SOURCES =\
