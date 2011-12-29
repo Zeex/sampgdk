@@ -1,4 +1,4 @@
-LIBRARY helloworld
+LIBRARY lvdm
 EXPORTS
 	Supports
 	Load
