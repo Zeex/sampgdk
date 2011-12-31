@@ -5,24 +5,17 @@ project(sampgdk)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
-include(CheckIncludeFile)
+include(CheckHeader)
 include(GetGitRevisionDescription)
 
 include_directories("${sampgdk_SOURCE_DIR}/include")
 include_directories("${sampgdk_SOURCE_DIR}/include/amx")
 
-function(check_include include_file define)
-	check_include_file(${include_file} HAVE_${include_file})
-	if(HAVE_${include_file})
-		add_definitions(-D${define})
-	endif()
-endfunction()
-
-check_include(alloca.h HAVE_ALLOCA_H)
-check_include(inttypes.h HAVE_INTTYPES_H)
-check_include(malloc.h HAVE_MALLOC_H)
-check_include(stdint.h HAVE_STDINT_H)
-check_include(stdbool.h HAVE_STDBOOL_H)
+check_header(alloca.h)
+check_header(inttypes.h)
+check_header(malloc.h)
+check_header(stdint.h)
+check_header(stdbool.h)
 
 add_library(sampgdk SHARED 
 	"include/sampgdk/amx/amx.h"
