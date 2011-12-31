@@ -17,10 +17,7 @@
 #include <sampgdk/version.h>
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version() {
-	return ((SAMPGDK_VERSION_MAJOR << 24)
-		| (SAMPGDK_VERSION_MINOR << 16)
-		| (SAMPGDK_VERSION_PATCH << 8)
-		| (SAMPGDK_VERSION_COMMIT));
+	return SAMPGDK_VERSION_ID;
 }
 
 SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string() {

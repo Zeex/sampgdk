@@ -37,4 +37,8 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const 
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers();
 
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version_id();
+SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string();
+#define sampgdk_version sampgdk_version_id
+
 #endif /* !SAMPGDK_CORE_H */
