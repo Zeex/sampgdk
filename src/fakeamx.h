@@ -16,12 +16,11 @@
 #define SAMPGDK_FAKEAMX_H
 
 #include <sampgdk/config.h>
+
 #include <cstddef>
+#include <vector>
 
-#include <cstring>
 #include <amx.h>
-
-namespace sampgdk {
 
 class FakeAmx {
 public:
@@ -48,12 +47,10 @@ private:
 	FakeAmx();
 	FakeAmx(const FakeAmx &rhs);
 
-	void ResizeHeap(std::size_t newSize);
-
 	AMX amx_;
 	AMX_HEADER hdr_;
-	cell *heap_;
-	std::size_t heapSize_;
+
+	std::vector<cell> heap_;
 };
 
 class FakeAmxHeapObject {
@@ -74,8 +71,6 @@ private:
 	size_t size_;
 	cell address_;
 };
-
-} // namespace sampgdk
 
 #endif // !SAMPGDK_FAKEAMX
 
