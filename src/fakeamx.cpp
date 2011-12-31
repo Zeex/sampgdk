@@ -22,8 +22,7 @@
 #include <limits>
 
 FakeAmx::FakeAmx() 
-	: heap_(new cell[INITIAL_HEAP_SIZE])
-	, heapSize_(INITIAL_HEAP_SIZE)
+	: heap_(INITIAL_HEAP_SIZE)
 {
 	std::memset(&hdr_, 0, sizeof(hdr_));
 	std::memset(&amx_, 0, sizeof(amx_));
@@ -31,18 +30,17 @@ FakeAmx::FakeAmx()
 	hdr_.magic = AMX_MAGIC;
 	hdr_.file_version = MIN_FILE_VERSION;
 	hdr_.amx_version = MIN_AMX_VERSION;
-	hdr_.dat = reinterpret_cast<int32_t>(heap_) - 
+	hdr_.dat = reinterpret_cast<int32_t>(&heap_[0]) - 
 		reinterpret_cast<int32_t>(&hdr_);
 
 	amx_.base = reinterpret_cast<unsigned char*>(&hdr_);
-	amx_.data = reinterpret_cast<unsigned char*>(heap_);
+	amx_.data = reinterpret_cast<unsigned char*>(&heap_[0]);
 	amx_.callback = amx_Callback;
 	amx_.stp = std::numeric_limits<cell>::max();
 	amx_.error = AMX_ERR_NONE;
 }
 
 FakeAmx::~FakeAmx() {
-	delete[] heap_;
 }
 
 FakeAmx &FakeAmx::GetInstance() {
@@ -53,8 +51,8 @@ FakeAmx &FakeAmx::GetInstance() {
 cell FakeAmx::Push(size_t cells) {
 	cell address = amx_.hea;
 	amx_.hea += cells * sizeof(cell);
-	if (amx_.hea >= static_cast<cell>(heapSize_)) {
-		ResizeHeap(amx_.hea);
+	if (amx_.hea >= static_cast<cell>(heap_.size())) {
+		heap_.resize(amx_.hea);
 	}
 	return address;
 }
@@ -62,7 +60,7 @@ cell FakeAmx::Push(size_t cells) {
 cell FakeAmx::Push(const char *s) {
 	std::size_t size = std::strlen(s) + 1;
 	cell address = Push(size);
-	amx_SetString(heap_ + address/sizeof(cell), s, 0, 0, size);
+	amx_SetString(&heap_[0] + address/sizeof(cell), s, 0, 0, size);
 	return address;
 }
 
@@ -71,7 +69,7 @@ void FakeAmx::Get(cell address, cell &value) const {
 }
 
 void FakeAmx::Get(cell address, char *value, size_t size) const {
-	cell *ptr = heap_ + address/sizeof(cell);
+	const cell *ptr = &heap_[0] + address/sizeof(cell);
 	amx_GetString(value, ptr, 0, size);
 }
 
@@ -87,16 +85,6 @@ cell FakeAmx::CallNative(AMX_NATIVE native, cell *params) {
 
 bool FakeAmx::CallBooleanNative(AMX_NATIVE native, cell *params) {
 	return CallNative(native, params) != 0;
-}
-
-void FakeAmx::ResizeHeap(std::size_t newSize) {	
-	cell *newHeap = new cell[newSize];	
-	if (newHeap != 0) {
-		std::memcpy(newHeap, heap_, heapSize_);
-		delete[] heap_;
-		heap_ = newHeap;
-		heapSize_ = newSize;
-	}
 }
 
 FakeAmxHeapObject::FakeAmxHeapObject()

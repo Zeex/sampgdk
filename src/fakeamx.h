@@ -19,7 +19,7 @@
 #include <sampgdk/amx/amx.h>
 
 #include <cstddef>
-#include <cstring>
+#include <vector>
 
 class FakeAmx {
 public:
@@ -46,12 +46,10 @@ private:
 	FakeAmx();
 	FakeAmx(const FakeAmx &rhs);
 
-	void ResizeHeap(std::size_t newSize);
-
 	AMX amx_;
 	AMX_HEADER hdr_;
-	cell *heap_;
-	std::size_t heapSize_;
+
+	std::vector<cell> heap_;
 };
 
 class FakeAmxHeapObject {
