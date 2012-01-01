@@ -646,7 +646,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL PlayCrimeReportForPlayer(int playerid, int susp
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool PlayAudioStreamForPlayer(int playerid, const char *url, 
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayAudioStreamForPlayer(int playerid, const char *url, 
 	float posX, float posY, float posZ, float distance, bool usepos)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayAudioStreamForPlayer");
@@ -713,7 +713,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerSurfingObjectID(int playerid) {
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool RemoveBuildingForPlayer(int playerid, int modelid, 
+SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveBuildingForPlayer(int playerid, int modelid, 
 	float fX, float fY, float fZ, float fRadius)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("RemoveBuildingForPlayer");
@@ -729,7 +729,7 @@ bool RemoveBuildingForPlayer(int playerid, int modelid,
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX, 
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX, 
 	float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, 
 	float fScaleY, float fScaleZ) 
 {
@@ -969,7 +969,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerPlaySound(int playerid, int soundid, floa
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool ApplyAnimation(int playerid, const char *animlib, const char *animname, 
+SAMPGDK_EXPORT bool SAMPGDK_CALL ApplyAnimation(int playerid, const char *animlib, const char *animname, 
 	float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ApplyAnimation");
@@ -1069,7 +1069,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DisablePlayerCheckpoint(int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool SetPlayerRaceCheckpoint(int playerid, int type, float x, float y, float z, 
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerRaceCheckpoint(int playerid, int type, float x, float y, float z, 
 	float nextx, float nexty, float nextz, float size) 
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetPlayerRaceCheckpoint");
