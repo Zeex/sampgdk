@@ -12,65 +12,59 @@
 #include <sampgdk/plugin.h>
 #include <sampgdk/samp.h>
 
-#define COLOR_GREY 0xAFAFAFAA
-#define COLOR_GREEN 0x33AA33AA
-#define COLOR_RED 0xAA3333AA
-#define COLOR_YELLOW 0xFFFF00AA
-#define COLOR_WHITE 0xFFFFFFAA
-#define PocketMoney 50000 // Amount player recieves on spawn.
-#define INACTIVE_PLAYER_ID 255
-#define GIVECASH_DELAY 5000 // Time in ms between /givecash commands.
+#define COLOR_GREY    0xAFAFAFAA
+#define COLOR_GREEN   0x33AA33AA
+#define COLOR_RED     0xAA3333AA
+#define COLOR_YELLOW  0xFFFF00AA
+#define COLOR_WHITE   0xFFFFFFAA
 
-#define NUMVALUES 4
+#define PocketMoney   50000 // Amount player recieves on spawn.
 
 typedef void (*logprintf_t)(const char *format, ...);
-static logprintf_t logprintf;
 
-//------------------------------------------------------------------------------------------------------
+static logprintf_t logprintf;
 
 int CashScoreOld;
 int iSpawnSet[MAX_PLAYERS];
 
 float gRandomPlayerSpawns[][3] = {
-{1958.3783f,1343.1572f,15.3746f},
-{2199.6531f,1393.3678f,10.8203f},
-{2483.5977f,1222.0825f,10.8203f},
-{2637.2712f,1129.2743f,11.1797f},
-{2000.0106f,1521.1111f,17.0625f},
-{2024.8190f,1917.9425f,12.3386f},
-{2261.9048f,2035.9547f,10.8203f},
-{2262.0986f,2398.6572f,10.8203f},
-{2244.2566f,2523.7280f,10.8203f},
-{2335.3228f,2786.4478f,10.8203f},
-{2150.0186f,2734.2297f,11.1763f},
-{2158.0811f,2797.5488f,10.8203f},
-{1969.8301f,2722.8564f,10.8203f},
-{1652.0555f,2709.4072f,10.8265f},
-{1564.0052f,2756.9463f,10.8203f},
-{1271.5452f,2554.0227f,10.8203f},
-{1441.5894f,2567.9099f,10.8203f},
-{1480.6473f,2213.5718f,11.0234f},
-{1400.5906f,2225.6960f,11.0234f},
-{1598.8419f,2221.5676f,11.0625f},
-{1318.7759f,1251.3580f,10.8203f},
-{1558.0731f,1007.8292f,10.8125f},
-{-857.0551f,1536.6832f,22.5870f},
-{817.3494f,856.5039f,12.7891f},
-{116.9315f,1110.1823f,13.6094f},
-{-18.8529f,1176.0159f,19.5634f},
-{-315.0575f,1774.0636f,43.6406f},
-{1705.2347f,1025.6808f,10.8203f}
+	{1958.3783f,1343.1572f,15.3746f},
+	{2199.6531f,1393.3678f,10.8203f},
+	{2483.5977f,1222.0825f,10.8203f},
+	{2637.2712f,1129.2743f,11.1797f},
+	{2000.0106f,1521.1111f,17.0625f},
+	{2024.8190f,1917.9425f,12.3386f},
+	{2261.9048f,2035.9547f,10.8203f},
+	{2262.0986f,2398.6572f,10.8203f},
+	{2244.2566f,2523.7280f,10.8203f},
+	{2335.3228f,2786.4478f,10.8203f},
+	{2150.0186f,2734.2297f,11.1763f},
+	{2158.0811f,2797.5488f,10.8203f},
+	{1969.8301f,2722.8564f,10.8203f},
+	{1652.0555f,2709.4072f,10.8265f},
+	{1564.0052f,2756.9463f,10.8203f},
+	{1271.5452f,2554.0227f,10.8203f},
+	{1441.5894f,2567.9099f,10.8203f},
+	{1480.6473f,2213.5718f,11.0234f},
+	{1400.5906f,2225.6960f,11.0234f},
+	{1598.8419f,2221.5676f,11.0625f},
+	{1318.7759f,1251.3580f,10.8203f},
+	{1558.0731f,1007.8292f,10.8125f},
+	{-857.0551f,1536.6832f,22.5870f},
+	{817.3494f,856.5039f,12.7891f},
+	{116.9315f,1110.1823f,13.6094f},
+	{-18.8529f,1176.0159f,19.5634f},
+	{-315.0575f,1774.0636f,43.6406f},
+	{1705.2347f,1025.6808f,10.8203f}
 };
 
 float gCopPlayerSpawns[][3] = {
-{2297.1064f,2452.0115f,10.8203f},
-{2297.0452f,2468.6743f,10.8203f}
+	{2297.1064f,2452.0115f,10.8203f},
+	{2297.0452f,2468.6743f,10.8203f}
 };
 
 int gActivePlayers[MAX_PLAYERS];
 int gLastGaveCash[MAX_PLAYERS];
-
-//------------------------------------------------------------------------------------------------------
 
 static void MoneyGrubScoreUpdate(int timerid, void *param)
 {
@@ -108,9 +102,6 @@ static void SendAllFormattedText(int playerid, const char str[], int define)
 	SendClientMessageToAll(0xFFFF00AA, tmpbuf);
 }
 
-
-//------------------------------------------------------------------------------------------------------
-
 static void SetPlayerRandomSpawn(int playerid)
 {
 	if (iSpawnSet[playerid] == 1)
@@ -118,15 +109,13 @@ static void SetPlayerRandomSpawn(int playerid)
 		int r = rand() % arraysize(gCopPlayerSpawns);
 		SetPlayerPos(playerid, gCopPlayerSpawns[r][0], gCopPlayerSpawns[r][1], gCopPlayerSpawns[r][2]); // Warp the player
 		SetPlayerFacingAngle(playerid, 270.0f);
-    }
-    else if (iSpawnSet[playerid] == 0)
-    {
+	}
+	else if (iSpawnSet[playerid] == 0)
+	{
 		int r = rand() % arraysize(gRandomPlayerSpawns);
 		SetPlayerPos(playerid, gRandomPlayerSpawns[r][0], gRandomPlayerSpawns[r][1], gRandomPlayerSpawns[r][2]); // Warp the player
 	}
 }
-
-//------------------------------------------------------------------------------------------------------
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerConnect(int playerid)
 {
@@ -137,13 +126,11 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerConnect(int playerid)
 	return 1;
 }
 
-//------------------------------------------------------------------------------------------------------
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {
 	gActivePlayers[playerid]--;
 	return 1;
 }
-//------------------------------------------------------------------------------------------------------
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 {
@@ -170,14 +157,14 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 		SendPlayerFormattedText(playerid,"Consequently, if you have lots of money, and you die, your killer gets your cash.",0);
 		SendPlayerFormattedText(playerid,"However, you're not forced to kill players for money, you can always gamble in the", 0);
 		SendPlayerFormattedText(playerid,"Casino's.", 0);
-    return 1;
+	return 1;
 	}
 	if(strcmp(cmd, "/tips") == 0) {
 		SendPlayerFormattedText(playerid,"Spawning with just a desert eagle might sound lame, however the idea of this",0);
 		SendPlayerFormattedText(playerid,"gamemode is to get some cash, get better guns, then go after whoever has the",0);
 		SendPlayerFormattedText(playerid,"most cash. Once you've got the most cash, the idea is to stay alive(with the",0);
 		SendPlayerFormattedText(playerid,"cash intact)until the game ends, simple right?", 0);
-    return 1;
+	return 1;
 	}
 	
  	if(strcmp(cmd, "/givecash") == 0) {
@@ -220,13 +207,8 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 		return 1;
 	}
 	
-	// PROCESS OTHER COMMANDS
-	
-	
 	return 0;
 }
-
-//------------------------------------------------------------------------------------------------------
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerSpawn(int playerid)
 {
@@ -237,27 +219,23 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerSpawn(int playerid)
 	return 1;
 }
 
-//------------------------------------------------------------------------------------------------------
-
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason)
 {
-    int playercash;
+	int playercash;
 	if(killerid == INVALID_PLAYER_ID) {
-        SendDeathMessage(INVALID_PLAYER_ID,playerid,reason);
-        ResetPlayerMoney(playerid);
+		SendDeathMessage(INVALID_PLAYER_ID,playerid,reason);
+		ResetPlayerMoney(playerid);
 	} else {
-	    SendDeathMessage(killerid,playerid,reason);
+		SendDeathMessage(killerid,playerid,reason);
 		SetPlayerScore(killerid,GetPlayerScore(killerid)+1);
 		playercash = GetPlayerMoney(playerid);
 		if (playercash > 0)  {
 			GivePlayerMoney(killerid, playercash);
 			ResetPlayerMoney(playerid);
 		}
-    }
+	}
  	return 1;
 }
-
-//------------------------------------------------------------------------------------------------------
 
 static void SetupPlayerForClassSelection(int playerid)
 {
@@ -279,8 +257,8 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 {
 	logprintf("\n----------------------------------");
 	logprintf("  Running LVDM ~MoneyGrub\n");
-	logprintf("         Coded By");
-	logprintf("            Jax");
+	logprintf("		 Coded By");
+	logprintf("			Jax");
 	logprintf("----------------------------------\n");
 
 	SetGameModeText("Ventura's DM~MG");
@@ -337,7 +315,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 	AddPlayerClass(296,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(297,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(298,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
-    AddPlayerClass(299,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
+	AddPlayerClass(299,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 
 	AddPlayerClass(277,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(278,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
@@ -704,7 +682,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 
 	//Uber haxed x 100
 
-    // --- uncommented
+	// --- uncommented
 	AddStaticVehicle(419,95.0568f,1056.5530f,13.4068f,192.1461f,13,76); //
 	AddStaticVehicle(429,114.7416f,1048.3517f,13.2890f,174.9752f,1,2); //
 	//AddStaticVehicle(466,124.2480f,1075.1835f,13.3512f,174.5334f,78,76); // exceeds model limit
