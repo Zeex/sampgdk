@@ -1,25 +1,25 @@
 SA-MP Gamemode Development Kit 2
 ================================
 
-Introduction
-------------
+The SA-MP GDK allows you to easily create SA-MP gamemodes in C++ and load them as server plugins. 
 
-The SA:MP GDK allows you to easily create SA-MP gamemodes in C++ loading them as server plugins. 
-It is basically a wrapper around SA:MP native scripting functions and callbacks. 
-
-Quick setup
+Installation
 ------------
 
 *	Windows
-	*	Download and install `sampgdk-x.y.z-win32.exe`. 
-	*	Don't forget to check *Add sampgdk to the system PATH* option - otherwise you will have to 
+	1.	Download and install `libsampgdk-x.y.z-win32.exe`. 
+	2.	Don't forget to check *Add sampgdk to the system PATH* option - otherwise you will have to 
 		copy the .dll into your server's folder or change PATH variable manually.
-	*	Set proper include and library directories in your IDE.
+	3.	Set proper include and library paths in your IDE.
 
 *	Linux
-	*	Download `sampgdk-x.y.z-Linux.sh`.
-	*	Run it as follows: `sudo sh sampgdk-x.y.z-Linux.sh --prefix=/usr/local/`.
-	*	Link against libsampgdk by passing `-lsampgdk` flag to linker when compiling a plugin.
+	1.	Download `libsampgdk-x.y.z-Linux.sh`.
+	2.	Run it as follows: `sudo sh sampgdk-x.y.z-Linux.sh --prefix=/usr/local/`. This will install
+		the library and headers to /usr/local/lib and /usr/local/include respectively.
+	3.	Link against libsampgdk.
+
+Getting Started
+---------------
 
 If you are new to GDK have a look at the code of helloworld example first, it will teach you some basics.
 
