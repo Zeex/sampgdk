@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	 http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,15 +13,14 @@
 // limitations under the License.
 
 #include <sampgdk/config.h>
-#include <sampgdk/samp.h>
-#include <sampgdk/wrapper.h>
+#include <sampgdk/export.h>
+#include <sampgdk/amx/amx.h>
 
 #include "fakeamx.h"
+#include "natives.h"
 
-namespace sampgdk {
-
-bool SendClientMessage(int playerid, long color, const char *message) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SendClientMessage");
+SAMPGDK_EXPORT bool SAMPGDK_CALL SendClientMessage(int playerid, int color, const char *message) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SendClientMessage");
 	FakeAmxHeapObject message_(message);
 	cell params[] = {
 		3 * 4,
@@ -32,8 +31,8 @@ bool SendClientMessage(int playerid, long color, const char *message) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-void SendClientMessageToAll(long color, const char *message) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SendClientMessageToAll");
+SAMPGDK_EXPORT void SAMPGDK_CALL SendClientMessageToAll(int color, const char *message) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SendClientMessageToAll");
 	FakeAmxHeapObject message_(message);
 	cell params[] = {
 		2 * 4,
@@ -43,8 +42,8 @@ void SendClientMessageToAll(long color, const char *message) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool SendPlayerMessageToPlayer(int playerid, int senderid, const char *message) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SendPlayerMessageToPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToPlayer(int playerid, int senderid, const char *message) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SendPlayerMessageToPlayer");
 	FakeAmxHeapObject message_(message);
 	cell params[] = {
 		3 * 4,
@@ -55,8 +54,8 @@ bool SendPlayerMessageToPlayer(int playerid, int senderid, const char *message) 
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool SendPlayerMessageToAll(int senderid, const char *message) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SendPlayerMessageToAll");
+SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToAll(int senderid, const char *message) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SendPlayerMessageToAll");
 	FakeAmxHeapObject message_(message);
 	cell params[] = {
 		2 * 4,
@@ -66,8 +65,8 @@ bool SendPlayerMessageToAll(int senderid, const char *message) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool SendDeathMessage(int killer, int killee, int weapon) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SendDeathMessage");
+SAMPGDK_EXPORT bool SAMPGDK_CALL SendDeathMessage(int killer, int killee, int weapon) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SendDeathMessage");
 	cell params[] = {
 		3 * 4,
 		killer,
@@ -77,8 +76,8 @@ bool SendDeathMessage(int killer, int killee, int weapon) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GameTextForAll(const char *text, long time, int style) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GameTextForAll");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForAll(const char *text, int time, int style) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GameTextForAll");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
 		3 * 4,
@@ -89,8 +88,8 @@ bool GameTextForAll(const char *text, long time, int style) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GameTextForPlayer(int playerid, const char *text, long time, int style) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GameTextForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForPlayer(int playerid, const char *text, int time, int style) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GameTextForPlayer");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
 		4 * 4,
@@ -102,18 +101,18 @@ bool GameTextForPlayer(int playerid, const char *text, long time, int style) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-long GetTickCount() {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetTickCount");
+SAMPGDK_EXPORT int SAMPGDK_CALL GetServerTickCount() {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetTickCount");
 	return FakeAmx::GetInstance().CallNative(native, 0);
 }
 
-int GetMaxPlayers() {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetMaxPlayers");
+SAMPGDK_EXPORT int SAMPGDK_CALL GetMaxPlayers() {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetMaxPlayers");
 	return FakeAmx::GetInstance().CallNative(native, 0);
 }
 
-void SetGameModeText(const char *text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetGameModeText");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetGameModeText(const char *text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetGameModeText");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
 		1 * 4, 
@@ -122,8 +121,8 @@ void SetGameModeText(const char *text) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void SetTeamCount(int count) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetTeamCount");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetTeamCount(int count) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetTeamCount");
 	cell params[] = {
 		1 * 4, 
 		count
@@ -131,10 +130,10 @@ void SetTeamCount(int count) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, 
+SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, 
 	float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) 
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AddPlayerClass");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddPlayerClass");
 	cell params[] = {
 		11 * 4, 
 		modelid,
@@ -152,10 +151,10 @@ int AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z,
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
+SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
 	int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AddPlayerClassEx");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddPlayerClassEx");
 	cell params[] = {
 		12 * 4, 
 		teamid,
@@ -174,10 +173,10 @@ int AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, floa
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, 
-	float z_angle, long color1, long color2)
+SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, 
+	float z_angle, int color1, int color2)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AddStaticVehicle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddStaticVehicle");
 	cell params[] = {
 		7 * 4, 
 		modelid,
@@ -191,10 +190,10 @@ int AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z,
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, 
-	float z_angle, long color1, long color2, long respawn_delay) 
+SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, 
+	float z_angle, int color1, int color2, int respawn_delay) 
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AddStaticVehicleEx");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddStaticVehicleEx");
 	cell params[] = {
 		8 * 4, 
 		modelid,
@@ -209,8 +208,8 @@ int AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z,
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int AddStaticPickup(int model, int type, float x, float y, float z, long virtualworld) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AddStaticPickup");
+SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticPickup(int model, int type, float x, float y, float z, int virtualworld) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddStaticPickup");
 	cell params[] = {
 		6 * 4, 
 		model,
@@ -223,8 +222,8 @@ int AddStaticPickup(int model, int type, float x, float y, float z, long virtual
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int CreatePickup(int model, int type, float x, float y, float z, long virtualworld) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreatePickup");
+SAMPGDK_EXPORT int SAMPGDK_CALL CreatePickup(int model, int type, float x, float y, float z, int virtualworld) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreatePickup");
 	cell params[] = {
 		6 * 4, 
 		model,
@@ -237,8 +236,8 @@ int CreatePickup(int model, int type, float x, float y, float z, long virtualwor
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool DestroyPickup(int pickup) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DestroyPickup");
+SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyPickup(int pickup) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DestroyPickup");
 	cell params[] = {
 		1 * 4,
 		pickup
@@ -246,8 +245,8 @@ bool DestroyPickup(int pickup) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-void ShowNameTags(int show) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ShowNameTags");
+SAMPGDK_EXPORT void SAMPGDK_CALL ShowNameTags(bool show) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ShowNameTags");
 	cell params[] = {
 		1 * 4,
 		show
@@ -255,22 +254,22 @@ void ShowNameTags(int show) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void ShowPlayerMarkers(int mode) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ShowPlayerMarkers");
+SAMPGDK_EXPORT void SAMPGDK_CALL ShowPlayerMarkers(bool show) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ShowPlayerMarkers");
 	cell params[] = {
 		1 * 4,
-		mode
+		show
 	};
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void GameModeExit() {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GameModeExit");
+SAMPGDK_EXPORT void SAMPGDK_CALL GameModeExit() {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GameModeExit");
 	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
-bool SetWorldTime(int hour) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetWorldTime");
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetWorldTime(short hour) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetWorldTime");
 	cell params[] = {
 		1 * 4,
 		hour
@@ -278,8 +277,8 @@ bool SetWorldTime(int hour) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GetWeaponName(int weaponid, char *name, size_t size) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetWeaponName");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetWeaponName(int weaponid, char *name, size_t size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetWeaponName");
 	FakeAmxHeapObject name_(size);
 	cell params[] = {
 		3 * 4,
@@ -292,8 +291,8 @@ bool GetWeaponName(int weaponid, char *name, size_t size) {
 	return ret;
 }
 
-void EnableTirePopping(bool enable) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("EnableTirePopping");
+SAMPGDK_EXPORT void SAMPGDK_CALL EnableTirePopping(bool enable) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("EnableTirePopping");
 	cell params[] = {
 		1 * 4,
 		enable
@@ -301,8 +300,8 @@ void EnableTirePopping(bool enable) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void AllowInteriorWeapons(bool allow) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AllowInteriorWeapons");
+SAMPGDK_EXPORT void SAMPGDK_CALL AllowInteriorWeapons(bool allow) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AllowInteriorWeapons");
 	cell params[] = {
 		1 * 4,
 		allow
@@ -310,8 +309,8 @@ void AllowInteriorWeapons(bool allow) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void SetWeather(int weatherid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetWeather");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetWeather(int weatherid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetWeather");
 	cell params[] = {
 		1 * 4,
 		weatherid
@@ -319,8 +318,8 @@ void SetWeather(int weatherid) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void SetGravity(float gravity) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetGravity");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetGravity(float gravity) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetGravity");
 	cell params[] = {
 		1 * 4,
 		amx_ftoc(gravity)
@@ -328,8 +327,8 @@ void SetGravity(float gravity) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void AllowAdminTeleport(bool allow) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AllowAdminTeleport");
+SAMPGDK_EXPORT void SAMPGDK_CALL AllowAdminTeleport(bool allow) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AllowAdminTeleport");
 	cell params[] = {
 		1 * 4,
 		allow
@@ -337,8 +336,8 @@ void AllowAdminTeleport(bool allow) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void SetDeathDropAmount(long amount) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetDeathDropAmount");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetDeathDropAmount(int amount) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetDeathDropAmount");
 	cell params[] = {
 		1 * 4,
 		amount
@@ -346,8 +345,8 @@ void SetDeathDropAmount(long amount) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void CreateExplosion(float x, float y, float z, short type, float radius) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreateExplosion");
+SAMPGDK_EXPORT void SAMPGDK_CALL CreateExplosion(float x, float y, float z, short type, float radius) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreateExplosion");
 	cell params[] = {
 		5 * 4, 
 		amx_ftoc(x),
@@ -359,8 +358,8 @@ void CreateExplosion(float x, float y, float z, short type, float radius) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void EnableZoneNames(bool enable) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("EnableZoneNames");
+SAMPGDK_EXPORT void SAMPGDK_CALL EnableZoneNames(bool enable) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("EnableZoneNames");
 	cell params[] = {
 		1 * 4,
 		enable
@@ -368,18 +367,18 @@ void EnableZoneNames(bool enable) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void UsePlayerPedAnims() {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("UsePlayerPedAnims");
+SAMPGDK_EXPORT void SAMPGDK_CALL UsePlayerPedAnims() {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("UsePlayerPedAnims");
 	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
-void DisableInteriorEnterExits() {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DisableInteriorEnterExits");
+SAMPGDK_EXPORT void SAMPGDK_CALL DisableInteriorEnterExits() {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DisableInteriorEnterExits");
 	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
-void SetNameTagDrawDistance(float distance) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetNameTagDrawDistance");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetNameTagDrawDistance(float distance) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetNameTagDrawDistance");
 	cell params[] = {
 		1 * 4,
 		amx_ftoc(distance)
@@ -387,13 +386,13 @@ void SetNameTagDrawDistance(float distance) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void DisableNameTagLOS() {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DisableNameTagLOS");
+SAMPGDK_EXPORT void SAMPGDK_CALL DisableNameTagLOS() {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DisableNameTagLOS");
 	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
-void LimitGlobalChatRadius(float chat_radius) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("LimitGlobalChatRadius");
+SAMPGDK_EXPORT void SAMPGDK_CALL LimitGlobalChatRadius(float chat_radius) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("LimitGlobalChatRadius");
 	cell params[] = {
 		1 * 4,
 		amx_ftoc(chat_radius)
@@ -401,8 +400,8 @@ void LimitGlobalChatRadius(float chat_radius) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void LimitPlayerMarkerRadius(float marker_radius) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("LimitPlayerMarkerRadius");
+SAMPGDK_EXPORT void SAMPGDK_CALL LimitPlayerMarkerRadius(float marker_radius) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("LimitPlayerMarkerRadius");
 	cell params[] = {
 		1 * 4,
 		amx_ftoc(marker_radius)
@@ -410,8 +409,8 @@ void LimitPlayerMarkerRadius(float marker_radius) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool ConnectNPC(const char *name, const char *script) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ConnectNPC");
+SAMPGDK_EXPORT bool SAMPGDK_CALL ConnectNPC(const char *name, const char *script) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ConnectNPC");
 	FakeAmxHeapObject name_(name);
 	FakeAmxHeapObject script_(script);
 	cell params[] = {
@@ -422,8 +421,8 @@ bool ConnectNPC(const char *name, const char *script) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool IsPlayerNPC(int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsPlayerNPC");
+SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerNPC(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsPlayerNPC");
 	cell params[] = {
 		1 * 4,
 		playerid
@@ -431,8 +430,8 @@ bool IsPlayerNPC(int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool IsPlayerAdmin(int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsPlayerAdmin");
+SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerAdmin(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsPlayerAdmin");
 	cell params[] = {
 		1 * 4,
 		playerid
@@ -440,8 +439,8 @@ bool IsPlayerAdmin(int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool Kick(int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("Kick");
+SAMPGDK_EXPORT bool SAMPGDK_CALL Kick(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("Kick");
 	cell params[] = {
 		1 * 4,
 		playerid
@@ -449,8 +448,8 @@ bool Kick(int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool Ban(int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("Ban");
+SAMPGDK_EXPORT bool SAMPGDK_CALL Ban(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("Ban");
 	cell params[] = {
 		1 * 4,
 		playerid
@@ -458,8 +457,8 @@ bool Ban(int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool BanEx(int playerid, const char *reason) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("BanEx");
+SAMPGDK_EXPORT bool SAMPGDK_CALL BanEx(int playerid, const char *reason) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("BanEx");
 	FakeAmxHeapObject reason_(reason);
 	cell params[] = {
 		2 * 4,
@@ -469,8 +468,8 @@ bool BanEx(int playerid, const char *reason) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-void SendRconCommand(const char *command) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SendRconCommand");
+SAMPGDK_EXPORT void SAMPGDK_CALL SendRconCommand(const char *command) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SendRconCommand");
 	FakeAmxHeapObject command_(command);
 	cell params[] = {
 		1 * 4,
@@ -479,8 +478,8 @@ void SendRconCommand(const char *command) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool GetServerVarAsString(const char *varname, char *value, size_t size) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetServerVarAsString");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char *value, size_t size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetServerVarAsString");
 	FakeAmxHeapObject varname_(varname);
 	FakeAmxHeapObject value_(size); 
 	cell params[] = {
@@ -494,8 +493,8 @@ bool GetServerVarAsString(const char *varname, char *value, size_t size) {
 	return ret;
 }
 
-int GetServerVarAsInt(const char *varname) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetServerVarAsInt");
+SAMPGDK_EXPORT int SAMPGDK_CALL GetServerVarAsInt(const char *varname) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetServerVarAsInt");
 	FakeAmxHeapObject varname_(varname);
 	cell params[] = {
 		1 * 4,
@@ -504,8 +503,8 @@ int GetServerVarAsInt(const char *varname) {
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool GetServerVarAsBool(const char *varname) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetServerVarAsBool");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsBool(const char *varname) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetServerVarAsBool");
 	FakeAmxHeapObject varname_(varname);
 	cell params[] = {
 		1 * 4,
@@ -514,8 +513,8 @@ bool GetServerVarAsBool(const char *varname) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GetPlayerNetworkStats(int playerid, char *retstr, size_t size) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetPlayerNetworkStats");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, size_t size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerNetworkStats");
 	FakeAmxHeapObject retstr_(size);
 	cell params[] = {
 		3 * 4,
@@ -528,12 +527,8 @@ bool GetPlayerNetworkStats(int playerid, char *retstr, size_t size) {
 	return ret;
 }
 
-bool GetPlayerNetworkStats(int playerid, char (&retstr)[401]) {
-	return GetPlayerNetworkStats(playerid, retstr, 401);
-}
-
-bool GetNetworkStats(char *retstr, size_t size) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetNetworkStats");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetNetworkStats");
 	FakeAmxHeapObject retstr_(size);
 	cell params[] = {
 		2 * 4,
@@ -545,12 +540,8 @@ bool GetNetworkStats(char *retstr, size_t size) {
 	return ret;
 }
 
-bool GetNetworkStats(char (&retstr)[401]) {
-	return GetNetworkStats(retstr, 401);
-}
-
-int CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreateMenu");
+SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreateMenu");
 	FakeAmxHeapObject title_(title);
 	cell params[] = {
 		6 * 4,
@@ -564,8 +555,8 @@ int CreateMenu(const char *title, int columns, float x, float y, float col1width
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool DestroyMenu(int menuid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DestroyMenu");
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DestroyMenu");
 	cell params[] = {
 		1 * 4,
 		menuid
@@ -573,8 +564,8 @@ bool DestroyMenu(int menuid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-int AddMenuItem(int menuid, int column, const char *menutext) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AddMenuItem");
+SAMPGDK_EXPORT int SAMPGDK_CALL MenuAddItem(int menuid, int column, const char *menutext) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddMenuItem");
 	FakeAmxHeapObject menutext_(menutext);
 	cell params[] = {
 		3 * 4,
@@ -585,8 +576,8 @@ int AddMenuItem(int menuid, int column, const char *menutext) {
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool SetMenuColumnHeader(int menuid, int column, const char *columnheader) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetMenuColumnHeader");
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuSetColumnHeader(int menuid, int column, const char *columnheader) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetMenuColumnHeader");
 	FakeAmxHeapObject columnheader_(columnheader);
 	cell params[] = {
 		3 * 4,
@@ -597,8 +588,8 @@ bool SetMenuColumnHeader(int menuid, int column, const char *columnheader) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool ShowMenuForPlayer(int menuid, int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ShowMenuForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuShowForPlayer(int menuid, int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ShowMenuForPlayer");
 	cell params[] = {
 		2 * 4,
 		menuid,
@@ -607,8 +598,8 @@ bool ShowMenuForPlayer(int menuid, int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool HideMenuForPlayer(int menuid, int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("HideMenuForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuHideForPlayer(int menuid, int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("HideMenuForPlayer");
 	cell params[] = {
 		2 * 4,
 		menuid,
@@ -617,8 +608,8 @@ bool HideMenuForPlayer(int menuid, int playerid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool IsValidMenu(int menuid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsValidMenu");
+SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidMenu(int menuid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsValidMenu");
 	cell params[] = {
 		1 * 4,
 		menuid
@@ -626,8 +617,8 @@ bool IsValidMenu(int menuid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool DisableMenu(int menuid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DisableMenu");
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DisableMenu");
 	cell params[] = {
 		1 * 4,
 		menuid
@@ -635,8 +626,8 @@ bool DisableMenu(int menuid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool DisableMenuRow(int menuid, int row) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DisableMenuRow");
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisableRow(int menuid, int row) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DisableMenuRow");
 	cell params[] = {
 		2 * 4,
 		menuid,
@@ -645,8 +636,8 @@ bool DisableMenuRow(int menuid, int row) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-int GetPlayerMenu(int playerid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetPlayerMenu");
+SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMenu(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerMenu");
 	cell params[] = {
 		1 * 4,
 		playerid
@@ -654,8 +645,8 @@ int GetPlayerMenu(int playerid) {
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int TextDrawCreate(float x, float y, const char *text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawCreate");
+SAMPGDK_EXPORT int SAMPGDK_CALL TextDrawCreate(float x, float y, const char *text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawCreate");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
 		3 * 4,
@@ -666,8 +657,8 @@ int TextDrawCreate(float x, float y, const char *text) {
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool TextDrawDestroy(int text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawDestroy");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawDestroy(int text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawDestroy");
 	cell params[] = {
 		1 * 4,
 		text
@@ -675,8 +666,8 @@ bool TextDrawDestroy(int text) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawLetterSize(int text, float x, float y) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawLetterSize");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawLetterSize(int text, float x, float y) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawLetterSize");
 	cell params[] = {
 		3 * 4,
 		text,
@@ -686,8 +677,8 @@ bool TextDrawLetterSize(int text, float x, float y) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawTextSize(int text, float x, float y) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawTextSize");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawTextSize(int text, float x, float y) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawTextSize");
 	cell params[] = {
 		3 * 4,
 		text,
@@ -697,8 +688,8 @@ bool TextDrawTextSize(int text, float x, float y) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawAlignment(int text, int alignment) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawAlignment");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawAlignment(int text, int alignment) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawAlignment");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -707,8 +698,8 @@ bool TextDrawAlignment(int text, int alignment) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawColor(int text, long color) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawColor");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawColor(int text, int color) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawColor");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -717,8 +708,8 @@ bool TextDrawColor(int text, long color) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawUseBox(int text, bool use) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawUseBox");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawUseBox(int text, bool use) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawUseBox");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -727,8 +718,8 @@ bool TextDrawUseBox(int text, bool use) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawBoxColor(int text, long color) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawBoxColor");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawBoxColor(int text, int color) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawBoxColor");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -737,8 +728,8 @@ bool TextDrawBoxColor(int text, long color) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawSetShadow(int text, int size) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawSetShadow");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetShadow(int text, int size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawSetShadow");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -747,8 +738,8 @@ bool TextDrawSetShadow(int text, int size) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawSetOutline(int text, int size) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawSetOutline");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetOutline(int text, int size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawSetOutline");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -757,8 +748,8 @@ bool TextDrawSetOutline(int text, int size) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawBackgroundColor(int text, long color) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawBackgroundColor");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawBackgroundColor(int text, int color) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawBackgroundColor");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -767,8 +758,8 @@ bool TextDrawBackgroundColor(int text, long color) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawFont(int text, int font) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawFont");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawFont(int text, int font) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawFont");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -777,8 +768,8 @@ bool TextDrawFont(int text, int font) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawSetProportional(int text, bool set) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawSetProportional");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetProportional(int text, bool set) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawSetProportional");
 	cell params[] = {
 		2 * 4,
 		text,
@@ -787,8 +778,8 @@ bool TextDrawSetProportional(int text, bool set) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawShowForPlayer(int playerid, int text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawShowForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForPlayer(int playerid, int text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawShowForPlayer");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -797,8 +788,8 @@ bool TextDrawShowForPlayer(int playerid, int text) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawHideForPlayer(int playerid, int text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawHideForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawHideForPlayer(int playerid, int text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawHideForPlayer");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -807,8 +798,8 @@ bool TextDrawHideForPlayer(int playerid, int text) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawShowForAll(int text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawShowForAll");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForAll(int text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawShowForAll");
 	cell params[] = {
 		1 * 4,
 		text
@@ -816,8 +807,8 @@ bool TextDrawShowForAll(int text) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawHideForAll(int text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawHideForAll");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawHideForAll(int text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawHideForAll");
 	cell params[] = {
 		1 * 4,
 		text
@@ -825,8 +816,8 @@ bool TextDrawHideForAll(int text) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool TextDrawSetString(int text, const char *string) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("TextDrawSetString");
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetString(int text, const char *string) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawSetString");
 	FakeAmxHeapObject string_(string);
 	cell params[] = {
 		2 * 4,
@@ -836,8 +827,8 @@ bool TextDrawSetString(int text, const char *string) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-int GangZoneCreate(float minx, float miny, float maxx, float maxy) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneCreate");
+SAMPGDK_EXPORT int SAMPGDK_CALL GangZoneCreate(float minx, float miny, float maxx, float maxy) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneCreate");
 	cell params[] = {
 		4 * 4,
 		amx_ftoc(minx),
@@ -848,8 +839,8 @@ int GangZoneCreate(float minx, float miny, float maxx, float maxy) {
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool GangZoneDestroy(int zone) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneDestroy");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneDestroy(int zone) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneDestroy");
 	cell params[] = {
 		1 * 4,
 		zone
@@ -857,8 +848,8 @@ bool GangZoneDestroy(int zone) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GangZoneShowForPlayer(int playerid, int zone, long color) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneShowForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneShowForPlayer(int playerid, int zone, int color) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneShowForPlayer");
 	cell params[] = {
 		3 * 4,
 		playerid,
@@ -868,8 +859,8 @@ bool GangZoneShowForPlayer(int playerid, int zone, long color) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GangZoneShowForAll(int zone, long color) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneShowForAll");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneShowForAll(int zone, int color) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneShowForAll");
 	cell params[] = {
 		2 * 4,
 		zone,
@@ -878,8 +869,8 @@ bool GangZoneShowForAll(int zone, long color) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GangZoneHideForPlayer(int playerid, int zone) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneHideForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneHideForPlayer(int playerid, int zone) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneHideForPlayer");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -888,8 +879,8 @@ bool GangZoneHideForPlayer(int playerid, int zone) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GangZoneHideForAll(int zone) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneHideForAll");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneHideForAll(int zone) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneHideForAll");
 	cell params[] = {
 		1 * 4,
 		zone
@@ -897,8 +888,8 @@ bool GangZoneHideForAll(int zone) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GangZoneFlashForPlayer(int playerid, int zone, long flashcolor) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneFlashForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneFlashForPlayer(int playerid, int zone, int flashcolor) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneFlashForPlayer");
 	cell params[] = {
 		3 * 4,
 		playerid,
@@ -908,8 +899,8 @@ bool GangZoneFlashForPlayer(int playerid, int zone, long flashcolor) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GangZoneFlashForAll(int zone, long flashcolor) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneFlashForAll");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneFlashForAll(int zone, int flashcolor) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneFlashForAll");
 	cell params[] = {
 		2 * 4,
 		zone,
@@ -918,8 +909,8 @@ bool GangZoneFlashForAll(int zone, long flashcolor) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GangZoneStopFlashForPlayer(int playerid, int zone) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneStopFlashForPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneStopFlashForPlayer(int playerid, int zone) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneStopFlashForPlayer");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -928,8 +919,8 @@ bool GangZoneStopFlashForPlayer(int playerid, int zone) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool GangZoneStopFlashForAll(int zone) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GangZoneStopFlashForAll");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneStopFlashForAll(int zone) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GangZoneStopFlashForAll");
 	cell params[] = {
 		1 * 4,
 		zone
@@ -937,8 +928,8 @@ bool GangZoneStopFlashForAll(int zone) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-int Create3DTextLabel(const char *text, long color, float x, float y, float z, float DrawDistance, long virtualworld, bool testLOS) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("Create3DTextLabel");
+SAMPGDK_EXPORT int SAMPGDK_CALL Create3DTextLabel(const char *text, int color, float x, float y, float z, float DrawDistance, int virtualworld, bool testLOS) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("Create3DTextLabel");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
 		8 * 4,
@@ -954,8 +945,8 @@ int Create3DTextLabel(const char *text, long color, float x, float y, float z, f
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool Delete3DTextLabel(int id) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("Delete3DTextLabel");
+SAMPGDK_EXPORT bool SAMPGDK_CALL Delete3DTextLabel(int id) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("Delete3DTextLabel");
 	cell params[] = {
 		1 * 4,
 		id
@@ -963,8 +954,8 @@ bool Delete3DTextLabel(int id) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("Attach3DTextLabelToPlayer");
+SAMPGDK_EXPORT bool SAMPGDK_CALL Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float OffsetY, float OffsetZ) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("Attach3DTextLabelToPlayer");
 	cell params[] = {
 		5 * 4,
 		id,
@@ -976,8 +967,8 @@ bool Attach3DTextLabelToPlayer(int id, int playerid, float OffsetX, float Offset
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("Attach3DTextLabelToVehicle");
+SAMPGDK_EXPORT bool SAMPGDK_CALL Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float OffsetY, float OffsetZ) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("Attach3DTextLabelToVehicle");
 	cell params[] = {
 		5 * 4,
 		id,
@@ -989,8 +980,8 @@ bool Attach3DTextLabelToVehicle(int id, int vehicleid, float OffsetX, float Offs
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool Update3DTextLabelText(int id, long color, const char *text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("Update3DTextLabelText");
+SAMPGDK_EXPORT bool SAMPGDK_CALL Update3DTextLabelText(int id, int color, const char *text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("Update3DTextLabelText");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
 		3 * 4,
@@ -1001,8 +992,8 @@ bool Update3DTextLabelText(int id, long color, const char *text) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-int CreatePlayer3DTextLabel(int playerid, const char *text, long color, float x, float y, float z, float DrawDistance, int attachedplayer, int attachedvehicle, bool testLOS) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreatePlayer3DTextLabel");
+SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayer3DTextLabel(int playerid, const char *text, int color, float x, float y, float z, float DrawDistance, int attachedplayer, int attachedvehicle, bool testLOS) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreatePlayer3DTextLabel");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
 		10 * 4,
@@ -1020,8 +1011,8 @@ int CreatePlayer3DTextLabel(int playerid, const char *text, long color, float x,
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool DeletePlayer3DTextLabel(int playerid, int id) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DeletePlayer3DTextLabel");
+SAMPGDK_EXPORT bool SAMPGDK_CALL DeletePlayer3DTextLabel(int playerid, int id) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DeletePlayer3DTextLabel");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -1030,8 +1021,8 @@ bool DeletePlayer3DTextLabel(int playerid, int id) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const char *text) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("UpdatePlayer3DTextLabelText");
+SAMPGDK_EXPORT bool SAMPGDK_CALL UpdatePlayer3DTextLabelText(int playerid, int id, int color, const char *text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("UpdatePlayer3DTextLabelText");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
 		4 * 4,
@@ -1043,10 +1034,10 @@ bool UpdatePlayer3DTextLabelText(int playerid, int id, long color, const char *t
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, 
+SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, 
 	const char *info, const char *button1, const char *button2)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("ShowPlayerDialog");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ShowPlayerDialog");
 	FakeAmxHeapObject caption_(caption);
 	FakeAmxHeapObject info_(info);
 	FakeAmxHeapObject button1_(button1);
@@ -1063,6 +1054,3 @@ bool ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption
 	};
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
-
-} // namespace sampgdk
-

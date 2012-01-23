@@ -1,4 +1,4 @@
-LIBRARY helloworld
+LIBRARY lvdm
 EXPORTS
 	Supports
 	Load
@@ -6,5 +6,8 @@ EXPORTS
 	ProcessTick
 	OnGameModeInit
 	OnPlayerConnect
-	OnPlayerRequestClass
+	OnPlayerDisconnect
 	OnPlayerCommandText
+	OnPlayerSpawn
+	OnPlayerDeath
+	OnPlayerRequestClass

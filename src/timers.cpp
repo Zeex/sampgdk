@@ -13,67 +13,97 @@
 // limitations under the License.
 
 #include <sampgdk/config.h>
-#include <sampgdk/timers.h>
+#include <sampgdk/export.h>
 #include <sampgdk/samp.h>
 
 #include <set>
+#include <vector>
 
-namespace sampgdk {
+#include "timers.h"
 
-std::set<Timer*> Timer::timers_;
+std::vector<Timer*> Timer::timers_;
 
-Timer::Timer(long interval, bool repeat, TimerHandler hander, void *param) 
+Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param) 
 	: interval_(interval)
 	, repeating_(repeat)
 	, handler_(hander)
 	, param_(param)
-	, startTime_(GetTickCount())
+	, startTime_(GetServerTickCount())
 {
 }
 
 Timer::~Timer() {
 }
 
-void Timer::Fire(long elapsedTime) {
-	handler_(this, param_);
+void Timer::Fire(int elapsedTime) {
+	size_t timerid = 0;
+	while (timerid < timers_.size()) {
+		if (timers_[timerid] == this) {
+			break;
+		}
+		++timerid;
+	}
+	handler_(timerid, param_);
 	if (repeating_) {
-		startTime_ = GetTickCount() - (elapsedTime - interval_);
-	} 
+		startTime_ = GetServerTickCount() - (elapsedTime - interval_);
+	}
 }
 
-Timer *Timer::CreateTimer(long interval, bool repeat, TimerHandler handler, void *param) {
+int Timer::CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
 	Timer *timer = new Timer(interval, repeat, handler, param);
-	timers_.insert(timer);
-	return timer;
+	size_t timerid = 0;
+	while (timerid < timers_.size()) {
+		if (timers_[timerid] == 0) {
+			timers_[timerid] = timer;
+			break;
+		}
+		++timerid;
+	}
+	if (timerid == timers_.size()) {
+		timers_.push_back(timer);
+	}
+	return timerid;
 }
 
-void Timer::DestroyTimer(Timer *timer) {
-	timers_.erase(timer);
+bool Timer::DestroyTimer(int timerid) {
+	if (timerid < 0 || timerid >= static_cast<int>(timers_.size())) {
+		return false;
+	}
+
+	Timer *timer = timers_[timerid];
 	delete timer;
+
+	if (timerid == timers_.size()) {
+		timers_.pop_back();
+	} else {
+		timers_[timerid] = 0;
+	}
+
+	return true;
 }
 
 void Timer::ProcessTimers() {
-	long time = GetTickCount();
-	for (std::set<Timer*>::iterator iterator = timers_.begin();
-			iterator != timers_.end(); ++iterator) {
-		Timer *timer = *iterator;
-		long elapsedTime = time - timer->GetStartTime();
+	int time = GetServerTickCount();
+	for (size_t i = 0; i < timers_.size(); ++i) {
+		Timer *timer = timers_[i];
+		int elapsedTime = time - timer->GetStartTime();
 		if (elapsedTime >= timer->GetInterval()) {
-			(*iterator)->Fire(elapsedTime);
+			timer->Fire(elapsedTime);
 			if (!timer->IsRepeating()) {
-				timers_.erase(iterator);
+				DestroyTimer(i);
 			}
 		}
 	}
 }
 
-Timer *SetTimer(long interval, bool repeat, TimerHandler handler, void *param) {
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
+	Timer::ProcessTimers();
+}
+
+SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
 	return Timer::CreateTimer(interval, repeat, handler, param);
 }
 
-void KillTimer(Timer *timer) {
-	Timer::DestroyTimer(timer);
-	timer = 0;
+SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid) {
+	return Timer::DestroyTimer(timerid);
 }
-
-} // namespace sampgdk

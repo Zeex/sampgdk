@@ -13,23 +13,29 @@
 // limitations under the License.
 
 #include <sampgdk/config.h>
-#include <sampgdk/export.h>
-#include <sampgdk/gpci.h>
 #include <sampgdk/amx/amx.h>
 
-#include "fakeamx.h"
 #include "natives.h"
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, std::size_t size) {
-	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("gpci");
-	FakeAmxHeapObject buffer_(size);
-	cell params[] = {
-		3 * 4,
-		playerid,
-		buffer_.address(),
-		size
-	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	buffer_.GetAsString(buffer, size);
-	return ret;
+NativeManager::NativeManager() 
+	: natives_()
+{
+}
+
+NativeManager &NativeManager::GetInstance() {
+	static NativeManager inst;
+	return inst;
+}
+
+AMX_NATIVE NativeManager::GetNative(const char *name) const {
+	std::map<std::string, AMX_NATIVE>::const_iterator iter = 
+		natives_.find(name);
+	if (iter == natives_.end()) {
+		return 0;
+	}
+	return iter->second;
+}
+
+void NativeManager::SetNative(const char *name, AMX_NATIVE native) {
+	natives_[std::string(name)] = native;
 }
