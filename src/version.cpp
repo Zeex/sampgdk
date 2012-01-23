@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//	 http://www.apache.org/licenses/LICENSE-2.0
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,22 +14,12 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/gpci.h>
-#include <sampgdk/amx/amx.h>
+#include <sampgdk/version.h>
 
-#include "fakeamx.h"
-#include "natives.h"
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version() {
+	return SAMPGDK_VERSION_ID;
+}
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, std::size_t size) {
-	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("gpci");
-	FakeAmxHeapObject buffer_(size);
-	cell params[] = {
-		3 * 4,
-		playerid,
-		buffer_.address(),
-		size
-	};
-	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	buffer_.GetAsString(buffer, size);
-	return ret;
+SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string() {
+	return SAMPGDK_VERSION_STRING;
 }

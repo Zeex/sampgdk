@@ -13,14 +13,26 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_GPCI_H
-#define SAMPGDK_GPCI_H
+#ifndef SAMPGDK_NATIVES_H
+#define SAMPGDK_NATIVES_H
 
 #include <sampgdk/config.h>
-#include <sampgdk/export.h>
+#include <sampgdk/amx/amx.h>
 
-#include <cstddef>
+#include <map>
+#include <string>
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, std::size_t size);
+class NativeManager {
+public:
+	static NativeManager &GetInstance();
 
-#endif /* !SAMPGDK_GPCI_H */
+	AMX_NATIVE GetNative(const char *name) const;
+	void SetNative(const char *name, AMX_NATIVE native);
+
+private:
+	NativeManager();
+
+	std::map<std::string, AMX_NATIVE> natives_;
+};
+
+#endif

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//	 http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,15 +13,14 @@
 // limitations under the License.
 
 #include <sampgdk/config.h>
-#include <sampgdk/objects.h>
-#include <sampgdk/wrapper.h>
+#include <sampgdk/export.h>
+#include <sampgdk/amx/amx.h>
 
 #include "fakeamx.h"
+#include "natives.h"
 
-namespace sampgdk {
-
-int CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreateObject");
+SAMPGDK_EXPORT int SAMPGDK_CALL CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreateObject");
 	cell params[] = {
 		8 * 4,
 		modelid,
@@ -36,10 +35,10 @@ int CreateObject(int modelid, float x, float y, float z, float rX, float rY, flo
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, 
 	float frotX, float frotY, float frotZ)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AttachObjectToVehicle");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachObjectToVehicle");
 	cell params[] = {
 		8 * 4,
 		objectid,
@@ -54,10 +53,10 @@ void AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fO
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float OffsetY, float OffsetZ, 
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float OffsetY, float OffsetZ, 
 	float RotX, float RotY, float RotZ, bool SyncRotation)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AttachObjectToObject");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachObjectToObject");
 	cell params[] = {
 		9 * 4,
 		objectid,
@@ -73,10 +72,10 @@ void AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float Off
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float OffsetY, float OffsetZ, 
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float OffsetY, float OffsetZ, 
 	float rX, float rY, float rZ)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AttachObjectToPlayer");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachObjectToPlayer");
 	cell params[] = {
 		8 * 4,
 		objectid,
@@ -91,10 +90,10 @@ void AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float Offse
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, 
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, 
 	float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("AttachPlayerObjectToPlayer");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachPlayerObjectToPlayer");
 	cell params[] = {
 		9 * 4,
 		objectplayer,
@@ -110,8 +109,8 @@ void AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void SetObjectPos(int objectid, float x, float y, float z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetObjectPos");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, float z) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetObjectPos");
 	cell params[] = {
 		4 * 4,
 		objectid,
@@ -122,8 +121,8 @@ void SetObjectPos(int objectid, float x, float y, float z) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool GetObjectPos(int objectid, float &x, float &y, float &z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetObjectPos");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float *x, float *y, float *z) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetObjectPos");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
 	FakeAmxHeapObject z_;
@@ -135,14 +134,14 @@ bool GetObjectPos(int objectid, float &x, float &y, float &z) {
 		z_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	x = x_.GetAsFloat();
-	y = y_.GetAsFloat();
-	z = z_.GetAsFloat();
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
 	return ret;
 }
 
-void SetObjectRot(int objectid, float rotX, float rotY, float rotZ) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetObjectRot");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectRot(int objectid, float rotX, float rotY, float rotZ) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetObjectRot");
 	cell params[] = {
 		4 * 4,
 		objectid,
@@ -153,8 +152,8 @@ void SetObjectRot(int objectid, float rotX, float rotY, float rotZ) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool GetObjectRot(int objectid, float &rotX, float &rotY, float &rotZ) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetObjectRot");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float *rotX, float *rotY, float *rotZ) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetObjectRot");
 	FakeAmxHeapObject rotX_;
 	FakeAmxHeapObject rotY_;
 	FakeAmxHeapObject rotZ_;
@@ -166,14 +165,14 @@ bool GetObjectRot(int objectid, float &rotX, float &rotY, float &rotZ) {
 		rotZ_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	rotX = rotX_.GetAsFloat();
-	rotY = rotY_.GetAsFloat();
-	rotZ = rotZ_.GetAsFloat();
+	*rotX = rotX_.GetAsFloat();
+	*rotY = rotY_.GetAsFloat();
+	*rotZ = rotZ_.GetAsFloat();
 	return ret;
 }
 
-bool IsValidObject(int objectid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsValidObject");
+SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidObject(int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsValidObject");
 	cell params[] = {
 		1 * 4,
 		objectid
@@ -181,8 +180,8 @@ bool IsValidObject(int objectid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-void DestroyObject(int objectid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DestroyObject");
+SAMPGDK_EXPORT void SAMPGDK_CALL DestroyObject(int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DestroyObject");
 	cell params[] = {
 		1 * 4,
 		objectid
@@ -190,10 +189,10 @@ void DestroyObject(int objectid) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int MoveObject(int objectid, float X, float Y, float Z, float Speed, 
+SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float Z, float Speed, 
 	float RotX, float RotY, float RotZ)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("MoveObject");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("MoveObject");
 	cell params[] = {
 		8 * 4,
 		objectid,
@@ -208,8 +207,8 @@ int MoveObject(int objectid, float X, float Y, float Z, float Speed,
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool StopObject(int objectid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("StopObject");
+SAMPGDK_EXPORT bool SAMPGDK_CALL StopObject(int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("StopObject");
 	cell params[] = {
 		1 * 4,
 		objectid
@@ -217,8 +216,8 @@ bool StopObject(int objectid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool IsObjectMoving(int objectid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsObjectMoving");
+SAMPGDK_EXPORT bool SAMPGDK_CALL IsObjectMoving(int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsObjectMoving");
 	cell params[] = {
 		1 * 4,
 		objectid
@@ -226,10 +225,10 @@ bool IsObjectMoving(int objectid) {
 	return FakeAmx::GetInstance().CallNative(native, params) != 0;
 }
 
-int CreatePlayerObject(int playerid, int modelid, float x, float y, float z, 
+SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z, 
 	float rX, float rY, float rZ, float DrawDistance)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("CreatePlayerObject");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreatePlayerObject");
 	cell params[] = {
 		9 * 4,
 		playerid,
@@ -245,8 +244,8 @@ int CreatePlayerObject(int playerid, int modelid, float x, float y, float z,
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-void SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetPlayerObjectPos");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetPlayerObjectPos");
 	cell params[] = {
 		5 * 4,
 		playerid,
@@ -258,8 +257,8 @@ void SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool GetPlayerObjectPos(int playerid, int objectid, float &x, float &y, float &z) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetPlayerObjectPos");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, float *x, float *y, float *z) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerObjectPos");
 	FakeAmxHeapObject x_;
 	FakeAmxHeapObject y_;
 	FakeAmxHeapObject z_;
@@ -272,14 +271,14 @@ bool GetPlayerObjectPos(int playerid, int objectid, float &x, float &y, float &z
 		z_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	x = x_.GetAsFloat();
-	y = y_.GetAsFloat();
-	z = z_.GetAsFloat();
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
 	return ret;
 }
 
-void SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, float rotZ) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("SetPlayerObjectRot");
+SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, float rotZ) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetPlayerObjectRot");
 	cell params[] = {
 		5 * 4,
 		playerid,
@@ -291,8 +290,8 @@ void SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, floa
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool GetPlayerObjectRot(int playerid, int objectid, float &rotX, float &rotY, float &rotZ) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("GetPlayerObjectRot");
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, float *rotX, float *rotY, float *rotZ) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerObjectRot");
 	FakeAmxHeapObject rotX_;
 	FakeAmxHeapObject rotY_;
 	FakeAmxHeapObject rotZ_;
@@ -305,14 +304,14 @@ bool GetPlayerObjectRot(int playerid, int objectid, float &rotX, float &rotY, fl
 		rotZ_.address()
 	};
 	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
-	rotX = rotX_.GetAsFloat();
-	rotY = rotY_.GetAsFloat();
-	rotZ = rotZ_.GetAsFloat();
+	*rotX = rotX_.GetAsFloat();
+	*rotY = rotY_.GetAsFloat();
+	*rotZ = rotZ_.GetAsFloat();
 	return ret;
 }
 
-bool IsValidPlayerObject(int playerid, int objectid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsValidPlayerObject");
+SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidPlayerObject(int playerid, int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsValidPlayerObject");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -321,8 +320,8 @@ bool IsValidPlayerObject(int playerid, int objectid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-void DestroyPlayerObject(int playerid, int objectid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("DestroyPlayerObject");
+SAMPGDK_EXPORT void SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("DestroyPlayerObject");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -331,10 +330,10 @@ void DestroyPlayerObject(int playerid, int objectid) {
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-int MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, 
+SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, 
 	float RotX, float RotY, float RotZ)
 {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("MovePlayerObject");
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("MovePlayerObject");
 	cell params[] = {
 		9 * 4,
 		playerid,
@@ -350,8 +349,8 @@ int MovePlayerObject(int playerid, int objectid, float x, float y, float z, floa
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-bool StopPlayerObject(int playerid, int objectid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("StopPlayerObject");
+SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("StopPlayerObject");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -360,8 +359,8 @@ bool StopPlayerObject(int playerid, int objectid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-bool IsPlayerObjectMoving(int playerid, int objectid) {
-	static AMX_NATIVE native = Wrapper::GetInstance().GetNative("IsPlayerObjectMoving");
+SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("IsPlayerObjectMoving");
 	cell params[] = {
 		2 * 4,
 		playerid,
@@ -369,6 +368,3 @@ bool IsPlayerObjectMoving(int playerid, int objectid) {
 	};
 	return FakeAmx::GetInstance().CallNative(native, params) != 0;
 }
-
-} // namespace sampgdk
-
