@@ -15,4 +15,8 @@ if(WIN32)
 	endif()
 endif()
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+endif()
+
 target_link_libraries(lvdm sampgdk)
