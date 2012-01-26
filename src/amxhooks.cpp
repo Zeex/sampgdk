@@ -74,7 +74,7 @@ void AmxHooks::RegisterCallbacks() {
 	cbBadRetVals_["OnPlayerLeaveCheckpoint"] = 0;
 	cbBadRetVals_["OnPlayerEnterRaceCheckpoint"] = 0;
 	cbBadRetVals_["OnPlayerLeaveRaceCheckpoint"] = 0;
-	cbBadRetVals_["OnRconCommand"] = 1;
+	cbBadRetVals_["OnRconCommand"] = 0;
 	cbBadRetVals_["OnPlayerRequestSpawn"] = 0;
 	cbBadRetVals_["OnObjectMoved"] = 0;
 	cbBadRetVals_["OnPlayerObjectMoved"] = 0;
