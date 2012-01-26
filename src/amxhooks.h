@@ -20,6 +20,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "jump-x86.h"
 
@@ -34,6 +35,10 @@ public:
 	static int amx_Callback(AMX *amx, cell index, cell *result, cell *params);
 	static int amx_Push(AMX *amx, cell value);
 	static int amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, const char *string, int pack, int wchar);
+
+	static const std::vector<AMX_NATIVE_INFO> &GetNatives() {
+		return natives_;
+	}
 
 private:
 	static void RegisterCallbacks();
@@ -53,7 +58,10 @@ private:
 	static JumpX86 amx_PushStringHook_;
 
 	// Maps callback name to its 'bad' return value
-	static std::map<std::string, int> callbacks_;
+	static std::map<std::string, int> cbBadRetVals_;
+
+	// Global list of registered native functions (server + all plugins)
+	static std::vector<AMX_NATIVE_INFO> natives_;
 };
 
 #endif // !SAMPGDK_AMXHOOKS_H
