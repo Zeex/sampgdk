@@ -166,14 +166,14 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
  	if(strcmp(cmd, "/givecash") == 0) {
 		cmd = strtok(NULL, " ");
 
-		if(!strlen(cmd)) {
+		if(cmd == 0 || !strlen(cmd)) {
 			SendClientMessage(playerid, COLOR_WHITE, "USAGE: /givecash [playerid] [amount]");
 			return 1;
 		}
 		giveplayerid = atoi(cmd);
 		
 		cmd = strtok(NULL, " ");
-		if(!strlen(cmd)) {
+		if(cmd == 0 || !strlen(cmd)) {
 			SendClientMessage(playerid, COLOR_WHITE, "USAGE: /givecash [playerid] [amount]");
 			return 1;
 		}
