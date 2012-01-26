@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <cstdlib>
 #include <sampgdk/config.h>
 #include <sampgdk/core.h>
 
@@ -26,6 +27,7 @@
 
 #include "amxhooks.h"
 #include "callbacks.h"
+#include "natives.h"
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData) {
 	static bool initialized = false;
@@ -61,4 +63,8 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const 
 #else
 	return dlsym(plugin, name);
 #endif
+}
+
+SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
+	return &(AmxHooks::GetNatives()[0]);
 }
