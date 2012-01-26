@@ -28,6 +28,7 @@ add_library(sampgdk SHARED
 	"include/sampgdk/amx/amx.h"
 	"include/sampgdk/amx/getch.h"
 	"include/sampgdk/amx/sclinux.h"
+	"include/sampgdk/amx.h"
 	"include/sampgdk/plugin.h"
 	"include/sampgdk/plugincommon.h"
 	"include/sampgdk/config.h"
