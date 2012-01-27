@@ -9,6 +9,7 @@ if(WIN32)
 	if(MSVC)
 		set_target_properties(lvdm PROPERTIES 
 				LINK_FLAGS "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/lvdm.def")
+		add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 	elseif(MINGW)
 		set_target_properties(lvdm PROPERTIES
 				LINK_FLAGS "-Wl,--kill-at --def ${CMAKE_CURRENT_SOURCE_DIR}/lvdm.def")
