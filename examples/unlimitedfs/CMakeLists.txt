@@ -22,6 +22,7 @@ if(WIN32)
 	if(MSVC)
 		set_target_properties(unlimitedfs PROPERTIES 
 				LINK_FLAGS "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/unlimitedfs.def")
+		add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 		include_directories(${unlimitedfs_SOURCE_DIR})
 	elseif(MINGW)
 		set_target_properties(unlimitedfs PROPERTIES
