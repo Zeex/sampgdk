@@ -138,9 +138,7 @@ void AmxHooks::Finalize() {
 }
 
 int AMXAPI AmxHooks::amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
-	amx_RegisterHook_.Remove();
-
-	int error = ::amx_Register(amx, nativelist, number);
+	JumpX86::ScopedRemove r(&amx_RegisterHook_);
 
 	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
 		NativeManager::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
@@ -150,16 +148,13 @@ int AMXAPI AmxHooks::amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 		}
 		natives_.push_back(nativelist[i]);
 	}
-
-	amx_RegisterHook_.Install();
-	return error;
+	return ::amx_Register(amx, nativelist, number);
 }
 
 int AMXAPI AmxHooks::amx_FindPublic(AMX *amx, const char *name, int *index) {
-	amx_FindPublicHook_.Remove();
+	JumpX86::ScopedRemove r(&amx_FindPublicHook_);
 
 	int error = ::amx_FindPublic(amx, name, index);
-
 	if (amx == gamemode_) {
 		if (error != AMX_ERR_NONE) {
 			*index = AMX_EXEC_GDK;
@@ -167,14 +162,12 @@ int AMXAPI AmxHooks::amx_FindPublic(AMX *amx, const char *name, int *index) {
 		}
 		currentPublic_ = name;
 	}
-
-	amx_FindPublicHook_.Install();
 	return error;
 }
 
 int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
-	amx_ExecHook_.Remove();
-	amx_CallbackHook_.Install();
+	JumpX86::ScopedRemove r(&amx_ExecHook_);
+	JumpX86::ScopedInstall i(&amx_CallbackHook_);
 	
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
@@ -204,54 +197,37 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	}
 
 	// Reset parameter count
-	amx->paramcount = 0;	
-
-	amx_CallbackHook_.Remove();
-	amx_ExecHook_.Install();
+	amx->paramcount = 0;
 
 	return error;
 }
 
 int AMXAPI AmxHooks::amx_Callback(AMX *amx, cell index, cell *result, cell *params) {
-	amx_CallbackHook_.Remove();
-	amx_ExecHook_.Install();
+	JumpX86::ScopedRemove r(&amx_CallbackHook_);
+	JumpX86::ScopedInstall i(&amx_ExecHook_);
 
 	// Forbid SYSREQ.D
 	amx->sysreq_d = 0;
 	
-	int error = ::amx_Callback(amx, index, result, params);
-	
-	amx_ExecHook_.Remove();
-	amx_CallbackHook_.Install();
-
-	return error;
+	return ::amx_Callback(amx, index, result, params);
 }
 
 int AMXAPI AmxHooks::amx_Push(AMX *amx, cell value) {
-	amx_PushHook_.Remove();
+	JumpX86::ScopedRemove r1(&amx_PushHook_);
 
-	int error = ::amx_Push(amx, value);
 	if (amx == gamemode_) {
 		CallbackManager::GetInstance().PushArgFront(value);
 	}
-
-	amx_PushHook_.Install();
-
-	return error;
+	return ::amx_Push(amx, value);
 }
 
 int AMXAPI AmxHooks::amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, const char *string, int pack, int wchar) {
-	amx_PushHook_.Remove(); // PushString calls Push
-	amx_PushStringHook_.Remove();
+	JumpX86::ScopedRemove r1(&amx_PushHook_);
+	JumpX86::ScopedRemove r2(&amx_PushStringHook_);
 
-	int error = ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 	if (amx == gamemode_) {
 		CallbackManager::GetInstance().PushArgFront(string);
 	}
-
-	amx_PushHook_.Install();
-	amx_PushStringHook_.Install();
-
-	return error;
+	return ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 }
 
