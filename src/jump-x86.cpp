@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//	 http://www.apache.org/licenses/LICENSE-2.0
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -105,4 +105,15 @@ bool JumpX86::Remove() {
 
 bool JumpX86::IsInstalled() const {
 	return installed_;
+}
+
+// static 
+void *JumpX86::GetTargetAddress(void *jmp) {
+	if (*reinterpret_cast<char*>(jmp) == 0xE9) {
+		uint32_t next_instr = reinterpret_cast<uint32_t>(reinterpret_cast<char*>(jmp) + kJmpInstrSize);
+		uint32_t rel_addr = *reinterpret_cast<uint32_t*>(reinterpret_cast<char*>(jmp) + 1);
+		uint32_t abs_addr = rel_addr + next_instr;
+		return reinterpret_cast<void*>(abs_addr);
+	} 
+	return 0;
 }

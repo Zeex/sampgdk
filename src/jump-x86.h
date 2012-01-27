@@ -33,6 +33,51 @@ public:
 
 	bool IsInstalled() const;
 
+	// Returns a E9 JMP destination as an aboluste address
+	static void *GetTargetAddress(void *jmp);
+
+	// Temporary Remove()
+	class ScopedRemove {
+	public:
+		ScopedRemove(JumpX86 *jmp) 
+			: jmp_(jmp)
+			, removed_(jmp->Remove())
+		{
+			// nothing
+		}
+
+		~ScopedRemove() {
+			if (removed_) {
+				jmp_->Install();
+			}
+		}
+
+	private:		
+		JumpX86 *jmp_;
+		bool removed_;
+	};
+
+	// Temporary Install() 
+	class ScopedInstall {
+	public:
+		ScopedInstall(JumpX86 *jmp) 
+			: jmp_(jmp)
+			, installed_(jmp->Install())
+		{
+			// nothing
+		}
+
+		~ScopedInstall() {
+			if (installed_) {
+				jmp_->Remove();
+			}
+		}
+
+	private:
+		JumpX86 *jmp_;
+		bool installed_;
+	};
+
 private:
 	void *src_;
 	void *dst_;
