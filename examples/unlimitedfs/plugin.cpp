@@ -7,13 +7,13 @@ Plugin::Plugin()
 {
 }
 
-Plugin::Plugin(const std::string &filename) 
+Plugin::Plugin(const std::string &filename)
 	: loaded_(false)
 	, filename_(filename)
 {
 }
 
-Plugin::Plugin(const std::string &filename, void **ppData) 
+Plugin::Plugin(const std::string &filename, void **ppData)
 	: loaded_(false)
 {
 	Load(filename_, ppData);
@@ -82,7 +82,7 @@ void Plugin::Unload() {
 		if (Unload != 0) {
 			Unload();
 		}
-		dlclose(handle_);		
+		dlclose(handle_);
 	}
 }
 

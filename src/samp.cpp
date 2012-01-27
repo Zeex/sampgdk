@@ -115,7 +115,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetGameModeText(const char *text) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetGameModeText");
 	FakeAmxHeapObject text_(text);
 	cell params[] = {
-		1 * 4, 
+		1 * 4,
 		text_.address()
 	};
 	FakeAmx::GetInstance().CallNative(native, params);
@@ -124,18 +124,18 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetGameModeText(const char *text) {
 SAMPGDK_EXPORT void SAMPGDK_CALL SetTeamCount(int count) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetTeamCount");
 	cell params[] = {
-		1 * 4, 
+		1 * 4,
 		count
 	};
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z, 
-	float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) 
+SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClass(int modelid, float spawn_x, float spawn_y, float spawn_z,
+	float z_angle, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddPlayerClass");
 	cell params[] = {
-		11 * 4, 
+		11 * 4,
 		modelid,
 		amx_ftoc(spawn_x),
 		amx_ftoc(spawn_y),
@@ -151,12 +151,12 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClass(int modelid, float spawn_x, float
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle, 
+SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClassEx(int teamid, int modelid, float spawn_x, float spawn_y, float spawn_z, float z_angle,
 	int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddPlayerClassEx");
 	cell params[] = {
-		12 * 4, 
+		12 * 4,
 		teamid,
 		modelid,
 		amx_ftoc(spawn_x),
@@ -173,12 +173,12 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddPlayerClassEx(int teamid, int modelid, float 
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z, 
+SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicle(int modelid, float spawn_x, float spawn_y, float spawn_z,
 	float z_angle, int color1, int color2)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddStaticVehicle");
 	cell params[] = {
-		7 * 4, 
+		7 * 4,
 		modelid,
 		amx_ftoc(spawn_x),
 		amx_ftoc(spawn_y),
@@ -190,12 +190,12 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicle(int modelid, float spawn_x, flo
 	return FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z, 
-	float z_angle, int color1, int color2, int respawn_delay) 
+SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicleEx(int modelid, float spawn_x, float spawn_y, float spawn_z,
+	float z_angle, int color1, int color2, int respawn_delay)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddStaticVehicleEx");
 	cell params[] = {
-		8 * 4, 
+		8 * 4,
 		modelid,
 		amx_ftoc(spawn_x),
 		amx_ftoc(spawn_y),
@@ -211,7 +211,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticVehicleEx(int modelid, float spawn_x, f
 SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticPickup(int model, int type, float x, float y, float z, int virtualworld) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AddStaticPickup");
 	cell params[] = {
-		6 * 4, 
+		6 * 4,
 		model,
 		type,
 		amx_ftoc(x),
@@ -225,7 +225,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL AddStaticPickup(int model, int type, float x, fl
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePickup(int model, int type, float x, float y, float z, int virtualworld) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreatePickup");
 	cell params[] = {
-		6 * 4, 
+		6 * 4,
 		model,
 		type,
 		amx_ftoc(x),
@@ -348,7 +348,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SetDeathDropAmount(int amount) {
 SAMPGDK_EXPORT void SAMPGDK_CALL CreateExplosion(float x, float y, float z, short type, float radius) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreateExplosion");
 	cell params[] = {
-		5 * 4, 
+		5 * 4,
 		amx_ftoc(x),
 		amx_ftoc(y),
 		amx_ftoc(z),
@@ -481,7 +481,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL SendRconCommand(const char *command) {
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char *value, size_t size) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetServerVarAsString");
 	FakeAmxHeapObject varname_(varname);
-	FakeAmxHeapObject value_(size); 
+	FakeAmxHeapObject value_(size);
 	cell params[] = {
 		3 * 4,
 		varname_.address(),
@@ -1034,7 +1034,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdatePlayer3DTextLabelText(int playerid, int i
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, 
+SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption,
 	const char *info, const char *button1, const char *button2)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("ShowPlayerDialog");

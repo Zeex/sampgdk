@@ -72,10 +72,10 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AllowAdminTeleport(bool allow);
 SAMPGDK_EXPORT void SAMPGDK_CALL SetDeathDropAmount(int amount);
 SAMPGDK_EXPORT void SAMPGDK_CALL CreateExplosion(float x, float y, float z, short type, float radius);
 SAMPGDK_EXPORT void SAMPGDK_CALL EnableZoneNames(bool enable);
-SAMPGDK_EXPORT void SAMPGDK_CALL UsePlayerPedAnims();      
-SAMPGDK_EXPORT void SAMPGDK_CALL DisableInteriorEnterExits(); 
-SAMPGDK_EXPORT void SAMPGDK_CALL SetNameTagDrawDistance(float distance); 
-SAMPGDK_EXPORT void SAMPGDK_CALL DisableNameTagLOS(); 
+SAMPGDK_EXPORT void SAMPGDK_CALL UsePlayerPedAnims();
+SAMPGDK_EXPORT void SAMPGDK_CALL DisableInteriorEnterExits();
+SAMPGDK_EXPORT void SAMPGDK_CALL SetNameTagDrawDistance(float distance);
+SAMPGDK_EXPORT void SAMPGDK_CALL DisableNameTagLOS();
 SAMPGDK_EXPORT void SAMPGDK_CALL LimitGlobalChatRadius(float chat_radius);
 SAMPGDK_EXPORT void SAMPGDK_CALL LimitPlayerMarkerRadius(float marker_radius);
 
@@ -158,9 +158,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid);
 #define PLAYER_STATE_ONFOOT                  (1)
 #define PLAYER_STATE_DRIVER                  (2)
 #define PLAYER_STATE_PASSENGER               (3)
-#define PLAYER_STATE_EXIT_VEHICLE            (4) 
-#define PLAYER_STATE_ENTER_VEHICLE_DRIVER    (5) 
-#define PLAYER_STATE_ENTER_VEHICLE_PASSENGER (6) 
+#define PLAYER_STATE_EXIT_VEHICLE            (4)
+#define PLAYER_STATE_ENTER_VEHICLE_DRIVER    (5)
+#define PLAYER_STATE_ENTER_VEHICLE_PASSENGER (6)
 #define PLAYER_STATE_WASTED                  (7)
 #define PLAYER_STATE_SPAWNED                 (8)
 #define PLAYER_STATE_SPECTATING              (9)
@@ -241,11 +241,11 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid);
 #define CLICK_SOURCE_SCOREBOARD   (0)
 
 #ifdef __cplusplus
-template<size_t N> inline bool GetNetworkStats(char (&retstr)[N]) { 
-	return GetNetworkStats(retstr, N); 
+template<size_t N> inline bool GetNetworkStats(char (&retstr)[N]) {
+	return GetNetworkStats(retstr, N);
 }
-template<size_t N> inline bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) { 
-	return GetPlayerNetworkStats(playerid, retstr, N); 
+template<size_t N> inline bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) {
+	return GetPlayerNetworkStats(playerid, retstr, N);
 }
 template<size_t N> inline bool GetWeaponName(int weaponid, char (&name)[N]) {
 	return GetWeaponName(weaponid, name, N);

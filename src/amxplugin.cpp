@@ -46,7 +46,7 @@ void *pAMXFunctions;
 
 // Optimized Inline Assembly Thunks for MS VC++
 
-#define NUDE _declspec(naked) 
+#define NUDE _declspec(naked)
 
 NUDE uint16_t * AMXAPI amx_Align16(uint16_t *v)
 {

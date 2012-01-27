@@ -13,15 +13,15 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_CONFIG_H 
-#define SAMPGDK_CONFIG_H 
+#ifndef SAMPGDK_CONFIG_H
+#define SAMPGDK_CONFIG_H
 
 #define STATIC_ASSERT(COND, MSG) typedef char static_assertion_##MSG[(COND) ? 1 : -1]
 
-STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits); 
+STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits);
 
 /* Windows */
-#if defined WIN32 || defined _WIN32 || defined __WIN32__ 
+#if defined WIN32 || defined _WIN32 || defined __WIN32__
 	#define SAMPGDK_WINDOWS 1
 #endif
 
@@ -34,7 +34,7 @@ STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits);
 #endif
 
 /* stdint.h */
-#if !defined HAVE_STDINT_H 
+#if !defined HAVE_STDINT_H
 	#if (!defined __STDC__ && __STDC_VERSION__ >= 199901L /* C99 or newer */)\
 		|| (defined _MSC_VER_ && _MSC_VER >= 1600 /* Visual Studio 2010 and later */)\
 		|| defined __GNUC__ /* GCC, MinGW, etc */
@@ -43,7 +43,7 @@ STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits);
 #endif
 
 /* size_t */
-#include <stddef.h> 
+#include <stddef.h>
 
 /* alloca() */
 #if SAMPGDK_WINDOWS
@@ -52,8 +52,8 @@ STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits);
 	#if !defined alloca
 		#define alloca _alloca
 	#endif
-#elif SAMPGDK_LINUX 
-	#if defined __GNUC__ 
+#elif SAMPGDK_LINUX
+	#if defined __GNUC__
 		#define HAVE_ALLOCA_H 1
 		#if !defined alloca
 			#define alloca __builtin_alloca
@@ -72,7 +72,7 @@ STATIC_ASSERT(sizeof(int) >= 4, int_must_be_at_least_32_bits);
 		#define true 1
 		#define false 0
 	#endif
-#endif 
+#endif
 
 #undef STATIC_ASSERT
 

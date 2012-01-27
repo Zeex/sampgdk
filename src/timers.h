@@ -25,14 +25,14 @@ class Timer {
 public:
 	static int CreateTimer(int interval, bool repeat, TimerHandler handler, void *param);
 	static bool DestroyTimer(int timerid);
-	
+
 	~Timer();
 
-	int GetInterval() const 
+	int GetInterval() const
 		{ return interval_; }
-	bool IsRepeating() const 
+	bool IsRepeating() const
 		{ return repeating_; }
-	int GetStartTime() const 
+	int GetStartTime() const
 		{ return startTime_; }
 
 	void Fire(int elapsedTime);

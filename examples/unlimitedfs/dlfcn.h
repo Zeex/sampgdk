@@ -48,6 +48,6 @@ char *dlerror( void );
 
 #ifdef __cplusplus
 }
-#endif 
+#endif
 
 #endif /* DLFCN_H */

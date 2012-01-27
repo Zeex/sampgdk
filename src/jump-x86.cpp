@@ -42,13 +42,13 @@ static void Unprotect(void *address, int size) {
 
 #endif
 
-JumpX86::JumpX86() 
+JumpX86::JumpX86()
 	: src_(0)
 	, dst_(0)
 	, installed_(false)
 {}
 
-JumpX86::JumpX86(void *src, void *dst) 
+JumpX86::JumpX86(void *src, void *dst)
 	: src_(0)
 	, dst_(0)
 	, installed_(false)
@@ -88,7 +88,7 @@ bool JumpX86::Install(void *src, void *dst) {
 		return false;
 	}
 
-    src_ = src; 
+    src_ = src;
 	dst_ = dst;
 	return Install();
 }
@@ -107,13 +107,13 @@ bool JumpX86::IsInstalled() const {
 	return installed_;
 }
 
-// static 
+// static
 void *JumpX86::GetTargetAddress(void *jmp) {
 	if (*reinterpret_cast<char*>(jmp) == 0xE9) {
 		uint32_t next_instr = reinterpret_cast<uint32_t>(reinterpret_cast<char*>(jmp) + kJmpInstrSize);
 		uint32_t rel_addr = *reinterpret_cast<uint32_t*>(reinterpret_cast<char*>(jmp) + 1);
 		uint32_t abs_addr = rel_addr + next_instr;
 		return reinterpret_cast<void*>(abs_addr);
-	} 
+	}
 	return 0;
 }

@@ -1,4 +1,4 @@
-#include <stdio.h> 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -162,7 +162,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 		SendPlayerFormattedText(playerid,"cash intact)until the game ends, simple right?", 0);
 	return 1;
 	}
-	
+
  	if(strcmp(cmd, "/givecash") == 0) {
 		cmd = strtok(NULL, " ");
 
@@ -171,14 +171,14 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 			return 1;
 		}
 		giveplayerid = atoi(cmd);
-		
+
 		cmd = strtok(NULL, " ");
 		if(cmd == 0 || !strlen(cmd)) {
 			SendClientMessage(playerid, COLOR_WHITE, "USAGE: /givecash [playerid] [amount]");
 			return 1;
 		}
  		moneys = atoi(cmd);
-		
+
 		if (IsPlayerConnected(giveplayerid)) {
 			GetPlayerName(giveplayerid, giveplayer, MAX_PLAYER_NAME);
 			GetPlayerName(playerid, sendername, MAX_PLAYER_NAME);
@@ -202,7 +202,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 			}
 		return 1;
 	}
-	
+
 	return 0;
 }
 
@@ -275,7 +275,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 	AddPlayerClass(270,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(271,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(272,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
-	
+
 	AddPlayerClass(280,1958.3783f,1343.1572f,15.3746f,270.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(281,1958.3783f,1343.1572f,15.3746f,270.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(282,1958.3783f,1343.1572f,15.3746f,270.1425f,0,0,24,300,-1,-1);
@@ -284,7 +284,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 	AddPlayerClass(285,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(286,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(287,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
-	
+
 	AddPlayerClass(254,1958.3783f,1343.1572f,15.3746f,0.0f,0,0,24,300,-1,-1);
 	AddPlayerClass(255,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(256,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
@@ -299,7 +299,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 	AddPlayerClass(274,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(275,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(276,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
-	
+
 	AddPlayerClass(1,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(2,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
 	AddPlayerClass(290,1958.3783f,1343.1572f,15.3746f,269.1425f,0,0,24,300,-1,-1);
@@ -718,7 +718,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 	AddStaticVehicle(519,1642.9850f,-2425.2063f,14.4744f,159.8745f,1,1); //
 	AddStaticVehicle(519,1734.1311f,-2426.7563f,14.4734f,172.2036f,1,1); //
 	// --- uncommented end
-	
+
 	AddStaticVehicle(415,-680.9882f,955.4495f,11.9032f,84.2754f,36,1); //
 	AddStaticVehicle(460,-816.3951f,2222.7375f,43.0045f,268.1861f,1,3); //
 	AddStaticVehicle(460,-94.6885f,455.4018f,1.5719f,250.5473f,1,3); //
@@ -746,7 +746,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 	AddStaticVehicle(558,-1660.8994f,1210.7589f,20.7875f,317.6098f,36,1); //
 	AddStaticVehicle(550,-1645.2401f,1303.9883f,6.8482f,133.6013f,7,7); //
 	AddStaticVehicle(460,-1333.1960f,903.7660f,1.5568f,0.5095f,46,32); //
-	
+
 	// 25/4 UPDATE
 	AddStaticVehicle(411,113.8611f,1068.6182f,13.3395f,177.1330f,116,1); //
 	AddStaticVehicle(429,159.5199f,1185.1160f,14.7324f,85.5769f,1,2); //

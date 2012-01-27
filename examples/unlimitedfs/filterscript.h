@@ -11,9 +11,9 @@ public:
 	explicit FilterScript(const std::string &filename);
 	~FilterScript();
 
-	AMX *amx() 
+	AMX *amx()
 		{ return &amx_; }
-	const AMX *amx() const 
+	const AMX *amx() const
 		{ return &amx_; }
 
 	bool Load(const std::string &filename);

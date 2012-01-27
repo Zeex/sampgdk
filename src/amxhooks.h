@@ -46,7 +46,7 @@ private:
 	// Gamemode's AMX
 	static AMX *gamemode_;
 
-	// Curently Exec()'ing public 
+	// Curently Exec()'ing public
 	static std::string currentPublic_;
 
 	// AMX API hooks

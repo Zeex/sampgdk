@@ -23,7 +23,7 @@
 
 std::vector<Timer*> Timer::timers_;
 
-Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param) 
+Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
 	: interval_(interval)
 	, repeating_(repeat)
 	, handler_(hander)

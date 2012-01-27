@@ -28,7 +28,7 @@ extern void *pAMXFunctions;
 // Gamemode's AMX
 AMX *AmxHooks::gamemode_ = 0;
 
-// Curently Exec()'ing public 
+// Curently Exec()'ing public
 std::string AmxHooks::currentPublic_;
 
 // AMX API hooks
@@ -107,13 +107,13 @@ void AmxHooks::Initialize(void **ppPluginData) {
 
 	void **amxExports = static_cast<void**>(pAMXFunctions);
 	amx_RegisterHook_.Install(
-		amxExports[PLUGIN_AMX_EXPORT_Register],   
+		amxExports[PLUGIN_AMX_EXPORT_Register],
 		(void*)amx_Register);
 	amx_FindPublicHook_.Install(
-		amxExports[PLUGIN_AMX_EXPORT_FindPublic], 
+		amxExports[PLUGIN_AMX_EXPORT_FindPublic],
 		(void*)amx_FindPublic);
 	amx_ExecHook_.Install(
-		amxExports[PLUGIN_AMX_EXPORT_Exec],       
+		amxExports[PLUGIN_AMX_EXPORT_Exec],
 		(void*)amx_Exec);
 	amx_CallbackHook_.Install(
 		amxExports[PLUGIN_AMX_EXPORT_Callback],
@@ -168,7 +168,7 @@ int AMXAPI AmxHooks::amx_FindPublic(AMX *amx, const char *name, int *index) {
 int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	JumpX86::ScopedRemove r(&amx_ExecHook_);
 	JumpX86::ScopedInstall i(&amx_CallbackHook_);
-	
+
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode_ = amx;
@@ -192,8 +192,8 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	if (canDoExec && index != AMX_EXEC_GDK) {
 		error = ::amx_Exec(amx, retval, index);
 	} else {
-		// Pop parameters from stack 
-		amx->stk += amx->paramcount * sizeof(cell);			
+		// Pop parameters from stack
+		amx->stk += amx->paramcount * sizeof(cell);
 	}
 
 	// Reset parameter count
@@ -208,7 +208,7 @@ int AMXAPI AmxHooks::amx_Callback(AMX *amx, cell index, cell *result, cell *para
 
 	// Forbid SYSREQ.D
 	amx->sysreq_d = 0;
-	
+
 	return ::amx_Callback(amx, index, result, params);
 }
 
