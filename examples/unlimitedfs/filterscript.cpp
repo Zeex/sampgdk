@@ -1,5 +1,9 @@
 #include "filterscript.h"
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
 // Copied from amxaux.c
 static int AMXAPI aux_LoadProgram(AMX *amx, const char *filename, void *memblock)
 {
