@@ -165,7 +165,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerPlaySound(int playerid, int soundid, floa
 SAMPGDK_EXPORT bool SAMPGDK_CALL ApplyAnimation(int playerid, const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ClearAnimations(int playerid, bool forcesync);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerAnimationIndex(int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetAnimationName(int index, char *animlib, size_t animlib_size, char *animname, size_t animname_size); 
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetAnimationName(int index, char *animlib, size_t animlib_size, char *animname, size_t animname_size);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerSpecialAction(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerSpecialAction(int playerid, int actionid);
 
@@ -222,11 +222,11 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL StartRecordingPlayerData(int playerid, int reco
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopRecordingPlayerData(int playerid);
 
 #ifdef __cplusplus
-template<size_t N> inline bool GetPlayerName(int playerid, char (&name)[N]) { 
-	return GetPlayerName(playerid, name, N); 
+template<size_t N> inline bool GetPlayerName(int playerid, char (&name)[N]) {
+	return GetPlayerName(playerid, name, N);
 }
-template<size_t N> inline bool GetPlayerIp(int playerid, char (&ip)[N]) { 
-	return GetPlayerIp(playerid, ip, N); 
+template<size_t N> inline bool GetPlayerIp(int playerid, char (&ip)[N]) {
+	return GetPlayerIp(playerid, ip, N);
 }
 template<size_t N> inline bool GetPVarString(int playerid, const char *varname, char (&value)[N]) {
 	return GetPVarString(playerid, varname, value, N);

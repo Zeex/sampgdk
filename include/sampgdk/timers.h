@@ -26,18 +26,18 @@ class Timer;
 typedef void (*TimerHandler)(Timer *timer, void *param);
 
 class Timer {
-public:	
-	static Timer *CreateTimer(long interval, bool repeat, 
+public:
+	static Timer *CreateTimer(long interval, bool repeat,
 		                    TimerHandler handler, void *param = 0);
 	static void DestroyTimer(Timer *timer);
 
 	~Timer();
 
-	long GetInterval() const 
+	long GetInterval() const
 		{ return interval_; }
-	bool IsRepeating() const 
+	bool IsRepeating() const
 		{ return repeating_; }
-	long GetStartTime() const 
+	long GetStartTime() const
 		{ return startTime_; }
 
 	void Fire(long elapsedTime);

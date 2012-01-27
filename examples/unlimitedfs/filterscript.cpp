@@ -69,7 +69,7 @@ FilterScript::FilterScript()
 {
 }
 
-FilterScript::FilterScript(const std::string &filename) 
+FilterScript::FilterScript(const std::string &filename)
 	: loaded_(false)
 {
 	Load(filename);
@@ -91,7 +91,7 @@ bool FilterScript::Load(const std::string &filename) {
 }
 
 int FilterScript::Init(cell &retval) {
-	int error, index; 
+	int error, index;
 	error = amx_FindPublic(&amx_, "OnFilterScriptInit", &index) == AMX_ERR_NONE;
 	if (error != AMX_ERR_NONE) {
 		error = amx_Exec(&amx_, &retval, index) == AMX_ERR_NONE;

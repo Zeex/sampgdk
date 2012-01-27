@@ -42,7 +42,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
-	CallbackManager::GetInstance().RegisterCallbackHandler(plugin);	
+	CallbackManager::GetInstance().RegisterCallbackHandler(plugin);
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
@@ -58,7 +58,7 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name)  {
-#ifdef SAMPGDK_WINDOWS 
+#ifdef SAMPGDK_WINDOWS
 	return (void*)GetProcAddress((HMODULE)plugin, name);
 #else
 	return dlsym(plugin, name);

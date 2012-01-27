@@ -33,12 +33,12 @@ public:
 	CallbackArg(const char *string);
 	~CallbackArg();
 
-	cell as_cell() const 
+	cell as_cell() const
 		{ return value_.as_cell; }
-	const char *as_string() const 
+	const char *as_string() const
 		{ return value_.as_string; }
 
-	Type type() const 
+	Type type() const
 		{ return type_; }
 
 private:

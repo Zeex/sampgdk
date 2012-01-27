@@ -39,7 +39,7 @@ public:
 	// Temporary Remove()
 	class ScopedRemove {
 	public:
-		ScopedRemove(JumpX86 *jmp) 
+		ScopedRemove(JumpX86 *jmp)
 			: jmp_(jmp)
 			, removed_(jmp->Remove())
 		{
@@ -52,15 +52,15 @@ public:
 			}
 		}
 
-	private:		
+	private:
 		JumpX86 *jmp_;
 		bool removed_;
 	};
 
-	// Temporary Install() 
+	// Temporary Install()
 	class ScopedInstall {
 	public:
-		ScopedInstall(JumpX86 *jmp) 
+		ScopedInstall(JumpX86 *jmp)
 			: jmp_(jmp)
 			, installed_(jmp->Install())
 		{

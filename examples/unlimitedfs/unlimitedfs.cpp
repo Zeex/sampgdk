@@ -40,8 +40,8 @@ static std::list<FilterScript*> filterscripts;
 
 static bool loading = false;
 
-static void *AMXAPI my_amx_Align(void *v) { 
-	return v; 
+static void *AMXAPI my_amx_Align(void *v) {
+	return v;
 }
 
 static int AMXAPI my_amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
@@ -106,7 +106,7 @@ static void GetFilesInDirectory(const std::string &dir,
 static std::string GetBaseName(const std::string &path) {
 	std::string::size_type dot = path.find_last_of(".");
 	if (dot == std::string::npos) {
-		dot = path.length() + 1; 
+		dot = path.length() + 1;
 	}
 	std::string::size_type sep = path.find_last_of("/\\");
 	if (sep == std::string::npos) {
@@ -667,19 +667,19 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 
 	logprintf("");
 	logprintf("Server Plugins");
-	logprintf("--------------");	
+	logprintf("--------------");
 
 	std::list<std::string> files;
 	GetFilesInDirectory("plugins", "*."PLUGIN_EXT, std::back_inserter(files));
 
-	for (std::list<std::string>::iterator iterator = files.begin(); 
+	for (std::list<std::string>::iterator iterator = files.begin();
 			iterator != files.end(); ++iterator) {
 		std::string plugin_name = GetBaseName(*iterator);
 		if (plugin_name == "unlimitedfs") {
 			continue;
 		}
 		logprintf(" Loading plugin: %s", plugin_name.c_str());
-		Plugin *plugin = new Plugin(*iterator);	
+		Plugin *plugin = new Plugin(*iterator);
 		if (plugin != 0) {
 			PluginError error = plugin->Load(ppPluginData);
 			if (plugin->IsLoaded()) {
@@ -714,7 +714,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 	// Load ALL scripts from "filterscripts/"
 	files.clear();
 	GetFilesInDirectory("filterscripts", "*.amx", std::back_inserter(files));
-	for (std::list<std::string>::iterator iterator = files.begin(); 
+	for (std::list<std::string>::iterator iterator = files.begin();
 			iterator != files.end(); ++iterator) {
 		std::string fs_name = GetBaseName(*iterator);
 		logprintf("  Loading filter script: %s", fs_name.c_str());
@@ -723,7 +723,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 			if (fs->IsLoaded()) {
 				filterscripts.push_back(fs);
 				my_amx_Register(fs->amx(), sampgdk_get_natives(), -1);
-				for (std::list<Plugin*>::iterator iterator = plugins.begin(); 
+				for (std::list<Plugin*>::iterator iterator = plugins.begin();
 						iterator != plugins.end(); ++iterator) {
 					(*iterator)->AmxLoad(fs->amx());
 				}
@@ -751,7 +751,7 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload() {
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
 	sampgdk_process_timers();
-	for (std::list<Plugin*>::iterator iterator = plugins.begin(); 
+	for (std::list<Plugin*>::iterator iterator = plugins.begin();
 			iterator != plugins.end(); ++iterator) {
 		(*iterator)->ProcessTick();
 	}

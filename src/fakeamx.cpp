@@ -21,7 +21,7 @@
 #include <cstring>
 #include <limits>
 
-FakeAmx::FakeAmx() 
+FakeAmx::FakeAmx()
 	: heap_(INITIAL_HEAP_SIZE)
 {
 	std::memset(&hdr_, 0, sizeof(hdr_));
@@ -30,7 +30,7 @@ FakeAmx::FakeAmx()
 	hdr_.magic = AMX_MAGIC;
 	hdr_.file_version = MIN_FILE_VERSION;
 	hdr_.amx_version = MIN_AMX_VERSION;
-	hdr_.dat = reinterpret_cast<int32_t>(&heap_[0]) - 
+	hdr_.dat = reinterpret_cast<int32_t>(&heap_[0]) -
 		reinterpret_cast<int32_t>(&hdr_);
 
 	amx_.base = reinterpret_cast<unsigned char*>(&hdr_);

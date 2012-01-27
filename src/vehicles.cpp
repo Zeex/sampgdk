@@ -19,7 +19,7 @@
 #include "fakeamx.h"
 #include "natives.h"
 
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateVehicle(int vehicletype, float x, float y, float z, float rotation, 
+SAMPGDK_EXPORT int SAMPGDK_CALL CreateVehicle(int vehicletype, float x, float y, float z, float rotation,
 	int color1, int color2, int respawn_delay)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreateVehicle");
@@ -164,8 +164,8 @@ SAMPGDK_EXPORT void SAMPGDK_CALL ManualVehicleEngineAndLights() {
 	FakeAmx::GetInstance().CallNative(native, 0);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, int lights, int alarm, int doors, 
-	int bonnet, int boot, int objective) 
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, int lights, int alarm, int doors,
+	int bonnet, int boot, int objective)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetVehicleParamsEx");
 	cell params[] = {
@@ -182,8 +182,8 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, 
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, int *engine, int *lights, int *alarm, int *doors, 
-	int *bonnet, int *boot, int *objective) 
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, int *engine, int *lights, int *alarm, int *doors,
+	int *bonnet, int *boot, int *objective)
 {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleParamsEx");
 	FakeAmxHeapObject engine_;

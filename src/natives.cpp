@@ -17,7 +17,7 @@
 
 #include "natives.h"
 
-NativeManager::NativeManager() 
+NativeManager::NativeManager()
 	: natives_()
 {
 }
@@ -28,7 +28,7 @@ NativeManager &NativeManager::GetInstance() {
 }
 
 AMX_NATIVE NativeManager::GetNative(const char *name) const {
-	std::map<std::string, AMX_NATIVE>::const_iterator iter = 
+	std::map<std::string, AMX_NATIVE>::const_iterator iter =
 		natives_.find(name);
 	if (iter == natives_.end()) {
 		return 0;
