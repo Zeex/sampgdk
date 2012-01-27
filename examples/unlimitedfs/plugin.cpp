@@ -69,6 +69,7 @@ PluginError Plugin::Load(const std::string &filename, void **ppData) {
 			}
 			if (Load(ppData)) {
 				filename_ = filename;
+				loaded_ = true;
 				return PLUGIN_ERROR_OK;
 			}
 		}
