@@ -38,7 +38,6 @@ add_library(sampgdk SHARED
 	"include/sampgdk/objects.h"
 	"include/sampgdk/players.h"
 	"include/sampgdk/samp.h"
-	"include/sampgdk/timers.h"
 	"include/sampgdk/vehicles.h"
 	"include/sampgdk/version.h"
 	"src/amxhooks.cpp"
