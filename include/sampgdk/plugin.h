@@ -1,12 +1,2 @@
-//----------------------------------------------------------
-//
-//   SA:MP Multiplayer Modification For GTA:SA
-//   Copyright 2004-2006 SA:MP Team
-//
-//----------------------------------------------------------
-
-#include "plugincommon.h"
-#include "amx/amx.h"
-
-//----------------------------------------------------------
-// EOF
+#include <sampgdk/amx.h>
+#include <sampgdk/plugincommon.h>
