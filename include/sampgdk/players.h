@@ -532,6 +532,32 @@ public:
 	virtual void StopRecordingData() const
 		{ ::StopRecordingPlayerData(id_); }
 
+	// From samp.h
+	virtual bool IsNPC() const 
+		{ return ::IsPlayerNPC(id_); }
+	virtual bool IsAdmin() const
+		{ return ::IsPlayerAdmin(id_); }
+	virtual void Kick() const
+		{ ::Kick(id_); }
+	virtual void Ban() const
+		{ ::Ban(id_); }
+	virtual void BanEx(const char *reason) const
+		{ ::BanEx(id_, reason); }
+	virtual void BanEx(const std::string &reason) const
+		{ ::BanEx(id_, reason.c_str()); }
+	virtual void GetNetworkStats(char *retstr, size_t size) const
+		{ ::GetPlayerNetworkStats(id_, retstr, size); }
+	virtual int GetMenu() const
+		{ return ::GetPlayerMenu(id_); }
+	virtual void SendMessage(int color, const char *message) const
+		{ ::SendClientMessage(id_, color, message); }
+	virtual void SendMessage(int color, const std::string &message) const
+		{ ::SendClientMessage(id_, color, message.c_str()); }
+	virtual void GameText(const char *text, int time, int style) const
+		{ ::GameTextForPlayer(id_, text, time, style); }
+	virtual void GameText(const std::string &text, int time, int style) const
+		{ ::GameTextForPlayer(id_, text.c_str(), time, style); }
+
 private:
 	const int id_;
 };
