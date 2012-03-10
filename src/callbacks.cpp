@@ -79,63 +79,32 @@ int CallbackManager::HandleCallback(const char *name, int badRetVal) {
 		}
 
 		if (function != 0) {
-			// Since we are on x86 cell/char*/float are all of the same size
-			switch (args_.size()) {
-			case 0:
-				retVal = ((int (PLUGIN_CALL*)())function)();
-				break;
-			case 1:
-				retVal = ((int (PLUGIN_CALL*)(cell))function)(
-					args_[0]->as_cell());
-				break;
-			case 2:
-				retVal = ((int (PLUGIN_CALL*)(cell, cell))function)(
-					args_[0]->as_cell(),
-					args_[1]->as_cell());
-				break;
-			case 3:
-				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell))function)(
-					args_[0]->as_cell(),
-					args_[1]->as_cell(),
-					args_[2]->as_cell());
-				break;
-			case 4:
-				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell, cell))function)(
-					args_[0]->as_cell(),
-					args_[1]->as_cell(),
-					args_[2]->as_cell(),
-					args_[3]->as_cell());
-				break;
-			case 5:
-				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell, cell, cell))function)(
-					args_[0]->as_cell(),
-					args_[1]->as_cell(),
-					args_[2]->as_cell(),
-					args_[3]->as_cell(),
-					args_[4]->as_cell());
-				break;
-			case 6:
-				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell, cell, cell, cell))function)(
-					args_[0]->as_cell(),
-					args_[1]->as_cell(),
-					args_[2]->as_cell(),
-					args_[3]->as_cell(),
-					args_[4]->as_cell(),
-					args_[5]->as_cell());
-				break;
-			case 7:
-				retVal = ((int (PLUGIN_CALL*)(cell, cell, cell, cell, cell, cell, cell))function)(
-					args_[0]->as_cell(),
-					args_[1]->as_cell(),
-					args_[2]->as_cell(),
-					args_[3]->as_cell(),
-					args_[4]->as_cell(),
-					args_[5]->as_cell(),
-					args_[6]->as_cell());
-				break;
-			default:
-				assert(0 && "Got more than 7 arguments");
-			}
+			int i = args_.size();
+			#if defined _MSC_VER
+				cell arg;
+				while (--i >= 0) {
+					arg = args_[i]->as_cell();
+					__asm push dword ptr [arg]
+				}
+				__asm call dword ptr [function]
+				__asm mov dword ptr [retVal], eax
+			#elif defined __GNUC__
+				while (--i >= 0) {
+					__asm__ __volatile__ (
+						"pushl %0;"  :: "r"(args_[i]->as_cell()));
+				}
+				__asm__ __volatile__ (
+					"calll *%0;" :: "r"(function));
+				__asm__ __volatile__ (
+					"movl %%eax, %0;" : "=r"(retVal));
+				#if defined LINUX
+					__asm__ __volatile__ (
+						"addl %0, %%esp;" :: "r"(args_.size() * 4));
+				#endif
+			#else
+				#error Unsupported compiler
+			#endif
+
 			if (retVal == badRetVal) {
 				break;
 			}
