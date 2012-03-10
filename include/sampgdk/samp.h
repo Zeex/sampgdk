@@ -92,6 +92,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetServerVarAsInt(const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsBool(const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, size_t size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVersion(int playerid, char *version, size_t len);
 
 SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width);
 SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid);

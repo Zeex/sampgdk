@@ -90,25 +90,6 @@ SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid
 	FakeAmx::GetInstance().CallNative(native, params);
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer,
-	float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ)
-{
-	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachPlayerObjectToPlayer");
-	cell params[] = {
-		9 * 4,
-		objectplayer,
-		objectid,
-		attachplayer,
-		amx_ftoc(OffsetX),
-		amx_ftoc(OffsetY),
-		amx_ftoc(OffsetZ),
-		amx_ftoc(rX),
-		amx_ftoc(rY),
-		amx_ftoc(rZ)
-	};
-	FakeAmx::GetInstance().CallNative(native, params);
-}
-
 SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, float z) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetObjectPos");
 	cell params[] = {
@@ -222,7 +203,55 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsObjectMoving(int objectid) {
 		1 * 4,
 		objectid
 	};
-	return FakeAmx::GetInstance().CallNative(native, params) != 0;
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL EditObject(int playerid, int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("EditObject");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		objectid
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL EditAttachedObject(int playerid, int index) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("EditAttachedObject");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		index
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL EditPlayerObject(int playerid, int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("EditPlayerObject");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		objectid
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL SelectObject(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SelectObject");
+	cell params[] = {
+		1 * 4,
+		playerid
+	};
+	FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL CancelEdit(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CancelEdit");
+	cell params[] = {
+		1 * 4,
+		playerid
+	};
+	FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z,
@@ -242,6 +271,44 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, fl
 		amx_ftoc(DrawDistance)
 	};
 	return FakeAmx::GetInstance().CallNative(native, params);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer,
+	float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ)
+{
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachPlayerObjectToPlayer");
+	cell params[] = {
+		9 * 4,
+		objectplayer,
+		objectid,
+		attachplayer,
+		amx_ftoc(OffsetX),
+		amx_ftoc(OffsetY),
+		amx_ftoc(OffsetZ),
+		amx_ftoc(rX),
+		amx_ftoc(rY),
+		amx_ftoc(rZ)
+	};
+	FakeAmx::GetInstance().CallNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToVehicle(int playerid, int objectid, int vehicleid, 
+	float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float RotZ) 
+{
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachPlayerObjectToVehicle");
+	cell params[] = {
+		9 * 4,
+		playerid,
+		objectid,
+		vehicleid,
+		amx_ftoc(fOffsetX),
+		amx_ftoc(fOffsetY),
+		amx_ftoc(fOffsetZ),
+		amx_ftoc(fRotX),
+		amx_ftoc(fRotY),
+		amx_ftoc(RotZ)
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {

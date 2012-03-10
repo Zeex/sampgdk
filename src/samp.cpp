@@ -540,6 +540,20 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size) {
 	return ret;
 }
 
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVersion(int playerid, char *version, size_t len) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetPlayerVersion");
+	FakeAmxHeapObject version_(len + 1);
+	cell params[] = {
+		3 * 4,
+		playerid,
+		version_.address(),
+		len
+	};
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	version_.GetAsString(version, len + 1);
+	return ret;
+}
+
 SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreateMenu");
 	FakeAmxHeapObject title_(title);
