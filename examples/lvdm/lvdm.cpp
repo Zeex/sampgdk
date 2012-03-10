@@ -239,7 +239,7 @@ static void SetupPlayerForClassSelection(int playerid)
 	SetPlayerPos(playerid,258.4893f,-41.4008f,1002.0234f);
 	SetPlayerFacingAngle(playerid, 270.0f);
 	SetPlayerCameraPos(playerid,256.0815f,-43.0475f,1004.0234f);
-	SetPlayerCameraLookAt(playerid,258.4893f,-41.4008f,1002.0234f);
+	SetPlayerCameraLookAt(playerid,258.4893f,-41.4008f,1002.0234f,CAMERA_CUT);
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)

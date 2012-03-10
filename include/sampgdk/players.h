@@ -187,12 +187,19 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL RemovePlayerMapIcon(int playerid, int iconid);
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL AllowPlayerTeleport(int playerid, bool allow);
 
+#define CAMERA_CUT  2
+#define CAMERA_MOVE 1
+
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerCameraPos(int playerid, float x, float y, float z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerCameraLookAt(int playerid, float x, float y, float z);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerCameraLookAt(int playerid, float x, float y, float z, int cut);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetCameraBehindPlayer(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerCameraPos(int playerid, float *x, float *y, float *z);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerCameraFrontVector(int playerid, float *x, float *y, float *z);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerCameraMode(int playerid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL AttachCameraToObject(int playerid, int objectid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL AttachCameraToPlayerObject(int playerid, int playerobjectid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL InterpolateCameraPos(int playerid, float FromX, float FromY, float FromZ, float ToX, float ToY, float ToZ, int time, int cut);
+SAMPGDK_EXPORT bool SAMPGDK_CALL InterpolateCameraLookAt(int playerid, float FromX, float FromY, float FromZ, float ToX, float ToY, float ToZ, int time, int cut);
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerConnected(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerInVehicle(int playerid, int vehicleid);
@@ -484,8 +491,8 @@ public:
 
 	virtual void SetPlayerCameraPos(float x, float y, float z) const
 		{ ::SetPlayerCameraPos(id_, x, y, z); }
-	virtual void SetPlayerCameraLookAt(float x, float y, float z) const
-		{ ::SetPlayerCameraLookAt(id_, x ,y, z); }
+	virtual void SetPlayerCameraLookAt(float x, float y, float z, int cut) const
+		{ ::SetPlayerCameraLookAt(id_, x ,y, z, cut); }
 	virtual void SetCameraBehind() const
 		{ ::SetCameraBehindPlayer(id_); }
 	virtual void GetCameraPos(float *x, float *y, float *z) const

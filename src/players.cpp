@@ -1180,14 +1180,15 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerCameraPos(int playerid, float x, float
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerCameraLookAt(int playerid, float x, float y, float z) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerCameraLookAt(int playerid, float x, float y, float z, int cut) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetPlayerCameraLookAt");
 	cell params[] = {
-		4 * 4,
+		5 * 4,
 		playerid,
 		amx_ftoc(x),
 		amx_ftoc(y),
-		amx_ftoc(z)
+		amx_ftoc(z),
+		cut
 	};
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
@@ -1246,6 +1247,64 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerCameraMode(int playerid) {
 		playerid
 	};
 	return FakeAmx::GetInstance().CallNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL AttachCameraToObject(int playerid, int objectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachCameraToObject");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		objectid
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL AttachCameraToPlayerObject(int playerid, int playerobjectid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("AttachCameraToPlayerObject");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		playerobjectid
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL InterpolateCameraPos(int playerid, float FromX, float FromY, float FromZ, 
+	float ToX, float ToY, float ToZ, int time, int cut) 
+{
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("InterpolateCameraPos");
+	cell params[] = {
+		9 * 4,
+		playerid,
+		amx_ftoc(FromX),
+		amx_ftoc(FromY),
+		amx_ftoc(FromZ),
+		amx_ftoc(ToX),
+		amx_ftoc(ToY),
+		amx_ftoc(ToZ),
+		time,
+		cut
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL InterpolateCameraLookAt(int playerid, float FromX, float FromY, float FromZ, 
+	float ToX, float ToY, float ToZ, int time, int cut)
+{
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("InterpolateCameraLookAt");
+	cell params[] = {
+		9 * 4,
+		playerid,
+		amx_ftoc(FromX),
+		amx_ftoc(FromY),
+		amx_ftoc(FromZ),
+		amx_ftoc(ToX),
+		amx_ftoc(ToY),
+		amx_ftoc(ToZ),
+		time,
+		cut
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerConnected(int playerid) {

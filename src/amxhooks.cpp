@@ -100,6 +100,8 @@ void AmxHooks::RegisterCallbacks() {
 	cbBadRetVals_["OnPlayerTakeDamage"] = 0;
 	cbBadRetVals_["OnPlayerGiveDamage"] = 0;
 	cbBadRetVals_["OnPlayerClickMap"] = 0;
+	cbBadRetVals_["OnPlayerEditObject"] = 0;
+	cbBadRetVals_["OnPlayerEditAttachedObject"] = 0;
 }
 
 void AmxHooks::Initialize(void **ppPluginData) {
