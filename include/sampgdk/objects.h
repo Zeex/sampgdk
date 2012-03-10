@@ -79,15 +79,15 @@ public:
 	}
 	void SetPos(float x, float y, float z) const
 		{ ::SetObjectPos(id_, x, y, z); } 
-	virtual bool GetPos(float *x, float *y, float *z) const
+	virtual void GetPos(float *x, float *y, float *z) const
 		{ ::GetObjectPos(id_, x, y, z); } 
-	virtual bool GetPos(float &x, float &y, float &z) const
+	virtual void GetPos(float &x, float &y, float &z) const
 		{ ::GetObjectPos(id_, &x, &y, &z); } 
 	virtual void SetRot(float rotX, float rotY, float rotZ) const
 		{ ::SetObjectRot(id_, rotX, rotY, rotZ); }
-	virtual bool GetRot(float *rotX, float *rotY, float *rotZ) const
+	virtual void GetRot(float *rotX, float *rotY, float *rotZ) const
 		{ ::GetObjectRot(id_, rotX, rotY, rotZ); }
-	virtual bool GetRot(float &rotX, float &rotY, float &rotZ) const
+	virtual void GetRot(float &rotX, float &rotY, float &rotZ) const
 		{ ::GetObjectRot(id_, &rotX, &rotY, &rotZ); }
 	virtual bool IsValid() const 
 		{ return ::IsValidObject(id_); }
@@ -130,15 +130,15 @@ public:
 	}
 	virtual void SetPos(float x, float y, float z) const
 		{ ::SetPlayerObjectPos(playerid_, objectid_, x, y, z); } 
-	virtual bool GetPos(float *x, float *y, float *z) const
+	virtual void GetPos(float *x, float *y, float *z) const
 		{ ::GetPlayerObjectPos(playerid_, objectid_, x, y, z); } 
-	virtual bool GetPos(float &x, float &y, float &z) const
+	virtual void GetPos(float &x, float &y, float &z) const
 		{ ::GetPlayerObjectPos(playerid_, objectid_, &x, &y, &z); } 
 	virtual void SetRot(float rotX, float rotY, float rotZ) const
 		{ ::SetPlayerObjectRot(playerid_, objectid_, rotX, rotY, rotZ); }
-	virtual bool GetRot(float *rotX, float *rotY, float *rotZ) const
+	virtual void GetRot(float *rotX, float *rotY, float *rotZ) const
 		{ ::GetPlayerObjectRot(playerid_, objectid_, rotX, rotY, rotZ); }
-	virtual bool GetRot(float &rotX, float &rotY, float &rotZ) const
+	virtual void GetRot(float &rotX, float &rotY, float &rotZ) const
 		{ ::GetPlayerObjectRot(playerid_, objectid_, &rotX, &rotY, &rotZ); }
 	virtual bool IsValid() const 
 		{ return ::IsValidPlayerObject(playerid_, objectid_); }
