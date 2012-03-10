@@ -247,6 +247,7 @@ class Player {
 public:
 	// Construct from a player ID
 	Player(int playerid) : id_(playerid) { assert(id_ != INVALID_PLAYER_ID); }
+	virtual ~Player() {}
 
 	// Implicit conversion to 'int'
 	operator int() const { return id_; }
@@ -254,281 +255,281 @@ public:
 	// Explicit ID request
 	int GetId() const { return id_; }
 
-	void SetSpawnInfo(int team, int skin, float x, float y, float z, float rotation, 
+	virtual void SetSpawnInfo(int team, int skin, float x, float y, float z, float rotation, 
 		int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) const
 	{
 		::SetSpawnInfo(id_, team, skin, x, y, z, rotation, 
 			weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
 	}
-	void Spawn() const
+	virtual void Spawn() const
 		{ ::SpawnPlayer(id_); }
-	void SetPos(float x, float y, float z) const
+	virtual void SetPos(float x, float y, float z) const
 		{ ::SetPlayerPos(id_, x, y, z); }
-	void SetPosFindZ(float x, float y, float z) const
+	virtual void SetPosFindZ(float x, float y, float z) const
 		{ ::SetPlayerPosFindZ(id_, x, y, z); }
-	void GetPos(float *x, float *y, float *z) const
+	virtual void GetPos(float *x, float *y, float *z) const
 		{ ::GetPlayerPos(id_, x, y, z); }
-	void GetPos(float &x, float &y, float &z) const
+	virtual void GetPos(float &x, float &y, float &z) const
 		{ ::GetPlayerPos(id_, &x, &y, &z); }
-	void SetFacingAngle(float angle) const
+	virtual void SetFacingAngle(float angle) const
 		{ ::SetPlayerFacingAngle(id_, angle); }
-	void GetFacingAngle(float *angle) const
+	virtual void GetFacingAngle(float *angle) const
 		{ ::GetPlayerFacingAngle(id_, angle); }
-	void GetFacingAngle(float &angle) const
+	virtual void GetFacingAngle(float &angle) const
 		{ ::GetPlayerFacingAngle(id_, &angle); }
-	void IsInRangeOfPoint(float range, float x, float y, float z) const
+	virtual void IsInRangeOfPoint(float range, float x, float y, float z) const
 		{ ::IsPlayerInRangeOfPoint(id_, range, x, y, z); }
-	float GetDistanceFromPoint(float x, float y, float z) const
+	virtual float GetDistanceFromPoint(float x, float y, float z) const
 		{ return ::GetPlayerDistanceFromPoint(id_, x, y, z); }
-	bool IsStreamedInFor(int playerid) const
+	virtual bool IsStreamedInFor(int playerid) const
 		{ return ::IsPlayerStreamedIn(id_, playerid); }
-	void SetInterior(int interiorid) const
+	virtual void SetInterior(int interiorid) const
 		{ ::SetPlayerInterior(id_, interiorid); }
-	int GetInterior() const 
+	virtual int GetInterior() const 
 		{ return ::GetPlayerInterior(id_); }
-	void SetHealth(float health) const
+	virtual void SetHealth(float health) const
 		{ ::SetPlayerHealth(id_, health); }
-	float GetHealth(int playerid) const { 
+	virtual float GetHealth(int playerid) const { 
 		float health; 
 		::GetPlayerHealth(id_, &health); 
 		return health;
 	}
-	void SetArmour(float armour) const
+	virtual void SetArmour(float armour) const
 		{ ::SetPlayerArmour(id_, armour); }
-	float GetArmour() const {
+	virtual float GetArmour() const {
 		float armour;
 		::GetPlayerArmour(id_, &armour);
 		return armour;
 	}
-	void SetAmmo(int weaponslot, int ammo) const
+	virtual void SetAmmo(int weaponslot, int ammo) const
 		{ ::SetPlayerAmmo(id_, weaponslot, ammo); }
-	int GetAmmo() const
+	virtual int GetAmmo() const
 		{ return ::GetPlayerAmmo(id_); }
-	int GetWeaponState() const
+	virtual int GetWeaponState() const
 		{ return ::GetPlayerWeaponState(id_); }
-	int GetTargetPlayer() const
+	virtual int GetTargetPlayer() const
 		{ return ::GetPlayerTargetPlayer(id_); }
-	void SetPlayerTeam(int teamid) const
+	virtual void SetPlayerTeam(int teamid) const
 		{ ::SetPlayerTeam(id_, teamid); }
-	int GetPlayerTeam() const
+	virtual int GetPlayerTeam() const
 		{ return ::GetPlayerTeam(id_); }
-	void SetScore(int playerid, int score) const
+	virtual void SetScore(int playerid, int score) const
 		{ ::SetPlayerScore(id_, score); }
-	int GetScore() const 
+	virtual int GetScore() const 
 		{ return ::GetPlayerScore(id_); }
-	int GetDrunkLevel() const 
+	virtual int GetDrunkLevel() const 
 		{ return ::GetPlayerDrunkLevel(id_); }
-	void SetDrunkLevel(int level) const
+	virtual void SetDrunkLevel(int level) const
 		{ ::SetPlayerDrunkLevel(id_, level); }
-	void SetColor(int color) const
+	virtual void SetColor(int color) const
 		{ ::SetPlayerColor(id_, color); }
-	int GetColor() const
+	virtual int GetColor() const
 		{ return ::GetPlayerColor(id_); }
-	void SetSkin(int skinid) const
+	virtual void SetSkin(int skinid) const
 		{ ::SetPlayerSkin(id_, skinid); }
-	int GetSkin(int playerid) const
+	virtual int GetSkin(int playerid) const
 		{ return ::GetPlayerSkin(id_); }
-	void GiveWeapon(int weaponid, int ammo) const
+	virtual void GiveWeapon(int weaponid, int ammo) const
 		{ ::GivePlayerWeapon(id_, weaponid, ammo); }
-	void ResetWeapons() const
+	virtual void ResetWeapons() const
 		{ ::ResetPlayerWeapons(id_); }
-	void SetArmedWeapon(int weaponid) const
+	virtual void SetArmedWeapon(int weaponid) const
 		{ ::SetPlayerArmedWeapon(id_, weaponid); }
-	void GetWeaponData(int slot, int *weapon, int *ammo) const
+	virtual void GetWeaponData(int slot, int *weapon, int *ammo) const
 		{ ::GetPlayerWeaponData(id_, slot, weapon, ammo); }
-	void GetWeaponData(int slot, int &weapon, int &ammo) const
+	virtual void GetWeaponData(int slot, int &weapon, int &ammo) const
 		{ ::GetPlayerWeaponData(id_, slot, &weapon, &ammo); }
-	void GiveMoney(int money) const
+	virtual void GiveMoney(int money) const
 		{ ::GivePlayerMoney(id_, money); }
-	void ResetMoney() const
+	virtual void ResetMoney() const
 		{ ::ResetPlayerMoney(id_); }
-	bool SetName(const char *name) const
+	virtual bool SetName(const char *name) const
 		{ return ::SetPlayerName(id_, name) > 0; }
-	bool SetName(const std::string &name) const
+	virtual bool SetName(const std::string &name) const
 		{ return ::SetPlayerName(id_, name.c_str()) > 0; }
-	int GetMoney() const
+	virtual int GetMoney() const
 		{ return ::GetPlayerMoney(id_); }
-	int GetState() const
+	virtual int GetState() const
 		{ return ::GetPlayerState(id_); }
-	void GetIp(char *ip, size_t size) const
+	virtual void GetIp(char *ip, size_t size) const
 		{ ::GetPlayerIp(id_, ip, size); }
-	int GetPing() const
+	virtual int GetPing() const
 		{ return ::GetPlayerPing(id_); }
-	int GetWeapon() const
+	virtual int GetWeapon() const
 		{ return ::GetPlayerWeapon(id_); }
-	void GetKeys(int *keys, int *updown, int *leftright) const
+	virtual void GetKeys(int *keys, int *updown, int *leftright) const
 		{ ::GetPlayerKeys(id_, keys, updown, leftright); }
-	void GetKeys(int &keys, int &updown, int &leftright) const
+	virtual void GetKeys(int &keys, int &updown, int &leftright) const
 		{ ::GetPlayerKeys(id_, &keys, &updown, &leftright); }
-	void GetName(char *name, size_t size) const
+	virtual void GetName(char *name, size_t size) const
 		{ ::GetPlayerName(id_, name, size); }
-	std::string GetName() const {
+	virtual std::string GetName() const {
 		std::string name(static_cast<std::string::size_type>(MAX_PLAYER_NAME), '\0');
 		::GetPlayerName(id_, const_cast<char*>(name.data()), MAX_PLAYER_NAME);
 		return name;
 	}
-	void SetTime(int hour, int minute) const
+	virtual void SetTime(int hour, int minute) const
 		{ ::SetPlayerTime(id_, hour, minute); }
-	void GetTime(int *hour, int *minute) const
+	virtual void GetTime(int *hour, int *minute) const
 		{ ::GetPlayerTime(id_, hour, minute); }
-	void GetTime(int &hour, int &minute) const
+	virtual void GetTime(int &hour, int &minute) const
 		{ ::GetPlayerTime(id_, &hour, &minute); }
-	void ToggleClock(bool toggle) const
+	virtual void ToggleClock(bool toggle) const
 		{ ::TogglePlayerClock(id_, toggle); }
-	void SetWeather(int weather) const
+	virtual void SetWeather(int weather) const
 		{ ::SetPlayerWeather(id_, weather); }
-	void ForceClassSelection(int playerid) const
+	virtual void ForceClassSelection(int playerid) const
 		{ ::ForceClassSelection(id_); }
-	void SetWantedLevel(int level) const
+	virtual void SetWantedLevel(int level) const
 		{ ::SetPlayerWantedLevel(id_, level); }
-	int GetWantedLevel() const 
+	virtual int GetWantedLevel() const 
 		{ return ::GetPlayerWantedLevel(id_); }
-	void SetFightingStyle(int style) const
+	virtual void SetFightingStyle(int style) const
 		{ ::SetPlayerFightingStyle(id_, style); }
-	int GetFightingStyle() const
+	virtual int GetFightingStyle() const
 		{ return ::GetPlayerFightingStyle(id_); }
-	void SetVelocity(float x, float y, float z) const
+	virtual void SetVelocity(float x, float y, float z) const
 		{ ::SetPlayerVelocity(id_, x, y, z); }
-	void GetVelocity(float *x, float *y, float *z) const
+	virtual void GetVelocity(float *x, float *y, float *z) const
 		{ ::GetPlayerVelocity(id_, x, y, z); }
-	void GetVelocity(float &x, float &y, float &z) const
+	virtual void GetVelocity(float &x, float &y, float &z) const
 		{ ::GetPlayerVelocity(id_, &x, &y, &z); }
-	float GetSpeed() const {
+	virtual float GetSpeed() const {
 		float velX, velY, velZ;
 		GetVelocity(velX, velY, velZ);
 		return std::sqrt(velX*velX + velY*velY + velZ*velZ);
 	}
-	void PlayCrimeReport(int suspectid, int crime) const
+	virtual void PlayCrimeReport(int suspectid, int crime) const
 		{ ::PlayCrimeReportForPlayer(id_, suspectid, crime); }
-	bool PlayAudioStream(const char *url, float posX, float posY, float posZ, float distance, bool usepos) const
+	virtual bool PlayAudioStream(const char *url, float posX, float posY, float posZ, float distance, bool usepos) const
 		{ return ::PlayAudioStreamForPlayer(id_, url, posX, posY, posZ, distance, usepos); }
-	bool PlayAudioStream(const std::string &url, float posX, float posY, float posZ, float distance, bool usepos) const
+	virtual bool PlayAudioStream(const std::string &url, float posX, float posY, float posZ, float distance, bool usepos) const
 		{ return ::PlayAudioStreamForPlayer(id_, url.c_str(), posX, posY, posZ, distance, usepos); }
-	bool StopAudioStream() const
+	virtual bool StopAudioStream() const
 		{ return ::StopAudioStreamForPlayer(id_); }
-	void SetShopName(const char *shopname) const
+	virtual void SetShopName(const char *shopname) const
 		{ ::SetPlayerShopName(id_, shopname); }
-	void SetShopName(const std::string &shopname) const
+	virtual void SetShopName(const std::string &shopname) const
 		{ ::SetPlayerShopName(id_, shopname.c_str()); }
-	void SetSkillLevel(int skill, int level) const
+	virtual void SetSkillLevel(int skill, int level) const
 		{ ::SetPlayerSkillLevel(id_, skill, level); }
-	int GetSurfingVehicleID() const
+	virtual int GetSurfingVehicleID() const
 		{ return ::GetPlayerSurfingVehicleID(id_); }
-	int GetSurfingObjectID(int playerid) const
+	virtual int GetSurfingObjectID(int playerid) const
 		{ return ::GetPlayerSurfingObjectID(id_); }
-	void RemoveBuilding(int modelid, float fX, float fY, float fZ, float fRadius) const
+	virtual void RemoveBuilding(int modelid, float fX, float fY, float fZ, float fRadius) const
 		{ ::RemoveBuildingForPlayer(id_, modelid, fX, fY, fZ, fRadius);	}
 
-	void SetAttachedObject(int index, int modelid, int bone, float fOffsetX, float fOffsetY, float fOffsetZ, 
+	virtual void SetAttachedObject(int index, int modelid, int bone, float fOffsetX, float fOffsetY, float fOffsetZ, 
 		float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ) const
 	{ 
 		::SetPlayerAttachedObject(id_, index, modelid, bone, fOffsetX, fOffsetY, fOffsetZ,
 			fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ); 
 	}
-	void RemoveAttachedObject(int index) const
+	virtual void RemoveAttachedObject(int index) const
 		{ ::RemovePlayerAttachedObject(id_, index); }
-	bool IsPlayerAttachedObjectSlotUsed(int playerid, int index) const
+	virtual bool IsPlayerAttachedObjectSlotUsed(int playerid, int index) const
 		{ return ::IsPlayerAttachedObjectSlotUsed(id_, index); }
 
-	void SetChatBubble(const char *text, int color, float drawdistance, int expiretime) const
+	virtual void SetChatBubble(const char *text, int color, float drawdistance, int expiretime) const
 		{ ::SetPlayerChatBubble(id_, text, color, drawdistance, expiretime); }
-	void SetChatBubble(const std::string &text, int color, float drawdistance, int expiretime) const
+	virtual void SetChatBubble(const std::string &text, int color, float drawdistance, int expiretime) const
 		{ ::SetPlayerChatBubble(id_, text.c_str(), color, drawdistance, expiretime); }
 
-	void PutInVehicle(int vehicleid, int seatid) const
+	virtual void PutInVehicle(int vehicleid, int seatid) const
 		{ ::PutPlayerInVehicle(id_, vehicleid, seatid); }
-	int GetVehicleID() const
+	virtual int GetVehicleID() const
 		{ return ::GetPlayerVehicleID(id_); }
-	int GetVehicleSeat() const
+	virtual int GetVehicleSeat() const
 		{ return ::GetPlayerVehicleSeat(id_); }
-	void RemoveFromVehicle() const
+	virtual void RemoveFromVehicle() const
 		{ ::RemovePlayerFromVehicle(id_); }
-	void ToggleControllable(bool toggle) const
+	virtual void ToggleControllable(bool toggle) const
 		{ ::TogglePlayerControllable(id_, toggle); }
-	void PlaySound(int playerid, int soundid, float x, float y, float z) const
+	virtual void PlaySound(int playerid, int soundid, float x, float y, float z) const
 		{ ::PlayerPlaySound(id_, soundid, x, y, z); }
-	void ApplyAnimation(const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync) const
+	virtual void ApplyAnimation(const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync) const
 		{ ::ApplyAnimation(id_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
-	void ClearAnimations(bool forcesync) const
+	virtual void ClearAnimations(bool forcesync) const
 		{ ::ClearAnimations(id_, forcesync); }
-	int GetAnimationIndex() const
+	virtual int GetAnimationIndex() const
 		{ return ::GetPlayerAnimationIndex(id_); }
-	int GetSpecialAction() const
+	virtual int GetSpecialAction() const
 		{ return ::GetPlayerSpecialAction(id_); }
-	void SetSpecialAction(int actionid) const
+	virtual void SetSpecialAction(int actionid) const
 		{ ::SetPlayerSpecialAction(id_, actionid); }
 
-	void SetCheckpoint(float x, float y, float z, float size) const
+	virtual void SetCheckpoint(float x, float y, float z, float size) const
 		{ ::SetPlayerCheckpoint(id_, x, y, z, size); }
-	void DisableCheckpoint() const
+	virtual void DisableCheckpoint() const
 		{ ::DisablePlayerCheckpoint(id_); }
-	void SetRaceCheckpoint(int type, float x, float y, float z, float nextx, float nexty, float nextz, float size) const
+	virtual void SetRaceCheckpoint(int type, float x, float y, float z, float nextx, float nexty, float nextz, float size) const
 		{ ::SetPlayerRaceCheckpoint(id_, type, x, y, z, nextx, nexty, nextz, size); }
-	void DisableRaceCheckpoint() const
+	virtual void DisableRaceCheckpoint() const
 		{ ::DisablePlayerRaceCheckpoint(id_); }
-	void SetWorldBounds(float x_max, float x_min, float y_max, float y_min) const
+	virtual void SetWorldBounds(float x_max, float x_min, float y_max, float y_min) const
 		{ ::SetPlayerWorldBounds(id_, x_max, x_min, y_max, y_min); }
-	void SerMarkerFor(int playerid, int color) const
+	virtual void SerMarkerFor(int playerid, int color) const
 		{ ::SetPlayerMarkerForPlayer(playerid, id_, color); }
-	void ShowNameTagForPlayer(int playerid, bool show) const
+	virtual void ShowNameTagForPlayer(int playerid, bool show) const
 		{ ::ShowPlayerNameTagForPlayer(playerid, id_, show); } 
 
-	void SetMapIcon(int iconid, float x, float y, float z, int markertype, int color, int style) const
+	virtual void SetMapIcon(int iconid, float x, float y, float z, int markertype, int color, int style) const
 		{ ::SetPlayerMapIcon(id_, iconid, x, y, z, markertype, color, style); }
-	void RemoveMapIcon(int iconid) const
+	virtual void RemoveMapIcon(int iconid) const
 		{ ::RemovePlayerMapIcon(id_, iconid); }
 
-	void AllowTeleport(bool allow) const
+	virtual void AllowTeleport(bool allow) const
 		{ ::AllowPlayerTeleport(id_, allow); }
 
-	void SetPlayerCameraPos(float x, float y, float z) const
+	virtual void SetPlayerCameraPos(float x, float y, float z) const
 		{ ::SetPlayerCameraPos(id_, x, y, z); }
-	void SetPlayerCameraLookAt(float x, float y, float z) const
+	virtual void SetPlayerCameraLookAt(float x, float y, float z) const
 		{ ::SetPlayerCameraLookAt(id_, x ,y, z); }
-	void SetCameraBehind() const
+	virtual void SetCameraBehind() const
 		{ ::SetCameraBehindPlayer(id_); }
-	void GetCameraPos(float *x, float *y, float *z) const
+	virtual void GetCameraPos(float *x, float *y, float *z) const
 		{ ::GetPlayerCameraPos(id_, x, y, z); }
-	void GetCameraPos(float &x, float &y, float &z) const
+	virtual void GetCameraPos(float &x, float &y, float &z) const
 		{ ::GetPlayerCameraPos(id_, &x, &y, &z); }
-	void GetCameraFrontVector(float *x, float *y, float *z) const
+	virtual void GetCameraFrontVector(float *x, float *y, float *z) const
 		{ ::GetPlayerCameraFrontVector(id_, x, y, z); }
-	void GetCameraFrontVector(float &x, float &y, float &z) const
+	virtual void GetCameraFrontVector(float &x, float &y, float &z) const
 		{ ::GetPlayerCameraFrontVector(id_, &x, &y, &z); }
-	int GetCameraMode() const
+	virtual int GetCameraMode() const
 		{ return ::GetPlayerCameraMode(id_); }
 
-	bool IsPlayerConnected() const
+	virtual bool IsPlayerConnected() const
 		{ return ::IsPlayerConnected(id_); }
-	bool IsPlayerInVehicle(int vehicleid) const
+	virtual bool IsPlayerInVehicle(int vehicleid) const
 		{ return ::IsPlayerInVehicle(id_, vehicleid); }
-	bool IsPlayerInAnyVehicle() const
+	virtual bool IsPlayerInAnyVehicle() const
 		{ return ::IsPlayerInAnyVehicle(id_); }
-	bool IsPlayerInCheckpoint() const
+	virtual bool IsPlayerInCheckpoint() const
 		{ return ::IsPlayerInCheckpoint(id_); }
-	bool IsPlayerInRaceCheckpoint() const
+	virtual bool IsPlayerInRaceCheckpoint() const
 		{ return ::IsPlayerInRaceCheckpoint(id_); }
 
-	void SetVirtualWorld(int worldid) const
+	virtual void SetVirtualWorld(int worldid) const
 		{ ::SetPlayerVirtualWorld(id_, worldid); }
-	int GetVirtualWorld() const
+	virtual int GetVirtualWorld() const
 		{ return ::GetPlayerVirtualWorld(id_); }
 
-	void EnableStuntBonus(bool enable) const
+	virtual void EnableStuntBonus(bool enable) const
 		{ ::EnableStuntBonusForPlayer(id_, enable); }
 
-	void TogglePlayerSpectating(bool toggle) const
+	virtual void TogglePlayerSpectating(bool toggle) const
 		{ ::TogglePlayerSpectating(id_, toggle); }
-	bool SpectatePlayer(int playerid, int mode) const 
+	virtual bool SpectatePlayer(int playerid, int mode) const 
 		{ return ::PlayerSpectatePlayer(id_, playerid, mode); }
-	bool SpectateVehicle(int vehicleid, int mode) const
+	virtual bool SpectateVehicle(int vehicleid, int mode) const
 		{ return ::PlayerSpectateVehicle(id_, vehicleid, mode); }
 
-	void StartRecordingData(int recordtype, const char *recordname) const
+	virtual void StartRecordingData(int recordtype, const char *recordname) const
 		{ ::StartRecordingPlayerData(id_, recordtype, recordname); }
-	void StartRecordingData(int recordtype, const std::string &recordname) const
+	virtual void StartRecordingData(int recordtype, const std::string &recordname) const
 		{ ::StartRecordingPlayerData(id_, recordtype, recordname.c_str()); }
-	void StopRecordingData() const
+	virtual void StopRecordingData() const
 		{ ::StopRecordingPlayerData(id_); }
 
 private:
