@@ -505,6 +505,16 @@ public:
 		{ ::GetPlayerCameraFrontVector(id_, &x, &y, &z); }
 	virtual int GetCameraMode() const
 		{ return ::GetPlayerCameraMode(id_); }
+	virtual void AttachCameraToObject(int objectid) const
+		{ ::AttachCameraToObject(id_, objectid); }
+	virtual bool AttachCameraToPlayerObject(int playerobjectid) const
+		{ ::AttachCameraToPlayerObject(id_, playerobjectid); }
+	virtual bool InterpolateCameraPos(float FromX, float FromY, float FromZ, 
+			float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT) const
+		{ ::InterpolateCameraPos(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
+	virtual bool InterpolateCameraLookAt(float FromX, float FromY, float FromZ, 
+			float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT) const
+		{ ::InterpolateCameraLookAt(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
 
 	virtual bool IsPlayerConnected() const
 		{ return ::IsPlayerConnected(id_); }
@@ -564,6 +574,8 @@ public:
 		{ ::GameTextForPlayer(id_, text, time, style); }
 	virtual void GameText(const std::string &text, int time, int style) const
 		{ ::GameTextForPlayer(id_, text.c_str(), time, style); }
+	virtual void GetVersion(char *version, size_t len) const
+		{ ::GetPlayerVersion(id_, version, len); }
 
 private:
 	const int id_;
