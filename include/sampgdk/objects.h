@@ -55,6 +55,7 @@ class Object {
 public:
 	// Construct from an object ID
 	Object(int objectid) : id_(objectid) { assert(id_ != INVALID_OBJECT_ID); }
+	virtual ~Object() {}
 
 	// Implicit convertion to 'int'
 	operator int() const { return id_; }
@@ -67,36 +68,36 @@ public:
 		return ::CreateObject(modelid, x, y, z, rX, rY, rZ, DrawDistance);
 	}
 	
-	void AttachToVehicle(int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
+	virtual void AttachToVehicle(int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
 		::AttachObjectToVehicle(id_, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
 	}
-	void AttachToObject(int objectid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, bool SyncRotation) const {
+	virtual void AttachToObject(int objectid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, bool SyncRotation) const {
 		::AttachObjectToObject(id_, objectid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, SyncRotation);
 	}
-	void AttachToPlayer(int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
+	virtual void AttachToPlayer(int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
 		::AttachObjectToPlayer(id_, playerid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
 	}
 	void SetPos(float x, float y, float z) const
 		{ ::SetObjectPos(id_, x, y, z); } 
-	bool GetPos(float *x, float *y, float *z) const
+	virtual bool GetPos(float *x, float *y, float *z) const
 		{ ::GetObjectPos(id_, x, y, z); } 
-	bool GetPos(float &x, float &y, float &z) const
+	virtual bool GetPos(float &x, float &y, float &z) const
 		{ ::GetObjectPos(id_, &x, &y, &z); } 
-	void SetRot(float rotX, float rotY, float rotZ) const
+	virtual void SetRot(float rotX, float rotY, float rotZ) const
 		{ ::SetObjectRot(id_, rotX, rotY, rotZ); }
-	bool GetRot(float *rotX, float *rotY, float *rotZ) const
+	virtual bool GetRot(float *rotX, float *rotY, float *rotZ) const
 		{ ::GetObjectRot(id_, rotX, rotY, rotZ); }
-	bool GetRot(float &rotX, float &rotY, float &rotZ) const
+	virtual bool GetRot(float &rotX, float &rotY, float &rotZ) const
 		{ ::GetObjectRot(id_, &rotX, &rotY, &rotZ); }
-	bool IsValid() const 
+	virtual bool IsValid() const 
 		{ return ::IsValidObject(id_); }
-	void Destroy() const
+	virtual void Destroy() const
 		{ ::DestroyObject(id_); }
-	int Move(float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ) const
+	virtual int Move(float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ) const
 		{ return ::MoveObject(id_, X, Y, Z, Speed, RotX, RotY, RotZ); }
-	void Stop() const
+	virtual void Stop() const
 		{ ::StopObject(id_); }
-	bool IsMoving() const 
+	virtual bool IsMoving() const 
 		{ return ::IsObjectMoving(id_); }
 
 private:
@@ -113,6 +114,7 @@ public:
 		assert(objectid_ != INVALID_OBJECT_ID);
 		assert(playerid_ != INVALID_PLAYER_ID);
 	}
+	virtual ~PlayerObject() {}
 
 	// Explicit ID request
 	int GetPlayerId() const { return playerid_; }
@@ -123,30 +125,30 @@ public:
 		return PlayerObject(playerid, ::CreatePlayerObject(playerid, modelid, x, y, z, rX, rY, rZ, DrawDistance));
 	}
 	
-	void AttachToPlayer(int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
+	virtual void AttachToPlayer(int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
 		::AttachPlayerObjectToPlayer(playerid_, objectid_, playerid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
 	}
-	void SetPos(float x, float y, float z) const
+	virtual void SetPos(float x, float y, float z) const
 		{ ::SetPlayerObjectPos(playerid_, objectid_, x, y, z); } 
-	bool GetPos(float *x, float *y, float *z) const
+	virtual bool GetPos(float *x, float *y, float *z) const
 		{ ::GetPlayerObjectPos(playerid_, objectid_, x, y, z); } 
-	bool GetPos(float &x, float &y, float &z) const
+	virtual bool GetPos(float &x, float &y, float &z) const
 		{ ::GetPlayerObjectPos(playerid_, objectid_, &x, &y, &z); } 
-	void SetRot(float rotX, float rotY, float rotZ) const
+	virtual void SetRot(float rotX, float rotY, float rotZ) const
 		{ ::SetPlayerObjectRot(playerid_, objectid_, rotX, rotY, rotZ); }
-	bool GetRot(float *rotX, float *rotY, float *rotZ) const
+	virtual bool GetRot(float *rotX, float *rotY, float *rotZ) const
 		{ ::GetPlayerObjectRot(playerid_, objectid_, rotX, rotY, rotZ); }
-	bool GetRot(float &rotX, float &rotY, float &rotZ) const
+	virtual bool GetRot(float &rotX, float &rotY, float &rotZ) const
 		{ ::GetPlayerObjectRot(playerid_, objectid_, &rotX, &rotY, &rotZ); }
-	bool IsValid() const 
+	virtual bool IsValid() const 
 		{ return ::IsValidPlayerObject(playerid_, objectid_); }
-	void Destroy() const
+	virtual void Destroy() const
 		{ ::DestroyPlayerObject(playerid_, objectid_); }
-	int Move(float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ) const
+	virtual int Move(float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ) const
 		{ return ::MovePlayerObject(playerid_, objectid_, X, Y, Z, Speed, RotX, RotY, RotZ); }
-	void Stop() const
+	virtual void Stop() const
 		{ ::StopPlayerObject(playerid_, objectid_); }
-	bool IsMoving() const 
+	virtual bool IsMoving() const 
 		{ return ::IsPlayerObjectMoving(playerid_, objectid_); }
 
 private:
