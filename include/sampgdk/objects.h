@@ -18,12 +18,12 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
+#include <sampgdk/samp.h>
 
 SAMPGDK_EXPORT int SAMPGDK_CALL CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance);
 SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ);
-SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToObject(int objectid, int attachtoid, float OffsetX, float OffsetY, float OffsetZ, float RotX, float RotY, float RotZ, bool SyncRotation);
-SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
-SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToObject(int objectid, int attachtoid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, bool SyncRotation);
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ);
 SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, float z);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float *x, float *y, float *z);
 SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectRot(int objectid, float rotX, float rotY, float rotZ);
@@ -34,6 +34,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopObject(int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsObjectMoving(int objectid);
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance);
+SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
 SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, float *x, float *y, float *z);
 SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, float rotZ);
@@ -43,5 +44,116 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid)
 SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, float RotX, float RotY, float RotZ);
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid);
+
+#ifdef __cplusplus
+
+#include <cassert>
+#include <cmath>
+#include <string>
+
+class Object {
+public:
+	// Construct from an object ID
+	Object(int objectid) : objectid_(objectid) { assert(objectid_ != INVALID_OBJECT_ID); }
+
+	// Implicit convertion to 'int'
+	operator int() const { return objectid_; }
+
+	// Explicit ID request
+	int GetObjectID() const { return objectid_; }
+
+	// Sort of factory method
+	static Object Create(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
+		return ::CreateObject(modelid, x, y, z, rX, rY, rZ, DrawDistance);
+	}
+	
+	void AttachToVehicle(int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
+		::AttachObjectToVehicle(objectid_, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
+	}
+	void AttachToObject(int objectid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, bool SyncRotation) const {
+		::AttachObjectToObject(objectid_, objectid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, SyncRotation);
+	}
+	void AttachToPlayer(int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
+		::AttachObjectToPlayer(objectid_, playerid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
+	}
+	void SetPos(float x, float y, float z) const
+		{ ::SetObjectPos(objectid_, x, y, z); } 
+	bool GetPos(float *x, float *y, float *z) const
+		{ ::GetObjectPos(objectid_, x, y, z); } 
+	bool GetPos(float &x, float &y, float &z) const
+		{ ::GetObjectPos(objectid_, &x, &y, &z); } 
+	void SetRot(float rotX, float rotY, float rotZ) const
+		{ ::SetObjectRot(objectid_, rotX, rotY, rotZ); }
+	bool GetRot(float *rotX, float *rotY, float *rotZ) const
+		{ ::GetObjectRot(objectid_, rotX, rotY, rotZ); }
+	bool GetRot(float &rotX, float &rotY, float &rotZ) const
+		{ ::GetObjectRot(objectid_, &rotX, &rotY, &rotZ); }
+	bool IsValid() const 
+		{ return ::IsValidObject(objectid_); }
+	void Destroy() const
+		{ ::DestroyObject(objectid_); }
+	int Move(float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ) const
+		{ return ::MoveObject(objectid_, X, Y, Z, Speed, RotX, RotY, RotZ); }
+	void Stop() const
+		{ ::StopObject(objectid_); }
+	bool IsMoving() const 
+		{ return ::IsObjectMoving(objectid_); }
+
+private:
+	const int objectid_;
+};
+
+class PlayerObject {
+public:
+	// Construct from a player ID and an object ID
+	PlayerObject(int playerid, int objectid) 
+		: playerid_(playerid)
+		, objectid_(objectid) 
+	{
+		assert(objectid_ != INVALID_OBJECT_ID);
+		assert(playerid_ != INVALID_PLAYER_ID);
+	}
+
+	// Explicit ID request
+	int GetPlayerID() const { return playerid_; }
+	int GetObjectID() const { return objectid_; }
+
+	// Sort of factory method
+	static PlayerObject Create(int playerid, int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
+		return PlayerObject(playerid, ::CreatePlayerObject(playerid, modelid, x, y, z, rX, rY, rZ, DrawDistance));
+	}
+	
+	void AttachToPlayer(int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
+		::AttachPlayerObjectToPlayer(playerid_, objectid_, playerid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
+	}
+	void SetPos(float x, float y, float z) const
+		{ ::SetPlayerObjectPos(playerid_, objectid_, x, y, z); } 
+	bool GetPos(float *x, float *y, float *z) const
+		{ ::GetPlayerObjectPos(playerid_, objectid_, x, y, z); } 
+	bool GetPos(float &x, float &y, float &z) const
+		{ ::GetPlayerObjectPos(playerid_, objectid_, &x, &y, &z); } 
+	void SetRot(float rotX, float rotY, float rotZ) const
+		{ ::SetPlayerObjectRot(playerid_, objectid_, rotX, rotY, rotZ); }
+	bool GetRot(float *rotX, float *rotY, float *rotZ) const
+		{ ::GetPlayerObjectRot(playerid_, objectid_, rotX, rotY, rotZ); }
+	bool GetRot(float &rotX, float &rotY, float &rotZ) const
+		{ ::GetPlayerObjectRot(playerid_, objectid_, &rotX, &rotY, &rotZ); }
+	bool IsValid() const 
+		{ return ::IsValidPlayerObject(playerid_, objectid_); }
+	void Destroy() const
+		{ ::DestroyPlayerObject(playerid_, objectid_); }
+	int Move(float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ) const
+		{ return ::MovePlayerObject(playerid_, objectid_, X, Y, Z, Speed, RotX, RotY, RotZ); }
+	void Stop() const
+		{ ::StopPlayerObject(playerid_, objectid_); }
+	bool IsMoving() const 
+		{ return ::IsPlayerObjectMoving(playerid_, objectid_); }
+
+private:
+	const int playerid_;
+	const int objectid_;
+};
+
+#endif /* __cplusplus
 
 #endif /* !SAMPGDK_OBJECTS_H */
