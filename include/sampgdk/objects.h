@@ -134,6 +134,9 @@ public:
 	virtual void AttachToPlayer(int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
 		::AttachPlayerObjectToPlayer(playerid_, objectid_, playerid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
 	}
+	virtual void AttachToVehicle(int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float RotZ) const {
+		::AttachPlayerObjectToVehicle(playerid_, objectid_, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
+	}
 	virtual void SetPos(float x, float y, float z) const
 		{ ::SetPlayerObjectPos(playerid_, objectid_, x, y, z); } 
 	virtual void GetPos(float *x, float *y, float *z) const
