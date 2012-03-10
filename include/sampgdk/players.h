@@ -408,7 +408,7 @@ public:
 	}
 	virtual void PlayCrimeReport(int suspectid, int crime) const
 		{ ::PlayCrimeReportForPlayer(id_, suspectid, crime); }
-	virtual bool PlayAudioStream(const char *url, float posX, float posY, float posZ, float distance, bool usepos) const
+	virtual bool PlayAudioStream(const char *url, float posX = 0.0f, float posY = 0.0f, float posZ = 0.0f, float distance = 50.0f, bool usepos = false) const
 		{ return ::PlayAudioStreamForPlayer(id_, url, posX, posY, posZ, distance, usepos); }
 	virtual bool PlayAudioStream(const std::string &url, float posX, float posY, float posZ, float distance, bool usepos) const
 		{ return ::PlayAudioStreamForPlayer(id_, url.c_str(), posX, posY, posZ, distance, usepos); }
@@ -427,8 +427,8 @@ public:
 	virtual void RemoveBuilding(int modelid, float fX, float fY, float fZ, float fRadius) const
 		{ ::RemoveBuildingForPlayer(id_, modelid, fX, fY, fZ, fRadius);	}
 
-	virtual void SetAttachedObject(int index, int modelid, int bone, float fOffsetX, float fOffsetY, float fOffsetZ, 
-		float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ) const
+	virtual void SetAttachedObject(int index, int modelid, int bone, float fOffsetX = 0.0f, float fOffsetY = 0.0f, float fOffsetZ = 0.0f, 
+		float fRotX = 0.0f, float fRotY = 0.0f, float fRotZ = 0.0f, float fScaleX = 1.0f, float fScaleY = 1.0f, float fScaleZ = 1.0f) const
 	{ 
 		::SetPlayerAttachedObject(id_, index, modelid, bone, fOffsetX, fOffsetY, fOffsetZ,
 			fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ); 
@@ -455,9 +455,9 @@ public:
 		{ ::TogglePlayerControllable(id_, toggle); }
 	virtual void PlaySound(int playerid, int soundid, float x, float y, float z) const
 		{ ::PlayerPlaySound(id_, soundid, x, y, z); }
-	virtual void ApplyAnimation(const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync) const
+	virtual void ApplyAnimation(const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync = false) const
 		{ ::ApplyAnimation(id_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
-	virtual void ClearAnimations(bool forcesync) const
+	virtual void ClearAnimations(bool forcesync = false) const
 		{ ::ClearAnimations(id_, forcesync); }
 	virtual int GetAnimationIndex() const
 		{ return ::GetPlayerAnimationIndex(id_); }
@@ -481,7 +481,7 @@ public:
 	virtual void ShowNameTagForPlayer(int playerid, bool show) const
 		{ ::ShowPlayerNameTagForPlayer(playerid, id_, show); } 
 
-	virtual void SetMapIcon(int iconid, float x, float y, float z, int markertype, int color, int style) const
+	virtual void SetMapIcon(int iconid, float x, float y, float z, int markertype, int color, int style = MAPICON_LOCAL) const
 		{ ::SetPlayerMapIcon(id_, iconid, x, y, z, markertype, color, style); }
 	virtual void RemoveMapIcon(int iconid) const
 		{ ::RemovePlayerMapIcon(id_, iconid); }
@@ -489,9 +489,9 @@ public:
 	virtual void AllowTeleport(bool allow) const
 		{ ::AllowPlayerTeleport(id_, allow); }
 
-	virtual void SetPlayerCameraPos(float x, float y, float z) const
+	virtual void SetCameraPos(float x, float y, float z) const
 		{ ::SetPlayerCameraPos(id_, x, y, z); }
-	virtual void SetPlayerCameraLookAt(float x, float y, float z, int cut) const
+	virtual void SetCameraLookAt(float x, float y, float z, int cut = CAMERA_CUT) const
 		{ ::SetPlayerCameraLookAt(id_, x ,y, z, cut); }
 	virtual void SetCameraBehind() const
 		{ ::SetCameraBehindPlayer(id_); }
@@ -527,9 +527,9 @@ public:
 
 	virtual void TogglePlayerSpectating(bool toggle) const
 		{ ::TogglePlayerSpectating(id_, toggle); }
-	virtual bool SpectatePlayer(int playerid, int mode) const 
+	virtual bool SpectatePlayer(int playerid, int mode = SPECTATE_MODE_NORMAL) const 
 		{ return ::PlayerSpectatePlayer(id_, playerid, mode); }
-	virtual bool SpectateVehicle(int vehicleid, int mode) const
+	virtual bool SpectateVehicle(int vehicleid, int mode = SPECTATE_MODE_NORMAL) const
 		{ return ::PlayerSpectateVehicle(id_, vehicleid, mode); }
 
 	virtual void StartRecordingData(int recordtype, const char *recordname) const

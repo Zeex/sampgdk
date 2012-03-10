@@ -266,7 +266,7 @@ public:
 	int GetId() const { return id_; }
 	operator int() const { return id_; }	
 
-	static Menu Create(const char *title, int columns, float x, float y, float col1width, float col2width) 
+	static Menu Create(const char *title, int columns, float x, float y, float col1width, float col2width = 0.0) 
 		{ return ::MenuCreate(title, columns, x, y, col1width, col2width); }
 	static Menu Create(const std::string &title, int columns, float x, float y, float col1width, float col2width) 
 		{ return ::MenuCreate(title.c_str(), columns, x, y, col1width, col2width); }
