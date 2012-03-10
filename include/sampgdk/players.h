@@ -246,293 +246,293 @@ template<size_t N1, size_t N2> inline bool GetAnimationName(int index, char (&an
 class Player {
 public:
 	// Construct from a player ID
-	Player(int playerid) : playerid_(playerid) { assert(playerid_ != INVALID_PLAYER_ID); }
+	Player(int playerid) : id_(playerid) { assert(id_ != INVALID_PLAYER_ID); }
 
 	// Implicit conversion to 'int'
-	operator int() const { return playerid_; }
+	operator int() const { return id_; }
 
 	// Explicit ID request
-	int GetPlayerID() const { return playerid_; }
+	int GetId() const { return id_; }
 
 	void SetSpawnInfo(int team, int skin, float x, float y, float z, float rotation, 
 		int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) const
 	{
-		::SetSpawnInfo(playerid_, team, skin, x, y, z, rotation, 
+		::SetSpawnInfo(id_, team, skin, x, y, z, rotation, 
 			weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
 	}
 	void Spawn() const
-		{ ::SpawnPlayer(playerid_); }
+		{ ::SpawnPlayer(id_); }
 	void SetPos(float x, float y, float z) const
-		{ ::SetPlayerPos(playerid_, x, y, z); }
+		{ ::SetPlayerPos(id_, x, y, z); }
 	void SetPosFindZ(float x, float y, float z) const
-		{ ::SetPlayerPosFindZ(playerid_, x, y, z); }
+		{ ::SetPlayerPosFindZ(id_, x, y, z); }
 	void GetPos(float *x, float *y, float *z) const
-		{ ::GetPlayerPos(playerid_, x, y, z); }
+		{ ::GetPlayerPos(id_, x, y, z); }
 	void GetPos(float &x, float &y, float &z) const
-		{ ::GetPlayerPos(playerid_, &x, &y, &z); }
+		{ ::GetPlayerPos(id_, &x, &y, &z); }
 	void SetFacingAngle(float angle) const
-		{ ::SetPlayerFacingAngle(playerid_, angle); }
+		{ ::SetPlayerFacingAngle(id_, angle); }
 	void GetFacingAngle(float *angle) const
-		{ ::GetPlayerFacingAngle(playerid_, angle); }
+		{ ::GetPlayerFacingAngle(id_, angle); }
 	void GetFacingAngle(float &angle) const
-		{ ::GetPlayerFacingAngle(playerid_, &angle); }
+		{ ::GetPlayerFacingAngle(id_, &angle); }
 	void IsInRangeOfPoint(float range, float x, float y, float z) const
-		{ ::IsPlayerInRangeOfPoint(playerid_, range, x, y, z); }
+		{ ::IsPlayerInRangeOfPoint(id_, range, x, y, z); }
 	float GetDistanceFromPoint(float x, float y, float z) const
-		{ return ::GetPlayerDistanceFromPoint(playerid_, x, y, z); }
+		{ return ::GetPlayerDistanceFromPoint(id_, x, y, z); }
 	bool IsStreamedInFor(int playerid) const
-		{ return ::IsPlayerStreamedIn(playerid_, playerid); }
+		{ return ::IsPlayerStreamedIn(id_, playerid); }
 	void SetInterior(int interiorid) const
-		{ ::SetPlayerInterior(playerid_, interiorid); }
+		{ ::SetPlayerInterior(id_, interiorid); }
 	int GetInterior() const 
-		{ return ::GetPlayerInterior(playerid_); }
+		{ return ::GetPlayerInterior(id_); }
 	void SetHealth(float health) const
-		{ ::SetPlayerHealth(playerid_, health); }
+		{ ::SetPlayerHealth(id_, health); }
 	float GetHealth(int playerid) const { 
 		float health; 
-		::GetPlayerHealth(playerid_, &health); 
+		::GetPlayerHealth(id_, &health); 
 		return health;
 	}
 	void SetArmour(float armour) const
-		{ ::SetPlayerArmour(playerid_, armour); }
+		{ ::SetPlayerArmour(id_, armour); }
 	float GetArmour() const {
 		float armour;
-		::GetPlayerArmour(playerid_, &armour);
+		::GetPlayerArmour(id_, &armour);
 		return armour;
 	}
 	void SetAmmo(int weaponslot, int ammo) const
-		{ ::SetPlayerAmmo(playerid_, weaponslot, ammo); }
+		{ ::SetPlayerAmmo(id_, weaponslot, ammo); }
 	int GetAmmo() const
-		{ return ::GetPlayerAmmo(playerid_); }
+		{ return ::GetPlayerAmmo(id_); }
 	int GetWeaponState() const
-		{ return ::GetPlayerWeaponState(playerid_); }
+		{ return ::GetPlayerWeaponState(id_); }
 	int GetTargetPlayer() const
-		{ return ::GetPlayerTargetPlayer(playerid_); }
+		{ return ::GetPlayerTargetPlayer(id_); }
 	void SetPlayerTeam(int teamid) const
-		{ ::SetPlayerTeam(playerid_, teamid); }
+		{ ::SetPlayerTeam(id_, teamid); }
 	int GetPlayerTeam() const
-		{ return ::GetPlayerTeam(playerid_); }
+		{ return ::GetPlayerTeam(id_); }
 	void SetScore(int playerid, int score) const
-		{ ::SetPlayerScore(playerid_, score); }
+		{ ::SetPlayerScore(id_, score); }
 	int GetScore() const 
-		{ return ::GetPlayerScore(playerid_); }
+		{ return ::GetPlayerScore(id_); }
 	int GetDrunkLevel() const 
-		{ return ::GetPlayerDrunkLevel(playerid_); }
+		{ return ::GetPlayerDrunkLevel(id_); }
 	void SetDrunkLevel(int level) const
-		{ ::SetPlayerDrunkLevel(playerid_, level); }
+		{ ::SetPlayerDrunkLevel(id_, level); }
 	void SetColor(int color) const
-		{ ::SetPlayerColor(playerid_, color); }
+		{ ::SetPlayerColor(id_, color); }
 	int GetColor() const
-		{ return ::GetPlayerColor(playerid_); }
+		{ return ::GetPlayerColor(id_); }
 	void SetSkin(int skinid) const
-		{ ::SetPlayerSkin(playerid_, skinid); }
+		{ ::SetPlayerSkin(id_, skinid); }
 	int GetSkin(int playerid) const
-		{ return ::GetPlayerSkin(playerid_); }
+		{ return ::GetPlayerSkin(id_); }
 	void GiveWeapon(int weaponid, int ammo) const
-		{ ::GivePlayerWeapon(playerid_, weaponid, ammo); }
+		{ ::GivePlayerWeapon(id_, weaponid, ammo); }
 	void ResetWeapons() const
-		{ ::ResetPlayerWeapons(playerid_); }
+		{ ::ResetPlayerWeapons(id_); }
 	void SetArmedWeapon(int weaponid) const
-		{ ::SetPlayerArmedWeapon(playerid_, weaponid); }
+		{ ::SetPlayerArmedWeapon(id_, weaponid); }
 	void GetWeaponData(int slot, int *weapon, int *ammo) const
-		{ ::GetPlayerWeaponData(playerid_, slot, weapon, ammo); }
+		{ ::GetPlayerWeaponData(id_, slot, weapon, ammo); }
 	void GetWeaponData(int slot, int &weapon, int &ammo) const
-		{ ::GetPlayerWeaponData(playerid_, slot, &weapon, &ammo); }
+		{ ::GetPlayerWeaponData(id_, slot, &weapon, &ammo); }
 	void GiveMoney(int money) const
-		{ ::GivePlayerMoney(playerid_, money); }
+		{ ::GivePlayerMoney(id_, money); }
 	void ResetMoney() const
-		{ ::ResetPlayerMoney(playerid_); }
+		{ ::ResetPlayerMoney(id_); }
 	bool SetName(const char *name) const
-		{ return ::SetPlayerName(playerid_, name) > 0; }
+		{ return ::SetPlayerName(id_, name) > 0; }
 	bool SetName(const std::string &name) const
-		{ return ::SetPlayerName(playerid_, name.c_str()) > 0; }
+		{ return ::SetPlayerName(id_, name.c_str()) > 0; }
 	int GetMoney() const
-		{ return ::GetPlayerMoney(playerid_); }
+		{ return ::GetPlayerMoney(id_); }
 	int GetState() const
-		{ return ::GetPlayerState(playerid_); }
+		{ return ::GetPlayerState(id_); }
 	void GetIp(char *ip, size_t size) const
-		{ ::GetPlayerIp(playerid_, ip, size); }
+		{ ::GetPlayerIp(id_, ip, size); }
 	int GetPing() const
-		{ return ::GetPlayerPing(playerid_); }
+		{ return ::GetPlayerPing(id_); }
 	int GetWeapon() const
-		{ return ::GetPlayerWeapon(playerid_); }
+		{ return ::GetPlayerWeapon(id_); }
 	void GetKeys(int *keys, int *updown, int *leftright) const
-		{ ::GetPlayerKeys(playerid_, keys, updown, leftright); }
+		{ ::GetPlayerKeys(id_, keys, updown, leftright); }
 	void GetKeys(int &keys, int &updown, int &leftright) const
-		{ ::GetPlayerKeys(playerid_, &keys, &updown, &leftright); }
+		{ ::GetPlayerKeys(id_, &keys, &updown, &leftright); }
 	void GetName(char *name, size_t size) const
-		{ ::GetPlayerName(playerid_, name, size); }
+		{ ::GetPlayerName(id_, name, size); }
 	std::string GetName() const {
 		std::string name(static_cast<std::string::size_type>(MAX_PLAYER_NAME), '\0');
-		::GetPlayerName(playerid_, const_cast<char*>(name.data()), MAX_PLAYER_NAME);
+		::GetPlayerName(id_, const_cast<char*>(name.data()), MAX_PLAYER_NAME);
 		return name;
 	}
 	void SetTime(int hour, int minute) const
-		{ ::SetPlayerTime(playerid_, hour, minute); }
+		{ ::SetPlayerTime(id_, hour, minute); }
 	void GetTime(int *hour, int *minute) const
-		{ ::GetPlayerTime(playerid_, hour, minute); }
+		{ ::GetPlayerTime(id_, hour, minute); }
 	void GetTime(int &hour, int &minute) const
-		{ ::GetPlayerTime(playerid_, &hour, &minute); }
+		{ ::GetPlayerTime(id_, &hour, &minute); }
 	void ToggleClock(bool toggle) const
-		{ ::TogglePlayerClock(playerid_, toggle); }
+		{ ::TogglePlayerClock(id_, toggle); }
 	void SetWeather(int weather) const
-		{ ::SetPlayerWeather(playerid_, weather); }
+		{ ::SetPlayerWeather(id_, weather); }
 	void ForceClassSelection(int playerid) const
-		{ ::ForceClassSelection(playerid_); }
+		{ ::ForceClassSelection(id_); }
 	void SetWantedLevel(int level) const
-		{ ::SetPlayerWantedLevel(playerid_, level); }
+		{ ::SetPlayerWantedLevel(id_, level); }
 	int GetWantedLevel() const 
-		{ return ::GetPlayerWantedLevel(playerid_); }
+		{ return ::GetPlayerWantedLevel(id_); }
 	void SetFightingStyle(int style) const
-		{ ::SetPlayerFightingStyle(playerid_, style); }
+		{ ::SetPlayerFightingStyle(id_, style); }
 	int GetFightingStyle() const
-		{ return ::GetPlayerFightingStyle(playerid_); }
+		{ return ::GetPlayerFightingStyle(id_); }
 	void SetVelocity(float x, float y, float z) const
-		{ ::SetPlayerVelocity(playerid_, x, y, z); }
+		{ ::SetPlayerVelocity(id_, x, y, z); }
 	void GetVelocity(float *x, float *y, float *z) const
-		{ ::GetPlayerVelocity(playerid_, x, y, z); }
+		{ ::GetPlayerVelocity(id_, x, y, z); }
 	void GetVelocity(float &x, float &y, float &z) const
-		{ ::GetPlayerVelocity(playerid_, &x, &y, &z); }
+		{ ::GetPlayerVelocity(id_, &x, &y, &z); }
 	float GetSpeed() const {
 		float velX, velY, velZ;
 		GetVelocity(velX, velY, velZ);
 		return std::sqrt(velX*velX + velY*velY + velZ*velZ);
 	}
 	void PlayCrimeReport(int suspectid, int crime) const
-		{ ::PlayCrimeReportForPlayer(playerid_, suspectid, crime); }
+		{ ::PlayCrimeReportForPlayer(id_, suspectid, crime); }
 	bool PlayAudioStream(const char *url, float posX, float posY, float posZ, float distance, bool usepos) const
-		{ return ::PlayAudioStreamForPlayer(playerid_, url, posX, posY, posZ, distance, usepos); }
+		{ return ::PlayAudioStreamForPlayer(id_, url, posX, posY, posZ, distance, usepos); }
 	bool PlayAudioStream(const std::string &url, float posX, float posY, float posZ, float distance, bool usepos) const
-		{ return ::PlayAudioStreamForPlayer(playerid_, url.c_str(), posX, posY, posZ, distance, usepos); }
+		{ return ::PlayAudioStreamForPlayer(id_, url.c_str(), posX, posY, posZ, distance, usepos); }
 	bool StopAudioStream() const
-		{ return ::StopAudioStreamForPlayer(playerid_); }
+		{ return ::StopAudioStreamForPlayer(id_); }
 	void SetShopName(const char *shopname) const
-		{ ::SetPlayerShopName(playerid_, shopname); }
+		{ ::SetPlayerShopName(id_, shopname); }
 	void SetShopName(const std::string &shopname) const
-		{ ::SetPlayerShopName(playerid_, shopname.c_str()); }
+		{ ::SetPlayerShopName(id_, shopname.c_str()); }
 	void SetSkillLevel(int skill, int level) const
-		{ ::SetPlayerSkillLevel(playerid_, skill, level); }
+		{ ::SetPlayerSkillLevel(id_, skill, level); }
 	int GetSurfingVehicleID() const
-		{ return ::GetPlayerSurfingVehicleID(playerid_); }
+		{ return ::GetPlayerSurfingVehicleID(id_); }
 	int GetSurfingObjectID(int playerid) const
-		{ return ::GetPlayerSurfingObjectID(playerid_); }
+		{ return ::GetPlayerSurfingObjectID(id_); }
 	void RemoveBuilding(int modelid, float fX, float fY, float fZ, float fRadius) const
-		{ ::RemoveBuildingForPlayer(playerid_, modelid, fX, fY, fZ, fRadius);	}
+		{ ::RemoveBuildingForPlayer(id_, modelid, fX, fY, fZ, fRadius);	}
 
 	void SetAttachedObject(int index, int modelid, int bone, float fOffsetX, float fOffsetY, float fOffsetZ, 
 		float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ) const
 	{ 
-		::SetPlayerAttachedObject(playerid_, index, modelid, bone, fOffsetX, fOffsetY, fOffsetZ,
+		::SetPlayerAttachedObject(id_, index, modelid, bone, fOffsetX, fOffsetY, fOffsetZ,
 			fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ); 
 	}
 	void RemoveAttachedObject(int index) const
-		{ ::RemovePlayerAttachedObject(playerid_, index); }
+		{ ::RemovePlayerAttachedObject(id_, index); }
 	bool IsPlayerAttachedObjectSlotUsed(int playerid, int index) const
-		{ return ::IsPlayerAttachedObjectSlotUsed(playerid_, index); }
+		{ return ::IsPlayerAttachedObjectSlotUsed(id_, index); }
 
 	void SetChatBubble(const char *text, int color, float drawdistance, int expiretime) const
-		{ ::SetPlayerChatBubble(playerid_, text, color, drawdistance, expiretime); }
+		{ ::SetPlayerChatBubble(id_, text, color, drawdistance, expiretime); }
 	void SetChatBubble(const std::string &text, int color, float drawdistance, int expiretime) const
-		{ ::SetPlayerChatBubble(playerid_, text.c_str(), color, drawdistance, expiretime); }
+		{ ::SetPlayerChatBubble(id_, text.c_str(), color, drawdistance, expiretime); }
 
 	void PutInVehicle(int vehicleid, int seatid) const
-		{ ::PutPlayerInVehicle(playerid_, vehicleid, seatid); }
+		{ ::PutPlayerInVehicle(id_, vehicleid, seatid); }
 	int GetVehicleID() const
-		{ return ::GetPlayerVehicleID(playerid_); }
+		{ return ::GetPlayerVehicleID(id_); }
 	int GetVehicleSeat() const
-		{ return ::GetPlayerVehicleSeat(playerid_); }
+		{ return ::GetPlayerVehicleSeat(id_); }
 	void RemoveFromVehicle() const
-		{ ::RemovePlayerFromVehicle(playerid_); }
+		{ ::RemovePlayerFromVehicle(id_); }
 	void ToggleControllable(bool toggle) const
-		{ ::TogglePlayerControllable(playerid_, toggle); }
+		{ ::TogglePlayerControllable(id_, toggle); }
 	void PlaySound(int playerid, int soundid, float x, float y, float z) const
-		{ ::PlayerPlaySound(playerid_, soundid, x, y, z); }
+		{ ::PlayerPlaySound(id_, soundid, x, y, z); }
 	void ApplyAnimation(const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync) const
-		{ ::ApplyAnimation(playerid_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
+		{ ::ApplyAnimation(id_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
 	void ClearAnimations(bool forcesync) const
-		{ ::ClearAnimations(playerid_, forcesync); }
+		{ ::ClearAnimations(id_, forcesync); }
 	int GetAnimationIndex() const
-		{ return ::GetPlayerAnimationIndex(playerid_); }
+		{ return ::GetPlayerAnimationIndex(id_); }
 	int GetSpecialAction() const
-		{ return ::GetPlayerSpecialAction(playerid_); }
+		{ return ::GetPlayerSpecialAction(id_); }
 	void SetSpecialAction(int actionid) const
-		{ ::SetPlayerSpecialAction(playerid_, actionid); }
+		{ ::SetPlayerSpecialAction(id_, actionid); }
 
 	void SetCheckpoint(float x, float y, float z, float size) const
-		{ ::SetPlayerCheckpoint(playerid_, x, y, z, size); }
+		{ ::SetPlayerCheckpoint(id_, x, y, z, size); }
 	void DisableCheckpoint() const
-		{ ::DisablePlayerCheckpoint(playerid_); }
+		{ ::DisablePlayerCheckpoint(id_); }
 	void SetRaceCheckpoint(int type, float x, float y, float z, float nextx, float nexty, float nextz, float size) const
-		{ ::SetPlayerRaceCheckpoint(playerid_, type, x, y, z, nextx, nexty, nextz, size); }
+		{ ::SetPlayerRaceCheckpoint(id_, type, x, y, z, nextx, nexty, nextz, size); }
 	void DisableRaceCheckpoint() const
-		{ ::DisablePlayerRaceCheckpoint(playerid_); }
+		{ ::DisablePlayerRaceCheckpoint(id_); }
 	void SetWorldBounds(float x_max, float x_min, float y_max, float y_min) const
-		{ ::SetPlayerWorldBounds(playerid_, x_max, x_min, y_max, y_min); }
+		{ ::SetPlayerWorldBounds(id_, x_max, x_min, y_max, y_min); }
 	void SerMarkerFor(int playerid, int color) const
-		{ ::SetPlayerMarkerForPlayer(playerid, playerid_, color); }
+		{ ::SetPlayerMarkerForPlayer(playerid, id_, color); }
 	void ShowNameTagForPlayer(int playerid, bool show) const
-		{ ::ShowPlayerNameTagForPlayer(playerid, playerid_, show); } 
+		{ ::ShowPlayerNameTagForPlayer(playerid, id_, show); } 
 
 	void SetMapIcon(int iconid, float x, float y, float z, int markertype, int color, int style) const
-		{ ::SetPlayerMapIcon(playerid_, iconid, x, y, z, markertype, color, style); }
+		{ ::SetPlayerMapIcon(id_, iconid, x, y, z, markertype, color, style); }
 	void RemoveMapIcon(int iconid) const
-		{ ::RemovePlayerMapIcon(playerid_, iconid); }
+		{ ::RemovePlayerMapIcon(id_, iconid); }
 
 	void AllowTeleport(bool allow) const
-		{ ::AllowPlayerTeleport(playerid_, allow); }
+		{ ::AllowPlayerTeleport(id_, allow); }
 
 	void SetPlayerCameraPos(float x, float y, float z) const
-		{ ::SetPlayerCameraPos(playerid_, x, y, z); }
+		{ ::SetPlayerCameraPos(id_, x, y, z); }
 	void SetPlayerCameraLookAt(float x, float y, float z) const
-		{ ::SetPlayerCameraLookAt(playerid_, x ,y, z); }
+		{ ::SetPlayerCameraLookAt(id_, x ,y, z); }
 	void SetCameraBehind() const
-		{ ::SetCameraBehindPlayer(playerid_); }
+		{ ::SetCameraBehindPlayer(id_); }
 	void GetCameraPos(float *x, float *y, float *z) const
-		{ ::GetPlayerCameraPos(playerid_, x, y, z); }
+		{ ::GetPlayerCameraPos(id_, x, y, z); }
 	void GetCameraPos(float &x, float &y, float &z) const
-		{ ::GetPlayerCameraPos(playerid_, &x, &y, &z); }
+		{ ::GetPlayerCameraPos(id_, &x, &y, &z); }
 	void GetCameraFrontVector(float *x, float *y, float *z) const
-		{ ::GetPlayerCameraFrontVector(playerid_, x, y, z); }
+		{ ::GetPlayerCameraFrontVector(id_, x, y, z); }
 	void GetCameraFrontVector(float &x, float &y, float &z) const
-		{ ::GetPlayerCameraFrontVector(playerid_, &x, &y, &z); }
+		{ ::GetPlayerCameraFrontVector(id_, &x, &y, &z); }
 	int GetCameraMode() const
-		{ return ::GetPlayerCameraMode(playerid_); }
+		{ return ::GetPlayerCameraMode(id_); }
 
 	bool IsPlayerConnected() const
-		{ return ::IsPlayerConnected(playerid_); }
+		{ return ::IsPlayerConnected(id_); }
 	bool IsPlayerInVehicle(int vehicleid) const
-		{ return ::IsPlayerInVehicle(playerid_, vehicleid); }
+		{ return ::IsPlayerInVehicle(id_, vehicleid); }
 	bool IsPlayerInAnyVehicle() const
-		{ return ::IsPlayerInAnyVehicle(playerid_); }
+		{ return ::IsPlayerInAnyVehicle(id_); }
 	bool IsPlayerInCheckpoint() const
-		{ return ::IsPlayerInCheckpoint(playerid_); }
+		{ return ::IsPlayerInCheckpoint(id_); }
 	bool IsPlayerInRaceCheckpoint() const
-		{ return ::IsPlayerInRaceCheckpoint(playerid_); }
+		{ return ::IsPlayerInRaceCheckpoint(id_); }
 
 	void SetVirtualWorld(int worldid) const
-		{ ::SetPlayerVirtualWorld(playerid_, worldid); }
+		{ ::SetPlayerVirtualWorld(id_, worldid); }
 	int GetVirtualWorld() const
-		{ return ::GetPlayerVirtualWorld(playerid_); }
+		{ return ::GetPlayerVirtualWorld(id_); }
 
 	void EnableStuntBonus(bool enable) const
-		{ ::EnableStuntBonusForPlayer(playerid_, enable); }
+		{ ::EnableStuntBonusForPlayer(id_, enable); }
 
 	void TogglePlayerSpectating(bool toggle) const
-		{ ::TogglePlayerSpectating(playerid_, toggle); }
+		{ ::TogglePlayerSpectating(id_, toggle); }
 	bool SpectatePlayer(int playerid, int mode) const 
-		{ return ::PlayerSpectatePlayer(playerid_, playerid, mode); }
+		{ return ::PlayerSpectatePlayer(id_, playerid, mode); }
 	bool SpectateVehicle(int vehicleid, int mode) const
-		{ return ::PlayerSpectateVehicle(playerid_, vehicleid, mode); }
+		{ return ::PlayerSpectateVehicle(id_, vehicleid, mode); }
 
 	void StartRecordingData(int recordtype, const char *recordname) const
-		{ ::StartRecordingPlayerData(playerid_, recordtype, recordname); }
+		{ ::StartRecordingPlayerData(id_, recordtype, recordname); }
 	void StartRecordingData(int recordtype, const std::string &recordname) const
-		{ ::StartRecordingPlayerData(playerid_, recordtype, recordname.c_str()); }
+		{ ::StartRecordingPlayerData(id_, recordtype, recordname.c_str()); }
 	void StopRecordingData() const
-		{ ::StopRecordingPlayerData(playerid_); }
+		{ ::StopRecordingPlayerData(id_); }
 
 private:
-	const int playerid_;
+	const int id_;
 };
 
 #endif /* __cplusplus */

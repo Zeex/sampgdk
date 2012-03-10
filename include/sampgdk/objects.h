@@ -54,13 +54,13 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid
 class Object {
 public:
 	// Construct from an object ID
-	Object(int objectid) : objectid_(objectid) { assert(objectid_ != INVALID_OBJECT_ID); }
+	Object(int objectid) : id_(objectid) { assert(id_ != INVALID_OBJECT_ID); }
 
 	// Implicit convertion to 'int'
-	operator int() const { return objectid_; }
+	operator int() const { return id_; }
 
 	// Explicit ID request
-	int GetObjectID() const { return objectid_; }
+	int GetId() const { return id_; }
 
 	// Sort of factory method
 	static Object Create(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
@@ -68,39 +68,39 @@ public:
 	}
 	
 	void AttachToVehicle(int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
-		::AttachObjectToVehicle(objectid_, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
+		::AttachObjectToVehicle(id_, vehicleid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
 	}
 	void AttachToObject(int objectid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, bool SyncRotation) const {
-		::AttachObjectToObject(objectid_, objectid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, SyncRotation);
+		::AttachObjectToObject(id_, objectid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, SyncRotation);
 	}
 	void AttachToPlayer(int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ) const {
-		::AttachObjectToPlayer(objectid_, playerid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
+		::AttachObjectToPlayer(id_, playerid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ);
 	}
 	void SetPos(float x, float y, float z) const
-		{ ::SetObjectPos(objectid_, x, y, z); } 
+		{ ::SetObjectPos(id_, x, y, z); } 
 	bool GetPos(float *x, float *y, float *z) const
-		{ ::GetObjectPos(objectid_, x, y, z); } 
+		{ ::GetObjectPos(id_, x, y, z); } 
 	bool GetPos(float &x, float &y, float &z) const
-		{ ::GetObjectPos(objectid_, &x, &y, &z); } 
+		{ ::GetObjectPos(id_, &x, &y, &z); } 
 	void SetRot(float rotX, float rotY, float rotZ) const
-		{ ::SetObjectRot(objectid_, rotX, rotY, rotZ); }
+		{ ::SetObjectRot(id_, rotX, rotY, rotZ); }
 	bool GetRot(float *rotX, float *rotY, float *rotZ) const
-		{ ::GetObjectRot(objectid_, rotX, rotY, rotZ); }
+		{ ::GetObjectRot(id_, rotX, rotY, rotZ); }
 	bool GetRot(float &rotX, float &rotY, float &rotZ) const
-		{ ::GetObjectRot(objectid_, &rotX, &rotY, &rotZ); }
+		{ ::GetObjectRot(id_, &rotX, &rotY, &rotZ); }
 	bool IsValid() const 
-		{ return ::IsValidObject(objectid_); }
+		{ return ::IsValidObject(id_); }
 	void Destroy() const
-		{ ::DestroyObject(objectid_); }
+		{ ::DestroyObject(id_); }
 	int Move(float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ) const
-		{ return ::MoveObject(objectid_, X, Y, Z, Speed, RotX, RotY, RotZ); }
+		{ return ::MoveObject(id_, X, Y, Z, Speed, RotX, RotY, RotZ); }
 	void Stop() const
-		{ ::StopObject(objectid_); }
+		{ ::StopObject(id_); }
 	bool IsMoving() const 
-		{ return ::IsObjectMoving(objectid_); }
+		{ return ::IsObjectMoving(id_); }
 
 private:
-	const int objectid_;
+	const int id_;
 };
 
 class PlayerObject {
@@ -115,8 +115,8 @@ public:
 	}
 
 	// Explicit ID request
-	int GetPlayerID() const { return playerid_; }
-	int GetObjectID() const { return objectid_; }
+	int GetPlayerId() const { return playerid_; }
+	int GetObjectId() const { return objectid_; }
 
 	// Sort of factory method
 	static PlayerObject Create(int playerid, int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
