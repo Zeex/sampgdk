@@ -95,7 +95,7 @@ void AmxHooks::RegisterCallbacks() {
 	cbBadRetVals_["OnPlayerStreamOut"] = 0;
 	cbBadRetVals_["OnVehicleStreamIn"] = 0;
 	cbBadRetVals_["OnVehicleStreamOut"] = 0;
-	cbBadRetVals_["OnDialogResponse"] = 0;
+	cbBadRetVals_["OnDialogResponse"] = 1;
 	cbBadRetVals_["OnPlayerClickPlayer"] = 0;
 	cbBadRetVals_["OnPlayerTakeDamage"] = 0;
 	cbBadRetVals_["OnPlayerGiveDamage"] = 0;
