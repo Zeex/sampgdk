@@ -178,14 +178,13 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
 			std::map<std::string, int>::const_iterator iterator = cbBadRetVals_.find(currentPublic_.c_str());
+			CallbackRetVal badRetVal;
 			if (iterator != cbBadRetVals_.end()) {
-				int badRetVal = iterator->second;
-				*retval = CallbackManager::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
-				if (*retval == badRetVal) {
-					canDoExec = false;
-				}
-			} else {
-				CallbackManager::GetInstance().ClearArgs();
+				badRetVal = iterator->second;
+			}
+			*retval = CallbackManager::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
+			if (badRetVal.IsSet() && *retval == badRetVal) {
+				canDoExec = false;
 			}
 		}
 	}

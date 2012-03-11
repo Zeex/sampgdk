@@ -57,7 +57,7 @@ void CallbackManager::RegisterCallbackHandler(void *handler) {
 	cache_.insert(std::make_pair(handler, std::map<std::string, void*>()));
 }
 
-int CallbackManager::HandleCallback(const char *name, int badRetVal) {
+int CallbackManager::HandleCallback(const char *name, CallbackRetVal badRetVal) {
 	int retVal = !badRetVal;
 
 	typedef std::map<std::string, void*> PluginCache;
@@ -105,7 +105,7 @@ int CallbackManager::HandleCallback(const char *name, int badRetVal) {
 				#error Unsupported compiler
 			#endif
 
-			if (retVal == badRetVal) {
+			if (badRetVal.IsSet() && retVal == badRetVal) {
 				break;
 			}
 		}
