@@ -57,8 +57,11 @@ void CallbackManager::RegisterCallbackHandler(void *handler) {
 	cache_.insert(std::make_pair(handler, std::map<std::string, void*>()));
 }
 
-int CallbackManager::HandleCallback(const char *name, CallbackRetVal badRetVal) {
-	int retVal = !badRetVal;
+cell CallbackManager::HandleCallback(const char *name, CallbackRetVal badRetVal) {
+	cell retVal = 0;
+	if (badRetVal.IsSet()) {
+		retVal = !badRetVal;
+	}
 
 	typedef std::map<std::string, void*> PluginCache;
 	typedef std::map<void*, PluginCache> Cache;

@@ -87,7 +87,7 @@ public:
 
 	void ClearArgs();
 
-	int HandleCallback(const char *name,  CallbackRetVal badRetVal);
+	cell HandleCallback(const char *name,  CallbackRetVal badRetVal);
 
 private:
 	CallbackManager();
