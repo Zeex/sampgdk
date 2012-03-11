@@ -156,7 +156,10 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 			if (iterator != cbBadRetVals_.end()) {
 				badRetVal = iterator->second;
 			}
-			*retval = CallbackManager::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
+			cell retval_ = CallbackManager::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
+			if (badRetVal.IsSet()) {
+				*retval = retval_;
+			}
 			if (badRetVal.IsSet() && *retval == badRetVal) {
 				canDoExec = false;
 			}
