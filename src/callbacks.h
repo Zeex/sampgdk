@@ -18,6 +18,7 @@
 #include <sampgdk/config.h>
 #include <sampgdk/amx/amx.h>
 
+#include <cassert>
 #include <deque>
 #include <map>
 #include <string>
@@ -53,6 +54,25 @@ private:
 	Type     type_;
 };
 
+class CallbackRetVal {
+public:
+	CallbackRetVal() : set_(false) {}
+	CallbackRetVal(cell v) : set_(true), retval_(v) {}
+
+	operator cell() const { return Get(); }
+
+	cell Get() const {
+		assert(set_);
+		return retval_;
+	}
+
+	bool IsSet() const { return set_; }
+
+private:
+	bool set_;
+	cell retval_;
+};
+
 class CallbackManager {
 public:
 	static CallbackManager &GetInstance();
@@ -67,7 +87,7 @@ public:
 
 	void ClearArgs();
 
-	int HandleCallback(const char *name,  int badRetVal);
+	int HandleCallback(const char *name,  CallbackRetVal badRetVal);
 
 private:
 	CallbackManager();
