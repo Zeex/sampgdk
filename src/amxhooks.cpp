@@ -56,52 +56,26 @@ static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	return index;
 }
 
+#define NICE_CALLBACK(name) \
+	do { cbBadRetVals_[#name] = 0; } while(false)
+#define UGLY_CALLBACK(name) \
+	do { cbBadRetVals_[#name] = 1; } while(false)
+
 void AmxHooks::RegisterCallbacks() {
-	cbBadRetVals_["OnGameModeExit"] = 0;
-	cbBadRetVals_["OnPlayerConnect"] = 0;
-	cbBadRetVals_["OnPlayerDisconnect"] = 0;
-	cbBadRetVals_["OnPlayerSpawn"] = 0;
-	cbBadRetVals_["OnPlayerDeath"] = 0;
-	cbBadRetVals_["OnVehicleSpawn"] = 0;
-	cbBadRetVals_["OnVehicleDeath"] = 0;
-	cbBadRetVals_["OnPlayerText"] = 0;
-	cbBadRetVals_["OnPlayerCommandText"] = 1;
-	cbBadRetVals_["OnPlayerRequestClass"] = 0;
-	cbBadRetVals_["OnPlayerEnterVehicle"] = 0;
-	cbBadRetVals_["OnPlayerExitVehicle"] = 0;
-	cbBadRetVals_["OnPlayerStateChange"] = 0;
-	cbBadRetVals_["OnPlayerEnterCheckpoint"] = 0;
-	cbBadRetVals_["OnPlayerLeaveCheckpoint"] = 0;
-	cbBadRetVals_["OnPlayerEnterRaceCheckpoint"] = 0;
-	cbBadRetVals_["OnPlayerLeaveRaceCheckpoint"] = 0;
-	cbBadRetVals_["OnRconCommand"] = 1;
-	cbBadRetVals_["OnPlayerRequestSpawn"] = 0;
-	cbBadRetVals_["OnObjectMoved"] = 0;
-	cbBadRetVals_["OnPlayerObjectMoved"] = 0;
-	cbBadRetVals_["OnPlayerPickUpPickup"] = 0;
-	cbBadRetVals_["OnVehicleMod"] = 0;
-	cbBadRetVals_["OnEnterExitModShop"] = 0;
-	cbBadRetVals_["OnVehiclePaintjob"] = 0;
-	cbBadRetVals_["OnVehicleRespray"] = 0;
-	cbBadRetVals_["OnVehicleDamageStatusUpdate"] = 0;
-	cbBadRetVals_["OnUnoccupiedVehicleUpdate"] = 0;
-	cbBadRetVals_["OnPlayerSelectedMenuRow"] = 0;
-	cbBadRetVals_["OnPlayerExitedMenu"] = 0;
-	cbBadRetVals_["OnPlayerInteriorChange"] = 0;
-	cbBadRetVals_["OnPlayerKeyStateChange"] = 0;
-	cbBadRetVals_["OnRconLoginAttempt"] = 1;
-	cbBadRetVals_["OnPlayerUpdate"] = 0;
-	cbBadRetVals_["OnPlayerStreamIn"] = 0;
-	cbBadRetVals_["OnPlayerStreamOut"] = 0;
-	cbBadRetVals_["OnVehicleStreamIn"] = 0;
-	cbBadRetVals_["OnVehicleStreamOut"] = 0;
-	cbBadRetVals_["OnDialogResponse"] = 1;
-	cbBadRetVals_["OnPlayerClickPlayer"] = 0;
-	cbBadRetVals_["OnPlayerTakeDamage"] = 0;
-	cbBadRetVals_["OnPlayerGiveDamage"] = 0;
-	cbBadRetVals_["OnPlayerClickMap"] = 0;
-	cbBadRetVals_["OnPlayerEditObject"] = 0;
-	cbBadRetVals_["OnPlayerEditAttachedObject"] = 0;
+	UGLY_CALLBACK(OnDialogResponse);
+	UGLY_CALLBACK(OnPlayerCommandText);
+	NICE_CALLBACK(OnPlayerConnect);
+	NICE_CALLBACK(OnPlayerDisonnect);
+	NICE_CALLBACK(OnPlayerEnterCheckpoint);
+	NICE_CALLBACK(OnPlayerEnterRaceCheckpoint);
+	NICE_CALLBACK(OnPlayerKeyStateChange);
+	NICE_CALLBACK(OnPlayerSpawn);
+	NICE_CALLBACK(OnPlayerRequestClass);
+	NICE_CALLBACK(OnPlayerRequestSpawn);
+	NICE_CALLBACK(OnPlayerText);
+	NICE_CALLBACK(OnPlayerUpdate);
+	UGLY_CALLBACK(OnRconCommand);
+	NICE_CALLBACK(OnVehicleMod);
 }
 
 void AmxHooks::Initialize(void **ppPluginData) {
