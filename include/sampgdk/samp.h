@@ -252,7 +252,7 @@ template<size_t N> inline bool GetPlayerNetworkStats(int playerid, char (&retstr
 	return GetPlayerNetworkStats(playerid, retstr, N);
 }
 template<size_t N> inline bool GetPlayerVersion(int playerid, char (&version)[N]) {
-	return GetPlayerVersion(playerid, retstr, N);
+	return GetPlayerVersion(playerid, version, N);
 }
 template<size_t N> inline bool GetWeaponName(int weaponid, char (&name)[N]) {
 	return GetWeaponName(weaponid, name, N);
