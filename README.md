@@ -13,9 +13,15 @@ Installation
 	3.	Set proper include and library paths in your IDE.
 
 *	Linux
-	1.	Download and install either of `libsampgdk-x.y.z-Linux.deb` and `libsampgdk-x.y.z-Linux.rpm`.
-	2.	Now you can both runtime library and development headers.
-	3.	If you are making a plugin with GDK, don't forget to link against `libsampgdk`, e.g. pass`-lsampgdk` flag to GCC.
+	1.	Download `libsampgdk-x.y.z-Linux.sh`.
+	2.	Run it as follows: `sudo sh sampgdk-x.y.z-Linux.sh --prefix=/usr/local/`. This will install
+		the library and headers to /usr/local/lib and /usr/local/include respectively.
+	3.	Link against libsampgdk.
+
+Getting Started
+---------------
+
+If you are new to GDK have a look at the code of helloworld example first, it will teach you some basics.
 
 Bugs
 ----
