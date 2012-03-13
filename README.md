@@ -18,11 +18,6 @@ Installation
 		the library and headers to /usr/local/lib and /usr/local/include respectively.
 	3.	Link against libsampgdk.
 
-Getting Started
----------------
-
-If you are new to GDK have a look at the code of helloworld example first, it will teach you some basics.
-
 Bugs
 ----
 
