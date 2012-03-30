@@ -244,6 +244,8 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid);
 
 #define CLICK_SOURCE_SCOREBOARD   (0)
 
+SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, size_t size);
+
 #ifdef __cplusplus
 
 #include <string>
