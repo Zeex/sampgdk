@@ -3,10 +3,10 @@
 #include <string.h>
 #include <time.h>
 
+#include <sampgdk/a_players.h>
+#include <sampgdk/a_samp.h>
 #include <sampgdk/core.h>
-#include <sampgdk/players.h>
 #include <sampgdk/plugin.h>
-#include <sampgdk/samp.h>
 
 #define COLOR_GREY    0xAFAFAFAA
 #define COLOR_GREEN   0x33AA33AA

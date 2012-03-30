@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #include <sampgdk/config.h>
+#include <sampgdk/a_samp.h>
 #include <sampgdk/export.h>
-#include <sampgdk/samp.h>
 #include <sampgdk/amx/amx.h>
 
 #include "fakeamx.h"

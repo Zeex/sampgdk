@@ -5,9 +5,7 @@
 #include <vector>
 #include <sampgdk/amx.h>
 #include <sampgdk/core.h>
-#include <sampgdk/players.h>
 #include <sampgdk/plugin.h>
-#include <sampgdk/samp.h>
 #ifdef _WIN32
 	#include <windows.h>
 	#include <sys/types.h>

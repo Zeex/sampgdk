@@ -1,10 +1,10 @@
 #include <cstdio>
 #include <cstring>
 
+#include <sampgdk/a_players.h>
+#include <sampgdk/a_samp.h>
 #include <sampgdk/core.h>
-#include <sampgdk/players.h>
 #include <sampgdk/plugin.h>
-#include <sampgdk/samp.h>
 
 typedef void (*logprintf_t)(const char *format, ...);
 static logprintf_t logprintf;

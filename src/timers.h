@@ -16,7 +16,7 @@
 #define SAMPGDK_TIMERS_H
 
 #include <sampgdk/config.h>
-#include <sampgdk/samp.h>
+#include <sampgdk/a_samp.h>
 
 #include <set>
 #include <vector>
