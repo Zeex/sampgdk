@@ -136,6 +136,29 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerAttachedObject(int playerid, int index
 SAMPGDK_EXPORT bool SAMPGDK_CALL RemovePlayerAttachedObject(int playerid, int index);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerAttachedObjectSlotUsed(int playerid, int index);
 
+SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerTextDraw(int playerid, float x, float y, const char *text);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawDestroy(int playerid, int text);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawLetterSize(int playerid, int text, float x, float y);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawTextSize(int playerid, int text, float x, float y);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawAlignment(int playerid, int text, int alignment);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawColor(int playerid, int text, int color);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawUseBox(int playerid, int text, bool use);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawBoxColor(int playerid, int text, int color);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetShadow(int playerid, int text, int size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetOutline(int playerid, int text, int size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawBackgroundColor(int playerid, int text, int color);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawFont(int playerid, int text, int font);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetProportional(int playerid, int text, bool set);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetSelectable(int playerid, int text, bool set);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawShow(int playerid, int text);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawHide(int playerid, int text);
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetString(int playerid, int text, const char *string);
+
+#define PLAYER_VARTYPE_NONE   (0)
+#define PLAYER_VARTYPE_INT    (1)
+#define PLAYER_VARTYPE_STRING (2)
+#define PLAYER_VARTYPE_FLOAT  (3)
+
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarInt(int playerid, const char *varname, int value);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarInt(int playerid, const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarString(int playerid, const char *varname, const char *value);
@@ -143,11 +166,6 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarString(int playerid, const char *varname
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarFloat(int playerid, const char *varname, float value);
 SAMPGDK_EXPORT float SAMPGDK_CALL GetPVarFloat(int playerid, const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL DeletePVar(int playerid, const char *varname);
-
-#define PLAYER_VARTYPE_NONE   (0)
-#define PLAYER_VARTYPE_INT    (1)
-#define PLAYER_VARTYPE_STRING (2)
-#define PLAYER_VARTYPE_FLOAT  (3)
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarsUpperIndex(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarNameAtIndex(int playerid, int index, char *varname, size_t size);
@@ -576,9 +594,66 @@ public:
 		{ ::GameTextForPlayer(id_, text.c_str(), time, style); }
 	virtual void GetVersion(char *version, size_t len) const
 		{ ::GetPlayerVersion(id_, version, len); }
+	virtual void SelectTextDraw(int hovercolor) const
+		{ ::SelectTextDraw(id_, hovercolor); }
+	virtual void CancelSelectTextDraw(int hovercolor) const
+		{ ::CancelSelectTextDraw(id_); }
 
 private:
 	const int id_;
+};
+
+class PlayerTextDraw {
+public:
+	PlayerTextDraw(int id, int playerid) : id_(id), playerid_(playerid) {}
+	virtual ~PlayerTextDraw() {}
+
+	int GetId() const { return id_; }
+	int GetPlayerId() const { return playerid_; }	
+
+	static PlayerTextDraw Create(int playerid, float x, float y, const char *text) 
+		{ return PlayerTextDraw(::CreatePlayerTextDraw(playerid, x, y, text), playerid); }
+	static PlayerTextDraw Create(int playerid, float x, float y, const std::string &text) 
+		{ return PlayerTextDraw(::CreatePlayerTextDraw(playerid, x, y, text.c_str()), playerid); }
+
+	virtual void Destroy() const 
+		{ ::PlayerTextDrawDestroy(playerid_, id_); }
+	virtual void SetLetterSize(float x, float y) const
+		{ ::PlayerTextDrawLetterSize(playerid_, id_, x, y); }
+	virtual void SetTextSize(float x, float y) const 
+		{ ::PlayerTextDrawTextSize(playerid_, id_, x, y); }
+	virtual void SetAlignment(int alignment) const 
+		{ ::PlayerTextDrawAlignment(playerid_, id_, alignment); }
+	virtual void SetColor(int color) const 
+		{ ::PlayerTextDrawColor(playerid_, id_, color); }
+	virtual void SetBackgroundColor(int text, int color) const 
+		{ ::PlayerTextDrawBackgroundColor(playerid_, id_, color); }
+	virtual void UseBox(bool use) const 
+		{ ::PlayerTextDrawUseBox(playerid_, id_, use); }
+	virtual void SetBoxColor(int color) const 
+		{ ::PlayerTextDrawBoxColor(playerid_, id_, color); }
+	virtual void SetShadow(int size) const 
+		{ ::PlayerTextDrawSetShadow(playerid_, id_, size); }
+	virtual void SetOutline(int size) const 
+		{ ::PlayerTextDrawSetOutline(playerid_, id_, size); }
+	virtual void SetFont(int font) const 
+		{ ::PlayerTextDrawFont(playerid_, id_, font); }
+	virtual void SetProportional(bool set) const 
+		{ ::PlayerTextDrawSetProportional(playerid_, id_, set); }
+	virtual void SetString(const char *string) const
+		{ ::PlayerTextDrawSetString(playerid_, id_, string); }
+	virtual void SetString(const std::string &string) const
+		{ ::PlayerTextDrawSetString(playerid_, id_, string.c_str()); }
+	virtual void SetSelectable(bool set) const
+		{ ::PlayerTextDrawSetSelectable(playerid_, id_, set); }
+	virtual void Show() const
+		{ ::PlayerTextDrawShow(playerid_, id_); }
+	virtual void Hide() const 
+		{ ::PlayerTextDrawHide(playerid_, id_); }
+
+private:
+	const int id_;
+	const int playerid_;	
 };
 
 #endif /* __cplusplus */

@@ -118,11 +118,14 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetOutline(int text, int size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawBackgroundColor(int text, int color);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawFont(int text, int font);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetProportional(int text, bool set);
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetSelectable(int text, bool set);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForPlayer(int playerid, int text);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawHideForPlayer(int playerid, int text);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForAll(int text);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawHideForAll(int text);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetString(int text, const char *string);
+SAMPGDK_EXPORT void SAMPGDK_CALL SelectTextDraw(int playerid, int hovercolor);
+SAMPGDK_EXPORT void SAMPGDK_CALL CancelSelectTextDraw(int playerid);
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GangZoneCreate(float minx, float miny, float maxx, float maxy);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GangZoneDestroy(int zone);
@@ -337,6 +340,8 @@ public:
 		{ ::TextDrawSetString(id_, string); }
 	virtual void SetString(const std::string &string) const
 		{ ::TextDrawSetString(id_, string.c_str()); }
+	virtual void SetSelectable(bool set) const
+		{ ::TextDrawSetSelectable(id_, set); }
 	virtual void ShowForPlayer(int playerid) const 
 		{ ::TextDrawShowForPlayer(playerid, id_); }
 	virtual void HideForPlayer(int playerid) const 
