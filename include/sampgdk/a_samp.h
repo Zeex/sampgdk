@@ -276,25 +276,25 @@ public:
 	static Menu Create(const std::string &title, int columns, float x, float y, float col1width, float col2width) 
 		{ return ::MenuCreate(title.c_str(), columns, x, y, col1width, col2width); }
 
-	virtual void Destroy() const
+	void Destroy() const
 		{ ::MenuDestroy(id_); }
-	virtual int AddItem(int column, const char *menutext) const
+	int AddItem(int column, const char *menutext) const
 		{ return ::MenuAddItem(id_, column, menutext); }
-	virtual int AddItem(int column, const std::string &menutext) const
+	int AddItem(int column, const std::string &menutext) const
 		{ return ::MenuAddItem(id_, column, menutext.c_str()); }
-	virtual void SetColumnHeader(int column, const char *columnheader) const
+	void SetColumnHeader(int column, const char *columnheader) const
 		{ ::MenuSetColumnHeader(id_, column, columnheader); }
-	virtual void SetColumnHeader(int column, const std::string &columnheader) const
+	void SetColumnHeader(int column, const std::string &columnheader) const
 		{ ::MenuSetColumnHeader(id_, column, columnheader.c_str()); }
-	virtual void ShowForPlayer(int playerid) const
+	void ShowForPlayer(int playerid) const
 		{ ::MenuShowForPlayer(id_, playerid); }
-	virtual void HideForPlayer(int playerid) const
+	void HideForPlayer(int playerid) const
 		{ ::MenuHideForPlayer(id_, playerid); }
-	virtual bool IsValid() const
+	bool IsValid() const
 		{ return ::IsValidMenu(id_); }
-	virtual void Disable() const
+	void Disable() const
 		{ ::MenuDisable(id_); }
-	virtual void DisableRow(int row) const
+	void DisableRow(int row) const
 		{ ::MenuDisableRow(id_, row); }
 
 private:
@@ -314,43 +314,43 @@ public:
 	static TextDraw Create(float x, float y, const std::string &text) 
 		{ return ::TextDrawCreate(x, y, text.c_str()); }
 
-	virtual void Destroy() const 
+	void Destroy() const 
 		{ ::TextDrawDestroy(id_); }
-	virtual void SetLetterSize(float x, float y) const
+	void SetLetterSize(float x, float y) const
 		{ ::TextDrawLetterSize(id_, x, y); }
-	virtual void SetTextSize(float x, float y) const 
+	void SetTextSize(float x, float y) const 
 		{ ::TextDrawTextSize(id_, x, y); }
-	virtual void SetAlignment(int alignment) const 
+	void SetAlignment(int alignment) const 
 		{ ::TextDrawAlignment(id_, alignment); }
-	virtual void SetColor(int color) const 
+	void SetColor(int color) const 
 		{ ::TextDrawColor(id_, color); }
-	virtual void SetBackgroundColor(int text, int color) const 
+	void SetBackgroundColor(int text, int color) const 
 		{ ::TextDrawBackgroundColor(id_, color); }
-	virtual void UseBox(bool use) const 
+	void UseBox(bool use) const 
 		{ ::TextDrawUseBox(id_, use); }
-	virtual void SetBoxColor(int color) const 
+	void SetBoxColor(int color) const 
 		{ ::TextDrawBoxColor(id_, color); }
-	virtual void SetShadow(int size) const 
+	void SetShadow(int size) const 
 		{ ::TextDrawSetShadow(id_, size); }
-	virtual void SetOutline(int size) const 
+	void SetOutline(int size) const 
 		{ ::TextDrawSetOutline(id_, size); }
-	virtual void SetFont(int font) const 
+	void SetFont(int font) const 
 		{ ::TextDrawFont(id_, font); }
-	virtual void SetProportional(bool set) const 
+	void SetProportional(bool set) const 
 		{ ::TextDrawSetProportional(id_, set); }
-	virtual void SetString(const char *string) const
+	void SetString(const char *string) const
 		{ ::TextDrawSetString(id_, string); }
-	virtual void SetString(const std::string &string) const
+	void SetString(const std::string &string) const
 		{ ::TextDrawSetString(id_, string.c_str()); }
-	virtual void SetSelectable(bool set) const
+	void SetSelectable(bool set) const
 		{ ::TextDrawSetSelectable(id_, set); }
-	virtual void ShowForPlayer(int playerid) const 
+	void ShowForPlayer(int playerid) const 
 		{ ::TextDrawShowForPlayer(playerid, id_); }
-	virtual void HideForPlayer(int playerid) const 
+	void HideForPlayer(int playerid) const 
 		{ ::TextDrawHideForPlayer(playerid, id_); }
-	virtual void ShowForAll() const 
+	void ShowForAll() const 
 		{ ::TextDrawShowForAll(id_); }
-	virtual void HideForAll() const
+	void HideForAll() const
 		{ ::TextDrawHideForAll(id_); }
 
 private:
@@ -368,23 +368,23 @@ public:
 	static GangZone Create(float minx, float miny, float maxx, float maxy) 
 		{ return ::GangZoneCreate(minx, miny, maxx, maxy); }
 
-	virtual void Destroy() const
+	void Destroy() const
 		{ ::GangZoneDestroy(id_); }
-	virtual void ShowForPlayer(int playerid, int color) const
+	void ShowForPlayer(int playerid, int color) const
 		{ ::GangZoneShowForPlayer(playerid, id_, color); }
-	virtual void ShowForAll(int color) const
+	void ShowForAll(int color) const
 		{ ::GangZoneShowForAll(id_, color); }
-	virtual void HideForPlayer(int playerid) const
+	void HideForPlayer(int playerid) const
 		{ ::GangZoneHideForPlayer(playerid, id_); }
-	virtual void HideForAll() const
+	void HideForAll() const
 		{ ::GangZoneHideForAll(id_); }
-	virtual void FlashForPlayer(int playerid, int flashcolor) const
+	void FlashForPlayer(int playerid, int flashcolor) const
 		{ ::GangZoneFlashForPlayer(playerid, id_, flashcolor); }
-	virtual void FlashForAll(int flashcolor) const
+	void FlashForAll(int flashcolor) const
 		{ ::GangZoneFlashForAll(id_, flashcolor); }
-	virtual void StopFlashForPlayer(int playerid) const
+	void StopFlashForPlayer(int playerid) const
 		{ ::GangZoneStopFlashForPlayer(playerid, id_); }
-	virtual void StopFlashForAll() const
+	void StopFlashForAll() const
 		{ ::GangZoneStopFlashForAll(id_); }
 
 private:
