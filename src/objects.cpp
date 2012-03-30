@@ -216,16 +216,6 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL EditObject(int playerid, int objectid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL EditAttachedObject(int playerid, int index) {
-	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("EditAttachedObject");
-	cell params[] = {
-		2 * 4,
-		playerid,
-		index
-	};
-	return FakeAmx::GetInstance().CallBooleanNative(native, params);
-}
-
 SAMPGDK_EXPORT bool SAMPGDK_CALL EditPlayerObject(int playerid, int objectid) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("EditPlayerObject");
 	cell params[] = {

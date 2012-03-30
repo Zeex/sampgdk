@@ -34,7 +34,6 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopObject(int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsObjectMoving(int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL EditObject(int playerid, int objectid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL EditAttachedObject(int playerid, int index);
 SAMPGDK_EXPORT bool SAMPGDK_CALL EditPlayerObject(int playerid, int objectid);
 SAMPGDK_EXPORT void SAMPGDK_CALL SelectObject(int playerid);
 SAMPGDK_EXPORT void SAMPGDK_CALL CancelEdit(int playerid);
