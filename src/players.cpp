@@ -773,6 +773,16 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerAttachedObjectSlotUsed(int playerid, in
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
+SAMPGDK_EXPORT bool SAMPGDK_CALL EditAttachedObject(int playerid, int index) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("EditAttachedObject");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		index
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerTextDraw(int playerid, float x, float y, const char *text) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreatePlayerTextDraw");
 	FakeAmxHeapObject text_(text);
