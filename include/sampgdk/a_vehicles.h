@@ -17,8 +17,8 @@
 #define SAMPGDK_VEHICLES_H
 
 #include <sampgdk/config.h>
+#include <sampgdk/a_samp.h>
 #include <sampgdk/export.h>
-#include <sampgdk/samp.h>
 
 #define CARMODTYPE_SPOILER      (0)
 #define CARMODTYPE_HOOD         (1)

@@ -14,7 +14,7 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/samp.h>
+#include <sampgdk/a_samp.h>
 
 #include <set>
 #include <vector>

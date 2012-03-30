@@ -17,8 +17,8 @@
 #define SAMPGDK_PLAYERS_H
 
 #include <sampgdk/config.h>
+#include <sampgdk/a_samp.h>
 #include <sampgdk/export.h>
-#include <sampgdk/samp.h>
 
 #include <stddef.h>
 
