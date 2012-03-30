@@ -1097,3 +1097,17 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, in
 	};
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, size_t size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("gpci");
+	FakeAmxHeapObject buffer_(size);
+	cell params[] = {
+		3 * 4,
+		playerid,
+		buffer_.address(),
+		size
+	};
+	bool ret = FakeAmx::GetInstance().CallBooleanNative(native, params);
+	buffer_.GetAsString(buffer, size);
+	return ret;
+}
