@@ -773,6 +773,195 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerAttachedObjectSlotUsed(int playerid, in
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
+SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerTextDraw(int playerid, float x, float y, const char *text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CreatePlayerTextDraw");
+	FakeAmxHeapObject text_(text);
+	cell params[] = {
+		4 * 4,
+		playerid,
+		amx_ftoc(x),
+		amx_ftoc(y),
+		text_.address()
+	};
+	return FakeAmx::GetInstance().CallNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawDestroy(int playerid, int text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawDestroy");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		text
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawLetterSize(int playerid, int text, float x, float y) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawLetterSize");
+	cell params[] = {
+		4 * 4,
+		playerid,
+		text,
+		amx_ftoc(x),
+		amx_ftoc(y)
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawTextSize(int playerid, int text, float x, float y) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawTextSize");
+	cell params[] = {
+		4 * 4,
+		playerid,
+		text,
+		amx_ftoc(x),
+		amx_ftoc(y)
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawAlignment(int playerid, int text, int alignment) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawAlignment");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		alignment
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawColor(int playerid, int text, int color) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawColor");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		color
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawUseBox(int playerid, int text, bool use) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawUseBox");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		use
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawBoxColor(int playerid, int text, int color) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawBoxColor");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		color
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetShadow(int playerid, int text, int size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawSetShadow");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		size
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetOutline(int playerid, int text, int size) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawSetOutline");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		size
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawBackgroundColor(int playerid, int text, int color) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawBackgroundColor");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		color
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawFont(int playerid, int text, int font) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawFont");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		font
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetProportional(int playerid, int text, bool set) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawSetProportional");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		set
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetSelectable(int playerid, int text, bool set) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawSetSelectable");
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		set
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawShow(int playerid, int text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawShow");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		text
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawHide(int playerid, int text) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawHide");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		text
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetString(int playerid, int text, const char *string) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("PlayerTextDrawSetString");
+	FakeAmxHeapObject string_(string);
+	cell params[] = {
+		3 * 4,
+		playerid,
+		text,
+		string_.address()
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarInt(int playerid, const char *varname, int value) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetPVarInt");
 	FakeAmxHeapObject varname_(varname);

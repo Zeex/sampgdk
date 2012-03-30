@@ -792,6 +792,16 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetProportional(int text, bool set) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
+SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetSelectable(int text, bool set) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawSetSelectable");
+	cell params[] = {
+		2 * 4,
+		text,
+		set
+	};
+	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawShowForPlayer(int playerid, int text) {
 	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("TextDrawShowForPlayer");
 	cell params[] = {
@@ -839,6 +849,25 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawSetString(int text, const char *string)
 		string_.address()
 	};
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL SelectTextDraw(int playerid, int hovercolor) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SelectTextDraw");
+	cell params[] = {
+		2 * 4,
+		playerid,
+		hovercolor
+	};
+	FakeAmx::GetInstance().CallNative(native, params);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL CancelSelectTextDraw(int playerid) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("CancelSelectTextDraw");
+	cell params[] = {
+		1 * 4,
+		playerid
+	};
+	FakeAmx::GetInstance().CallNative(native, params);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GangZoneCreate(float minx, float miny, float maxx, float maxy) {
