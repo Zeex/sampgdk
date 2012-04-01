@@ -202,6 +202,6 @@ private:
 	const int vehicleid_;
 };
 
-#endif /* __cplusplus
+#endif /* __cplusplus */
 
 #endif /* !SAMPGDK_VEHICLES_H */

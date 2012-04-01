@@ -165,6 +165,6 @@ private:
 	const int objectid_;
 };
 
-#endif /* __cplusplus
+#endif /* __cplusplus */
 
 #endif /* !SAMPGDK_OBJECTS_H */
