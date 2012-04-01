@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_OBJECTS_H
-#define SAMPGDK_OBJECTS_H
+#ifndef SAMPGDK_A_OBJECTS_H
+#define SAMPGDK_A_OBJECTS_H
 
 #include <sampgdk/config.h>
 #include <sampgdk/a_samp.h>
@@ -167,4 +167,4 @@ private:
 
 #endif /* __cplusplus */
 
-#endif /* !SAMPGDK_OBJECTS_H */
+#endif /* !SAMPGDK_A_OBJECTS_H */

@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_VEHICLES_H
-#define SAMPGDK_VEHICLES_H
+#ifndef SAMPGDK_A_VEHICLES_H
+#define SAMPGDK_A_VEHICLES_H
 
 #include <sampgdk/config.h>
 #include <sampgdk/a_samp.h>
@@ -204,4 +204,4 @@ private:
 
 #endif /* __cplusplus */
 
-#endif /* !SAMPGDK_VEHICLES_H */
+#endif /* !SAMPGDK_A_VEHICLES_H */

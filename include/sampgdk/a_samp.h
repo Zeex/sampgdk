@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_SAMP_H
-#define SAMPGDK_SAMP_H
+#ifndef SAMPGDK_A_SAMP_H
+#define SAMPGDK_A_SAMP_H
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
@@ -393,4 +393,4 @@ private:
 
 #endif /* __cplusplus */
 
-#endif /* !SAMPGDK_SAMP_H */
+#endif /* !SAMPGDK_A_SAMP_H */
