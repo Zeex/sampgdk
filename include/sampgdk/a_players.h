@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PLAYERS_H
-#define SAMPGDK_PLAYERS_H
+#ifndef SAMPGDK_A_PLAYERS_H
+#define SAMPGDK_A_PLAYERS_H
 
 #include <sampgdk/config.h>
 #include <sampgdk/a_samp.h>
@@ -659,4 +659,4 @@ private:
 
 #endif /* __cplusplus */
 
-#endif /* !SAMPGDK_PLAYERS_H */
+#endif /* !SAMPGDK_A_PLAYERS_H */
