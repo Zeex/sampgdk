@@ -244,6 +244,22 @@ SAMPGDK_EXPORT void SAMPGDK_CALL CancelEdit(int playerid) {
 	FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
+SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetObjectMaterial");
+	FakeAmxHeapObject txdname_(txdname);
+	FakeAmxHeapObject texturename_(texturename);
+	cell params[] = {
+		6 * 4,
+		objectid,
+		materialindex,
+		modelid,
+		txdname_.address(),
+		texturename_.address(),
+		materialcolor
+	};
+	FakeAmx::GetInstance().CallNative(native, params);
+}
+
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z,
 	float rX, float rY, float rZ, float DrawDistance)
 {
@@ -424,4 +440,21 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid
 		objectid
 	};
 	return FakeAmx::GetInstance().CallNative(native, params) != 0;
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectMaterial(int playerid, int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("SetPlayerObjectMaterial");
+	FakeAmxHeapObject txdname_(txdname);
+	FakeAmxHeapObject texturename_(texturename);
+	cell params[] = {
+		7 * 4,
+		playerid,
+		objectid,
+		materialindex,
+		modelid,
+		txdname_.address(),
+		texturename_.address(),
+		materialcolor
+	};
+	FakeAmx::GetInstance().CallNative(native, params);
 }

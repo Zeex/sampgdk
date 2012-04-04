@@ -37,6 +37,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL EditObject(int playerid, int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL EditPlayerObject(int playerid, int objectid);
 SAMPGDK_EXPORT void SAMPGDK_CALL SelectObject(int playerid);
 SAMPGDK_EXPORT void SAMPGDK_CALL CancelEdit(int playerid);
+SAMPGDK_EXPORT void SAMPGDK_CALL SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance);
 SAMPGDK_EXPORT void SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
 SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToVehicle(int playerid, int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float RotZ);
@@ -49,6 +50,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid)
 SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, float RotX, float RotY, float RotZ);
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid);
+SAMPGDK_EXPORT void SAMPGDK_CALL SetPlayerObjectMaterial(int playerid, int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
 
 #ifdef __cplusplus
 
@@ -104,6 +106,8 @@ public:
 		{ ::StopObject(id_); }
 	bool IsMoving() const 
 		{ return ::IsObjectMoving(id_); }
+	void SetMaterial(int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor = 0) 
+		{ ::SetObjectMaterial(id_, materialindex, modelid, txdname, texturename, materialcolor); }
 
 private:
 	const int id_;
@@ -159,6 +163,8 @@ public:
 		{ ::StopPlayerObject(playerid_, objectid_); }
 	bool IsMoving() const 
 		{ return ::IsPlayerObjectMoving(playerid_, objectid_); }
+	void SetMaterial(int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor = 0) 
+		{ ::SetPlayerObjectMaterial(playerid_, objectid_, materialindex, modelid, txdname, texturename, materialcolor); }
 
 private:
 	const int playerid_;
