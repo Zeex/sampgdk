@@ -13,11 +13,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	{
 		BLOCK "04090025"
 		{
-			VALUE "FileDescription",  "SA-MP GDK runtime"
+			VALUE "FileDescription",  "GDK runtime"
 			VALUE "FileVersion",      SAMPGDK_VERSION_STRING SAMPGDK_VERSION_EXTRA
 			VALUE "ProductVersion",   SAMPGDK_VERSION_STRING SAMPGDK_VERSION_EXTRA
 			VALUE "InternalName",     "sampgdk"
-			VALUE "LegalCopyright",   "Copyright (C) 2011 Zeex"
+			VALUE "LegalCopyright",   "Copyright (C) 2011-2012, Zeex"
 			VALUE "OriginalFilename", "sampgdk.dll"
 			VALUE "ProductName",      "SA-MP Gamemode Development Kit for C/C++"
 		}
