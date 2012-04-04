@@ -480,3 +480,21 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid) {
 	return FakeAmx::GetInstance().CallBooleanNative(native, params);
 }
 
+SAMPGDK_EXPORT void SAMPGDK_CALL GetVehicleModelInfo(int model, int infotype, float *x, float *y, float *z) {
+	static AMX_NATIVE native = NativeManager::GetInstance().GetNative("GetVehicleModelInfo");
+	FakeAmxHeapObject x_;
+	FakeAmxHeapObject y_;
+	FakeAmxHeapObject z_;
+	cell params[] = {
+		5 * 4,
+		model,
+		infotype,
+		x_.address(),
+		y_.address(),
+		z_.address()
+	};
+	FakeAmx::GetInstance().CallNative(native, params);
+	*x = x_.GetAsFloat();
+	*y = y_.GetAsFloat();
+	*z = z_.GetAsFloat();
+}

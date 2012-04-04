@@ -77,6 +77,18 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdateVehicleDamageStatus(int vehicleid, int pa
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVirtualWorld(int vehicleid, int worldid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid);
 
+#define VEHICLE_MODEL_INFO_SIZE				1
+#define VEHICLE_MODEL_INFO_FRONTSEAT		2
+#define VEHICLE_MODEL_INFO_REARSEAT			3
+#define VEHICLE_MODEL_INFO_PETROLCAP		4
+#define VEHICLE_MODEL_INFO_WHEELSFRONT		5
+#define VEHICLE_MODEL_INFO_WHEELSREAR		6
+#define VEHICLE_MODEL_INFO_WHEELSMID		7
+#define VEHICLE_MODEL_INFO_FRONT_BUMPER_Z	8
+#define VEHICLE_MODEL_INFO_REAR_BUMPER_Z	9
+
+SAMPGDK_EXPORT void SAMPGDK_CALL GetVehicleModelInfo(int model, int infotype, float *X, float *Y, float *Z);
+
 #ifdef __cplusplus
 
 #include <cassert>
