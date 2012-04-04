@@ -3,11 +3,12 @@
 project(sampgdk)
 cmake_minimum_required(VERSION 2.8.6)
 
+set(SAMPGDK_VERSION_API    3)
 set(SAMPGDK_VERSION_MAJOR  2)
-set(SAMPGDK_VERSION_MINOR  2)
-set(SAMPGDK_VERSION_PATCH  2)
-set(SAMPGDK_VERSION_ID     0x02020200)
-set(SAMPGDK_VERSION_STRING "2.2.2")
+set(SAMPGDK_VERSION_MINOR  3)
+set(SAMPGDK_VERSION_PATCH  0)
+set(SAMPGDK_VERSION_ID     0x02030000)
+set(SAMPGDK_VERSION_STRING "2.3")
 set(SAMPGDK_VERSION_EXTRA  "")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
@@ -104,12 +105,12 @@ if(WIN32)
 	endif()
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
-		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
+		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_API}")
 elseif(UNIX)
 	add_definitions(-DLINUX)
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   ${SAMPGDK_VERSION_STRING}
-		SOVERSION ${SAMPGDK_VERSION_MAJOR} # API version == major version
+		SOVERSION ${SAMPGDK_VERSION_API}
 	)
 endif()
 
