@@ -66,7 +66,6 @@ cell CallbackManager::HandleCallback(const char *name, CallbackRetVal badRetVal)
 	typedef std::map<std::string, void*> PluginCache;
 	typedef std::map<void*, PluginCache> Cache;
 
-	// Call each of the registered handlers until false returned
 	for (Cache::iterator cIter = cache_.begin(); cIter != cache_.end(); ++cIter) {
 		void *function = 0;
 
