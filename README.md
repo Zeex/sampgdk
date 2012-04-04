@@ -1,7 +1,7 @@
-SA-MP Gamemode Development Kit 2
-================================
+SA-MP Gamemode Development Kit
+==============================
 
-The SA-MP GDK allows you to easily create SA-MP gamemodes in C++ and load them as server plugins. 
+GDK allows you to easily create SA-MP gamemodes in C or C++ and load them as server plugins. 
 
 Installation
 ------------
