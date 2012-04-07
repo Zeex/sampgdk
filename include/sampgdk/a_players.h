@@ -252,6 +252,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL StopRecordingPlayerData(int playerid);
 #include <cassert>
 #include <cmath>
 #include <string>
+#include <vector>
 
 template<size_t N> inline bool GetPlayerName(int playerid, char (&name)[N]) {
 	return GetPlayerName(playerid, name, N);
@@ -390,9 +391,9 @@ public:
 	void GetName(char *name, size_t size) const
 		{ ::GetPlayerName(id_, name, size); }
 	std::string GetName() const {
-		std::string name(static_cast<std::string::size_type>(MAX_PLAYER_NAME), '\0');
-		::GetPlayerName(id_, const_cast<char*>(name.data()), MAX_PLAYER_NAME);
-		return name;
+		std::vector<char> name(MAX_PLAYER_NAME);
+		::GetPlayerName(id_, name.data(), MAX_PLAYER_NAME);
+		return std::string(name.data());
 	}
 	void SetTime(int hour, int minute) const
 		{ ::SetPlayerTime(id_, hour, minute); }
