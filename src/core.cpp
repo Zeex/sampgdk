@@ -29,12 +29,19 @@
 #include "callbacks.h"
 #include "natives.h"
 
+static void *plugin_data;
+
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData) {
 	static bool initialized = false;
 	if (!initialized) {
+		::plugin_data = ppPluginData;
 		AmxHooks::Initialize(ppPluginData);
 		initialized = true;
 	}
+}
+
+SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_data() {
+	return plugin_data;
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {

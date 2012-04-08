@@ -357,6 +357,7 @@ EXPORTS
 	gpci
 	sampgdk_finalize
 	sampgdk_get_natives
+	sampgdk_get_plugin_data
 	sampgdk_get_plugin_handle
 	sampgdk_get_plugin_symbol
 	sampgdk_initialize
