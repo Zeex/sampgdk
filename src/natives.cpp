@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <cstdlib>
 #include <sampgdk/config.h>
+#include <sampgdk/core.h>
 #include <sampgdk/amx/amx.h>
 
 #include "natives.h"
@@ -26,6 +28,15 @@ AMX_NATIVE Natives::GetNative(const char *name) {
 		return 0;
 	}
 	return iter->second;
+}
+
+// static
+AMX_NATIVE Natives::GetNativeWarn(const char *name) {
+	AMX_NATIVE native = GetNative(name);
+	if (native == 0) {
+		sampgdk_logprintf("sampgdk: warning: native function \"%s\" does not exist", name);
+	}
+	return native;
 }
 
 // static

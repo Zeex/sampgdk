@@ -25,7 +25,14 @@
 
 class Natives {
 public:
+	// Gets a native function previously added with SetNative().
+	// Returns NULL if the requested function does not exist.
 	static AMX_NATIVE GetNative(const char *name);
+
+	// Same as GetNative() prints a warning message to log when fails.
+	static AMX_NATIVE GetNativeWarn(const char *name);
+
+	// Add a new native function or override an exiting one.
 	static void SetNative(const char *name, AMX_NATIVE native);
 
 private:
