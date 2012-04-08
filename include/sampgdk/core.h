@@ -15,6 +15,7 @@
 
 #ifndef SAMPGDK_CORE_H
 #define SAMPGDK_CORE_H
+#pragma once
 
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>

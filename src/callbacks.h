@@ -14,6 +14,7 @@
 
 #ifndef SAMPGDK_CALLBACKS_H
 #define SAMPGDK_CALLBACKS_H
+#pragma once
 
 #include <sampgdk/config.h>
 #include <sampgdk/amx/amx.h>

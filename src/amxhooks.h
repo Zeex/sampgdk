@@ -14,6 +14,7 @@
 
 #ifndef SAMPGDK_AMXHOOKS_H
 #define SAMPGDK_AMXHOOKS_H
+#pragma once
 
 #include <sampgdk/config.h>
 #include <sampgdk/amx/amx.h>

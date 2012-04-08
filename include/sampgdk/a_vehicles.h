@@ -15,6 +15,7 @@
 
 #ifndef SAMPGDK_A_VEHICLES_H
 #define SAMPGDK_A_VEHICLES_H
+#pragma once
 
 #include <sampgdk/config.h>
 #include <sampgdk/a_samp.h>

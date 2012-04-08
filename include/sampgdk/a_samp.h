@@ -15,6 +15,7 @@
 
 #ifndef SAMPGDK_A_SAMP_H
 #define SAMPGDK_A_SAMP_H
+#pragma once
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
