@@ -43,21 +43,16 @@ CallbackArg::~CallbackArg() {
 	}
 }
 
-CallbackManager::CallbackManager()
-	: cache_()
-{
-}
+std::deque<CallbackArg*> Callbacks::args_;
+std::map<void*, std::map<std::string, void*> > Callbacks::cache_;
 
-CallbackManager &CallbackManager::GetInstance() {
-	static CallbackManager inst;
-	return inst;
-}
-
-void CallbackManager::RegisterCallbackHandler(void *handler) {
+// static
+void Callbacks::RegisterCallbackHandler(void *handler) {
 	cache_.insert(std::make_pair(handler, std::map<std::string, void*>()));
 }
 
-cell CallbackManager::HandleCallback(const char *name, CallbackRetVal badRetVal) {
+// static
+cell Callbacks::HandleCallback(const char *name, CallbackRetVal badRetVal) {
 	cell retVal = 0;
 	if (badRetVal.IsSet()) {
 		retVal = !badRetVal;
@@ -119,7 +114,8 @@ cell CallbackManager::HandleCallback(const char *name, CallbackRetVal badRetVal)
 	return retVal;
 }
 
-void CallbackManager::ClearArgs() {
+// static
+void Callbacks::ClearArgs() {
 	for (std::deque<CallbackArg*>::iterator iterator = args_.begin();
 			iterator != args_.end(); ++iterator) {
 		delete *iterator;

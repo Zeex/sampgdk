@@ -73,27 +73,23 @@ private:
 	cell retval_;
 };
 
-class CallbackManager {
+class Callbacks {
 public:
-	static CallbackManager &GetInstance();
-
-	void RegisterCallbackHandler(void *handler);
+	static void RegisterCallbackHandler(void *handler);
 
 	template<typename T>
-	void PushArgBack(const T &v) { args_.push_back(new CallbackArg(v)); }
+	static void PushArgBack(const T &v) { args_.push_back(new CallbackArg(v)); }
 
 	template<typename T>
-	void PushArgFront(const T &v) { args_.push_front(new CallbackArg(v)); }
+	static void PushArgFront(const T &v) { args_.push_front(new CallbackArg(v)); }
 
-	void ClearArgs();
+	static void ClearArgs();
 
-	cell HandleCallback(const char *name,  CallbackRetVal badRetVal);
+	static cell HandleCallback(const char *name,  CallbackRetVal badRetVal);
 
 private:
-	CallbackManager();
-
-	std::deque<CallbackArg*> args_;
-	std::map<void*, std::map<std::string, void*> > cache_;
+	static std::deque<CallbackArg*> args_;
+	static std::map<void*, std::map<std::string, void*> > cache_;
 };
 
 #endif

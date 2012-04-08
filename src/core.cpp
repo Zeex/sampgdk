@@ -42,7 +42,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
-	CallbackManager::GetInstance().RegisterCallbackHandler(plugin);
+	Callbacks::RegisterCallbackHandler(plugin);
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
