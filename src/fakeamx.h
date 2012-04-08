@@ -25,31 +25,24 @@ class FakeAmx {
 public:
 	static const size_t INITIAL_HEAP_SIZE = 1024;
 
-	~FakeAmx();
+	static AMX *amx();
 
-	static FakeAmx &GetInstance();
+	static cell Push(size_t cells);
+	static cell Push(const char *s);
 
-	AMX *amx() const;
+	static void Get(cell address, cell &value);
+	static void Get(cell address, char *value, size_t size);
 
-	cell Push(size_t cells);
-	cell Push(const char *s);
+	static void Pop(cell address);
 
-	void Get(cell address, cell &value) const;
-	void Get(cell address, char *value, size_t size) const;
-
-	void Pop(cell address);
-
-	cell CallNative(AMX_NATIVE native, cell *params);
-	bool CallNativeBool(AMX_NATIVE native, cell *params);
+	static cell CallNative(AMX_NATIVE native, cell *params);
+	static bool CallNativeBool(AMX_NATIVE native, cell *params);
 
 private:
-	FakeAmx();
-	FakeAmx(const FakeAmx &rhs);
+	static AMX amx_;
+	static AMX_HEADER hdr_;
 
-	AMX amx_;
-	AMX_HEADER hdr_;
-
-	std::vector<cell> heap_;
+	static std::vector<cell> heap_;
 };
 
 class FakeAmxHeapObject {
