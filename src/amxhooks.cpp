@@ -43,7 +43,7 @@ JumpX86 AmxHooks::amx_PushStringHook_;
 std::map<std::string, int> AmxHooks::cbBadRetVals_;
 
 // Global list of registered native functions (server + all plugins)
-std::vector<AMX_NATIVE_INFO> AmxHooks::natives_;
+std::vector<AMX_NATIVE_INFO> AmxHooks::native_info_;
 
 static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	char *funcname;
@@ -117,12 +117,12 @@ int AMXAPI AmxHooks::amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 	JumpX86::ScopedRemove r(&amx_RegisterHook_);
 
 	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
-		NativeManager::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
+		Natives::SetNative(nativelist[i].name, nativelist[i].func);
 		// Fix for funcidx() issue
 		if (strcmp(nativelist[i].name, "funcidx") == 0) {
 			new JumpX86((void*)nativelist[i].func, (void*)fixed_funcidx);
 		}
-		natives_.push_back(nativelist[i]);
+		native_info_.push_back(nativelist[i]);
 	}
 	return ::amx_Register(amx, nativelist, number);
 }
@@ -148,7 +148,7 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode_ = amx;
-		CallbackManager::GetInstance().HandleCallback("OnGameModeInit", 0);
+		Callbacks::HandleCallback("OnGameModeInit", 0);
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
 			std::map<std::string, int>::const_iterator iterator = cbBadRetVals_.find(currentPublic_.c_str());
@@ -156,7 +156,7 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 			if (iterator != cbBadRetVals_.end()) {
 				badRetVal = iterator->second;
 			}
-			cell retval_ = CallbackManager::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
+			cell retval_ = Callbacks::HandleCallback(currentPublic_.c_str(), badRetVal);
 			if (badRetVal.IsSet()) {
 				*retval = retval_;
 			}
@@ -194,7 +194,7 @@ int AMXAPI AmxHooks::amx_Push(AMX *amx, cell value) {
 	JumpX86::ScopedRemove r1(&amx_PushHook_);
 
 	if (amx == gamemode_) {
-		CallbackManager::GetInstance().PushArgFront(value);
+		Callbacks::PushArgFront(value);
 	}
 	return ::amx_Push(amx, value);
 }
@@ -204,7 +204,7 @@ int AMXAPI AmxHooks::amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, 
 	JumpX86::ScopedRemove r2(&amx_PushStringHook_);
 
 	if (amx == gamemode_) {
-		CallbackManager::GetInstance().PushArgFront(string);
+		Callbacks::PushArgFront(string);
 	}
 	return ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 }

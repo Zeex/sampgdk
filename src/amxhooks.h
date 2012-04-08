@@ -37,7 +37,7 @@ public:
 	static int amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, const char *string, int pack, int wchar);
 
 	static const std::vector<AMX_NATIVE_INFO> &GetNatives() {
-		return natives_;
+		return native_info_;
 	}
 
 private:
@@ -61,7 +61,7 @@ private:
 	static std::map<std::string, int> cbBadRetVals_;
 
 	// Global list of registered native functions (server + all plugins)
-	static std::vector<AMX_NATIVE_INFO> natives_;
+	static std::vector<AMX_NATIVE_INFO> native_info_;
 };
 
 #endif // !SAMPGDK_AMXHOOKS_H

@@ -22,17 +22,14 @@
 #include <map>
 #include <string>
 
-class NativeManager {
+class Natives {
 public:
-	static NativeManager &GetInstance();
-
-	AMX_NATIVE GetNative(const char *name) const;
-	void SetNative(const char *name, AMX_NATIVE native);
+	static AMX_NATIVE GetNative(const char *name);
+	static void SetNative(const char *name, AMX_NATIVE native);
 
 private:
-	NativeManager();
-
-	std::map<std::string, AMX_NATIVE> natives_;
+	typedef std::map<std::string, AMX_NATIVE> StringToNativeMap;
+	static StringToNativeMap string_to_native_;
 };
 
 #endif

@@ -17,25 +17,18 @@
 
 #include "natives.h"
 
-NativeManager::NativeManager()
-	: natives_()
-{
-}
+Natives::StringToNativeMap Natives::string_to_native_;
 
-NativeManager &NativeManager::GetInstance() {
-	static NativeManager inst;
-	return inst;
-}
-
-AMX_NATIVE NativeManager::GetNative(const char *name) const {
-	std::map<std::string, AMX_NATIVE>::const_iterator iter =
-		natives_.find(name);
-	if (iter == natives_.end()) {
+// static
+AMX_NATIVE Natives::GetNative(const char *name) {
+	StringToNativeMap::const_iterator iter = string_to_native_.find(name);
+	if (iter == string_to_native_.end()) {
 		return 0;
 	}
 	return iter->second;
 }
 
-void NativeManager::SetNative(const char *name, AMX_NATIVE native) {
-	natives_[std::string(name)] = native;
+// static
+void Natives::SetNative(const char *name, AMX_NATIVE native) {
+	string_to_native_[std::string(name)] = native;
 }
