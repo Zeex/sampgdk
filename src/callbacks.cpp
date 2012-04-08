@@ -89,6 +89,7 @@ cell CallbackManager::HandleCallback(const char *name, CallbackRetVal badRetVal)
 					__asm push dword ptr [arg]
 				}
 				__asm call dword ptr [function]
+				__asm movzx eax, al
 				__asm mov dword ptr [retVal], eax
 			#elif defined __GNUC__
 				while (--i >= 0) {
@@ -98,6 +99,7 @@ cell CallbackManager::HandleCallback(const char *name, CallbackRetVal badRetVal)
 				__asm__ __volatile__ (
 					"calll *%0;" :: "r"(function));
 				__asm__ __volatile__ (
+					"movzx %%al, %%eax;"
 					"movl %%eax, %0;" : "=r"(retVal));
 				#if defined LINUX
 					__asm__ __volatile__ (
