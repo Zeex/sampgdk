@@ -118,19 +118,19 @@ typedef std::list<FilterScript*>::iterator FSIter;
 PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit() {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		if (!(*it)->Exec("OnGameModeInit")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnGameModeExit() {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		if (!(*it)->Exec("OnGameModeExit")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerConnect(int playerid) {
@@ -138,10 +138,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerConnect(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerConnect")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason) {
@@ -150,10 +150,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason) {
 		ctx.Push(reason);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerDisconnect")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerSpawn(int playerid) {
@@ -161,10 +161,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerSpawn(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerSpawn")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason) {
@@ -174,10 +174,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reas
 		ctx.Push(killerid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerDeath")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnVehicleSpawn(int vehicleid) {
@@ -185,10 +185,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnVehicleSpawn(int vehicleid) {
 		ExecContext ctx(*it);
 		ctx.Push(vehicleid);
 		if (!(*it)->Exec("OnVehicleSpawn")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
@@ -197,10 +197,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
 		ctx.Push(killerid);
 		ctx.Push(vehicleid);
 		if (!(*it)->Exec("OnVehicleDeath")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerText(int playerid, const char text[]) {
@@ -209,10 +209,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerText(int playerid, const char text[]) {
 		ctx.Push(text);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerText")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, const char cmdtext[]) {
@@ -221,10 +221,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, const char cmdte
 		ctx.Push(cmdtext);
 		ctx.Push(playerid);
 		if ((*it)->Exec("OnPlayerCommandText", false)) {
-			return 1;
+			return true;
 		}
 	}
-	return 0;
+	return false;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
@@ -233,10 +233,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
 		ctx.Push(classid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerRequestClass")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid, int ispassenger) {
@@ -246,10 +246,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid, 
 		ctx.Push(vehicleid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerEnterVehicle")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid) {
@@ -258,10 +258,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid) {
 		ctx.Push(vehicleid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerExitVehicle")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, int oldstate) {
@@ -271,10 +271,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, in
 		ctx.Push(newstate);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerStateChange")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerEnterCheckpoint(int playerid) {
@@ -282,10 +282,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerEnterCheckpoint(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerEnterCheckpoint")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerLeaveCheckpoint(int playerid) {
@@ -293,10 +293,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerLeaveCheckpoint(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerLeaveCheckpoint")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerEnterRaceCheckpoint(int playerid) {
@@ -304,10 +304,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerEnterRaceCheckpoint(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerEnterRaceCheckpoint")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid) {
@@ -315,10 +315,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerLeaveRaceCheckpoint")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnRconCommand(const char cmd[]) {
@@ -326,10 +326,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnRconCommand(const char cmd[]) {
 		ExecContext ctx(*it);
 		ctx.Push(cmd);
 		if (!(*it)->Exec("OnRconCommand")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerRequestSpawn(int playerid) {
@@ -337,10 +337,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerRequestSpawn(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerRequestSpawn")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnObjectMoved(int objectid) {
@@ -348,10 +348,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnObjectMoved(int objectid) {
 		ExecContext ctx(*it);
 		ctx.Push(objectid);
 		if (!(*it)->Exec("OnObjectMoved")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerObjectMoved(int playerid, int objectid) {
@@ -360,10 +360,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerObjectMoved(int playerid, int objectid) {
 		ctx.Push(objectid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerObjectMoved")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerPickUpPickup(int playerid, int pickupid) {
@@ -372,10 +372,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerPickUpPickup(int playerid, int pickupid) {
 		ctx.Push(pickupid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerPickUpPickup")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int componentid) {
@@ -385,10 +385,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int comp
 		ctx.Push(vehicleid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnVehicleMod")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnEnterExitModShop(int playerid, int enterexit, int interiorid) {
@@ -398,10 +398,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnEnterExitModShop(int playerid, int enterexit, in
 		ctx.Push(enterexit);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnEnterExitModShop")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid) {
@@ -411,10 +411,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, int
 		ctx.Push(vehicleid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnVehiclePaintjob")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnVehicleRespray(int playerid, int vehicleid, int color1, int color2) {
@@ -425,10 +425,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnVehicleRespray(int playerid, int vehicleid, int 
 		ctx.Push(vehicleid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnVehicleRespray")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int playerid) {
@@ -437,10 +437,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int pla
 		ctx.Push(playerid);
 		ctx.Push(vehicleid);
 		if (!(*it)->Exec("OnVehicleDamageStatusUpdate")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat) {
@@ -450,10 +450,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playe
 		ctx.Push(playerid);
 		ctx.Push(vehicleid);
 		if (!(*it)->Exec("OnUnoccupiedVehicleUpdate")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {
@@ -462,10 +462,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {
 		ctx.Push(row);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerSelectedMenuRow")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerExitedMenu(int playerid) {
@@ -473,10 +473,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerExitedMenu(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerExitedMenu")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid) {
@@ -486,10 +486,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerInteriorChange(int playerid, int newinteri
 		ctx.Push(newinteriorid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerInteriorChange")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) {
@@ -499,10 +499,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys, 
 		ctx.Push(newkeys);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerKeyStateChange")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnRconLoginAttempt(const char ip[], const char password[], int success) {
@@ -512,10 +512,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnRconLoginAttempt(const char ip[], const char pas
 		ctx.Push(password);
 		ctx.Push(ip);
 		if (!(*it)->Exec("OnRconLoginAttempt")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerUpdate(int playerid) {
@@ -523,10 +523,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerUpdate(int playerid) {
 		ExecContext ctx(*it);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerUpdate")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerStreamIn(int playerid, int forplayerid) {
@@ -535,10 +535,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerStreamIn(int playerid, int forplayerid) {
 		ctx.Push(forplayerid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerStreamIn")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerStreamOut(int playerid, int forplayerid) {
@@ -547,10 +547,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerStreamOut(int playerid, int forplayerid) {
 		ctx.Push(forplayerid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerStreamOut")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnVehicleStreamIn(int vehicleid, int forplayerid) {
@@ -559,10 +559,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnVehicleStreamIn(int vehicleid, int forplayerid) 
 		ctx.Push(forplayerid);
 		ctx.Push(vehicleid);
 		if (!(*it)->Exec("OnVehicleStreamIn")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnVehicleStreamOut(int vehicleid, int forplayerid) {
@@ -571,10 +571,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnVehicleStreamOut(int vehicleid, int forplayerid)
 		ctx.Push(forplayerid);
 		ctx.Push(vehicleid);
 		if (!(*it)->Exec("OnVehicleStreamOut")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char inputtext[]) {
@@ -586,10 +586,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int r
 		ctx.Push(dialogid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnDialogResponse")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid) {
@@ -600,10 +600,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, flo
 		ctx.Push(issuerid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerTakeDamage")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid) {
@@ -614,10 +614,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, fl
 		ctx.Push(damagedid);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerGiveDamage")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL OnPlayerClickMap(int playerid, float fX, float fY, float fZ) {
@@ -628,10 +628,10 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerClickMap(int playerid, float fX, float fY,
 		ctx.Push(fX);
 		ctx.Push(playerid);
 		if (!(*it)->Exec("OnPlayerClickMap")) {
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
