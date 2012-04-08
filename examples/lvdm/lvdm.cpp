@@ -113,22 +113,22 @@ static void SetPlayerRandomSpawn(int playerid)
 	}
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL OnPlayerConnect(int playerid)
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 {
 	GameTextForPlayer(playerid,"~w~SA-MP: ~r~Las Venturas ~g~MoneyGrub", 5000, 5);
 	SendPlayerFormattedText(playerid, "Welcome to Las Venturas MoneyGrub, For help type /help.", 0);
 	gActivePlayers[playerid]++;
 	gLastGaveCash[playerid] = GetServerTickCount();
-	return 1;
+	return true;
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 {
 	gActivePlayers[playerid]--;
-	return 1;
+	return true;
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 {
 	char string[128];
 	int playermoney;
@@ -144,7 +144,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 		SendPlayerFormattedText(playerid,"Type: /objective : to find out what to do in this gamemode.",0);
 		SendPlayerFormattedText(playerid,"Type: /givecash [playerid] [money-amount] to send money to other players.",0);
 		SendPlayerFormattedText(playerid,"Type: /tips : to see some tips from the creator of the gamemode.", 0);
-		return 1;
+		return true;
 	}
 
 	if(strcmp(cmd, "/objective") == 0) {
@@ -153,14 +153,14 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 		SendPlayerFormattedText(playerid,"Consequently, if you have lots of money, and you die, your killer gets your cash.",0);
 		SendPlayerFormattedText(playerid,"However, you're not forced to kill players for money, you can always gamble in the", 0);
 		SendPlayerFormattedText(playerid,"Casino's.", 0);
-	return 1;
+		return true;
 	}
 	if(strcmp(cmd, "/tips") == 0) {
 		SendPlayerFormattedText(playerid,"Spawning with just a desert eagle might sound lame, however the idea of this",0);
 		SendPlayerFormattedText(playerid,"gamemode is to get some cash, get better guns, then go after whoever has the",0);
 		SendPlayerFormattedText(playerid,"most cash. Once you've got the most cash, the idea is to stay alive(with the",0);
 		SendPlayerFormattedText(playerid,"cash intact)until the game ends, simple right?", 0);
-	return 1;
+		return true;
 	}
 
  	if(strcmp(cmd, "/givecash") == 0) {
@@ -168,14 +168,14 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 
 		if(cmd == 0 || !strlen(cmd)) {
 			SendClientMessage(playerid, COLOR_WHITE, "USAGE: /givecash [playerid] [amount]");
-			return 1;
+			return true;
 		}
 		giveplayerid = atoi(cmd);
 
 		cmd = strtok(NULL, " ");
 		if(cmd == 0 || !strlen(cmd)) {
 			SendClientMessage(playerid, COLOR_WHITE, "USAGE: /givecash [playerid] [amount]");
-			return 1;
+			return true;
 		}
  		moneys = atoi(cmd);
 
@@ -197,25 +197,25 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 			}
 		}
 		else {
-				sprintf(string, "%d is not an active player.", giveplayerid);
-				SendClientMessage(playerid, COLOR_YELLOW, string);
-			}
-		return 1;
+			sprintf(string, "%d is not an active player.", giveplayerid);
+			SendClientMessage(playerid, COLOR_YELLOW, string);
+		}
+		return true;
 	}
 
-	return 0;
+	return false;
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL OnPlayerSpawn(int playerid)
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid)
 {
 	GivePlayerMoney(playerid, PocketMoney);
 	SetPlayerInterior(playerid,0);
 	SetPlayerRandomSpawn(playerid);
 	TogglePlayerClock(playerid,1);
-	return 1;
+	return true;
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason)
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason)
 {
 	int playercash;
 	if(killerid == INVALID_PLAYER_ID) {
@@ -230,7 +230,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reas
 			ResetPlayerMoney(playerid);
 		}
 	}
- 	return 1;
+ 	return true;
 }
 
 static void SetupPlayerForClassSelection(int playerid)
@@ -242,14 +242,14 @@ static void SetupPlayerForClassSelection(int playerid)
 	SetPlayerCameraLookAt(playerid,258.4893f,-41.4008f,1002.0234f,CAMERA_CUT);
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
 {
 	iSpawnSet[playerid] = 0;
 	SetupPlayerForClassSelection(playerid);
-	return 1;
+	return true;
 }
 
-PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
+PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
 	logprintf("\n----------------------------------");
 	logprintf("  Running LVDM ~MoneyGrub\n");
@@ -778,7 +778,7 @@ PLUGIN_EXPORT int PLUGIN_CALL OnGameModeInit()
 
 	CreateTimer(1000, true, MoneyGrubScoreUpdate, NULL);
 
-	return 1;
+	return true;
 }
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
