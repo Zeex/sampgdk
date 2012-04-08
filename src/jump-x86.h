@@ -14,6 +14,7 @@
 
 #ifndef JUMP_X86_H
 #define JUMP_X86_H
+#pragma once
 
 #if !defined _M_IX86 && !defined __i386__
 	#error "Unsupported architecture"

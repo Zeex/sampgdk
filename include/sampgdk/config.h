@@ -15,6 +15,7 @@
 
 #ifndef SAMPGDK_CONFIG_H
 #define SAMPGDK_CONFIG_H
+#pragma once
 
 /* Make sure architecture is x86 */
 #if !(defined _M_IX86 || defined __i386__)

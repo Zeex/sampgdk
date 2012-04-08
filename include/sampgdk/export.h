@@ -15,6 +15,7 @@
 
 #ifndef SAMPGDK_EXPORT_H
 #define SAMPGDK_EXPORT_H
+#pragma once
 
 #undef SAMPGDK_EXPORT
 #undef SAMPGDK_CALL
