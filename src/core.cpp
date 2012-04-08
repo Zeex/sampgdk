@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <sampgdk/config.h>
 #include <sampgdk/core.h>
+#include <sampgdk/plugin.h>
 
 #ifdef SAMPGDK_WINDOWS
 	#include <windows.h>
@@ -29,18 +30,21 @@
 #include "callbacks.h"
 #include "natives.h"
 
-static void *plugin_data;
+static void **plugin_data;
+
+sampgdk_logprintf_t sampgdk_logprintf;
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData) {
 	static bool initialized = false;
 	if (!initialized) {
-		::plugin_data = ppPluginData;
+		plugin_data = ppPluginData;
+		sampgdk_logprintf = (sampgdk_logprintf_t)plugin_data[PLUGIN_DATA_LOGPRINTF];
 		AmxHooks::Initialize(ppPluginData);
 		initialized = true;
 	}
 }
 
-SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_data() {
+SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data() {
 	return plugin_data;
 }
 

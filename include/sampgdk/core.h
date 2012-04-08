@@ -25,7 +25,7 @@
 #define AMX_EXEC_GDK (-10)
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData);
-SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_data();
+SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data();
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize();
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
@@ -42,5 +42,8 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers();
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives();
+
+typedef void (*sampgdk_logprintf_t)(const char *format, ...);
+SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
 
 #endif /* !SAMPGDK_CORE_H */
