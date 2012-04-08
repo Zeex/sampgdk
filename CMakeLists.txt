@@ -3,18 +3,11 @@
 project(sampgdk)
 cmake_minimum_required(VERSION 2.8.6)
 
-set(SAMPGDK_VERSION_ABI    3)
-set(SAMPGDK_VERSION_MAJOR  2)
-set(SAMPGDK_VERSION_MINOR  3)
-set(SAMPGDK_VERSION_PATCH  0)
-set(SAMPGDK_VERSION_ID     0x02030000)
-set(SAMPGDK_VERSION_STRING "2.3")
-set(SAMPGDK_VERSION_EXTRA  "")
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
-	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+# Add ./cmake to CMake module path
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${sampgdk_SOURCE_DIR}/cmake")
 
 include(CheckIncludeFile)
+include(ParseVersionString)
 
 check_include_file(alloca.h HAVE_ALLOCA_H)
 if(HAVE_ALLOCA_H)
@@ -76,6 +69,18 @@ add_library(sampgdk SHARED
 	"src/timers.h"
 	"src/version.cpp"
 )
+
+# Read current version from VERSION.txt and set appropriate variables
+file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" SAMPGDK_VERSION_STRING LIMIT_COUNT 1)
+parse_version_string(${SAMPGDK_VERSION_STRING}
+	SAMPGDK_VERSION_MAJOR
+	SAMPGDK_VERSION_MINOR
+	SAMPGDK_VERSION_PATCH
+	SAMPGDK_VERSION_TWEAK
+)
+
+# FIXME: Manually set ABI version
+set(SAMPGDK_VERSION_ABI 3)
 
 # Generate or update include/sampgdk/version.h
 configure_file(
@@ -185,3 +190,4 @@ include(CPack)
 
 # Build sample projects
 add_subdirectory(examples)
+
