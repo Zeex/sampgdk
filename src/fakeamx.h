@@ -40,7 +40,7 @@ public:
 	void Pop(cell address);
 
 	cell CallNative(AMX_NATIVE native, cell *params);
-	bool CallBooleanNative(AMX_NATIVE native, cell *params);
+	bool CallNativeBool(AMX_NATIVE native, cell *params);
 
 private:
 	FakeAmx();

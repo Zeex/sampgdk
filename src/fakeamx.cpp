@@ -83,7 +83,7 @@ cell FakeAmx::CallNative(AMX_NATIVE native, cell *params) {
 	return native(&amx_, params);
 }
 
-bool FakeAmx::CallBooleanNative(AMX_NATIVE native, cell *params) {
+bool FakeAmx::CallNativeBool(AMX_NATIVE native, cell *params) {
 	return CallNative(native, params) != 0;
 }
 
