@@ -16,7 +16,7 @@ Installation
 	1.	Download `libsampgdk-x.y.z-Linux.sh`.
 	2.	Run it as follows: `sudo sh sampgdk-x.y.z-Linux.sh --prefix=/usr/local/`. This will install
 		the library and headers to /usr/local/lib and /usr/local/include respectively.
-	3.	Link against libsampgdk.
+	3.	Link against libsampgdk, e.g. `g++ -shared plugin.cpp -lsampgdk -o plugin.so`.
 
 Bugs
 ----
