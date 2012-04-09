@@ -50,16 +50,15 @@ add_library(sampgdk SHARED
 )
 
 # Read current version from VERSION.txt and set appropriate variables
-file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" SAMPGDK_VERSION_STRING LIMIT_COUNT 1)
+file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 2)
+list(GET VERSION_txt 0 SAMPGDK_VERSION_STRING)
+list(GET VERSION_txt 1 SAMPGDK_VERSION_ABI)
 parse_version_string(${SAMPGDK_VERSION_STRING}
 	SAMPGDK_VERSION_MAJOR
 	SAMPGDK_VERSION_MINOR
 	SAMPGDK_VERSION_PATCH
 	SAMPGDK_VERSION_TWEAK
 )
-
-# FIXME: Manually set ABI version
-set(SAMPGDK_VERSION_ABI 3)
 
 # Generate or update include/sampgdk/version.h
 configure_file(
