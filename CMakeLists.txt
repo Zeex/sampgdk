@@ -84,7 +84,7 @@ set(SAMPGDK_VERSION_ABI 3)
 
 # Generate or update include/sampgdk/version.h
 configure_file(
-	"${sampgdk_SOURCE_DIR}/version.h.cmake"
+	"${sampgdk_SOURCE_DIR}/version.h.in"
 	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h"
 )
 
