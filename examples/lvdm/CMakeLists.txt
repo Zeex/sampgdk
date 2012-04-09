@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(lvdm)
 
+include(AmxConfig)
+
 add_library(lvdm MODULE lvdm.cpp)
 set_target_properties(lvdm PROPERTIES PREFIX "")
 
