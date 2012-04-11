@@ -3,8 +3,8 @@
 project(sampgdk)
 cmake_minimum_required(VERSION 2.8.6)
 
-# Add ./cmake to CMake module path
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${sampgdk_SOURCE_DIR}/cmake")
+# Add ./cmake/Modules to CMake module path
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${sampgdk_SOURCE_DIR}/cmake/Modules")
 
 include(AmxConfig)
 include(ParseVersionString)
