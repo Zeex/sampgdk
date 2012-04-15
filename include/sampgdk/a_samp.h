@@ -299,6 +299,7 @@ public:
 		{ return ::MenuDisableRow(id_, row); }
 
 private:
+	Menu& operator=(const Menu& rhs);
 	const int id_;
 };
 
@@ -325,7 +326,7 @@ public:
 		{ return ::TextDrawAlignment(id_, alignment); }
 	bool SetColor(int color) const 
 		{ return ::TextDrawColor(id_, color); }
-	bool SetBackgroundColor(int text, int color) const 
+	bool SetBackgroundColor(int color) const 
 		{ return ::TextDrawBackgroundColor(id_, color); }
 	bool UseBox(bool use) const 
 		{ return ::TextDrawUseBox(id_, use); }
@@ -355,6 +356,7 @@ public:
 		{ return ::TextDrawHideForAll(id_); }
 
 private:
+	TextDraw& operator=(const TextDraw& rhs);
 	const int id_;
 };
 
@@ -389,6 +391,7 @@ public:
 		{ return ::GangZoneStopFlashForAll(id_); }
 
 private:
+	GangZone& operator=(const GangZone& rhs);
 	const int id_;
 };
 
