@@ -113,7 +113,7 @@ elseif(UNIX)
 	)
 endif()
 
-option(USE_STATIC_CXX_RUNTIME "Prefer static C/C++ runtime" ON)
+option(SAMPGDK_USE_STATIC_RUNTIME "Prefer static C/C++ runtime" ON)
 
 # Compiler/linker options
 if(UNIX OR MINGW)
@@ -123,7 +123,7 @@ if(UNIX OR MINGW)
 		# Link with static libgcc/libstdc++
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
 			LINK_FLAGS " -m32 -Wl,--export-all-symbols")
-		if(USE_STATIC_CXX_RUNTIME)
+		if(SAMPGDK_USE_STATIC_RUNTIME)
 			set_property(TARGET sampgdk APPEND_STRING PROPERTY
 				LINK_FLAGS " -static-libgcc -static-libstdc++")
 		endif()
@@ -132,7 +132,7 @@ if(UNIX OR MINGW)
 			LINK_FLAGS " -m32 -Wl,--export-dynamic")
 	endif()
 elseif(MSVC)
-	if(USE_STATIC_CXX_RUNTIME)
+	if(SAMPGDK_USE_STATIC_RUNTIME)
 		# Use static VC++ runtime in all configuraions except Debug
 		foreach(flag_var
         		CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_RELEASE
