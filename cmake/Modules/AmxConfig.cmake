@@ -1,4 +1,4 @@
-# AMX configuration
+# Defines needed for amx.h.
 
 include(CheckIncludeFile)
 
@@ -18,4 +18,3 @@ check_include_file(stdint.h HAVE_STDINT_H)
 if(HAVE_STDINT_H)
 	add_definitions(-DHAVE_STDINT_H)
 endif()
-
