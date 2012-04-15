@@ -49,16 +49,31 @@ add_library(sampgdk SHARED
 	"src/version.cpp"
 )
 
-# Read current version from VERSION.txt and set appropriate variables
+# Read current version from VERSION.txt
 file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 2)
 list(GET VERSION_txt 0 SAMPGDK_VERSION_STRING)
 list(GET VERSION_txt 1 SAMPGDK_VERSION_ABI)
-parse_version_string(${SAMPGDK_VERSION_STRING}
-	SAMPGDK_VERSION_MAJOR
-	SAMPGDK_VERSION_MINOR
-	SAMPGDK_VERSION_PATCH
-	SAMPGDK_VERSION_TWEAK
-)
+
+set(SAMPGDK_VERSION_MAJOR 0)
+set(SAMPGDK_VERSION_MINOR 0)
+set(SAMPGDK_VERSION_PATCH 0)
+set(SAMPGDK_VERSION_TWEAK 0)
+
+# Parse the version string and set appropriate variables
+parse_version_string(${SAMPGDK_VERSION_STRING} version)
+list(LENGTH version length)
+if(length GREATER 0)
+	list(GET version 0 SAMPGDK_VERSION_MAJOR)
+endif()
+if(length GREATER 1)
+	list(GET version 1 SAMPGDK_VERSION_MINOR)
+endif()
+if(length GREATER 2)
+	list(GET version 2 SAMPGDK_VERSION_PATCH)
+endif()
+if(length GREATER 3)
+	list(GET version 3 SAMPGDK_VERSION_TWEAK)
+endif()
 
 # Generate or update include/sampgdk/version.h
 configure_file(
