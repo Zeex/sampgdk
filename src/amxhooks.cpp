@@ -117,7 +117,7 @@ int AMXAPI AmxHooks::amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 	JumpX86::ScopedRemove r(&amx_RegisterHook_);
 
 	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
-		Natives::SetNative(nativelist[i].name, nativelist[i].func);
+		Natives::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
 		// Fix for funcidx() issue
 		if (strcmp(nativelist[i].name, "funcidx") == 0) {
 			new JumpX86((void*)nativelist[i].func, (void*)fixed_funcidx);
