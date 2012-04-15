@@ -19,9 +19,15 @@
 
 #include "natives.h"
 
-Natives::StringToNativeMap Natives::string_to_native_;
+Natives::Natives() 
+{
+}
 
-// static
+Natives &Natives::GetInstance() {
+	static Natives natives;
+	return natives;
+}
+
 AMX_NATIVE Natives::GetNative(const char *name) {
 	StringToNativeMap::const_iterator iter = string_to_native_.find(name);
 	if (iter == string_to_native_.end()) {
@@ -30,7 +36,6 @@ AMX_NATIVE Natives::GetNative(const char *name) {
 	return iter->second;
 }
 
-// static
 AMX_NATIVE Natives::GetNativeWarn(const char *name) {
 	AMX_NATIVE native = GetNative(name);
 	if (native == 0) {
@@ -39,7 +44,6 @@ AMX_NATIVE Natives::GetNativeWarn(const char *name) {
 	return native;
 }
 
-// static
 void Natives::SetNative(const char *name, AMX_NATIVE native) {
 	string_to_native_[std::string(name)] = native;
 }
