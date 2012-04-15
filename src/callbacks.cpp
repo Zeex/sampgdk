@@ -43,15 +43,15 @@ CallbackArg::~CallbackArg() {
 	}
 }
 
-std::deque<CallbackArg*> Callbacks::args_;
-std::map<void*, std::map<std::string, void*> > Callbacks::cache_;
+Callbacks &Callbacks::GetInstance() {
+	static Callbacks callbacks;
+	return callbacks;
+}
 
-// static
 void Callbacks::RegisterCallbackHandler(void *handler) {
 	cache_.insert(std::make_pair(handler, std::map<std::string, void*>()));
 }
 
-// static
 cell Callbacks::HandleCallback(const char *name, CallbackRetVal badRetVal) {
 	cell retVal = 0;
 	if (badRetVal.IsSet()) {
@@ -114,7 +114,6 @@ cell Callbacks::HandleCallback(const char *name, CallbackRetVal badRetVal) {
 	return retVal;
 }
 
-// static
 void Callbacks::ClearArgs() {
 	for (std::deque<CallbackArg*>::iterator iterator = args_.begin();
 			iterator != args_.end(); ++iterator) {
