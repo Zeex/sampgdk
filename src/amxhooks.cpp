@@ -148,7 +148,7 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode_ = amx;
-		Callbacks::HandleCallback("OnGameModeInit", 0);
+		Callbacks::GetInstance().GetInstance().HandleCallback("OnGameModeInit", 0);
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
 			std::map<std::string, int>::const_iterator iterator = cbBadRetVals_.find(currentPublic_.c_str());
@@ -156,7 +156,7 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 			if (iterator != cbBadRetVals_.end()) {
 				badRetVal = iterator->second;
 			}
-			cell retval_ = Callbacks::HandleCallback(currentPublic_.c_str(), badRetVal);
+			cell retval_ = Callbacks::GetInstance().GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
 			if (badRetVal.IsSet()) {
 				*retval = retval_;
 			}
@@ -194,7 +194,7 @@ int AMXAPI AmxHooks::amx_Push(AMX *amx, cell value) {
 	JumpX86::ScopedRemove r1(&amx_PushHook_);
 
 	if (amx == gamemode_) {
-		Callbacks::PushArgFront(value);
+		Callbacks::GetInstance().GetInstance().PushArgFront(value);
 	}
 	return ::amx_Push(amx, value);
 }
@@ -204,7 +204,7 @@ int AMXAPI AmxHooks::amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, 
 	JumpX86::ScopedRemove r2(&amx_PushStringHook_);
 
 	if (amx == gamemode_) {
-		Callbacks::PushArgFront(string);
+		Callbacks::GetInstance().GetInstance().PushArgFront(string);
 	}
 	return ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 }

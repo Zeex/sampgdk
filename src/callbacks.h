@@ -76,21 +76,23 @@ private:
 
 class Callbacks {
 public:
-	static void RegisterCallbackHandler(void *handler);
+	static Callbacks &GetInstance();
+
+	void RegisterCallbackHandler(void *handler);
 
 	template<typename T>
-	static void PushArgBack(const T &v) { args_.push_back(new CallbackArg(v)); }
+	void PushArgBack(const T &v) { args_.push_back(new CallbackArg(v)); }
 
 	template<typename T>
-	static void PushArgFront(const T &v) { args_.push_front(new CallbackArg(v)); }
+	void PushArgFront(const T &v) { args_.push_front(new CallbackArg(v)); }
 
-	static void ClearArgs();
+	void ClearArgs();
 
-	static cell HandleCallback(const char *name,  CallbackRetVal badRetVal);
+	cell HandleCallback(const char *name,  CallbackRetVal badRetVal);
 
 private:
-	static std::deque<CallbackArg*> args_;
-	static std::map<void*, std::map<std::string, void*> > cache_;
+	std::deque<CallbackArg*> args_;
+	std::map<void*, std::map<std::string, void*> > cache_;
 };
 
 #endif
