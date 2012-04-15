@@ -1,46 +1,29 @@
 # parse_version_string - parse a version string.
+# 
 # Usage:
-#   parse_version_string(<string> <major> [<minor> [<patch> [<tweak> [<rest>]]]])
-# where major, minor, ... are the output variables. 
-function(parse_version_string version_string)
-	if(version_string MATCHES "[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+")
+#   parse_version_string(string, list)
+# 
+# The string should be in one of the following forms:
+#   a.b.c.d
+#   a.b.c
+#   a.b
+# where a, b, c, d are numbers.
+#
+# The last component of "list" is set to any unmatched text that follows
+# the last version number.
+function(parse_version_string input output)
+	if(input MATCHES "[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+")
 		string(REGEX REPLACE "([0-9])+\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)"
-			"\\1;\\2;\\3;\\4" ver_comps ${version_string})
-	elseif(version_string MATCHES "[0-9]+\\.[0-9]+\\.[0-9]+")
+			"\\1;\\2;\\3;\\4" version ${input})
+	elseif(input MATCHES "[0-9]+\\.[0-9]+\\.[0-9]+")
 		string(REGEX REPLACE "([0-9])+\\.([0-9]+)\\.([0-9]+)"
-			"\\1;\\2;\\3" ver_comps ${version_string})
-	elseif(version_string MATCHES "[0-9]+\\.[0-9]+")
+			"\\1;\\2;\\3" version ${input})
+	elseif(input MATCHES "[0-9]+\\.[0-9]+")
 		string(REGEX REPLACE "([0-9])+\\.([0-9]+)"
-			"\\1;\\2" ver_comps ${version_string})
-	elseif(version_string MATCHES "[0-9]+")
+			"\\1;\\2" version ${input})
+	elseif(input MATCHES "[0-9]+")
 		string(REGEX REPLACE "([0-9])+"
-			"\\1" ver_comps ${version_string})
+			"\\1" version ${input})
 	endif()
-	list(LENGTH ver_comps num_comps)
-	if(${ARGC} GREATER 1 AND ${num_comps} GREATER 0)
-		list(GET ver_comps 0 major_)
-	else()
-		set(major_ 0)
-	endif()
-	if(ARGC GREATER 2 AND num_comps GREATER 1)
-		list(GET ver_comps 1 minor_)
-	else()
-		set(minor_ 0)
-	endif()
-	if(ARGC GREATER 3 AND num_comps GREATER 2)
-		list(GET ver_comps 2 patch_)
-		message("patch_=\"${patch_}\"")
-	else()
-		set(patch_ 0)
-	endif()
-	if(ARGC GREATER 4 AND num_comps GREATER 3)
-		list(GET ver_comps 3 tweak_)
-	else()
-		set(tweak_ 0)
-	endif()
-	set(${ARGV1} ${major_} PARENT_SCOPE)
-	set(${ARGV2} ${minor_} PARENT_SCOPE)
-	set(${ARGV3} ${patch_} PARENT_SCOPE)
-	set(${ARGV4} ${tweak_} PARENT_SCOPE)
-	set(${ARGV5} ${rest_} PARENT_SCOPE)
+	set(${output} ${version} PARENT_SCOPE)
 endfunction()
