@@ -629,7 +629,7 @@ public:
 		{ return ::PlayerTextDrawAlignment(playerid_, id_, alignment); }
 	bool SetColor(int color) const 
 		{ return ::PlayerTextDrawColor(playerid_, id_, color); }
-	bool SetBackgroundColor(int text, int color) const 
+	bool SetBackgroundColor(int color) const 
 		{ return ::PlayerTextDrawBackgroundColor(playerid_, id_, color); }
 	bool UseBox(bool use) const 
 		{ return ::PlayerTextDrawUseBox(playerid_, id_, use); }
