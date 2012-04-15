@@ -82,7 +82,7 @@ endif()
 
 # Generate or update include/sampgdk/version.h
 configure_file(
-	"${sampgdk_SOURCE_DIR}/version.h.in"
+	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h.in"
 	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h"
 )
 
@@ -149,7 +149,7 @@ install(TARGETS sampgdk
 	LIBRARY DESTINATION "lib" COMPONENT "libraries"
 	ARCHIVE DESTINATION "lib" COMPONENT "libraries"
 )
-install(DIRECTORY "include" DESTINATION "." COMPONENT "headers")
+install(DIRECTORY "include" DESTINATION "." COMPONENT "headers" PATTERN "*.in" EXCLUDE)
 
 if(MSVC)
 	get_target_property(output_name sampgdk OUTPUT_NAME)
