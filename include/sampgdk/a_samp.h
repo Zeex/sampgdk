@@ -325,7 +325,7 @@ public:
 		{ return ::TextDrawAlignment(id_, alignment); }
 	bool SetColor(int color) const 
 		{ return ::TextDrawColor(id_, color); }
-	bool SetBackgroundColor(int text, int color) const 
+	bool SetBackgroundColor(int color) const 
 		{ return ::TextDrawBackgroundColor(id_, color); }
 	bool UseBox(bool use) const 
 		{ return ::TextDrawUseBox(id_, use); }
