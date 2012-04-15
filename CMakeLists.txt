@@ -12,7 +12,7 @@ include(ParseVersionString)
 include_directories("${sampgdk_SOURCE_DIR}/include")
 include_directories("${sampgdk_SOURCE_DIR}/include/amx")
 
-add_library(sampgdk SHARED 
+set(SAMPGDK_HEADERS
 	"include/sampgdk/amx/amx.h"
 	"include/sampgdk/amx/getch.h"
 	"include/sampgdk/amx/sclinux.h"
@@ -27,6 +27,9 @@ add_library(sampgdk SHARED
 	"include/sampgdk/core.h"
 	"include/sampgdk/export.h"
 	"include/sampgdk/version.h"
+)
+
+set(SAMPGDK_SOURCES
 	"src/a_objects.cpp"
 	"src/a_players.cpp"
 	"src/a_samp.cpp"
@@ -48,6 +51,8 @@ add_library(sampgdk SHARED
 	"src/timers.h"
 	"src/version.cpp"
 )
+
+add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 
 # Read current version from VERSION.txt
 file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 2)
@@ -144,7 +149,6 @@ install(TARGETS sampgdk
 	LIBRARY DESTINATION "lib" COMPONENT "libraries"
 	ARCHIVE DESTINATION "lib" COMPONENT "libraries"
 )
-
 install(DIRECTORY "include" DESTINATION "." COMPONENT "headers")
 
 if(MSVC)
