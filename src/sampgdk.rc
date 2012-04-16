@@ -16,9 +16,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 			VALUE "FileDescription",  "GDK runtime"
 			VALUE "FileVersion",      SAMPGDK_VERSION_STRING
 			VALUE "ProductVersion",   SAMPGDK_VERSION_STRING
-			VALUE "InternalName",     "sampgdk"
 			VALUE "LegalCopyright",   "Copyright (C) 2011-2012, Zeex"
-			VALUE "OriginalFilename", "sampgdk.dll"
 			VALUE "ProductName",      "SA-MP Gamemode Development Kit for C/C++"
 		}
 	}
