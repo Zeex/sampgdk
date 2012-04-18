@@ -22,7 +22,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 	logprintf("      HelloWorld gamemode got loaded.     \n");
 	logprintf("------------------------------------------\n");
 
-	CreateTimer(1000, true, Timer, 0);
+	SetTimer(1000, true, Timer, 0);
 
 	return true;
 }

@@ -776,7 +776,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 	AddStaticPickup(371, 15, 2265.0120f,1672.3837f,94.9219f, 0); //para
 	AddStaticPickup(371, 15, 2265.9739f,1623.4060f,94.9219f, 0); //para
 
-	CreateTimer(1000, true, MoneyGrubScoreUpdate, NULL);
+	SetTimer(1000, true, MoneyGrubScoreUpdate, NULL);
 
 	return true;
 }
