@@ -106,6 +106,15 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisableRow(int menuid, int row);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMenu(int playerid);
 
+#define CreateMenu MenuCreate
+#define DestroyMenu MenuDestroy
+#define AddMenuItem MenuAddItem
+#define SetMenuColumnHeader MenuSetColumnHeader
+#define ShowMenuForPlayer MenuShowForPlayer
+#define HideMenuForPlayer MenuHideForPlayer
+#define DisableMenu MenuDisable
+#define DisableMenuRow MenuDisableRow
+
 SAMPGDK_EXPORT int SAMPGDK_CALL TextDrawCreate(float x, float y, const char *text);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawDestroy(int text);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawLetterSize(int text, float x, float y);
