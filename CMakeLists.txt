@@ -55,10 +55,8 @@ set(SAMPGDK_SOURCES
 add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 
 # Read current version from VERSION.txt
-file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 2)
+file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 1)
 list(GET VERSION_txt 0 SAMPGDK_VERSION_STRING)
-list(GET VERSION_txt 1 SAMPGDK_VERSION_ABI)
-
 set(SAMPGDK_VERSION_MAJOR 0)
 set(SAMPGDK_VERSION_MINOR 0)
 set(SAMPGDK_VERSION_PATCH 0)
@@ -104,12 +102,12 @@ if(WIN32)
 	endif()
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
-		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_ABI}")
+		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
 elseif(UNIX)
 	add_definitions(-DLINUX)
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   ${SAMPGDK_VERSION_STRING}
-		SOVERSION ${SAMPGDK_VERSION_ABI}
+		SOVERSION ${SAMPGDK_VERSION_MAJOR}
 	)
 endif()
 
@@ -158,7 +156,7 @@ if(MSVC)
 	install(FILES ${PDB_PATH} DESTINATION "bin" COMPONENT "runtime")
 endif()
 
-set(CPACK_PACKAGE_NAME "libsampgdk${SAMPGDK_VERSION_ABI}") 
+set(CPACK_PACKAGE_NAME "libsampgdk") 
 set(CPACK_PACKAGE_VENDOR "Zeex")
 set(CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA-MP Gamemode Development Kit for C/C++")
