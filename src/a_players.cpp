@@ -731,11 +731,11 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveBuildingForPlayer(int playerid, int model
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerAttachedObject(int playerid, int index, int modelid, int bone, float fOffsetX,
 	float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX,
-	float fScaleY, float fScaleZ)
+	float fScaleY, float fScaleZ, int materialcolor1, int materialcolor2)
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetPlayerAttachedObject");
 	cell params[] = {
-		13 * 4,
+		15 * 4,
 		playerid,
 		index,
 		modelid,
@@ -748,7 +748,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerAttachedObject(int playerid, int index
 		amx_ftoc(fRotZ),
 		amx_ftoc(fScaleX),
 		amx_ftoc(fScaleY),
-		amx_ftoc(fScaleZ)
+		amx_ftoc(fScaleZ),
+		materialcolor1,
+		materialcolor2
 	};
 	return FakeAmx::CallNativeBool(native, params);
 }
