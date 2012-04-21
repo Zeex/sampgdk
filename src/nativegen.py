@@ -26,10 +26,10 @@ def generate_native_code(type, name, arg_list):
 		+ "(" + ", ".join(arg_list) + ") {\n" 
 
 	# A "static" variable that holds native address.
-	code += "\tstatic AMX_NATIVE native = NativeManager::GetInstance().GetNativeWarn(\"" + name + "\");\n"
+	code += "\tstatic AMX_NATIVE native = Natives::GetInstance().GetNativeWarn(\"" + name + "\");\n"
 
 	# Generate the "params" array.
-	code += "\tcell params = {\n\t\t0\n"
+	code += "\tcell params[] = {\n\t\t0,\n"
 	for arg in parse_argument_list(arg_list):
 		arg_type = arg[0]
 		arg_name = arg[1]
@@ -50,9 +50,9 @@ def generate_native_code(type, name, arg_list):
 	code += "\t};\n"
 
 	if type == "bool":
-		code += "\treturn CallNativeBool(native, params);\n"
+		code += "\treturn FakeAmx::CallNativeBool(native, params);\n"
 	else:
-		code += "\treturn CallNative(native, params);\n"
+		code += "\treturn FakeAmx::CallNative(native, params);\n"
 	code += "}\n"
 
 	return code
