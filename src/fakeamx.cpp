@@ -102,16 +102,6 @@ void FakeAmx::Pop(cell address) {
 	}
 }
 
-// static
-cell FakeAmx::CallNative(AMX_NATIVE native, cell *params) {
-	return native(&amx_, params);
-}
-
-// static
-bool FakeAmx::CallNativeBool(AMX_NATIVE native, cell *params) {
-	return CallNative(native, params) != 0;
-}
-
 FakeAmxHeapObject::FakeAmxHeapObject()
 	: size_(1), address_(FakeAmx::Push(1))
 {}
