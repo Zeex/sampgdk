@@ -22,7 +22,7 @@
 SAMPGDK_EXPORT int SAMPGDK_CALL CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("CreateObject");
 	cell params[] = {
-		8 * 4,
+		0,
 		modelid,
 		amx_ftoc(x),
 		amx_ftoc(y),
@@ -40,7 +40,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicle
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("AttachObjectToVehicle");
 	cell params[] = {
-		8 * 4,
+		0,
 		objectid,
 		vehicleid,
 		amx_ftoc(fOffsetX),
@@ -58,7 +58,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToObject(int objectid, int attachto
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("AttachObjectToObject");
 	cell params[] = {
-		9 * 4,
+		0,
 		objectid,
 		attachtoid,
 		amx_ftoc(OffsetX),
@@ -77,7 +77,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("AttachObjectToPlayer");
 	cell params[] = {
-		8 * 4,
+		0,
 		objectid,
 		playerid,
 		amx_ftoc(OffsetX),
@@ -93,7 +93,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, float z) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetObjectPos");
 	cell params[] = {
-		4 * 4,
+		0,
 		objectid,
 		amx_ftoc(x),
 		amx_ftoc(y),
@@ -108,7 +108,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float *x, float *y, 
 	FakeAmxHeapObject y_;
 	FakeAmxHeapObject z_;
 	cell params[] = {
-		4 * 4,
+		0,
 		objectid,
 		x_.address(),
 		y_.address(),
@@ -124,7 +124,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float *x, float *y, 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectRot(int objectid, float rotX, float rotY, float rotZ) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetObjectRot");
 	cell params[] = {
-		4 * 4,
+		0,
 		objectid,
 		amx_ftoc(rotX),
 		amx_ftoc(rotY),
@@ -139,7 +139,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float *rotX, float *
 	FakeAmxHeapObject rotY_;
 	FakeAmxHeapObject rotZ_;
 	cell params[] = {
-		4 * 4,
+		0,
 		objectid,
 		rotX_.address(),
 		rotY_.address(),
@@ -155,7 +155,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float *rotX, float *
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidObject(int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("IsValidObject");
 	cell params[] = {
-		1 * 4,
+		0,
 		objectid
 	};
 	return FakeAmx::CallNativeBool(native, params);
@@ -164,7 +164,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidObject(int objectid) {
 SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyObject(int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("DestroyObject");
 	cell params[] = {
-		1 * 4,
+		0,
 		objectid
 	};
 	return FakeAmx::CallNativeBool(native, params);
@@ -175,7 +175,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("MoveObject");
 	cell params[] = {
-		8 * 4,
+		0,
 		objectid,
 		amx_ftoc(X),
 		amx_ftoc(Y),
@@ -191,7 +191,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopObject(int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("StopObject");
 	cell params[] = {
-		1 * 4,
+		0,
 		objectid
 	};
 	return FakeAmx::CallNativeBool(native, params);
@@ -200,7 +200,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL StopObject(int objectid) {
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsObjectMoving(int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("IsObjectMoving");
 	cell params[] = {
-		1 * 4,
+		0,
 		objectid
 	};
 	return FakeAmx::CallNativeBool(native, params);
@@ -209,7 +209,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsObjectMoving(int objectid) {
 SAMPGDK_EXPORT bool SAMPGDK_CALL EditObject(int playerid, int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("EditObject");
 	cell params[] = {
-		2 * 4,
+		0,
 		playerid,
 		objectid
 	};
@@ -219,7 +219,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL EditObject(int playerid, int objectid) {
 SAMPGDK_EXPORT bool SAMPGDK_CALL EditPlayerObject(int playerid, int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("EditPlayerObject");
 	cell params[] = {
-		2 * 4,
+		0,
 		playerid,
 		objectid
 	};
@@ -229,7 +229,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL EditPlayerObject(int playerid, int objectid) {
 SAMPGDK_EXPORT bool SAMPGDK_CALL SelectObject(int playerid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SelectObject");
 	cell params[] = {
-		1 * 4,
+		0,
 		playerid
 	};
 	return FakeAmx::CallNativeBool(native, params);
@@ -238,7 +238,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SelectObject(int playerid) {
 SAMPGDK_EXPORT bool SAMPGDK_CALL CancelEdit(int playerid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("CancelEdit");
 	cell params[] = {
-		1 * 4,
+		0,
 		playerid
 	};
 	return FakeAmx::CallNativeBool(native, params);
@@ -249,7 +249,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, fl
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("CreatePlayerObject");
 	cell params[] = {
-		9 * 4,
+		0,
 		playerid,
 		modelid,
 		amx_ftoc(x),
@@ -268,7 +268,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, in
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("AttachPlayerObjectToPlayer");
 	cell params[] = {
-		9 * 4,
+		0,
 		objectplayer,
 		objectid,
 		attachplayer,
@@ -287,7 +287,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToVehicle(int playerid, int o
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("AttachPlayerObjectToVehicle");
 	cell params[] = {
-		9 * 4,
+		0,
 		playerid,
 		objectid,
 		vehicleid,
@@ -304,7 +304,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToVehicle(int playerid, int o
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetPlayerObjectPos");
 	cell params[] = {
-		5 * 4,
+		0,
 		playerid,
 		objectid,
 		amx_ftoc(x),
@@ -320,7 +320,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, 
 	FakeAmxHeapObject y_;
 	FakeAmxHeapObject z_;
 	cell params[] = {
-		5 * 4,
+		0,
 		playerid,
 		objectid,
 		x_.address(),
@@ -337,7 +337,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, float rotZ) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetPlayerObjectRot");
 	cell params[] = {
-		5 * 4,
+		0,
 		playerid,
 		objectid,
 		amx_ftoc(rotX),
@@ -353,7 +353,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, 
 	FakeAmxHeapObject rotY_;
 	FakeAmxHeapObject rotZ_;
 	cell params[] = {
-		5 * 4,
+		0,
 		playerid,
 		objectid,
 		rotX_.address(),
@@ -370,7 +370,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, 
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidPlayerObject(int playerid, int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("IsValidPlayerObject");
 	cell params[] = {
-		2 * 4,
+		0,
 		playerid,
 		objectid
 	};
@@ -380,7 +380,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidPlayerObject(int playerid, int objectid)
 SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("DestroyPlayerObject");
 	cell params[] = {
-		2 * 4,
+		0,
 		playerid,
 		objectid
 	};
@@ -392,7 +392,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, flo
 {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("MovePlayerObject");
 	cell params[] = {
-		9 * 4,
+		0,
 		playerid,
 		objectid,
 		amx_ftoc(x),
@@ -409,7 +409,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, flo
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("StopPlayerObject");
 	cell params[] = {
-		2 * 4,
+		0,
 		playerid,
 		objectid
 	};
@@ -419,7 +419,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid) {
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("IsPlayerObjectMoving");
 	cell params[] = {
-		2 * 4,
+		0,
 		playerid,
 		objectid
 	};
@@ -431,7 +431,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterial(int objectid, int materialind
 	FakeAmxHeapObject txdname_(txdname);
 	FakeAmxHeapObject texturename_(texturename);
 	cell params[] = {
-		6 * 4,
+		0,
 		objectid,
 		materialindex,
 		modelid,
@@ -447,7 +447,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterial(int playerid, int objec
 	FakeAmxHeapObject txdname_(txdname);
 	FakeAmxHeapObject texturename_(texturename);
 	cell params[] = {
-		7 * 4,
+		0,
 		playerid,
 		objectid,
 		materialindex,
@@ -464,7 +464,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterialText(int objectid, const char 
 	FakeAmxHeapObject text_(text);
 	FakeAmxHeapObject fontface_(fontface);
 	cell params[] = {
-		10 * 4,
+		0,
 		objectid,
 		text_.address(),
 		materialindex,
@@ -484,7 +484,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterialText(int playerid, int o
 	FakeAmxHeapObject text_(text);
 	FakeAmxHeapObject fontface_(fontface);
 	cell params[] = {
-		11 * 4,
+		0,
 		playerid,
 		objectid,
 		text_.address(),
