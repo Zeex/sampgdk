@@ -64,7 +64,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowNameTags(bool show);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerMarkers(bool mode);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameModeExit();
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetWorldTime(int hour);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetWeaponName(int weaponid, char *name, size_t size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetWeaponName(int weaponid, char *name, int size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL EnableTirePopping(bool enable);
 SAMPGDK_EXPORT bool SAMPGDK_CALL AllowInteriorWeapons(bool allow);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetWeather(int weatherid);
@@ -88,12 +88,12 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL Kick(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL Ban(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL BanEx(int playerid, const char *reason);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendRconCommand(const char *command);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char *value, size_t size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char *value, int size);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetServerVarAsInt(const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsBool(const char *varname);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, size_t size);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVersion(int playerid, char *version, size_t len);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, int size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, int size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVersion(int playerid, char *version, int len);
 
 SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width);
 SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid);
@@ -258,7 +258,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid);
 
 #define CLICK_SOURCE_SCOREBOARD   (0)
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, size_t size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, int size);
 
 #ifdef __cplusplus
 

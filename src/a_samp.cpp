@@ -277,7 +277,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetWorldTime(int hour) {
 	return FakeAmx::CallNativeBool(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetWeaponName(int weaponid, char *name, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetWeaponName(int weaponid, char *name, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetWeaponName");
 	FakeAmxHeapObject name_(size);
 	cell params[] = {
@@ -478,7 +478,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendRconCommand(const char *command) {
 	return FakeAmx::CallNativeBool(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char *value, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsString(const char *varname, char *value, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetServerVarAsString");
 	FakeAmxHeapObject varname_(varname);
 	FakeAmxHeapObject value_(size);
@@ -513,7 +513,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetServerVarAsBool(const char *varname) {
 	return FakeAmx::CallNativeBool(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retstr, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetPlayerNetworkStats");
 	FakeAmxHeapObject retstr_(size);
 	cell params[] = {
@@ -527,7 +527,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retst
 	return ret;
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetNetworkStats");
 	FakeAmxHeapObject retstr_(size);
 	cell params[] = {
@@ -540,7 +540,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, size_t size) {
 	return ret;
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVersion(int playerid, char *version, size_t len) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVersion(int playerid, char *version, int len) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetPlayerVersion");
 	FakeAmxHeapObject version_(len + 1);
 	cell params[] = {
@@ -1098,7 +1098,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, in
 	return FakeAmx::CallNativeBool(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL gpci(int playerid, char *buffer, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("gpci");
 	FakeAmxHeapObject buffer_(size);
 	cell params[] = {
