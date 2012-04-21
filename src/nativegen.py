@@ -18,15 +18,40 @@ def parse_argument_list(arg_list):
 		name = match.group(2).strip()
 		yield (type, name)
 
-def generate_native_code(type, name, arg_list):
+def parse_attributes(string):
+	attrs = dict()
+	if string != None:
+		items = string.split(",")
+		for item in items:
+			nv = item.split("=")
+			if len(nv) > 1:
+				attrs[nv[0].strip()] = nv[1].strip()
+			else:
+				attrs[nv[0].strip()] = None
+	return attrs
+
+def generate_native_code(return_type, name, arg_list, comment):
 	""" Generates C++ code for a native function. """
 
+	# Get attirubutes
+	if (comment != None):
+		comment = re.sub("^\s*/\*\s*", "", comment)
+		comment = re.sub("\s*\*/\s*$", "", comment)
+	attrs = parse_attributes(comment)
+
+	if "$skip" in attrs:
+		return None
+
 	# Write first line, same as function declaration + "{\n".
-	code = "SAMPGDK_EXPORT " + type + " SAMPGDK_CALL " + name\
-		+ "(" + ", ".join(arg_list) + ") {\n" 
+	code = "SAMPGDK_EXPORT " + return_type + " SAMPGDK_CALL " + name\
+		+ "(" + ", ".join(arg_list) + ") {\n"
 
 	# A "static" variable that holds native address.
-	code += "\tstatic AMX_NATIVE native = Natives::GetInstance().GetNativeWarn(\"" + name + "\");\n"
+	if "$real_name" in attrs:
+		real_name = attrs["$real_name"]
+	else:
+		real_name = name
+	code += "\tstatic AMX_NATIVE native = Natives::GetInstance().GetNativeWarn(\"" + real_name + "\");\n"
 
 	# Generate code for local variables, params array and ref argument assignment.
 	locals_code = ""
@@ -73,9 +98,9 @@ def generate_native_code(type, name, arg_list):
 
 	code += locals_code + params_code + assign_code
 
-	if type == "bool":
+	if return_type == "bool":
 		code += "\treturn FakeAmx::CallNativeBool(native, params);\n"
-	elif type == "float":
+	elif return_type == "float":
 		code += "\treturn FakeAmx::CallNativeFloat(native, params);\n"
 	else:
 		code += "\treturn FakeAmx::CallNative(native, params);\n"
@@ -87,13 +112,14 @@ def process_native_decl(string):
 	""" Returns a tuple of (type, name, arg_list) where arg_list is a
 	    list of arguments and each argument is a string that consists
 	    of an argument type and name (no default values can occur). """
-	match = re.match(r"SAMPGDK_EXPORT (int|bool|float) SAMPGDK_CALL (\w+)\((.*)\);", string)
+	match = re.match(r"SAMPGDK_EXPORT (int|bool|float) SAMPGDK_CALL (\w+)\((.*)\);\s*(/\*.*$)?", string)
 	if match == None:
 		return None
-	type = match.group(1)
+	return_type = match.group(1)
 	name = match.group(2)
-	args = match.group(3).split(", ")
-	return (type, name, args)	
+	arg_list = match.group(3).split(", ")
+	comment = match.group(4)
+	return (return_type, name, arg_list, comment)	
 
 def process_file(src, dest):
 	""" Processes a C/C++ header file "src" finding native function
