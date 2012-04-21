@@ -28,21 +28,26 @@ def generate_native_code(type, name, arg_list):
 	# A "static" variable that holds native address.
 	code += "\tstatic AMX_NATIVE native = Natives::GetInstance().GetNativeWarn(\"" + name + "\");\n"
 
+	# Generate FakeAmxHeapObject instances for reference arguments.
+	for arg in parse_argument_list(arg_list):
+		arg_type = arg[0]
+		arg_name = arg[1]
+		if arg_type == "const char *":
+			code += "\tFakeAmxHeapObject " + arg_name + "_(" + arg_name + ");\n"
+
 	# Generate the "params" array.
 	code += "\tcell params[] = {\n\t\t0,\n"
 	for arg in parse_argument_list(arg_list):
 		arg_type = arg[0]
 		arg_name = arg[1]
-		print "Type: '" + arg_type + "'"
-		print "Name: '" + arg_name + "'"
 		if arg_type == "int" or arg_type == "bool":
 			code += "\t\t" + arg_name
 		elif arg_type == "float":
 			code += "\t\tamx_ftoc(" + arg_name + ")"
 		elif arg_type == "char *":
-			code += "\t\t" + arg_name + ".address()"
+			code += "\t\t" + arg_name + "_.address()"
 		elif arg_type == "const char *":
-			code += "\t\t" + arg_name + ".address()"
+			code += "\t\t" + arg_name + "_.address()"
 		else:
 			print "Unknown type ", arg_type
 			return None
