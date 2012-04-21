@@ -42,8 +42,13 @@ public:
 		return native(&amx_, params);
 	}
 	template<std::size_t N>
-	static bool CallNativeBool(AMX_NATIVE native, cell (&params)[N]) {
+	static inline bool CallNativeBool(AMX_NATIVE native, cell (&params)[N]) {
 		return CallNative(native, params) != 0;
+	}
+	template<std::size_t N>
+	static inline float CallNativeFloat(AMX_NATIVE native, cell (&params)[N]) {
+		cell retval = CallNative(native, params);
+		return amx_ctof(retval);
 	}
 
 	// Parameter-less versions
@@ -52,6 +57,10 @@ public:
 	}
 	static inline bool CallNativeBool(AMX_NATIVE native) {
 		return CallNative(native) != 0;
+	}
+	static inline float CallNativeFloat(AMX_NATIVE native) {
+		cell retval = CallNative(native);
+		return amx_ctof(retval);
 	}
 
 private:

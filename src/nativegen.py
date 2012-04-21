@@ -76,8 +76,7 @@ def generate_native_code(type, name, arg_list):
 	if type == "bool":
 		code += "\treturn FakeAmx::CallNativeBool(native, params);\n"
 	elif type == "float":
-		code += "cell retval = FakeAmx::CallNative(native, params);\n"
-		code += "return amx_ctof(retval);\n"
+		code += "\treturn FakeAmx::CallNativeFloat(native, params);\n"
 	else:
 		code += "\treturn FakeAmx::CallNative(native, params);\n"
 	code += "}\n"
