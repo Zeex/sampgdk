@@ -445,7 +445,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerState(int playerid) {
 	return FakeAmx::CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerIp(int playerid, char *ip, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerIp(int playerid, char *ip, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetPlayerIp");
 	FakeAmxHeapObject ip_(size);
 	cell params[] = {
@@ -496,7 +496,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerKeys(int playerid, int *keys, int *upd
 	return ret;
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerName(int playerid, char *name, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerName(int playerid, char *name, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetPlayerName");
 	FakeAmxHeapObject name_(size);
 	cell params[] = {
@@ -1010,7 +1010,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarString(int playerid, const char *varname
 	return FakeAmx::CallNativeBool(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarString(int playerid, const char *varname, char *value, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarString(int playerid, const char *varname, char *value, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetPVarString");
 	FakeAmxHeapObject varname_(varname);
 	FakeAmxHeapObject value_(size);
@@ -1070,7 +1070,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarsUpperIndex(int playerid) {
 	return FakeAmx::CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarNameAtIndex(int playerid, int index, char *varname, size_t size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarNameAtIndex(int playerid, int index, char *varname, int size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetPVarNameAtIndex");
 	FakeAmxHeapObject varname_(size);
 	cell params[] = {
@@ -1211,7 +1211,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerAnimationIndex(int playerid) {
 	return FakeAmx::CallNative(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetAnimationName(int index, char *animlib, size_t animlib_size, char *animname, size_t animname_size) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetAnimationName(int index, char *animlib, int animlib_size, char *animname, int animname_size) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("GetAnimationName");
 	FakeAmxHeapObject animlib_(animlib_size);
 	FakeAmxHeapObject animname_(animname_size);

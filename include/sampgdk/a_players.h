@@ -106,11 +106,11 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ResetPlayerMoney(int playerid);
 SAMPGDK_EXPORT int SAMPGDK_CALL SetPlayerName(int playerid, const char *name);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMoney(int playerid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerState(int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerIp(int playerid, char *ip, size_t size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerIp(int playerid, char *ip, int size);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerPing(int playerid);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerWeapon(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerKeys(int playerid, int *keys, int *updown, int *leftright);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerName(int playerid, char *name, size_t size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerName(int playerid, char *name, int size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerTime(int playerid, int hour, int minute);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerTime(int playerid, int *hour, int *minute);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TogglePlayerClock(int playerid, bool toggle);
@@ -164,13 +164,13 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerTextDrawSetString(int playerid, int text,
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarInt(int playerid, const char *varname, int value);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarInt(int playerid, const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarString(int playerid, const char *varname, const char *value);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarString(int playerid, const char *varname, char *value, size_t size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarString(int playerid, const char *varname, char *value, int size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPVarFloat(int playerid, const char *varname, float value);
 SAMPGDK_EXPORT float SAMPGDK_CALL GetPVarFloat(int playerid, const char *varname);
 SAMPGDK_EXPORT bool SAMPGDK_CALL DeletePVar(int playerid, const char *varname);
 
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarsUpperIndex(int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarNameAtIndex(int playerid, int index, char *varname, size_t size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetPVarNameAtIndex(int playerid, int index, char *varname, int size);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPVarType(int playerid, const char *varname);
 
 #define MAX_CHATBUBBLE_LENGTH (144)
@@ -185,7 +185,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL PlayerPlaySound(int playerid, int soundid, floa
 SAMPGDK_EXPORT bool SAMPGDK_CALL ApplyAnimation(int playerid, const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ClearAnimations(int playerid, bool forcesync);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerAnimationIndex(int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetAnimationName(int index, char *animlib, size_t animlib_size, char *animname, size_t animname_size);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetAnimationName(int index, char *animlib, int animlib_size, char *animname, int animname_size);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerSpecialAction(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerSpecialAction(int playerid, int actionid);
 
@@ -379,7 +379,7 @@ public:
 		{ return ::GetPlayerMoney(id_); }
 	int GetState() const
 		{ return ::GetPlayerState(id_); }
-	bool GetIp(char *ip, size_t size) const
+	bool GetIp(char *ip, int size) const
 		{ return ::GetPlayerIp(id_, ip, size); }
 	int GetPing() const
 		{ return ::GetPlayerPing(id_); }
@@ -389,7 +389,7 @@ public:
 		{ return ::GetPlayerKeys(id_, keys, updown, leftright); }
 	bool GetKeys(int &keys, int &updown, int &leftright) const
 		{ return ::GetPlayerKeys(id_, &keys, &updown, &leftright); }
-	bool GetName(char *name, size_t size) const
+	bool GetName(char *name, int size) const
 		{ return ::GetPlayerName(id_, name, size); }
 	std::string GetName() const {
 		std::vector<char> name(MAX_PLAYER_NAME);
@@ -584,7 +584,7 @@ public:
 		{ return ::BanEx(id_, reason); }
 	bool BanEx(const std::string &reason) const
 		{ return ::BanEx(id_, reason.c_str()); }
-	bool GetNetworkStats(char *retstr, size_t size) const
+	bool GetNetworkStats(char *retstr, int size) const
 		{ return ::GetPlayerNetworkStats(id_, retstr, size); }
 	int GetMenu() const
 		{ return ::GetPlayerMenu(id_); }
@@ -596,7 +596,7 @@ public:
 		{ return ::GameTextForPlayer(id_, text, time, style); }
 	bool GameText(const std::string &text, int time, int style) const
 		{ return ::GameTextForPlayer(id_, text.c_str(), time, style); }
-	bool GetVersion(char *version, size_t len) const
+	bool GetVersion(char *version, int len) const
 		{ return ::GetPlayerVersion(id_, version, len); }
 	bool SelectTextDraw(int hovercolor) const
 		{ return ::SelectTextDraw(id_, hovercolor); }
