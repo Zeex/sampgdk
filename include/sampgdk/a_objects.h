@@ -38,7 +38,6 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL EditObject(int playerid, int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL EditPlayerObject(int playerid, int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SelectObject(int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL CancelEdit(int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance);
 SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
 SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToVehicle(int playerid, int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float RotZ);
@@ -51,7 +50,31 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid)
 SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, float RotX, float RotY, float RotZ);
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid);
+
+#define OBJECT_MATERIAL_SIZE_32x32		10
+#define OBJECT_MATERIAL_SIZE_64x32		20
+#define OBJECT_MATERIAL_SIZE_64x64		30
+#define OBJECT_MATERIAL_SIZE_128x32		40
+#define OBJECT_MATERIAL_SIZE_128x64		50
+#define OBJECT_MATERIAL_SIZE_128x128	60
+#define OBJECT_MATERIAL_SIZE_256x32		70
+#define OBJECT_MATERIAL_SIZE_256x64		80
+#define OBJECT_MATERIAL_SIZE_256x128	90
+#define OBJECT_MATERIAL_SIZE_256x256	100
+#define OBJECT_MATERIAL_SIZE_512x64		110
+#define OBJECT_MATERIAL_SIZE_512x128	120
+#define OBJECT_MATERIAL_SIZE_512x256	130
+#define OBJECT_MATERIAL_SIZE_512x512	140
+
+#define OBJECT_MATERIAL_TEXT_ALIGN_LEFT		0
+#define OBJECT_MATERIAL_TEXT_ALIGN_CENTER	1
+#define OBJECT_MATERIAL_TEXT_ALIGN_RIGHT	2
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterial(int playerid, int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterialText(int objectid, const char *text, int materialindex, int materialsize, const char *fontface, int fontsize, bool bold, int fontcolor, int backcolor, int textalignment);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterialText(int playerid, int objectid, const char *text, int materialindex, int materialsize, const char *fontface, int fontsize, bool bold, int fontcolor, int backcolor, int textalignment);
 
 #ifdef __cplusplus
 
@@ -109,6 +132,8 @@ public:
 		{ return ::IsObjectMoving(id_); }
 	bool SetMaterial(int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor = 0) 
 		{ return ::SetObjectMaterial(id_, materialindex, modelid, txdname, texturename, materialcolor); }
+	bool SetMaterialText(const char *text, int materialindex = 0, int materialsize = OBJECT_MATERIAL_SIZE_256x128, const char *fontface = "Arial", int fontsize = 24, bool bold = true, int fontcolor = 0xFFFFFFFF, int backcolor = 0, int textalignment = OBJECT_MATERIAL_TEXT_ALIGN_LEFT)
+		{ return ::SetObjectMaterialText(id_, text, materialindex, materialsize, fontface, fontsize, bold, fontcolor, backcolor, textalignment); }
 
 private:
 	const int id_;
@@ -166,6 +191,8 @@ public:
 		{ return ::IsPlayerObjectMoving(playerid_, objectid_); }
 	bool SetMaterial(int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor = 0) 
 		{ return ::SetPlayerObjectMaterial(playerid_, objectid_, materialindex, modelid, txdname, texturename, materialcolor); }
+	bool SetMaterialText(const char *text, int materialindex = 0, int materialsize = OBJECT_MATERIAL_SIZE_256x128, const char *fontface = "Arial", int fontsize = 24, bool bold = true, int fontcolor = 0xFFFFFFFF, int backcolor = 0, int textalignment = OBJECT_MATERIAL_TEXT_ALIGN_LEFT)
+		{ return ::SetPlayerObjectMaterialText(playerid_, objectid_, text, materialindex, materialsize, fontface, fontsize, bold, fontcolor, backcolor, textalignment); }
 
 private:
 	const int playerid_;

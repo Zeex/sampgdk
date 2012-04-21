@@ -244,22 +244,6 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL CancelEdit(int playerid) {
 	return FakeAmx::CallNativeBool(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor) {
-	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetObjectMaterial");
-	FakeAmxHeapObject txdname_(txdname);
-	FakeAmxHeapObject texturename_(texturename);
-	cell params[] = {
-		6 * 4,
-		objectid,
-		materialindex,
-		modelid,
-		txdname_.address(),
-		texturename_.address(),
-		materialcolor
-	};
-	return FakeAmx::CallNativeBool(native, params);
-}
-
 SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z,
 	float rX, float rY, float rZ, float DrawDistance)
 {
@@ -442,6 +426,22 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid
 	return FakeAmx::CallNative(native, params) != 0;
 }
 
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor) {
+	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetObjectMaterial");
+	FakeAmxHeapObject txdname_(txdname);
+	FakeAmxHeapObject texturename_(texturename);
+	cell params[] = {
+		6 * 4,
+		objectid,
+		materialindex,
+		modelid,
+		txdname_.address(),
+		texturename_.address(),
+		materialcolor
+	};
+	return FakeAmx::CallNativeBool(native, params);
+}
+
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterial(int playerid, int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetPlayerObjectMaterial");
 	FakeAmxHeapObject txdname_(txdname);
@@ -455,6 +455,47 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterial(int playerid, int objec
 		txdname_.address(),
 		texturename_.address(),
 		materialcolor
+	};
+	return FakeAmx::CallNativeBool(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterialText(int objectid, const char *text, int materialindex, int materialsize, const char *fontface, int fontsize, bool bold, int fontcolor, int backcolor, int textalignment) {
+	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetObjectMaterialText");
+	FakeAmxHeapObject text_(text);
+	FakeAmxHeapObject fontface_(fontface);
+	cell params[] = {
+		10 * 4,
+		objectid,
+		text_.address(),
+		materialindex,
+		materialsize,
+		fontface_.address(),
+		fontsize,
+		bold,
+		fontcolor,
+		backcolor,
+		textalignment
+	};
+	return FakeAmx::CallNativeBool(native, params);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterialText(int playerid, int objectid, const char *text, int materialindex, int materialsize, const char *fontface, int fontsize, bool bold, int fontcolor, int backcolor, int textalignment) {
+	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetPlayerObjectMaterialText");
+	FakeAmxHeapObject text_(text);
+	FakeAmxHeapObject fontface_(fontface);
+	cell params[] = {
+		11 * 4,
+		playerid,
+		objectid,
+		text_.address(),
+		materialindex,
+		materialsize,
+		fontface_.address(),
+		fontsize,
+		bold,
+		fontcolor,
+		backcolor,
+		textalignment
 	};
 	return FakeAmx::CallNativeBool(native, params);
 }
