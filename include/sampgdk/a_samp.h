@@ -48,7 +48,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToAll(int senderid, const char
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendDeathMessage(int killer, int killee, int weapon);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForAll(const char *text, int time, int style);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForPlayer(int playerid, const char *text, int time, int style);
-SAMPGDK_EXPORT int SAMPGDK_CALL GetServerTickCount();
+SAMPGDK_EXPORT int SAMPGDK_CALL GetServerTickCount(); /* $real_name=GetTickCount */
 SAMPGDK_EXPORT int SAMPGDK_CALL GetMaxPlayers();
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetGameModeText(const char *text);
@@ -95,15 +95,15 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retst
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, int size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVersion(int playerid, char *version, int len);
 
-SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width);
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid);
-SAMPGDK_EXPORT int SAMPGDK_CALL MenuAddItem(int menuid, int column, const char *menutext);
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuSetColumnHeader(int menuid, int column, const char *columnheader);
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuShowForPlayer(int menuid, int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuHideForPlayer(int menuid, int playerid);
+SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width); /* $real_name=CreateMenu */
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid); /* $real_name=DestroyMenu */
+SAMPGDK_EXPORT int SAMPGDK_CALL MenuAddItem(int menuid, int column, const char *menutext); /* $real_name=AddMenuItem */
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuSetColumnHeader(int menuid, int column, const char *columnheader); /* $real_name=SetMenuColumnHeader */
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuShowForPlayer(int menuid, int playerid); /* $real_name=ShowMenuForPlayer */
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuHideForPlayer(int menuid, int playerid); /* $real_name=HideMenuForPlayer */
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidMenu(int menuid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisableRow(int menuid, int row);
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid); /* $real_name=DisableMenu */
+SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisableRow(int menuid, int row); /* $real_name=DisableMenuRow */
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMenu(int playerid);
 
 #define CreateMenu MenuCreate
@@ -166,8 +166,8 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, in
 
 typedef void (SAMPGDK_CALL *TimerHandler)(int timerid, void *param);
 
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler hander, void *param);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid);
+SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler hander, void *param); /* $skip */
+SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid); /* $skip */
 
 #define SetTimer CreateTimer
 #define KillTimer DestroyTimer
