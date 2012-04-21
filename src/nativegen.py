@@ -32,13 +32,23 @@ def generate_native_code(type, name, arg_list):
 	locals_code = ""
 	params_code = "\tcell params[] = {\n\t\t0,\n"
 	assign_code = ""
+	expect_buffer_size = False
 	for arg in parse_argument_list(arg_list):
 		arg_type = arg[0]
 		arg_name = arg[1]
 		# Local FakeAmxHeapObject instances.
-		if arg_type == "const char *":
+		if expect_buffer_size:
+			locals_code += arg_name + ");\n"
+			expect_buffer_size = False
+		if arg_type == "char *":
+			# Output string buffer whose size is passed via next argument.
+			locals_code += "\tFakeAmxHeapObject " + arg_name + "_("
+			expect_buffer_size = True
+		elif arg_type == "const char *":
+			# Constant string.
 			locals_code += "\tFakeAmxHeapObject " + arg_name + "_(" + arg_name + ");\n"
-		elif arg_type == "float *":
+		elif arg_type.endswith("*"):
+			# Other output parameters.
 			locals_code += "\tFakeAmxHeapObject " + arg_name + "_;\n"
 		# The "params" array.
 		if arg_type == "int" or arg_type == "bool":
@@ -65,6 +75,9 @@ def generate_native_code(type, name, arg_list):
 
 	if type == "bool":
 		code += "\treturn FakeAmx::CallNativeBool(native, params);\n"
+	elif type == "float":
+		code += "cell retval = FakeAmx::CallNative(native, params);\n"
+		code += "return amx_ctof(retval);\n"
 	else:
 		code += "\treturn FakeAmx::CallNative(native, params);\n"
 	code += "}\n"
@@ -75,7 +88,7 @@ def process_native_decl(string):
 	""" Returns a tuple of (type, name, arg_list) where arg_list is a
 	    list of arguments and each argument is a string that consists
 	    of an argument type and name (no default values can occur). """
-	match = re.match(r"SAMPGDK_EXPORT (int|bool) SAMPGDK_CALL (\w+)\((.*)\);", string)
+	match = re.match(r"SAMPGDK_EXPORT (int|bool|float) SAMPGDK_CALL (\w+)\((.*)\);", string)
 	if match == None:
 		return None
 	type = match.group(1)
