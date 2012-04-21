@@ -268,7 +268,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GameModeExit() {
 	return FakeAmx::CallNativeBool(native);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetWorldTime(short hour) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetWorldTime(int hour) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("SetWorldTime");
 	cell params[] = {
 		0,
@@ -345,7 +345,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SetDeathDropAmount(int amount) {
 	return FakeAmx::CallNativeBool(native, params);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL CreateExplosion(float x, float y, float z, short type, float radius) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL CreateExplosion(float x, float y, float z, int type, float radius) {
 	static AMX_NATIVE native = Natives::GetInstance().GetNativeWarn("CreateExplosion");
 	cell params[] = {
 		0,
