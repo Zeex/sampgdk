@@ -9,8 +9,27 @@ list(APPEND CMAKE_MODULE_PATH "${sampgdk_SOURCE_DIR}/cmake/Modules")
 include(AmxConfig)
 include(ParseVersionString)
 
-include_directories("${sampgdk_SOURCE_DIR}/include")
-include_directories("${sampgdk_SOURCE_DIR}/include/amx")
+include_directories("include")
+include_directories("include/amx")
+
+# Generate sources
+find_package(PythonInterp 2.7 REQUIRED)
+file(MAKE_DIRECTORY "src/generated/")
+execute_process(
+	COMMAND ${PYTHON_EXECUTABLE} "src/nativegen.py"
+		"include/sampgdk/a_objects.h"
+		"src/generated/a_objects.cpp"
+	COMMAND ${PYTHON_EXECUTABLE} "src/nativegen.py"
+		"include/sampgdk/a_players.h"
+		"src/generated/a_players.cpp"
+	COMMAND ${PYTHON_EXECUTABLE} "src/nativegen.py"
+		"include/sampgdk/a_samp.h"
+		"src/generated/a_samp.cpp"
+	COMMAND ${PYTHON_EXECUTABLE} "src/nativegen.py"
+		"include/sampgdk/a_vehicles.h"
+		"src/generated/a_vehicles.cpp"
+	WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+)
 
 set(SAMPGDK_HEADERS
 	"include/sampgdk/amx/amx.h"
