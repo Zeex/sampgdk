@@ -28,30 +28,40 @@ def generate_native_code(type, name, arg_list):
 	# A "static" variable that holds native address.
 	code += "\tstatic AMX_NATIVE native = Natives::GetInstance().GetNativeWarn(\"" + name + "\");\n"
 
-	# Generate FakeAmxHeapObject instances for reference arguments.
+	# Generate code for local variables, params array and ref argument assignment.
+	locals_code = ""
+	params_code = "\tcell params[] = {\n\t\t0,\n"
+	assign_code = ""
 	for arg in parse_argument_list(arg_list):
 		arg_type = arg[0]
 		arg_name = arg[1]
+		# Local FakeAmxHeapObject instances.
 		if arg_type == "const char *":
-			code += "\tFakeAmxHeapObject " + arg_name + "_(" + arg_name + ");\n"
+			locals_code += "\tFakeAmxHeapObject " + arg_name + "_(" + arg_name + ");\n"
 		elif arg_type == "float *":
-			code += "\tFakeAmxHeapObject " + arg_name + "_;\n"
-
-	# Generate the "params" array.
-	code += "\tcell params[] = {\n\t\t0,\n"
-	for arg in parse_argument_list(arg_list):
-		arg_type = arg[0]
-		arg_name = arg[1]
+			locals_code += "\tFakeAmxHeapObject " + arg_name + "_;\n"
+		# The "params" array.
 		if arg_type == "int" or arg_type == "bool":
-			code += "\t\t" + arg_name
+			params_code += "\t\t" + arg_name
 		elif arg_type == "float":
-			code += "\t\tamx_ftoc(" + arg_name + ")"
-		elif arg_type == "char *" or arg_type == "const char *" or arg_type == "float *":
-			code += "\t\t" + arg_name + "_.address()"
+			params_code += "\t\tamx_ftoc(" + arg_name + ")"
+		elif arg_type.endswith("*"):
+			params_code += "\t\t" + arg_name + "_.address()"
 		else:
 			return None
-		code += ",\n"
-	code += "\t};\n"
+		# Assignment of pointer arguments.
+		if arg_type == "int *" or arg_type == "float *" or arg_type == "bool *":
+			assign_code += "\t*" + arg_name + " = " + arg_name + "_."
+			if arg_type == "int *":
+				assign_code += "Get();\n"
+			elif arg_type == "bool *":
+				assign_code += "GetAsBool();\n"
+			elif arg_type == "float *":
+				assign_code += "GetAsFloat();\n"
+		params_code += ",\n"
+	params_code += "\t};\n"
+
+	code += locals_code + params_code + assign_code
 
 	if type == "bool":
 		code += "\treturn FakeAmx::CallNativeBool(native, params);\n"
