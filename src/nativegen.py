@@ -7,6 +7,18 @@ import os
 import re
 import sys
 
+class InvalidNativeArgumentType:
+	def __init__(self, type):
+		self.type = type
+
+class ExceptionalNative:
+	def __init__(self, name):
+		self.name = name
+	
+class NotNativeDecl:
+	def __init__(self, text):
+		self.text = text
+
 def parse_argument_list(arg_list):
 	""" For each entry of the arg_list returns a tuple made of
 	    argument type and name. """
@@ -19,6 +31,8 @@ def parse_argument_list(arg_list):
 		yield (type, name)
 
 def parse_attributes(string):
+	""" Parse generator attributes. Each attribute is a key=value pair
+	    separated by commas. """
 	attrs = dict()
 	if string != None:
 		items = string.split(",")
@@ -40,7 +54,7 @@ def generate_native_code(return_type, name, arg_list, comment):
 	attrs = parse_attributes(comment)
 
 	if "$skip" in attrs:
-		return None
+		raise ExceptionalNative(name)
 
 	# Write first line, same as function declaration + "{\n".
 	code = "SAMPGDK_EXPORT " + return_type + " SAMPGDK_CALL " + name\
@@ -64,46 +78,59 @@ def generate_native_code(return_type, name, arg_list, comment):
 		# Local FakeAmxHeapObject instances.
 		if expect_buffer_size:
 			locals_code += arg_name + ");\n"
+			assign_code += arg_name + ");\n"
 			expect_buffer_size = False
-		if arg_type == "char *":
-			# Output string buffer whose size is passed via next argument.
-			locals_code += "\tFakeAmxHeapObject " + arg_name + "_("
-			expect_buffer_size = True
-		elif arg_type == "const char *":
-			# Constant string.
-			locals_code += "\tFakeAmxHeapObject " + arg_name + "_(" + arg_name + ");\n"
-		elif arg_type.endswith("*"):
-			# Other output parameters.
-			locals_code += "\tFakeAmxHeapObject " + arg_name + "_;\n"
+		if arg_type.endswith("*"):
+			locals_code += "\tFakeAmxHeapObject " + arg_name + "_"
+			if arg_type == "char *":
+				# Output string buffer whose size is passed via next argument.
+				locals_code += "("
+				expect_buffer_size = True
+			elif arg_type == "const char *":
+				# Constant string.
+				locals_code += "(" + arg_name + ");\n"
+			else:
+				# Other output parameters.
+				locals_code += ";\n"
 		# The "params" array.
+		params_code += ",\n\t\t"
 		if arg_type == "int" or arg_type == "bool":
-			params_code += ",\n\t\t" + arg_name
+			params_code += arg_name
 		elif arg_type == "float":
-			params_code += ",\n\t\tamx_ftoc(" + arg_name + ")"
+			params_code += "amx_ftoc(" + arg_name + ")"
 		elif arg_type.endswith("*"):
-			params_code += ",\n\t\t" + arg_name + "_.address()"
+			params_code += arg_name + "_.address()"
 		else:
-			return None
+			raise InvalidNativeArgumentType(arg_type)
 		# Assignment of pointer arguments.
-		if arg_type == "int *" or arg_type == "float *" or arg_type == "bool *":
-			assign_code += "\t*" + arg_name + " = " + arg_name + "_."
-			if arg_type == "int *":
-				assign_code += "Get();\n"
-			elif arg_type == "bool *":
-				assign_code += "GetAsBool();\n"
-			elif arg_type == "float *":
-				assign_code += "GetAsFloat();\n"
+		if arg_type.endswith("*"):
+			if arg_type == "const char *":
+				pass
+			elif arg_type == "char *":
+				assign_code += "\t" + arg_name + "_.GetAsString(" + arg_name + ", "
+				expect_buffer_size = True
+			else:
+				assign_code += "\t*" + arg_name + " = " + arg_name + "_."
+				if arg_type == "int *":
+					assign_code += "Get();\n"
+				elif arg_type == "bool *":
+					assign_code += "GetAsBool();\n"
+				elif arg_type == "float *":
+					assign_code += "GetAsFloat();\n"
+				else:
+					raise InvalidNativeArgumentType(arg_type)
 	params_code += "\n\t};\n"
 
 	code += locals_code + params_code + assign_code
 
+	code += "\treturn FakeAmx::"
 	if return_type == "bool":
-		code += "\treturn FakeAmx::CallNativeBool(native, params);\n"
+		code += "CallNativeBool"
 	elif return_type == "float":
-		code += "\treturn FakeAmx::CallNativeFloat(native, params);\n"
+		code += "CallNativeFloat"
 	else:
-		code += "\treturn FakeAmx::CallNative(native, params);\n"
-	code += "}\n"
+		code += "CallNative"
+	code += "(native, params);\n}\n"
 
 	return code
 
@@ -113,7 +140,7 @@ def process_native_decl(string):
 	    of an argument type and name (no default values can occur). """
 	match = re.match(r"SAMPGDK_EXPORT (int|bool|float) SAMPGDK_CALL (\w+)\((.*)\);\s*(/\*.*$)?", string)
 	if match == None:
-		return None
+		raise NotNativeDecl(string)
 	return_type = match.group(1)
 	name = match.group(2)
 	arg_list = match.group(3).split(", ")
@@ -125,16 +152,31 @@ def process_file(src, dest):
 	    declarations and outputs generated code to "dest". """
 	outfile = open(dest, "w")
 	for line in file(src):
-		native = process_native_decl(line)
-		if native == None:
+		line = line.strip()
+		if len(line) == 0:
 			continue
-		code = generate_native_code(*native)
-		if code == None:
-			continue
-		outfile.write(code + "\n")
+		try:
+			native = process_native_decl(line)
+			outfile.write(generate_native_code(*native) + "\n")
+		except NotNativeDecl:
+			pass
+		except InvalidNativeArgumentType as arg:
+			sys.stderr.write("Invalid argument type '" + arg.type + "' in declaration:\n" + line + "\n")
+			pass
+		except ExceptionalNative as native:
+			sys.stderr.write("Skipping native function '" + native.name + "'\n")
+			pass
 
 if __name__ == '__main__':
 	if len(sys.argv) <= 2:
 		print "Usage: ", os.path.basename(sys.argv[0]), " <src> <dest>"
 	else:
 		process_file(sys.argv[1], sys.argv[2])
+	try:
+    		sys.stdout.close()
+	except:
+    		pass
+	try:
+    		sys.stderr.close()
+	except:
+    		pass
