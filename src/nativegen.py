@@ -159,16 +159,8 @@ def process_file(src, dest):
 		except InvalidNativeArgumentType as arg:
 			sys.stderr.write("Invalid argument type '" + arg.type + "' in declaration:\n" + line + "\n")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	if len(sys.argv) <= 2:
 		print "Usage: ", os.path.basename(sys.argv[0]), " <src> <dest>"
 	else:
 		process_file(sys.argv[1], sys.argv[2])
-	try:
-    		sys.stdout.close()
-	except:
-    		pass
-	try:
-    		sys.stderr.close()
-	except:
-    		pass
