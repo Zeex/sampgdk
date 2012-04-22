@@ -81,6 +81,7 @@ public:
 	size_t size() const;
 
 	cell  Get() const;
+	bool GetAsBool() const;
 	float GetAsFloat() const;
 	void  GetAsString(char *s, size_t size) const;
 
