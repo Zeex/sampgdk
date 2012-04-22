@@ -18,6 +18,12 @@ class ExceptionalNative:
 class NotNativeDecl:
 	def __init__(self, text):
 		self.text = text
+	
+class NativeArgument:
+	def __init__(self, string):
+		match = re.match(r"([\w ]+ |[\w ]+\*)(\w+)$", string)
+		self.type = match.group(1).strip()
+		self.name = match.group(2).strip()
 
 def parse_argument_list(arg_list):
 	""" For each entry of the arg_list returns a tuple made of
@@ -25,10 +31,7 @@ def parse_argument_list(arg_list):
 	for string in arg_list:
 		if len(string) == 0:
 			continue
-		match = re.match(r"([\w ]+ |[\w ]+\*)(\w+)$", string)
-		type = match.group(1).strip()
-		name = match.group(2).strip()
-		yield (type, name)
+		yield NativeArgument(string)
 
 def parse_attributes(string):
 	""" Parse generator attributes. Each attribute is a key=value pair
@@ -73,52 +76,50 @@ def generate_native_code(return_type, name, arg_list, comment):
 	assign_code = ""
 	expect_buffer_size = False
 	for arg in parse_argument_list(arg_list):
-		arg_type = arg[0]
-		arg_name = arg[1]
 		# Local FakeAmxHeapObject instances.
 		if expect_buffer_size:
-			locals_code += arg_name + ");\n"
-			assign_code += arg_name + ");\n"
+			locals_code += arg.name + ");\n"
+			assign_code += arg.name + ");\n"
 			expect_buffer_size = False
-		if arg_type.endswith("*"):
-			locals_code += "\tFakeAmxHeapObject " + arg_name + "_"
-			if arg_type == "char *":
+		if arg.type.endswith("*"):
+			locals_code += "\tFakeAmxHeapObject " + arg.name + "_"
+			if arg.type == "char *":
 				# Output string buffer whose size is passed via next argument.
 				locals_code += "("
 				expect_buffer_size = True
-			elif arg_type == "const char *":
+			elif arg.type == "const char *":
 				# Constant string.
-				locals_code += "(" + arg_name + ");\n"
+				locals_code += "(" + arg.name + ");\n"
 			else:
 				# Other output parameters.
 				locals_code += ";\n"
 		# The "params" array.
 		params_code += ",\n\t\t"
-		if arg_type == "int" or arg_type == "bool":
-			params_code += arg_name
-		elif arg_type == "float":
-			params_code += "amx_ftoc(" + arg_name + ")"
-		elif arg_type.endswith("*"):
-			params_code += arg_name + "_.address()"
+		if arg.type == "int" or arg.type == "bool":
+			params_code += arg.name
+		elif arg.type == "float":
+			params_code += "amx_ftoc(" + arg.name + ")"
+		elif arg.type.endswith("*"):
+			params_code += arg.name + "_.address()"
 		else:
-			raise InvalidNativeArgumentType(arg_type)
+			raise InvalidNativeArgumentType(arg.type)
 		# Assignment of pointer arguments.
-		if arg_type.endswith("*"):
-			if arg_type == "const char *":
+		if arg.type.endswith("*"):
+			if arg.type == "const char *":
 				pass
-			elif arg_type == "char *":
-				assign_code += "\t" + arg_name + "_.GetAsString(" + arg_name + ", "
+			elif arg.type == "char *":
+				assign_code += "\t" + arg.name + "_.GetAsString(" + arg.name + ", "
 				expect_buffer_size = True
 			else:
-				assign_code += "\t*" + arg_name + " = " + arg_name + "_."
-				if arg_type == "int *":
+				assign_code += "\t*" + arg.name + " = " + arg.name + "_."
+				if arg.type == "int *":
 					assign_code += "Get();\n"
-				elif arg_type == "bool *":
+				elif arg.type == "bool *":
 					assign_code += "GetAsBool();\n"
-				elif arg_type == "float *":
+				elif arg.type == "float *":
 					assign_code += "GetAsFloat();\n"
 				else:
-					raise InvalidNativeArgumentType(arg_type)
+					raise InvalidNativeArgumentType(arg.type)
 	params_code += "\n\t};\n"
 
 	code += locals_code + params_code + assign_code
