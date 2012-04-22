@@ -13,7 +13,7 @@ include_directories("include")
 include_directories("include/amx")
 
 # Generate sources
-find_package(PythonInterp 2.7 REQUIRED)
+find_package(PythonInterp 2.6 REQUIRED)
 file(MAKE_DIRECTORY "src/generated/")
 execute_process(
 	WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
