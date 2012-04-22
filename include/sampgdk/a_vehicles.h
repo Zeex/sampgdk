@@ -51,8 +51,8 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleRotationQuat(int vehicleid, float *w,
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleZAngle(int vehicleid, float z_angle);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked);
 SAMPGDK_EXPORT bool SAMPGDK_CALL ManualVehicleEngineAndLights();
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, int engine, int lights, int alarm, int doors, int bonnet, int boot, int objective);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, int *engine, int *lights, int *alarm, int *doors, int *bonnet, int *boot, int *objective);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, bool doors, bool bonnet, bool boot, bool objective);
+SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, bool *engine, bool *lights, bool *alarm, bool *doors, bool *bonnet, bool *boot, bool *objective);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleToRespawn(int vehicleid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL LinkVehicleToInterior(int vehicleid, int interiorid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL AddVehicleComponent(int vehicleid, int componentid);
@@ -142,11 +142,11 @@ public:
 		{ return ::GetVehicleRotationQuat(id_, &w, &x, &y, &z); }
 	bool SetParamsForPlayer(int playerid, bool objective, bool doorslocked) const
 		{ return ::SetVehicleParamsForPlayer(id_, playerid, objective, doorslocked); }
-	bool SetParamsEx(int engine, int lights, int alarm, int doors, int bonnet, int boot, int objective) const
+	bool SetParamsEx(bool engine, bool lights, bool alarm, bool doors, bool bonnet, bool boot, bool objective) const
 		{ return ::SetVehicleParamsEx(id_, engine, lights, alarm, doors, bonnet, boot, objective); }
-	bool GetVehicleParamsEx(int *engine, int *lights, int *alarm, int *doors, int *bonnet, int *boot, int *objective) const
+	bool GetParamsEx(bool *engine, bool *lights, bool *alarm, bool *doors, bool *bonnet, bool *boot, bool *objective) const
 		{ return ::GetVehicleParamsEx(id_, engine, lights, alarm, doors, bonnet, boot, objective); }
-	bool GetVehicleParamsEx(int &engine, int &lights, int &alarm, int &doors, int &bonnet, int &boot, int &objective) const
+	bool GetParamsEx(bool &engine, bool &lights, bool &alarm, bool &doors, bool &bonnet, bool &boot, bool &objective) const
 		{ return ::GetVehicleParamsEx(id_, &engine, &lights, &alarm, &doors, &bonnet, &boot, &objective); }
 	bool SetToRespawn() const
 		{ return ::SetVehicleToRespawn(id_); }
