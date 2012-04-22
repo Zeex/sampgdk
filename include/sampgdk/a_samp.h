@@ -312,6 +312,7 @@ public:
 		{ return ::MenuDisableRow(id_, row); }
 
 private:
+	Menu& operator=(const Menu& rhs);
 	const int id_;
 };
 
@@ -368,6 +369,7 @@ public:
 		{ return ::TextDrawHideForAll(id_); }
 
 private:
+	TextDraw& operator=(const TextDraw& rhs);
 	const int id_;
 };
 
@@ -402,6 +404,7 @@ public:
 		{ return ::GangZoneStopFlashForAll(id_); }
 
 private:
+	GangZone& operator=(const GangZone& rhs);
 	const int id_;
 };
 
