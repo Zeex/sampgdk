@@ -24,46 +24,46 @@
 std::vector<cell> FakeAmx::heap_(FakeAmx::INITIAL_HEAP_SIZE);
 
 AMX_HEADER FakeAmx::hdr_ = {
-    0, // size
-    AMX_MAGIC, // magic
-    MIN_FILE_VERSION, // file_version
-    MIN_AMX_VERSION, // amx_version
-    0, // flags
-    0, // defsize
-    0, // cod
-    reinterpret_cast<int32_t>(&heap_[0]) - reinterpret_cast<int32_t>(&hdr_), // dat
-    0, // hea 
-    0, // stp
-    0, // cip
-    0, // publics
-    0, // natives
-    0, // libraries
-    0, // pubvars
-    0, // tags
-    0, // nametable
+	0, // size
+	AMX_MAGIC, // magic
+	MIN_FILE_VERSION, // file_version
+	MIN_AMX_VERSION, // amx_version
+	0, // flags
+	0, // defsize
+	0, // cod
+	reinterpret_cast<int32_t>(&heap_[0]) - reinterpret_cast<int32_t>(&hdr_), // dat
+	0, // hea 
+	0, // stp
+	0, // cip
+	0, // publics
+	0, // natives
+	0, // libraries
+	0, // pubvars
+	0, // tags
+	0, // nametable
 };
 
 AMX FakeAmx::amx_ = {
-    reinterpret_cast<unsigned char*>(&FakeAmx::hdr_), // base
-    reinterpret_cast<unsigned char*>(&FakeAmx::heap_[0]), // data
-    amx_Callback, // callback
-    0, // debug hook
-    0, // cip
-    0, // frm
-    0, // hea
-    0, // hlw
-    0, // stk
-    std::numeric_limits<int32_t>::max(), // stp
-    0, // flags
-    {0}, // usertags
-    {0}, // userdata
-    AMX_ERR_NONE, // error
-    0, // paramcount 
-    0, // pri
-    0, // alt
-    0, // reset_stk
-    0, // reset_hea
-    0, // sysreq_d
+	reinterpret_cast<unsigned char*>(&FakeAmx::hdr_), // base
+	reinterpret_cast<unsigned char*>(&FakeAmx::heap_[0]), // data
+	amx_Callback, // callback
+	0, // debug hook
+	0, // cip
+	0, // frm
+	0, // hea
+	0, // hlw
+	0, // stk
+	std::numeric_limits<int32_t>::max(), // stp
+	0, // flags
+	{0}, // usertags
+	{0}, // userdata
+	AMX_ERR_NONE, // error
+	0, // paramcount 
+	0, // pri
+	0, // alt
+	0, // reset_stk
+	0, // reset_hea
+	0, // sysreq_d
 };
 
 // static
@@ -124,6 +124,10 @@ cell FakeAmxHeapObject::Get() const {
 	cell value;
 	FakeAmx::Get(address_, value);
 	return value;
+}
+
+bool FakeAmxHeapObject::GetAsBool() const {
+	return Get() != 0;
 }
 
 float FakeAmxHeapObject::GetAsFloat() const {
