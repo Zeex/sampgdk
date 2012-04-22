@@ -55,7 +55,7 @@ def generate_native_code(return_type, name, arg_list, comment):
 
 	# Generate code for local variables, params array and ref argument assignment.
 	locals_code = ""
-	params_code = "\tcell params[] = {\n\t\t0,\n"
+	params_code = "\tcell params[] = {\n\t\t0"
 	assign_code = ""
 	expect_buffer_size = False
 	for arg in parse_argument_list(arg_list):
@@ -77,11 +77,11 @@ def generate_native_code(return_type, name, arg_list, comment):
 			locals_code += "\tFakeAmxHeapObject " + arg_name + "_;\n"
 		# The "params" array.
 		if arg_type == "int" or arg_type == "bool":
-			params_code += "\t\t" + arg_name
+			params_code += ",\n\t\t" + arg_name
 		elif arg_type == "float":
-			params_code += "\t\tamx_ftoc(" + arg_name + ")"
+			params_code += ",\n\t\tamx_ftoc(" + arg_name + ")"
 		elif arg_type.endswith("*"):
-			params_code += "\t\t" + arg_name + "_.address()"
+			params_code += ",\n\t\t" + arg_name + "_.address()"
 		else:
 			return None
 		# Assignment of pointer arguments.
@@ -93,8 +93,7 @@ def generate_native_code(return_type, name, arg_list, comment):
 				assign_code += "GetAsBool();\n"
 			elif arg_type == "float *":
 				assign_code += "GetAsFloat();\n"
-		params_code += ",\n"
-	params_code += "\t};\n"
+	params_code += "\n\t};\n"
 
 	code += locals_code + params_code + assign_code
 
