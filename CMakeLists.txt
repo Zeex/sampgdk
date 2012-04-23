@@ -17,19 +17,19 @@ find_package(PythonInterp 2.6 REQUIRED)
 file(MAKE_DIRECTORY "src/generated/")
 execute_process(
 	WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} "src/nativegen.py"
+	COMMAND ${PYTHON_EXECUTABLE} "nativegen.py"
 		"include/sampgdk/a_objects.h"
 		"src/generated/a_objects.cpp"
 		"include/sampgdk/a_objects-defs.h"
-	COMMAND ${PYTHON_EXECUTABLE} "src/nativegen.py"
+	COMMAND ${PYTHON_EXECUTABLE} "nativegen.py"
 		"include/sampgdk/a_players.h"
 		"src/generated/a_players.cpp"
 		"include/sampgdk/a_players-defs.h"
-	COMMAND ${PYTHON_EXECUTABLE} "src/nativegen.py"
+	COMMAND ${PYTHON_EXECUTABLE} "nativegen.py"
 		"include/sampgdk/a_samp.h"
 		"src/generated/a_samp.cpp"
 		"include/sampgdk/a_samp-defs.h"
-	COMMAND ${PYTHON_EXECUTABLE} "src/nativegen.py"
+	COMMAND ${PYTHON_EXECUTABLE} "nativegen.py"
 		"include/sampgdk/a_vehicles.h"
 		"src/generated/a_vehicles.cpp"
 		"include/sampgdk/a_vehicles-defs.h"
