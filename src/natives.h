@@ -31,7 +31,7 @@ public:
 	// Returns NULL if the requested function does not exist.
 	AMX_NATIVE GetNative(const char *name);
 
-	// Same as GetNative() prints a warning message to log when fails.
+	// Same as GetNative() but prints a warning message to log when fails.
 	AMX_NATIVE GetNativeWarn(const char *name);
 
 	// Add a new native function or override an exiting one.
