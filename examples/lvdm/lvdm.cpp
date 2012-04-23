@@ -118,7 +118,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid)
 	GameTextForPlayer(playerid,"~w~SA-MP: ~r~Las Venturas ~g~MoneyGrub", 5000, 5);
 	SendPlayerFormattedText(playerid, "Welcome to Las Venturas MoneyGrub, For help type /help.", 0);
 	gActivePlayers[playerid]++;
-	gLastGaveCash[playerid] = GetServerTickCount();
+	gLastGaveCash[playerid] = GetTickCount();
 	return true;
 }
 

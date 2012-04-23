@@ -39,20 +39,23 @@ def parse_attributes(string):
 				attrs[nv[0].strip()] = None
 	return attrs
 
-def generate_native_code(return_type, name, arg_list, comment):
-	""" Generates C++ code for a native function. """
+def get_comment_text(comment):
+	""" Extracts text in /* ... */ comments (C-style comments). """
+	text = comment
+	text = re.sub("^\s*/\*\s*", "", text)
+	text = re.sub("\s*\*/\s*$", "", text)
+	return text
 
-	# Get attirubutes
-	if (comment != None):
-		comment = re.sub("^\s*/\*\s*", "", comment)
-		comment = re.sub("\s*\*/\s*$", "", comment)
+def generate_native_code(return_type, name, arg_list, comment):
+	if comment is not None:
+		comment = get_comment_text(comment)
 	attrs = parse_attributes(comment)
 
 	if "$skip" in attrs:
 		return None
 
 	# Write first line, same as function declaration + "{\n".
-	code = "SAMPGDK_EXPORT " + return_type + " SAMPGDK_CALL " + name\
+	code = "SAMPGDK_EXPORT " + return_type + " SAMPGDK_CALL sampgdk_native_" + name\
 		+ "(" + ", ".join(arg_list) + ") {\n"
 
 	# A "static" variable that holds native address.
@@ -113,7 +116,6 @@ def generate_native_code(return_type, name, arg_list, comment):
 				else:
 					raise InvalidNativeArgumentType(arg.type)
 	params_code += "\n\t};\n"
-
 	code += locals_code + params_code + assign_code
 
 	code += "\treturn FakeAmx::"
@@ -124,7 +126,11 @@ def generate_native_code(return_type, name, arg_list, comment):
 	else:
 		code += "CallNative"
 	code += "(native, params);\n}\n"
+	return code
 
+def generate_native_macro(return_type, name, arg_list, comment):
+	code = "#undef " + name + "\n"
+	code += "#define " + name + " sampgdk_native_" + name + "\n"
 	return code
 
 def process_native_decl(string):
@@ -140,27 +146,36 @@ def process_native_decl(string):
 	comment = match.group(4)
 	return (return_type, name, arg_list, comment)	
 
-def process_file(src, dest):
+def process_file(header_file, source_file, macros_file):
 	""" Processes a C/C++ header file "src" finding native function
 	    declarations and outputs generated code to "dest". """
-	outfile = open(dest, "w")
-	for line in file(src):
+	header = open(header_file, "r")
+	source = open(source_file, "w")
+	macros = open(macros_file, "w")
+	for line in header:
 		line = line.strip()
 		if len(line) == 0:
 			continue
 		try:
 			native = process_native_decl(line)
-			if native is None:
-				continue
-			code = generate_native_code(*native)
-			if code is None:
-				continue
-			outfile.write(code + "\n")
+			if native is not None:
+				native_macro = generate_native_macro(*native)
+				if native_macro is not None:
+					macros.write(native_macro + "\n")
+				native_code = generate_native_code(*native)
+				if native_code is not None:
+					source.write(native_code + "\n")
 		except InvalidNativeArgumentType as arg:
 			sys.stderr.write("Invalid argument type '" + arg.type + "' in declaration:\n" + line + "\n")
+	header.close()
+	source.close()
+	macros.close()
 
 if __name__ == "__main__":
-	if len(sys.argv) <= 2:
-		print "Usage: ", os.path.basename(sys.argv[0]), " <src> <dest>"
+	if len(sys.argv) <= 3:
+		sys.stderr.write("Usage: " + os.path.basename(sys.argv[0]) + " <header-file> <source-file> <macros-file>\n")
+		sys.stderr.write("  header-file <- file that contains declarations of native functions\n")
+		sys.stderr.write("  source-file <- where to write generated code to\n")
+		sys.stderr.write("  macros-file <- where to write #define's for generated natives\n")
 	else:
-		process_file(sys.argv[1], sys.argv[2])
+		process_file(sys.argv[1], sys.argv[2], sys.argv[3])
