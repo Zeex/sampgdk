@@ -28,7 +28,7 @@ Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
 	, repeating_(repeat)
 	, handler_(hander)
 	, param_(param)
-	, startTime_(GetServerTickCount())
+	, startTime_(GetTickCount())
 {
 }
 
@@ -45,7 +45,7 @@ void Timer::Fire(int elapsedTime) {
 	}
 	handler_(timerid, param_);
 	if (repeating_) {
-		startTime_ = GetServerTickCount() - (elapsedTime - interval_);
+		startTime_ = GetTickCount() - (elapsedTime - interval_);
 	}
 }
 
@@ -83,7 +83,7 @@ bool Timer::DestroyTimer(int timerid) {
 }
 
 void Timer::ProcessTimers() {
-	int time = GetServerTickCount();
+	int time = GetTickCount();
 	for (size_t i = 0; i < timers_.size(); ++i) {
 		Timer *timer = timers_[i];
 		int elapsedTime = time - timer->GetStartTime();
@@ -100,10 +100,10 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
 	Timer::ProcessTimers();
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_native_SetTimer(int interval, bool repeat, TimerHandler handler, void *param) {
 	return Timer::CreateTimer(interval, repeat, handler, param);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL sampgdk_native_KillTimer(int timerid) {
 	return Timer::DestroyTimer(timerid);
 }

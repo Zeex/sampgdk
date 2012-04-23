@@ -19,6 +19,7 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
+#include <sampgdk/a_samp-defs.h>
 
 #include <stddef.h>
 
@@ -48,7 +49,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL SendPlayerMessageToAll(int senderid, const char
 SAMPGDK_EXPORT bool SAMPGDK_CALL SendDeathMessage(int killer, int killee, int weapon);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForAll(const char *text, int time, int style);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GameTextForPlayer(int playerid, const char *text, int time, int style);
-SAMPGDK_EXPORT int SAMPGDK_CALL GetServerTickCount(); /* $real_name=GetTickCount */
+SAMPGDK_EXPORT int SAMPGDK_CALL GetTickCount();
 SAMPGDK_EXPORT int SAMPGDK_CALL GetMaxPlayers();
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetGameModeText(const char *text);
@@ -95,25 +96,16 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerNetworkStats(int playerid, char *retst
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetNetworkStats(char *retstr, int size);
 SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerVersion(int playerid, char *version, int len);
 
-SAMPGDK_EXPORT int SAMPGDK_CALL MenuCreate(const char *title, int columns, float x, float y, float col1width, float col2width); /* $real_name=CreateMenu */
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDestroy(int menuid); /* $real_name=DestroyMenu */
-SAMPGDK_EXPORT int SAMPGDK_CALL MenuAddItem(int menuid, int column, const char *menutext); /* $real_name=AddMenuItem */
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuSetColumnHeader(int menuid, int column, const char *columnheader); /* $real_name=SetMenuColumnHeader */
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuShowForPlayer(int menuid, int playerid); /* $real_name=ShowMenuForPlayer */
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuHideForPlayer(int menuid, int playerid); /* $real_name=HideMenuForPlayer */
+SAMPGDK_EXPORT int SAMPGDK_CALL CreateMenu(const char *title, int columns, float x, float y, float col1width, float col2width);
+SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyMenu(int menuid);
+SAMPGDK_EXPORT int SAMPGDK_CALL AddMenuItem(int menuid, int column, const char *menutext);
+SAMPGDK_EXPORT bool SAMPGDK_CALL SetMenuColumnHeader(int menuid, int column, const char *columnheader);
+SAMPGDK_EXPORT bool SAMPGDK_CALL ShowMenuForPlayer(int menuid, int playerid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL HideMenuForPlayer(int menuid, int playerid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidMenu(int menuid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisable(int menuid); /* $real_name=DisableMenu */
-SAMPGDK_EXPORT bool SAMPGDK_CALL MenuDisableRow(int menuid, int row); /* $real_name=DisableMenuRow */
+SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenu(int menuid);
+SAMPGDK_EXPORT bool SAMPGDK_CALL DisableMenuRow(int menuid, int row);
 SAMPGDK_EXPORT int SAMPGDK_CALL GetPlayerMenu(int playerid);
-
-#define CreateMenu MenuCreate
-#define DestroyMenu MenuDestroy
-#define AddMenuItem MenuAddItem
-#define SetMenuColumnHeader MenuSetColumnHeader
-#define ShowMenuForPlayer MenuShowForPlayer
-#define HideMenuForPlayer MenuHideForPlayer
-#define DisableMenu MenuDisable
-#define DisableMenuRow MenuDisableRow
 
 SAMPGDK_EXPORT int SAMPGDK_CALL TextDrawCreate(float x, float y, const char *text);
 SAMPGDK_EXPORT bool SAMPGDK_CALL TextDrawDestroy(int text);
@@ -166,11 +158,8 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, in
 
 typedef void (SAMPGDK_CALL *TimerHandler)(int timerid, void *param);
 
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateTimer(int interval, bool repeat, TimerHandler hander, void *param); /* $skip */
-SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyTimer(int timerid); /* $skip */
-
-#define SetTimer CreateTimer
-#define KillTimer DestroyTimer
+SAMPGDK_EXPORT int SAMPGDK_CALL SetTimer(int interval, bool repeat, TimerHandler hander, void *param); /* $skip */
+SAMPGDK_EXPORT bool SAMPGDK_CALL KillTimer(int timerid); /* $skip */
 
 #define PLAYER_STATE_NONE                    (0)
 #define PLAYER_STATE_ONFOOT                  (1)
@@ -286,30 +275,30 @@ public:
 	operator int() const { return id_; }	
 
 	static Menu Create(const char *title, int columns, float x, float y, float col1width, float col2width = 0.0) 
-		{ return ::MenuCreate(title, columns, x, y, col1width, col2width); }
+		{ return ::CreateMenu(title, columns, x, y, col1width, col2width); }
 	static Menu Create(const std::string &title, int columns, float x, float y, float col1width, float col2width) 
-		{ return ::MenuCreate(title.c_str(), columns, x, y, col1width, col2width); }
+		{ return ::CreateMenu(title.c_str(), columns, x, y, col1width, col2width); }
 
 	bool Destroy() const
-		{ return ::MenuDestroy(id_); }
+		{ return ::DestroyMenu(id_); }
 	int AddItem(int column, const char *menutext) const
-		{ return ::MenuAddItem(id_, column, menutext); }
+		{ return ::AddMenuItem(id_, column, menutext); }
 	int AddItem(int column, const std::string &menutext) const
-		{ return ::MenuAddItem(id_, column, menutext.c_str()); }
+		{ return ::AddMenuItem(id_, column, menutext.c_str()); }
 	bool SetColumnHeader(int column, const char *columnheader) const
-		{ return ::MenuSetColumnHeader(id_, column, columnheader); }
+		{ return ::SetMenuColumnHeader(id_, column, columnheader); }
 	bool SetColumnHeader(int column, const std::string &columnheader) const
-		{ return ::MenuSetColumnHeader(id_, column, columnheader.c_str()); }
+		{ return ::SetMenuColumnHeader(id_, column, columnheader.c_str()); }
 	bool ShowForPlayer(int playerid) const
-		{ return ::MenuShowForPlayer(id_, playerid); }
+		{ return ::ShowMenuForPlayer(id_, playerid); }
 	bool HideForPlayer(int playerid) const
-		{ return ::MenuHideForPlayer(id_, playerid); }
+		{ return ::HideMenuForPlayer(id_, playerid); }
 	bool IsValid() const
 		{ return ::IsValidMenu(id_); }
 	bool Disable() const
-		{ return ::MenuDisable(id_); }
+		{ return ::DisableMenu(id_); }
 	bool DisableRow(int row) const
-		{ return ::MenuDisableRow(id_, row); }
+		{ return ::DisableMenuRow(id_, row); }
 
 private:
 	const int id_;
