@@ -14,7 +14,6 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/a_samp.h>
 
 #include <set>
 #include <vector>
@@ -30,7 +29,7 @@ Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
 	, repeating_(repeat)
 	, handler_(hander)
 	, param_(param)
-	, startTime_(GetTickCount())
+	, startTime_(Clock())
 {
 }
 
@@ -47,7 +46,7 @@ void Timer::Fire(int elapsedTime) {
 	}
 	handler_(timerid, param_);
 	if (repeating_) {
-		startTime_ = GetTickCount() - (elapsedTime - interval_);
+		startTime_ = Clock() - (elapsedTime - interval_);
 	}
 }
 
@@ -85,7 +84,7 @@ bool Timer::DestroyTimer(int timerid) {
 }
 
 void Timer::ProcessTimers() {
-	int time = GetTickCount();
+	int time = Clock();
 	for (size_t i = 0; i < timers_.size(); ++i) {
 		Timer *timer = timers_[i];
 		int elapsedTime = time - timer->GetStartTime();
