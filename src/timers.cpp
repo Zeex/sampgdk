@@ -101,11 +101,11 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
 	Timer::ProcessTimers();
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_native_SetTimer(int interval, bool repeat, TimerHandler handler, void *param) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_SetTimer(int interval, bool repeat, TimerHandler handler, void *param) {
 	return Timer::CreateTimer(interval, repeat, handler, param);
 }
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL sampgdk_native_KillTimer(int timerid) {
+SAMPGDK_EXPORT bool SAMPGDK_CALL sampgdk_KillTimer(int timerid) {
 	return Timer::DestroyTimer(timerid);
 }
 

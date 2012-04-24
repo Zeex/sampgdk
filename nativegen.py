@@ -55,7 +55,7 @@ def generate_native_code(return_type, name, arg_list, comment):
 		return None
 
 	# Write first line, same as function declaration + "{\n".
-	code = "SAMPGDK_EXPORT " + return_type + " SAMPGDK_CALL sampgdk_native_" + name\
+	code = "SAMPGDK_EXPORT " + return_type + " SAMPGDK_CALL sampgdk_" + name\
 		+ "(" + ", ".join(arg_list) + ") {\n"
 
 	# A "static" variable that holds native address.
@@ -130,7 +130,7 @@ def generate_native_code(return_type, name, arg_list, comment):
 
 def generate_native_macro(return_type, name, arg_list, comment):
 	code = "#undef " + name + "\n"
-	code += "#define " + name + " sampgdk_native_" + name + "\n"
+	code += "#define " + name + " sampgdk_" + name + "\n"
 	return code
 
 def process_native_decl(string):
