@@ -56,26 +56,6 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
 	sampgdk::Callbacks::GetInstance().RegisterCallbackHandler(plugin);
 }
 
-SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
-#ifdef SAMPGDK_WINDOWS
-	MEMORY_BASIC_INFORMATION mbi;
-	VirtualQuery(symbol, &mbi, sizeof(mbi));
-	return (void*)mbi.AllocationBase;
-#else
-	Dl_info info;
-	dladdr(symbol, &info);
-	return dlopen(info.dli_fname, RTLD_NOW); /* should be already loaded by the server */
-#endif
-}
-
-SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name)  {
-#ifdef SAMPGDK_WINDOWS
-	return (void*)GetProcAddress((HMODULE)plugin, name);
-#else
-	return dlsym(plugin, name);
-#endif
-}
-
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
 	return &(sampgdk::AmxHooks::GetNatives()[0]);
 }
