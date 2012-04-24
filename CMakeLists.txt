@@ -81,6 +81,16 @@ set(SAMPGDK_SOURCES
 	"src/version.cpp"
 )
 
+if(WIN32)
+	list(APPEND SAMPGDK_SOURCES
+		"src/core-win32.cpp"
+	)
+elseif(UNIX)
+	list(APPEND SAMPGDK_SOURCES
+		"src/core-linux.cpp"
+	)
+endif()
+
 add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 
 # Read current version from VERSION.txt
