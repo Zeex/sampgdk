@@ -3,9 +3,6 @@
 #include <list>
 #include <string>
 #include <vector>
-#include <sampgdk/amx.h>
-#include <sampgdk/core.h>
-#include <sampgdk/plugin.h>
 #ifdef _WIN32
 	#include <windows.h>
 	#include <sys/types.h>
@@ -18,6 +15,7 @@
 	#include <fnmatch.h>
 	#include <sys/stat.h>
 #endif
+#include <sampgdk/plugin.h>
 #include "filterscript.h"
 #include "plugin.h"
 
