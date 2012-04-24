@@ -284,12 +284,6 @@ public:
 	// Explicit ID request
 	int GetId() const { return id_; }
 
-	bool SetSpawnInfo(int team, int skin, float x, float y, float z, float rotation, 
-		int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo) const
-	{
-		::SetSpawnInfo(id_, team, skin, x, y, z, rotation, 
-			weapon1, weapon1_ammo, weapon2, weapon2_ammo, weapon3, weapon3_ammo);
-	}
 	bool Spawn() const
 		{ return ::SpawnPlayer(id_); }
 	bool SetPos(float x, float y, float z) const
