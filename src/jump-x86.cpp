@@ -42,6 +42,8 @@ static void Unprotect(void *address, int size) {
 
 #endif
 
+namespace sampgdk {
+
 JumpX86::JumpX86()
 	: src_(0)
 	, dst_(0)
@@ -117,3 +119,5 @@ void *JumpX86::GetTargetAddress(void *jmp) {
 	}
 	return 0;
 }
+
+} // namespace sampgdk

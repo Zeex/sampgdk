@@ -25,6 +25,8 @@
 
 extern void *pAMXFunctions;
 
+namespace sampgdk {
+
 // Gamemode's AMX
 AMX *AmxHooks::gamemode_ = 0;
 
@@ -209,3 +211,4 @@ int AMXAPI AmxHooks::amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, 
 	return ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 }
 
+} // namespace sampgdk

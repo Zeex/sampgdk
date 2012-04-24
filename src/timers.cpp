@@ -21,6 +21,8 @@
 
 #include "timers.h"
 
+namespace sampgdk {
+
 std::vector<Timer*> Timer::timers_;
 
 Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
@@ -107,3 +109,5 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_native_SetTimer(int interval, bool repea
 SAMPGDK_EXPORT bool SAMPGDK_CALL sampgdk_native_KillTimer(int timerid) {
 	return Timer::DestroyTimer(timerid);
 }
+
+} // namespace sampgdk

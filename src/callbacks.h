@@ -24,6 +24,8 @@
 #include <map>
 #include <string>
 
+namespace sampgdk {
+
 class CallbackArg {
 public:
 	enum Type {
@@ -95,4 +97,6 @@ private:
 	std::map<void*, std::map<std::string, void*> > cache_;
 };
 
-#endif
+} // namespace sampgdk
+
+#endif // !SAMPGDK_CALLBACKS_H

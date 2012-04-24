@@ -21,6 +21,8 @@
 #include <cstring>
 #include <limits>
 
+namespace sampgdk {
+
 std::vector<cell> FakeAmx::heap_(FakeAmx::INITIAL_HEAP_SIZE);
 
 AMX_HEADER FakeAmx::hdr_ = {
@@ -138,3 +140,5 @@ float FakeAmxHeapObject::GetAsFloat() const {
 void FakeAmxHeapObject::GetAsString(char *s, size_t size) const {
 	FakeAmx::Get(address_, s, size);
 }
+
+} // namespace sampgdk

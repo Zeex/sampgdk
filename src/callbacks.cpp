@@ -22,6 +22,8 @@
 #include <cstddef>
 #include <cstring>
 
+namespace sampgdk {
+
 CallbackArg::CallbackArg(cell value)
 	: type_(CELL)
 {
@@ -121,3 +123,5 @@ void Callbacks::ClearArgs() {
 	}
 	args_.clear();
 }
+
+} // namespace sampgdk

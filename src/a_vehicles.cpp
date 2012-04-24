@@ -19,3 +19,5 @@
 #include "natives.h"
 
 #include "generated/a_vehicles.cpp"
+
+using namespace sampgdk;

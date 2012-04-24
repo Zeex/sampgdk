@@ -19,6 +19,8 @@
 
 #include "natives.h"
 
+namespace sampgdk {
+
 Natives::Natives() 
 {
 }
@@ -47,3 +49,5 @@ AMX_NATIVE Natives::GetNativeWarn(const char *name) {
 void Natives::SetNative(const char *name, AMX_NATIVE native) {
 	string_to_native_[std::string(name)] = native;
 }
+
+} // namespace sampgdk

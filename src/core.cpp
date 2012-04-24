@@ -39,7 +39,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData) {
 	if (!initialized) {
 		plugin_data = ppPluginData;
 		sampgdk_logprintf = (sampgdk_logprintf_t)plugin_data[PLUGIN_DATA_LOGPRINTF];
-		AmxHooks::Initialize(ppPluginData);
+		sampgdk::AmxHooks::Initialize(ppPluginData);
 		initialized = true;
 	}
 }
@@ -53,7 +53,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
-	Callbacks::GetInstance().RegisterCallbackHandler(plugin);
+	sampgdk::Callbacks::GetInstance().RegisterCallbackHandler(plugin);
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
@@ -77,5 +77,5 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const 
 }
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
-	return &(AmxHooks::GetNatives()[0]);
+	return &(sampgdk::AmxHooks::GetNatives()[0]);
 }

@@ -63,7 +63,7 @@ def generate_native_code(return_type, name, arg_list, comment):
 		real_name = attrs["$real_name"]
 	else:
 		real_name = name
-	code += "\tstatic AMX_NATIVE native = Natives::GetInstance().GetNativeWarn(\"" + real_name + "\");\n"
+	code += "\tstatic AMX_NATIVE native = sampgdk::Natives::GetInstance().GetNativeWarn(\"" + real_name + "\");\n"
 
 	# Generate code for local variables, params array and ref argument assignment.
 	locals_code = ""
@@ -77,7 +77,7 @@ def generate_native_code(return_type, name, arg_list, comment):
 			assign_code += arg.name + ");\n"
 			expect_buffer_size = False
 		if arg.type.endswith("*"):
-			locals_code += "\tFakeAmxHeapObject " + arg.name + "_"
+			locals_code += "\tsampgdk::FakeAmxHeapObject " + arg.name + "_"
 			if arg.type == "char *":
 				# Output string buffer whose size is passed via next argument.
 				locals_code += "("
@@ -118,7 +118,7 @@ def generate_native_code(return_type, name, arg_list, comment):
 	params_code += "\n\t};\n"
 	code += locals_code + params_code + assign_code
 
-	code += "\treturn FakeAmx::"
+	code += "\treturn sampgdk::FakeAmx::"
 	if return_type == "bool":
 		code += "CallNativeBool"
 	elif return_type == "float":

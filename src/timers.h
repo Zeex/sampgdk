@@ -22,6 +22,8 @@
 #include <set>
 #include <vector>
 
+namespace sampgdk {
+
 class Timer {
 public:
 	static int CreateTimer(int interval, bool repeat, TimerHandler handler, void *param);
@@ -52,5 +54,7 @@ private:
 
 	static std::vector<Timer*> timers_;
 };
+
+} // namespace sampgdk
 
 #endif // SAMPGDK_TIMERS_H
