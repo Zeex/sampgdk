@@ -22,6 +22,8 @@
 #include <cstddef>
 #include <vector>
 
+namespace sampgdk {
+
 class FakeAmx {
 public:
 	static const size_t INITIAL_HEAP_SIZE = 1024;
@@ -90,5 +92,6 @@ private:
 	cell address_;
 };
 
-#endif // !SAMPGDK_FAKEAMX
+} // namespace sampgdk
 
+#endif // !SAMPGDK_FAKEAMX

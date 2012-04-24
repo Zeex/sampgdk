@@ -20,6 +20,8 @@
 	#error "Unsupported architecture"
 #endif
 
+namespace sampgdk {
+
 class JumpX86 {
 public:
 	static const int kJmpInstrSize = 5;
@@ -86,5 +88,6 @@ private:
 	bool installed_;
 };
 
-#endif
+} // namespace sampgdk
 
+#endif

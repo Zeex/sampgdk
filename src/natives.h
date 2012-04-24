@@ -23,6 +23,8 @@
 #include <map>
 #include <string>
 
+namespace sampgdk {
+
 class Natives {
 public:
 	static Natives &GetInstance();
@@ -44,4 +46,6 @@ private:
 	StringToNativeMap string_to_native_;
 };
 
-#endif
+} // namespace sampgdk
+
+#endif // !SAMPGDK_NATIVES_H

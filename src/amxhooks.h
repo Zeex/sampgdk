@@ -25,6 +25,8 @@
 
 #include "jump-x86.h"
 
+namespace sampgdk {
+
 class AmxHooks  {
 public:
 	static void Initialize(void **ppPluginData);
@@ -64,5 +66,7 @@ private:
 	// Global list of registered native functions (server + all plugins)
 	static std::vector<AMX_NATIVE_INFO> native_info_;
 };
+
+} // namespace sampgdk
 
 #endif // !SAMPGDK_AMXHOOKS_H
