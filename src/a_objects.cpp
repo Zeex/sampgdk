@@ -19,5 +19,3 @@
 #include "natives.h"
 
 #include "generated/a_objects.cpp"
-
-using namespace sampgdk;
