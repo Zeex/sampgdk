@@ -5,7 +5,6 @@
 
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_samp.h>
-#include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
 #define COLOR_GREY    0xAFAFAFAA
