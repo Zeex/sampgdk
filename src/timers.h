@@ -40,6 +40,7 @@ public:
 
 	void Fire(int elapsedTime);
 
+	static int Clock();
 	static void ProcessTimers();
 
 private:

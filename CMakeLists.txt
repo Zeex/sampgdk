@@ -84,10 +84,12 @@ set(SAMPGDK_SOURCES
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
 		"src/core-win32.cpp"
+		"src/timers-win32.cpp"
 	)
 elseif(UNIX)
 	list(APPEND SAMPGDK_SOURCES
 		"src/core-linux.cpp"
+		"src/timers-linux.cpp"
 	)
 endif()
 
@@ -148,6 +150,8 @@ elseif(UNIX)
 		VERSION   ${SAMPGDK_VERSION_STRING}
 		SOVERSION ${SAMPGDK_VERSION_MAJOR}
 	)
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY
+		LINK_FLAGS "-lrt")
 endif()
 
 option(SAMPGDK_USE_STATIC_RUNTIME "Prefer static C/C++ runtime" ON)
