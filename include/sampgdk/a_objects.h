@@ -52,24 +52,24 @@ SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, flo
 SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid);
 SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid);
 
-#define OBJECT_MATERIAL_SIZE_32x32		10
-#define OBJECT_MATERIAL_SIZE_64x32		20
-#define OBJECT_MATERIAL_SIZE_64x64		30
-#define OBJECT_MATERIAL_SIZE_128x32		40
-#define OBJECT_MATERIAL_SIZE_128x64		50
-#define OBJECT_MATERIAL_SIZE_128x128	60
-#define OBJECT_MATERIAL_SIZE_256x32		70
-#define OBJECT_MATERIAL_SIZE_256x64		80
-#define OBJECT_MATERIAL_SIZE_256x128	90
-#define OBJECT_MATERIAL_SIZE_256x256	100
-#define OBJECT_MATERIAL_SIZE_512x64		110
-#define OBJECT_MATERIAL_SIZE_512x128	120
-#define OBJECT_MATERIAL_SIZE_512x256	130
-#define OBJECT_MATERIAL_SIZE_512x512	140
+#define OBJECT_MATERIAL_SIZE_32x32     10
+#define OBJECT_MATERIAL_SIZE_64x32     20
+#define OBJECT_MATERIAL_SIZE_64x64     30
+#define OBJECT_MATERIAL_SIZE_128x32    40
+#define OBJECT_MATERIAL_SIZE_128x64    50
+#define OBJECT_MATERIAL_SIZE_128x128   60
+#define OBJECT_MATERIAL_SIZE_256x32    70
+#define OBJECT_MATERIAL_SIZE_256x64    80
+#define OBJECT_MATERIAL_SIZE_256x128   90
+#define OBJECT_MATERIAL_SIZE_256x256   100
+#define OBJECT_MATERIAL_SIZE_512x64    110
+#define OBJECT_MATERIAL_SIZE_512x128   120
+#define OBJECT_MATERIAL_SIZE_512x256   130
+#define OBJECT_MATERIAL_SIZE_512x512   140
 
-#define OBJECT_MATERIAL_TEXT_ALIGN_LEFT		0
-#define OBJECT_MATERIAL_TEXT_ALIGN_CENTER	1
-#define OBJECT_MATERIAL_TEXT_ALIGN_RIGHT	2
+#define OBJECT_MATERIAL_TEXT_ALIGN_LEFT     0
+#define OBJECT_MATERIAL_TEXT_ALIGN_CENTER   1
+#define OBJECT_MATERIAL_TEXT_ALIGN_RIGHT    2
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
 SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterial(int playerid, int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
