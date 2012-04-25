@@ -18,7 +18,7 @@
 
 namespace sampgdk {
 
-int Timer::Clock() {
+int GetTickCount() {
 	struct timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
 	return static_cast<int>(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);
