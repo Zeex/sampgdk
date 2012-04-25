@@ -20,7 +20,7 @@
 namespace sampgdk {
 
 int GetTickCount() {
-	return GetTickCount();
+	return ::GetTickCount();
 }
 
 } // namespace sampgdk
