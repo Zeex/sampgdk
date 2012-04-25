@@ -27,10 +27,10 @@ extern void *pAMXFunctions;
 
 namespace sampgdk {
 
-// Gamemode's AMX
+// Gamemode's AMX.
 AMX *AmxHooks::gamemode_ = 0;
 
-// Curently Exec()'ing public
+// Curently Exec()'ing public.
 std::string AmxHooks::currentPublic_;
 
 // AMX API hooks
@@ -41,12 +41,16 @@ JumpX86 AmxHooks::amx_CallbackHook_;
 JumpX86 AmxHooks::amx_PushHook_;
 JumpX86 AmxHooks::amx_PushStringHook_;
 
-// Maps callback name to its 'bad' return value
+// Maps callback name to its 'bad' return value.
 std::map<std::string, int> AmxHooks::cbBadRetVals_;
 
-// Global list of registered native functions (server + all plugins)
+// Global list of registered native functions (server + all plugins).
 std::vector<AMX_NATIVE_INFO> AmxHooks::native_info_;
 
+// The "funcidx" native uses amx_FindPublic() to get public function index
+// but our FindPublic always succeeds regardless of public existence, so
+// here's a fixed version.
+// Thanks to Incognito for finding this bug!
 static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	char *funcname;
 	amx_StrParam(amx, params[1], funcname);
@@ -58,12 +62,19 @@ static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	return index;
 }
 
+// Some callbacks in SA-MP can affect server behaviour and break callback
+// call chain by returning a special value (typically 0 or 1).
+// Nice callbacks are those that prevent the rest from being called if one 
+// returns zero. Most callbacks are nice.
 #define NICE_CALLBACK(name) \
-	do { cbBadRetVals_[#name] = 0; } while(false)
+	do { cbBadRetVals_[#name] = 0; } while (false)
+// Ugly callbacks break when a non-zero value returned, in contrast to Nice callbacks.
+// There are only a few.
 #define UGLY_CALLBACK(name) \
-	do { cbBadRetVals_[#name] = 1; } while(false)
+	do { cbBadRetVals_[#name] = 1; } while (false)
 
 void AmxHooks::RegisterCallbacks() {
+	// Put here callbacks that do handle returns values.
 	UGLY_CALLBACK(OnDialogResponse);
 	UGLY_CALLBACK(OnPlayerCommandText);
 	NICE_CALLBACK(OnPlayerConnect);
@@ -78,8 +89,11 @@ void AmxHooks::RegisterCallbacks() {
 	NICE_CALLBACK(OnPlayerUpdate);
 	UGLY_CALLBACK(OnRconCommand);
 	NICE_CALLBACK(OnVehicleMod);
+	// Other callbacks always run unregardless of what a previous
+	// one (probably in another filterscript or plugin) returns.
 }
 
+// This routine performs initialization of GDK and should be called only once.
 void AmxHooks::Initialize(void **ppPluginData) {
 	pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
 
@@ -129,6 +143,10 @@ int AMXAPI AmxHooks::amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 	return ::amx_Register(amx, nativelist, number);
 }
 
+// The SA-MP server always makes a call to amx_FindPublic() and depending on
+// its return value invokes amx_Exec() (i.e. calls a public function).
+// To make the server always execute publics regardless of their existence
+// we have to make amx_FindPublic() always succeed i.e. return AMX_ERR_NONE.
 int AMXAPI AmxHooks::amx_FindPublic(AMX *amx, const char *name, int *index) {
 	JumpX86::ScopedRemove r(&amx_FindPublicHook_);
 
@@ -143,12 +161,15 @@ int AMXAPI AmxHooks::amx_FindPublic(AMX *amx, const char *name, int *index) {
 	return error;
 }
 
+// Whenever the server runs amx_Exec() we trigger callback handlers in all registered
+// plugins, if they exist. See Callbacks::HandleCallback().
 int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	JumpX86::ScopedRemove r(&amx_ExecHook_);
 	JumpX86::ScopedInstall i(&amx_CallbackHook_);
 
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
+		// main() is called only for gamemodes - so this is it.
 		gamemode_ = amx;
 		Callbacks::GetInstance().GetInstance().HandleCallback("OnGameModeInit", 0);
 	} else {
@@ -172,11 +193,11 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	if (canDoExec && index != AMX_EXEC_GDK) {
 		error = ::amx_Exec(amx, retval, index);
 	} else {
-		// Pop parameters from stack
+		// Pop parameters from stack.
 		amx->stk += amx->paramcount * sizeof(cell);
 	}
 
-	// Reset parameter count
+	// Reset parameter count.
 	amx->paramcount = 0;
 
 	return error;
@@ -186,7 +207,7 @@ int AMXAPI AmxHooks::amx_Callback(AMX *amx, cell index, cell *result, cell *para
 	JumpX86::ScopedRemove r(&amx_CallbackHook_);
 	JumpX86::ScopedInstall i(&amx_ExecHook_);
 
-	// Forbid SYSREQ.D
+	// Forbid SYSREQ.D.
 	amx->sysreq_d = 0;
 
 	return ::amx_Callback(amx, index, result, params);
