@@ -106,15 +106,3 @@ void Timers::ProcessTimers() {
 }
 
 } // namespace sampgdk
-
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
-	sampgdk::Timers::GetInstance().ProcessTimers();
-}
-
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_SetTimer(int interval, bool repeat, TimerHandler handler, void *param) {
-	return sampgdk::Timers::GetInstance().SetTimer(interval, repeat, handler, param);
-}
-
-SAMPGDK_EXPORT bool SAMPGDK_CALL sampgdk_KillTimer(int timerid) {
-	return sampgdk::Timers::GetInstance().KillTimer(timerid);
-}

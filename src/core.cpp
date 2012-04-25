@@ -29,6 +29,7 @@
 #include "amxhooks.h"
 #include "callbacks.h"
 #include "natives.h"
+#include "timers.h"
 
 static void **plugin_data;
 
@@ -58,4 +59,8 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
 	return &(sampgdk::AmxHooks::GetNatives()[0]);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
+	sampgdk::Timers::GetInstance().ProcessTimers();
 }
