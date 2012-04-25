@@ -19,7 +19,7 @@
 
 namespace sampgdk {
 
-int Timer::Clock() {
+int GetTickCount() {
 	return GetTickCount();
 }
 

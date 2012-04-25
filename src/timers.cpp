@@ -22,14 +22,12 @@
 
 namespace sampgdk {
 
-std::vector<Timer*> Timer::timers_;
-
 Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
 	: interval_(interval)
 	, repeating_(repeat)
 	, handler_(hander)
 	, param_(param)
-	, startTime_(Clock())
+	, startTime_(GetTickCount())
 {
 }
 
@@ -37,20 +35,30 @@ Timer::~Timer() {
 }
 
 void Timer::Fire(int elapsedTime) {
-	size_t timerid = 0;
-	while (timerid < timers_.size()) {
-		if (timers_[timerid] == this) {
+	handler_(Timers::GetInstance().GetTimerId(this), param_);
+	if (repeating_) {
+		startTime_ = GetTickCount() - (elapsedTime - interval_);
+	}
+}
+
+// static
+Timers &Timers::GetInstance() {
+	static Timers timers;
+	return timers;
+}
+
+int Timers::GetTimerId(Timer *timer) const {
+	int timerid = 0;
+	while (timerid < static_cast<int>(timers_.size())) {
+		if (timers_[timerid] == timer) {
 			break;
 		}
 		++timerid;
 	}
-	handler_(timerid, param_);
-	if (repeating_) {
-		startTime_ = Clock() - (elapsedTime - interval_);
-	}
+	return timerid;
 }
 
-int Timer::CreateTimer(int interval, bool repeat, TimerHandler handler, void *param) {
+int Timers::SetTimer(int interval, bool repeat, TimerHandler handler, void *param) {
 	Timer *timer = new Timer(interval, repeat, handler, param);
 	size_t timerid = 0;
 	while (timerid < timers_.size()) {
@@ -66,7 +74,7 @@ int Timer::CreateTimer(int interval, bool repeat, TimerHandler handler, void *pa
 	return timerid;
 }
 
-bool Timer::DestroyTimer(int timerid) {
+bool Timers::KillTimer(int timerid) {
 	if (timerid < 0 || timerid >= static_cast<int>(timers_.size())) {
 		return false;
 	}
@@ -83,30 +91,30 @@ bool Timer::DestroyTimer(int timerid) {
 	return true;
 }
 
-void Timer::ProcessTimers() {
-	int time = Clock();
+void Timers::ProcessTimers() {
+	int time = GetTickCount();
 	for (size_t i = 0; i < timers_.size(); ++i) {
 		Timer *timer = timers_[i];
 		int elapsedTime = time - timer->GetStartTime();
 		if (elapsedTime >= timer->GetInterval()) {
 			timer->Fire(elapsedTime);
 			if (!timer->IsRepeating()) {
-				DestroyTimer(i);
+				KillTimer(i);
 			}
 		}
 	}
 }
 
+} // namespace sampgdk
+
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
-	Timer::ProcessTimers();
+	sampgdk::Timers::GetInstance().ProcessTimers();
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_SetTimer(int interval, bool repeat, TimerHandler handler, void *param) {
-	return Timer::CreateTimer(interval, repeat, handler, param);
+	return sampgdk::Timers::GetInstance().SetTimer(interval, repeat, handler, param);
 }
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL sampgdk_KillTimer(int timerid) {
-	return Timer::DestroyTimer(timerid);
+	return sampgdk::Timers::GetInstance().KillTimer(timerid);
 }
-
-} // namespace sampgdk
