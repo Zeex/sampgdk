@@ -44,6 +44,8 @@
 	#endif
 #endif
 
+#define SAMPGDK_STATIC_ASSERT(COND,MSG) typedef char static_assertion_##MSG[(COND)?1:-1]
+
 /* size_t */
 #include <stddef.h>
 
@@ -64,16 +66,23 @@
 #endif
 
 /* bool */
-#if !defined __cplusplus
+#if !defined __cplusplus && !defined HAVE_BOOL
+	/* If HAVE_BOOL is not defined we attempt to detect stdbool.h first,
+	 * then define our own "bool" type.
+	 */
 	#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L\
 			|| defined HAVE_STDBOOL_H
-		/* have a C99 compiler */
+		/* Have a C99-conformant compiler. */
 		#include <stdbool.h>
 	#else
 		typedef unsigned char bool;
 		#define true 1
 		#define false 0
+		#define __bool_true_false_are_defined
 	#endif
+#else
+	/* Make sure their "bool" is one byte in size. */
+	SAMPGDK_STATIC_ASSERT(sizeof(bool) == 1, size_of_bool_must_be_1_byte);
 #endif
 
 #endif /* !SAMPGDK_CONFIG_H */
