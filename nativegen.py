@@ -66,57 +66,59 @@ def generate_native_code(return_type, name, arg_list, comment):
 	code += "\tstatic AMX_NATIVE native = sampgdk::Natives::GetInstance().GetNativeWarn(\"" + real_name + "\");\n"
 
 	# Generate code for local variables, params array and ref argument assignment.
-	locals_code = ""
-	params_code = "\tcell params[] = {\n\t\t0"
-	assign_code = ""
-	expect_buffer_size = False
-	for arg in parse_argument_list(arg_list):
-		# Local FakeAmxHeapObject instances.
-		if expect_buffer_size:
-			locals_code += arg.name + ");\n"
-			assign_code += arg.name + ");\n"
-			expect_buffer_size = False
-		if arg.type.endswith("*"):
-			locals_code += "\tsampgdk::FakeAmxHeapObject " + arg.name + "_"
-			if arg.type == "char *":
-				# Output string buffer whose size is passed via next argument.
-				locals_code += "("
-				expect_buffer_size = True
-			elif arg.type == "const char *":
-				# Constant string.
-				locals_code += "(" + arg.name + ");\n"
-			else:
-				# Other output parameters.
-				locals_code += ";\n"
-		# The "params" array.
-		params_code += ",\n\t\t"
-		if arg.type == "int" or arg.type == "bool":
-			params_code += arg.name
-		elif arg.type == "float":
-			params_code += "amx_ftoc(" + arg.name + ")"
-		elif arg.type.endswith("*"):
-			params_code += arg.name + "_.address()"
-		else:
-			raise InvalidNativeArgumentType(arg.type)
-		# Assignment of pointer arguments.
-		if arg.type.endswith("*"):
-			if arg.type == "const char *":
-				pass
-			elif arg.type == "char *":
-				assign_code += "\t" + arg.name + "_.GetAsString(" + arg.name + ", "
-				expect_buffer_size = True
-			else:
-				assign_code += "\t*" + arg.name + " = " + arg.name + "_."
-				if arg.type == "int *":
-					assign_code += "Get();\n"
-				elif arg.type == "bool *":
-					assign_code += "GetAsBool();\n"
-				elif arg.type == "float *":
-					assign_code += "GetAsFloat();\n"
+	args = list(parse_argument_list(arg_list))
+	if len(args) > 0:
+		locals_code = ""
+		params_code = "\tcell params[] = {\n\t\t0"
+		assign_code = ""
+		expect_buffer_size = False
+		for arg in args:
+			# Local FakeAmxHeapObject instances.
+			if expect_buffer_size:
+				locals_code += arg.name + ");\n"
+				assign_code += arg.name + ");\n"
+				expect_buffer_size = False
+			if arg.type.endswith("*"):
+				locals_code += "\tsampgdk::FakeAmxHeapObject " + arg.name + "_"
+				if arg.type == "char *":
+					# Output string buffer whose size is passed via next argument.
+					locals_code += "("
+					expect_buffer_size = True
+				elif arg.type == "const char *":
+					# Constant string.
+					locals_code += "(" + arg.name + ");\n"
 				else:
-					raise InvalidNativeArgumentType(arg.type)
-	params_code += "\n\t};\n"
-	code += locals_code + params_code + assign_code
+					# Other output parameters.
+					locals_code += ";\n"
+			# The "params" array.
+			params_code += ",\n\t\t"
+			if arg.type == "int" or arg.type == "bool":
+				params_code += arg.name
+			elif arg.type == "float":
+				params_code += "amx_ftoc(" + arg.name + ")"
+			elif arg.type.endswith("*"):
+				params_code += arg.name + "_.address()"
+			else:
+				raise InvalidNativeArgumentType(arg.type)
+			# Assignment of pointer arguments.
+			if arg.type.endswith("*"):
+				if arg.type == "const char *":
+					pass
+				elif arg.type == "char *":
+					assign_code += "\t" + arg.name + "_.GetAsString(" + arg.name + ", "
+					expect_buffer_size = True
+				else:
+					assign_code += "\t*" + arg.name + " = " + arg.name + "_."
+					if arg.type == "int *":
+						assign_code += "Get();\n"
+					elif arg.type == "bool *":
+						assign_code += "GetAsBool();\n"
+					elif arg.type == "float *":
+						assign_code += "GetAsFloat();\n"
+					else:
+						raise InvalidNativeArgumentType(arg.type)
+		params_code += "\n\t};\n"
+		code += locals_code + params_code + assign_code
 
 	code += "\treturn sampgdk::FakeAmx::"
 	if return_type == "bool":
@@ -125,7 +127,11 @@ def generate_native_code(return_type, name, arg_list, comment):
 		code += "CallNativeFloat"
 	else:
 		code += "CallNative"
-	code += "(native, params);\n}\n"
+	if len(args) > 0:
+		code += "(native, params);\n"
+	else:
+		code += "(native);\n"
+	code += "}\n"
 	return code
 
 def generate_native_macro(return_type, name, arg_list, comment):
