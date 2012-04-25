@@ -85,4 +85,9 @@
 	SAMPGDK_STATIC_ASSERT(sizeof(bool) == 1, size_of_bool_must_be_1_byte);
 #endif
 
+/* Ensure "int", "float" and "void*" are all of the same size as "cell". */
+SAMPGDK_STATIC_ASSERT(sizeof(int) == 4, sizeof_int_must_be_4);
+SAMPGDK_STATIC_ASSERT(sizeof(float) == 4, sizeof_float_must_be_4);
+SAMPGDK_STATIC_ASSERT(sizeof(void*) == 4, sizeof_void_ptr_must_be_4);
+
 #endif /* !SAMPGDK_CONFIG_H */
