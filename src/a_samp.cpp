@@ -17,5 +17,14 @@
 
 #include "fakeamx.h"
 #include "natives.h"
+#include "timers.h"
 
 #include "generated/a_samp.cpp"
+
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_SetTimer(int interval, bool repeat, TimerHandler handler, void *param) {
+	return sampgdk::Timers::GetInstance().SetTimer(interval, repeat, handler, param);
+}
+
+SAMPGDK_EXPORT bool SAMPGDK_CALL sampgdk_KillTimer(int timerid) {
+	return sampgdk::Timers::GetInstance().KillTimer(timerid);
+}
