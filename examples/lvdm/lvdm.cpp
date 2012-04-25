@@ -189,7 +189,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 				SendClientMessage(playerid, COLOR_YELLOW, string);
 				sprintf(string, "You have recieved $%d from %s(player: %d).", moneys, sendername, playerid);
 				SendClientMessage(giveplayerid, COLOR_YELLOW, string);
-				printf("%s(playerid:%d) has transfered %d to %s(playerid:%d)",sendername, playerid, moneys, giveplayer, giveplayerid);
+				logprintf("%s(playerid:%d) has transfered %d to %s(playerid:%d)",sendername, playerid, moneys, giveplayer, giveplayerid);
 			}
 			else {
 				SendClientMessage(playerid, COLOR_YELLOW, "Invalid transaction amount.");
