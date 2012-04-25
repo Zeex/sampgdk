@@ -19,7 +19,7 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
-#include <sampgdk/a_samp-defs.h>
+#include <sampgdk/generated/a_samp-defs.h>
 
 #include <stddef.h>
 

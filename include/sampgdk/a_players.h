@@ -20,7 +20,7 @@
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
 #include <sampgdk/a_samp.h>
-#include <sampgdk/a_players-defs.h>
+#include <sampgdk/generated/a_players-defs.h>
 
 #include <stddef.h>
 

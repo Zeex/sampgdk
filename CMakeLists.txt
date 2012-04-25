@@ -15,24 +15,25 @@ include_directories("include/amx")
 # Generate sources
 find_package(PythonInterp 2.6 REQUIRED)
 file(MAKE_DIRECTORY "src/generated/")
+file(MAKE_DIRECTORY "include/sampgdk/generated/")
 execute_process(
 	WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} "nativegen.py"
 		"include/sampgdk/a_objects.h"
 		"src/generated/a_objects.cpp"
-		"include/sampgdk/a_objects-defs.h"
+		"include/sampgdk/generated/a_objects-defs.h"
 	COMMAND ${PYTHON_EXECUTABLE} "nativegen.py"
 		"include/sampgdk/a_players.h"
 		"src/generated/a_players.cpp"
-		"include/sampgdk/a_players-defs.h"
+		"include/sampgdk/generated/a_players-defs.h"
 	COMMAND ${PYTHON_EXECUTABLE} "nativegen.py"
 		"include/sampgdk/a_samp.h"
 		"src/generated/a_samp.cpp"
-		"include/sampgdk/a_samp-defs.h"
+		"include/sampgdk/generated/a_samp-defs.h"
 	COMMAND ${PYTHON_EXECUTABLE} "nativegen.py"
 		"include/sampgdk/a_vehicles.h"
 		"src/generated/a_vehicles.cpp"
-		"include/sampgdk/a_vehicles-defs.h"
+		"include/sampgdk/generated/a_vehicles-defs.h"
 	OUTPUT_VARIABLE PYTHON_OUTPUT
 	ERROR_VARIABLE  PYTHON_OUTPUT
 )
