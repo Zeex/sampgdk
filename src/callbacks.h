@@ -81,6 +81,7 @@ public:
 	static Callbacks &GetInstance();
 
 	void RegisterPlugin(void *plugin);
+	void UnregisterPlugin(void *plugin);
 
 	template<typename T>
 	void PushArgBack(const T &v) { args_.push_back(new CallbackArg(v)); }
