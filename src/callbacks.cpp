@@ -50,7 +50,7 @@ Callbacks &Callbacks::GetInstance() {
 	return callbacks;
 }
 
-void Callbacks::RegisterCallbackHandler(void *handler) {
+void Callbacks::RegisterPlugin(void *handler) {
 	cache_.insert(std::make_pair(handler, std::map<std::string, void*>()));
 }
 

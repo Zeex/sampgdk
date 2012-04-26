@@ -80,7 +80,7 @@ class Callbacks {
 public:
 	static Callbacks &GetInstance();
 
-	void RegisterCallbackHandler(void *handler);
+	void RegisterPlugin(void *plugin);
 
 	template<typename T>
 	void PushArgBack(const T &v) { args_.push_back(new CallbackArg(v)); }

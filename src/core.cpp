@@ -45,7 +45,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
-	sampgdk::Callbacks::GetInstance().RegisterCallbackHandler(plugin);
+	sampgdk::Callbacks::GetInstance().RegisterPlugin(plugin);
 }
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
