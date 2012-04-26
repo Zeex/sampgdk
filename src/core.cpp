@@ -12,19 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstdlib>
 #include <sampgdk/config.h>
 #include <sampgdk/core.h>
+#include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
-
-#ifdef SAMPGDK_WINDOWS
-	#include <windows.h>
-#else
-	#ifndef _GNU_SOURCE
-		#define _GNU_SOURCE 1
-	#endif
-	#include <dlfcn.h>
-#endif
 
 #include "amxhooks.h"
 #include "callbacks.h"
