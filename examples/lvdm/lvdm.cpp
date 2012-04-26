@@ -61,7 +61,7 @@ float gCopPlayerSpawns[][3] = {
 int gActivePlayers[MAX_PLAYERS];
 int gLastGaveCash[MAX_PLAYERS];
 
-static void MoneyGrubScoreUpdate(int timerid, void *param)
+static void SAMPGDK_CALL MoneyGrubScoreUpdate(int timerid, void *param)
 {
 	int CashScore;
 	char name[MAX_PLAYER_NAME];
