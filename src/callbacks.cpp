@@ -50,8 +50,12 @@ Callbacks &Callbacks::GetInstance() {
 	return callbacks;
 }
 
-void Callbacks::RegisterPlugin(void *handler) {
-	cache_.insert(std::make_pair(handler, std::map<std::string, void*>()));
+void Callbacks::RegisterPlugin(void *plugin) {
+	cache_.insert(std::make_pair(plugin, std::map<std::string, void*>()));
+}
+
+void Callbacks::UnregisterPlugin(void *plugin) {
+	cache_.erase(plugin);
 }
 
 cell Callbacks::HandleCallback(const char *name, CallbackRetVal badRetVal) {
