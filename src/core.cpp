@@ -48,6 +48,10 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
 	sampgdk::Callbacks::GetInstance().RegisterPlugin(plugin);
 }
 
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin) {
+	sampgdk::Callbacks::GetInstance().UnregisterPlugin(plugin);
+}
+
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
 	return &(sampgdk::AmxHooks::GetNatives()[0]);
 }
