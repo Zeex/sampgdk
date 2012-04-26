@@ -156,9 +156,9 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL UpdatePlayer3DTextLabelText(int playerid, int i
 
 SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, const char *info, const char *button1, const char *button2);
 
-typedef void (SAMPGDK_CALL *TimerHandler)(int timerid, void *param);
+typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
 
-SAMPGDK_EXPORT int SAMPGDK_CALL SetTimer(int interval, bool repeat, TimerHandler hander, void *param); /* $skip */
+SAMPGDK_EXPORT int SAMPGDK_CALL SetTimer(int interval, bool repeat, TimerCallback hander, void *param); /* $skip */
 SAMPGDK_EXPORT bool SAMPGDK_CALL KillTimer(int timerid); /* $skip */
 
 #define PLAYER_STATE_NONE                    (0)

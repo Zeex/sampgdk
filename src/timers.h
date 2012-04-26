@@ -41,11 +41,11 @@ public:
 	void Fire(int elapsedTime);
 
 private:
-	Timer(int interval, bool repeat, TimerHandler hander, void *param);
+	Timer(int interval, bool repeat, TimerCallback hander, void *param);
 
 	int interval_;
 	bool repeating_;
-	TimerHandler handler_;
+	TimerCallback callback_;
 	void *param_;
 	int startTime_;
 };
@@ -56,7 +56,7 @@ public:
 
 	int GetTimerId(Timer *timer) const;
 
-	int SetTimer(int interval, bool repeat, TimerHandler handler, void *param);
+	int SetTimer(int interval, bool repeat, TimerCallback handler, void *param);
 	bool KillTimer(int timerid);
 
 	void ProcessTimers();

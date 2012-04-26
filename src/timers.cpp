@@ -22,10 +22,10 @@
 
 namespace sampgdk {
 
-Timer::Timer(int interval, bool repeat, TimerHandler hander, void *param)
+Timer::Timer(int interval, bool repeat, TimerCallback callback, void *param)
 	: interval_(interval)
 	, repeating_(repeat)
-	, handler_(hander)
+	, callback_(callback)
 	, param_(param)
 	, startTime_(GetTickCount())
 {
@@ -35,7 +35,7 @@ Timer::~Timer() {
 }
 
 void Timer::Fire(int elapsedTime) {
-	handler_(Timers::GetInstance().GetTimerId(this), param_);
+	callback_(Timers::GetInstance().GetTimerId(this), param_);
 	if (repeating_) {
 		startTime_ = GetTickCount() - (elapsedTime - interval_);
 	}
@@ -58,7 +58,7 @@ int Timers::GetTimerId(Timer *timer) const {
 	return timerid;
 }
 
-int Timers::SetTimer(int interval, bool repeat, TimerHandler handler, void *param) {
+int Timers::SetTimer(int interval, bool repeat, TimerCallback handler, void *param) {
 	Timer *timer = new Timer(interval, repeat, handler, param);
 	size_t timerid = 0;
 	while (timerid < timers_.size()) {
