@@ -11,6 +11,7 @@ include(ParseVersionString)
 
 include_directories("include")
 include_directories("include/amx")
+include_directories("include/sampgdk")
 
 # Generate sources
 find_package(PythonInterp 2.6 REQUIRED)
