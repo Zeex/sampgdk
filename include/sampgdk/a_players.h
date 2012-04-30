@@ -312,7 +312,7 @@ public:
 		{ return ::GetPlayerInterior(id_); }
 	bool SetHealth(float health) const
 		{ return ::SetPlayerHealth(id_, health); }
-	float GetHealth(int playerid) const { 
+	float GetHealth() const { 
 		float health; 
 		::GetPlayerHealth(id_, &health); 
 		return health;
@@ -336,7 +336,7 @@ public:
 		{ return ::SetPlayerTeam(id_, teamid); }
 	int GetPlayerTeam() const
 		{ return ::GetPlayerTeam(id_); }
-	bool SetScore(int playerid, int score) const
+	bool SetScore(int score) const
 		{ return ::SetPlayerScore(id_, score); }
 	int GetScore() const 
 		{ return ::GetPlayerScore(id_); }
@@ -350,7 +350,7 @@ public:
 		{ return ::GetPlayerColor(id_); }
 	bool SetSkin(int skinid) const
 		{ return ::SetPlayerSkin(id_, skinid); }
-	int GetSkin(int playerid) const
+	int GetSkin() const
 		{ return ::GetPlayerSkin(id_); }
 	bool GiveWeapon(int weaponid, int ammo) const
 		{ return ::GivePlayerWeapon(id_, weaponid, ammo); }
@@ -401,7 +401,7 @@ public:
 		{ return ::TogglePlayerClock(id_, toggle); }
 	bool SetWeather(int weather) const
 		{ return ::SetPlayerWeather(id_, weather); }
-	bool ForceClassSelection(int playerid) const
+	bool ForceClassSelection() const
 		{ return ::ForceClassSelection(id_); }
 	bool SetWantedLevel(int level) const
 		{ return ::SetPlayerWantedLevel(id_, level); }
@@ -438,7 +438,7 @@ public:
 		{ return ::SetPlayerSkillLevel(id_, skill, level); }
 	int GetSurfingVehicleID() const
 		{ return ::GetPlayerSurfingVehicleID(id_); }
-	int GetSurfingObjectID(int playerid) const
+	int GetSurfingObjectID() const
 		{ return ::GetPlayerSurfingObjectID(id_); }
 	bool RemoveBuilding(int modelid, float fX, float fY, float fZ, float fRadius) const
 		{ return ::RemoveBuildingForPlayer(id_, modelid, fX, fY, fZ, fRadius);	}
@@ -452,7 +452,7 @@ public:
 	}
 	bool RemoveAttachedObject(int index) const
 		{ return ::RemovePlayerAttachedObject(id_, index); }
-	bool IsPlayerAttachedObjectSlotUsed(int playerid, int index) const
+	bool IsPlayerAttachedObjectSlotUsed(int index) const
 		{ return ::IsPlayerAttachedObjectSlotUsed(id_, index); }
 
 	bool SetChatBubble(const char *text, int color, float drawdistance, int expiretime) const
@@ -470,7 +470,7 @@ public:
 		{ return ::RemovePlayerFromVehicle(id_); }
 	bool ToggleControllable(bool toggle) const
 		{ return ::TogglePlayerControllable(id_, toggle); }
-	bool PlaySound(int playerid, int soundid, float x, float y, float z) const
+	bool PlaySound(int soundid, float x, float y, float z) const
 		{ return ::PlayerPlaySound(id_, soundid, x, y, z); }
 	bool ApplyAnimation(const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync = false) const
 		{ return ::ApplyAnimation(id_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
@@ -595,7 +595,7 @@ public:
 		{ return ::GetPlayerVersion(id_, version, len); }
 	bool SelectTextDraw(int hovercolor) const
 		{ return ::SelectTextDraw(id_, hovercolor); }
-	bool CancelSelectTextDraw(int hovercolor) const
+	bool CancelSelectTextDraw() const
 		{ return ::CancelSelectTextDraw(id_); }
 
 private:
