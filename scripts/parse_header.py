@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# parse_header.py finds all exported exports in a GDK header and writes them 
+# parse_header.py finds all exported functions in a GDK header and writes them 
 # to a nice XML file. That file can be used to e.g. generate code for SA-MP natives.
 
 import os
