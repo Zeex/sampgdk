@@ -11,25 +11,29 @@ import xml.dom.minidom
 def parse_argument_list(string):
 	""" For each entry of the arg_list returns a tuple made of
 	    argument type and name. """
+	args = []
 	for string in re.split(r"\s*,\s*", string):
 		if len(string) == 0:
 			continue
 		match = re.match(r"([\w ]+ |[\w ]+\*)(\w+)$", string)
 		if len(match.groups()) < 2:
 			continue
-		yield (match.group(1).strip(), match.group(2).strip())
+		args.append((match.group(1).strip(), match.group(2).strip()))
+	return args
 
 def parse_attributes(string):
 	""" Parse generator attributes. Each attribute is a key=value pair
 	    separated by commas. """
+	attrs = []
 	if string != None:
 		items = re.split(r"\s*,\s*", string)
 		for item in items:
 			attr = re.split(r"\s*=\s*", item, maxsplit=1)
 			if len(attr) != 2:
-				yield (attr[0], None)
+				attrs.append((attr[0], None))
 			else:
-				yield tuple(attr)
+				attrs.append(tuple(attr))
+	return attrs
 
 def get_comment_text(comment):
 	""" Extracts text in /* ... */ comments (C-style comments). """
