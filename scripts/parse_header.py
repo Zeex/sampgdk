@@ -51,7 +51,9 @@ def parse_function_decl(string, pattern):
 	comment = match.group(4)
 	if comment is not None:
 		comment = get_comment_text(comment)
-	attrs = parse_attributes(comment)
+	attrs = {}
+	for name, value in parse_attributes(comment):
+		attrs[name] = value
 	return (type, name, args, attrs)
 
 def parse_header(text):
@@ -73,7 +75,7 @@ def main(argv):
 			argument.setAttribute("type", type)
 			argument.setAttribute("name", name)
 			function.appendChild(argument)
-		for name, value in attrs:
+		for name, value in attrs.items():
 			attribute = document.createElement("attribute")
 			attribute.setAttribute("name", name)
 			if value is not None:
