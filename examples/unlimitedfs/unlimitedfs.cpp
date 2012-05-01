@@ -57,7 +57,8 @@ static int AMXAPI my_amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 
 	for (int i = 0; i < num_natives; i++) {
 		if (natives[i].address == 0) {
-			return AMX_ERR_NONE;
+			amx->flags &= ~AMX_FLAG_NTVREG;
+			return AMX_ERR_NOTFOUND;
 		}
 	}
 
