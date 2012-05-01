@@ -17,9 +17,8 @@ if(WIN32)
 		dlfcn.c
 		dlfcn.h
 	)
+	include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}) # for <dlfcn.h>
 
 include(SampPlugin)
 
