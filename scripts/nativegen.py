@@ -7,7 +7,7 @@ import os
 import re
 import sys
 
-from h2xml import *
+from parse_header import *
 
 class InvalidNativeArgumentType:
 	def __init__(self, type):
