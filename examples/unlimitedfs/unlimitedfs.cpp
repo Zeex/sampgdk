@@ -3,23 +3,20 @@
 #include <list>
 #include <string>
 #include <vector>
-#ifdef _WIN32
+
+#ifdef WIN32
 	#include <windows.h>
-	#include <sys/types.h>
-	#include <sys/stat.h>
-	#if !defined stat
-		#define stat _stat
-	#endif
 #else
 	#include <dirent.h>
 	#include <fnmatch.h>
-	#include <sys/stat.h>
 #endif
+
 #include <sampgdk/plugin.h>
+
 #include "filterscript.h"
 #include "plugin.h"
 
-#ifdef _WIN32
+#ifdef WIN32
 	#define PLUGIN_EXT "dll"
 #else
 	#define PLUGIN_EXT "so"
@@ -64,40 +61,50 @@ static int AMXAPI my_amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 		}
 	}
 
-	// All natives OK
 	amx->flags |= AMX_FLAG_NTVREG;
 	return error;
 }
 
-template<typename OutputIterator>
-static void GetFilesInDirectory(const std::string &dir,
-                                const std::string &pattern,
-                                OutputIterator result) {
 #if defined _WIN32
-	WIN32_FIND_DATA findFileData;
-	HANDLE hFindFile = FindFirstFile((dir + "\\" + pattern).c_str(), &findFileData);
-	if (hFindFile != INVALID_HANDLE_VALUE) {
-		do {
-			if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-				*result++ = dir + "\\" + findFileData.cFileName;
-			}
-		} while (FindNextFile(hFindFile, &findFileData) != 0);
-		FindClose(hFindFile);
-	}
-#else
-	DIR *dp;
-	if ((dp = opendir(dir.c_str())) != 0) {
-		struct dirent *dirp;
-		while ((dirp = readdir(dp)) != 0) {
-			if (!fnmatch(pattern.c_str(), dirp->d_name,
-							FNM_CASEFOLD | FNM_NOESCAPE | FNM_PERIOD)) {
-				*result++ = dir + "/" + dirp->d_name;
-			}
+
+	template<typename OutputIterator>
+	static void GetFilesInDirectory(const std::string &dir,
+	                                const std::string &pattern,
+	                                OutputIterator result) 
+	{
+		WIN32_FIND_DATA findFileData;
+		HANDLE hFindFile = FindFirstFile((dir + "\\" + pattern).c_str(), &findFileData);
+		if (hFindFile != INVALID_HANDLE_VALUE) {
+			do {
+				if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
+					*result++ = dir + "\\" + findFileData.cFileName;
+				}
+			} while (FindNextFile(hFindFile, &findFileData) != 0);
+			FindClose(hFindFile);
 		}
-		closedir(dp);
 	}
+
+#else
+
+	template<typename OutputIterator>
+	static void GetFilesInDirectory(const std::string &dir,
+	                                const std::string &pattern,
+	                                OutputIterator result) 
+	{
+		DIR *dp = 0;
+		if ((dp = opendir(dir.c_str())) != 0) {
+			struct dirent *dirp;
+			while ((dirp = readdir(dp)) != 0) {
+				if (!fnmatch(pattern.c_str(), dirp->d_name,
+								FNM_CASEFOLD | FNM_NOESCAPE | FNM_PERIOD)) {
+					*result++ = dir + "/" + dirp->d_name;
+				}
+			}
+			closedir(dp);
+		}
+	}
+
 #endif
-}
 
 static std::string GetBaseName(const std::string &path) {
 	std::string::size_type dot = path.find_last_of(".");
