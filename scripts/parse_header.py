@@ -52,8 +52,8 @@ def parse_function_decl(string, pattern):
 	if comment is not None:
 		comment = get_comment_text(comment)
 	attrs = {}
-	for name, value in parse_attributes(comment):
-		attrs[name] = value
+	for attr in parse_attributes(comment):
+		attrs[attr[0]] = attr[1]
 	return (type, name, args, attrs)
 
 def parse_header(text):
