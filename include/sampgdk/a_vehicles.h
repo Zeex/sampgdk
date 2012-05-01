@@ -184,7 +184,7 @@ public:
 		{ return ::SetVehicleNumberPlate(id_, numberplate); }
 	int GetModel() const
 		{ return ::GetVehicleModel(id_); }
-	int GetComponentInSlot(int vehicleid, int slot) const
+	int GetComponentInSlot(int slot) const
 		{ return ::GetVehicleComponentInSlot(id_, slot); }
 	bool Repair() const
 		{ return ::RepairVehicle(id_); }
@@ -213,7 +213,7 @@ public:
 		{ return ::GetVehicleVirtualWorld(id_); }
 
 private:
-	const int vehicleid_;
+	const int id_;
 };
 
 #endif /* __cplusplus */
