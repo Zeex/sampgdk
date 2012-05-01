@@ -107,36 +107,15 @@ def generate_native_code(return_type, name, args, attrs):
 	code += "}\n"
 	return code
 
-def generate_native_macro(return_type, name, args, comment):
-	code = "#undef " + name + "\n"
-	code += "#define " + name + " sampgdk_" + name + "\n"
-	return code
-
-def process_file(header_file, source_file, macros_file):
-	""" Processes a C/C++ header file "src" finding native function
-	    declarations and outputs generated code to "dest". """
-	header = open(header_file, "r")
-	source = open(source_file, "w")
-	macros = open(macros_file, "w")
-	for native in parse_header(header.read()):
+def main(argv):
+	for native in parse_header(sys.stdin.read()):
 		try:
-			native_macro = generate_native_macro(*native)
-			if native_macro is not None:
-				macros.write(native_macro + "\n")
-			native_code = generate_native_code(*native)
-			if native_code is not None:
-				source.write(native_code + "\n")
+			code = generate_native_code(*native)
+			if code is not None:
+				sys.stdout.write(code + "\n")
+			sys.stdout.flush()
 		except InvalidNativeArgumentType as arg:
 			sys.stderr.write("Invalid argument type '" + arg.type + "' in declaration:\n" + line + "\n")
-	header.close()
-	source.close()
-	macros.close()
 
 if __name__ == "__main__":
-	if len(sys.argv) <= 3:
-		sys.stderr.write("Usage: " + os.path.basename(sys.argv[0]) + " <header-file> <source-file> <macros-file>\n")
-		sys.stderr.write("  header-file <- file that contains declarations of native functions\n")
-		sys.stderr.write("  source-file <- where to write generated code to\n")
-		sys.stderr.write("  macros-file <- where to write #define's for generated natives\n")
-	else:
-		process_file(sys.argv[1], sys.argv[2], sys.argv[3])
+	main(sys.argv)

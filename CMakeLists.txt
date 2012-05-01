@@ -13,33 +13,56 @@ include_directories("include")
 include_directories("include/amx")
 include_directories("include/sampgdk")
 
-# Generate sources
 find_package(PythonInterp 2.6 REQUIRED)
+
 file(MAKE_DIRECTORY "src/generated/")
+set(SCRIPT "scripts/generate_native_codes.py")
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_objects.h"
+		OUTPUT_FILE "src/generated/a_objects.cpp"
+	ERROR_VARIABLE PYTHON_ERRORS)
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_players.h"
+		OUTPUT_FILE "src/generated/a_players.cpp"
+	ERROR_VARIABLE PYTHON_ERRORS)
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_samp.h"
+		OUTPUT_FILE "src/generated/a_samp.cpp"
+	ERROR_VARIABLE PYTHON_ERRORS)
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_vehicles.h"
+		OUTPUT_FILE "src/generated/a_vehicles.cpp"
+	ERROR_VARIABLE PYTHON_ERRORS)
+
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
-execute_process(
-	WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} "scripts/nativegen.py"
-		"include/sampgdk/a_objects.h"
-		"src/generated/a_objects.cpp"
-		"include/sampgdk/generated/a_objects-defs.h"
-	COMMAND ${PYTHON_EXECUTABLE} "scripts/nativegen.py"
-		"include/sampgdk/a_players.h"
-		"src/generated/a_players.cpp"
-		"include/sampgdk/generated/a_players-defs.h"
-	COMMAND ${PYTHON_EXECUTABLE} "scripts/nativegen.py"
-		"include/sampgdk/a_samp.h"
-		"src/generated/a_samp.cpp"
-		"include/sampgdk/generated/a_samp-defs.h"
-	COMMAND ${PYTHON_EXECUTABLE} "scripts/nativegen.py"
-		"include/sampgdk/a_vehicles.h"
-		"src/generated/a_vehicles.cpp"
-		"include/sampgdk/generated/a_vehicles-defs.h"
-	OUTPUT_VARIABLE PYTHON_OUTPUT
-	ERROR_VARIABLE  PYTHON_OUTPUT
-)
-if(DEFINED PYTHON_OUTPUT)
-	message("${PYTHON_OUTPUT}")
+set(SCRIPT "scripts/generate_native_macros.py")
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_objects.h"
+		OUTPUT_FILE "include/sampgdk/generated/a_objects.h"
+	ERROR_VARIABLE PYTHON_ERRORS)
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_players.h"
+		OUTPUT_FILE "include/sampgdk/generated/a_players.h"
+	ERROR_VARIABLE PYTHON_ERRORS)
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_samp.h"
+		OUTPUT_FILE "include/sampgdk/generated/a_samp.h"
+	ERROR_VARIABLE PYTHON_ERRORS)
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_vehicles.h"
+		OUTPUT_FILE "include/sampgdk/generated/a_vehicles.h"
+	ERROR_VARIABLE PYTHON_ERRORS)
+
+if(DEFINED PYTHON_ERRORS)
+	message("${PYTHON_ERRORS}")
 endif()
 
 set(SAMPGDK_HEADERS
