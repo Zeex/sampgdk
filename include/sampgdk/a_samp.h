@@ -158,7 +158,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL ShowPlayerDialog(int playerid, int dialogid, in
 
 typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
 
-SAMPGDK_EXPORT int SAMPGDK_CALL SetTimer(int interval, bool repeat, TimerCallback hander, void *param); /* $skip */
+SAMPGDK_EXPORT int SAMPGDK_CALL SetTimer(int interval, bool repeat, TimerCallback callback, void *param); /* $skip */
 SAMPGDK_EXPORT bool SAMPGDK_CALL KillTimer(int timerid); /* $skip */
 
 #define PLAYER_STATE_NONE                    (0)
