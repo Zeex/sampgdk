@@ -45,13 +45,10 @@ public:
 private:
 	static void RegisterCallbacks();
 
-	// Gamemode's AMX
 	static AMX *gamemode_;
 
-	// Curently Exec()'ing public
 	static std::string currentPublic_;
 
-	// AMX API hooks
 	static JumpX86 amx_FindPublicHook_;
 	static JumpX86 amx_ExecHook_;
 	static JumpX86 amx_RegisterHook_;
@@ -59,10 +56,6 @@ private:
 	static JumpX86 amx_PushHook_;
 	static JumpX86 amx_PushStringHook_;
 
-	// Maps callback name to its 'bad' return value
-	static std::map<std::string, int> cbBadRetVals_;
-
-	// Global list of registered native functions (server + all plugins)
 	static std::vector<AMX_NATIVE_INFO> native_info_;
 };
 

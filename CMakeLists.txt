@@ -60,6 +60,13 @@ execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 		OUTPUT_FILE "include/sampgdk/generated/a_vehicles.h"
 	ERROR_VARIABLE PYTHON_ERRORS)
 
+set(SCRIPT "scripts/generate_callback_rets.py")
+execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
+		INPUT_FILE "include/sampgdk/a_samp.h"
+		OUTPUT_FILE "src/generated/callback_rets.cpp"
+	ERROR_VARIABLE PYTHON_ERRORS)
+
 if(DEFINED PYTHON_ERRORS)
 	message("${PYTHON_ERRORS}")
 endif()

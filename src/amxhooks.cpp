@@ -27,13 +27,10 @@ extern void *pAMXFunctions;
 
 namespace sampgdk {
 
-// Gamemode's AMX.
 AMX *AmxHooks::gamemode_ = 0;
 
-// Curently Exec()'ing public.
 std::string AmxHooks::currentPublic_;
 
-// AMX API hooks
 JumpX86 AmxHooks::amx_FindPublicHook_;
 JumpX86 AmxHooks::amx_ExecHook_;
 JumpX86 AmxHooks::amx_RegisterHook_;
@@ -41,10 +38,6 @@ JumpX86 AmxHooks::amx_CallbackHook_;
 JumpX86 AmxHooks::amx_PushHook_;
 JumpX86 AmxHooks::amx_PushStringHook_;
 
-// Maps callback name to its 'bad' return value.
-std::map<std::string, int> AmxHooks::cbBadRetVals_;
-
-// Global list of registered native functions (server + all plugins).
 std::vector<AMX_NATIVE_INFO> AmxHooks::native_info_;
 
 // The "funcidx" native uses amx_FindPublic() to get public function index
@@ -62,38 +55,8 @@ static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	return index;
 }
 
-// Some callbacks in SA-MP can affect server behaviour and break callback
-// call chain by returning a special value (typically 0 or 1).
-// Nice callbacks are those that prevent the rest from being called if one 
-// returns zero. Most callbacks are nice.
-#define NICE_CALLBACK(name) \
-	do { cbBadRetVals_[#name] = 0; } while (false)
-// Ugly callbacks break when a non-zero value returned, in contrast to Nice callbacks.
-// There are only a few.
-#define UGLY_CALLBACK(name) \
-	do { cbBadRetVals_[#name] = 1; } while (false)
+static std::map<std::string, int> callbackBadRetVals;
 
-void AmxHooks::RegisterCallbacks() {
-	// Put here callbacks that do handle returns values.
-	UGLY_CALLBACK(OnDialogResponse);
-	UGLY_CALLBACK(OnPlayerCommandText);
-	NICE_CALLBACK(OnPlayerConnect);
-	NICE_CALLBACK(OnPlayerDisonnect);
-	NICE_CALLBACK(OnPlayerEnterCheckpoint);
-	NICE_CALLBACK(OnPlayerEnterRaceCheckpoint);
-	NICE_CALLBACK(OnPlayerKeyStateChange);
-	NICE_CALLBACK(OnPlayerSpawn);
-	NICE_CALLBACK(OnPlayerRequestClass);
-	NICE_CALLBACK(OnPlayerRequestSpawn);
-	NICE_CALLBACK(OnPlayerText);
-	NICE_CALLBACK(OnPlayerUpdate);
-	UGLY_CALLBACK(OnRconCommand);
-	NICE_CALLBACK(OnVehicleMod);
-	// Other callbacks always run unregardless of what a previous
-	// one (probably in another filterscript or plugin) returns.
-}
-
-// This routine performs initialization of GDK and should be called only once.
 void AmxHooks::Initialize(void **ppPluginData) {
 	pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
 
@@ -117,7 +80,7 @@ void AmxHooks::Initialize(void **ppPluginData) {
 		amxExports[PLUGIN_AMX_EXPORT_PushString],
 		(void*)amx_PushString);
 
-	RegisterCallbacks();
+	#include "generated/callback_rets.cpp"
 }
 
 void AmxHooks::Finalize() {
@@ -174,9 +137,9 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 		Callbacks::GetInstance().HandleCallback("OnGameModeInit", 0);
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
-			std::map<std::string, int>::const_iterator iterator = cbBadRetVals_.find(currentPublic_.c_str());
+			std::map<std::string, int>::const_iterator iterator = callbackBadRetVals.find(currentPublic_.c_str());
 			CallbackRetVal badRetVal;
-			if (iterator != cbBadRetVals_.end()) {
+			if (iterator != callbackBadRetVals.end()) {
 				badRetVal = iterator->second;
 			}
 			cell retval_ = Callbacks::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
