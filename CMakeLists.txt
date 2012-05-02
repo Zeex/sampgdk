@@ -16,7 +16,7 @@ include_directories("include/sampgdk")
 find_package(PythonInterp 2.6 REQUIRED)
 
 file(MAKE_DIRECTORY "src/generated/")
-set(SCRIPT "scripts/generate_native_codes.py")
+set(SCRIPT "scripts/generate_natives.py")
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_objects.h"
