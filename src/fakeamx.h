@@ -16,8 +16,7 @@
 #define SAMPGDK_FAKEAMX_H
 #pragma once
 
-#include <sampgdk/config.h>
-#include <sampgdk/amx/amx.h>
+#include <sampgdk/amx.h>
 
 #include <cstddef>
 #include <vector>

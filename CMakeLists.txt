@@ -11,7 +11,6 @@ include(ParseVersionString)
 
 include_directories("include")
 include_directories("include/sampgdk")
-include_directories("include/sampgdk/amx")
 
 find_package(PythonInterp 2.6 REQUIRED)
 
@@ -66,9 +65,9 @@ if(DEFINED PYTHON_ERRORS)
 endif()
 
 set(SAMPGDK_HEADERS
-	"include/sampgdk/amx/amx.h"
-	"include/sampgdk/amx/getch.h"
-	"include/sampgdk/amx/sclinux.h"
+	"include/sampgdk/internal/amx/amx.h"
+	"include/sampgdk/internal/amx/getch.h"
+	"include/sampgdk/internal/amx/sclinux.h"
 	"include/sampgdk/a_objects.h"
 	"include/sampgdk/a_players.h"
 	"include/sampgdk/a_samp.h"
