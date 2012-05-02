@@ -20,8 +20,8 @@ def generate_native_code(return_type, name, args, attrs):
 		return None
 
 	# Write first line, same as function declaration + "{\n".
-	code = "SAMPGDK_EXPORT " + return_type + " SAMPGDK_CALL sampgdk_" + name\
-		+ "(" + ", ".join(to_argument_list(args)) + ") {\n"
+	code = "SAMPGDK_NATIVE(" + return_type + ", " + name\
+		+ "(" + ", ".join(to_argument_list(args)) + ")) {\n"
 
 	# A "static" variable that holds native address.
 	if "$real_name" in attrs:

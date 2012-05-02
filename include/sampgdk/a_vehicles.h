@@ -41,43 +41,43 @@
 #define VEHICLE_PARAMS_OFF    (0)
 #define VEHICLE_PARAMS_ON     (1)
 
-SAMPGDK_EXPORT float SAMPGDK_CALL GetVehicleDistanceFromPoint(int vehicleid, float x, float y, float z);
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateVehicle(int vehicletype, float x, float y, float z, float rotation, int color1, int color2, int respawn_delay);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyVehicle(int vehicleid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL IsVehicleStreamedIn(int vehicleid, int forplayerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehiclePos(int vehicleid, float *x, float *y, float *z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehiclePos(int vehicleid, float x, float y, float z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleZAngle(int vehicleid, float *z_angle);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleRotationQuat(int vehicleid, float *w, float *x, float *y, float *z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleZAngle(int vehicleid, float z_angle);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked);
-SAMPGDK_EXPORT bool SAMPGDK_CALL ManualVehicleEngineAndLights();
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, bool doors, bool bonnet, bool boot, bool objective);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleParamsEx(int vehicleid, bool *engine, bool *lights, bool *alarm, bool *doors, bool *bonnet, bool *boot, bool *objective);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleToRespawn(int vehicleid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL LinkVehicleToInterior(int vehicleid, int interiorid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL AddVehicleComponent(int vehicleid, int componentid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL RemoveVehicleComponent(int vehicleid, int componentid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehicleColor(int vehicleid, int color1, int color2);
-SAMPGDK_EXPORT bool SAMPGDK_CALL ChangeVehiclePaintjob(int vehicleid, int paintjobid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleHealth(int vehicleid, float health);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleHealth(int vehicleid, float *health);
-SAMPGDK_EXPORT bool SAMPGDK_CALL AttachTrailerToVehicle(int trailerid, int vehicleid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DetachTrailerFromVehicle(int vehicleid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL IsTrailerAttachedToVehicle(int vehicleid);
-SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleTrailer(int vehicleid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleNumberPlate(int vehicleid, const char *numberplate);
-SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleModel(int vehicleid);
-SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentInSlot(int vehicleid, int slot);
-SAMPGDK_EXPORT int SAMPGDK_CALL GetVehicleComponentType(int component);
-SAMPGDK_EXPORT bool SAMPGDK_CALL RepairVehicle(int vehicleid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVelocity(int vehicleid, float *X, float *Y, float *Z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVelocity(int vehicleid, float X, float Y, float Z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleAngularVelocity(int vehicleid, float X, float Y, float Z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleDamageStatus(int vehicleid, int *panels, int *doors, int *lights, int *tires);
-SAMPGDK_EXPORT bool SAMPGDK_CALL UpdateVehicleDamageStatus(int vehicleid, int panels, int doors, int lights, int tires);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetVehicleVirtualWorld(int vehicleid, int worldid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid);
+SAMPGDK_NATIVE(float, GetVehicleDistanceFromPoint(int vehicleid, float x, float y, float z));
+SAMPGDK_NATIVE(int, CreateVehicle(int vehicletype, float x, float y, float z, float rotation, int color1, int color2, int respawn_delay));
+SAMPGDK_NATIVE(bool, DestroyVehicle(int vehicleid));
+SAMPGDK_NATIVE(bool, IsVehicleStreamedIn(int vehicleid, int forplayerid));
+SAMPGDK_NATIVE(bool, GetVehiclePos(int vehicleid, float *x, float *y, float *z));
+SAMPGDK_NATIVE(bool, SetVehiclePos(int vehicleid, float x, float y, float z));
+SAMPGDK_NATIVE(bool, GetVehicleZAngle(int vehicleid, float *z_angle));
+SAMPGDK_NATIVE(bool, GetVehicleRotationQuat(int vehicleid, float *w, float *x, float *y, float *z));
+SAMPGDK_NATIVE(bool, SetVehicleZAngle(int vehicleid, float z_angle));
+SAMPGDK_NATIVE(bool, SetVehicleParamsForPlayer(int vehicleid, int playerid, bool objective, bool doorslocked));
+SAMPGDK_NATIVE(bool, ManualVehicleEngineAndLights());
+SAMPGDK_NATIVE(bool, SetVehicleParamsEx(int vehicleid, bool engine, bool lights, bool alarm, bool doors, bool bonnet, bool boot, bool objective));
+SAMPGDK_NATIVE(bool, GetVehicleParamsEx(int vehicleid, bool *engine, bool *lights, bool *alarm, bool *doors, bool *bonnet, bool *boot, bool *objective));
+SAMPGDK_NATIVE(bool, SetVehicleToRespawn(int vehicleid));
+SAMPGDK_NATIVE(bool, LinkVehicleToInterior(int vehicleid, int interiorid));
+SAMPGDK_NATIVE(bool, AddVehicleComponent(int vehicleid, int componentid));
+SAMPGDK_NATIVE(bool, RemoveVehicleComponent(int vehicleid, int componentid));
+SAMPGDK_NATIVE(bool, ChangeVehicleColor(int vehicleid, int color1, int color2));
+SAMPGDK_NATIVE(bool, ChangeVehiclePaintjob(int vehicleid, int paintjobid));
+SAMPGDK_NATIVE(bool, SetVehicleHealth(int vehicleid, float health));
+SAMPGDK_NATIVE(bool, GetVehicleHealth(int vehicleid, float *health));
+SAMPGDK_NATIVE(bool, AttachTrailerToVehicle(int trailerid, int vehicleid));
+SAMPGDK_NATIVE(bool, DetachTrailerFromVehicle(int vehicleid));
+SAMPGDK_NATIVE(bool, IsTrailerAttachedToVehicle(int vehicleid));
+SAMPGDK_NATIVE(int, GetVehicleTrailer(int vehicleid));
+SAMPGDK_NATIVE(bool, SetVehicleNumberPlate(int vehicleid, const char *numberplate));
+SAMPGDK_NATIVE(int, GetVehicleModel(int vehicleid));
+SAMPGDK_NATIVE(int, GetVehicleComponentInSlot(int vehicleid, int slot));
+SAMPGDK_NATIVE(int, GetVehicleComponentType(int component));
+SAMPGDK_NATIVE(bool, RepairVehicle(int vehicleid));
+SAMPGDK_NATIVE(bool, GetVehicleVelocity(int vehicleid, float *X, float *Y, float *Z));
+SAMPGDK_NATIVE(bool, SetVehicleVelocity(int vehicleid, float X, float Y, float Z));
+SAMPGDK_NATIVE(bool, SetVehicleAngularVelocity(int vehicleid, float X, float Y, float Z));
+SAMPGDK_NATIVE(bool, GetVehicleDamageStatus(int vehicleid, int *panels, int *doors, int *lights, int *tires));
+SAMPGDK_NATIVE(bool, UpdateVehicleDamageStatus(int vehicleid, int panels, int doors, int lights, int tires));
+SAMPGDK_NATIVE(bool, SetVehicleVirtualWorld(int vehicleid, int worldid));
+SAMPGDK_NATIVE(bool, GetVehicleVirtualWorld(int vehicleid));
 
 #define VEHICLE_MODEL_INFO_SIZE              1
 #define VEHICLE_MODEL_INFO_FRONTSEAT         2
@@ -89,7 +89,7 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleVirtualWorld(int vehicleid);
 #define VEHICLE_MODEL_INFO_FRONT_BUMPER_Z    8
 #define VEHICLE_MODEL_INFO_REAR_BUMPER_Z     9
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetVehicleModelInfo(int model, int infotype, float *X, float *Y, float *Z);
+SAMPGDK_NATIVE(bool, GetVehicleModelInfo(int model, int infotype, float *X, float *Y, float *Z));
 
 #ifdef __cplusplus
 

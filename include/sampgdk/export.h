@@ -42,4 +42,10 @@
 	#error Usupported operating system
 #endif
 
+#define SAMPGDK_NATIVE(ret_type, native) \
+	SAMPGDK_EXPORT ret_type SAMPGDK_CALL sampgdk_##native
+
+#define SAMPGDK_CALLBACK(ret_type, callback) \
+	PLUGIN_EXPORT ret_type PLUGIN_CALL callback
+
 #endif /* SAMPGDK_EXPORT_H */

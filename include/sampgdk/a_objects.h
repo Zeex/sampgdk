@@ -22,35 +22,35 @@
 #include <sampgdk/a_samp.h>
 #include <sampgdk/generated/a_objects.h>
 
-SAMPGDK_EXPORT int SAMPGDK_CALL CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance);
-SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToObject(int objectid, int attachtoid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, bool SyncRotation);
-SAMPGDK_EXPORT bool SAMPGDK_CALL AttachObjectToPlayer(int objectid, int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectPos(int objectid, float x, float y, float z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectPos(int objectid, float *x, float *y, float *z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectRot(int objectid, float rotX, float rotY, float rotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetObjectRot(int objectid, float *rotX, float *rotY, float *rotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidObject(int objectid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyObject(int objectid);
-SAMPGDK_EXPORT int SAMPGDK_CALL MoveObject(int objectid, float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL StopObject(int objectid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL IsObjectMoving(int objectid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL EditObject(int playerid, int objectid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL EditPlayerObject(int playerid, int objectid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SelectObject(int playerid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL CancelEdit(int playerid);
-SAMPGDK_EXPORT int SAMPGDK_CALL CreatePlayerObject(int playerid, int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance);
-SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL AttachPlayerObjectToVehicle(int playerid, int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float RotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectPos(int playerid, int objectid, float *x, float *y, float *z);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, float rotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL GetPlayerObjectRot(int playerid, int objectid, float *rotX, float *rotY, float *rotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL IsValidPlayerObject(int playerid, int objectid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL DestroyPlayerObject(int playerid, int objectid);
-SAMPGDK_EXPORT int SAMPGDK_CALL MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, float RotX, float RotY, float RotZ);
-SAMPGDK_EXPORT bool SAMPGDK_CALL StopPlayerObject(int playerid, int objectid);
-SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid);
+SAMPGDK_NATIVE(int, CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance));
+SAMPGDK_NATIVE(bool, AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ));
+SAMPGDK_NATIVE(bool, AttachObjectToObject(int objectid, int attachtoid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, bool SyncRotation));
+SAMPGDK_NATIVE(bool, AttachObjectToPlayer(int objectid, int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ));
+SAMPGDK_NATIVE(bool, SetObjectPos(int objectid, float x, float y, float z));
+SAMPGDK_NATIVE(bool, GetObjectPos(int objectid, float *x, float *y, float *z));
+SAMPGDK_NATIVE(bool, SetObjectRot(int objectid, float rotX, float rotY, float rotZ));
+SAMPGDK_NATIVE(bool, GetObjectRot(int objectid, float *rotX, float *rotY, float *rotZ));
+SAMPGDK_NATIVE(bool, IsValidObject(int objectid));
+SAMPGDK_NATIVE(bool, DestroyObject(int objectid));
+SAMPGDK_NATIVE(int, MoveObject(int objectid, float X, float Y, float Z, float Speed, float RotX, float RotY, float RotZ));
+SAMPGDK_NATIVE(bool, StopObject(int objectid));
+SAMPGDK_NATIVE(bool, IsObjectMoving(int objectid));
+SAMPGDK_NATIVE(bool, EditObject(int playerid, int objectid));
+SAMPGDK_NATIVE(bool, EditPlayerObject(int playerid, int objectid));
+SAMPGDK_NATIVE(bool, SelectObject(int playerid));
+SAMPGDK_NATIVE(bool, CancelEdit(int playerid));
+SAMPGDK_NATIVE(int, CreatePlayerObject(int playerid, int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance));
+SAMPGDK_NATIVE(bool, AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ));
+SAMPGDK_NATIVE(bool, AttachPlayerObjectToVehicle(int playerid, int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float RotZ));
+SAMPGDK_NATIVE(bool, SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z));
+SAMPGDK_NATIVE(bool, GetPlayerObjectPos(int playerid, int objectid, float *x, float *y, float *z));
+SAMPGDK_NATIVE(bool, SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, float rotZ));
+SAMPGDK_NATIVE(bool, GetPlayerObjectRot(int playerid, int objectid, float *rotX, float *rotY, float *rotZ));
+SAMPGDK_NATIVE(bool, IsValidPlayerObject(int playerid, int objectid));
+SAMPGDK_NATIVE(bool, DestroyPlayerObject(int playerid, int objectid));
+SAMPGDK_NATIVE(int, MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, float RotX, float RotY, float RotZ));
+SAMPGDK_NATIVE(bool, StopPlayerObject(int playerid, int objectid));
+SAMPGDK_NATIVE(bool, IsPlayerObjectMoving(int playerid, int objectid));
 
 #define OBJECT_MATERIAL_SIZE_32x32     10
 #define OBJECT_MATERIAL_SIZE_64x32     20
@@ -71,11 +71,11 @@ SAMPGDK_EXPORT bool SAMPGDK_CALL IsPlayerObjectMoving(int playerid, int objectid
 #define OBJECT_MATERIAL_TEXT_ALIGN_CENTER   1
 #define OBJECT_MATERIAL_TEXT_ALIGN_RIGHT    2
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterial(int playerid, int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor);
+SAMPGDK_NATIVE(bool, SetObjectMaterial(int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor));
+SAMPGDK_NATIVE(bool, SetPlayerObjectMaterial(int playerid, int objectid, int materialindex, int modelid, const char *txdname, const char *texturename, int materialcolor));
 
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetObjectMaterialText(int objectid, const char *text, int materialindex, int materialsize, const char *fontface, int fontsize, bool bold, int fontcolor, int backcolor, int textalignment);
-SAMPGDK_EXPORT bool SAMPGDK_CALL SetPlayerObjectMaterialText(int playerid, int objectid, const char *text, int materialindex, int materialsize, const char *fontface, int fontsize, bool bold, int fontcolor, int backcolor, int textalignment);
+SAMPGDK_NATIVE(bool, SetObjectMaterialText(int objectid, const char *text, int materialindex, int materialsize, const char *fontface, int fontsize, bool bold, int fontcolor, int backcolor, int textalignment));
+SAMPGDK_NATIVE(bool, SetPlayerObjectMaterialText(int playerid, int objectid, const char *text, int materialindex, int materialsize, const char *fontface, int fontsize, bool bold, int fontcolor, int backcolor, int textalignment));
 
 #ifdef __cplusplus
 

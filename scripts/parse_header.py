@@ -58,7 +58,7 @@ def parse_function_decl(string, pattern):
 	return (type, name, args, attrs)
 
 def parse_header(text):
-	pattern = r"SAMPGDK_EXPORT (int|bool|float) SAMPGDK_CALL (\w+)\((.*)\);\s*(/\*.*$)?"
+	pattern = r"^SAMPGDK_NATIVE\((int|bool|float),\s*(\w+)\((.*)\)\);\s*(/\*.*$)?"
 	for line in text.splitlines():
 		decl = parse_function_decl(line, pattern)
 		if decl is not None:
