@@ -1,7 +1,4 @@
-#!/usr/bin/python
-
-# This script generates code for SA-MP natives from their C declarations
-# in sampgdk headers like a_players.h, etc.
+#!/usr/bin/env python
 
 import os
 import re
