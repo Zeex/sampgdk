@@ -9,10 +9,10 @@ def parse_argument_list(string):
 	""" For each entry of the arg_list returns a tuple made of
 	    argument type and name. """
 	args = []
-	for string in re.split(r"\s*,\s*", string):
-		if len(string) == 0:
+	for arg in re.split(r"\s*,\s*", string):
+		if len(arg) == 0:
 			continue
-		match = re.match(r"([\w ]+ |[\w ]+\*)(\w+)$", string)
+		match = re.match(r"([\w ]+ |[\w ]+\*)(\w+)$", arg)
 		if len(match.groups()) < 2:
 			continue
 		args.append((match.group(1).strip(), match.group(2).strip()))
@@ -49,12 +49,14 @@ def parse_function_decl(string, pattern):
 	      2. function name
 	      3. comma-seperated argument list
 	"""
-	match = re.match(pattern + "\s*;\s*(/\*.*$)?", string)
+	match = re.match(pattern + r"\s*;\s*(/\*.*$)?", string)
 	if match == None:
 		return None
 	type = match.group(1)
 	name = match.group(2)
-	args = parse_argument_list(match.group(3))
+	args = []
+	if match.group(3) is not None:
+		args = parse_argument_list(match.group(3))
 	comment = match.group(4)
 	if comment is not None:
 		comment = get_comment_text(comment)
@@ -71,33 +73,49 @@ def get_natives(text):
 			yield decl
 
 def get_callbacks(text):
-	pattern = r"^SAMPGDK_CALLBACK\(bool,\s*(\w+)\((.*)\)\)" # only "bool" callbacks are allowed
+	pattern = r"^SAMPGDK_CALLBACK\((bool),\s*(\w+)\((.*)\)\)" # only "bool" callbacks are allowed
 	for line in text.splitlines():
 		decl = parse_function_decl(line, pattern)
 		if decl is not None:
 			yield decl
 
 def main(argv):
+	code = sys.stdin.read()
 	document = xml.dom.minidom.Document()
-	exports = document.createElement("exports")
-	for type, name, args, attrs in get_natives(sys.stdin.read()):
-		function = document.createElement("function")
-		function.setAttribute("type", type)
-		function.setAttribute("name", name)
+	root = document.createElement("root")
+	for type, name, args, attrs in get_natives(code):
+		native = document.createElement("native")
+		native.setAttribute("type", type)
+		native.setAttribute("name", name)
 		for type, name in args:
 			argument = document.createElement("argument")
 			argument.setAttribute("type", type)
 			argument.setAttribute("name", name)
-			function.appendChild(argument)
+			native.appendChild(argument)
 		for name, value in attrs.items():
 			attribute = document.createElement("attribute")
 			attribute.setAttribute("name", name)
 			if value is not None:
 				attribute.setAttribute("value", value)
-			function.appendChild(attribute)
-		exports.appendChild(function)
-		pass
-	document.appendChild(exports)
+			native.appendChild(attribute)
+		root.appendChild(native)
+	for type, name, args, attrs in get_callbacks(code):
+		callback = document.createElement("callback")
+		callback.setAttribute("type", type)
+		callback.setAttribute("name", name)
+		for type, name in args:
+			argument = document.createElement("argument")
+			argument.setAttribute("type", type)
+			argument.setAttribute("name", name)
+			callback.appendChild(argument)
+		for name, value in attrs.items():
+			attribute = document.createElement("attribute")
+			attribute.setAttribute("name", name)
+			if value is not None:
+				attribute.setAttribute("value", value)
+			callback.appendChild(attribute)
+		root.appendChild(callback)
+	document.appendChild(root)
 	print document.toprettyxml(indent="\t")
 
 if __name__ == "__main__":
