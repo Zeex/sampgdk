@@ -38,17 +38,13 @@ public:
 
 	static void Pop(cell address);
 
-	template<std::size_t N>
-	static inline cell CallNative(AMX_NATIVE native, cell (&params)[N]) {
-		params[0] = (N - 1) * sizeof(cell);
+	static inline cell CallNative(AMX_NATIVE native, cell *params) {
 		return native(&amx_, params);
 	}
-	template<std::size_t N>
-	static inline bool CallNativeBool(AMX_NATIVE native, cell (&params)[N]) {
+	static inline bool CallNativeBool(AMX_NATIVE native, cell *params) {
 		return CallNative(native, params) != 0;
 	}
-	template<std::size_t N>
-	static inline float CallNativeFloat(AMX_NATIVE native, cell (&params)[N]) {
+	static inline float CallNativeFloat(AMX_NATIVE native, cell *params) {
 		cell retval = CallNative(native, params);
 		return amx_ctof(retval);
 	}

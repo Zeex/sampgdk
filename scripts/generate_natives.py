@@ -33,7 +33,8 @@ def generate_native_code(return_type, name, args, attrs):
 	# Generate code for local variables, params array and ref argument assignment.
 	if len(args) > 0:
 		locals_code = ""
-		params_code = "\tcell params[] = {\n\t\t0"
+		params_code = "\tcell params[] = {\n"
+		params_code += "\t\t" + str(len(args) + 1) + " * sizeof(cell)"
 		assign_code = ""
 		expect_buffer_size = False
 		for type, name in args:
@@ -54,7 +55,6 @@ def generate_native_code(return_type, name, args, attrs):
 				else:
 					# Other output parameters.
 					locals_code += ";\n"
-			# The "params" array.
 			params_code += ",\n\t\t"
 			if type == "int" or type == "bool":
 				params_code += name
