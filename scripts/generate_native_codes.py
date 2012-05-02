@@ -22,7 +22,7 @@ def to_argument_list(args):
 		yield type + " " + name
 
 def generate_native_code(return_type, name, args, attrs):
-	if "$skip" in attrs:
+	if "$codeless" in attrs:
 		return None
 
 	# Write first line, same as function declaration + "{\n".
