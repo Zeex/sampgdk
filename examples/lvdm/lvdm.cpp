@@ -127,7 +127,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason)
 	return true;
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmdtext)
 {
 	char string[128];
 	int playermoney;
@@ -136,7 +136,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, char cmdtext[])
 	char *cmd;
 	int giveplayerid, moneys;
 
-	cmd = strtok(cmdtext, " ");
+	// FIXME: const_cast isn't really a good solution
+	cmd = strtok(const_cast<char*>(cmdtext), " ");
 
 	if(strcmp(cmd, "/help") == 0) {
 		SendPlayerFormattedText(playerid,"Las Venturas Deathmatch: Money Grub Coded By Jax and the SA-MP Team.",0);

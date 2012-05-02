@@ -19,6 +19,7 @@
 
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
+#include <sampgdk/plugin.h>
 #include <sampgdk/generated/a_samp.h>
 
 #include <stddef.h>
@@ -395,5 +396,53 @@ private:
 };
 
 #endif /* __cplusplus */
+
+/* Forward declarations of SA-MP callbacks. */
+SAMPGDK_CALLBACK(bool, OnGameModeInit());
+SAMPGDK_CALLBACK(bool, OnGameModeExit());
+SAMPGDK_CALLBACK(bool, OnFilterScriptInit());
+SAMPGDK_CALLBACK(bool, OnFilterScriptExit());
+SAMPGDK_CALLBACK(bool, OnPlayerConnect(int playerid));
+SAMPGDK_CALLBACK(bool, OnPlayerDisconnect(int playerid, int reason));
+SAMPGDK_CALLBACK(bool, OnPlayerSpawn(int playerid));
+SAMPGDK_CALLBACK(bool, OnPlayerDeath(int playerid, int killerid, int reason));
+SAMPGDK_CALLBACK(bool, OnVehicleSpawn(int vehicleid));
+SAMPGDK_CALLBACK(bool, OnVehicleDeath(int vehicleid, int killerid));
+SAMPGDK_CALLBACK(bool, OnPlayerText(int playerid, const char *text));
+SAMPGDK_CALLBACK(bool, OnPlayerCommandText(int playerid, const char *cmdtext));
+SAMPGDK_CALLBACK(bool, OnPlayerRequestClass(int playerid, int classid));
+SAMPGDK_CALLBACK(bool, OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger));
+SAMPGDK_CALLBACK(bool, OnPlayerExitVehicle(int playerid, int vehicleid));
+SAMPGDK_CALLBACK(bool, OnPlayerStateChange(int playerid, int newstate, int oldstate));
+SAMPGDK_CALLBACK(bool, OnPlayerEnterCheckpoint(int playerid));
+SAMPGDK_CALLBACK(bool, OnPlayerLeaveCheckpoint(int playerid));
+SAMPGDK_CALLBACK(bool, OnPlayerEnterRaceCheckpoint(int playerid));
+SAMPGDK_CALLBACK(bool, OnPlayerLeaveRaceCheckpoint(int playerid));
+SAMPGDK_CALLBACK(bool, OnRconCommand(const char *cmd));
+SAMPGDK_CALLBACK(bool, OnPlayerRequestSpawn(int playerid));
+SAMPGDK_CALLBACK(bool, OnObjectMoved(int objectid));
+SAMPGDK_CALLBACK(bool, OnPlayerObjectMoved(int playerid, int objectid));
+SAMPGDK_CALLBACK(bool, OnPlayerPickUpPickup(int playerid, int pickupid));
+SAMPGDK_CALLBACK(bool, OnVehicleMod(int playerid, int vehicleid, int componentid));
+SAMPGDK_CALLBACK(bool, OnEnterExitModShop(int playerid, int enterexit, int interiorid));
+SAMPGDK_CALLBACK(bool, OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid));
+SAMPGDK_CALLBACK(bool, OnVehicleRespray(int playerid, int vehicleid, int color1, int color2));
+SAMPGDK_CALLBACK(bool, OnVehicleDamageStatusUpdate(int vehicleid, int playerid));
+SAMPGDK_CALLBACK(bool, OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat));
+SAMPGDK_CALLBACK(bool, OnPlayerSelectedMenuRow(int playerid, int row));
+SAMPGDK_CALLBACK(bool, OnPlayerExitedMenu(int playerid));
+SAMPGDK_CALLBACK(bool, OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid));
+SAMPGDK_CALLBACK(bool, OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys));
+SAMPGDK_CALLBACK(bool, OnRconLoginAttempt(const char *ip, const char *password, bool success));
+SAMPGDK_CALLBACK(bool, OnPlayerUpdate(int playerid));
+SAMPGDK_CALLBACK(bool, OnPlayerStreamIn(int playerid, int forplayerid));
+SAMPGDK_CALLBACK(bool, OnPlayerStreamOut(int playerid, int forplayerid));
+SAMPGDK_CALLBACK(bool, OnVehicleStreamIn(int vehicleid, int forplayerid));
+SAMPGDK_CALLBACK(bool, OnVehicleStreamOut(int vehicleid, int forplayerid));
+SAMPGDK_CALLBACK(bool, OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char *inputtext));
+SAMPGDK_CALLBACK(bool, OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid));
+SAMPGDK_CALLBACK(bool, OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid));
+SAMPGDK_CALLBACK(bool, OnPlayerClickMap(int playerid, float fX, float fY, float fZ));
+SAMPGDK_CALLBACK(bool, OnPlayerClickPlayer(int playerid, int clickedplayerid, int source));
 
 #endif /* !SAMPGDK_A_SAMP_H */
