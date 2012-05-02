@@ -9,12 +9,6 @@ from parse_header import *
 class InvalidNativeArgumentType:
 	def __init__(self, type):
 		self.type = type
-	
-class NativeArgument:
-	def __init__(self, string):
-		match = re.match(r"([\w ]+ |[\w ]+\*)(\w+)$", string)
-		self.type = match.group(1).strip()
-		self.name = match.group(2).strip()
 
 def to_argument_list(args):
 	arg_list = []
