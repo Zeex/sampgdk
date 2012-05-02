@@ -99,7 +99,7 @@ def generate_native_code(return_type, name, args, attrs):
 	return code
 
 def main(argv):
-	for native in parse_header(sys.stdin.read()):
+	for native in get_natives(sys.stdin.read()):
 		try:
 			code = generate_native_code(*native)
 			if code is not None:

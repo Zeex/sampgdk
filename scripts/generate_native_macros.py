@@ -12,7 +12,7 @@ def generate_native_macro(return_type, name, args, comment):
 	return code
 
 def main(argv):
-	for native in parse_header(sys.stdin.read()):
+	for native in get_natives(sys.stdin.read()):
 		code = generate_native_macro(*native)
 		if code is not None:
 			sys.stdout.write(code + "\n")

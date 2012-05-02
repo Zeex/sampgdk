@@ -42,8 +42,14 @@ def get_comment_text(comment):
 def parse_function_decl(string, pattern):
 	""" Returns a tuple of the form: (type, name, args, attributes)
 	    where "args" is a again a list of tuples (type, name) that represents
-	    function arguments and "attributes" is a dictionary of attributes. """
-	match = re.match(pattern, string)
+	    function arguments and "attributes" is a dictionary of attributes. 
+
+	    The pattern must have exactly 3 capture groups:
+	      1. return type
+	      2. function name
+	      3. comma-seperated argument list
+	"""
+	match = re.match(pattern + "\s*;\s*(/\*.*$)?", string)
 	if match == None:
 		return None
 	type = match.group(1)
@@ -57,8 +63,15 @@ def parse_function_decl(string, pattern):
 		attrs[attr[0]] = attr[1]
 	return (type, name, args, attrs)
 
-def parse_header(text):
-	pattern = r"^SAMPGDK_NATIVE\((int|bool|float),\s*(\w+)\((.*)\)\);\s*(/\*.*$)?"
+def get_natives(text):
+	pattern = r"^SAMPGDK_NATIVE\((int|bool|float),\s*(\w+)\((.*)\)\)"
+	for line in text.splitlines():
+		decl = parse_function_decl(line, pattern)
+		if decl is not None:
+			yield decl
+
+def get_callbacks(text):
+	pattern = r"^SAMPGDK_CALLBACK\(bool,\s*(\w+)\((.*)\)\)" # only "bool" callbacks are allowed
 	for line in text.splitlines():
 		decl = parse_function_decl(line, pattern)
 		if decl is not None:
@@ -67,7 +80,7 @@ def parse_header(text):
 def main(argv):
 	document = xml.dom.minidom.Document()
 	exports = document.createElement("exports")
-	for type, name, args, attrs in parse_header(sys.stdin.read()):
+	for type, name, args, attrs in get_natives(sys.stdin.read()):
 		function = document.createElement("function")
 		function.setAttribute("type", type)
 		function.setAttribute("name", name)
