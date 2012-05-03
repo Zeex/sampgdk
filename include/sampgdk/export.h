@@ -29,7 +29,7 @@
 #endif
 
 #if defined SAMPGDK_LINUX
-	#define SAMPGDK_CALL
+	#define SAMPGDK_CALL __attribute__((cdecl))
 	#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __attribute__((visibility("default")))
 #elif defined SAMPGDK_WINDOWS
 	#define SAMPGDK_CALL __cdecl
