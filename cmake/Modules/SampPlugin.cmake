@@ -42,9 +42,7 @@ set(PLUGIN_TARGET ${PLUGIN_NAME})
 
 add_library(${PLUGIN_TARGET} MODULE ${PLUGIN_SOURCES})
 
-if(UNIX)
-	set_target_properties(${PLUGIN_TARGET} PROPERTIES PREFIX "")
-endif()
+set_target_properties(${PLUGIN_TARGET} PROPERTIES PREFIX "")
 
 if(NOT PLUGIN_DEF STREQUAL "")
 	if(MSVC)
