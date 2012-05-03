@@ -23,6 +23,10 @@
 
 #include <cstring>
 
+namespace sampgdk {
+#include "generated/callback_data.cpp"
+}
+
 extern void *pAMXFunctions;
 
 namespace sampgdk {
@@ -55,8 +59,6 @@ static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	return index;
 }
 
-static std::map<std::string, int> callbackBadRetVals;
-
 void AmxHooks::Initialize(void **ppPluginData) {
 	pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
 
@@ -80,7 +82,7 @@ void AmxHooks::Initialize(void **ppPluginData) {
 		amxExports[PLUGIN_AMX_EXPORT_PushString],
 		(void*)amx_PushString);
 
-	#include "generated/callback_rets.cpp"
+	CallbackDataInit();
 }
 
 void AmxHooks::Finalize() {
@@ -137,9 +139,9 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 		Callbacks::GetInstance().HandleCallback("OnGameModeInit", 0);
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
-			std::map<std::string, int>::const_iterator iterator = callbackBadRetVals.find(currentPublic_.c_str());
+			CallbackBadRetMap::const_iterator iterator = callbackBadRetMap.find(currentPublic_);
 			CallbackRetVal badRetVal;
-			if (iterator != callbackBadRetVals.end()) {
+			if (iterator != callbackBadRetMap.end()) {
 				badRetVal = iterator->second;
 			}
 			cell retval_ = Callbacks::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);

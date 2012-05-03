@@ -7,12 +7,15 @@ import sys
 from parse_header import *
 
 def main(argv):
-	code = ""
+	print "typedef std::map<std::string, cell> CallbackBadRetMap;"
+	print "static CallbackBadRetMap callbackBadRetMap;"
+	print ""
+	print "void CallbackDataInit() {"
 	for type, name, args, attrs in get_callbacks(sys.stdin.read()):
 		if "$ret" in attrs:
 			bad_ret = attrs["$ret"]
-			code += "callbackBadRetVals[\"" + name + "\"] = " + bad_ret + ";\n"
-	sys.stdout.write(code)
+			print "\tcallbackBadRetMap[\"" + name + "\"] = " + bad_ret + ";"
+	print "}"
 
 if __name__ == "__main__":
 	main(sys.argv)
