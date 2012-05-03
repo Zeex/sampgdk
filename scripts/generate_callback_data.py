@@ -12,8 +12,8 @@ def main(argv):
 	print ""
 	print "void CallbackDataInit() {"
 	for type, name, args, attrs in get_callbacks(sys.stdin.read()):
-		if "$ret" in attrs:
-			bad_ret = attrs["$ret"]
+		if "$badRet" in attrs:
+			bad_ret = attrs["$badRet"]
 			print "\tcallbackBadRetMap[\"" + name + "\"] = " + bad_ret + ";"
 	print "}"
 
