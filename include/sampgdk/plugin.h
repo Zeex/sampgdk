@@ -5,6 +5,6 @@
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 #include <sampgdk/core.h>
-#include <sampgdk/plugincommon.h>
+#include <sampgdk/internal/plugincommon.h>
 
 #endif /* !SAMPGDK_PLUGIN_H */
