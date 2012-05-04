@@ -30,12 +30,13 @@ def generate_native_code(return_type, name, args, attrs):
 		real_name = name
 	code += "\tstatic AMX_NATIVE native = sampgdk::Natives::GetInstance().GetNativeWarn(\"" + real_name + "\");\n"
 
-	# Generate code for local variables, params array and ref argument assignment.
+	locals_code = ""
+	params_code = ""
+	assign_code = ""
+
 	if len(args) > 0:
-		locals_code = ""
-		params_code = "\tcell params[] = {\n"
+		params_code += "\tcell params[] = {\n"
 		params_code += "\t\t" + str(len(args)) + " * sizeof(cell)"
-		assign_code = ""
 		expect_buffer_size = False
 		for type, name in args:
 			# Local FakeAmxHeapObject instances.
@@ -82,9 +83,14 @@ def generate_native_code(return_type, name, args, attrs):
 					else:
 						raise InvalidNativeArgumentType(type)
 		params_code += "\n\t};\n"
-		code += locals_code + params_code + assign_code
 
-	code += "\treturn sampgdk::FakeAmx::"
+	code += locals_code + params_code
+
+	if len(assign_code) > 0:
+		code += "\t" + return_type + " retval = "
+	else:
+		code += "\treturn "
+	code += "sampgdk::FakeAmx::"
 	if return_type == "bool":
 		code += "CallNativeBool"
 	elif return_type == "float":
@@ -95,6 +101,10 @@ def generate_native_code(return_type, name, args, attrs):
 		code += "(native, params);\n"
 	else:
 		code += "(native);\n"
+	if len(assign_code) > 0:
+		code += assign_code
+		code += "\treturn retval;\n"
+
 	code += "}\n"
 	return code
 
