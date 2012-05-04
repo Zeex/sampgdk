@@ -14,6 +14,8 @@
 
 #include <cstring>
 
+#include <sampgdk/config.h>
+
 #include "jump-x86.h"
 
 #if defined WIN32 || defined _WIN32

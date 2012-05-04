@@ -16,6 +16,7 @@
 #define SAMPGDK_AMXHOOKS_H
 #pragma once
 
+#include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 
 #include <map>

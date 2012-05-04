@@ -18,8 +18,8 @@
 #pragma once
 
 #include <sampgdk/config.h>
-#include <sampgdk/export.h>
 #include <sampgdk/a_samp.h>
+#include <sampgdk/export.h>
 #include <sampgdk/generated/a_objects.h>
 
 SAMPGDK_NATIVE(int, CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance));

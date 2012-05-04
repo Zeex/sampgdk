@@ -14,6 +14,8 @@
 
 #include <time.h>
 
+#include <sampgdk/config.h>
+
 #include "timers.h"
 
 namespace sampgdk {

@@ -18,8 +18,8 @@
 #pragma once
 
 #include <sampgdk/config.h>
-#include <sampgdk/export.h>
 #include <sampgdk/a_samp.h>
+#include <sampgdk/export.h>
 #include <sampgdk/generated/a_vehicles.h>
 
 #define CARMODTYPE_SPOILER      (0)

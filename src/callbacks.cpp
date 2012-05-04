@@ -15,6 +15,7 @@
 #include <string>
 #include <map>
 
+#include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>

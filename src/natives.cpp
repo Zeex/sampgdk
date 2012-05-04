@@ -13,6 +13,8 @@
 // limitations under the License.
 
 #include <cstdlib>
+
+#include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 #include <sampgdk/core.h>
 

@@ -16,6 +16,8 @@
 #define JUMP_X86_H
 #pragma once
 
+#include <sampgdk/config.h>
+
 #if !defined _M_IX86 && !defined __i386__
 	#error "Unsupported architecture"
 #endif

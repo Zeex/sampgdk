@@ -18,8 +18,8 @@
 #pragma once
 
 #include <sampgdk/config.h>
-#include <sampgdk/export.h>
 #include <sampgdk/a_samp.h>
+#include <sampgdk/export.h>
 #include <sampgdk/generated/a_players.h>
 
 #include <stddef.h>
