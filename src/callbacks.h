@@ -18,83 +18,38 @@
 
 #include <sampgdk/amx.h>
 
-#include <cassert>
-#include <deque>
 #include <map>
 #include <string>
 
 namespace sampgdk {
 
-class CallbackArg {
-public:
-	enum Type {
-		CELL,
-		STRING
-	};
-
-	CallbackArg(cell value);
-	CallbackArg(const char *string);
-	~CallbackArg();
-
-	cell as_cell() const
-		{ return value_.as_cell; }
-	const char *as_string() const
-		{ return value_.as_string; }
-
-	Type type() const
-		{ return type_; }
-
-private:
-	// Disable copying
-	CallbackArg(const CallbackArg &);
-	CallbackArg &operator=(const CallbackArg &);
-
-	union {
-		cell        as_cell;
-		const char *as_string;
-	} value_;
-	Type     type_;
-};
-
-class CallbackRetVal {
-public:
-	CallbackRetVal() : set_(false) {}
-	CallbackRetVal(cell v) : set_(true), retval_(v) {}
-
-	operator cell() const { return Get(); }
-
-	cell Get() const {
-		assert(set_);
-		return retval_;
-	}
-
-	bool IsSet() const { return set_; }
-
-private:
-	bool set_;
-	cell retval_;
-};
+typedef bool (*CallbackHandler)(AMX *amx, void *callback, cell *retval);
 
 class Callbacks {
 public:
+	Callbacks();
+
 	static Callbacks &GetInstance();
 
 	void RegisterPlugin(void *plugin);
 	void UnregisterPlugin(void *plugin);
 
-	template<typename T>
-	void PushArgBack(const T &v) { args_.push_back(new CallbackArg(v)); }
+	void AddHandler(const std::string &name, CallbackHandler handler);
 
-	template<typename T>
-	void PushArgFront(const T &v) { args_.push_front(new CallbackArg(v)); }
+	cell        GetStackCell(AMX *amx, int index) const;
+	bool        GetStackBool(AMX *amx, int index) const;
+	float       GetStackFloat(AMX *amx, int index) const;
+	std::string GetStackString(AMX *amx, int index) const;
 
-	void ClearArgs();
-
-	cell HandleCallback(const char *name,  CallbackRetVal badRetVal);
+	bool HandleCallback(AMX *amx, const std::string &name, cell *retval);
 
 private:
-	std::deque<CallbackArg*> args_;
-	std::map<void*, std::map<std::string, void*> > cache_;
+	typedef std::map<std::string, CallbackHandler> CallbackHandlerMap;
+	CallbackHandlerMap callbackHandlerMap_;
+
+	typedef std::map<std::string, void*> PluginSymbolMap;
+	typedef std::map<void*, PluginSymbolMap> PluginMap;
+	PluginMap pluginMap_;
 };
 
 } // namespace sampgdk

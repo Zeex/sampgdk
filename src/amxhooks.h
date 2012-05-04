@@ -35,8 +35,6 @@ public:
 	static int amx_FindPublic(AMX *amx, const char *name, int *index);
 	static int amx_Exec(AMX *amx, cell *retval, int index);
 	static int amx_Callback(AMX *amx, cell index, cell *result, cell *params);
-	static int amx_Push(AMX *amx, cell value);
-	static int amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, const char *string, int pack, int wchar);
 
 	static const std::vector<AMX_NATIVE_INFO> &GetNatives() {
 		return native_info_;
@@ -53,8 +51,6 @@ private:
 	static JumpX86 amx_ExecHook_;
 	static JumpX86 amx_RegisterHook_;
 	static JumpX86 amx_CallbackHook_;
-	static JumpX86 amx_PushHook_;
-	static JumpX86 amx_PushStringHook_;
 
 	static std::vector<AMX_NATIVE_INFO> native_info_;
 };

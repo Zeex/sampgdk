@@ -23,10 +23,6 @@
 
 #include <cstring>
 
-namespace sampgdk {
-#include "generated/callback_data.cpp"
-}
-
 extern void *pAMXFunctions;
 
 namespace sampgdk {
@@ -39,8 +35,6 @@ JumpX86 AmxHooks::amx_FindPublicHook_;
 JumpX86 AmxHooks::amx_ExecHook_;
 JumpX86 AmxHooks::amx_RegisterHook_;
 JumpX86 AmxHooks::amx_CallbackHook_;
-JumpX86 AmxHooks::amx_PushHook_;
-JumpX86 AmxHooks::amx_PushStringHook_;
 
 std::vector<AMX_NATIVE_INFO> AmxHooks::native_info_;
 
@@ -75,14 +69,6 @@ void AmxHooks::Initialize(void **ppPluginData) {
 	amx_CallbackHook_.Install(
 		amxExports[PLUGIN_AMX_EXPORT_Callback],
 		(void*)amx_Callback);
-	amx_PushHook_.Install(
-		amxExports[PLUGIN_AMX_EXPORT_Push],
-		(void*)amx_Push);
-	amx_PushStringHook_.Install(
-		amxExports[PLUGIN_AMX_EXPORT_PushString],
-		(void*)amx_PushString);
-
-	CallbackDataInit();
 }
 
 void AmxHooks::Finalize() {
@@ -90,8 +76,6 @@ void AmxHooks::Finalize() {
 	amx_FindPublicHook_.Remove();
 	amx_ExecHook_.Remove();
 	amx_CallbackHook_.Remove();
-	amx_PushHook_.Remove();
-	amx_PushStringHook_.Remove();
 }
 
 int AMXAPI AmxHooks::amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
@@ -136,21 +120,10 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	if (index == AMX_EXEC_MAIN) {
 		// main() is called only for gamemodes - so this is it.
 		gamemode_ = amx;
-		Callbacks::GetInstance().HandleCallback("OnGameModeInit", 0);
+		Callbacks::GetInstance().HandleCallback(gamemode_, "OnGameModeInit", retval);
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
-			CallbackBadRetMap::const_iterator iterator = callbackBadRetMap.find(currentPublic_);
-			CallbackRetVal badRetVal;
-			if (iterator != callbackBadRetMap.end()) {
-				badRetVal = iterator->second;
-			}
-			cell retval_ = Callbacks::GetInstance().HandleCallback(currentPublic_.c_str(), badRetVal);
-			if (badRetVal.IsSet()) {
-				*retval = retval_;
-			}
-			if (badRetVal.IsSet() && *retval == badRetVal) {
-				canDoExec = false;
-			}
+			canDoExec = Callbacks::GetInstance().HandleCallback(gamemode_, currentPublic_, retval);
 		}
 	}
 
@@ -176,25 +149,6 @@ int AMXAPI AmxHooks::amx_Callback(AMX *amx, cell index, cell *result, cell *para
 	amx->sysreq_d = 0;
 
 	return ::amx_Callback(amx, index, result, params);
-}
-
-int AMXAPI AmxHooks::amx_Push(AMX *amx, cell value) {
-	JumpX86::ScopedRemove r1(&amx_PushHook_);
-
-	if (amx == gamemode_) {
-		Callbacks::GetInstance().PushArgFront(value);
-	}
-	return ::amx_Push(amx, value);
-}
-
-int AMXAPI AmxHooks::amx_PushString(AMX *amx, cell *amx_addr, cell **phys_addr, const char *string, int pack, int wchar) {
-	JumpX86::ScopedRemove r1(&amx_PushHook_);
-	JumpX86::ScopedRemove r2(&amx_PushStringHook_);
-
-	if (amx == gamemode_) {
-		Callbacks::GetInstance().PushArgFront(string);
-	}
-	return ::amx_PushString(amx, amx_addr, phys_addr, string, pack, wchar);
 }
 
 } // namespace sampgdk

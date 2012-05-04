@@ -12,37 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <sampgdk/config.h>
+#include <string>
+#include <map>
+
+#include <sampgdk/amx.h>
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
 #include "callbacks.h"
 
-#include <cassert>
-#include <cstddef>
-#include <cstring>
+namespace {
+	#include "generated/callbacks.cpp"
+}
 
 namespace sampgdk {
 
-CallbackArg::CallbackArg(cell value)
-	: type_(CELL)
-{
-	value_.as_cell = value;
-}
-
-CallbackArg::CallbackArg(const char *string)
-	: type_(STRING)
-{
-	std::size_t size = std::strlen(string) + 1;
-	char *buf = new char[size];
-	std::memcpy(buf, string, size);
-	value_.as_string = buf;
-}
-
-CallbackArg::~CallbackArg() {
-	if (type_ == STRING) {
-		delete[] value_.as_string;
-	}
+Callbacks::Callbacks() {
+	RegisterCallbacks();
 }
 
 Callbacks &Callbacks::GetInstance() {
@@ -51,81 +37,89 @@ Callbacks &Callbacks::GetInstance() {
 }
 
 void Callbacks::RegisterPlugin(void *plugin) {
-	cache_.insert(std::make_pair(plugin, std::map<std::string, void*>()));
+	pluginMap_.insert(std::make_pair(plugin, PluginSymbolMap()));
 }
 
 void Callbacks::UnregisterPlugin(void *plugin) {
-	cache_.erase(plugin);
+	pluginMap_.erase(plugin);
 }
 
-cell Callbacks::HandleCallback(const char *name, CallbackRetVal badRetVal) {
-	cell retVal = 0;
-	if (badRetVal.IsSet()) {
-		retVal = !badRetVal;
-	}
-
-	typedef std::map<std::string, void*> PluginCache;
-	typedef std::map<void*, PluginCache> Cache;
-
-	for (Cache::iterator cIter = cache_.begin(); cIter != cache_.end(); ++cIter) {
-		void *function = 0;
-
-		PluginCache pc = cIter->second;
-		PluginCache::iterator pcIter = pc.find(name);
-
-		if (pcIter == pc.end()) {
-			if ((function = sampgdk_get_plugin_symbol(cIter->first, name)) != 0) {
-				pc.insert(std::make_pair(name, function));
-			}
-		} else {
-			function = pcIter->second;
-		}
-
-		if (function != 0) {
-			int i = args_.size();
-			#if defined _MSC_VER
-				cell arg;
-				while (--i >= 0) {
-					arg = args_[i]->as_cell();
-					__asm push dword ptr [arg]
-				}
-				__asm call dword ptr [function]
-				__asm movzx eax, al
-				__asm mov dword ptr [retVal], eax
-			#elif defined __GNUC__
-				while (--i >= 0) {
-					__asm__ __volatile__ (
-						"pushl %0;"  :: "r"(args_[i]->as_cell()));
-				}
-				__asm__ __volatile__ (
-					"calll *%0;" :: "r"(function));
-				__asm__ __volatile__ (
-					"movzx %%al, %%eax;"
-					"movl %%eax, %0;" : "=r"(retVal));
-				#if defined LINUX
-					__asm__ __volatile__ (
-						"addl %0, %%esp;" :: "r"(args_.size() * 4));
-				#endif
-			#else
-				#error Unsupported compiler
-			#endif
-
-			if (badRetVal.IsSet() && retVal == badRetVal) {
-				break;
-			}
-		}
-	}
-
-	ClearArgs();
-	return retVal;
+void Callbacks::AddHandler(const std::string &name, CallbackHandler handler) {
+	callbackHandlerMap_[name] = handler;
 }
 
-void Callbacks::ClearArgs() {
-	for (std::deque<CallbackArg*>::iterator iterator = args_.begin();
-			iterator != args_.end(); ++iterator) {
-		delete *iterator;
+static inline unsigned char *GetAmxDataPtr(AMX *amx) {
+	unsigned char *dataPtr = amx->data;
+	if (dataPtr == 0) {
+		AMX_HEADER *hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
+		dataPtr = amx->base + hdr->dat;
 	}
-	args_.clear();
+	return dataPtr;
+}
+
+cell Callbacks::GetStackCell(AMX *amx, int index) const {
+	cell *stackPtr = reinterpret_cast<cell*>(GetAmxDataPtr(amx) + amx->stk);
+	return stackPtr[index];
+}
+
+bool Callbacks::GetStackBool(AMX *amx, int index) const {
+	return GetStackCell(amx, index) != 0;
+}
+
+float Callbacks::GetStackFloat(AMX *amx, int index) const {
+	cell value = GetStackCell(amx, index);
+	return amx_ctof(value);
+}
+
+std::string Callbacks::GetStackString(AMX *amx, int index) const {
+	cell address = GetStackCell(amx, index);
+	cell *stringPtr = reinterpret_cast<cell*>(GetAmxDataPtr(amx) + address);
+
+	std::string string;
+	for (cell c; (c = *stringPtr) != '\0'; stringPtr++) {
+		string.push_back(static_cast<char>(c & 0xFF));
+	}
+
+	return string;
+}
+
+bool Callbacks::HandleCallback(AMX *amx, const std::string &name, cell *retval) {
+	CallbackHandler callbackHandler = 0;
+
+	CallbackHandlerMap::const_iterator cbHandlerIter = callbackHandlerMap_.find(name);
+	if (cbHandlerIter != callbackHandlerMap_.end()) {
+		callbackHandler = cbHandlerIter->second;
+	}
+
+	if (callbackHandler != 0) {
+		for (PluginMap::const_iterator pluginIter = pluginMap_.begin(); 
+				pluginIter != pluginMap_.end(); ++pluginIter) 
+		{
+			void *plugin = pluginIter->first;
+
+			PluginSymbolMap symbols = pluginIter->second;
+			PluginSymbolMap::const_iterator symbolIter = symbols.find(name);
+
+			void *callback = 0;
+
+			if (symbolIter == symbols.end()) {
+				if ((callback = sampgdk_get_plugin_symbol(plugin, name.c_str())) != 0) {
+					symbols.insert(std::make_pair(name, callback));
+				}
+			} else {
+				callback = symbolIter->second;
+			}
+
+			if (callback != 0) {
+				bool ok = callbackHandler(amx, callback, retval);
+				if (!ok) {
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
 }
 
 } // namespace sampgdk
