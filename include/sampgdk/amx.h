@@ -3,6 +3,6 @@
 #pragma once
 
 #include <sampgdk/config.h>
-#include <sampgdk/internal/amx/amx.h>
+#include <sampgdk/sdk/amx/amx.h>
 
 #endif /* !SAMPGDK_AMX_H */

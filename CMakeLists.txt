@@ -72,10 +72,10 @@ if(DEFINED PYTHON_ERRORS)
 endif()
 
 set(SAMPGDK_HEADERS
-	"include/sampgdk/internal/amx/amx.h"
-	"include/sampgdk/internal/amx/getch.h"
-	"include/sampgdk/internal/amx/sclinux.h"
-	"include/sampgdk/internal/plugincommon.h"
+	"include/sampgdk/sdk/amx/amx.h"
+	"include/sampgdk/sdk/amx/getch.h"
+	"include/sampgdk/sdk/amx/sclinux.h"
+	"include/sampgdk/sdk/plugincommon.h"
 	"include/sampgdk/a_objects.h"
 	"include/sampgdk/a_players.h"
 	"include/sampgdk/a_samp.h"
@@ -89,13 +89,13 @@ set(SAMPGDK_HEADERS
 )
 
 set(SAMPGDK_SOURCES
+	"src/sdk/amxplugin.cpp"
 	"src/a_objects.cpp"
 	"src/a_players.cpp"
 	"src/a_samp.cpp"
 	"src/a_vehicles.cpp"
 	"src/amxhooks.cpp"
 	"src/amxhooks.h"
-	"src/amxplugin.cpp"
 	"src/callbacks.cpp"
 	"src/callbacks.h"
 	"src/core.cpp"
