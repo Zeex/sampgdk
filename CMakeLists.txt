@@ -262,5 +262,12 @@ endif()
 
 include(CPack)
 
-add_subdirectory(bindings)
-add_subdirectory(examples)
+option(SAMPGDK_BUILD_BINDINGS "Build bindings" OFF)
+if(SAMPGDK_BUILD_BINDINGS)
+	add_subdirectory(bindings)
+endif()
+
+option(SAMPGDK_BUILD_EXAMPLES "Build examples" OFF)
+if(SAMPGDK_BUILD_EXAMPLES)
+	add_subdirectory(examples)
+endif()
