@@ -161,7 +161,7 @@ if(MSVC)
 	install(FILES ${PDB_PATH} DESTINATION "bin" COMPONENT "runtime")
 endif()
 
-set(CPACK_PACKAGE_NAME "libsampgdk") 
+set(CPACK_PACKAGE_NAME ${CMAKE_PROJECT_NAME}) 
 set(CPACK_PACKAGE_VENDOR "Zeex")
 set(CPACK_PACKAGE_CONTACT "zeex@rocketmail.com")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "SA-MP Gamemode Development Kit for C/C++")
