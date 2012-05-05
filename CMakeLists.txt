@@ -3,7 +3,6 @@
 project(sampgdk)
 cmake_minimum_required(VERSION 2.8.6)
 
-# Add ./cmake/Modules to CMake module path
 list(APPEND CMAKE_MODULE_PATH "${sampgdk_SOURCE_DIR}/cmake/Modules")
 
 include(AmxConfig)
@@ -11,6 +10,8 @@ include(ParseVersionString)
 
 include_directories("include")
 
+# Find a Python interpreter to execute various scripts (primarily
+# code generation).
 find_package(PythonInterp 2.6 REQUIRED)
 
 file(MAKE_DIRECTORY "src/generated/")
@@ -111,12 +112,6 @@ set(SAMPGDK_SOURCES
 	"src/version.cpp"
 )
 
-source_group("src" REGULAR_EXPRESSION "src/[^/\\]+\\..*")
-source_group("src\\sdk" REGULAR_EXPRESSION "src/sdk/[^/\\]+\\..*")
-source_group("include" REGULAR_EXPRESSION "include/sampgdk/[^/\\]+\\.h")
-source_group("include\\sdk" REGULAR_EXPRESSION "include/sampgdk/sdk/[^/\\]+\\.h")
-source_group("include\\sdk\\amx" REGULAR_EXPRESSION "include/sampgdk/sdk/amx/[^/\\]+\\.h")
-
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
 		"src/core-win32.cpp"
@@ -129,9 +124,16 @@ elseif(UNIX)
 	)
 endif()
 
+# Create Visual Studio project filters.
+source_group("src" REGULAR_EXPRESSION "src/[^/\\]+\\..*")
+source_group("src\\sdk" REGULAR_EXPRESSION "src/sdk/[^/\\]+\\..*")
+source_group("include" REGULAR_EXPRESSION "include/sampgdk/[^/\\]+\\.h")
+source_group("include\\sdk" REGULAR_EXPRESSION "include/sampgdk/sdk/[^/\\]+\\.h")
+source_group("include\\sdk\\amx" REGULAR_EXPRESSION "include/sampgdk/sdk/amx/[^/\\]+\\.h")
+
 add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 
-# Read current version from VERSION.txt
+# Read current version from VERSION.txt.
 file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 1)
 list(GET VERSION_txt 0 SAMPGDK_VERSION_STRING)
 set(SAMPGDK_VERSION_MAJOR 0)
@@ -139,7 +141,7 @@ set(SAMPGDK_VERSION_MINOR 0)
 set(SAMPGDK_VERSION_PATCH 0)
 set(SAMPGDK_VERSION_TWEAK 0)
 
-# Parse the version string and set appropriate variables
+# Parse the version string and set appropriate variables.
 parse_version_string(${SAMPGDK_VERSION_STRING} version)
 list(LENGTH version length)
 if(length GREATER 0)
@@ -155,7 +157,7 @@ if(length GREATER 3)
 	list(GET version 3 SAMPGDK_VERSION_TWEAK)
 endif()
 
-# Generate or update include/sampgdk/version.h
+# Generate or update include/sampgdk/version.h.
 configure_file(
 	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h.in"
 	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h"
@@ -163,12 +165,10 @@ configure_file(
 
 set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
 
-# Needed for SAMPGDK_EXPORT macro to be defined correctly on Windows
+# Needed for SAMPGDK_EXPORT macro to be defined correctly on Windows.
 add_definitions(-DIN_SAMPGDK)
 
-# Output library properties
 if(WIN32)
-	# Set module definition file
 	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY 
@@ -192,12 +192,11 @@ endif()
 
 option(SAMPGDK_USE_STATIC_RUNTIME "Prefer static C/C++ runtime" ON)
 
-# Compiler/linker options
 if(UNIX OR MINGW)
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY 
 		COMPILE_FLAGS " -m32 -Wno-attributes")
 	if(WIN32)
-		# Link with static libgcc/libstdc++
+		# Link with static libgcc/libstdc++.
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
 			LINK_FLAGS " -m32 -Wl,--export-all-symbols")
 		if(SAMPGDK_USE_STATIC_RUNTIME)
@@ -210,7 +209,7 @@ if(UNIX OR MINGW)
 	endif()
 elseif(MSVC)
 	if(SAMPGDK_USE_STATIC_RUNTIME)
-		# Use static VC++ runtime in all configuraions except Debug
+		# Use static VC++ runtime in all configuraions except Debug.
 		foreach(flag_var
         		CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_RELEASE
         		CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
@@ -229,9 +228,11 @@ install(TARGETS sampgdk
 install(DIRECTORY "include" DESTINATION "." COMPONENT "headers" PATTERN "*.in" EXCLUDE)
 
 if(MSVC)
-	get_target_property(output_name sampgdk OUTPUT_NAME)
-	set(PDB_NAME "${output_name}.pdb")
-	set(PDB_PATH "${CMAKE_CURRENT_BINARY_DIR}/\${CMAKE_INSTALL_CONFIG_NAME}/${PDB_NAME}")
+	# Package PDB file produced by the VC++ linker.
+	set(CONFIG_NAME "\${CMAKE_INSTALL_CONFIG_NAME}")
+	get_target_property(OUTPUT_NAME sampgdk OUTPUT_NAME)
+	set(PDB_NAME "${OUTPUT_NAME}.pdb")
+	set(PDB_PATH "${CMAKE_CURRENT_BINARY_DIR}/${CONFIG_NAME}/${PDB_NAME}")
 	install(FILES ${PDB_PATH} DESTINATION "bin" COMPONENT "runtime")
 endif()
 
