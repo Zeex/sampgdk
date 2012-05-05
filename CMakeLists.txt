@@ -10,7 +10,6 @@ include(AmxConfig)
 include(ParseVersionString)
 
 include_directories("include")
-include_directories("include/sampgdk")
 
 find_package(PythonInterp 2.6 REQUIRED)
 
@@ -90,6 +89,7 @@ set(SAMPGDK_HEADERS
 
 set(SAMPGDK_SOURCES
 	"src/sdk/amxplugin.cpp"
+	"src/sdk/plugin.h"
 	"src/a_objects.cpp"
 	"src/a_players.cpp"
 	"src/a_samp.cpp"
