@@ -111,6 +111,12 @@ set(SAMPGDK_SOURCES
 	"src/version.cpp"
 )
 
+source_group("src" REGULAR_EXPRESSION "src/[^/\\]+\\..*")
+source_group("src\\sdk" REGULAR_EXPRESSION "src/sdk/[^/\\]+\\..*")
+source_group("include" REGULAR_EXPRESSION "include/sampgdk/[^/\\]+\\.h")
+source_group("include\\sdk" REGULAR_EXPRESSION "include/sampgdk/sdk/[^/\\]+\\.h")
+source_group("include\\sdk\\amx" REGULAR_EXPRESSION "include/sampgdk/sdk/amx/[^/\\]+\\.h")
+
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
 		"src/core-win32.cpp"
