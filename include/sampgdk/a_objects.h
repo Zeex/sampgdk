@@ -20,7 +20,7 @@
 #include <sampgdk/config.h>
 #include <sampgdk/a_samp.h>
 #include <sampgdk/export.h>
-#include <sampgdk/generated/a_objects.h>
+#include <sampgdk/generated/a_objects-defs.h>
 
 SAMPGDK_NATIVE(int, CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance));
 SAMPGDK_NATIVE(bool, AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ));

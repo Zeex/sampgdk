@@ -23,7 +23,7 @@
 #include "callbacks.h"
 
 namespace {
-	#include "generated/callbacks.cpp"
+	#include "generated/callback-handlers-impl.cpp"
 }
 
 namespace sampgdk {

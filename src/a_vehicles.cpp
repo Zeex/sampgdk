@@ -18,4 +18,4 @@
 #include "fakeamx.h"
 #include "natives.h"
 
-#include "generated/a_vehicles.cpp"
+#include "generated/a_vehicles-impl.cpp"

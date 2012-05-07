@@ -19,7 +19,7 @@
 #include "natives.h"
 #include "timers.h"
 
-#include "generated/a_samp.cpp"
+#include "generated/a_samp-impl.cpp"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback handler, void *param)) {
 	return sampgdk::Timers::GetInstance().SetTimer(interval, repeat, handler, param);

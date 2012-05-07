@@ -19,22 +19,22 @@ set(SCRIPT "scripts/generate_natives.py")
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_objects.h"
-		OUTPUT_FILE "src/generated/a_objects.cpp"
+		OUTPUT_FILE "src/generated/a_objects-impl.cpp"
 	ERROR_VARIABLE PYTHON_ERRORS)
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_players.h"
-		OUTPUT_FILE "src/generated/a_players.cpp"
+		OUTPUT_FILE "src/generated/a_players-impl.cpp"
 	ERROR_VARIABLE PYTHON_ERRORS)
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_samp.h"
-		OUTPUT_FILE "src/generated/a_samp.cpp"
+		OUTPUT_FILE "src/generated/a_samp-impl.cpp"
 	ERROR_VARIABLE PYTHON_ERRORS)
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_vehicles.h"
-		OUTPUT_FILE "src/generated/a_vehicles.cpp"
+		OUTPUT_FILE "src/generated/a_vehicles-impl.cpp"
 	ERROR_VARIABLE PYTHON_ERRORS)
 
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
@@ -42,29 +42,29 @@ set(SCRIPT "scripts/generate_native_macros.py")
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_objects.h"
-		OUTPUT_FILE "include/sampgdk/generated/a_objects.h"
+		OUTPUT_FILE "include/sampgdk/generated/a_objects-defs.h"
 	ERROR_VARIABLE PYTHON_ERRORS)
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_players.h"
-		OUTPUT_FILE "include/sampgdk/generated/a_players.h"
+		OUTPUT_FILE "include/sampgdk/generated/a_players-defs.h"
 	ERROR_VARIABLE PYTHON_ERRORS)
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_samp.h"
-		OUTPUT_FILE "include/sampgdk/generated/a_samp.h"
+		OUTPUT_FILE "include/sampgdk/generated/a_samp-defs.h"
 	ERROR_VARIABLE PYTHON_ERRORS)
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_vehicles.h"
-		OUTPUT_FILE "include/sampgdk/generated/a_vehicles.h"
+		OUTPUT_FILE "include/sampgdk/generated/a_vehicles-defs.h"
 	ERROR_VARIABLE PYTHON_ERRORS)
 
 set(SCRIPT "scripts/generate_callbacks.py")
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_samp.h"
-		OUTPUT_FILE "src/generated/callbacks.cpp"
+		OUTPUT_FILE "src/generated/callback-handlers-impl.cpp"
 	ERROR_VARIABLE PYTHON_ERRORS)
 
 if(DEFINED PYTHON_ERRORS)
