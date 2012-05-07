@@ -151,9 +151,10 @@ SAMPGDK_NATIVE(int, CreatePlayer3DTextLabel(int playerid, const char *text, int 
 SAMPGDK_NATIVE(bool, DeletePlayer3DTextLabel(int playerid, int id));
 SAMPGDK_NATIVE(bool, UpdatePlayer3DTextLabelText(int playerid, int id, int color, const char *text));
 
-#define DIALOG_STYLE_MSGBOX (0)
-#define DIALOG_STYLE_INPUT  (1)
-#define DIALOG_STYLE_LIST   (2)
+#define DIALOG_STYLE_MSGBOX   (0)
+#define DIALOG_STYLE_INPUT    (1)
+#define DIALOG_STYLE_LIST     (2)
+#define DIALOG_STYLE_PASSWORD (3)
 
 SAMPGDK_NATIVE(bool, ShowPlayerDialog(int playerid, int dialogid, int style, const char *caption, const char *info, const char *button1, const char *button2));
 
@@ -245,8 +246,6 @@ SAMPGDK_NATIVE(bool, KillTimer(int timerid)); /* $codeless */
 #define KEY_DOWN                  (128)
 #define KEY_LEFT                  (-128)
 #define KEY_RIGHT                 (128)
-
-#define CLICK_SOURCE_SCOREBOARD   (0)
 
 SAMPGDK_NATIVE(bool, gpci(int playerid, char *buffer, int size));
 
@@ -441,6 +440,20 @@ SAMPGDK_CALLBACK(bool, OnDialogResponse(int playerid, int dialogid, int response
 SAMPGDK_CALLBACK(bool, OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid));
 SAMPGDK_CALLBACK(bool, OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid));
 SAMPGDK_CALLBACK(bool, OnPlayerClickMap(int playerid, float fX, float fY, float fZ));
+
+#define CLICK_SOURCE_SCOREBOARD (0)
 SAMPGDK_CALLBACK(bool, OnPlayerClickPlayer(int playerid, int clickedplayerid, int source));
+
+#define EDIT_RESPONSE_CANCEL   (0)
+#define EDIT_RESPONSE_FINAL    (1)
+#define EDIT_RESPONSE_UPDATE   (2)
+
+SAMPGDK_CALLBACK(bool, OnPlayerEditObject(int playerid, bool playerobject, int objectid, int response, float fX, float fY, float fZ, float fRotX, float fRotY, float fRotZ));
+SAMPGDK_CALLBACK(bool, OnPlayerEditAttachedObject(int playerid, int response, int index, int modelid, int boneid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ));
+
+#define SELECT_OBJECT_GLOBAL_OBJECT (1)
+#define SELECT_OBJECT_PLAYER_OBJECT (2)
+
+SAMPGDK_CALLBACK(bool, OnPlayerSelectObject(int playerid, int type, int objectid, int modelid, float fX, float fY, float fZ));
 
 #endif /* !SAMPGDK_A_SAMP_H */
