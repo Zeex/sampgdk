@@ -32,13 +32,14 @@ def generate_callback_handler(name, args, badRet):
 		index += 1
 	typename = name + "Type"
 	code += "\ttypedef bool (PLUGIN_CALL *" + typename + ")(" + declargs + ");\n"
-	code += "\tbool retval_ = ((" + typename + ")callback)(" + callargs + ");\n"
-	code += "\tif (retval != 0) {\n"
-	code += "\t\t*retval = static_cast<cell>(retval_);\n"
-	code += "\t}\n"
 	if badRet is not None:
+		code += "\tbool retval_ = ((" + typename + ")callback)(" + callargs + ");\n"
+		code += "\tif (retval != 0) {\n"
+		code += "\t\t*retval = static_cast<cell>(retval_);\n"
+		code += "\t}\n"
 		code += "\treturn (retval_ != " + str(badRet) + ");\n"
 	else:
+		code += "\t((" + typename + ")callback)(" + callargs + ");\n"
 		code += "\treturn true;\n"
 	code += "}\n"
 	return code
