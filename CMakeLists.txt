@@ -262,17 +262,7 @@ endif()
 
 include(CPack)
 
-option(SAMPGDK_BUILD_BINDINGS "Build bindings" OFF)
-if(SAMPGDK_BUILD_BINDINGS)
-	add_subdirectory(bindings)
-endif()
-
 option(SAMPGDK_BUILD_SAMPLES "Build sample plugins" OFF)
 if(SAMPGDK_BUILD_SAMPLES)
 	add_subdirectory(samples)
-endif()
-
-option(SAMPGDK_BUILD_EXAMPLES "Build tests" OFF)
-if(SAMPGDK_BUILD_TESTS)
-	add_subdirectory(tests)
 endif()
