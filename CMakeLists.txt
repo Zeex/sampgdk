@@ -225,7 +225,7 @@ install(TARGETS sampgdk
 	LIBRARY DESTINATION "lib" COMPONENT "libraries"
 	ARCHIVE DESTINATION "lib" COMPONENT "libraries"
 )
-install(DIRECTORY "include" DESTINATION "." COMPONENT "headers" PATTERN "*.in" EXCLUDE)
+install(DIRECTORY "include" DESTINATION "." COMPONENT "headers" FILES_MATCHING PATTERN "*.h")
 
 if(MSVC)
 	# Package PDB file produced by the VC++ linker.
