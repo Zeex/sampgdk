@@ -38,7 +38,7 @@ execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	ERROR_VARIABLE PYTHON_ERRORS)
 
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
-set(SCRIPT "scripts/generate_native_macros.py")
+set(SCRIPT "scripts/generate_native_defs.py")
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_objects.h"
@@ -60,7 +60,7 @@ execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 		OUTPUT_FILE "include/sampgdk/generated/a_vehicles-defs.h"
 	ERROR_VARIABLE PYTHON_ERRORS)
 
-set(SCRIPT "scripts/generate_callbacks.py")
+set(SCRIPT "scripts/generate_callback_handlers.py")
 execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
 	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
 		INPUT_FILE "include/sampgdk/a_samp.h"
