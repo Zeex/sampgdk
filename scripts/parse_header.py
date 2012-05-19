@@ -50,7 +50,7 @@ def parse_function_decl(string, pattern):
 	      3. comma-seperated argument list
 	"""
 	match = re.match(pattern + r"\s*;\s*(/\*.*$)?", string)
-	if match == None:
+	if match is None:
 		return None
 	type = match.group(1)
 	name = match.group(2)
