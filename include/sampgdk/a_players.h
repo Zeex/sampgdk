@@ -175,6 +175,7 @@ SAMPGDK_NATIVE(bool, GetPVarNameAtIndex(int playerid, int index, char *varname, 
 SAMPGDK_NATIVE(int, GetPVarType(int playerid, const char *varname));
 
 #define MAX_CHATBUBBLE_LENGTH (144)
+
 SAMPGDK_NATIVE(bool, SetPlayerChatBubble(int playerid, const char *text, int color, float drawdistance, int expiretime));
 
 SAMPGDK_NATIVE(bool, PutPlayerInVehicle(int playerid, int vehicleid, int seatid));

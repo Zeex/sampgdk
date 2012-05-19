@@ -24,24 +24,25 @@
 
 #include <stddef.h>
 
-#define MAX_PLAYER_NAME     (24)
-#define MAX_PLAYERS         (500)
-#define MAX_VEHICLES        (2000)
-#define INVALID_PLAYER_ID   (0xFFFF)
-#define INVALID_VEHICLE_ID  (0xFFFF)
-#define NO_TEAM             (255)
-#define MAX_OBJECTS         (1000)
-#define INVALID_OBJECT_ID   (0xFFFF)
-#define MAX_GANG_ZONES      (1024)
-#define MAX_TEXT_DRAWS      (2048)
-#define MAX_MENUS           (128)
-#define MAX_3DTEXT_GLOBAL   (1024)
-#define MAX_3DTEXT_PLAYER   (1024)
-#define MAX_PICKUPS         (4096)
-#define INVALID_MENU        (0xFF)
-#define INVALID_TEXT_DRAW   (0xFFFF)
-#define INVALID_GANG_ZONE   (-1)
-#define INVALID_3DTEXT_ID   (0xFFFF)
+#define MAX_PLAYER_NAME         (24)
+#define MAX_PLAYERS             (500)
+#define MAX_VEHICLES            (2000)
+#define INVALID_PLAYER_ID       (0xFFFF)
+#define INVALID_VEHICLE_ID      (0xFFFF)
+#define NO_TEAM                 (255)
+#define MAX_OBJECTS             (1000)
+#define INVALID_OBJECT_ID       (0xFFFF)
+#define MAX_GANG_ZONES          (1024)
+#define MAX_TEXT_DRAWS          (2048)
+#define MAX_PLAYER_TEXT_DRAWS   (256)
+#define MAX_MENUS               (128)
+#define MAX_3DTEXT_GLOBAL       (1024)
+#define MAX_3DTEXT_PLAYER       (1024)
+#define MAX_PICKUPS             (4096)
+#define INVALID_MENU            (0xFF)
+#define INVALID_TEXT_DRAW       (0xFFFF)
+#define INVALID_GANG_ZONE       (-1)
+#define INVALID_3DTEXT_ID       (0xFFFF)
 
 SAMPGDK_NATIVE(bool, SendClientMessage(int playerid, int color, const char *message));
 SAMPGDK_NATIVE(bool, SendClientMessageToAll(int color, const char *message));
@@ -442,6 +443,7 @@ SAMPGDK_CALLBACK(bool, OnPlayerGiveDamage(int playerid, int damagedid, float amo
 SAMPGDK_CALLBACK(bool, OnPlayerClickMap(int playerid, float fX, float fY, float fZ));
 
 #define CLICK_SOURCE_SCOREBOARD (0)
+
 SAMPGDK_CALLBACK(bool, OnPlayerClickPlayer(int playerid, int clickedplayerid, int source));
 
 #define EDIT_RESPONSE_CANCEL   (0)
