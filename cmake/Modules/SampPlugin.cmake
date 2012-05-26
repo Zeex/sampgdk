@@ -54,6 +54,13 @@ if(NOT PLUGIN_DEF STREQUAL "")
 	endif()
 endif()
 
+if(UNIX)
+	add_definitions(-DLINUX)
+endif()
+if(WIN32)
+	add_definitions(-DWIN32)
+endif()
+
 if(CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
 endif()
