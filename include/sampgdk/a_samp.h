@@ -406,7 +406,7 @@ SAMPGDK_CALLBACK(bool, OnPlayerSpawn(int playerid)); /* $badRet=false */
 SAMPGDK_CALLBACK(bool, OnPlayerDeath(int playerid, int killerid, int reason));
 SAMPGDK_CALLBACK(bool, OnVehicleSpawn(int vehicleid));
 SAMPGDK_CALLBACK(bool, OnVehicleDeath(int vehicleid, int killerid));
-SAMPGDK_CALLBACK(bool, OnPlayerText(int playerid, const char *text)); /* $bad_ret=0 */
+SAMPGDK_CALLBACK(bool, OnPlayerText(int playerid, const char *text)); /* $badRet=false */
 SAMPGDK_CALLBACK(bool, OnPlayerCommandText(int playerid, const char *cmdtext)); /* $badRet=true */
 SAMPGDK_CALLBACK(bool, OnPlayerRequestClass(int playerid, int classid)); /* $badRet=false */
 SAMPGDK_CALLBACK(bool, OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger));
