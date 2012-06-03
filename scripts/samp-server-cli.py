@@ -50,8 +50,8 @@ def write_config(filename, options, newline="\n"):
 	file.close()
 
 def run(options):
-	write_config("server.cfg", args)
-	server_root = args["path"]
+	write_config("server.cfg", options)
+	server_root = options["path"]
 	if os.name == "nt":
 		server_exe = "samp-server.exe"
 	else:
