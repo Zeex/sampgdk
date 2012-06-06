@@ -77,7 +77,7 @@ SAMPGDK_NATIVE(bool, SetVehicleAngularVelocity(int vehicleid, float X, float Y, 
 SAMPGDK_NATIVE(bool, GetVehicleDamageStatus(int vehicleid, int *panels, int *doors, int *lights, int *tires));
 SAMPGDK_NATIVE(bool, UpdateVehicleDamageStatus(int vehicleid, int panels, int doors, int lights, int tires));
 SAMPGDK_NATIVE(bool, SetVehicleVirtualWorld(int vehicleid, int worldid));
-SAMPGDK_NATIVE(bool, GetVehicleVirtualWorld(int vehicleid));
+SAMPGDK_NATIVE(int, GetVehicleVirtualWorld(int vehicleid));
 
 #define VEHICLE_MODEL_INFO_SIZE              1
 #define VEHICLE_MODEL_INFO_FRONTSEAT         2
