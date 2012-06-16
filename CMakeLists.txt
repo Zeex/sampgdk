@@ -193,19 +193,17 @@ endif()
 option(SAMPGDK_USE_STATIC_RUNTIME "Prefer static C/C++ runtime" ON)
 
 if(UNIX OR MINGW)
-	set_property(TARGET sampgdk APPEND_STRING PROPERTY 
-		COMPILE_FLAGS " -m32")
 	if(WIN32)
 		# Link with static libgcc/libstdc++.
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
-			LINK_FLAGS " -m32 -Wl,--export-all-symbols")
+			LINK_FLAGS " -Wl,--export-all-symbols")
 		if(SAMPGDK_USE_STATIC_RUNTIME)
 			set_property(TARGET sampgdk APPEND_STRING PROPERTY
 				LINK_FLAGS " -static-libgcc -static-libstdc++")
 		endif()
 	else()
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
-			LINK_FLAGS " -m32 -Wl,--export-dynamic")
+			LINK_FLAGS " -Wl,--export-dynamic")
 	endif()
 elseif(MSVC)
 	if(SAMPGDK_USE_STATIC_RUNTIME)
