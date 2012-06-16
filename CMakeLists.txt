@@ -194,7 +194,7 @@ option(SAMPGDK_USE_STATIC_RUNTIME "Prefer static C/C++ runtime" ON)
 
 if(UNIX OR MINGW)
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY 
-		COMPILE_FLAGS " -m32 -Wno-attributes")
+		COMPILE_FLAGS " -m32")
 	if(WIN32)
 		# Link with static libgcc/libstdc++.
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
