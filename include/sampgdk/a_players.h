@@ -389,8 +389,8 @@ public:
 		{ return ::GetPlayerName(id_, name, size); }
 	std::string GetName() const {
 		std::vector<char> name(MAX_PLAYER_NAME);
-		::GetPlayerName(id_, name.data(), MAX_PLAYER_NAME);
-		return std::string(name.data());
+		::GetPlayerName(id_, &name[0], MAX_PLAYER_NAME);
+		return std::string(&name[0]);
 	}
 	bool SetTime(int hour, int minute) const
 		{ return ::SetPlayerTime(id_, hour, minute); }
