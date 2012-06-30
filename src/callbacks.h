@@ -28,29 +28,31 @@ typedef bool (*CallbackHandler)(AMX *amx, void *callback, cell *retval);
 
 class Callbacks {
 public:
+	// Should be called before any callback is executed.
+	static void Initialize();
+
+	static void RegisterPlugin(void *plugin);
+	static void UnregisterPlugin(void *plugin);
+
+	static void AddHandler(const std::string &name, CallbackHandler handler);
+
+	static cell GetStackCell(AMX *amx, int index);
+	static bool GetStackBool(AMX *amx, int index);
+	static float GetStackFloat(AMX *amx, int index);
+	static std::string GetStackString(AMX *amx, int index);
+
+	static bool HandleCallback(AMX *amx, const std::string &name, cell *retval);
+
+private:
 	Callbacks();
-
-	static Callbacks &GetInstance();
-
-	void RegisterPlugin(void *plugin);
-	void UnregisterPlugin(void *plugin);
-
-	void AddHandler(const std::string &name, CallbackHandler handler);
-
-	cell        GetStackCell(AMX *amx, int index) const;
-	bool        GetStackBool(AMX *amx, int index) const;
-	float       GetStackFloat(AMX *amx, int index) const;
-	std::string GetStackString(AMX *amx, int index) const;
-
-	bool HandleCallback(AMX *amx, const std::string &name, cell *retval);
 
 private:
 	typedef std::map<std::string, CallbackHandler> CallbackHandlerMap;
-	CallbackHandlerMap callbackHandlerMap_;
+	static CallbackHandlerMap callbackHandlerMap_;
 
 	typedef std::map<std::string, void*> PluginSymbolMap;
 	typedef std::map<void*, PluginSymbolMap> PluginMap;
-	PluginMap pluginMap_;
+	static PluginMap pluginMap_;
 };
 
 } // namespace sampgdk

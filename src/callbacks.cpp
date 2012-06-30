@@ -28,13 +28,11 @@ namespace {
 
 namespace sampgdk {
 
-Callbacks::Callbacks() {
-	RegisterCallbacks();
-}
+Callbacks::CallbackHandlerMap Callbacks::callbackHandlerMap_;
+Callbacks::PluginMap Callbacks::pluginMap_;
 
-Callbacks &Callbacks::GetInstance() {
-	static Callbacks callbacks;
-	return callbacks;
+void Callbacks::Initialize() {
+	RegisterCallbacks();
 }
 
 void Callbacks::RegisterPlugin(void *plugin) {
@@ -58,21 +56,21 @@ static inline unsigned char *GetAmxDataPtr(AMX *amx) {
 	return dataPtr;
 }
 
-cell Callbacks::GetStackCell(AMX *amx, int index) const {
+cell Callbacks::GetStackCell(AMX *amx, int index) {
 	cell *stackPtr = reinterpret_cast<cell*>(GetAmxDataPtr(amx) + amx->stk);
 	return stackPtr[index];
 }
 
-bool Callbacks::GetStackBool(AMX *amx, int index) const {
+bool Callbacks::GetStackBool(AMX *amx, int index) {
 	return GetStackCell(amx, index) != 0;
 }
 
-float Callbacks::GetStackFloat(AMX *amx, int index) const {
+float Callbacks::GetStackFloat(AMX *amx, int index) {
 	cell value = GetStackCell(amx, index);
 	return amx_ctof(value);
 }
 
-std::string Callbacks::GetStackString(AMX *amx, int index) const {
+std::string Callbacks::GetStackString(AMX *amx, int index) {
 	cell address = GetStackCell(amx, index);
 	cell *stringPtr = reinterpret_cast<cell*>(GetAmxDataPtr(amx) + address);
 

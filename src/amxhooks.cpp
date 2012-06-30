@@ -69,6 +69,8 @@ void AmxHooks::Initialize(void **ppPluginData) {
 	amx_CallbackHook_.Install(
 		amxExports[PLUGIN_AMX_EXPORT_Callback],
 		(void*)amx_Callback);
+
+	Callbacks::Initialize();
 }
 
 void AmxHooks::Finalize() {
@@ -120,10 +122,10 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 	if (index == AMX_EXEC_MAIN) {
 		// main() is called only for gamemodes - so this is it.
 		gamemode_ = amx;
-		Callbacks::GetInstance().HandleCallback(gamemode_, "OnGameModeInit", retval);
+		Callbacks::HandleCallback(gamemode_, "OnGameModeInit", retval);
 	} else {
 		if (amx == gamemode_ && index != AMX_EXEC_CONT) {
-			canDoExec = Callbacks::GetInstance().HandleCallback(gamemode_, currentPublic_, retval);
+			canDoExec = Callbacks::HandleCallback(gamemode_, currentPublic_, retval);
 		}
 	}
 

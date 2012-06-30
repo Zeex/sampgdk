@@ -12,7 +12,7 @@ def generate_callback_handler(name, args, badRet):
 	declargs = ", ".join([" ".join(list(arg)) for arg in args])
 	index = 0
 	for argtype, argname in args:
-		inst = "sampgdk::Callbacks::GetInstance()"
+		inst = "sampgdk::Callbacks::"
 		if index > 0:
 			callargs += ", "
 		if argtype == "const char *":
@@ -28,7 +28,7 @@ def generate_callback_handler(name, args, badRet):
 			argtype = "std::string"
 		else:
 			method = "GetStackCell"
-		code += "\t" + argtype + " " + argname + " = " + inst + "." + method + "(amx, " + str(index) + ");\n"
+		code += "\t" + argtype + " " + argname + " = sampgdk::Callbacks::" + method + "(amx, " + str(index) + ");\n"
 		index += 1
 	typename = name + "Type"
 	code += "\ttypedef bool (PLUGIN_CALL *" + typename + ")(" + declargs + ");\n"
@@ -53,7 +53,7 @@ def main(argv):
 		print generate_callback_handler(name, args, badRet)
 	print "void RegisterCallbacks() {"
 	for type, name, args, attrs in callbacks:
-		print "\tsampgdk::Callbacks::GetInstance().AddHandler(\"" + name + "\", " + name + ");"
+		print "\tsampgdk::Callbacks::AddHandler(\"" + name + "\", " + name + ");"
 	print "}"
 
 if __name__ == "__main__":
