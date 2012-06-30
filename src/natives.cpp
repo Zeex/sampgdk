@@ -22,14 +22,7 @@
 
 namespace sampgdk {
 
-Natives::Natives() 
-{
-}
-
-Natives &Natives::GetInstance() {
-	static Natives natives;
-	return natives;
-}
+Natives::StringToNativeMap Natives::string_to_native_;
 
 AMX_NATIVE Natives::GetNative(const char *name) {
 	StringToNativeMap::const_iterator iter = string_to_native_.find(name);

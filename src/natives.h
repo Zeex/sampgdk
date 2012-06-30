@@ -27,23 +27,25 @@ namespace sampgdk {
 
 class Natives {
 public:
-	static Natives &GetInstance();
+	// This method MUST be called before executing any native.
+	static void Initialize();
 
 	// Gets a native function previously added with SetNative().
 	// Returns NULL if the requested function does not exist.
-	AMX_NATIVE GetNative(const char *name);
+	static AMX_NATIVE GetNative(const char *name);
 
 	// Same as GetNative() but prints a warning message to log when fails.
-	AMX_NATIVE GetNativeWarn(const char *name);
+	static AMX_NATIVE GetNativeWarn(const char *name);
 
 	// Add a new native function or override an exiting one.
-	void SetNative(const char *name, AMX_NATIVE native);
+	static void SetNative(const char *name, AMX_NATIVE native);
 
 private:
 	Natives();
 
+private:
 	typedef std::map<std::string, AMX_NATIVE> StringToNativeMap;
-	StringToNativeMap string_to_native_;
+	static StringToNativeMap string_to_native_;
 };
 
 } // namespace sampgdk
