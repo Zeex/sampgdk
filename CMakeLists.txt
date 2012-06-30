@@ -102,8 +102,8 @@ set(SAMPGDK_SOURCES
 	"src/core.cpp"
 	"src/fakeamx.cpp"
 	"src/fakeamx.h"
-	"src/jump-x86.cpp"
-	"src/jump-x86.h"
+	"src/hook.cpp"
+	"src/hook.h"
 	"src/natives.cpp"
 	"src/natives.h"
 	"src/sampgdk.rc"
@@ -115,11 +115,13 @@ set(SAMPGDK_SOURCES
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
 		"src/core-win32.cpp"
+		"src/hook-win32.cpp"
 		"src/timers-win32.cpp"
 	)
 elseif(UNIX)
 	list(APPEND SAMPGDK_SOURCES
 		"src/core-linux.cpp"
+		"src/hook-linux.cpp"
 		"src/timers-linux.cpp"
 	)
 endif()

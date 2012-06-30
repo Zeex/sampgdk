@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 
-#include "jump-x86.h"
+#include "hook.h"
 
 namespace sampgdk {
 
@@ -48,10 +48,10 @@ private:
 
 	static std::string currentPublic_;
 
-	static JumpX86 amx_FindPublicHook_;
-	static JumpX86 amx_ExecHook_;
-	static JumpX86 amx_RegisterHook_;
-	static JumpX86 amx_CallbackHook_;
+	static Hook amx_FindPublicHook_;
+	static Hook amx_ExecHook_;
+	static Hook amx_RegisterHook_;
+	static Hook amx_CallbackHook_;
 
 	static std::vector<AMX_NATIVE_INFO> native_info_;
 };

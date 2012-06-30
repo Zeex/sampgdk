@@ -18,7 +18,7 @@
 
 #include "amxhooks.h"
 #include "callbacks.h"
-#include "jump-x86.h"
+#include "hook.h"
 #include "natives.h"
 
 #include <cstring>
@@ -31,10 +31,10 @@ AMX *AmxHooks::gamemode_ = 0;
 
 std::string AmxHooks::currentPublic_;
 
-JumpX86 AmxHooks::amx_FindPublicHook_;
-JumpX86 AmxHooks::amx_ExecHook_;
-JumpX86 AmxHooks::amx_RegisterHook_;
-JumpX86 AmxHooks::amx_CallbackHook_;
+Hook AmxHooks::amx_FindPublicHook_;
+Hook AmxHooks::amx_ExecHook_;
+Hook AmxHooks::amx_RegisterHook_;
+Hook AmxHooks::amx_CallbackHook_;
 
 std::vector<AMX_NATIVE_INFO> AmxHooks::native_info_;
 
@@ -79,13 +79,13 @@ void AmxHooks::Finalize() {
 }
 
 int AMXAPI AmxHooks::amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
-	JumpX86::ScopedRemove r(&amx_RegisterHook_);
+	Hook::ScopedRemove r(&amx_RegisterHook_);
 
 	for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
 		Natives::GetInstance().SetNative(nativelist[i].name, nativelist[i].func);
 		// Fix for funcidx() issue
 		if (strcmp(nativelist[i].name, "funcidx") == 0) {
-			new JumpX86((void*)nativelist[i].func, (void*)fixed_funcidx);
+			new Hook((void*)nativelist[i].func, (void*)fixed_funcidx);
 		}
 		native_info_.push_back(nativelist[i]);
 	}
@@ -97,7 +97,7 @@ int AMXAPI AmxHooks::amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 // To make the server always execute publics regardless of their existence
 // we have to make amx_FindPublic() always succeed i.e. return AMX_ERR_NONE.
 int AMXAPI AmxHooks::amx_FindPublic(AMX *amx, const char *name, int *index) {
-	JumpX86::ScopedRemove r(&amx_FindPublicHook_);
+	Hook::ScopedRemove r(&amx_FindPublicHook_);
 
 	int error = ::amx_FindPublic(amx, name, index);
 	if (amx == gamemode_) {
@@ -113,8 +113,8 @@ int AMXAPI AmxHooks::amx_FindPublic(AMX *amx, const char *name, int *index) {
 // Whenever the server runs amx_Exec() we trigger callback handlers in all registered
 // plugins, if they exist. See Callbacks::HandleCallback().
 int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
-	JumpX86::ScopedRemove r(&amx_ExecHook_);
-	JumpX86::ScopedInstall i(&amx_CallbackHook_);
+	Hook::ScopedRemove r(&amx_ExecHook_);
+	Hook::ScopedInstall i(&amx_CallbackHook_);
 
 	bool canDoExec = true;
 	if (index == AMX_EXEC_MAIN) {
@@ -142,8 +142,8 @@ int AMXAPI AmxHooks::amx_Exec(AMX *amx, cell *retval, int index) {
 }
 
 int AMXAPI AmxHooks::amx_Callback(AMX *amx, cell index, cell *result, cell *params) {
-	JumpX86::ScopedRemove r(&amx_CallbackHook_);
-	JumpX86::ScopedInstall i(&amx_ExecHook_);
+	Hook::ScopedRemove r(&amx_CallbackHook_);
+	Hook::ScopedInstall i(&amx_ExecHook_);
 
 	// Forbid SYSREQ.D.
 	amx->sysreq_d = 0;
