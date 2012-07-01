@@ -10,8 +10,6 @@ include(ParseVersionString)
 
 include_directories("include")
 
-# Find a Python interpreter to execute various scripts (primarily
-# code generation).
 find_package(PythonInterp 2.6 REQUIRED)
 
 file(MAKE_DIRECTORY "src/generated/")
@@ -126,7 +124,6 @@ elseif(UNIX)
 	)
 endif()
 
-# Create Visual Studio project filters.
 source_group("src" REGULAR_EXPRESSION "src/[^/\\]+\\..*")
 source_group("src\\sdk" REGULAR_EXPRESSION "src/sdk/[^/\\]+\\..*")
 source_group("include" REGULAR_EXPRESSION "include/sampgdk/[^/\\]+\\.h")
@@ -135,7 +132,6 @@ source_group("include\\sdk\\amx" REGULAR_EXPRESSION "include/sampgdk/sdk/amx/[^/
 
 add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 
-# Read current version from VERSION.txt.
 file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 1)
 list(GET VERSION_txt 0 SAMPGDK_VERSION_STRING)
 set(SAMPGDK_VERSION_MAJOR 0)
@@ -143,7 +139,6 @@ set(SAMPGDK_VERSION_MINOR 0)
 set(SAMPGDK_VERSION_PATCH 0)
 set(SAMPGDK_VERSION_TWEAK 0)
 
-# Parse the version string and set appropriate variables.
 parse_version_string(${SAMPGDK_VERSION_STRING} version)
 list(LENGTH version length)
 if(length GREATER 0)
@@ -159,15 +154,12 @@ if(length GREATER 3)
 	list(GET version 3 SAMPGDK_VERSION_TWEAK)
 endif()
 
-# Generate or update include/sampgdk/version.h.
 configure_file(
 	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h.in"
 	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h"
 )
 
 set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
-
-# Needed for SAMPGDK_EXPORT macro to be defined correctly on Windows.
 add_definitions(-DIN_SAMPGDK)
 
 if(WIN32)
@@ -182,41 +174,41 @@ if(WIN32)
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
 		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
-elseif(UNIX)
+endif()
+
+if(UNIX OR MINGW)
 	add_definitions(-DLINUX)
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   ${SAMPGDK_VERSION_STRING}
 		SOVERSION ${SAMPGDK_VERSION_MAJOR}
 	)
-	set_property(TARGET sampgdk APPEND_STRING PROPERTY
-		LINK_FLAGS "-lrt")
-endif()
-
-option(SAMPGDK_USE_STATIC_RUNTIME "Prefer static C/C++ runtime" ON)
-
-if(UNIX OR MINGW)
-	if(WIN32)
-		# Link with static libgcc/libstdc++.
+	if(MINGW)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
 			LINK_FLAGS " -Wl,--export-all-symbols")
-		if(SAMPGDK_USE_STATIC_RUNTIME)
-			set_property(TARGET sampgdk APPEND_STRING PROPERTY
-				LINK_FLAGS " -static-libgcc -static-libstdc++")
-		endif()
 	else()
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
 			LINK_FLAGS " -Wl,--export-dynamic")
 	endif()
-elseif(MSVC)
+	list(APPEND SAMPGDK_LINK_LIBRARIES "-lrt")
+endif()
+
+target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBRARIES})
+
+if(WIN32)
+	option(SAMPGDK_USE_STATIC_RUNTIME "Prefer static C/C++ runtime" ON)
 	if(SAMPGDK_USE_STATIC_RUNTIME)
-		# Use static VC++ runtime in all configuraions except Debug.
-		foreach(flag_var
-        		CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_RELEASE
-        		CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-   	   	   if(${flag_var} MATCHES "/MD" AND NOT ${flag_var} MATCHES "/MDd")
-      	      	      string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-   	   	   endif()
-		endforeach(flag_var)
+		if(CMAKE_COMPILER_IS_GNUCXX)
+			set_property(TARGET sampgdk APPEND_STRING PROPERTY
+				LINK_FLAGS " -static-libgcc -static-libstdc++")
+		elseif(MSVC)
+			foreach(flag_var
+        			CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_RELEASE
+        			CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+   	   	   	   if(${flag_var} MATCHES "/MD" AND NOT ${flag_var} MATCHES "/MDd")
+      	      	      	  string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+   	   	   	   endif()
+			endforeach(flag_var)
+		endif()
 	endif()
 endif()
 
@@ -228,7 +220,6 @@ install(TARGETS sampgdk
 install(DIRECTORY "include" DESTINATION "." COMPONENT "headers" FILES_MATCHING PATTERN "*.h")
 
 if(MSVC)
-	# Package PDB file produced by the VC++ linker.
 	set(CONFIG_NAME "\${CMAKE_INSTALL_CONFIG_NAME}")
 	get_target_property(OUTPUT_NAME sampgdk OUTPUT_NAME)
 	set(PDB_NAME "${OUTPUT_NAME}.pdb")
