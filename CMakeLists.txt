@@ -194,24 +194,6 @@ endif()
 
 target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBRARIES})
 
-if(WIN32)
-	option(SAMPGDK_USE_STATIC_RUNTIME "Prefer static C/C++ runtime" ON)
-	if(SAMPGDK_USE_STATIC_RUNTIME)
-		if(CMAKE_COMPILER_IS_GNUCXX)
-			set_property(TARGET sampgdk APPEND_STRING PROPERTY
-				LINK_FLAGS " -static-libgcc -static-libstdc++")
-		elseif(MSVC)
-			foreach(flag_var
-        			CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_RELEASE
-        			CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-   	   	   	   if(${flag_var} MATCHES "/MD" AND NOT ${flag_var} MATCHES "/MDd")
-      	      	      	  string(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-   	   	   	   endif()
-			endforeach(flag_var)
-		endif()
-	endif()
-endif()
-
 install(TARGETS sampgdk 
 	RUNTIME DESTINATION "bin" COMPONENT "runtime"
 	LIBRARY DESTINATION "lib" COMPONENT "libraries"
