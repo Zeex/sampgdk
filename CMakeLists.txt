@@ -132,6 +132,9 @@ source_group("include\\sdk\\amx" REGULAR_EXPRESSION "include/sampgdk/sdk/amx/[^/
 
 add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set_property(TARGET sampgdk PROPERTY FOLDER "sampgdk")
+
 file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 1)
 list(GET VERSION_txt 0 SAMPGDK_VERSION_STRING)
 set(SAMPGDK_VERSION_MAJOR 0)
