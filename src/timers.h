@@ -19,7 +19,6 @@
 #include <sampgdk/config.h>
 #include <sampgdk/a_samp.h>
 
-#include <set>
 #include <vector>
 
 namespace sampgdk {
@@ -31,14 +30,20 @@ class Timer {
 public:
 	~Timer();
 
-	int GetInterval() const
-		{ return interval_; }
-	bool IsRepeating() const
-		{ return repeating_; }
-	int GetStartTime() const
-		{ return startTime_; }
+	int GetInterval() const {
+		return interval_;
+	}
+	bool IsRepeating() const {
+		return repeating_;
+	}
+	int GetStartTime() const {
+		return start_time_;
+	}
+	void *GetPlugin() const {
+		return plugin_;
+	}
 
-	void Fire(int elapsedTime);
+	void Fire(int elapsed_time);
 
 private:
 	Timer(int interval, bool repeat, TimerCallback hander, void *param);
@@ -47,7 +52,8 @@ private:
 	bool repeating_;
 	TimerCallback callback_;
 	void *param_;
-	int startTime_;
+	void *plugin_;
+	int start_time_;
 };
 
 class TimerManager {
@@ -59,7 +65,7 @@ public:
 	int SetTimer(int interval, bool repeat, TimerCallback handler, void *param);
 	bool KillTimer(int timerid);
 
-	void ProcessTimers();
+	void ProcessTimers(void *plugin = 0);
 
 private:
 	std::vector<Timer*> timers_;

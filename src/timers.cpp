@@ -27,17 +27,18 @@ Timer::Timer(int interval, bool repeat, TimerCallback callback, void *param)
 	, repeating_(repeat)
 	, callback_(callback)
 	, param_(param)
-	, startTime_(GetTickCount())
+	, plugin_(sampgdk_get_plugin_handle((void*)callback))
+	, start_time_(GetTickCount())
 {
 }
 
 Timer::~Timer() {
 }
 
-void Timer::Fire(int elapsedTime) {
+void Timer::Fire(int elapsed_time) {
 	callback_(TimerManager::GetInstance().GetTimerId(this), param_);
 	if (repeating_) {
-		startTime_ = GetTickCount() - (elapsedTime - interval_);
+		start_time_ = GetTickCount() - (elapsed_time - interval_);
 	}
 }
 
@@ -91,13 +92,16 @@ bool TimerManager::KillTimer(int timerid) {
 	return true;
 }
 
-void TimerManager::ProcessTimers() {
+void TimerManager::ProcessTimers(void *plugin) {
 	int time = GetTickCount();
 	for (size_t i = 0; i < timers_.size(); ++i) {
 		Timer *timer = timers_[i];
-		int elapsedTime = time - timer->GetStartTime();
-		if (elapsedTime >= timer->GetInterval()) {
-			timer->Fire(elapsedTime);
+		if (plugin != 0 && timer->GetPlugin() != plugin) {
+			continue;
+		}
+		int elapsed_time = time - timer->GetStartTime();
+		if (elapsed_time >= timer->GetInterval()) {
+			timer->Fire(elapsed_time);
 			if (!timer->IsRepeating()) {
 				KillTimer(i);
 			}
