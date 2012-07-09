@@ -35,19 +35,19 @@ Timer::~Timer() {
 }
 
 void Timer::Fire(int elapsedTime) {
-	callback_(Timers::GetInstance().GetTimerId(this), param_);
+	callback_(TimerManager::GetInstance().GetTimerId(this), param_);
 	if (repeating_) {
 		startTime_ = GetTickCount() - (elapsedTime - interval_);
 	}
 }
 
 // static
-Timers &Timers::GetInstance() {
-	static Timers timers;
+TimerManager &TimerManager::GetInstance() {
+	static TimerManager timers;
 	return timers;
 }
 
-int Timers::GetTimerId(Timer *timer) const {
+int TimerManager::GetTimerId(Timer *timer) const {
 	int timerid = 0;
 	while (timerid < static_cast<int>(timers_.size())) {
 		if (timers_[timerid] == timer) {
@@ -58,7 +58,7 @@ int Timers::GetTimerId(Timer *timer) const {
 	return timerid;
 }
 
-int Timers::SetTimer(int interval, bool repeat, TimerCallback handler, void *param) {
+int TimerManager::SetTimer(int interval, bool repeat, TimerCallback handler, void *param) {
 	Timer *timer = new Timer(interval, repeat, handler, param);
 	size_t timerid = 0;
 	while (timerid < timers_.size()) {
@@ -74,7 +74,7 @@ int Timers::SetTimer(int interval, bool repeat, TimerCallback handler, void *par
 	return timerid;
 }
 
-bool Timers::KillTimer(int timerid) {
+bool TimerManager::KillTimer(int timerid) {
 	if (timerid < 0 || timerid >= static_cast<int>(timers_.size())) {
 		return false;
 	}
@@ -91,7 +91,7 @@ bool Timers::KillTimer(int timerid) {
 	return true;
 }
 
-void Timers::ProcessTimers() {
+void TimerManager::ProcessTimers() {
 	int time = GetTickCount();
 	for (size_t i = 0; i < timers_.size(); ++i) {
 		Timer *timer = timers_[i];

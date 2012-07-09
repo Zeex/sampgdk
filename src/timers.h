@@ -27,7 +27,7 @@ namespace sampgdk {
 int GetTickCount();
 
 class Timer {
-	friend class Timers;
+	friend class TimerManager;
 public:
 	~Timer();
 
@@ -50,9 +50,9 @@ private:
 	int startTime_;
 };
 
-class Timers {
+class TimerManager {
 public:
-	static Timers &GetInstance();
+	static TimerManager &GetInstance();
 
 	int GetTimerId(Timer *timer) const;
 

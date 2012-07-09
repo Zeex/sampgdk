@@ -22,9 +22,9 @@
 #include "generated/a_samp-impl.cpp"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback handler, void *param)) {
-	return sampgdk::Timers::GetInstance().SetTimer(interval, repeat, handler, param);
+	return sampgdk::TimerManager::GetInstance().SetTimer(interval, repeat, handler, param);
 }
 
 SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
-	return sampgdk::Timers::GetInstance().KillTimer(timerid);
+	return sampgdk::TimerManager::GetInstance().KillTimer(timerid);
 }
