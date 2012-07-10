@@ -57,9 +57,9 @@ SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
-	sampgdk::TimerManager::GetInstance().ProcessTimers();
+	sampgdk::Timer::ProcessTimers();
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin) {
-	sampgdk::TimerManager::GetInstance().ProcessTimers(plugin);
+	sampgdk::Timer::ProcessTimers(plugin);
 }

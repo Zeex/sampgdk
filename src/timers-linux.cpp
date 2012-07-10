@@ -17,9 +17,12 @@
 
 #include <time.h>
 
+#include "timers.h"
+
 namespace sampgdk {
 
-int Clock() {
+// static
+int Timer::Clock() {
 	struct timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
 	return static_cast<int>(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);

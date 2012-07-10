@@ -24,10 +24,10 @@
 namespace sampgdk {
 
 class Timer {
-	friend class TimerManager;
-public:
-	~Timer();
+private:
+	Timer(int interval, bool repeat, TimerCallback hander, void *param);
 
+public:
 	int GetInterval() const {
 		return interval_;
 	}
@@ -43,8 +43,14 @@ public:
 
 	void Fire(int elapsed_time);
 
+public:
+	static int SetTimer(int interval, bool repeat, TimerCallback handler, void *param);
+	static bool KillTimer(int timerid);
+	static void ProcessTimers(void *plugin = 0);
+
 private:
-	Timer(int interval, bool repeat, TimerCallback hander, void *param);
+	static int Clock();
+	static int GetTimerId(Timer *timer);
 
 private:
 	int interval_;
@@ -53,21 +59,6 @@ private:
 	void *param_;
 	void *plugin_;
 	int start_time_;
-};
-
-class TimerManager {
-public:
-	static TimerManager &GetInstance();
-
-	int GetTimerId(Timer *timer) const;
-
-	int SetTimer(int interval, bool repeat, TimerCallback handler, void *param);
-	bool KillTimer(int timerid);
-
-	void ProcessTimers(void *plugin = 0);
-
-private:
-	std::vector<Timer*> timers_;
 };
 
 } // namespace sampgdk

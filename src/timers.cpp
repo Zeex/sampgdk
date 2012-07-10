@@ -22,7 +22,7 @@
 
 namespace sampgdk {
 
-int Clock();
+int GetTimerId(Timer *timer);
 
 Timer::Timer(int interval, bool repeat, TimerCallback callback, void *param)
 	: interval_(interval)
@@ -34,26 +34,28 @@ Timer::Timer(int interval, bool repeat, TimerCallback callback, void *param)
 {
 }
 
-Timer::~Timer() {
-}
-
 void Timer::Fire(int elapsed_time) {
-	callback_(TimerManager::GetInstance().GetTimerId(this), param_);
+	callback_(GetTimerId(this), param_);
 	if (repeating_) {
 		start_time_ = Clock() - (elapsed_time - interval_);
 	}
 }
 
-// static
-TimerManager &TimerManager::GetInstance() {
-	static TimerManager timers;
-	return timers;
-}
+} // namespace sampgdk 
 
-int TimerManager::GetTimerId(Timer *timer) const {
+namespace {
+
+std::vector<sampgdk::Timer*> timers;
+
+} // unnamed namespace
+
+namespace sampgdk {
+
+// static
+int Timer::GetTimerId(Timer *timer) {
 	int timerid = 0;
-	while (timerid < static_cast<int>(timers_.size())) {
-		if (timers_[timerid] == timer) {
+	while (timerid < static_cast<int>(timers.size())) {
+		if (timers[timerid] == timer) {
 			break;
 		}
 		++timerid;
@@ -61,43 +63,46 @@ int TimerManager::GetTimerId(Timer *timer) const {
 	return timerid;
 }
 
-int TimerManager::SetTimer(int interval, bool repeat, TimerCallback handler, void *param) {
+// static
+int Timer::SetTimer(int interval, bool repeat, TimerCallback handler, void *param) {
 	Timer *timer = new Timer(interval, repeat, handler, param);
 	size_t timerid = 0;
-	while (timerid < timers_.size()) {
-		if (timers_[timerid] == 0) {
-			timers_[timerid] = timer;
+	while (timerid < timers.size()) {
+		if (timers[timerid] == 0) {
+			timers[timerid] = timer;
 			break;
 		}
 		++timerid;
 	}
-	if (timerid == timers_.size()) {
-		timers_.push_back(timer);
+	if (timerid == timers.size()) {
+		timers.push_back(timer);
 	}
 	return timerid;
 }
 
-bool TimerManager::KillTimer(int timerid) {
-	if (timerid < 0 || timerid >= static_cast<int>(timers_.size())) {
+// static
+bool Timer::KillTimer(int timerid) {
+	if (timerid < 0 || timerid >= static_cast<int>(timers.size())) {
 		return false;
 	}
 
-	Timer *timer = timers_[timerid];
+	Timer *timer = timers[timerid];
 	delete timer;
 
-	if (timerid == timers_.size()) {
-		timers_.pop_back();
+	if (timerid == timers.size()) {
+		timers.pop_back();
 	} else {
-		timers_[timerid] = 0;
+		timers[timerid] = 0;
 	}
 
 	return true;
 }
 
-void TimerManager::ProcessTimers(void *plugin) {
-	int time = Clock();
-	for (size_t i = 0; i < timers_.size(); ++i) {
-		Timer *timer = timers_[i];
+// static
+void Timer::ProcessTimers(void *plugin) {
+	int time = Timer::Clock();
+	for (size_t i = 0; i < timers.size(); ++i) {
+		Timer *timer = timers[i];
 		if (plugin != 0 && timer->GetPlugin() != plugin) {
 			continue;
 		}

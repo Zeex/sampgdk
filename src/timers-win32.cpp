@@ -17,9 +17,13 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
+#include "timers.h"
+#undef GetTickCount
+
 namespace sampgdk {
 
-int Clock() {
+// static
+int Timer::Clock() {
 	return ::GetTickCount();
 }
 
