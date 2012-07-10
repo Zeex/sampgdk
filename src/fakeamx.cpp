@@ -15,11 +15,11 @@
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 
-#include "fakeamx.h"
-
 #include <cstddef>
 #include <cstring>
 #include <limits>
+
+#include "fakeamx.h"
 
 namespace sampgdk {
 

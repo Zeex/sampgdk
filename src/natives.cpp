@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstdlib>
-
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 #include <sampgdk/core.h>
+
+#include <cstdlib>
 
 #include "natives.h"
 

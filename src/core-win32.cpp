@@ -12,9 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <windows.h>
 #include <sampgdk/config.h>
 #include <sampgdk/export.h>
+
+#include <Windows.h>
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
 	MEMORY_BASIC_INFORMATION mbi;
