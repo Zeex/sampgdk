@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <sampgdk/config.h>
+
 #include <cstring>
 
 #include "hook.h"
+
+namespace sampgdk {
 
 Hook::Hook() 
 	: src_(0)
@@ -91,3 +95,5 @@ void *Hook::GetTargetAddress(void *jmp) {
 	}
 	return 0;
 }
+
+} // namespace sampgdk

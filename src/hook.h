@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef HOOK_H
-#define HOOK_H
+#ifndef SAMPGDK_HOOK_H
+#define SAMPGDK_HOOK_H
 
-#if !defined _M_IX86 && !defined __i386__
-	#error Unsupported architecture
-#endif
+#include <sampgdk/config.h>
+
+namespace sampgdk {
 
 class Hook {
 public:
@@ -86,5 +86,6 @@ private:
 	bool installed_;
 };
 
-#endif
+} // namespace sampgdk
 
+#endif

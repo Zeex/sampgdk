@@ -12,12 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <sampgdk/config.h>
+
 #include <Windows.h>
 
 #include "hook.h"
+
+namespace sampgdk {
 
 void Hook::Unprotect(void *address, int size) {
 	DWORD oldProtect;
 	VirtualProtect(address, size, PAGE_EXECUTE_READWRITE, &oldProtect);
 }
 
+} // namespace sampgdk

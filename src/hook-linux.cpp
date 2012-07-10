@@ -12,11 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <sampgdk/config.h>
+
 #include <stdint.h>
 #include <unistd.h>
 #include <sys/mman.h>
 
 #include "hook.h"
+
+namespace sampgdk {
 
 void Hook::Unprotect(void *address, int size) {
 	// Both address and size must be multiples of page size...
@@ -25,3 +29,5 @@ void Hook::Unprotect(void *address, int size) {
 	size_t count = (size / pagesize) * pagesize + pagesize * 2;
 	mprotect(reinterpret_cast<void*>(where), count, PROT_READ | PROT_WRITE | PROT_EXEC);
 }
+
+} // namespace sampgdk
