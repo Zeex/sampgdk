@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <sampgdk/config.h>
+
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-#include <sampgdk/config.h>
-
-#include "timers.h"
-
 namespace sampgdk {
 
-int GetTickCount() {
+int Clock() {
 	return ::GetTickCount();
 }
 

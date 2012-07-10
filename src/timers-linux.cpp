@@ -12,15 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <time.h>
 
 #include <sampgdk/config.h>
 
-#include "timers.h"
+#include <time.h>
 
 namespace sampgdk {
 
-int GetTickCount() {
+int Clock() {
 	struct timespec ts;
 	clock_gettime(CLOCK_MONOTONIC, &ts);
 	return static_cast<int>(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);

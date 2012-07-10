@@ -22,13 +22,15 @@
 
 namespace sampgdk {
 
+int Clock();
+
 Timer::Timer(int interval, bool repeat, TimerCallback callback, void *param)
 	: interval_(interval)
 	, repeating_(repeat)
 	, callback_(callback)
 	, param_(param)
 	, plugin_(sampgdk_get_plugin_handle((void*)callback))
-	, start_time_(GetTickCount())
+	, start_time_(Clock())
 {
 }
 
@@ -38,7 +40,7 @@ Timer::~Timer() {
 void Timer::Fire(int elapsed_time) {
 	callback_(TimerManager::GetInstance().GetTimerId(this), param_);
 	if (repeating_) {
-		start_time_ = GetTickCount() - (elapsed_time - interval_);
+		start_time_ = Clock() - (elapsed_time - interval_);
 	}
 }
 
@@ -93,7 +95,7 @@ bool TimerManager::KillTimer(int timerid) {
 }
 
 void TimerManager::ProcessTimers(void *plugin) {
-	int time = GetTickCount();
+	int time = Clock();
 	for (size_t i = 0; i < timers_.size(); ++i) {
 		Timer *timer = timers_[i];
 		if (plugin != 0 && timer->GetPlugin() != plugin) {

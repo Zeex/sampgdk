@@ -23,8 +23,6 @@
 
 namespace sampgdk {
 
-int GetTickCount();
-
 class Timer {
 	friend class TimerManager;
 public:
@@ -48,6 +46,7 @@ public:
 private:
 	Timer(int interval, bool repeat, TimerCallback hander, void *param);
 
+private:
 	int interval_;
 	bool repeating_;
 	TimerCallback callback_;
