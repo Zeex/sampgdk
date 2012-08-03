@@ -44,7 +44,7 @@ add_library(${PLUGIN_TARGET} MODULE ${PLUGIN_SOURCES})
 
 set_target_properties(${PLUGIN_TARGET} PROPERTIES PREFIX "")
 
-if(NOT PLUGIN_DEF STREQUAL "")
+if(DEFINED PLUGIN_DEF)
 	if(MSVC)
 		set_target_properties(${PLUGIN_TARGET} PROPERTIES 
 				LINK_FLAGS "/DEF:${PLUGIN_DEF}")
