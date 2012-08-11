@@ -73,7 +73,7 @@ cell FakeAmx::Push(size_t cells) {
 	cell address = amx_.hea;
 	amx_.hea += cells * sizeof(cell);
 	if (amx_.hea/sizeof(cell) >= static_cast<cell>(heap_.size())) {
-		heap_.resize(amx_.hea/sizeof(cell));
+		ResizeHeap(amx_.hea / sizeof(cell));
 	}
 	return address;
 }
@@ -82,7 +82,7 @@ cell FakeAmx::Push(size_t cells) {
 cell FakeAmx::Push(const char *s) {
 	std::size_t size = std::strlen(s) + 1;
 	cell address = Push(size);
-	amx_SetString(&heap_[0] + address/sizeof(cell), s, 0, 0, size);
+	amx_SetString(&heap_[0] + address / sizeof(cell), s, 0, 0, size);
 	return address;
 }
 
@@ -93,7 +93,7 @@ void FakeAmx::Get(cell address, cell &value) {
 
 // static
 void FakeAmx::Get(cell address, char *value, size_t size) {
-	const cell *ptr = &heap_[0] + address/sizeof(cell);
+	const cell *ptr = &heap_[0] + address / sizeof(cell);
 	amx_GetString(value, ptr, 0, size);
 }
 
@@ -102,6 +102,15 @@ void FakeAmx::Pop(cell address) {
 	if (amx_.hea > address) {
 		amx_.hea = address;
 	}
+}
+
+// static
+void FakeAmx::ResizeHeap(std::size_t size) {
+	heap_.resize(amx_.hea / sizeof(cell));
+
+	// Since the heap address has changed we have to update data pointers.
+	hdr_.dat = reinterpret_cast<int32_t>(&heap_[0]) - reinterpret_cast<int32_t>(&hdr_);
+	amx_.data = reinterpret_cast<unsigned char*>(&FakeAmx::heap_[0]);
 }
 
 FakeAmxHeapObject::FakeAmxHeapObject()

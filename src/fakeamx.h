@@ -62,6 +62,8 @@ public:
 	}
 
 private:
+	static void ResizeHeap(std::size_t size);
+
 	static AMX amx_;
 	static AMX_HEADER hdr_;
 
