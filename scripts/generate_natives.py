@@ -34,6 +34,8 @@ def generate_native_code(return_type, name, args, attrs):
 	params_code = ""
 	assign_code = ""
 
+	code += "\tsampgdk::FakeAmx *fakeAmx = sampgdk::FakeAmx::GetGlobal();\n"
+
 	if len(args) > 0:
 		params_code += "\tcell params[] = {\n"
 		params_code += "\t\t" + str(len(args)) + " * sizeof(cell)"
@@ -45,17 +47,17 @@ def generate_native_code(return_type, name, args, attrs):
 				assign_code += name + ");\n"
 				expect_buffer_size = False
 			if type.endswith("*"):
-				locals_code += "\tsampgdk::FakeAmxHeapObject " + name + "_"
+				locals_code += "\tsampgdk::FakeAmxHeapObject " + name + "_(fakeAmx"
 				if type == "char *":
 					# Output string buffer whose size is passed via next argument.
-					locals_code += "("
+					locals_code += ", "
 					expect_buffer_size = True
 				elif type == "const char *":
 					# Constant string.
-					locals_code += "(" + name + ");\n"
+					locals_code += ", " + name + ");\n"
 				else:
 					# Other output parameters.
-					locals_code += ";\n"
+					locals_code += ");\n"
 			params_code += ",\n\t\t"
 			if type == "int" or type == "bool":
 				params_code += name
@@ -90,7 +92,7 @@ def generate_native_code(return_type, name, args, attrs):
 		code += "\t" + return_type + " retval = "
 	else:
 		code += "\treturn "
-	code += "sampgdk::FakeAmx::"
+	code += "fakeAmx->"
 	if return_type == "bool":
 		code += "CallNativeBool"
 	elif return_type == "float":

@@ -26,59 +26,71 @@ namespace sampgdk {
 
 class FakeAmx {
 public:
-	static const size_t INITIAL_HEAP_SIZE = 1024;
+	static const std::size_t INITIAL_HEAP_SIZE = 1024;
 
-	static AMX *amx();
+	FakeAmx();
+	static FakeAmx *GetGlobal();
 
-	static cell Push(size_t cells);
-	static cell Push(const char *s);
+	AMX *amx();
 
-	static void Get(cell address, cell &value);
-	static void Get(cell address, char *value, size_t size);
+	cell Push(size_t cells);
+	cell Push(const char *s);
 
-	static void Pop(cell address);
+	void Get(cell address, cell &value);
+	void Get(cell address, char *value, size_t size);
 
-	static inline cell CallNative(AMX_NATIVE native, cell *params) {
+	void Pop(cell address);
+
+	inline cell CallNative(AMX_NATIVE native, cell *params) {
 		return native(&amx_, params);
 	}
-	static inline bool CallNativeBool(AMX_NATIVE native, cell *params) {
+	inline bool CallNativeBool(AMX_NATIVE native, cell *params) {
 		return CallNative(native, params) != 0;
 	}
-	static inline float CallNativeFloat(AMX_NATIVE native, cell *params) {
+	inline float CallNativeFloat(AMX_NATIVE native, cell *params) {
 		cell retval = CallNative(native, params);
 		return amx_ctof(retval);
 	}
 
 	// Parameter-less versions
-	static inline cell CallNative(AMX_NATIVE native) {
+	inline cell CallNative(AMX_NATIVE native) {
 		return native(&amx_, 0);
 	}
-	static inline bool CallNativeBool(AMX_NATIVE native) {
+	inline bool CallNativeBool(AMX_NATIVE native) {
 		return CallNative(native) != 0;
 	}
-	static inline float CallNativeFloat(AMX_NATIVE native) {
+	inline float CallNativeFloat(AMX_NATIVE native) {
 		cell retval = CallNative(native);
 		return amx_ctof(retval);
 	}
 
 private:
-	static void ResizeHeap(std::size_t size);
+	inline cell *GetHeapPtr() {
+		return static_cast<cell*>(&heap_[0]);
+	}
 
-	static AMX amx_;
-	static AMX_HEADER hdr_;
+	void ResizeHeap(std::size_t size);
 
-	static std::vector<cell> heap_;
+private:
+	AMX amx_;
+	AMX_HEADER hdr_;
+
+	std::vector<cell> heap_;
 };
 
 class FakeAmxHeapObject {
 public:
-	FakeAmxHeapObject();
-	FakeAmxHeapObject(size_t cells);
-	FakeAmxHeapObject(const char *s);
+	FakeAmxHeapObject(FakeAmx *fa);
+	FakeAmxHeapObject(FakeAmx *fa, size_t cells);
+	FakeAmxHeapObject(FakeAmx *fa, const char *s);
 	~FakeAmxHeapObject();
 
-	cell address() const;
-	size_t size() const;
+	inline cell address() const {
+		return address_;
+	}
+	inline size_t size() const {
+		return size_;
+	}
 
 	cell  Get() const;
 	bool GetAsBool() const;
@@ -86,6 +98,7 @@ public:
 	void  GetAsString(char *s, size_t size) const;
 
 private:
+	FakeAmx *fa_;
 	size_t size_;
 	cell address_;
 };

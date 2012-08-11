@@ -23,117 +23,86 @@
 
 namespace sampgdk {
 
-std::vector<cell> FakeAmx::heap_(FakeAmx::INITIAL_HEAP_SIZE);
+FakeAmx::FakeAmx()
+	: heap_(INITIAL_HEAP_SIZE)
+{
+	std::memset(&hdr_, 0, sizeof(hdr_));
+	hdr_.magic = AMX_MAGIC;
+	hdr_.file_version = MIN_FILE_VERSION;
+	hdr_.amx_version = MIN_AMX_VERSION;
+	hdr_.dat = reinterpret_cast<int32_t>(GetHeapPtr()) - reinterpret_cast<int32_t>(&hdr_);
 
-AMX_HEADER FakeAmx::hdr_ = {
-	0, // size
-	AMX_MAGIC, // magic
-	MIN_FILE_VERSION, // file_version
-	MIN_AMX_VERSION, // amx_version
-	0, // flags
-	0, // defsize
-	0, // cod
-	reinterpret_cast<int32_t>(&heap_[0]) - reinterpret_cast<int32_t>(&hdr_), // dat
-	0, // hea 
-	0, // stp
-	0, // cip
-	0, // publics
-	0, // natives
-	0, // libraries
-	0, // pubvars
-	0, // tags
-	0, // nametable
-};
-
-AMX FakeAmx::amx_ = {
-	reinterpret_cast<unsigned char*>(&FakeAmx::hdr_), // base
-	reinterpret_cast<unsigned char*>(&FakeAmx::heap_[0]), // data
-	amx_Callback, // callback
-	0, // debug hook
-	0, // cip
-	0, // frm
-	0, // hea
-	0, // hlw
-	0, // stk
-	std::numeric_limits<int32_t>::max(), // stp
-	0, // flags
-	{0}, // usertags
-	{0}, // userdata
-	AMX_ERR_NONE, // error
-	0, // paramcount 
-	0, // pri
-	0, // alt
-	0, // reset_stk
-	0, // reset_hea
-	0, // sysreq_d
-};
+	std::memset(&amx_, 0, sizeof(amx_));
+	amx_.base = reinterpret_cast<unsigned char*>(&hdr_);
+	amx_.data = reinterpret_cast<unsigned char*>(GetHeapPtr());
+	amx_.callback = amx_Callback;
+	amx_.stp = std::numeric_limits<int32_t>::max();
+}
 
 // static
+FakeAmx *FakeAmx::GetGlobal() {
+	static FakeAmx instance;
+	return &instance;
+}
+
 cell FakeAmx::Push(size_t cells) {
 	cell address = amx_.hea;
 	amx_.hea += cells * sizeof(cell);
-	if (amx_.hea/sizeof(cell) >= static_cast<cell>(heap_.size())) {
+	if (amx_.hea / sizeof(cell) >= static_cast<cell>(heap_.size())) {
 		ResizeHeap(amx_.hea / sizeof(cell));
 	}
 	return address;
 }
 
-// static
 cell FakeAmx::Push(const char *s) {
 	std::size_t size = std::strlen(s) + 1;
 	cell address = Push(size);
-	amx_SetString(&heap_[0] + address / sizeof(cell), s, 0, 0, size);
+	amx_SetString(GetHeapPtr() + address / sizeof(cell), s, 0, 0, size);
 	return address;
 }
 
-// static
 void FakeAmx::Get(cell address, cell &value) {
-	value = heap_[address/sizeof(cell)];
+	value = heap_[address / sizeof(cell)];
 }
 
-// static
 void FakeAmx::Get(cell address, char *value, size_t size) {
-	const cell *ptr = &heap_[0] + address / sizeof(cell);
+	const cell *ptr = GetHeapPtr() + address / sizeof(cell);
 	amx_GetString(value, ptr, 0, size);
 }
 
-// static
 void FakeAmx::Pop(cell address) {
 	if (amx_.hea > address) {
 		amx_.hea = address;
 	}
 }
 
-// static
 void FakeAmx::ResizeHeap(std::size_t size) {
 	heap_.resize(amx_.hea / sizeof(cell));
 
 	// Since the heap address has changed we have to update data pointers.
-	hdr_.dat = reinterpret_cast<int32_t>(&heap_[0]) - reinterpret_cast<int32_t>(&hdr_);
-	amx_.data = reinterpret_cast<unsigned char*>(&FakeAmx::heap_[0]);
+	hdr_.dat = reinterpret_cast<int32_t>(GetHeapPtr()) - reinterpret_cast<int32_t>(&hdr_);
+	amx_.data = reinterpret_cast<unsigned char*>(GetHeapPtr());
 }
 
-FakeAmxHeapObject::FakeAmxHeapObject()
-	: size_(1), address_(FakeAmx::Push(1))
+FakeAmxHeapObject::FakeAmxHeapObject(FakeAmx *fa)
+	: fa_(fa), size_(1), address_(fa->Push(1))
 {}
 
-FakeAmxHeapObject::FakeAmxHeapObject(size_t cells)
-	: size_(cells), address_(FakeAmx::Push(cells))
+FakeAmxHeapObject::FakeAmxHeapObject(FakeAmx *fa, size_t cells)
+	: fa_(fa), size_(cells), address_(fa->Push(cells))
 {}
 
-FakeAmxHeapObject::FakeAmxHeapObject(const char *s)
-	: size_(std::strlen(s) + 1), address_(FakeAmx::Push(s))
+FakeAmxHeapObject::FakeAmxHeapObject(FakeAmx *fa, const char *s)
+	: fa_(fa), size_(std::strlen(s) + 1), address_(fa->Push(s))
 {}
 
-FakeAmxHeapObject::~FakeAmxHeapObject() { FakeAmx::Pop(address_); }
-
-cell FakeAmxHeapObject::address() const { return address_; }
-
-size_t FakeAmxHeapObject::size() const { return size_; }
+FakeAmxHeapObject::~FakeAmxHeapObject() {
+	fa_->Pop(address_);
+}
 
 cell FakeAmxHeapObject::Get() const {
 	cell value;
-	FakeAmx::Get(address_, value);
+	fa_->Get(address_, value);
 	return value;
 }
 
@@ -142,12 +111,12 @@ bool FakeAmxHeapObject::GetAsBool() const {
 }
 
 float FakeAmxHeapObject::GetAsFloat() const {
-	cell value = this->Get();
+	cell value = Get();
 	return amx_ctof(value);
 }
 
 void FakeAmxHeapObject::GetAsString(char *s, size_t size) const {
-	FakeAmx::Get(address_, s, size);
+	fa_->Get(address_, s, size);
 }
 
 } // namespace sampgdk
