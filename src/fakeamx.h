@@ -32,7 +32,7 @@ public:
 
 	AMX *amx();
 
-	cell Push(size_t cells);
+	cell Push(std::size_t cells);
 	cell Push(const char *s);
 
 	void Get(cell address, cell &value);
@@ -72,7 +72,7 @@ private:
 
 private:
 	AMX amx_;
-	AMX_HEADER hdr_;
+	AMX_HEADER amxhdr_;
 
 	std::vector<cell> heap_;
 };
@@ -80,25 +80,25 @@ private:
 class FakeAmxHeapObject {
 public:
 	FakeAmxHeapObject(FakeAmx *fa);
-	FakeAmxHeapObject(FakeAmx *fa, size_t cells);
+	FakeAmxHeapObject(FakeAmx *fa, std::size_t cells);
 	FakeAmxHeapObject(FakeAmx *fa, const char *s);
 	~FakeAmxHeapObject();
 
 	inline cell address() const {
 		return address_;
 	}
-	inline size_t size() const {
+	inline std::size_t size() const {
 		return size_;
 	}
 
-	cell  Get() const;
+	cell Get() const;
 	bool GetAsBool() const;
 	float GetAsFloat() const;
-	void  GetAsString(char *s, size_t size) const;
+	void GetAsString(char *s, std::size_t size) const;
 
 private:
 	FakeAmx *fa_;
-	size_t size_;
+	std::size_t size_;
 	cell address_;
 };
 

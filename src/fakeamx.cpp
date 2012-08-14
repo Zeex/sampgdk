@@ -26,14 +26,14 @@ namespace sampgdk {
 FakeAmx::FakeAmx()
 	: heap_(INITIAL_HEAP_SIZE)
 {
-	std::memset(&hdr_, 0, sizeof(hdr_));
-	hdr_.magic = AMX_MAGIC;
-	hdr_.file_version = MIN_FILE_VERSION;
-	hdr_.amx_version = MIN_AMX_VERSION;
-	hdr_.dat = reinterpret_cast<int32_t>(GetHeapPtr()) - reinterpret_cast<int32_t>(&hdr_);
+	std::memset(&amxhdr_, 0, sizeof(amxhdr_));
+	amxhdr_.magic = AMX_MAGIC;
+	amxhdr_.file_version = MIN_FILE_VERSION;
+	amxhdr_.amx_version = MIN_AMX_VERSION;
+	amxhdr_.dat = reinterpret_cast<int32_t>(GetHeapPtr()) - reinterpret_cast<int32_t>(&amxhdr_);
 
 	std::memset(&amx_, 0, sizeof(amx_));
-	amx_.base = reinterpret_cast<unsigned char*>(&hdr_);
+	amx_.base = reinterpret_cast<unsigned char*>(&amxhdr_);
 	amx_.data = reinterpret_cast<unsigned char*>(GetHeapPtr());
 	amx_.callback = amx_Callback;
 	amx_.stp = std::numeric_limits<int32_t>::max();
@@ -45,7 +45,7 @@ FakeAmx *FakeAmx::GetGlobal() {
 	return &instance;
 }
 
-cell FakeAmx::Push(size_t cells) {
+cell FakeAmx::Push(std::size_t cells) {
 	cell address = amx_.hea;
 	amx_.hea += cells * sizeof(cell);
 	if (amx_.hea / sizeof(cell) >= static_cast<cell>(heap_.size())) {
@@ -80,8 +80,8 @@ void FakeAmx::ResizeHeap(std::size_t size) {
 	heap_.resize(amx_.hea / sizeof(cell));
 
 	// Since the heap address has changed we have to update data pointers.
-	hdr_.dat = reinterpret_cast<int32_t>(GetHeapPtr()) - reinterpret_cast<int32_t>(&hdr_);
 	amx_.data = reinterpret_cast<unsigned char*>(GetHeapPtr());
+	amxhdr_.dat = reinterpret_cast<int32_t>(GetHeapPtr()) - reinterpret_cast<int32_t>(&amxhdr_);
 }
 
 FakeAmxHeapObject::FakeAmxHeapObject(FakeAmx *fa)
@@ -115,7 +115,7 @@ float FakeAmxHeapObject::GetAsFloat() const {
 	return amx_ctof(value);
 }
 
-void FakeAmxHeapObject::GetAsString(char *s, size_t size) const {
+void FakeAmxHeapObject::GetAsString(char *s, std::size_t size) const {
 	fa_->Get(address_, s, size);
 }
 
