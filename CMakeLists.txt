@@ -93,8 +93,6 @@ set(SAMPGDK_SOURCES
 	"src/a_players.cpp"
 	"src/a_samp.cpp"
 	"src/a_vehicles.cpp"
-	"src/amxhooks.cpp"
-	"src/amxhooks.h"
 	"src/callbacks.cpp"
 	"src/callbacks.h"
 	"src/core.cpp"
