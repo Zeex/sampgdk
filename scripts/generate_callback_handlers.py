@@ -11,8 +11,8 @@ def generate_callback_handler(name, args, badRet):
 	callargs = ""
 	declargs = ", ".join([" ".join(list(arg)) for arg in args])
 	index = 0
+	code += "\tsampgdk::util::AmxStackReader stack(amx);\n"
 	for argtype, argname in args:
-		inst = "sampgdk::Callbacks::"
 		if index > 0:
 			callargs += ", "
 		if argtype == "const char *":
@@ -20,15 +20,15 @@ def generate_callback_handler(name, args, badRet):
 		else:
 			callargs += argname
 		if argtype == "bool":
-			method = "GetStackBool"
+			method = "GetBool"
 		elif argtype == "float":
-			method = "GetStackFloat"
+			method = "GetFloat"
 		elif argtype == "const char *":
-			method = "GetStackString"
+			method = "GetString"
 			argtype = "std::string"
 		else:
-			method = "GetStackCell"
-		code += "\t" + argtype + " " + argname + " = sampgdk::Callbacks::" + method + "(amx, " + str(index) + ");\n"
+			method = "GetCell"
+		code += "\t" + argtype + " " + argname + " = stack." + method + "(" + str(index) + ");\n"
 		index += 1
 	typename = name + "Type"
 	code += "\ttypedef bool (PLUGIN_CALL *" + typename + ")(" + declargs + ");\n"

@@ -21,6 +21,7 @@
 #include <map>
 
 #include "callbacks.h"
+#include "util.h"
 
 namespace {
 	#include "generated/callback-handlers-impl.cpp"
@@ -45,41 +46,6 @@ void Callbacks::UnregisterPlugin(void *plugin) {
 
 void Callbacks::AddHandler(const std::string &name, CallbackHandler handler) {
 	callbackHandlerMap_[name] = handler;
-}
-
-static inline unsigned char *GetAmxDataPtr(AMX *amx) {
-	unsigned char *dataPtr = amx->data;
-	if (dataPtr == 0) {
-		AMX_HEADER *hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
-		dataPtr = amx->base + hdr->dat;
-	}
-	return dataPtr;
-}
-
-cell Callbacks::GetStackCell(AMX *amx, int index) {
-	cell *stackPtr = reinterpret_cast<cell*>(GetAmxDataPtr(amx) + amx->stk);
-	return stackPtr[index];
-}
-
-bool Callbacks::GetStackBool(AMX *amx, int index) {
-	return GetStackCell(amx, index) != 0;
-}
-
-float Callbacks::GetStackFloat(AMX *amx, int index) {
-	cell value = GetStackCell(amx, index);
-	return amx_ctof(value);
-}
-
-std::string Callbacks::GetStackString(AMX *amx, int index) {
-	cell address = GetStackCell(amx, index);
-	cell *stringPtr = reinterpret_cast<cell*>(GetAmxDataPtr(amx) + address);
-
-	std::string string;
-	for (cell c; (c = *stringPtr) != '\0'; stringPtr++) {
-		string.push_back(static_cast<char>(c & 0xFF));
-	}
-
-	return string;
 }
 
 bool Callbacks::HandleCallback(AMX *amx, const std::string &name, cell *retval) {

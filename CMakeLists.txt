@@ -105,6 +105,8 @@ set(SAMPGDK_SOURCES
 	"src/sampgdk.rc"
 	"src/timers.cpp"
 	"src/timers.h"
+	"src/util.cpp"
+	"src/util.h"
 	"src/version.cpp"
 )
 

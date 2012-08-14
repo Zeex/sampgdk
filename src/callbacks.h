@@ -34,12 +34,6 @@ public:
 	static void UnregisterPlugin(void *plugin);
 
 	static void AddHandler(const std::string &name, CallbackHandler handler);
-
-	static cell GetStackCell(AMX *amx, int index);
-	static bool GetStackBool(AMX *amx, int index);
-	static float GetStackFloat(AMX *amx, int index);
-	static std::string GetStackString(AMX *amx, int index);
-
 	static bool HandleCallback(AMX *amx, const std::string &name, cell *retval);
 
 private:
