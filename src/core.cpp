@@ -63,7 +63,7 @@ namespace {
 		sampgdk::Hook::ScopedRemove remove(&amx_Register_hook);
 
 		for (int i = 0; nativelist[i].name != 0 && (i < number || number == -1); ++i) {
-			sampgdk::Natives::SetNative(nativelist[i].name, nativelist[i].func);
+			sampgdk::natives::SetNativeFunction(nativelist[i].name, nativelist[i].func);
 			native_info.push_back(nativelist[i]);
 
 			if (strcmp(nativelist[i].name, "funcidx") == 0) {
@@ -102,10 +102,10 @@ namespace {
 		bool canDoExec = true;
 		if (index == AMX_EXEC_MAIN) {
 			gamemode_amx = amx;
-			sampgdk::Callbacks::HandleCallback(gamemode_amx, "OnGameModeInit", retval);
+			sampgdk::callbacks::HandleCallback(gamemode_amx, "OnGameModeInit", retval);
 		} else {
 			if (amx == gamemode_amx && index != AMX_EXEC_CONT) {
-				canDoExec = sampgdk::Callbacks::HandleCallback(gamemode_amx, current_public, retval);
+				canDoExec = sampgdk::callbacks::HandleCallback(gamemode_amx, current_public, retval);
 			}
 		}
 
@@ -158,8 +158,6 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData) {
 			exports[PLUGIN_AMX_EXPORT_Callback],
 			(void*)amx_Callback_);
 
-		sampgdk::Callbacks::Initialize();
-
 		initialized = true;
 	}
 }
@@ -176,11 +174,11 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
-	sampgdk::Callbacks::RegisterPlugin(plugin);
+	sampgdk::callbacks::RegisterPlugin(plugin);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin) {
-	sampgdk::Callbacks::UnregisterPlugin(plugin);
+	sampgdk::callbacks::UnregisterPlugin(plugin);
 }
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {

@@ -20,28 +20,35 @@
 
 #include "natives.h"
 
+namespace {
+
+typedef std::map<std::string, AMX_NATIVE> StringToNativeMap;
+StringToNativeMap string_to_native_;
+
+} // namespace
+
 namespace sampgdk {
+namespace natives {
 
-Natives::StringToNativeMap Natives::string_to_native_;
-
-AMX_NATIVE Natives::GetNative(const char *name) {
-	StringToNativeMap::const_iterator iter = string_to_native_.find(name);
-	if (iter == string_to_native_.end()) {
+AMX_NATIVE GetNativeFunction(const char *name) {
+	StringToNativeMap::const_iterator iter = ::string_to_native_.find(name);
+	if (iter == ::string_to_native_.end()) {
 		return 0;
 	}
 	return iter->second;
 }
 
-AMX_NATIVE Natives::GetNativeWarn(const char *name) {
-	AMX_NATIVE native = GetNative(name);
+AMX_NATIVE GetNativeFunctionWarn(const char *name) {
+	AMX_NATIVE native = GetNativeFunction(name);
 	if (native == 0) {
 		sampgdk_logprintf("sampgdk: warning: native function \"%s\" does not exist", name);
 	}
 	return native;
 }
 
-void Natives::SetNative(const char *name, AMX_NATIVE native) {
-	string_to_native_[std::string(name)] = native;
+void SetNativeFunction(const char *name, AMX_NATIVE native) {
+	::string_to_native_[std::string(name)] = native;
 }
 
+} // namespace natives
 } // namespace sampgdk

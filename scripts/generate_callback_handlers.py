@@ -53,7 +53,7 @@ def main(argv):
 		print generate_callback_handler(name, args, badRet)
 	print "void RegisterCallbacks() {"
 	for type, name, args, attrs in callbacks:
-		print "\tsampgdk::Callbacks::AddHandler(\"" + name + "\", " + name + ");"
+		print "\tsampgdk::callbacks::AddCallbackHandler(\"" + name + "\", " + name + ");"
 	print "}"
 
 if __name__ == "__main__":

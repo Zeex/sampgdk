@@ -23,30 +23,19 @@
 #include <string>
 
 namespace sampgdk {
+namespace natives {
 
-class Natives {
-public:
-	// This method MUST be called before executing any native.
-	static void Initialize();
+// Gets a native function previously added with SetNativeFunction().
+// Returns NULL if the requested function does not exist.
+AMX_NATIVE GetNativeFunction(const char *name);
 
-	// Gets a native function previously added with SetNative().
-	// Returns NULL if the requested function does not exist.
-	static AMX_NATIVE GetNative(const char *name);
+// Same as GetNativeFunction() but prints a warning message to log when fails.
+AMX_NATIVE GetNativeFunctionWarn(const char *name);
 
-	// Same as GetNative() but prints a warning message to log when fails.
-	static AMX_NATIVE GetNativeWarn(const char *name);
+// Add a new native function or override an exiting one.
+void SetNativeFunction(const char *name, AMX_NATIVE native);
 
-	// Add a new native function or override an exiting one.
-	static void SetNative(const char *name, AMX_NATIVE native);
-
-private:
-	Natives();
-
-private:
-	typedef std::map<std::string, AMX_NATIVE> StringToNativeMap;
-	static StringToNativeMap string_to_native_;
-};
-
+} // namespace natives
 } // namespace sampgdk
 
 #endif // !SAMPGDK_NATIVES_H

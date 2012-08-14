@@ -28,7 +28,7 @@ def generate_native_code(return_type, name, args, attrs):
 		real_name = attrs["$real_name"]
 	else:
 		real_name = name
-	code += "\tstatic AMX_NATIVE native = sampgdk::Natives::GetNativeWarn(\"" + real_name + "\");\n"
+	code += "\tstatic AMX_NATIVE native = sampgdk::natives::GetNativeFunctionWarn(\"" + real_name + "\");\n"
 
 	locals_code = ""
 	params_code = ""

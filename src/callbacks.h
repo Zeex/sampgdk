@@ -22,32 +22,17 @@
 #include <string>
 
 namespace sampgdk {
+namespace callbacks {
 
 typedef bool (*CallbackHandler)(AMX *amx, void *callback, cell *retval);
 
-class Callbacks {
-public:
-	// Should be called before any callback is executed.
-	static void Initialize();
+void RegisterPlugin(void *plugin);
+void UnregisterPlugin(void *plugin);
 
-	static void RegisterPlugin(void *plugin);
-	static void UnregisterPlugin(void *plugin);
+void AddCallbackHandler(const std::string &name, CallbackHandler handler);
+bool HandleCallback(AMX *amx, const std::string &name, cell *retval);
 
-	static void AddHandler(const std::string &name, CallbackHandler handler);
-	static bool HandleCallback(AMX *amx, const std::string &name, cell *retval);
-
-private:
-	Callbacks();
-
-private:
-	typedef std::map<std::string, CallbackHandler> CallbackHandlerMap;
-	static CallbackHandlerMap callbackHandlerMap_;
-
-	typedef std::map<std::string, void*> PluginSymbolMap;
-	typedef std::map<void*, PluginSymbolMap> PluginMap;
-	static PluginMap pluginMap_;
-};
-
+} // namespace callbacks
 } // namespace sampgdk
 
 #endif // !SAMPGDK_CALLBACKS_H

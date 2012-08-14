@@ -24,31 +24,41 @@
 #include "util.h"
 
 namespace {
-	#include "generated/callback-handlers-impl.cpp"
-}
+
+#include "generated/callback-handlers-impl.cpp"
+
+typedef std::map<std::string, sampgdk::callbacks::CallbackHandler> CallbackHandlerMap;
+CallbackHandlerMap callbackHandlerMap_;
+
+typedef std::map<std::string, void*> PluginSymbolMap;
+typedef std::map<void*, PluginSymbolMap> PluginMap;
+PluginMap pluginMap_;
+
+} // namespace
 
 namespace sampgdk {
+namespace callbacks {
 
-Callbacks::CallbackHandlerMap Callbacks::callbackHandlerMap_;
-Callbacks::PluginMap Callbacks::pluginMap_;
+void RegisterPlugin(void *plugin) {
+	static bool ok = false;
 
-void Callbacks::Initialize() {
-	RegisterCallbacks();
-}
+	if (!ok) {
+		RegisterCallbacks();
+		ok = true;
+	}
 
-void Callbacks::RegisterPlugin(void *plugin) {
 	pluginMap_.insert(std::make_pair(plugin, PluginSymbolMap()));
 }
 
-void Callbacks::UnregisterPlugin(void *plugin) {
+void UnregisterPlugin(void *plugin) {
 	pluginMap_.erase(plugin);
 }
 
-void Callbacks::AddHandler(const std::string &name, CallbackHandler handler) {
+void AddCallbackHandler(const std::string &name, CallbackHandler handler) {
 	callbackHandlerMap_[name] = handler;
 }
 
-bool Callbacks::HandleCallback(AMX *amx, const std::string &name, cell *retval) {
+bool HandleCallback(AMX *amx, const std::string &name, cell *retval) {
 	CallbackHandler callbackHandler = 0;
 
 	CallbackHandlerMap::const_iterator cbHandlerIter = callbackHandlerMap_.find(name);
@@ -87,4 +97,5 @@ bool Callbacks::HandleCallback(AMX *amx, const std::string &name, cell *retval) 
 	return true;
 }
 
+} // namespace callbacks
 } // namespace sampgdk
