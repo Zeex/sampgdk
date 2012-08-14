@@ -14,7 +14,6 @@
 
 #ifndef SAMPGDK_TIMERS_H
 #define SAMPGDK_TIMERS_H
-#pragma once
 
 #include <sampgdk/config.h>
 #include <sampgdk/a_samp.h>

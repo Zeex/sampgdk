@@ -14,7 +14,6 @@
 
 #ifndef SAMPGDK_FAKEAMX_H
 #define SAMPGDK_FAKEAMX_H
-#pragma once
 
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>

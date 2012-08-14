@@ -15,7 +15,6 @@
 
 #ifndef SAMPGDK_NATIVES_H
 #define SAMPGDK_NATIVES_H
-#pragma once
 
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
