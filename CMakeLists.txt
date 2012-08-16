@@ -151,7 +151,9 @@ if(WIN32)
 endif()
 
 if(UNIX OR MINGW)
-	add_definitions(-DLINUX)
+	if(UNIX)
+		add_definitions(-DLINUX)
+	endif()
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   ${SAMPGDK_VERSION_STRING}
 		SOVERSION ${SAMPGDK_VERSION_MAJOR}
