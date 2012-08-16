@@ -1,48 +1,29 @@
-// Copyright (C) 2012, Zeex
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//	 http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+/* Copyright (C) 2011-2012 Zeex
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-#ifndef SAMPGDK_UTIL_H
-#define SAMPGDK_UTIL_H
+#ifndef SAMPGDK_UTIL_H_
+#define SAMPGDK_UTIL_H_
 
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 
-namespace sampgdk {
-namespace util {
+cell read_amx_stack_cell(AMX *amx, int index);
+bool read_amx_stack_bool(AMX *amx, int index);
+float read_amx_stack_float(AMX *amx, int index);
+char *read_amx_stack_string(AMX *amx, int index);
 
-class AmxStackReader {
-public:
-	AmxStackReader(AMX *amx) : amx_(amx) {}
+void hook_native(AMX *amx, const char *name, AMX_NATIVE address);
 
-	cell GetCell(int index) const;
-
-	inline bool GetBool(int index) const {
-		return GetCell(index) != 0;
-	}
-
-	inline float GetFloat(int index) const {
-		cell value = GetCell(index);
-		return amx_ctof(value);
-	}
-
-	std::string GetString(int index) const;
-
-private:
-	AMX *amx_;
-};
-
-} // namespace util
-} // namespace sampgdk
-
-#endif // !SAMPGDK_UTIL_H
+#endif /* !SAMPGDK_UTIL_H_ */

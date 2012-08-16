@@ -13,10 +13,21 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
+#ifndef SAMPGDK_TIMER_H_
+#define SAMPGDK_TIMER_H_
 
 #include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
+#include <sampgdk/export.h>
 
-#endif /* !SAMPGDK_AMX_H */
+#include <time.h>
+
+typedef void (SAMPGDK_CALL *timer_callback)(int timerid, void *param);
+
+time_t timer_clock();
+
+int timer_set(time_t interval, bool repeat, timer_callback calback, void *param);
+bool timer_kill(int timerid);
+
+void timer_process_timers(void *plugin);
+
+#endif /* !SAMPGDK_TIMER_H_ */

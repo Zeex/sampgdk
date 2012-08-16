@@ -6,54 +6,73 @@ import sys
 
 from parse_header import *
 
-def generate_callback_handler(name, args, badRet):
+def generate_callback_handler(name, args, bad_ret):
 	code = "bool " + name + "(AMX *amx, void *callback, cell *retval) {\n"
+
+	if bad_ret is not None:
+		code += "\tbool retval_;\n"
+
 	callargs = ""
 	declargs = ", ".join([" ".join(list(arg)) for arg in args])
-	index = 0
-	code += "\tsampgdk::util::AmxStackReader stack(amx);\n"
-	for argtype, argname in args:
+
+	locals_code = stack_read_code = free_code = ""
+
+	for index, (argtype, argname) in enumerate(args):
 		if index > 0:
 			callargs += ", "
-		if argtype == "const char *":
-			callargs += argname + ".c_str()"
-		else:
-			callargs += argname
+		callargs += argname
+
 		if argtype == "bool":
-			method = "GetBool"
+			method = "read_amx_stack_bool"
 		elif argtype == "float":
-			method = "GetFloat"
-		elif argtype == "const char *":
-			method = "GetString"
-			argtype = "std::string"
+			method = "read_amx_stack_float"
+		elif argtype == "const char *" or argtype == "char *":
+			method = "read_amx_stack_string"
+			free_code += "\tfree((char *)" + argname + ");\n"
 		else:
-			method = "GetCell"
-		code += "\t" + argtype + " " + argname + " = stack." + method + "(" + str(index) + ");\n"
-		index += 1
-	typename = name + "Type"
-	code += "\ttypedef bool (PLUGIN_CALL *" + typename + ")(" + declargs + ");\n"
-	if badRet is not None:
-		code += "\tbool retval_ = ((" + typename + ")callback)(" + callargs + ");\n"
+			method = "read_amx_stack_cell"
+
+		locals_code += "\t" + argtype + " " + argname + ";\n"
+		stack_read_code += "\t" + argname + " = " + method + "(amx, " + str(index) + ");\n"
+
+	if locals_code:
+		code += locals_code + "\n"
+	if stack_read_code:
+		code += stack_read_code + "\n"
+
+	functype = name + "Type"
+	typedef_code = "typedef bool (PLUGIN_CALL *" + functype + ")(" + declargs + ");\n"
+
+	if bad_ret is not None:
+		code += "\tretval_ = ((" + functype + ")callback)(" + callargs + ");\n"
 		code += "\tif (retval != 0) {\n"
-		code += "\t\t*retval = static_cast<cell>(retval_);\n"
+		code += "\t\t*retval = (cell)retval_;\n"
 		code += "\t}\n"
-		code += "\treturn (retval_ != " + str(badRet) + ");\n"
 	else:
-		code += "\t((" + typename + ")callback)(" + callargs + ");\n"
+		code += "\t((" + functype + ")callback)(" + callargs + ");\n"
+
+	if free_code:
+		code += free_code + "\n"
+
+	if bad_ret is not None:
+		code += "\treturn (retval_ != " + str(bad_ret) + ");\n"
+	else:
 		code += "\treturn true;\n"
+		
 	code += "}\n"
-	return code
+
+	return typedef_code + code
 
 def main(argv):
 	callbacks = list(get_callbacks(sys.stdin.read()))
 	for type, name, args, attrs in callbacks:
-		badRet = None
-		if "$badRet" in attrs:
-			badRet = attrs["$badRet"]
-		print generate_callback_handler(name, args, badRet)
-	print "void RegisterCallbacks() {"
+		bad_ret = None
+		if "$bad_ret" in attrs:
+			bad_ret = attrs["$bad_ret"]
+		print generate_callback_handler(name, args, bad_ret)
+	print "void register_callback_handlers() {"
 	for type, name, args, attrs in callbacks:
-		print "\tsampgdk::callbacks::AddCallbackHandler(\"" + name + "\", " + name + ");"
+		print "\tcallback_add_handler(\"" + name + "\", " + name + ");"
 	print "}"
 
 if __name__ == "__main__":

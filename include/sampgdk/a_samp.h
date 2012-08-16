@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2012, Zeex
+/* Copyright (C) 2011-2012 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -399,28 +399,28 @@ private:
 /* Forward declarations of SA-MP callbacks. */
 SAMPGDK_CALLBACK(bool, OnGameModeInit());
 SAMPGDK_CALLBACK(bool, OnGameModeExit());
-SAMPGDK_CALLBACK(bool, OnPlayerConnect(int playerid)); /* $badRet=false */
-SAMPGDK_CALLBACK(bool, OnPlayerDisconnect(int playerid, int reason)); /* $badRet=false */
-SAMPGDK_CALLBACK(bool, OnPlayerSpawn(int playerid)); /* $badRet=false */
+SAMPGDK_CALLBACK(bool, OnPlayerConnect(int playerid)); /* $bad_ret=false */
+SAMPGDK_CALLBACK(bool, OnPlayerDisconnect(int playerid, int reason)); /* $bad_ret=false */
+SAMPGDK_CALLBACK(bool, OnPlayerSpawn(int playerid)); /* $bad_ret=false */
 SAMPGDK_CALLBACK(bool, OnPlayerDeath(int playerid, int killerid, int reason));
 SAMPGDK_CALLBACK(bool, OnVehicleSpawn(int vehicleid));
 SAMPGDK_CALLBACK(bool, OnVehicleDeath(int vehicleid, int killerid));
-SAMPGDK_CALLBACK(bool, OnPlayerText(int playerid, const char *text)); /* $badRet=false */
-SAMPGDK_CALLBACK(bool, OnPlayerCommandText(int playerid, const char *cmdtext)); /* $badRet=true */
-SAMPGDK_CALLBACK(bool, OnPlayerRequestClass(int playerid, int classid)); /* $badRet=false */
+SAMPGDK_CALLBACK(bool, OnPlayerText(int playerid, const char *text)); /* $bad_ret=false */
+SAMPGDK_CALLBACK(bool, OnPlayerCommandText(int playerid, const char *cmdtext)); /* $bad_ret=true */
+SAMPGDK_CALLBACK(bool, OnPlayerRequestClass(int playerid, int classid)); /* $bad_ret=false */
 SAMPGDK_CALLBACK(bool, OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger));
 SAMPGDK_CALLBACK(bool, OnPlayerExitVehicle(int playerid, int vehicleid));
 SAMPGDK_CALLBACK(bool, OnPlayerStateChange(int playerid, int newstate, int oldstate));
-SAMPGDK_CALLBACK(bool, OnPlayerEnterCheckpoint(int playerid)); /* $badRet=false */
+SAMPGDK_CALLBACK(bool, OnPlayerEnterCheckpoint(int playerid)); /* $bad_ret=false */
 SAMPGDK_CALLBACK(bool, OnPlayerLeaveCheckpoint(int playerid));
-SAMPGDK_CALLBACK(bool, OnPlayerEnterRaceCheckpoint(int playerid)); /* $badRet=false */
+SAMPGDK_CALLBACK(bool, OnPlayerEnterRaceCheckpoint(int playerid)); /* $bad_ret=false */
 SAMPGDK_CALLBACK(bool, OnPlayerLeaveRaceCheckpoint(int playerid));
-SAMPGDK_CALLBACK(bool, OnRconCommand(const char *cmd)); /* $badRet=true */
-SAMPGDK_CALLBACK(bool, OnPlayerRequestSpawn(int playerid)); /* $badRet=false */
+SAMPGDK_CALLBACK(bool, OnRconCommand(const char *cmd)); /* $bad_ret=true */
+SAMPGDK_CALLBACK(bool, OnPlayerRequestSpawn(int playerid)); /* $bad_ret=false */
 SAMPGDK_CALLBACK(bool, OnObjectMoved(int objectid));
 SAMPGDK_CALLBACK(bool, OnPlayerObjectMoved(int playerid, int objectid));
 SAMPGDK_CALLBACK(bool, OnPlayerPickUpPickup(int playerid, int pickupid));
-SAMPGDK_CALLBACK(bool, OnVehicleMod(int playerid, int vehicleid, int componentid)); /* $badRet=false */
+SAMPGDK_CALLBACK(bool, OnVehicleMod(int playerid, int vehicleid, int componentid)); /* $bad_ret=false */
 SAMPGDK_CALLBACK(bool, OnEnterExitModShop(int playerid, int enterexit, int interiorid));
 SAMPGDK_CALLBACK(bool, OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid));
 SAMPGDK_CALLBACK(bool, OnVehicleRespray(int playerid, int vehicleid, int color1, int color2));
@@ -429,14 +429,14 @@ SAMPGDK_CALLBACK(bool, OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, in
 SAMPGDK_CALLBACK(bool, OnPlayerSelectedMenuRow(int playerid, int row));
 SAMPGDK_CALLBACK(bool, OnPlayerExitedMenu(int playerid));
 SAMPGDK_CALLBACK(bool, OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid));
-SAMPGDK_CALLBACK(bool, OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)); /* $badRet=false */
+SAMPGDK_CALLBACK(bool, OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys)); /* $bad_ret=false */
 SAMPGDK_CALLBACK(bool, OnRconLoginAttempt(const char *ip, const char *password, bool success));
-SAMPGDK_CALLBACK(bool, OnPlayerUpdate(int playerid)); /* $badRet=false */
+SAMPGDK_CALLBACK(bool, OnPlayerUpdate(int playerid)); /* $bad_ret=false */
 SAMPGDK_CALLBACK(bool, OnPlayerStreamIn(int playerid, int forplayerid));
 SAMPGDK_CALLBACK(bool, OnPlayerStreamOut(int playerid, int forplayerid));
 SAMPGDK_CALLBACK(bool, OnVehicleStreamIn(int vehicleid, int forplayerid));
 SAMPGDK_CALLBACK(bool, OnVehicleStreamOut(int vehicleid, int forplayerid));
-SAMPGDK_CALLBACK(bool, OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char *inputtext)); /* $badRet=true */
+SAMPGDK_CALLBACK(bool, OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char *inputtext)); /* $bad_ret=true */
 SAMPGDK_CALLBACK(bool, OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid));
 SAMPGDK_CALLBACK(bool, OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid));
 SAMPGDK_CALLBACK(bool, OnPlayerClickMap(int playerid, float fX, float fY, float fZ));

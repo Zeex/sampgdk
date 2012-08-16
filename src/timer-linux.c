@@ -13,10 +13,13 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
-
 #include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
 
-#endif /* !SAMPGDK_AMX_H */
+#include <time.h>
+
+time_t timer_clock() {
+	struct timespec ts;
+
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return (time_t)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);
+}

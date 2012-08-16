@@ -13,10 +13,11 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
-
 #include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
 
-#endif /* !SAMPGDK_AMX_H */
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+time_t timer_clock() {
+	return GetTickCount();
+}

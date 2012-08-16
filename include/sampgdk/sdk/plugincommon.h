@@ -1,18 +1,14 @@
-//----------------------------------------------------------
-//
-//   SA:MP Multiplayer Modification For GTA:SA
-//   Copyright 2004-2006 SA:MP Team
-//
-//----------------------------------------------------------
+/*----------------------------------------------------------
+ *
+ *   SA:MP Multiplayer Modification For GTA:SA
+ *   Copyright 2004-2007 SA:MP Team
+ *
+ *--------------------------------------------------------*/
 
 #ifndef _PLUGINCOMMON_H_INCLUDED
 #define _PLUGINCOMMON_H_INCLUDED
 
-//----------------------------------------------------------
-
 #define SAMP_PLUGIN_VERSION 0x0200
-
-//----------------------------------------------------------
 
 #ifdef __cplusplus
   #define PLUGIN_EXTERN_C extern "C"
@@ -26,7 +22,7 @@
   #endif
   #define PLUGIN_CALL
   #ifndef SAMPSVR
-    // Compile code with -fvisibility=hidden to hide non-exported functions.
+    /* Compile code with -fvisibility=hidden to hide non-exported functions. */
     #define PLUGIN_EXPORT PLUGIN_EXTERN_C __attribute__((visibility("default")))
   #else
     #define PLUGIN_EXPORT PLUGIN_EXTERN_C
@@ -41,8 +37,6 @@
   #error "You must define one of WIN32, LINUX or FREEBSD"
 #endif
 
-//----------------------------------------------------------
-
 enum SUPPORTS_FLAGS
 {
 	SUPPORTS_VERSION		= SAMP_PLUGIN_VERSION,
@@ -51,21 +45,17 @@ enum SUPPORTS_FLAGS
 	SUPPORTS_PROCESS_TICK	= 0x20000
 };
 
-//----------------------------------------------------------
-
 enum PLUGIN_DATA_TYPE
 {
-	// For some debugging
-	PLUGIN_DATA_LOGPRINTF		= 0x00,	// void (*logprintf)(char* format, ...)
+	/* For some debugging */
+	PLUGIN_DATA_LOGPRINTF		= 0x00,	/* void (*logprintf)(char* format, ...) */
 
-	// AMX
-	PLUGIN_DATA_AMX_EXPORTS		= 0x10,	// void* AmxFunctionTable[]    (see PLUGIN_AMX_EXPORT)
-	PLUGIN_DATA_CALLPUBLIC_FS	= 0x11, // int (*AmxCallPublicFilterScript)(char *szFunctionName)
-	PLUGIN_DATA_CALLPUBLIC_GM	= 0x12, // int (*AmxCallPublicGameMode)(char *szFunctionName)
+	/* AMX */
+	PLUGIN_DATA_AMX_EXPORTS		= 0x10,	/* void* AmxFunctionTable[]    (see PLUGIN_AMX_EXPORT) */
+	PLUGIN_DATA_CALLPUBLIC_FS	= 0x11, /* int (*AmxCallPublicFilterScript)(char *szFunctionName) */
+	PLUGIN_DATA_CALLPUBLIC_GM	= 0x12, /* int (*AmxCallPublicGameMode)(char *szFunctionName) */
 
 };
-
-//----------------------------------------------------------
 
 enum PLUGIN_AMX_EXPORT
 {
@@ -115,9 +105,5 @@ enum PLUGIN_AMX_EXPORT
 	PLUGIN_AMX_EXPORT_UTF8Put		= 43,
 };
 
-//----------------------------------------------------------
+#endif /* _PLUGINCOMMON_H_INCLUDED */
 
-#endif // _PLUGINCOMMON_H_INCLUDED
-
-//----------------------------------------------------------
-// EOF

@@ -10,64 +10,37 @@ include(ParseVersionString)
 
 include_directories("include")
 
+set(SUBHOOK_STATIC TRUE)
+add_definitions(-DSUBHOOK_STATIC)
+add_subdirectory("lib/subhook")
+include_directories("lib/subhook")
+list(APPEND SAMPGDK_LINK_LIBRARIES subhook)
+
 find_package(PythonInterp 2.6 REQUIRED)
 
+function(run_python_script script input_file output_file)
+	execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+		COMMAND ${PYTHON_EXECUTABLE} ${script}
+		INPUT_FILE ${input_file}
+		OUTPUT_FILE ${output_file}
+		ERROR_VARIABLE error)
+	if(error)
+		message(FATAL_ERROR ${error})
+	endif()
+endfunction()
+
 file(MAKE_DIRECTORY "src/generated/")
-set(SCRIPT "scripts/generate_natives.py")
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_objects.h"
-		OUTPUT_FILE "src/generated/a_objects-impl.cpp"
-	ERROR_VARIABLE PYTHON_ERRORS)
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_players.h"
-		OUTPUT_FILE "src/generated/a_players-impl.cpp"
-	ERROR_VARIABLE PYTHON_ERRORS)
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_samp.h"
-		OUTPUT_FILE "src/generated/a_samp-impl.cpp"
-	ERROR_VARIABLE PYTHON_ERRORS)
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_vehicles.h"
-		OUTPUT_FILE "src/generated/a_vehicles-impl.cpp"
-	ERROR_VARIABLE PYTHON_ERRORS)
+run_python_script("scripts/generate_natives.py" "include/sampgdk/a_objects.h" "src/generated/a_objects-impl.c")
+run_python_script("scripts/generate_natives.py" "include/sampgdk/a_players.h" "src/generated/a_players-impl.c")
+run_python_script("scripts/generate_natives.py" "include/sampgdk/a_samp.h" "src/generated/a_samp-impl.c")
+run_python_script("scripts/generate_natives.py" "include/sampgdk/a_vehicles.h" "src/generated/a_vehicles-impl.c")
+run_python_script("scripts/generate_callback_handlers.py" "include/sampgdk/a_samp.h" "src/generated/callback-handlers.c")
 
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
-set(SCRIPT "scripts/generate_native_defs.py")
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_objects.h"
-		OUTPUT_FILE "include/sampgdk/generated/a_objects-defs.h"
-	ERROR_VARIABLE PYTHON_ERRORS)
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_players.h"
-		OUTPUT_FILE "include/sampgdk/generated/a_players-defs.h"
-	ERROR_VARIABLE PYTHON_ERRORS)
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_samp.h"
-		OUTPUT_FILE "include/sampgdk/generated/a_samp-defs.h"
-	ERROR_VARIABLE PYTHON_ERRORS)
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_vehicles.h"
-		OUTPUT_FILE "include/sampgdk/generated/a_vehicles-defs.h"
-	ERROR_VARIABLE PYTHON_ERRORS)
-
-set(SCRIPT "scripts/generate_callback_handlers.py")
-execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
-	COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT}
-		INPUT_FILE "include/sampgdk/a_samp.h"
-		OUTPUT_FILE "src/generated/callback-handlers-impl.cpp"
-	ERROR_VARIABLE PYTHON_ERRORS)
-
-if(DEFINED PYTHON_ERRORS)
-	message("${PYTHON_ERRORS}")
-endif()
+run_python_script("scripts/generate_native_defs.py" "include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-defs.h")
+run_python_script("scripts/generate_native_defs.py" "include/sampgdk/a_players.h" "include/sampgdk/generated/a_players-defs.h")
+run_python_script("scripts/generate_native_defs.py" "include/sampgdk/a_samp.h" "include/sampgdk/generated/a_samp-defs.h")
+run_python_script("scripts/generate_native_defs.py" "include/sampgdk/a_vehicles.h" "include/sampgdk/generated/a_vehicles-defs.h")
 
 set(SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"
@@ -87,40 +60,38 @@ set(SAMPGDK_HEADERS
 )
 
 set(SAMPGDK_SOURCES
-	"src/sdk/amxplugin.cpp"
+	"src/sdk/amxplugin.c"
 	"src/sdk/plugin.h"
-	"src/a_objects.cpp"
-	"src/a_players.cpp"
-	"src/a_samp.cpp"
-	"src/a_vehicles.cpp"
-	"src/callbacks.cpp"
-	"src/callbacks.h"
-	"src/core.cpp"
-	"src/fakeamx.cpp"
+	"src/a_objects.c"
+	"src/a_players.c"
+	"src/a_samp.c"
+	"src/a_vehicles.c"
+	"src/callback.c"
+	"src/callback.h"
+	"src/core.c"
+	"src/fakeamx.c"
 	"src/fakeamx.h"
-	"src/hook.cpp"
-	"src/hook.h"
-	"src/natives.cpp"
-	"src/natives.h"
+	"src/native.c"
+	"src/native.h"
+	"src/plugin.c"
+	"src/plugin.h"
 	"src/sampgdk.rc"
-	"src/timers.cpp"
-	"src/timers.h"
-	"src/util.cpp"
+	"src/timer.c"
+	"src/timer.h"
+	"src/util.c"
 	"src/util.h"
-	"src/version.cpp"
+	"src/version.c"
 )
 
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
-		"src/core-win32.cpp"
-		"src/hook-win32.cpp"
-		"src/timers-win32.cpp"
+		"src/plugin-win32.c"
+		"src/timer-win32.c"
 	)
 elseif(UNIX)
 	list(APPEND SAMPGDK_SOURCES
-		"src/core-linux.cpp"
-		"src/hook-linux.cpp"
-		"src/timers-linux.cpp"
+		"src/plugin-linux.c"
+		"src/timer-linux.c"
 	)
 endif()
 
@@ -243,7 +214,9 @@ endif()
 
 include(CPack)
 
+
 option(SAMPGDK_BUILD_SAMPLES "Build sample plugins" OFF)
 if(SAMPGDK_BUILD_SAMPLES)
 	add_subdirectory(samples)
 endif()
+

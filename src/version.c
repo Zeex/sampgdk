@@ -13,10 +13,14 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
-
 #include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
+#include <sampgdk/export.h>
+#include <sampgdk/version.h>
 
-#endif /* !SAMPGDK_AMX_H */
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version_id() {
+	return SAMPGDK_VERSION_ID;
+}
+
+SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string() {
+	return SAMPGDK_VERSION_STRING;
+}

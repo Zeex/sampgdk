@@ -13,10 +13,17 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
-
 #include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
 
-#endif /* !SAMPGDK_AMX_H */
+#include <Windows.h>
+
+void *plugin_address_to_handle(void *address) {
+	MEMORY_BASIC_INFORMATION mbi;
+
+	VirtualQuery(address, &mbi, sizeof(mbi));
+	return (void*)mbi.AllocationBase;
+}
+
+void *plugin_find_symbol(void *plugin, const char *name)  {
+	return (void*)GetProcAddress((HMODULE)plugin, name);
+}

@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
-
 #include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
+#include <sampgdk/export.h>
 
-#endif /* !SAMPGDK_AMX_H */
+#include "fakeamx.h"
+#include "native.h"
+
+#include "generated/a_vehicles-impl.c"

@@ -13,10 +13,20 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
-
 #include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
+#include <sampgdk/a_samp.h>
+#include <sampgdk/export.h>
 
-#endif /* !SAMPGDK_AMX_H */
+#include "fakeamx.h"
+#include "native.h"
+#include "timer.h"
+
+#include "generated/a_samp-impl.c"
+
+SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback, void *param)) {
+	return timer_set(interval, repeat, (timer_callback)callback, param);
+}
+
+SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
+	return timer_kill(timerid);
+}

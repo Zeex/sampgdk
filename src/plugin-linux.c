@@ -13,10 +13,20 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
-
 #include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
 
-#endif /* !SAMPGDK_AMX_H */
+#ifndef _GNU_SOURCE
+	#define _GNU_SOURCE 1
+#endif
+#include <dlfcn.h>
+
+void *plugin_address_to_handle(void *address) {
+	Dl_info info;
+
+	dladdr(address, &info);
+	return dlopen(info.dli_fname, RTLD_NOW);
+}
+
+void *plugin_find_symbol(void *plugin, const char *name)  {
+	return dlsym(plugin, name);
+}

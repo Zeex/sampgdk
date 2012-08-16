@@ -13,10 +13,19 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
+#ifndef SAMPGDK_PLUGIN_H_
+#define SAMPGDK_PLUGIN_H_
 
-#include <sampgdk/config.h>
-#include <sampgdk/sdk/amx/amx.h>
+struct plugin_list {
+	void               *plugin;
+	struct plugin_list *next;
+};
 
-#endif /* !SAMPGDK_AMX_H */
+void plugin_register(void *plugin);
+bool plugin_unregister(void *plugin);
+struct plugin_list *plugin_get_list();
+
+void *plugin_find_symbol(void *plugin, const char *name);
+void *plugin_address_to_handle(void *address);
+
+#endif /* !SAMPGDK_PLUGIN_H_ */
