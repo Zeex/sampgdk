@@ -34,7 +34,7 @@ def generate_native_code(return_type, name, args, attrs):
 
 	if len(args) > 0:
 		locals_code += "\tcell params[" + str(len(args) + 1) + "];\n"
-		params_code += "\tparams[0] = " + str(len(args) + 1) + " * sizeof(cell);\n"
+		params_code += "\tparams[0] = " + str(len(args)) + " * sizeof(cell);\n"
 
 		expect_buffer_size = False
 		for index, (type, name) in enumerate(args, 1):
