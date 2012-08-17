@@ -151,9 +151,6 @@ if(WIN32)
 endif()
 
 if(UNIX OR MINGW)
-	if(UNIX)
-		add_definitions(-DLINUX)
-	endif()
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   ${SAMPGDK_VERSION_STRING}
 		SOVERSION ${SAMPGDK_VERSION_MAJOR}
@@ -162,10 +159,11 @@ if(UNIX OR MINGW)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
 			LINK_FLAGS " -Wl,--export-all-symbols")
 	else()
+		add_definitions(-DLINUX)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
 			LINK_FLAGS " -Wl,--export-dynamic")
+		list(APPEND SAMPGDK_LINK_LIBRARIES "-lrt")
 	endif()
-	list(APPEND SAMPGDK_LINK_LIBRARIES "-lrt")
 endif()
 
 target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBRARIES})
