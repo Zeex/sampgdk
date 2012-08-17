@@ -21,46 +21,33 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DEFAULT_CAPACITY 512
+#include "array.h"
 
-static AMX_NATIVE_INFO *natives;
-static size_t num_natives = 0;
-static size_t max_natives = DEFAULT_CAPACITY;
+static struct array natives;
 
-int native_register(const char *name, AMX_NATIVE native) {
-	if (natives == NULL) {
-		if ((natives = malloc(max_natives * sizeof(*natives))) == NULL) {
-			return -1;
+bool native_register(const char *name, AMX_NATIVE func) {
+	AMX_NATIVE_INFO native;
+
+	if (natives.size == 0) {
+		if (!array_init(&natives, 100, sizeof(AMX_NATIVE_INFO))) {
+			return false;
 		}
 	}
 
-	if (num_natives >= max_natives) {
-		AMX_NATIVE_INFO *new_natives;
-		size_t new_max_natives;
+	native.name = name;
+	native.func = func;
 
-		new_max_natives = (size_t)(max_natives * 1.5);
-		new_natives = realloc(natives, new_max_natives * sizeof(*natives));
-
-		if (new_natives != NULL) {
-			natives = new_natives;
-			max_natives = new_max_natives;
-		} else {
-			return -1;
-		}
-	}
-
-	natives[num_natives].name = name;
-	natives[num_natives].func = native;
-
-	return num_natives++;
+	return array_append(&natives, &native);
 }
 
 AMX_NATIVE native_lookup(const char *name) {
-	unsigned int index = 0;
+	size_t index = 0;
+	AMX_NATIVE_INFO *info;
 
-	while (index < num_natives) {
-		if (strcmp(natives[index].name, name) == 0) {
-			return natives[index].func;
+	info = (AMX_NATIVE_INFO*)natives.data;
+	while (index < natives.count) {
+		if (strcmp(info[index].name, name) == 0) {
+			return info[index].func;
 		}
 		index++;
 	}
@@ -96,5 +83,5 @@ AMX_NATIVE native_lookup_stub(const char *name) {
 }
 
 const AMX_NATIVE_INFO *native_get_all_natives() {
-	return natives;
+	return (const AMX_NATIVE_INFO*)natives.data;
 }

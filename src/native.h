@@ -22,7 +22,7 @@
 /* Registers a new native function that can be further retrieved with
  * one of the native_lookup*() functions family.
  */
-int native_register(const char *name, AMX_NATIVE native);
+bool native_register(const char *name, AMX_NATIVE func);
 
 /* Looks up a native function with the specified name and returns it.
  * Can return NULL if the function was not found. 
