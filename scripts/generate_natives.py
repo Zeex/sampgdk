@@ -45,7 +45,6 @@ def generate_native_code(return_type, name, args, attrs):
 				term = name + ");\n"
 				push_code += term
 				get_code  += term
-				pop_code  += term
 				expect_buffer_size = False
 
 			if type.endswith("*"):
@@ -71,11 +70,11 @@ def generate_native_code(return_type, name, args, attrs):
 			params_code += ";\n"
 
 			if type.endswith("*"):
+				pop_code += "\tfakeamx_pop(fa, " + alt_name + ");\n"
 				if type == "const char *":
-					pop_code += "\tfakeamx_pop(fa, " + local_size + ");\n"
+					pass
 				elif type == "char *":
 					get_code += "\tfakeamx_get_string(fa, " + alt_name + ", " + name + ", "
-					pop_code += "\tfakeamx_pop(fa, "
 					expect_buffer_size = True
 				else:
 					get_code += "\tfakeamx_get_"
@@ -88,7 +87,6 @@ def generate_native_code(return_type, name, args, attrs):
 					except KeyError as e:
 						raise InvalidNativeArgumentType(type)
 					get_code += "(fa, " + name + "_, " + name + ");\n"
-					pop_code += "\tfakeamx_pop(fa, 1);\n"
 
 	code += locals_code + "\n"
 	code += "\tif (native == NULL) {\n"
@@ -124,3 +122,4 @@ def main(argv):
 
 if __name__ == "__main__":
 	main(sys.argv)
+
