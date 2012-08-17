@@ -45,11 +45,15 @@ void fakeamx_free(struct fakeamx *fa) {
 }
 
 struct fakeamx *fakeamx_global() {
-	static struct fakeamx fa = {0};
-	if (fa.heap_size == 0) {
-		fakeamx_init(&fa);
+	static struct fakeamx static_fa;
+	static struct fakeamx *fa_ptr = NULL;
+
+	if (fa_ptr == NULL) {
+		fa_ptr = &static_fa;
+		fakeamx_init(fa_ptr);
 	}
-	return &fa;
+
+	return fa_ptr;
 }
 
 cell fakeamx_push(struct fakeamx *fa, size_t cells) {
