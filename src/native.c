@@ -17,21 +17,42 @@
 #include <sampgdk/amx.h>
 #include <sampgdk/core.h>
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_NATIVES 512
+#define DEFAULT_CAPACITY 512
 
-/* TODO: make this dynamic */
-static AMX_NATIVE_INFO natives[MAX_NATIVES];
-static unsigned int num_natives = 0;
+static AMX_NATIVE_INFO *natives;
+static size_t num_natives = 0;
+static size_t max_natives = DEFAULT_CAPACITY;
 
-void native_register(const char *name, AMX_NATIVE native) {
-	if (num_natives < MAX_NATIVES) {
-		natives[num_natives].name = name;
-		natives[num_natives].func = native;
-		num_natives++;
+int native_register(const char *name, AMX_NATIVE native) {
+	if (natives == NULL) {
+		if ((natives = malloc(max_natives * sizeof(*natives))) == NULL) {
+			return -1;
+		}
 	}
+
+	if (num_natives >= max_natives) {
+		AMX_NATIVE_INFO *new_natives;
+		size_t new_max_natives;
+
+		new_max_natives = (size_t)(max_natives * 1.5);
+		new_natives = realloc(natives, new_max_natives * sizeof(*natives));
+
+		if (new_natives != NULL) {
+			natives = new_natives;
+			max_natives = new_max_natives;
+		} else {
+			return -1;
+		}
+	}
+
+	natives[num_natives].name = name;
+	natives[num_natives].func = native;
+
+	return num_natives++;
 }
 
 AMX_NATIVE native_lookup(const char *name) {
