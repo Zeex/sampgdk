@@ -692,12 +692,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 			} else {
 				switch (error) {
 					case PLUGIN_ERROR_LOAD: {
-						std::string error = plugin->GetError();
-						if (!error.empty()) {
-							logprintf("  Failed. (%s)", error.c_str());
-						} else {
-							logprintf("  Failed.");
-						}
+						logprintf("  Failed.");
 						break;
 					}
 					case PLUGIN_ERROR_VERSION:

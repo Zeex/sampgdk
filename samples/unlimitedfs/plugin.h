@@ -29,9 +29,6 @@ public:
 	PluginError Load(const std::string &filename, void **ppData);
 	void Unload();
 
-	std::string GetError() const
-		{ return error_; }
-
 	void *GetSymbol(const std::string &name) const;
 
 	bool IsLoaded() const
@@ -51,9 +48,6 @@ private:
 	std::string filename_;
 	void *handle_;
 	bool loaded_;
-
-	// Error string
-	std::string error_;
 
 	AmxLoad_t AmxLoad_;
 	AmxUnload_t AmxUnload_;

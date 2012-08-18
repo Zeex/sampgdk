@@ -1,6 +1,11 @@
-#include <dlfcn.h>
 #include <sampgdk/plugin.h>
 #include "plugin.h"
+
+#ifdef _WIN32
+	#include <windows.h>
+#else
+	#include <dlfcn.h>
+#endif
 
 Plugin::Plugin()
 	: loaded_(false)
@@ -32,9 +37,12 @@ PluginError Plugin::Load(void **ppData) {
 
 PluginError Plugin::Load(const std::string &filename, void **ppData) {
 	if (!loaded_) {
-		handle_ = dlopen(filename.c_str(), RTLD_NOW);
+		#ifdef _WIN32
+			handle_ = (void*)LoadLibrary(filename.c_str());
+		#else
+			handle_ = dlopen(filename.c_str(), RTLD_NOW);
+		#endif
 		if (handle_ == 0) {
-			error_ = dlerror();
 			return PLUGIN_ERROR_LOAD;
 		}
 		Supports_t Supports = (Supports_t)GetSymbol("Supports");
@@ -83,12 +91,20 @@ void Plugin::Unload() {
 		if (Unload != 0) {
 			Unload();
 		}
-		dlclose(handle_);
+		#ifdef _WIN32
+			FreeLibrary((HMODULE)handle_);
+		#else
+			dlclose(handle_);
+		#endif
 	}
 }
 
 void *Plugin::GetSymbol(const std::string &name) const {
-	return dlsym(handle_, name.c_str());
+	#ifdef _WIN32
+		return (void*)GetProcAddress((HMODULE)handle_, name.c_str());
+	#else
+		return dlsym(handle_, name.c_str());
+	#endif
 }
 
 int Plugin::AmxLoad(AMX *amx) const {
