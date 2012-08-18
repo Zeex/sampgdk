@@ -160,7 +160,6 @@ if(UNIX OR MINGW)
 	)
 	if(MINGW)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY
-			COMPILE_FLAGS "-ansi"
 			LINK_FLAGS " -Wl,--export-all-symbols")
 	else()
 		add_definitions(-DLINUX)
