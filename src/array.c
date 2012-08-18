@@ -37,6 +37,18 @@ bool array_new(struct array *a, size_t size, size_t elem_size) {
 	return true;
 }
 
+bool array_zero(struct array *a) {
+	assert(a != NULL);
+	assert(a->data != NULL);
+
+	if (a->data == NULL)
+		return false;
+
+	memset(a->data, 0, a->size * a->elem_size);
+
+	return true;
+}
+
 void array_free(struct array *a) {
 	assert(a != NULL);
 

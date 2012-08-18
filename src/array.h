@@ -29,6 +29,7 @@ struct array {
 
 bool array_new(struct array *a, size_t size, size_t elem_size);
 void array_free(struct array *a);
+void array_zero(struct array *a);
 bool array_resize(struct array *a, size_t new_size);
 bool array_grow(struct array *a);
 bool array_shrink(struct array *a);
