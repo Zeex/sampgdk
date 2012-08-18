@@ -26,7 +26,7 @@ struct fakeamx {
 	size_t      heap_size;
 };
 
-void fakeamx_init(struct fakeamx *fa);
+void fakeamx_new(struct fakeamx *fa);
 void fakeamx_free(struct fakeamx *fa);
 struct fakeamx *fakeamx_global();
 cell fakeamx_push(struct fakeamx *fa, size_t cells);

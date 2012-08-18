@@ -27,7 +27,7 @@ struct array {
 	size_t elem_size; /* size of a signle element in bytes */
 };
 
-bool array_init(struct array *a, size_t size, size_t elem_size);
+bool array_new(struct array *a, size_t size, size_t elem_size);
 void array_free(struct array *a);
 bool array_resize(struct array *a, size_t new_size);
 bool array_grow(struct array *a);

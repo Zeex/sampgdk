@@ -24,7 +24,7 @@
 
 #define INITIAL_HEAP_SIZE 1024
 
-void fakeamx_init(struct fakeamx *fa) {
+void fakeamx_new(struct fakeamx *fa) {
 	memset(fa, 0, sizeof(*fa));
 	fa->heap = malloc(sizeof(cell) * INITIAL_HEAP_SIZE);
 	fa->heap_size = INITIAL_HEAP_SIZE;
@@ -50,7 +50,7 @@ struct fakeamx *fakeamx_global() {
 
 	if (fa_ptr == NULL) {
 		fa_ptr = &static_fa;
-		fakeamx_init(fa_ptr);
+		fakeamx_new(fa_ptr);
 	}
 
 	return fa_ptr;

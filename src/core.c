@@ -213,7 +213,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 	subhook_remove(amx_Callback_hook);
 	subhook_free(amx_Callback_hook);
 
-	callback_shutdown();
+	callback_cleanup();
 }
 
 SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data() {

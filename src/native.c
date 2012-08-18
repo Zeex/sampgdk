@@ -29,7 +29,7 @@ bool native_register(const char *name, AMX_NATIVE func) {
 	AMX_NATIVE_INFO native;
 
 	if (natives.size == 0) {
-		if (!array_init(&natives, 100, sizeof(AMX_NATIVE_INFO))) {
+		if (!array_new(&natives, 100, sizeof(AMX_NATIVE_INFO))) {
 			return false;
 		}
 	}

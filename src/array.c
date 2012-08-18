@@ -22,7 +22,7 @@
 
 #include "array.h"
 
-bool array_init(struct array *a, size_t size, size_t elem_size) {
+bool array_new(struct array *a, size_t size, size_t elem_size) {
 	assert(a != NULL);
 	assert(size > 0);
 	assert(elem_size > 0);

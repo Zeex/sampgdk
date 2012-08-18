@@ -22,7 +22,7 @@
 typedef bool (*callback_handler)(AMX *amx, void *callback, cell *retval);
 
 void callback_init();
-void callback_shutdown();
+void callback_cleanup();
 
 void callback_add_handler(const char *name, callback_handler handler);
 bool callback_invoke(AMX *amx, const char *name, cell *retval);

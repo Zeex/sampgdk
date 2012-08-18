@@ -39,7 +39,7 @@ void callback_init() {
 	register_callback_handlers();
 }
 
-void callback_shutdown() {
+void callback_cleanup() {
 	struct handler_list *cur;
 	struct handler_list *tmp;
 
