@@ -19,7 +19,6 @@
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 #include <sampgdk/export.h>
-#include <sampgdk/version.h>
 
 #include <stddef.h>
 
