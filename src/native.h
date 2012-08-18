@@ -19,6 +19,13 @@
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 
+
+/* Initialization and cleanup routines. Each of these must be called only
+ * once.
+ */
+void native_init();
+void native_cleanup();
+
 /* Registers a new native function that can be further retrieved with
  * one of the native_lookup*() functions family.
  */

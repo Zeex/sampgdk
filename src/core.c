@@ -193,6 +193,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 		subhook_set_destination(amx_Callback_hook, (void*)amx_Callback_);
 		subhook_install(amx_Callback_hook);
 
+		native_init();
 		callback_init();
 	}
 }
@@ -211,6 +212,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 		subhook_remove(amx_Callback_hook);
 		subhook_free(amx_Callback_hook);
 
+		native_cleanup();
 		callback_cleanup();
 	}
 }
