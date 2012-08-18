@@ -165,16 +165,15 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 
 sampgdk_logprintf_t sampgdk_logprintf;
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData) {
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	static bool ready = false;
 
 	if (!ready) {
 		ready = true;
 
-		pAMXFunctions = ppPluginData[PLUGIN_DATA_AMX_EXPORTS];
-		ppPluginData = ppPluginData;
-
-		sampgdk_logprintf = (sampgdk_logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
+		ppPluginData = ppData;
+		pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
+		sampgdk_logprintf = (sampgdk_logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
 
 		amx_Register_hook = subhook_new();
 		subhook_set_source(amx_Register_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
