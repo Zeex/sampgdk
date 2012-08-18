@@ -151,6 +151,9 @@ bool array_append(struct array *a, void *elem) {
 	assert(a != NULL);
 	assert(elem != NULL);
 
+	if (a->data == NULL)
+		return false;
+
 	if (a->count == a->size && !array_grow(a))
 		return false;
 
