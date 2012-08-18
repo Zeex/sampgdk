@@ -68,6 +68,7 @@ set(SAMPGDK_SOURCES
 	"src/a_vehicles.c"
 	"src/array.c"
 	"src/array.h"
+	"src/asm.h"
 	"src/callback.c"
 	"src/callback.h"
 	"src/core.c"
@@ -84,6 +85,16 @@ set(SAMPGDK_SOURCES
 	"src/util.h"
 	"src/version.c"
 )
+
+if(MSVC)
+	list(APPEND SAMPGDK_SOURCES
+		"src/asm-msvc.c"
+	)
+elseif(CMAKE_COMPILER_IS_GNUCC)
+	list(APPEND SAMPGDK_SOURCES
+		"src/asm-gcc.c"
+	)
+endif()
 
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES

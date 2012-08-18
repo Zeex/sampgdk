@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2012 Zeex
+/* Copyright (C) 2012 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,35 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PLUGIN_H_
-#define SAMPGDK_PLUGIN_H_
+#if defined __MINGW32__ || defined __CYGWIN__
+	#define PREFIX "_"
+#else
+	#define PREFIX
+#endif
 
-#include <stddef.h>
+__asm__ (
+PREFIX"get_return_address:"
+".globl "PREFIX"get_return_address;"
 
-struct plugin_list {
-	void               *plugin;
-	struct plugin_list *next;
-};
+"	movl 4(%esp), %eax;"
+"	cmpl $0, %eax;"
+"	jnz gra_init;"
+"	movl %ebp, %eax;"
 
-void plugin_register(void *plugin);
-bool plugin_unregister(void *plugin);
-bool plugin_is_registered(void *plugin);
-struct plugin_list *plugin_get_list();
+"gra_init:"
+"	movl 8(%esp), %ecx;"
+"	movl $0, %edx;"
 
-void *plugin_find_symbol(void *plugin, const char *name);
-void plugin_get_file_name(void *plugin, char *name, size_t size);
+"gra_loop:"
+"	cmpl $0, %ecx;"
+"	jl gra_exit;"
+"	movl 4(%eax), %edx;"
+"	movl (%eax), %eax;"
+"	decl %ecx;"
+"	jmp gra_loop;"
 
-void *plugin_address_to_handle(void *address);
+"gra_exit:"
+"	movl %edx, %eax;"
+"	ret;"
+);
 
-#endif /* !SAMPGDK_PLUGIN_H_ */

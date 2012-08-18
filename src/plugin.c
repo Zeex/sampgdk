@@ -24,6 +24,9 @@ static struct plugin_list *plugins;
 void plugin_register(void *plugin) {
 	struct plugin_list *ptr;
 
+	if (plugin_is_registered(plugin))
+		return;
+
 	ptr = malloc(sizeof(*ptr));
 	ptr->plugin = plugin;
 	ptr->next = plugins;
@@ -51,7 +54,20 @@ bool plugin_unregister(void *plugin) {
 	return false;
 }
 
+bool plugin_is_registered(void *plugin) {
+	struct plugin_list *cur;
+
+	cur = plugins;
+
+	while (cur != NULL) {
+		if (cur->plugin == plugin) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 struct plugin_list *plugin_get_list() {
 	return plugins;
 }
-

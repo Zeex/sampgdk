@@ -27,3 +27,7 @@ void *plugin_address_to_handle(void *address) {
 void *plugin_find_symbol(void *plugin, const char *name)  {
 	return (void*)GetProcAddress((HMODULE)plugin, name);
 }
+
+void plugin_get_file_name(void *plugin, char *name, size_t size) {
+	GetModuleFileName((HMODULE)plugin, name, size);
+}

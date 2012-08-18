@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2012 Zeex
+/* Copyright (C) 2012 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,9 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PLUGIN_H_
-#define SAMPGDK_PLUGIN_H_
+#ifndef SAMPGDK_ASM_H_
+#define SAMPGDK_ASM_H_
 
-#include <stddef.h>
+void *get_return_address(void *frame, int depth);
 
-struct plugin_list {
-	void               *plugin;
-	struct plugin_list *next;
-};
-
-void plugin_register(void *plugin);
-bool plugin_unregister(void *plugin);
-bool plugin_is_registered(void *plugin);
-struct plugin_list *plugin_get_list();
-
-void *plugin_find_symbol(void *plugin, const char *name);
-void plugin_get_file_name(void *plugin, char *name, size_t size);
-
-void *plugin_address_to_handle(void *address);
-
-#endif /* !SAMPGDK_PLUGIN_H_ */
+#endif /* !SAMPGDK_ASM_H_ */

@@ -30,3 +30,10 @@ void *plugin_address_to_handle(void *address) {
 void *plugin_find_symbol(void *plugin, const char *name)  {
 	return dlsym(plugin, name);
 }
+
+void plugin_get_file_name(void *plugin, char *name, size_t size) {
+	Dl_info info;
+
+	dladdr(address, &info);
+	strncpy(name, info.dli_fname, size);
+}

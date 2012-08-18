@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2012 Zeex
+/* Copyright (C) 2012 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,26 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PLUGIN_H_
-#define SAMPGDK_PLUGIN_H_
+__declspec(naked) void *get_return_address(void *frame, int depth) {
+	__asm mov eax, dword ptr [esp + 4]
+	__asm cmp eax, 0
+	__asm jnz init
+	__asm mov eax, ebp
 
-#include <stddef.h>
+init:
+	__asm mov ecx, dword ptr [esp + 8]
+	__asm mov edx, 0
 
-struct plugin_list {
-	void               *plugin;
-	struct plugin_list *next;
-};
+iteration:
+	__asm cmp ecx, 0
+	__asm jl exit
+	__asm mov edx, dword ptr [eax + 4]
+	__asm mov eax, dword ptr [eax]
+	__asm dec ecx
+	__asm jmp iteration
 
-void plugin_register(void *plugin);
-bool plugin_unregister(void *plugin);
-bool plugin_is_registered(void *plugin);
-struct plugin_list *plugin_get_list();
+exit:
+	__asm mov eax, edx
+	__asm ret
+}
 
-void *plugin_find_symbol(void *plugin, const char *name);
-void plugin_get_file_name(void *plugin, char *name, size_t size);
-
-void *plugin_address_to_handle(void *address);
-
-#endif /* !SAMPGDK_PLUGIN_H_ */

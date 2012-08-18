@@ -21,6 +21,7 @@
 #include <subhook.h>
 #include <string.h>
 
+#include "asm.h"
 #include "callback.h"
 #include "native.h"
 #include "plugin.h"
@@ -100,7 +101,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 		}
 
 		/* Store the function name in a global string to be able
-		 * to access it from amx_Exec_. 
+		 * to access it from amx_Exec_.
 		 */
 		free(current_public);
 		current_public = malloc(strlen(name) + 1);
@@ -165,10 +166,12 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 
 sampgdk_logprintf_t sampgdk_logprintf;
 
-static int ref_count = 0;
+#include <stdio.h>
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
-	if (++ref_count == 1) {
+	void *plugin;
+
+	if (plugin_get_list() == NULL) {
 		ppPluginData = ppData;
 		pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
 		sampgdk_logprintf = (sampgdk_logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
@@ -196,10 +199,18 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 		native_init();
 		callback_init();
 	}
+
+	plugin = plugin_address_to_handle(get_return_address(NULL, 0));
+	plugin_register(plugin);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
-	if (--ref_count == 0) {
+	void *plugin;
+
+	plugin = plugin_address_to_handle(get_return_address(NULL, 0));
+	plugin_unregister(plugin);
+
+	if (plugin_get_list() == NULL) {
 		subhook_remove(amx_Register_hook);
 		subhook_free(amx_Register_hook);
 

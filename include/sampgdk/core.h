@@ -35,12 +35,7 @@ SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data();
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol);
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name);
 
-/* Must be called in Load() */
-#define sampgdk_initialize_plugin(ppData)\
-	do {\
-		sampgdk_initialize(ppData);\
-		sampgdk_register_plugin(sampgdk_get_plugin_handle((void*)Load));\
-	} while (false);
+#define sampgdk_initialize_plugin sampgdk_initialize
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers();
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin);
