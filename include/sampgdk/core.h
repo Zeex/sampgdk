@@ -21,6 +21,8 @@
 #include <sampgdk/export.h>
 #include <sampgdk/version.h>
 
+#include <stddef.h>
+
 #define AMX_EXEC_GDK (-10)
 
 /* These should be called only once, e.g. in Load() and Unload() respectively. */
@@ -45,6 +47,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers();
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin);
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives();
+SAMPGDK_EXPORT size_t SAMPGDK_CALL sampgdk_num_natives();
 
 typedef void (*sampgdk_logprintf_t)(const char *format, ...);
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;

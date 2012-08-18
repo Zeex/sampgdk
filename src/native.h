@@ -50,4 +50,9 @@ AMX_NATIVE native_lookup_stub(const char *name);
  */
 const AMX_NATIVE_INFO *native_get_all_natives();
 
+/* Returns the total number of natives that have been registered with
+ * native_register().
+ */
+size_t native_get_num_natives();
+
 #endif /* !SAMPGDK_NATIVE_H_ */
