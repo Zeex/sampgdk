@@ -143,7 +143,8 @@ if(WIN32)
 	if(MINGW)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY 
 			LINK_FLAGS " -Wl,--kill-at --def ${DEF_FILE}")
-	else()
+	elseif(MSVC)
+		add_definitions(-D_CRT_SECURE_NO_WARNINGS)		
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY 
 			LINK_FLAGS " /DEF:${DEF_FILE}")
 	endif()
