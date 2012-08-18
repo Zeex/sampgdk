@@ -165,12 +165,10 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 
 sampgdk_logprintf_t sampgdk_logprintf;
 
+static int ref_count = 0;
+
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
-	static bool ready = false;
-
-	if (!ready) {
-		ready = true;
-
+	if (++ref_count == 1) {
 		ppPluginData = ppData;
 		pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
 		sampgdk_logprintf = (sampgdk_logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
@@ -200,19 +198,21 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
-	subhook_remove(amx_Register_hook);
-	subhook_free(amx_Register_hook);
+	if (--ref_count == 0) {
+		subhook_remove(amx_Register_hook);
+		subhook_free(amx_Register_hook);
 
-	subhook_remove(amx_FindPublic_hook);
-	subhook_free(amx_FindPublic_hook);
+		subhook_remove(amx_FindPublic_hook);
+		subhook_free(amx_FindPublic_hook);
 
-	subhook_remove(amx_Exec_hook);
-	subhook_free(amx_Exec_hook);
+		subhook_remove(amx_Exec_hook);
+		subhook_free(amx_Exec_hook);
 
-	subhook_remove(amx_Callback_hook);
-	subhook_free(amx_Callback_hook);
+		subhook_remove(amx_Callback_hook);
+		subhook_free(amx_Callback_hook);
 
-	callback_cleanup();
+		callback_cleanup();
+	}
 }
 
 SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data() {

@@ -23,12 +23,14 @@
 
 #define AMX_EXEC_GDK (-10)
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppPluginData);
-SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data();
+/* These should be called only once, e.g. in Load() and Unload() respectively. */
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize();
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin);
+
+SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data();
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol);
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name);
 
