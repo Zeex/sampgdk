@@ -35,6 +35,6 @@ void *plugin_find_symbol(void *plugin, const char *name)  {
 void plugin_get_file_name(void *plugin, char *name, size_t size) {
 	Dl_info info;
 
-	dladdr(address, &info);
+	dladdr(plugin, &info);
 	strncpy(name, info.dli_fname, size);
 }
