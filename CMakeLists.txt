@@ -81,8 +81,6 @@ set(SAMPGDK_SOURCES
 	"src/sampgdk.rc"
 	"src/timer.c"
 	"src/timer.h"
-	"src/util.c"
-	"src/util.h"
 	"src/version.c"
 )
 

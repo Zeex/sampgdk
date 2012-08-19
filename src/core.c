@@ -26,7 +26,6 @@
 #include "native.h"
 #include "plugin.h"
 #include "timer.h"
-#include "util.h"
 
 extern void *pAMXFunctions;
 
@@ -61,6 +60,24 @@ static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 		return -1;
 
 	return index;
+}
+
+static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
+	AMX_HEADER *hdr;
+	AMX_FUNCSTUBNT *cur;
+	AMX_FUNCSTUBNT *end;
+
+	hdr = (AMX_HEADER*)(amx->base);
+	cur = (AMX_FUNCSTUBNT*)(amx->base + hdr->natives);
+	end = (AMX_FUNCSTUBNT*)(amx->base + hdr->libraries);
+
+	while (cur < end) {
+		if (strcmp((char*)(cur->nameofs + amx->base), name) == 0) {
+			cur->address = (cell)address;
+			break;
+		}
+		cur++;
+	}
 }
 
 static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
