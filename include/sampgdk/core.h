@@ -20,8 +20,6 @@
 #include <sampgdk/amx.h>
 #include <sampgdk/export.h>
 
-#define AMX_EXEC_GDK (-10)
-
 /* These should be called only once, e.g. in Load() and Unload() respectively. */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize();

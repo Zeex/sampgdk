@@ -19,4 +19,6 @@
 #include <sampgdk/config.h>
 #include <sampgdk/sdk/amx/amx.h>
 
+#define AMX_EXEC_GDK (-10)
+
 #endif /* !SAMPGDK_AMX_H */
