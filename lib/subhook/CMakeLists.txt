@@ -30,10 +30,6 @@ if(NOT DEFINED SUBHOOK_ARCH)
 	get_machine_arch(SUBHOOK_ARCH)
 endif()
 
-if(NOT DEFINED SUBHOOK_ARCH)
-	message(FATAL_ERROR "Failed to determine CPU architecture. Try setting SUBHOOK_ARCH manually.")
-endif()
-
 if(SUBHOOK_ARCH STREQUAL x86)
 	add_definitions(-DSUBHOOK_ARCH_X86)
 	list(APPEND SUBHOOK_SOURCES "subhook_x86.c")

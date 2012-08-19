@@ -11,6 +11,7 @@ include(ParseVersionString)
 include_directories("include")
 
 set(SUBHOOK_STATIC TRUE)
+set(SUBHOOK_ARCH x86)
 add_definitions(-DSUBHOOK_STATIC)
 add_subdirectory("lib/subhook")
 include_directories("lib/subhook")
