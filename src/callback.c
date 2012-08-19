@@ -86,6 +86,8 @@ static char *read_amx_stack_string(AMX *amx, int index) {
 	return string;
 }
 
+static bool init_ok = false;
+
 int callback_init() {
 	register_callback_handlers();
 	return 0;
@@ -114,8 +116,17 @@ void callback_add_handler(const char *name, callback_handler handler) {
 	handlers = ptr;
 }
 
-bool callback_invoke(AMX *amx, const char *name, cell *retval) {
+int callback_invoke(AMX *amx, const char *name, cell *retval, bool *success) {
 	struct plugin_list *plugin;
+
+	if (!init_ok) {
+		int error;
+
+		if ((error = callback_init()) < 0)
+			return error;
+
+		init_ok = true;
+	}
 
 	for (plugin = plugin_get_list(); plugin != NULL; plugin = plugin->next) {
 		void *func;
@@ -127,12 +138,16 @@ bool callback_invoke(AMX *amx, const char *name, cell *retval) {
 
 		for (handler = handlers; handler != NULL; handler = handler->next) {
 			if (strcmp(handler->name, name) == 0) {
-				if (!handler->handler(amx, func, retval))
-					return false;
-				continue;
+				if (!handler->handler(amx, func, retval)) {
+					if (success != NULL)
+						*success = false;
+					return 0;
+				}
 			}
 		}
 	}
 
-	return true;
+	if (success != NULL)
+		*success = true;
+	return 0;
 }

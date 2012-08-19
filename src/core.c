@@ -140,10 +140,10 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 	can_do_exec = true;
 	if (index == AMX_EXEC_MAIN) {
 		gamemode_amx = amx;
-		callback_invoke(gamemode_amx, "OnGameModeInit", retval);
+		callback_invoke(gamemode_amx, "OnGameModeInit", retval, NULL);
 	} else {
 		if (amx == gamemode_amx && index != AMX_EXEC_CONT) {
-			can_do_exec = callback_invoke(gamemode_amx, current_public, retval);
+			callback_invoke(gamemode_amx, current_public, retval, &can_do_exec);
 		}
 	}
 
@@ -210,10 +210,6 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 		subhook_set_source(amx_Callback_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Callback]);
 		subhook_set_destination(amx_Callback_hook, (void*)amx_Callback_);
 		subhook_install(amx_Callback_hook);
-
-		native_init();
-		callback_init();
-		timer_init();
 	}
 
 	plugin = plugin_address_to_handle(get_return_address(NULL, 0));
@@ -238,10 +234,6 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 
 		subhook_remove(amx_Callback_hook);
 		subhook_free(amx_Callback_hook);
-
-		native_cleanup();
-		callback_cleanup();
-		timer_cleanup();
 	}
 }
 
