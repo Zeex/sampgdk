@@ -19,6 +19,7 @@
 	#define _GNU_SOURCE 1
 #endif
 #include <dlfcn.h>
+#include <string.h>
 
 void *plugin_address_to_handle(void *address) {
 	Dl_info info;
