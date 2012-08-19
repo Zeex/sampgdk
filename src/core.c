@@ -183,8 +183,6 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 
 sampgdk_logprintf_t sampgdk_logprintf;
 
-#include <stdio.h>
-
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	void *plugin;
 
