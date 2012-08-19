@@ -1,7 +1,7 @@
 # Use this file to build GDK with CMake: http://cmake.org
 
 project(sampgdk)
-cmake_minimum_required(VERSION 2.8.6)
+cmake_minimum_required(VERSION 2.8.8)
 
 list(APPEND CMAKE_MODULE_PATH "${sampgdk_SOURCE_DIR}/cmake/Modules")
 
