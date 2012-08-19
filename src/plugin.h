@@ -26,11 +26,11 @@ struct plugin_list {
 void plugin_register(void *plugin);
 bool plugin_unregister(void *plugin);
 bool plugin_is_registered(void *plugin);
-struct plugin_list *plugin_get_list();
-
 void *plugin_find_symbol(void *plugin, const char *name);
-void plugin_get_file_name(void *plugin, char *name, size_t size);
 
 void *plugin_address_to_handle(void *address);
+void plugin_address_to_filename(void *address, char *filename, size_t size);
+
+struct plugin_list *plugin_get_list();
 
 #endif /* !SAMPGDK_PLUGIN_H_ */

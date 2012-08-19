@@ -28,13 +28,13 @@ void *plugin_address_to_handle(void *address) {
 	return dlopen(info.dli_fname, RTLD_NOW);
 }
 
-void *plugin_find_symbol(void *plugin, const char *name)  {
-	return dlsym(plugin, name);
-}
-
-void plugin_get_file_name(void *plugin, char *name, size_t size) {
+void plugin_address_to_filename(void *address, char *fileame, size_t size) {
 	Dl_info info;
 
-	dladdr(plugin, &info);
-	strncpy(name, info.dli_fname, size);
+	dladdr(address, &info);
+	strncpy(fileame, info.dli_fname, size);
+}
+
+void *plugin_find_symbol(void *plugin, const char *name)  {
+	return dlsym(plugin, name);
 }
