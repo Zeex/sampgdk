@@ -19,7 +19,6 @@
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 
-
 /* Initialization and cleanup routines. Each of these must be called only
  * once.
  */
@@ -53,6 +52,6 @@ const AMX_NATIVE_INFO *native_get_all_natives();
 /* Returns the total number of natives that have been registered with
  * native_register().
  */
-size_t native_get_num_natives();
+int native_get_num_natives();
 
 #endif /* !SAMPGDK_NATIVE_H_ */

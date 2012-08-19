@@ -275,6 +275,6 @@ SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
 	return native_get_all_natives();
 }
 
-SAMPGDK_EXPORT size_t SAMPGDK_CALL sampgdk_num_natives() {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives() {
 	return native_get_num_natives();
 }
