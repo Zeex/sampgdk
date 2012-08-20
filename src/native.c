@@ -84,7 +84,7 @@ AMX_NATIVE native_lookup_stub(const char *name) {
 	return fn;
 }
 
-const AMX_NATIVE_INFO *native_get_all_natives() {
+const AMX_NATIVE_INFO *native_get_natives() {
 	return (const AMX_NATIVE_INFO*)natives.data;
 }
 

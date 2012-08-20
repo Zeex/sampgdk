@@ -47,7 +47,7 @@ AMX_NATIVE native_lookup_stub(const char *name);
 /* Returns an array of currently registered natives. A blank entry (i.e.
  * {NULL, NULL}) terminates the returned array.
  */
-const AMX_NATIVE_INFO *native_get_all_natives();
+const AMX_NATIVE_INFO *native_get_natives();
 
 /* Returns the total number of natives that have been registered with
  * native_register().

@@ -272,7 +272,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin) {
 }
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
-	return native_get_all_natives();
+	return native_get_natives();
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives() {
