@@ -16,24 +16,25 @@
 #include <sampgdk/config.h>
 
 #include <assert.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "array.h"
 
-bool array_new(struct array *a, int size, int elem_size) {
+int array_new(struct array *a, int size, int elem_size) {
 	assert(a != NULL);
 	assert(size > 0);
 	assert(elem_size > 0);
 
 	if ((a->data = malloc(elem_size * size)) == NULL)
-		return false;
+		return -ENOMEM;
 
 	a->size = size;
 	a->elem_size = elem_size;
 	a->count = 0;
 
-	return true;
+	return 0;
 }
 
 void array_free(struct array *a) {
@@ -47,19 +48,19 @@ bool array_ok(struct array *a) {
 	return a->data != NULL && a->elem_size > 0;
 }
 
-bool array_zero(struct array *a) {
+int array_zero(struct array *a) {
 	assert(a != NULL);
 	assert(a->data != NULL);
 
 	if (a->data == NULL)
-		return false;
+		return -EINVAL;
 
 	memset(a->data, 0, a->size * a->elem_size);
 
-	return true;
+	return 0;
 }
 
-bool array_resize(struct array *a, int new_size) {
+int array_resize(struct array *a, int new_size) {
 	void *new_data;
 
 	assert(a != NULL);
@@ -67,12 +68,12 @@ bool array_resize(struct array *a, int new_size) {
 	assert(a->elem_size > 0);
 
 	if (new_size == a->size)
-		return true;
+		return 0;
 
 	new_data = realloc(a->data, a->elem_size * new_size);
 
 	if (new_data == NULL)
-		return false;
+		return -ENOMEM;
 
 	a->data = new_data;
 	a->size = new_size;
@@ -80,10 +81,10 @@ bool array_resize(struct array *a, int new_size) {
 	if (a->count > a->size)
 		a->count = a->size;
 
-	return true;
+	return 0;
 }
 
-bool array_grow(struct array *a) {
+int array_grow(struct array *a) {
 	float factor;
 
 	assert(a != NULL);
@@ -107,7 +108,7 @@ bool array_grow(struct array *a) {
 	return array_resize(a, (int)(a->size * factor));
 }
 
-bool array_shrink(struct array *a) {
+int array_shrink(struct array *a) {
 	assert(a != NULL);
 
 	return array_resize(a, a->count);
@@ -134,17 +135,21 @@ void array_set(struct array *a, int index, void *elem) {
 	memcpy(array_get_ptr(a, index), elem, a->elem_size);
 }
 
-bool array_insert(struct array *a, int index, int count, void *elems) {
+int array_insert(struct array *a, int index, int count, void *elems) {
 	assert(a != NULL);
 	assert(elems != NULL);
 	assert(index >= 0);
 	assert(index < a->count);
 
 	if (count <= 0)
-		return false;
+		return -EINVAL;
 
-	if (a->count + count > a->size && !array_resize(a, a->count + count))
-		return false;
+	if (a->count + count > a->size) {
+		int error;
+
+		if ((error = array_resize(a, a->count + count)) < 0)
+			return -error;
+	}
 
 	memmove(
 		array_get_ptr(a, index + count),
@@ -153,20 +158,20 @@ bool array_insert(struct array *a, int index, int count, void *elems) {
 	);
 	a->count += count;
 
-	return true;
+	return 0;
 }
 
-bool array_insert_single(struct array *a, int index, void *elem) {
+int array_insert_single(struct array *a, int index, void *elem) {
 	return array_insert(a, index, 1, elem);
 }
 
-void array_remove(struct array *a, int index, int count) {
+int array_remove(struct array *a, int index, int count) {
 	assert(a != NULL);
 	assert(index >= 0);
 	assert(index < count);
 
-	if (count <= 0)
-		return;
+	if (count <= 0 || count > a->count - index)
+		return -EINVAL;
 
 	memmove(
 		array_get_ptr(a, index),
@@ -174,21 +179,27 @@ void array_remove(struct array *a, int index, int count) {
 		a->elem_size * (a->count - index - count + 1)
 	);
 	a->count -= count;
+
+	return 0;
 }
 
-void array_remove_single(struct array *a, int index) {
-	array_remove(a, index, 1);
+int array_remove_single(struct array *a, int index) {
+	return array_remove(a, index, 1);
 }
 
-bool array_append(struct array *a, void *elem) {
+int array_append(struct array *a, void *elem) {
 	assert(a != NULL);
 	assert(elem != NULL);
 
-	if (a->count == a->size && !array_grow(a))
-		return false;
+	if (a->count == a->size) {
+		int error;
+
+		if ((error = array_grow(a)) < 0)
+			return -error;
+	}
 
 	a->count++;
 	array_set(a, a->count - 1, elem);
 
-	return true;
+	return 0;
 }

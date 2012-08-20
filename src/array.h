@@ -25,19 +25,19 @@ struct array {
 	int  elem_size; /* size of a signle element in bytes */
 };
 
-bool array_new(struct array *a, int size, int elem_size);
+int array_new(struct array *a, int size, int elem_size);
 void array_free(struct array *a);
 bool array_ok(struct array *a);
-bool array_zero(struct array *a);
-bool array_resize(struct array *a, int new_size);
-bool array_grow(struct array *a);
-bool array_shrink(struct array *a);
+int array_zero(struct array *a);
+int array_resize(struct array *a, int new_size);
+int array_grow(struct array *a);
+int array_shrink(struct array *a);
 void *array_get(struct array *a, int index);
 void array_set(struct array *a, int index, void *elem);
-bool array_insert(struct array *a, int index, int count, void *elems);
-bool array_insert_single(struct array *a, int index, void *elem);
-void array_remove(struct array *a, int index, int count);
-void array_remove_single(struct array *a, int index);
-bool array_append(struct array *a, void *elem);
+int array_insert(struct array *a, int index, int count, void *elems);
+int array_insert_single(struct array *a, int index, void *elem);
+int array_remove(struct array *a, int index, int count);
+int array_remove_single(struct array *a, int index);
+int array_append(struct array *a, void *elem);
 
 #endif /* !SAMPGDK_ARRAY_H_ */

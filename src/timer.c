@@ -16,6 +16,8 @@
 #include <sampgdk/config.h>
 #include <sampgdk/core.h>
 
+#include <assert.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -75,25 +77,30 @@ static void fire_timer(int timerid, time_t elapsed) {
 	}
 }
 
-bool timer_init() {
-	if (!array_new(&timers, 10, sizeof(void *)))
-		return false;
+int timer_init() {
+	int error;
+	
+	error = array_new(&timers, 10, sizeof(void *));
+	if (error < 0)
+		return error;
 
 	array_zero(&timers);
-	return true;
+	return 0;
 }
 
 void timer_cleanup() {
 	array_free(&timers);
 }
 
-int timer_set(time_t interval, bool repeat, timer_callback callback, void *param) {
-	int timerid;
+int timer_set(int *timerid, time_t interval, bool repeat, timer_callback callback, void *param) {
 	struct timer_info *timer;
+
+	assert(timerid != NULL);
+	assert(callback != NULL);
 
 	timer = malloc(sizeof(*timer));
 	if (timer == NULL)
-		return -1;
+		return -ENOMEM;
 
 	timer->interval = interval;
 	timer->repeat   = repeat;
@@ -102,30 +109,28 @@ int timer_set(time_t interval, bool repeat, timer_callback callback, void *param
 	timer->started  = timer_clock();
 	timer->plugin   = sampgdk_get_plugin_handle(callback);
 
-	timerid = find_free_slot();
-	if (timerid >= 0) {
-		array_set(&timers, timerid, &timer);
+	*timerid = find_free_slot();
+	if (*timerid >= 0) {
+		array_set(&timers, *timerid, &timer);
 	} else {
 		array_append(&timers, &timer);
-		timerid = timers.count - 1;
+		*timerid = timers.count - 1;
 	}
 
-	return timerid;
+	return 0;
 }
 
-bool timer_kill(int timerid) {
+int timer_kill(int timerid) {
 	struct timer_info *timer;
 
-	if (timerid < 0 || timerid >= timers.count) {
-		return false;
-	}
+	if (timerid < 0 || timerid >= timers.count)
+		return -EINVAL;
 
-	if ((timer = get_timer_ptr(timerid)) !=  NULL) {
-		free(timer);
-		return true;
-	}
+	if ((timer = get_timer_ptr(timerid)) ==  NULL)
+		return -EINVAL;
 
-	return false;
+	free(timer);
+	return 0;
 }
 
 void timer_process_timers(void *plugin) {
@@ -146,8 +151,10 @@ void timer_process_timers(void *plugin) {
 			continue;
 
 		elapsed = now - timer->started;
+
 		if (elapsed >= timer->interval) {
 			fire_timer(i, elapsed);
+
 			if (!timer->repeat) {
 				timer_kill(i);
 			}

@@ -23,11 +23,11 @@
 
 typedef void (SAMPGDK_CALL *timer_callback)(int timerid, void *param);
 
-bool timer_init();
+int timer_init();
 void timer_cleanup();
 
-int timer_set(time_t interval, bool repeat, timer_callback calback, void *param);
-bool timer_kill(int timerid);
+int timer_set(int *timerid, time_t interval, bool repeat, timer_callback calback, void *param);
+int timer_kill(int timerid);
 
 void timer_process_timers(void *plugin);
 

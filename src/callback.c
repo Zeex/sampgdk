@@ -86,8 +86,9 @@ static char *read_amx_stack_string(AMX *amx, int index) {
 	return string;
 }
 
-void callback_init() {
+int callback_init() {
 	register_callback_handlers();
+	return 0;
 }
 
 void callback_cleanup() {

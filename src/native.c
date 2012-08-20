@@ -25,15 +25,15 @@
 
 static struct array natives;
 
-void native_init() {
-	array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
+int native_init() {
+	return array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
 }
 
 void native_cleanup() {
 	array_free(&natives);
 }
 
-bool native_register(const char *name, AMX_NATIVE func) {
+int native_register(const char *name, AMX_NATIVE func) {
 	AMX_NATIVE_INFO native;
 
 	native.name = name;

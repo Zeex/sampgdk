@@ -22,13 +22,13 @@
 /* Initialization and cleanup routines. Each of these must be called only
  * once.
  */
-void native_init();
+int native_init();
 void native_cleanup();
 
 /* Registers a new native function that can be further retrieved with
  * one of the native_lookup*() functions family.
  */
-bool native_register(const char *name, AMX_NATIVE func);
+int native_register(const char *name, AMX_NATIVE func);
 
 /* Looks up a native function with the specified name and returns it.
  * Can return NULL if the function was not found. 
