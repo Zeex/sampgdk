@@ -44,8 +44,7 @@ AMX_NATIVE native_lookup_warn(const char *name);
  */
 AMX_NATIVE native_lookup_stub(const char *name);
 
-/* Returns an array of currently registered natives. A blank entry (i.e.
- * {NULL, NULL}) terminates the returned array.
+/* Returns a pointer to the internal array of currently registered natives. 
  */
 const AMX_NATIVE_INFO *native_get_natives();
 
