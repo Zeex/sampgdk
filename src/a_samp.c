@@ -27,11 +27,12 @@ SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback, 
 	int timerid;
 
 	if (timer_set(&timerid, interval, repeat, (timer_callback)callback, param) >= 0) {
-		return timerid;
+		return timerid + 1;
 	}
-	return -1;
+
+	return 0;
 }
 
 SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
-	return timer_kill(timerid) >= 0;
+	return timer_kill(timerid - 1) >= 0;
 }
