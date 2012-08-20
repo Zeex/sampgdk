@@ -43,7 +43,7 @@ bool native_register(const char *name, AMX_NATIVE func) {
 }
 
 AMX_NATIVE native_lookup(const char *name) {
-	size_t index = 0;
+	int index = 0;
 	AMX_NATIVE_INFO *info;
 
 	info = (AMX_NATIVE_INFO*)natives.data;

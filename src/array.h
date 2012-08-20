@@ -18,27 +18,26 @@
 
 #include <sampgdk/config.h>
 
-#include <stddef.h>
-
 struct array {
-	void  *data;      /* pointer to array contents */
-	size_t count;     /* number of elements in array */
-	size_t size;      /* maximum number of elements for this array */
-	size_t elem_size; /* size of a signle element in bytes */
+	void *data;     /* pointer to array contents */
+	int  count;     /* number of elements in array */
+	int  size;      /* maximum number of elements for this array */
+	int  elem_size; /* size of a signle element in bytes */
 };
 
-bool array_new(struct array *a, size_t size, size_t elem_size);
+bool array_new(struct array *a, int size, int elem_size);
 void array_free(struct array *a);
+bool array_ok(struct array *a);
 bool array_zero(struct array *a);
-bool array_resize(struct array *a, size_t new_size);
+bool array_resize(struct array *a, int new_size);
 bool array_grow(struct array *a);
 bool array_shrink(struct array *a);
-void *array_get(const struct array *a, size_t index);
-void array_set(struct array *a, size_t index, void *elem);
-bool array_insert(struct array *a, size_t index, size_t count, void *elems);
-bool array_insert_single(struct array *a, size_t index, void *elem);
-void array_remove(struct array *a, size_t index, size_t count);
-void array_remove_single(struct array *a, size_t index);
+void *array_get(struct array *a, int index);
+void array_set(struct array *a, int index, void *elem);
+bool array_insert(struct array *a, int index, int count, void *elems);
+bool array_insert_single(struct array *a, int index, void *elem);
+void array_remove(struct array *a, int index, int count);
+void array_remove_single(struct array *a, int index);
 bool array_append(struct array *a, void *elem);
 
 #endif /* !SAMPGDK_ARRAY_H_ */
