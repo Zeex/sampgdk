@@ -15,7 +15,7 @@ def to_argument_list(args):
 	for type, name in args:
 		yield type + " " + name
 
-def generate_native_code(return_type, name, args, attrs):
+def generate_native_impl(return_type, name, args, attrs):
 	if "$codeless" in attrs:
 		return None
 
@@ -113,7 +113,7 @@ def generate_native_code(return_type, name, args, attrs):
 def main(argv):
 	for line, native in enumerate(get_natives(sys.stdin.read()), 1):
 		try:
-			code = generate_native_code(*native)
+			code = generate_native_impl(*native)
 			if code is not None:
 				sys.stdout.write(code + "\n")
 			sys.stdout.flush()
