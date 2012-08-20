@@ -213,6 +213,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 
 		native_init();
 		callback_init();
+		timer_init();
 	}
 
 	plugin = plugin_address_to_handle(get_return_address(NULL, 0));
@@ -240,6 +241,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 
 		native_cleanup();
 		callback_cleanup();
+		timer_cleanup();
 	}
 }
 

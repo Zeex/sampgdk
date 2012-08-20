@@ -16,9 +16,11 @@
 #include <sampgdk/config.h>
 #include <sampgdk/core.h>
 
-#include "timer.h"
+#include <stdlib.h>
+#include <time.h>
 
-#define MAX_TIMERS 128
+#include "array.h"
+#include "timer.h"
 
 struct timer_info {
 	time_t          interval;
@@ -29,19 +31,17 @@ struct timer_info {
 	void           *plugin;
 };
 
-struct timer_slot {
-	struct timer_info timer;
-	bool              busy;
-};
+static struct array timers;
 
-/* TODO: make this dynamic */
-static struct timer_slot timers[MAX_TIMERS];
+static struct timer_info *get_timer_ptr(int timerid) {
+	return ((void**)timers.data)[timerid];
+}
 
 static int find_free_slot() {
 	int i;
 
-	for (i = 0; i < MAX_TIMERS; i++) {
-		if (!timers[i].busy) {
+	for (i = 0; i < timers.count; i++) {
+		if (get_timer_ptr(i) == NULL) {
 			return i;
 		}
 	}
@@ -52,8 +52,8 @@ static int find_free_slot() {
 static int find_timer_id(struct timer_info *timer) {
 	int i;
 
-	for (i = 0; i < MAX_TIMERS; i++) {
-		if (&timers[i].timer == timer) {
+	for (i = 0; i < timers.count; i++) {
+		if (get_timer_ptr(i) == timer) {
 			return i;
 		}
 	}
@@ -64,7 +64,10 @@ static int find_timer_id(struct timer_info *timer) {
 static void fire_timer(int timerid, time_t elapsed) {
 	struct timer_info *timer;
 
-	timer = &timers[timerid].timer;
+	timer = get_timer_ptr(timerid);
+	if (timer == NULL)
+		return;
+
 	(timer->callback)(timerid, timer->param);
 
 	if (timer->repeat) {
@@ -72,32 +75,53 @@ static void fire_timer(int timerid, time_t elapsed) {
 	}
 }
 
+bool timer_init() {
+	if (!array_new(&timers, 10, sizeof(void *)))
+		return false;
+
+	array_zero(&timers);
+	return true;
+}
+
+void timer_cleanup() {
+	array_free(&timers);
+}
+
 int timer_set(time_t interval, bool repeat, timer_callback callback, void *param) {
 	int timerid;
 	struct timer_info *timer;
 
+	timer = malloc(sizeof(*timer));
+	if (timer == NULL)
+		return -1;
+
+	timer->interval = interval;
+	timer->repeat   = repeat;
+	timer->callback = callback;
+	timer->param    = param;
+	timer->started  = timer_clock();
+	timer->plugin   = sampgdk_get_plugin_handle(callback);
+
 	timerid = find_free_slot();
 	if (timerid >= 0) {
-		timer = &timers[timerid].timer;
-		timer->interval = interval;
-		timer->repeat   = repeat;
-		timer->callback = callback;
-		timer->param    = param;
-		timer->started  = timer_clock();
-		timer->plugin   = sampgdk_get_plugin_handle(callback);
-		timers[timerid].busy = true;
+		array_set(&timers, timerid, &timer);
+	} else {
+		array_append(&timers, &timer);
+		timerid = timers.count - 1;
 	}
 
 	return timerid;
 }
 
 bool timer_kill(int timerid) {
-	if (timerid < 0 || timerid >= MAX_TIMERS) {
+	struct timer_info *timer;
+
+	if (timerid < 0 || timerid >= timers.count) {
 		return false;
 	}
 
-	if (timers[timerid].busy) {
-		timers[timerid].busy = false;
+	if ((timer = get_timer_ptr(timerid)) !=  NULL) {
+		free(timer);
 		return true;
 	}
 
@@ -112,11 +136,11 @@ void timer_process_timers(void *plugin) {
 
 	now = timer_clock();
 
-	for (i = 0; i < MAX_TIMERS; i++) {
-		if (!timers[i].busy) 
-			continue;
+	for (i = 0; i < timers.count; i++) {
+		timer = get_timer_ptr(i);
 
-		timer = &timers[i].timer;
+		if (timer == NULL) 
+			continue;
 
 		if (plugin != NULL && timer->plugin != plugin)
 			continue;

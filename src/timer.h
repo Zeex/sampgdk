@@ -23,11 +23,15 @@
 
 typedef void (SAMPGDK_CALL *timer_callback)(int timerid, void *param);
 
-time_t timer_clock();
+bool timer_init();
+void timer_cleanup();
 
 int timer_set(time_t interval, bool repeat, timer_callback calback, void *param);
 bool timer_kill(int timerid);
 
 void timer_process_timers(void *plugin);
+
+/* Returns number of milliseconds since some fixed point of time. */
+time_t timer_clock();
 
 #endif /* !SAMPGDK_TIMER_H_ */
