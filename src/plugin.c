@@ -63,6 +63,7 @@ bool plugin_is_registered(void *plugin) {
 		if (cur->plugin == plugin) {
 			return true;
 		}
+		cur = cur->next;
 	}
 
 	return false;
