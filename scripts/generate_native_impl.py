@@ -39,7 +39,6 @@ def generate_native_impl(return_type, name, args, attrs):
 		expect_buffer_size = False
 		for index, (type, name) in enumerate(args, 1):
 			alt_name = name + "_"
-			local_size = "size_of_" + alt_name
 
 			if expect_buffer_size:
 				term = name + ");\n"
@@ -53,8 +52,7 @@ def generate_native_impl(return_type, name, args, attrs):
 					push_code += "\t" + alt_name + " = fakeamx_push(fa, "
 					expect_buffer_size = True
 				elif type == "const char *":
-					locals_code += "\tsize_t " + local_size + ";\n"
-					push_code += "\t" + alt_name + " = fakeamx_push_string(fa, " + name + ", &" + local_size + ");\n"
+					push_code += "\t" + alt_name + " = fakeamx_push_string(fa, " + name + ", NULL);\n"
 				else:
 					push_code += "\t" + alt_name + " = fakeamx_push(fa, 1);\n"
 

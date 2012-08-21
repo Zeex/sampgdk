@@ -52,18 +52,6 @@ static int find_free_slot() {
 	return -1;
 }
 
-static int find_timer_id(struct timer_info *timer) {
-	int i;
-
-	for (i = 0; i < timers.count; i++) {
-		if (get_timer_ptr(i) == timer) {
-			return i;
-		}
-	}
-
-	return -1;
-}
-
 static void fire_timer(int timerid, time_t elapsed) {
 	struct timer_info *timer;
 

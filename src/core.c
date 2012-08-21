@@ -34,7 +34,6 @@ static void **ppPluginData;
 static AMX  *gamemode_amx = 0;
 static char *current_public;
 
-static struct subhook *funcidx_hook;
 static struct subhook *amx_FindPublic_hook;
 static struct subhook *amx_Exec_hook;
 static struct subhook *amx_Register_hook;
