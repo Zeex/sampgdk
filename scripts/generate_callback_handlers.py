@@ -65,14 +65,20 @@ def generate_callback_handler(name, args, bad_ret):
 
 def main(argv):
 	callbacks = list(get_callbacks(sys.stdin.read()))
+
 	for type, name, args, attrs in callbacks:
 		bad_ret = None
 		if "$bad_ret" in attrs:
 			bad_ret = attrs["$bad_ret"]
 		print generate_callback_handler(name, args, bad_ret)
-	print "void register_callback_handlers() {"
+
+	print "int register_callback_handlers() {"
+	print "\tint error;\n"
 	for type, name, args, attrs in callbacks:
-		print "\tcallback_add_handler(\"" + name + "\", " + name + ");"
+		print "\tif ((error = callback_add_handler(\"" + name + "\", " + name + ")) < 0)"
+		print "\t\treturn error;"
+
+	print "\treturn 0;"
 	print "}"
 
 if __name__ == "__main__":

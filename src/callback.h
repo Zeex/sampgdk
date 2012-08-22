@@ -24,7 +24,7 @@ typedef bool (*callback_handler)(AMX *amx, void *callback, cell *retval);
 int callback_init();
 void callback_cleanup();
 
-void callback_add_handler(const char *name, callback_handler handler);
+int callback_add_handler(const char *name, callback_handler handler);
 int callback_invoke(AMX *amx, const char *name, cell *retval, bool *success);
 
 #endif /* !SAMPGDK_CALLBACK_H_ */

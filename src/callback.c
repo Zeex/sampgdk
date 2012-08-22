@@ -18,6 +18,7 @@
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -89,8 +90,7 @@ static char *read_amx_stack_string(AMX *amx, int index) {
 static bool init_ok = false;
 
 int callback_init() {
-	register_callback_handlers();
-	return 0;
+	return register_callback_handlers();
 }
 
 void callback_cleanup() {
@@ -105,15 +105,19 @@ void callback_cleanup() {
 	}
 }
 
-void callback_add_handler(const char *name, callback_handler handler) {
+int callback_add_handler(const char *name, callback_handler handler) {
 	struct handler_list *ptr;
 
 	ptr = malloc(sizeof(*ptr) + strlen(name));
+	if (ptr == NULL)
+		return -ENOMEM;
+
 	ptr->handler = handler;
 	ptr->next = handlers;
 	strcpy(ptr->name, name);
 
 	handlers = ptr;
+	return 0;
 }
 
 int callback_invoke(AMX *amx, const char *name, cell *retval, bool *success) {
