@@ -64,16 +64,8 @@
 	#endif
 #endif
 
-/* Size of a JMP instruction used on the current architecture. */
-#if defined SUBHOOK_ARCH_X86
-	#define SUBHOOK_JUMP_SIZE 5
-#endif
-
 #define SUBHOOK_FLAG_INSTALLED 0x01
 
-struct subhook;
-
-/* subhook structure members access */
 SUBHOOK_EXPORT struct subhook *SUBHOOK_API subhook_new();
 SUBHOOK_EXPORT void SUBHOOK_API subhook_free(struct subhook *hook);
 
@@ -89,6 +81,9 @@ SUBHOOK_EXPORT int SUBHOOK_API subhook_remove(struct subhook *hook);
 
 SUBHOOK_EXPORT int SUBHOOK_API subhook_get_flags(struct subhook *hook);
 SUBHOOK_EXPORT void SUBHOOK_API subhook_set_flags(struct subhook *hook, int flags);
+
+/* Sets read+write+execute permissions for memory region. */
+SUBHOOK_EXPORT void *SUBHOOK_API subhook_unprotect(void *address, size_t size);
 
 static int subhook_is_installed(struct subhook *hook) {
 	return (subhook_get_flags(hook) & SUBHOOK_FLAG_INSTALLED) != 0;

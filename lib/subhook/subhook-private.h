@@ -26,13 +26,10 @@
 #define SUBHOOK_PRIVATE_H
 
 struct subhook {
+	int flags;
 	void *src;
 	void *dst;
-	unsigned char code[SUBHOOK_JUMP_SIZE];
-	int flags;
+	void *arch; /* architecture-specific information */
 };
-
-void *subhook_unprotect(void *address, size_t size);
-unsigned char *subhook_get_code(struct subhook *hook);
 
 #endif /* SUBHOOK_PRIVATE_H */

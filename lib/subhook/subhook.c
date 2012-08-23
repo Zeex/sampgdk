@@ -32,6 +32,7 @@ SUBHOOK_EXPORT struct subhook *SUBHOOK_API subhook_new() {
 }
 
 SUBHOOK_EXPORT void SUBHOOK_API subhook_free(struct subhook *hook) {
+	free(hook->arch);
 	free(hook);
 }
 
@@ -57,8 +58,4 @@ SUBHOOK_EXPORT int SUBHOOK_API subhook_get_flags(struct subhook *hook) {
 
 SUBHOOK_EXPORT void SUBHOOK_API subhook_set_flags(struct subhook *hook, int flags) {
 	hook->flags = flags;
-}
-
-unsigned char *subhook_get_code(struct subhook *hook) {
-	return hook->code;
 }

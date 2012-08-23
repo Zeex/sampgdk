@@ -22,27 +22,38 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <errno.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "subhook.h"
 #include "subhook-private.h"
+
+/* 1 byte for opcode + 4 for address */
+#define SUBHOOK_JUMP_SIZE 5
+
+struct subhook_x86 {
+	unsigned char code[SUBHOOK_JUMP_SIZE];
+};
 
 SUBHOOK_EXPORT int SUBHOOK_API subhook_install(struct subhook *hook) {
 	static const unsigned char jmp = 0xE9;
 	void *src, *dst;
 	size_t offset;
 
-	if (subhook_is_installed(hook)) {
-		return 0;
-	}
+	if (subhook_is_installed(hook))
+		return -EINVAL;
 
 	src = subhook_get_source(hook);
 	dst = subhook_get_destination(hook);
 
+	if ((hook->arch = malloc(sizeof(struct subhook_x86))) == NULL)
+		return -ENOMEM;
+
 	subhook_unprotect(src, SUBHOOK_JUMP_SIZE);
-	memcpy(subhook_get_code(hook), src, SUBHOOK_JUMP_SIZE);
+	memcpy(((struct subhook_x86 *)hook->arch)->code, src, SUBHOOK_JUMP_SIZE);
 
 	/* E9 - jump near, relative */	
 	memcpy(src, &jmp, sizeof(jmp));
@@ -52,22 +63,23 @@ SUBHOOK_EXPORT int SUBHOOK_API subhook_install(struct subhook *hook) {
 	memcpy((void*)((int32_t)src + 1), &offset, SUBHOOK_JUMP_SIZE - sizeof(jmp));
 
 	subhook_set_flags(hook, subhook_get_flags(hook) | SUBHOOK_FLAG_INSTALLED);
-	return 1;
+
+	return 0;
 }
 
 SUBHOOK_EXPORT int SUBHOOK_API subhook_remove(struct subhook *hook) {
-	if (!subhook_is_installed(hook)) {
-		return 0;
-	}
+	if (!subhook_is_installed(hook))
+		-EINVAL;
 
-	memcpy(subhook_get_source(hook), subhook_get_code(hook), SUBHOOK_JUMP_SIZE);
+	memcpy(subhook_get_source(hook), ((struct subhook_x86 *)hook->arch)->code, SUBHOOK_JUMP_SIZE);
 	subhook_set_flags(hook, subhook_get_flags(hook) & ~(SUBHOOK_FLAG_INSTALLED));
-	return 1;
+
+	return 0;
 }
 
 SUBHOOK_EXPORT void *SUBHOOK_API subhook_read_destination(void *src) {
-	if (*(unsigned char*)src == 0xE9) {
+	if (*(unsigned char*)src == 0xE9)
 		return (void *)(*(int32_t *)((int32_t)src + 1) + (int32_t)src + SUBHOOK_JUMP_SIZE);
-	}
+
 	return NULL;
 }
