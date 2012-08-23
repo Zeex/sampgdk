@@ -24,7 +24,6 @@
 
 #include <errno.h>
 #include <stddef.h>
-#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -41,7 +40,7 @@ struct subhook_x86 {
 SUBHOOK_EXPORT int SUBHOOK_API subhook_install(struct subhook *hook) {
 	static const unsigned char jmp = 0xE9;
 	void *src, *dst;
-	size_t offset;
+	int offset;
 
 	if (subhook_is_installed(hook))
 		return -EINVAL;
@@ -59,8 +58,8 @@ SUBHOOK_EXPORT int SUBHOOK_API subhook_install(struct subhook *hook) {
 	memcpy(src, &jmp, sizeof(jmp));
 
 	/* jump address is relative to next instruction */
-	offset = (int32_t)dst - ((int32_t)src + SUBHOOK_JUMP_SIZE);
-	memcpy((void*)((int32_t)src + 1), &offset, SUBHOOK_JUMP_SIZE - sizeof(jmp));
+	offset = (int)dst - ((int)src + SUBHOOK_JUMP_SIZE);
+	memcpy((void*)((int)src + 1), &offset, SUBHOOK_JUMP_SIZE - sizeof(jmp));
 
 	subhook_set_flags(hook, subhook_get_flags(hook) | SUBHOOK_FLAG_INSTALLED);
 
@@ -79,7 +78,7 @@ SUBHOOK_EXPORT int SUBHOOK_API subhook_remove(struct subhook *hook) {
 
 SUBHOOK_EXPORT void *SUBHOOK_API subhook_read_destination(void *src) {
 	if (*(unsigned char*)src == 0xE9)
-		return (void *)(*(int32_t *)((int32_t)src + 1) + (int32_t)src + SUBHOOK_JUMP_SIZE);
+		return (void *)(*(int *)((int)src + 1) + (int)src + SUBHOOK_JUMP_SIZE);
 
 	return NULL;
 }
