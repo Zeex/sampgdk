@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "array.h"
+#include "log.h"
 
 static struct array natives;
 static bool init_ok = false;
@@ -71,14 +72,14 @@ AMX_NATIVE native_lookup_warn(const char *name) {
 
 	fn = native_lookup(name);
 	if (fn == NULL) {
-		sampgdk_logprintf("sampgdk: native function not found: %s", name);
+		error("Native function not found: %s", name);
 	}
 
 	return fn;
 }
 
 static cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
-	sampgdk_logprintf("sampgdk: called non-existent native function");
+	error("Called non-existent native function");
 	return 0;
 }
 

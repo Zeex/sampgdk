@@ -23,8 +23,10 @@
 
 #include "asm.h"
 #include "callback.h"
+#include "log.h"
 #include "native.h"
 #include "plugin.h"
+#include "server-log.h"
 #include "timer.h"
 
 extern void *pAMXFunctions;
@@ -180,7 +182,7 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 	return error;
 }
 
-sampgdk_logprintf_t sampgdk_logprintf;
+sampgdk_logprintf_t sampgdk_logprintf = server_log_printf;
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	void *plugin;
@@ -188,7 +190,6 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	if (plugin_get_list() == NULL) {
 		ppPluginData = ppData;
 		pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
-		sampgdk_logprintf = (sampgdk_logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
 
 		amx_Register_hook = subhook_new();
 		subhook_set_source(amx_Register_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
