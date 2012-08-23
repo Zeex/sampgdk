@@ -4,7 +4,7 @@ project(subhook)
 
 include(CheckFunctionExists)
 
-set(SUBHOOK_HEADERS "subhook.h")
+set(SUBHOOK_HEADERS "subhook.h" "subhook-private.h")
 set(SUBHOOK_SOURCES "subhook.c")
 
 add_definitions(-DSUBHOOK_IMPLEMENTATION)
