@@ -16,16 +16,60 @@
 #include <sampgdk/config.h>
 
 #include <stdarg.h>
+#include <string.h>
 
 #include "server-log.h"
+
+enum log_type {
+	log_default,
+	log_trace,
+	log_warning,
+	log_error
+};
+
+static void do_log(enum log_type type, const char *format, va_list args) {
+	const char *prefix;
+	char *real_format;
+
+	switch (type) {
+		case log_trace:
+			prefix = "TRACE: ";
+			break;
+		case log_warning:
+			prefix = "WARNING: ";
+			break;
+		case log_error:
+			prefix = "ERROR: ";
+			break;
+		default:
+			prefix = "";
+	}
+
+	real_format = malloc(
+		sizeof("[sampgdk] ") - 1 
+		+ strlen(prefix)
+		+ strlen(format)
+		+ sizeof("\n") - 1
+		+ 1
+	);
+	if (real_format == NULL)
+		return;
+
+	strcpy(real_format, "[sampgdk] ");
+	strcat(real_format, prefix);
+	strcat(real_format, format);
+	strcat(real_format, "\n");
+
+	server_log_vprintf(real_format, args);
+
+	free(real_format);
+}
 
 void log(const char *format, ...) {
 	va_list args;
 
 	va_start(args, format);
-	server_log_printf("[sampgdk] ");
-	server_log_vprintf(format, args);
-	server_log_printf("\n");
+	do_log(log_default, format, args);
 	va_end(args);
 }
 
@@ -33,19 +77,7 @@ void trace(const char *format, ...) {
 	va_list args;
 
 	va_start(args, format);
-	server_log_printf("[sampgdk] TRACE: ");
-	server_log_vprintf(format, args);
-	server_log_printf("\n");
-	va_end(args);
-}
-
-void error(const char *format, ...) {
-	va_list args;
-
-	va_start(args, format);
-	server_log_printf("[sampgdk] ERROR: ");
-	server_log_vprintf(format, args);
-	server_log_printf("\n");
+	do_log(log_trace, format, args);
 	va_end(args);
 }
 
@@ -53,8 +85,14 @@ void warning(const char *format, ...) {
 	va_list args;
 
 	va_start(args, format);
-	server_log_printf("[sampgdk] WARNING: ");
-	server_log_vprintf(format, args);
-	server_log_printf("\n");
+	do_log(log_warning, format, args);
+	va_end(args);
+}
+
+void error(const char *format, ...) {
+	va_list args;
+
+	va_start(args, format);
+	do_log(log_error, format, args);
 	va_end(args);
 }
