@@ -38,10 +38,10 @@ run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_vehicles.
 run_python_script("scripts/generate_callback_handlers.py" "include/sampgdk/a_samp.h" "src/generated/callback-handlers.c")
 
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
-run_python_script("scripts/generate_native_defs.py" "include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-defs.h")
-run_python_script("scripts/generate_native_defs.py" "include/sampgdk/a_players.h" "include/sampgdk/generated/a_players-defs.h")
-run_python_script("scripts/generate_native_defs.py" "include/sampgdk/a_samp.h" "include/sampgdk/generated/a_samp-defs.h")
-run_python_script("scripts/generate_native_defs.py" "include/sampgdk/a_vehicles.h" "include/sampgdk/generated/a_vehicles-defs.h")
+run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-defs.h")
+run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_players.h" "include/sampgdk/generated/a_players-defs.h")
+run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_samp.h" "include/sampgdk/generated/a_samp-defs.h")
+run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_vehicles.h" "include/sampgdk/generated/a_vehicles-defs.h")
 
 set(SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"
