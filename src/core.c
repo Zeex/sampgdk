@@ -18,6 +18,7 @@
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
 
+#include <errno.h>
 #include <stdarg.h>
 #include <string.h>
 #include <subhook.h>
@@ -50,14 +51,14 @@ static struct subhook *amx_Callback_hook;
 static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
 	char *funcname;
 	int index;
-	int error;
+	int error_code;
 
 	amx_StrParam(amx, params[1], funcname);
 	if (funcname == NULL)
 		return -1;
 
-	error = amx_FindPublic(amx, funcname, &index);
-	if (error != AMX_ERR_NONE || (error == AMX_ERR_NONE && index == AMX_EXEC_GDK))
+	error_code = amx_FindPublic(amx, funcname, &index);
+	if (error_code != AMX_ERR_NONE || (error_code == AMX_ERR_NONE && index == AMX_EXEC_GDK))
 		return -1;
 
 	return index;
@@ -82,22 +83,21 @@ static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
 }
 
 static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
-	int error;
+	int error_code;
 	int index;
 
 	subhook_remove(amx_Register_hook);
 
-	for (index = 0; nativelist[index].name != 0 && (index < number || number == -1); ++index) {
+	for (index = 0; nativelist[index].name != 0 && (index < number || number == -1); ++index)
 		native_register(nativelist[index].name, nativelist[index].func);
-	}
 
 	/* fix for the funcidx() problem */
 	hook_native(amx, "funcidx", fixed_funcidx);
 
-	error = amx_Register(amx, nativelist, number);
+	error_code = amx_Register(amx, nativelist, number);
 	subhook_install(amx_Register_hook);
 
-	return error;
+	return error_code;
 }
 
 /* The SA-MP server always makes a call to amx_FindPublic() and depending on
@@ -107,64 +107,71 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist, int
  * we have to make amx_FindPublic() always return OK.
  */
 static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
-	int error;
+	int error_code;
 
 	subhook_remove(amx_FindPublic_hook);
 
-	error = amx_FindPublic(amx, name, index);
+	error_code = amx_FindPublic(amx, name, index);
+
 	if (amx == gamemode_amx) {
-		if (error != AMX_ERR_NONE) {
-			error = AMX_ERR_NONE;
+		if (error_code != AMX_ERR_NONE) {
+			error_code = AMX_ERR_NONE;
 			*index = AMX_EXEC_GDK;
 		}
 
 		/* Store the function name in a global string to be able
 		 * to access it from amx_Exec_.
 		 */
-		free(current_public);
-		current_public = malloc(strlen(name) + 1);
+		if (current_public != NULL)
+			free(current_public);
+
+		if ((current_public = malloc(strlen(name) + 1)) == NULL) {
+			error(strerror(ENOMEM));
+			return error_code;
+		}
+
 		strcpy(current_public, name);
 	}
 
 	subhook_install(amx_FindPublic_hook);
 
-	return error;
+	return error_code;
 }
 
 static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
-	int error;
+	int error_code;
 	bool can_do_exec;
 
 	subhook_remove(amx_Exec_hook);
 	subhook_install(amx_Callback_hook);
 
 	can_do_exec = true;
+
 	if (index == AMX_EXEC_MAIN) {
 		gamemode_amx = amx;
 		callback_invoke(gamemode_amx, "OnGameModeInit", retval, NULL);
 	} else {
-		if (amx == gamemode_amx && index != AMX_EXEC_CONT) {
+		if (amx == gamemode_amx && index != AMX_EXEC_CONT && current_public != NULL)
 			callback_invoke(gamemode_amx, current_public, retval, &can_do_exec);
-		}
 	}
 
-	error = AMX_ERR_NONE;
-	if (can_do_exec && index != AMX_EXEC_GDK) {
-		error = amx_Exec(amx, retval, index);
-	} else {
+	error_code = AMX_ERR_NONE;
+
+	if (can_do_exec && index != AMX_EXEC_GDK)
+		error_code = amx_Exec(amx, retval, index);
+	else
 		amx->stk += amx->paramcount * sizeof(cell);
-	}
 
 	amx->paramcount = 0;
 
 	subhook_remove(amx_Callback_hook);
 	subhook_install(amx_Exec_hook);
 
-	return error;
+	return error_code;
 }
 
 static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params) {
-	int error;
+	int error_code;
 
 	subhook_remove(amx_Callback_hook);
 	subhook_install(amx_Exec_hook);
@@ -174,12 +181,12 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 	 */
 	amx->sysreq_d = 0;
 
-	error = amx_Callback(amx, index, result, params);
+	error_code = amx_Callback(amx, index, result, params);
 
 	subhook_remove(amx_Exec_hook);
 	subhook_install(amx_Callback_hook);
 
-	return error;
+	return error_code;
 }
 
 static void logprintf_impl(const char *format, ...) {
