@@ -30,7 +30,6 @@
 #include "timer.h"
 
 extern void *pAMXFunctions;
-
 static void **ppPluginData;
 
 static AMX  *gamemode_amx = 0;
@@ -182,7 +181,17 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 	return error;
 }
 
-sampgdk_logprintf_t sampgdk_logprintf = server_log_printf;
+static void logprintf_impl(const char *format, ...) {
+	va_list args;
+
+	va_start(args, format);
+	server_log_vprintf(format, args);
+	va_end(args);
+
+	server_log_printf("\n");
+}
+
+sampgdk_logprintf_t sampgdk_logprintf = logprintf_impl;
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	void *plugin;
