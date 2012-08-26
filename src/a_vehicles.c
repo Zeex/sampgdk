@@ -17,6 +17,7 @@
 #include <sampgdk/export.h>
 
 #include "fakeamx.h"
+#include "likely.h"
 #include "native.h"
 
 #include "generated/a_vehicles-impl.c"

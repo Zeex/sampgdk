@@ -22,6 +22,7 @@
 #include <time.h>
 
 #include "array.h"
+#include "likely.h"
 #include "timer.h"
 
 struct timer_info {
@@ -87,7 +88,7 @@ int timer_set(int *timerid, time_t interval, bool repeat, timer_callback callbac
 	assert(timerid != NULL);
 	assert(callback != NULL);
 
-	if (!init_ok) {
+	if (unlikely(!init_ok)) {
 		int error;
 
 		if ((error = timer_init()) < 0)

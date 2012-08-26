@@ -77,6 +77,7 @@ set(SAMPGDK_SOURCES
 	"src/core.c"
 	"src/fakeamx.c"
 	"src/fakeamx.h"
+	"src/likely.h"
 	"src/log.c"
 	"src/log.h"
 	"src/native.c"

@@ -24,6 +24,7 @@
 
 #include "amx-stack.h"
 #include "callback.h"
+#include "likely.h"
 #include "plugin.h"
 
 #include "generated/callback-handlers.c"
@@ -71,7 +72,7 @@ int callback_add_handler(const char *name, callback_handler handler) {
 int callback_invoke(AMX *amx, const char *name, cell *retval, bool *success) {
 	struct plugin_list *plugin;
 
-	if (!init_ok) {
+	if (unlikely(!init_ok)) {
 		int error;
 
 		if ((error = callback_init()) < 0)

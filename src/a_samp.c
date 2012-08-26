@@ -18,6 +18,7 @@
 #include <sampgdk/export.h>
 
 #include "fakeamx.h"
+#include "likely.h"
 #include "native.h"
 #include "timer.h"
 

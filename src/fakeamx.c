@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "fakeamx.h"
+#include "likely.h"
 
 #define INITIAL_HEAP_SIZE 1024
 
@@ -48,7 +49,7 @@ struct fakeamx *fakeamx_global() {
 	static struct fakeamx static_fa;
 	static struct fakeamx *fa_ptr = NULL;
 
-	if (fa_ptr == NULL) {
+	if (unlikely(fa_ptr == NULL)) {
 		fa_ptr = &static_fa;
 		fakeamx_new(fa_ptr);
 	}

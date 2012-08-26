@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "array.h"
+#include "likely.h"
 #include "log.h"
 
 static struct array natives;
@@ -37,7 +38,7 @@ void native_cleanup() {
 int native_register(const char *name, AMX_NATIVE func) {
 	AMX_NATIVE_INFO native;
 
-	if (!init_ok) {
+	if (unlikely(!init_ok)) {
 		int error;
 
 		if ((error = native_init()) < 0)

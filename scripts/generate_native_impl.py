@@ -87,7 +87,7 @@ def generate_native_impl(return_type, name, args, attrs):
 					get_code += "(fa, " + name + "_, " + name + ");\n"
 
 	code += locals_code + "\n"
-	code += "\tif (native == NULL) {\n"
+	code += "\tif (unlikely(native == NULL)) {\n"
 	code += "\t\tnative = native_lookup_warn(\"" + real_name + "\");\n"
 	code += "\t}\n"
 	code += "\tfa = fakeamx_global();\n"

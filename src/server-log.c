@@ -22,6 +22,7 @@
 #include <string.h>
 #include <time.h>
 
+#include "likely.h"
 #include "server-cfg.h"
 
 struct config {
@@ -89,10 +90,10 @@ void server_log_vprintf(const char *format, va_list args) {
 		int  length;
 	} ts;
 
-	if (!log.cfg_loaded)
+	if (unlikely(!log.cfg_loaded))
 		log.cfg_loaded = server_cfg_parse(cfg_callback, (void*)&log.cfg, 0);
 
-	if (log.fp == NULL)
+	if (unlikely(log.fp == NULL))
 		log.fp = fopen("server_log.txt", "a");
 
 	if (log.cfg.timestamp != 0) {
@@ -104,7 +105,7 @@ void server_log_vprintf(const char *format, va_list args) {
 		}
 	}
 
-	if (log.fp != NULL) {
+	if (likely(log.fp != NULL)) {
 		vfprintf(log.fp, format, args);
 		fflush(log.fp);
 	}
