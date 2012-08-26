@@ -16,7 +16,7 @@
 #ifndef SAMPGDK_A_SAMP_H
 #define SAMPGDK_A_SAMP_H
 
-#include <sampgdk/config.h>
+#include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
 #include <sampgdk/generated/a_samp-defs.h>

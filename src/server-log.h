@@ -16,8 +16,6 @@
 #ifndef SAMPGDK_SERVER_LOG_H_
 #define SAMPGDK_SERVER_LOG_H_
 
-#include <sampgdk/config.h>
-
 #include <stdarg.h>
 
 void server_log_printf(const char *format, ...);

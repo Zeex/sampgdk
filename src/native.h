@@ -16,7 +16,6 @@
 #ifndef SAMPGDK_NATIVE_H_
 #define SAMPGDK_NATIVE_H_
 
-#include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 
 /* Initialization and cleanup routines. Each of these must be called only

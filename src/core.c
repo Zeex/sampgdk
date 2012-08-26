@@ -13,7 +13,8 @@
  * limitations under the License.
  */
 
-#include <sampgdk/config.h>
+#include <sampgdk/amx.h>
+#include <sampgdk/bool.h>
 #include <sampgdk/core.h>
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>

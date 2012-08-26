@@ -16,7 +16,7 @@
 #ifndef SAMPGDK_TIMER_H_
 #define SAMPGDK_TIMER_H_
 
-#include <sampgdk/config.h>
+#include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
 #include <time.h>

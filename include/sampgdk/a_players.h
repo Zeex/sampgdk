@@ -16,8 +16,8 @@
 #ifndef SAMPGDK_A_PLAYERS_H
 #define SAMPGDK_A_PLAYERS_H
 
-#include <sampgdk/config.h>
 #include <sampgdk/a_samp.h>
+#include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 #include <sampgdk/generated/a_players-defs.h>
 

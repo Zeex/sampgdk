@@ -16,8 +16,8 @@
 #ifndef SAMPGDK_CORE_H
 #define SAMPGDK_CORE_H
 
-#include <sampgdk/config.h>
 #include <sampgdk/amx.h>
+#include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
 /* These should be called only once, e.g. in Load() and Unload() respectively. */

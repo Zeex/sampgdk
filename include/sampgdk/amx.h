@@ -16,7 +16,36 @@
 #ifndef SAMPGDK_AMX_H
 #define SAMPGDK_AMX_H
 
-#include <sampgdk/config.h>
+#include <sampgdk/platform.h>
+
+/* stdint.h */
+#if !defined HAVE_STDINT_H
+	#if (!defined __STDC__ && __STDC_VERSION__ >= 199901L /* C99 or newer */)\
+		|| (defined _MSC_VER_ && _MSC_VER >= 1600 /* Visual Studio 2010 and later */)\
+		|| defined __GNUC__ /* GCC, MinGW, etc */
+		#define HAVE_STDINT_H 1
+	#endif
+#endif
+
+/* size_t */
+#include <stddef.h>
+
+/* alloca() */
+#if SAMPGDK_WINDOWS
+	#undef HAVE_ALLOCA_H
+	#include <malloc.h> /* for _alloca() */
+	#if !defined alloca
+		#define alloca _alloca
+	#endif
+#elif SAMPGDK_LINUX
+	#if defined __GNUC__
+		#define HAVE_ALLOCA_H 1
+		#if !defined alloca
+			#define alloca __builtin_alloca
+		#endif
+	#endif
+#endif
+
 #include <sampgdk/sdk/amx/amx.h>
 
 #define AMX_EXEC_GDK (-10)

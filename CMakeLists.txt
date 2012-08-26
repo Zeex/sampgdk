@@ -53,10 +53,12 @@ set(SAMPGDK_HEADERS
 	"include/sampgdk/a_samp.h"
 	"include/sampgdk/a_vehicles.h"
 	"include/sampgdk/amx.h"
-	"include/sampgdk/plugin.h"
-	"include/sampgdk/config.h"
+	"include/sampgdk/bool.h"
 	"include/sampgdk/core.h"
 	"include/sampgdk/export.h"
+	"include/sampgdk/platform.h"
+	"include/sampgdk/plugin.h"
+	"include/sampgdk/static-assert.h"
 	"include/sampgdk/version.h"
 )
 

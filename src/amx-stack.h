@@ -16,7 +16,7 @@
 #ifndef SAMPGDK_AMX_STACK_H_
 #define SAMPGDK_AMX_STACK_H_
 
-#include <sampgdk/config.h>
+#include <sampgdk/bool.h>
 #include <sampgdk/amx.h>
 
 cell  amx_stack_get_arg_cell(AMX *amx, int index);

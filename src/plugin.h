@@ -16,6 +16,8 @@
 #ifndef SAMPGDK_PLUGIN_H_
 #define SAMPGDK_PLUGIN_H_
 
+#include <sampgdk/bool.h>
+
 #include <stddef.h>
 
 struct plugin_list {

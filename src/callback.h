@@ -16,7 +16,7 @@
 #ifndef SAMPGDK_CALLBACK_H_
 #define SAMPGDK_CALLBACK_H_
 
-#include <sampgdk/config.h>
+#include <sampgdk/bool.h>
 #include <sampgdk/amx.h>
 
 typedef bool (*callback_handler)(AMX *amx, void *callback, cell *retval);

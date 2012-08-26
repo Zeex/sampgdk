@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include <sampgdk/config.h>
+#include <sampgdk/bool.h>
 #include <sampgdk/amx.h>
 
 static unsigned char *get_arg_data_ptr(AMX *amx) {

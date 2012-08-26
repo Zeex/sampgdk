@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#include <sampgdk/config.h>
 #include <sampgdk/amx.h>
+#include <sampgdk/bool.h>
 
 #include <assert.h>
 #include <limits.h>

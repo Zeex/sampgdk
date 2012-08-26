@@ -13,19 +13,24 @@
  * limitations under the License.
  */
 
-#include <Windows.h>
+#ifndef SAMPGDK_PLATFORM_H
+#define SAMPGDK_PLATFORM_H
 
-void *plugin_address_to_handle(void *address) {
-	MEMORY_BASIC_INFORMATION mbi;
+#include <sampgdk/static-assert.h>
 
-	VirtualQuery(address, &mbi, sizeof(mbi));
-	return (void*)mbi.AllocationBase;
-}
+#if !(defined _M_IX86 || defined __i386__)
+	#error Unsupported architecture
+#endif
 
-void plugin_address_to_filename(void *address, char *filename, size_t size) {
-	GetModuleFileName((HMODULE)plugin_address_to_handle(address), filename, size);
-}
+#if defined WIN32 || defined _WIN32 || defined __WIN32__
+	#define SAMPGDK_WINDOWS 1
+#endif
 
-void *plugin_find_symbol(void *plugin, const char *name)  {
-	return (void*)GetProcAddress((HMODULE)plugin, name);
-}
+#if defined __linux__ || defined __linux || defined linux
+	#if !defined LINUX
+		#define LINUX
+	#endif
+	#define SAMPGDK_LINUX 1
+#endif
+
+#endif /* !SAMPGDK_PLATFORM_H */

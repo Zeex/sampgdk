@@ -16,8 +16,6 @@
 #ifndef SAMPGDK_LOG_H_
 #define SAMPGDK_LOG_H_
 
-#include <sampgdk/config.h>
-
 void log(const char *format, ...);
 void trace(const char *format, ...);
 void warning(const char *format, ...);

@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-#include <sampgdk/config.h>
-
 #include <stdarg.h>
 #include <string.h>
 

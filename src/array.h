@@ -16,7 +16,7 @@
 #ifndef SAMPGDK_ARRAY_H_
 #define SAMPGDK_ARRAY_H_
 
-#include <sampgdk/config.h>
+#include <sampgdk/bool.h>
 
 struct array {
 	void *data;     /* pointer to array contents */

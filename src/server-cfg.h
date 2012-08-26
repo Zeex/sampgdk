@@ -16,8 +16,6 @@
 #ifndef SAMPGDK_SERVER_CFG_H_
 #define SAMPGDK_SERVER_CFG_H_
 
-#include <sampgdk/config.h>
-
 typedef int (*server_cfg_callback)(const char *key, const char *value, void *param);
 
 int server_cfg_parse(server_cfg_callback callback, void *param, int buffer_size);

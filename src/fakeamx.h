@@ -16,8 +16,8 @@
 #ifndef SAMPGDK_FAKEAMX_H_
 #define SAMPGDK_FAKEAMX_H_
 
-#include <sampgdk/config.h>
 #include <sampgdk/amx.h>
+#include <sampgdk/bool.h>
 
 struct fakeamx {
 	AMX         amx;

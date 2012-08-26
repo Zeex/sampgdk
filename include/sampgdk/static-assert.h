@@ -13,19 +13,9 @@
  * limitations under the License.
  */
 
-#include <Windows.h>
+#ifndef SAMPGDK_STATIC_ASSERT_H
+#define SAMPGDK_STATIC_ASSERT_H
 
-void *plugin_address_to_handle(void *address) {
-	MEMORY_BASIC_INFORMATION mbi;
+#define SAMPGDK_STATIC_ASSERT(COND, MSG) typedef char static_assertion_##MSG[(COND) ? 1 : -1]
 
-	VirtualQuery(address, &mbi, sizeof(mbi));
-	return (void*)mbi.AllocationBase;
-}
-
-void plugin_address_to_filename(void *address, char *filename, size_t size) {
-	GetModuleFileName((HMODULE)plugin_address_to_handle(address), filename, size);
-}
-
-void *plugin_find_symbol(void *plugin, const char *name)  {
-	return (void*)GetProcAddress((HMODULE)plugin, name);
-}
+#endif /* !SAMPGDK_STATIC_ASSERT_H */

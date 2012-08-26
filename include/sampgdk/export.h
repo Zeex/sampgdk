@@ -19,7 +19,7 @@
 #undef SAMPGDK_EXPORT
 #undef SAMPGDK_CALL
 
-#include <sampgdk/config.h>
+#include <sampgdk/platform.h>
 
 #ifdef __cplusplus
 	#define SAMPGDK_EXTERN_C extern "C"
