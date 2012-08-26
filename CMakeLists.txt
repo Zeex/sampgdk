@@ -162,16 +162,15 @@ add_definitions(-DIN_SAMPGDK)
 if(WIN32)
 	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY 
-			LINK_FLAGS " -Wl,--kill-at --def ${DEF_FILE}")
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--kill-at --def ${DEF_FILE}")
 	elseif(MSVC)
 		add_definitions(-D_CRT_SECURE_NO_WARNINGS)		
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY 
-			LINK_FLAGS " /DEF:${DEF_FILE}")
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " /DEF:${DEF_FILE}")
 	endif()
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
-		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
+		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}"
+	)
 endif()
 
 if(UNIX OR MINGW)
@@ -179,13 +178,12 @@ if(UNIX OR MINGW)
 		VERSION   ${SAMPGDK_VERSION_STRING}
 		SOVERSION ${SAMPGDK_VERSION_MAJOR}
 	)
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY COMPILE_FLAGS " -ansi")
 	if(MINGW)
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY
-			LINK_FLAGS " -Wl,--export-all-symbols")
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-all-symbols")
 	else()
 		add_definitions(-DLINUX)
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY
-			LINK_FLAGS " -Wl,--export-dynamic")
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-dynamic")
 		list(APPEND SAMPGDK_LINK_LIBRARIES "-lrt")
 	endif()
 endif()

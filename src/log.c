@@ -14,6 +14,7 @@
  */
 
 #include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "server-log.h"
@@ -44,7 +45,7 @@ static void do_log(enum log_type type, const char *format, va_list args) {
 	}
 
 	real_format = malloc(
-		sizeof("[sampgdk] ") - 1 
+		sizeof("[sampgdk] ") - 1
 		+ strlen(prefix)
 		+ strlen(format)
 		+ sizeof("\n") - 1
@@ -63,7 +64,7 @@ static void do_log(enum log_type type, const char *format, va_list args) {
 	free(real_format);
 }
 
-void log(const char *format, ...) {
+void message(const char *format, ...) {
 	va_list args;
 
 	va_start(args, format);
