@@ -80,7 +80,7 @@ AMX_NATIVE native_lookup_warn(const char *name) {
 }
 
 cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
-	error("Called non-existent native function");
+	error("Native stub");
 	return 0;
 }
 
