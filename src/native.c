@@ -72,7 +72,7 @@ AMX_NATIVE native_lookup_warn(const char *name) {
 
 	fn = native_lookup(name);
 	if (fn == NULL) {
-		error("Native function not found: %s", name);
+		warning("Native function not found: %s", name);
 	}
 
 	return fn;
