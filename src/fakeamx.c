@@ -16,6 +16,7 @@
 #include <sampgdk/config.h>
 #include <sampgdk/amx.h>
 
+#include <assert.h>
 #include <limits.h>
 #include <stddef.h>
 #include <string.h>
@@ -26,6 +27,8 @@
 #define INITIAL_HEAP_SIZE 1024
 
 void fakeamx_new(struct fakeamx *fa) {
+	assert(fa != NULL);
+
 	memset(fa, 0, sizeof(*fa));
 	fa->heap = malloc(sizeof(cell) * INITIAL_HEAP_SIZE);
 	fa->heap_size = INITIAL_HEAP_SIZE;
@@ -42,6 +45,8 @@ void fakeamx_new(struct fakeamx *fa) {
 }
 
 void fakeamx_free(struct fakeamx *fa) {
+	assert(fa != NULL);
+
 	free(fa->heap);
 }
 
@@ -60,6 +65,8 @@ struct fakeamx *fakeamx_global() {
 cell fakeamx_push(struct fakeamx *fa, size_t cells) {
 	cell address;
 	
+	assert(fa != NULL);
+
 	address = fa->amx.hea;
 	fa->amx.hea += cells * sizeof(cell);
 
@@ -73,6 +80,8 @@ cell fakeamx_push(struct fakeamx *fa, size_t cells) {
 cell fakeamx_push_cell(struct fakeamx *fa, cell value) {
 	cell address;
 
+	assert(fa != NULL);
+
 	address = fakeamx_push(fa, 1);
 	fa->heap[address / sizeof(cell)] = value;
 
@@ -80,6 +89,8 @@ cell fakeamx_push_cell(struct fakeamx *fa, cell value) {
 }
 
 cell fakeamx_push_float(struct fakeamx *fa, float value) {
+	assert(fa != NULL);
+
 	return fakeamx_push_cell(fa, amx_ftoc(value));
 }
 
@@ -87,6 +98,8 @@ cell fakeamx_push_string(struct fakeamx *fa, const char *src, size_t *size) {
 	size_t src_size;
 	cell address;
 	
+	assert(fa != NULL);
+
 	src_size = strlen(src) + 1;
 	address = fakeamx_push(fa, src_size);
 	amx_SetString(fa->heap + (address / sizeof(cell)), src, 0, 0, src_size);
@@ -99,25 +112,35 @@ cell fakeamx_push_string(struct fakeamx *fa, const char *src, size_t *size) {
 }
 
 void fakeamx_get_cell(struct fakeamx *fa, cell address, cell *value) {
+	assert(fa != NULL);
+
 	*value = fa->heap[address / sizeof(cell)];
 }
 
 void fakeamx_get_bool(struct fakeamx *fa, cell address, bool *value) {
+	assert(fa != NULL);
+
 	*value = (bool)fa->heap[address / sizeof(cell)];
 }
 
 void fakeamx_get_float(struct fakeamx *fa, cell address, float *value) {
 	cell tmp;
 
+	assert(fa != NULL);
+
 	fakeamx_get_cell(fa, address, &tmp);
 	*value = amx_ctof(tmp);
 }
 
 void fakeamx_get_string(struct fakeamx *fa, cell address, char *dest, size_t size) {
+	assert(fa != NULL);
+
 	amx_GetString(dest, fa->heap + (address / sizeof(cell)), 0, size);
 }
 
 void fakeamx_pop(struct fakeamx *fa, cell address) {
+	assert(fa != NULL);
+
 	if (fa->amx.hea > address) {
 		fa->amx.hea = address;
 	}
@@ -125,6 +148,8 @@ void fakeamx_pop(struct fakeamx *fa, cell address) {
 
 void fakeamx_resize_heap(struct fakeamx *fa, size_t new_size) {
 	void *new_heap;
+
+	assert(fa != NULL);
 
 	new_heap = realloc(fa->heap, new_size);
 	if (new_heap != NULL) {

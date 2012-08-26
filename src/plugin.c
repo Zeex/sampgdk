@@ -15,6 +15,7 @@
 
 #include <sampgdk/config.h>
 
+#include <assert.h>
 #include <stdlib.h>
 
 #include "plugin.h"
@@ -23,6 +24,8 @@ static struct plugin_list *plugins;
 
 void plugin_register(void *plugin) {
 	struct plugin_list *ptr;
+
+	assert(plugin != NULL);
 
 	if (plugin_is_registered(plugin))
 		return;
@@ -37,6 +40,8 @@ void plugin_register(void *plugin) {
 bool plugin_unregister(void *plugin) {
 	struct plugin_list *prev;
 	struct plugin_list *cur;
+
+	assert(plugin != NULL);
 
 	cur = plugins;
 	prev = NULL;
@@ -56,6 +61,8 @@ bool plugin_unregister(void *plugin) {
 
 bool plugin_is_registered(void *plugin) {
 	struct plugin_list *cur;
+
+	assert(plugin != NULL);
 
 	cur = plugins;
 
