@@ -22,13 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "amx-stack.h"
 #include "callback.h"
 #include "plugin.h"
-
-static cell read_amx_stack_cell(AMX *amx, int index);
-static bool read_amx_stack_bool(AMX *amx, int index);
-static float read_amx_stack_float(AMX *amx, int index);
-static char *read_amx_stack_string(AMX *amx, int index);
 
 #include "generated/callback-handlers.c"
 
@@ -39,54 +35,6 @@ struct handler_list {
 };
 
 static struct handler_list *handlers;
-
-static unsigned char *get_data_ptr(AMX *amx) {
-	return amx->data != 0 
-		? amx->data 
-		: amx->base + ((AMX_HEADER*)amx->base)->dat;
-}
-
-static cell *get_stack_ptr(AMX *amx) {
-	return (cell*)(get_data_ptr(amx) + amx->stk);
-}
-
-static cell read_amx_stack_cell(AMX *amx, int index) {
-	return get_stack_ptr(amx)[index];
-}
-
-static bool read_amx_stack_bool(AMX *amx, int index) {
-	return (bool)read_amx_stack_cell(amx, index);
-}
-
-static float read_amx_stack_float(AMX *amx, int index) {
-	cell value;
-
-	value = read_amx_stack_cell(amx, index);
-	return amx_ctof(value);
-}
-
-static char *read_amx_stack_string(AMX *amx, int index) {
-	cell amx_addr;
-	cell *phys_addr;
-	int length;
-	char *string;
-	
-	amx_addr = read_amx_stack_cell(amx, index);
-	if (amx_GetAddr(amx, amx_addr, &phys_addr) != AMX_ERR_NONE) {
-		return NULL;
-	}
-	
-	amx_StrLen(phys_addr, &length);
-	string = malloc((length + 1) * sizeof(char));
-	
-	if (amx_GetString(string, phys_addr, 0, length + 1) != AMX_ERR_NONE) {
-		free(string);
-		return NULL;
-	}
-
-	return string;
-}
-
 static bool init_ok = false;
 
 int callback_init() {

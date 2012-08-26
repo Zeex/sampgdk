@@ -67,6 +67,8 @@ set(SAMPGDK_SOURCES
 	"src/a_players.c"
 	"src/a_samp.c"
 	"src/a_vehicles.c"
+	"src/amx-stack.c"
+	"src/amx-stack.h"
 	"src/array.c"
 	"src/array.h"
 	"src/asm.h"

@@ -23,14 +23,14 @@ def generate_callback_handler(name, args, bad_ret):
 		callargs += argname
 
 		if argtype == "bool":
-			method = "read_amx_stack_bool"
+			method = "amx_stack_get_arg_bool"
 		elif argtype == "float":
-			method = "read_amx_stack_float"
+			method = "amx_stack_get_arg_float"
 		elif argtype == "const char *" or argtype == "char *":
-			method = "read_amx_stack_string"
+			method = "amx_stack_get_arg_string"
 			free_code += "\tfree((char *)" + argname + ");\n"
 		else:
-			method = "read_amx_stack_cell"
+			method = "amx_stack_get_arg_cell"
 
 		locals_code += "\t" + argtype + " " + argname + ";\n"
 		stack_read_code += "\t" + argname + " = " + method + "(amx, " + str(index) + ");\n"
