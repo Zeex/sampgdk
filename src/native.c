@@ -59,9 +59,8 @@ AMX_NATIVE native_lookup(const char *name) {
 
 	info = (AMX_NATIVE_INFO*)natives.data;
 	while (index < natives.count) {
-		if (strcmp(info[index].name, name) == 0) {
+		if (strcmp(info[index].name, name) == 0)
 			return info[index].func;
-		}
 		index++;
 	}
 
@@ -72,9 +71,8 @@ AMX_NATIVE native_lookup_warn(const char *name) {
 	AMX_NATIVE fn;
 
 	fn = native_lookup(name);
-	if (fn == NULL) {
+	if (fn == NULL)
 		warning("Native function not found: %s", name);
-	}
 
 	return fn;
 }
@@ -87,10 +85,17 @@ cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
 AMX_NATIVE native_lookup_stub(const char *name) {
 	AMX_NATIVE fn;
 
-	fn = native_lookup(name);
-	if (fn == NULL) {
+	if ((fn = native_lookup(name)) == NULL)
 		return native_stub;
-	}
+
+	return fn;
+}
+
+AMX_NATIVE native_lookup_warn_stub(const char *name) {
+	AMX_NATIVE fn;
+
+	if ((fn = native_lookup_warn(name)) == NULL)
+		return native_stub;
 
 	return fn;
 }

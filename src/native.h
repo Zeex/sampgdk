@@ -47,6 +47,10 @@ AMX_NATIVE native_lookup_stub(const char *name);
  */
 cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params);
 
+/* native_lookup_warn + native_lookup_stub
+ */
+AMX_NATIVE native_lookup_warn_stub(const char *name);
+
 /* Returns a pointer to the internal array of currently registered natives. 
  */
 const AMX_NATIVE_INFO *native_get_natives();
