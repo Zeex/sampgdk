@@ -16,8 +16,6 @@
 #ifndef SAMPGDK_PLATFORM_H
 #define SAMPGDK_PLATFORM_H
 
-#include <sampgdk/static-assert.h>
-
 #if !(defined _M_IX86 || defined __i386__)
 	#error Unsupported architecture
 #endif
