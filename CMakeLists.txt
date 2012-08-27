@@ -9,6 +9,7 @@ include(AmxConfig)
 include(ParseVersionString)
 
 include_directories("include")
+include_directories("include/sampgdk")
 
 set(SUBHOOK_STATIC TRUE)
 set(SUBHOOK_ARCH x86)
@@ -64,7 +65,6 @@ set(SAMPGDK_HEADERS
 
 set(SAMPGDK_SOURCES
 	"src/sdk/amxplugin.c"
-	"src/sdk/plugin.h"
 	"src/a_objects.c"
 	"src/a_players.c"
 	"src/a_samp.c"
