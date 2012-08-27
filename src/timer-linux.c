@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-#include <sampgdk/config.h>
-
 #include <time.h>
 
 time_t timer_clock() {

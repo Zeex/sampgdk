@@ -13,8 +13,6 @@
  * limitations under the License.
  */
 
-#include <sampgdk/config.h>
-
 #ifndef _GNU_SOURCE
 	#define _GNU_SOURCE 1
 #endif

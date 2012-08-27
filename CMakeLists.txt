@@ -178,7 +178,6 @@ if(UNIX OR MINGW)
 		VERSION   ${SAMPGDK_VERSION_STRING}
 		SOVERSION ${SAMPGDK_VERSION_MAJOR}
 	)
-	set_property(TARGET sampgdk APPEND_STRING PROPERTY COMPILE_FLAGS " -ansi")
 	if(MINGW)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-all-symbols")
 	else()
