@@ -35,7 +35,7 @@ static struct {
 	FILE          *fp;
 	struct config  cfg;
 	int            cfg_loaded;
-} log = {
+} server_log = {
 	NULL,
 	{
 		1,
@@ -88,28 +88,28 @@ void server_log_vprintf(const char *format, va_list args) {
 		int  length;
 	} ts;
 
-	if (unlikely(!log.cfg_loaded))
-		log.cfg_loaded = server_cfg_parse(cfg_callback, (void*)&log.cfg, 0);
+	if (unlikely(!server_log.cfg_loaded))
+		server_log.cfg_loaded = server_cfg_parse(cfg_callback, (void*)&server_log.cfg, 0);
 
-	if (unlikely(log.fp == NULL))
-		log.fp = fopen("server_log.txt", "a");
+	if (unlikely(server_log.fp == NULL))
+		server_log.fp = fopen("server_log.txt", "a");
 
-	if (log.cfg.timestamp != 0) {
-		ts.length = get_timestamp(ts.string, sizeof(ts.string), &log.cfg);
+	if (server_log.cfg.timestamp != 0) {
+		ts.length = get_timestamp(ts.string, sizeof(ts.string), &server_log.cfg);
 
-		if (log.fp != NULL) {
-			fputs(ts.string, log.fp);
-			fputs(" ", log.fp);
+		if (server_log.fp != NULL) {
+			fputs(ts.string, server_log.fp);
+			fputs(" ", server_log.fp);
 		}
 	}
 
-	if (likely(log.fp != NULL)) {
-		vfprintf(log.fp, format, args);
-		fflush(log.fp);
+	if (likely(server_log.fp != NULL)) {
+		vfprintf(server_log.fp, format, args);
+		fflush(server_log.fp);
 	}
 
 #ifdef SAMPGDK_LINUX
-	if (log.cfg.output) {
+	if (server_log.cfg.output) {
 #endif
 		vfprintf(stdout, format, args);
 		fflush(stdout);
