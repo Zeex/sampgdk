@@ -13,15 +13,9 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_STACK_H_
-#define SAMPGDK_AMX_STACK_H_
+#ifndef SAMPGDK_PLUGINCOMMON_H
+#define SAMPGDK_PLUGINCOMMON_H
 
-#include <sampgdk/amx.h>
-#include <sampgdk/bool.h>
+#include <sampgdk/sdk/plugincommon.h>
 
-cell  amx_stack_get_arg_cell(AMX *amx, int index);
-bool  amx_stack_get_arg_bool(AMX *amx, int index);
-float amx_stack_get_arg_float(AMX *amx, int index);
-char *amx_stack_get_arg_string(AMX *amx, int index);
-
-#endif /* !SAMPGDK_AMX_STACK_H_ */
+#endif /* !SAMPGDK_PLUGINCOMMON_H */

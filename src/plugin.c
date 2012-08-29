@@ -16,6 +16,7 @@
 #include <sampgdk/bool.h>
 
 #include <assert.h>
+#include <stddef.h>
 #include <stdlib.h>
 
 #include "plugin.h"

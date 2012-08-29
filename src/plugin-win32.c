@@ -13,7 +13,8 @@
  * limitations under the License.
  */
 
-#include <Windows.h>
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
 
 void *plugin_address_to_handle(void *address) {
 	MEMORY_BASIC_INFORMATION mbi;

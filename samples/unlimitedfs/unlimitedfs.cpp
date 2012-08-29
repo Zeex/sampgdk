@@ -11,6 +11,7 @@
 	#include <fnmatch.h>
 #endif
 
+#include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
 #include "filterscript.h"

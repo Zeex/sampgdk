@@ -17,6 +17,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 

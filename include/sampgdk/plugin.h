@@ -17,7 +17,6 @@
 #define SAMPGDK_PLUGIN_H
 
 #include <sampgdk/amx.h>
-#include <sampgdk/core.h>
-#include <sampgdk/sdk/plugincommon.h>
+#include <sampgdk/plugincommon.h>
 
 #endif /* !SAMPGDK_PLUGIN_H */
