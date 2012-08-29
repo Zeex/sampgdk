@@ -131,6 +131,12 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(TARGET sampgdk PROPERTY FOLDER "sampgdk")
 
 file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 1)
+
+list(LENGTH VERSION_txt length)
+if(length EQUAL 0)
+	message(FATAL_ERROR "VERSION.txt is empty?")
+endif()
+
 list(GET VERSION_txt 0 SAMPGDK_VERSION_STRING)
 set(SAMPGDK_VERSION_MAJOR 0)
 set(SAMPGDK_VERSION_MINOR 0)
@@ -138,6 +144,7 @@ set(SAMPGDK_VERSION_PATCH 0)
 set(SAMPGDK_VERSION_TWEAK 0)
 
 parse_version_string(${SAMPGDK_VERSION_STRING} version)
+
 list(LENGTH version length)
 if(length GREATER 0)
 	list(GET version 0 SAMPGDK_VERSION_MAJOR)
