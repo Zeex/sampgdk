@@ -19,25 +19,25 @@
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 
+#include "array.h"
+
 struct fakeamx {
-	AMX         amx;
-	AMX_HEADER  amxhdr;
-	cell       *heap;
-	size_t      heap_size;
+	AMX          amx;
+	AMX_HEADER   amxhdr;
+	struct array heap;
 };
 
-void fakeamx_new(struct fakeamx *fa);
+int fakeamx_new(struct fakeamx *fa);
 void fakeamx_free(struct fakeamx *fa);
 struct fakeamx *fakeamx_global();
 cell fakeamx_push(struct fakeamx *fa, size_t cells);
 cell fakeamx_push_cell(struct fakeamx *fa, cell value);
 cell fakeamx_push_float(struct fakeamx *fa, float value);
-cell fakeamx_push_string(struct fakeamx *fa, const char *src, size_t *size /* = NULL */);
+cell fakeamx_push_string(struct fakeamx *fa, const char *src, int *size /* = NULL */);
 void fakeamx_get_cell(struct fakeamx *fa, cell address, cell *value);
 void fakeamx_get_bool(struct fakeamx *fa, cell address, bool *value);
 void fakeamx_get_float(struct fakeamx *fa, cell address, float *value);
-void fakeamx_get_string(struct fakeamx *fa, cell address, char *dest, size_t size);
+void fakeamx_get_string(struct fakeamx *fa, cell address, char *dest, int size);
 void fakeamx_pop(struct fakeamx *fa, cell address);
-void fakeamx_resize_heap(struct fakeamx *fa, size_t new_size);
 
 #endif /* !SAMPGDK_FAKEAMX_H_ */

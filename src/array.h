@@ -19,10 +19,10 @@
 #include <sampgdk/bool.h>
 
 struct array {
-	void *data;     /* pointer to array contents */
-	int  count;     /* number of elements in array */
-	int  size;      /* maximum number of elements for this array */
-	int  elem_size; /* size of a signle element in bytes */
+	void *data;      /* pointer to array contents */
+	int   count;     /* number of elements in array */
+	int   size;      /* maximum number of elements for this array */
+	int   elem_size; /* size of a signle element in bytes */
 };
 
 int array_new(struct array *a, int size, int elem_size);
@@ -32,6 +32,7 @@ int array_zero(struct array *a);
 int array_resize(struct array *a, int new_size);
 int array_grow(struct array *a);
 int array_shrink(struct array *a);
+int array_pad(struct array *a);
 void *array_get(struct array *a, int index);
 void array_set(struct array *a, int index, void *elem);
 int array_insert(struct array *a, int index, int count, void *elems);

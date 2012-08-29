@@ -115,6 +115,17 @@ int array_shrink(struct array *a) {
 	return array_resize(a, a->count);
 }
 
+int array_pad(struct array *a) {
+	int space;
+
+	assert(a != NULL);
+
+	if ((space = a->size - a->count) <= 0)
+		return space;
+
+	return (a->count = a->size);
+}
+
 static void *array_get_ptr(struct array *a, int index) {
 	return (unsigned char*)a->data + (index * a->elem_size);
 }
