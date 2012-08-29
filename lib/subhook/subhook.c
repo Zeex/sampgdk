@@ -25,7 +25,7 @@
 #include <stdlib.h>
 
 #include "subhook.h"
-#include "subhook-private.h"
+#include "subhook_private.h"
 
 SUBHOOK_EXPORT struct subhook *SUBHOOK_API subhook_new() {
 	return (struct subhook *)calloc(1, sizeof(struct subhook));

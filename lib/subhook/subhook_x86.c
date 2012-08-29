@@ -28,7 +28,7 @@
 #include <string.h>
 
 #include "subhook.h"
-#include "subhook-private.h"
+#include "subhook_private.h"
 
 /* 1 byte for opcode + 4 for address */
 #define SUBHOOK_JUMP_SIZE 5
