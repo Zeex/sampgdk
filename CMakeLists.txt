@@ -166,8 +166,8 @@ configure_file(
 	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h"
 )
 
-set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
-add_definitions(-DIN_SAMPGDK)
+set_property(TARGET sampgdk PROPERTY DEBUG_POSTFIX "_d")
+set_property(TARGET sampgdk APPEND PROPERTY COMPILE_DEFINITIONS "IN_SAMPGDK")
 
 if(WIN32)
 	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")

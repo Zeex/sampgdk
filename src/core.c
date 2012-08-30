@@ -191,7 +191,7 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 	return error_code;
 }
 
-sampgdk_logprintf_t sampgdk_logprintf = logprintf_impl;
+SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = logprintf_impl;
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	void *plugin;
