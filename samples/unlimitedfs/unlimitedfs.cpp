@@ -23,11 +23,9 @@
 	#define PLUGIN_EXT "so"
 #endif
 
-typedef void (*logprintf_t)(const char *format, ...);
+#define logprintf sampgdk_logprintf
 
 static void **ppPluginData;
-
-static logprintf_t logprintf;
 
 static std::list<Plugin*> plugins;
 static std::list<FilterScript*> filterscripts;
@@ -653,7 +651,6 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
 	::ppPluginData = ppData;
 
 	void *pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
-	logprintf = (logprintf_t)ppData[PLUGIN_DATA_LOGPRINTF];
 
 	((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Align16] = (void*)my_amx_Align;
 	((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Align32] = (void*)my_amx_Align;
@@ -746,7 +743,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-	return;
+	sampgdk_finalize();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {

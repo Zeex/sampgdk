@@ -6,8 +6,7 @@
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
-typedef void (*logprintf_t)(const char *format, ...);
-static logprintf_t logprintf;
+#define logprintf sampgdk_logprintf
 
 void SAMPGDK_CALL Timer(int timerid, void *param) {
 	logprintf("timer!");
@@ -64,13 +63,12 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
-	logprintf = (logprintf_t)ppPluginData[PLUGIN_DATA_LOGPRINTF];
-	sampgdk_initialize_plugin(ppPluginData);
+	sampgdk_initialize(ppPluginData);
 	return true;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-	return;
+	sampgdk_finalize();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
