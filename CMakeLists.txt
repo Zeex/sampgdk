@@ -122,11 +122,17 @@ elseif(UNIX)
 	)
 endif()
 
-source_group("src" REGULAR_EXPRESSION "src/[^/\\]+\\..*")
-source_group("src\\sdk" REGULAR_EXPRESSION "src/sdk/[^/\\]+\\..*")
-source_group("include" REGULAR_EXPRESSION "include/sampgdk/[^/\\]+\\.h")
-source_group("include\\sdk" REGULAR_EXPRESSION "include/sampgdk/sdk/[^/\\]+\\.h")
-source_group("include\\sdk\\amx" REGULAR_EXPRESSION "include/sampgdk/sdk/amx/[^/\\]+\\.h")
+function(directory_source_group path)
+	string(REGEX REPLACE "/" "\\\\" win_path ${path})
+	source_group(${win_path} REGULAR_EXPRESSION "${path}/[^/\\]+\\..*")
+endfunction()
+
+directory_source_group("src")
+directory_source_group("src/sdk")
+directory_source_group("src/support")
+directory_source_group("include/sampgdk")
+directory_source_group("include/sampgdk/sdk")
+directory_source_group("include/sampgdk/sdk/amx")
 
 add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 
