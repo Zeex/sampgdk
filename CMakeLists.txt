@@ -7,6 +7,7 @@ include(AmxConfig)
 include(ParseVersionString)
 
 include_directories("include")
+include_directories("include/sampgdk")
 include_directories("lib/subhook")
 
 add_definitions(-DSUBHOOK_STATIC)
