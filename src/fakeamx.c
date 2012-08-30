@@ -17,7 +17,6 @@
 #include <sampgdk/bool.h>
 
 #include <assert.h>
-#include <errno.h>
 #include <limits.h>
 #include <stddef.h>
 #include <string.h>
@@ -25,7 +24,6 @@
 #include "array.h"
 #include "fakeamx.h"
 #include "likely.h"
-#include "log.h"
 
 #define INITIAL_HEAP_SIZE 1024
 
@@ -65,75 +63,85 @@ void fakeamx_free(struct fakeamx *fa) {
 	array_free(&fa->heap);
 }
 
-struct fakeamx *fakeamx_global() {
+int fakeamx_instance(struct fakeamx **fa) {
 	static struct fakeamx static_fa;
-	static struct fakeamx *fa = NULL;
+	static bool ok = false;
 
-	if (unlikely(fa == NULL)) {
+	assert(fa != NULL);
+
+	if (unlikely(!ok)) {
 		int error_code;
 
-		if ((error_code = fakeamx_new(&static_fa)) < 0) {
-			error(strerror(-error_code));
-			return NULL;
-		}
+		if ((error_code = fakeamx_new(&static_fa)) < 0)
+			return error_code;
 		
-		fa = &static_fa;
+		ok = true;
 	}
 
-	return fa;
+	*fa = &static_fa;
+
+	return 0;
 }
 
-cell fakeamx_push(struct fakeamx *fa, size_t cells) {
-	cell address;
+int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address) {
+	cell old_hea;
+	cell new_hea;
 
 	assert(fa != NULL);
+	
+	old_hea = fa->amx.hea;
+	new_hea = fa->amx.hea + cells * sizeof(cell);
 
-	address = fa->amx.hea;
-	fa->amx.hea += cells * sizeof(cell);
-
-	if (fa->amx.hea >= fa->heap.size * (int)sizeof(cell)) {
+	if (new_hea >= fa->heap.size * (int)sizeof(cell)) {
 		int error_code;
 
-		if ((error_code = array_resize(&fa->heap, fa->amx.hea / sizeof(cell))) < 0)
-			error(strerror(-error_code));
-		else
-			array_pad(&fa->heap);
+		if ((error_code = array_resize(&fa->heap, new_hea / sizeof(cell))) < 0)
+			return error_code;
+
+		array_pad(&fa->heap);
 	}
 
-	return address;
+	fa->amx.hea = new_hea;
+
+	if (address != NULL)
+		*address = old_hea;
+
+	return 0;
 }
 
-cell fakeamx_push_cell(struct fakeamx *fa, cell value) {
-	cell address;
+int fakeamx_push_cell(struct fakeamx *fa, cell value, cell *address) {
+	int error_code;
 
-	assert(fa != NULL);
+	assert(address != NULL);
 
-	address = fakeamx_push(fa, 1);
-	((cell *)(fa->heap.data))[address / sizeof(cell)] = value;
+	if ((error_code = fakeamx_push(fa, 1, address)) < 0)
+		return error_code;
 
-	return address;
+	((cell *)(fa->heap.data))[*address / sizeof(cell)] = value;
+
+	return 0;
 }
 
-cell fakeamx_push_float(struct fakeamx *fa, float value) {
-	assert(fa != NULL);
-
-	return fakeamx_push_cell(fa, amx_ftoc(value));
+cell fakeamx_push_float(struct fakeamx *fa, float value, cell *address) {
+	return fakeamx_push_cell(fa, amx_ftoc(value), address);
 }
 
-cell fakeamx_push_string(struct fakeamx *fa, const char *src, int *size) {
+int fakeamx_push_string(struct fakeamx *fa, const char *src, int *size, cell *address) {
 	int src_size;
-	cell address;
-	
-	assert(fa != NULL);
+	int error_code;
+
+	assert(address != NULL);
 
 	src_size = (int)strlen(src) + 1;
-	address = fakeamx_push(fa, src_size);
-	amx_SetString((cell *)array_get(&fa->heap, address / sizeof(cell)), src, 0, 0, src_size);
+	if ((error_code = fakeamx_push(fa, src_size, address)) < 0)
+		return error_code;
+
+	amx_SetString((cell *)array_get(&fa->heap, *address / sizeof(cell)), src, 0, 0, src_size);
 
 	if (size != NULL)
 		*size = src_size;
 
-	return address;
+	return 0;
 }
 
 void fakeamx_get_cell(struct fakeamx *fa, cell address, cell *value) {

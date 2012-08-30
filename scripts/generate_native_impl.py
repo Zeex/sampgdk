@@ -3,6 +3,7 @@
 import os
 import re
 import sys
+import itertools
 
 from parse_header import *
 
@@ -14,6 +15,12 @@ def to_argument_list(args):
 	arg_list = []
 	for type, name in args:
 		yield type + " " + name
+
+def previous_and_next(some_iterable):
+    prevs, items, nexts = itertools.tee(some_iterable, 3)
+    prevs = itertools.chain([None], prevs)
+    nexts = itertools.chain(itertools.islice(nexts, 1, None), [None])
+    return itertools.izip(prevs, items, nexts)
 
 def generate_native_impl(return_type, name, args, attrs):
 	if "$codeless" in attrs:
@@ -28,6 +35,7 @@ def generate_native_impl(return_type, name, args, attrs):
 		real_name = attrs["$real_name"]
 	else:
 		real_name = name
+
 	locals_code += "\tstatic AMX_NATIVE native;\n"
 	locals_code += "\tstruct fakeamx *fa;\n"
 	locals_code += "\t" + return_type + " retval;\n"
@@ -36,25 +44,25 @@ def generate_native_impl(return_type, name, args, attrs):
 		locals_code += "\tcell params[" + str(len(args) + 1) + "];\n"
 		params_code += "\tparams[0] = " + str(len(args)) + " * sizeof(cell);\n"
 
-		expect_buffer_size = False
-		for index, (type, name) in enumerate(args, 1):
-			alt_name = name + "_"
+		for index, (prev, cur, next) in enumerate(previous_and_next(args), 1):
+			type, name = cur
 
-			if expect_buffer_size:
-				term = name + ");\n"
-				push_code += term
-				get_code  += term
-				expect_buffer_size = False
+			if next is not None:
+				next_type, next_name = next
+			else:
+				next_type = next_name = ""
+
+			addr_var_name = name + "_"
+			size_arg_name = next_name
 
 			if type.endswith("*"):
-				locals_code += "\tcell " + alt_name + ";\n"
+				locals_code += "\tcell " + addr_var_name + ";\n"
 				if type == "char *":
-					push_code += "\t" + alt_name + " = fakeamx_push(fa, "
-					expect_buffer_size = True
+					push_code += "\tfakeamx_push(fa, " + size_arg_name + ", &" + addr_var_name + ");\n"
 				elif type == "const char *":
-					push_code += "\t" + alt_name + " = fakeamx_push_string(fa, " + name + ", NULL);\n"
+					push_code += "\tfakeamx_push_string(fa, " + name + ", NULL, &" + addr_var_name + ");\n"
 				else:
-					push_code += "\t" + alt_name + " = fakeamx_push(fa, 1);\n"
+					push_code += "\tfakeamx_push(fa, 1, &" + addr_var_name + ");\n"
 
 			params_code += "\tparams[" + str(index) + "] = "
 			if type == "int" or type == "bool":
@@ -62,18 +70,17 @@ def generate_native_impl(return_type, name, args, attrs):
 			elif type == "float":
 				params_code += "amx_ftoc(" + name + ")"
 			elif type.endswith("*"):
-				params_code += alt_name
+				params_code += addr_var_name
 			else:
 				raise InvalidNativeArgumentType(type)
 			params_code += ";\n"
 
 			if type.endswith("*"):
-				pop_code += "\tfakeamx_pop(fa, " + alt_name + ");\n"
+				pop_code += "\tfakeamx_pop(fa, " + addr_var_name + ");\n"
 				if type == "const char *":
 					pass
 				elif type == "char *":
-					get_code += "\tfakeamx_get_string(fa, " + alt_name + ", " + name + ", "
-					expect_buffer_size = True
+					get_code += "\tfakeamx_get_string(fa, " + addr_var_name + ", " + name + ", " + size_arg_name + ");\n"
 				else:
 					get_code += "\tfakeamx_get_"
 					try:
@@ -89,7 +96,7 @@ def generate_native_impl(return_type, name, args, attrs):
 	code += locals_code + "\n"
 	code += "\tif (unlikely(native == NULL))\n"
 	code += "\t\tnative = native_lookup_warn_stub(\"" + real_name + "\");\n"
-	code += "\tfa = fakeamx_global();\n"
+	code += "\tfakeamx_instance(&fa);\n"
 	code += push_code
 	code += params_code
 

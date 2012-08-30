@@ -29,11 +29,11 @@ struct fakeamx {
 
 int fakeamx_new(struct fakeamx *fa);
 void fakeamx_free(struct fakeamx *fa);
-struct fakeamx *fakeamx_global();
-cell fakeamx_push(struct fakeamx *fa, size_t cells);
-cell fakeamx_push_cell(struct fakeamx *fa, cell value);
-cell fakeamx_push_float(struct fakeamx *fa, float value);
-cell fakeamx_push_string(struct fakeamx *fa, const char *src, int *size /* = NULL */);
+int fakeamx_instance(struct fakeamx **fa);
+int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address);
+int fakeamx_push_cell(struct fakeamx *fa, cell value, cell *address);
+int fakeamx_push_float(struct fakeamx *fa, float value, cell *address);
+int fakeamx_push_string(struct fakeamx *fa, const char *src, int *size /* = NULL */, cell *address);
 void fakeamx_get_cell(struct fakeamx *fa, cell address, cell *value);
 void fakeamx_get_bool(struct fakeamx *fa, cell address, bool *value);
 void fakeamx_get_float(struct fakeamx *fa, cell address, float *value);
