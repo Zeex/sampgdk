@@ -46,9 +46,8 @@ static int find_free_slot() {
 	int i;
 
 	for (i = 0; i < timers.count; i++) {
-		if (get_timer_ptr(i) == NULL) {
+		if (get_timer_ptr(i) == NULL)
 			return i;
-		}
 	}
 
 	return -1;
@@ -63,9 +62,8 @@ static void fire_timer(int timerid, time_t elapsed) {
 
 	(timer->callback)(timerid, timer->param);
 
-	if (timer->repeat) {
+	if (timer->repeat)
 		timer->started = timer_clock() - (elapsed - timer->interval);
-	}
 }
 
 int timer_init() {
@@ -155,9 +153,8 @@ void timer_process_timers(void *plugin) {
 		if (elapsed >= timer->interval) {
 			fire_timer(i, elapsed);
 
-			if (!timer->repeat) {
+			if (!timer->repeat)
 				timer_kill(i);
-			}
 		}
 	}
 }

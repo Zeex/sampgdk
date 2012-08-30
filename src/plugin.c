@@ -49,9 +49,8 @@ bool plugin_unregister(void *plugin) {
 
 	while (cur != NULL) {
 		if (cur->plugin == plugin) {
-			if (prev != NULL) {
+			if (prev != NULL)
 				prev->next = cur->next;
-			}
 			free(cur);
 			return true;
 		}
@@ -68,9 +67,8 @@ bool plugin_is_registered(void *plugin) {
 	cur = plugins;
 
 	while (cur != NULL) {
-		if (cur->plugin == plugin) {
+		if (cur->plugin == plugin)
 			return true;
-		}
 		cur = cur->next;
 	}
 

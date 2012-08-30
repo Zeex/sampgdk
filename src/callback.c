@@ -103,5 +103,6 @@ int callback_invoke(AMX *amx, const char *name, cell *retval, bool *success) {
 
 	if (success != NULL)
 		*success = true;
+
 	return 0;
 }
