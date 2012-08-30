@@ -1,5 +1,3 @@
-# Use this file to build GDK with CMake: http://cmake.org
-
 project(sampgdk)
 cmake_minimum_required(VERSION 2.8.8)
 
@@ -9,22 +7,23 @@ include(AmxConfig)
 include(ParseVersionString)
 
 include_directories("include")
-include_directories("include/sampgdk")
-
-set(SUBHOOK_STATIC TRUE)
-set(SUBHOOK_ARCH x86)
-add_definitions(-DSUBHOOK_STATIC)
-add_subdirectory("lib/subhook")
 include_directories("lib/subhook")
+
+add_definitions(-DSUBHOOK_STATIC)
+
+set(SUBHOOK_ARCH   x86)
+set(SUBHOOK_STATIC TRUE)
+
+add_subdirectory("lib/subhook")
 list(APPEND SAMPGDK_LINK_LIBRARIES subhook)
 
 find_package(PythonInterp 2.6 REQUIRED)
 
 function(run_python_script script input_file output_file)
 	execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${script}
-		INPUT_FILE ${input_file}
-		OUTPUT_FILE ${output_file}
+		COMMAND        ${PYTHON_EXECUTABLE} ${script}
+		INPUT_FILE     ${input_file}
+		OUTPUT_FILE    ${output_file}
 		ERROR_VARIABLE error)
 	if(error)
 		message(FATAL_ERROR ${error})
@@ -245,8 +244,7 @@ endif()
 
 include(CPack)
 
-
-option(SAMPGDK_BUILD_SAMPLES "Build sample plugins" OFF)
+option(SAMPGDK_BUILD_SAMPLES "Build sample gamemodes" OFF)
 if(SAMPGDK_BUILD_SAMPLES)
 	add_subdirectory(samples)
 endif()
