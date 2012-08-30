@@ -24,14 +24,14 @@
 #include <string.h>
 #include <subhook.h>
 
-#include "asm.h"
-#include "callback.h"
-#include "log.h"
-#include "logprintf-impl.h"
-#include "native.h"
-#include "plugin.h"
-#include "server-log.h"
-#include "timer.h"
+#include "support/asm.h"
+#include "support/callback.h"
+#include "support/log.h"
+#include "support/logprintf-impl.h"
+#include "support/native.h"
+#include "support/plugin.h"
+#include "support/server-log.h"
+#include "support/timer.h"
 
 extern void *pAMXFunctions;
 static void **ppPluginData;

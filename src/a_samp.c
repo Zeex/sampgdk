@@ -17,10 +17,10 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-#include "fakeamx.h"
-#include "likely.h"
-#include "native.h"
-#include "timer.h"
+#include "support/fakeamx.h"
+#include "support/likely.h"
+#include "support/native.h"
+#include "support/timer.h"
 
 #include "generated/a_samp-impl.c"
 

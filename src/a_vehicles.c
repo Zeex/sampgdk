@@ -16,8 +16,8 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-#include "fakeamx.h"
-#include "likely.h"
-#include "native.h"
+#include "support/fakeamx.h"
+#include "support/likely.h"
+#include "support/native.h"
 
 #include "generated/a_vehicles-impl.c"

@@ -35,7 +35,9 @@ run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_objects.h
 run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_players.h" "src/generated/a_players-impl.c")
 run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_samp.h" "src/generated/a_samp-impl.c")
 run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_vehicles.h" "src/generated/a_vehicles-impl.c")
-run_python_script("scripts/generate_callback_handlers.py" "include/sampgdk/a_samp.h" "src/generated/callback-handlers.c")
+
+file(MAKE_DIRECTORY "src/support/generated/")
+run_python_script("scripts/generate_callback_handlers.py" "include/sampgdk/a_samp.h" "src/support/generated/callback-handlers.c")
 
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
 run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-defs.h")
@@ -65,58 +67,58 @@ set(SAMPGDK_HEADERS
 
 set(SAMPGDK_SOURCES
 	"src/sdk/amxplugin.c"
+	"src/support/amx-stack.c"
+	"src/support/amx-stack.h"
+	"src/support/array.c"
+	"src/support/array.h"
+	"src/support/asm.h"
+	"src/support/callback.c"
+	"src/support/callback.h"
+	"src/support/fakeamx.c"
+	"src/support/fakeamx.h"
+	"src/support/likely.h"
+	"src/support/log.c"
+	"src/support/log.h"
+	"src/support/logprintf-impl.c"
+	"src/support/logprintf-impl.h"
+	"src/support/native.c"
+	"src/support/native.h"
+	"src/support/plugin.c"
+	"src/support/plugin.h"
+	"src/sampgdk.rc"
+	"src/support/server-cfg.c"
+	"src/support/server-cfg.h"
+	"src/support/server-log.c"
+	"src/support/server-log.h"
+	"src/support/timer.c"
+	"src/support/timer.h"
 	"src/a_objects.c"
 	"src/a_players.c"
 	"src/a_samp.c"
 	"src/a_vehicles.c"
-	"src/amx-stack.c"
-	"src/amx-stack.h"
-	"src/array.c"
-	"src/array.h"
-	"src/asm.h"
-	"src/callback.c"
-	"src/callback.h"
 	"src/core.c"
-	"src/fakeamx.c"
-	"src/fakeamx.h"
-	"src/likely.h"
-	"src/log.c"
-	"src/log.h"
-	"src/logprintf-impl.c"
-	"src/logprintf-impl.h"
-	"src/native.c"
-	"src/native.h"
-	"src/plugin.c"
-	"src/plugin.h"
-	"src/sampgdk.rc"
-	"src/server-cfg.c"
-	"src/server-cfg.h"
-	"src/server-log.c"
-	"src/server-log.h"
-	"src/timer.c"
-	"src/timer.h"
 	"src/version.c"
 )
 
 if(MSVC)
 	list(APPEND SAMPGDK_SOURCES
-		"src/asm-msvc.c"
+		"src/support/asm-msvc.c"
 	)
 elseif(CMAKE_COMPILER_IS_GNUCC)
 	list(APPEND SAMPGDK_SOURCES
-		"src/asm-gcc.c"
+		"src/support/asm-gcc.c"
 	)
 endif()
 
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
-		"src/plugin-win32.c"
-		"src/timer-win32.c"
+		"src/support/plugin-win32.c"
+		"src/support/timer-win32.c"
 	)
 elseif(UNIX)
 	list(APPEND SAMPGDK_SOURCES
-		"src/plugin-linux.c"
-		"src/timer-linux.c"
+		"src/support/plugin-linux.c"
+		"src/support/timer-linux.c"
 	)
 endif()
 
