@@ -3,7 +3,7 @@
 project(sampgdk)
 cmake_minimum_required(VERSION 2.8.8)
 
-list(APPEND CMAKE_MODULE_PATH "${sampgdk_SOURCE_DIR}/cmake/Modules")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 include(AmxConfig)
 include(ParseVersionString)
@@ -21,7 +21,7 @@ list(APPEND SAMPGDK_LINK_LIBRARIES subhook)
 find_package(PythonInterp 2.6 REQUIRED)
 
 function(run_python_script script input_file output_file)
-	execute_process(WORKING_DIRECTORY ${sampgdk_SOURCE_DIR}
+	execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 		COMMAND ${PYTHON_EXECUTABLE} ${script}
 		INPUT_FILE ${input_file}
 		OUTPUT_FILE ${output_file}
@@ -132,7 +132,7 @@ add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(TARGET sampgdk PROPERTY FOLDER "sampgdk")
 
-file(STRINGS "${sampgdk_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 1)
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt" VERSION_txt LIMIT_COUNT 1)
 
 list(LENGTH VERSION_txt length)
 if(length EQUAL 0)
@@ -162,15 +162,15 @@ if(length GREATER 3)
 endif()
 
 configure_file(
-	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h.in"
-	"${sampgdk_SOURCE_DIR}/include/sampgdk/version.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/version.h.in"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/version.h"
 )
 
 set_property(TARGET sampgdk PROPERTY DEBUG_POSTFIX "_d")
 set_property(TARGET sampgdk APPEND PROPERTY COMPILE_DEFINITIONS "IN_SAMPGDK")
 
 if(WIN32)
-	set(DEF_FILE "${sampgdk_SOURCE_DIR}/src/sampgdk.def")
+	set(DEF_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.def")
 	if(MINGW)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--kill-at --def ${DEF_FILE}")
 	elseif(MSVC)
@@ -222,7 +222,7 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${SAMPGDK_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${SAMPGDK_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${SAMPGDK_VERSION_PATCH})
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "sampgdk ${SAMPGDK_VERSION_MAJOR}.${SAMPGDK_VERSION_MINOR}")
-set(CPACK_RESOURCE_FILE_LICENSE "${sampgdk_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
 if(WIN32)
 	set(CPACK_GENERATOR NSIS)
 	set(CPACK_COMPONENT_RUNTIME_DISPLAY_NAME "Runtime")
