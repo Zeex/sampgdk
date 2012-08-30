@@ -20,7 +20,6 @@
 #include <sampgdk/plugin.h>
 
 #include <errno.h>
-#include <stdarg.h>
 #include <stddef.h>
 #include <string.h>
 #include <subhook.h>
@@ -28,6 +27,7 @@
 #include "asm.h"
 #include "callback.h"
 #include "log.h"
+#include "logprintf-impl.h"
 #include "native.h"
 #include "plugin.h"
 #include "server-log.h"
@@ -189,23 +189,6 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 	subhook_install(amx_Callback_hook);
 
 	return error_code;
-}
-
-static void logprintf_impl(const char *format, ...) {
-	char *real_format;
-	va_list args;
-
-	if ((real_format = malloc(strlen(format) + 2)) == NULL)
-		return;
-
-	strcpy(real_format, format);
-	strcat(real_format, "\n");
-	
-	va_start(args, format);
-	server_log_vprintf(real_format, args);
-	va_end(args);
-
-	free(real_format);
 }
 
 sampgdk_logprintf_t sampgdk_logprintf = logprintf_impl;

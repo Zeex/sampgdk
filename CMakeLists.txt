@@ -83,6 +83,8 @@ set(SAMPGDK_SOURCES
 	"src/likely.h"
 	"src/log.c"
 	"src/log.h"
+	"src/logprintf-impl.c"
+	"src/logprintf-impl.h"
 	"src/native.c"
 	"src/native.h"
 	"src/plugin.c"
