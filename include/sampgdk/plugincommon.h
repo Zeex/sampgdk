@@ -16,6 +16,7 @@
 #ifndef SAMPGDK_PLUGINCOMMON_H
 #define SAMPGDK_PLUGINCOMMON_H
 
+#include <sampgdk/platform.h> /* for the LINUX macro */
 #include <sampgdk/sdk/plugincommon.h>
 
 #endif /* !SAMPGDK_PLUGINCOMMON_H */
