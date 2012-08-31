@@ -23,12 +23,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "amx-stack.h"
 #include "callback.h"
 #include "likely.h"
 #include "plugin.h"
-
-#include "generated/callback-handlers.c"
 
 struct handler_list {
 	callback_handler     handler;
@@ -40,7 +37,7 @@ static struct handler_list *handlers;
 static bool init_ok = false;
 
 int callback_init() {
-	return register_callback_handlers();
+	return 0;
 }
 
 void callback_cleanup() {

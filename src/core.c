@@ -24,6 +24,7 @@
 #include <string.h>
 #include <subhook.h>
 
+#include "support/amx-stack.h"
 #include "support/asm.h"
 #include "support/callback.h"
 #include "support/log.h"
@@ -32,6 +33,8 @@
 #include "support/plugin.h"
 #include "support/server-log.h"
 #include "support/timer.h"
+
+#include "generated/callback-handlers.c"
 
 extern void *pAMXFunctions;
 static void **ppPluginData;
@@ -219,6 +222,8 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 		subhook_set_source(amx_Callback_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Callback]);
 		subhook_set_destination(amx_Callback_hook, (void*)amx_Callback_);
 		subhook_install(amx_Callback_hook);
+
+		register_callback_handlers();
 	}
 
 	plugin = plugin_address_to_handle(get_return_address(NULL, 0));

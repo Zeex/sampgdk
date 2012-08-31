@@ -36,9 +36,7 @@ run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_objects.h
 run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_players.h" "src/generated/a_players-impl.c")
 run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_samp.h" "src/generated/a_samp-impl.c")
 run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_vehicles.h" "src/generated/a_vehicles-impl.c")
-
-file(MAKE_DIRECTORY "src/support/generated/")
-run_python_script("scripts/generate_callback_handlers.py" "include/sampgdk/a_samp.h" "src/support/generated/callback-handlers.c")
+run_python_script("scripts/generate_callback_handlers.py" "include/sampgdk/a_samp.h" "src/generated/callback-handlers.c")
 
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
 run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-defs.h")
