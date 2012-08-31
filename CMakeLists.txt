@@ -84,7 +84,6 @@ set(SAMPGDK_SOURCES
 	"src/support/native.h"
 	"src/support/plugin.c"
 	"src/support/plugin.h"
-	"src/sampgdk.rc"
 	"src/support/server-cfg.c"
 	"src/support/server-cfg.h"
 	"src/support/server-log.c"
@@ -96,6 +95,8 @@ set(SAMPGDK_SOURCES
 	"src/a_samp.c"
 	"src/a_vehicles.c"
 	"src/core.c"
+	"src/sampgdk.def"
+	"src/sampgdk.rc"
 	"src/version.c"
 )
 
@@ -181,12 +182,8 @@ set_property(TARGET sampgdk PROPERTY DEBUG_POSTFIX "_d")
 set_property(TARGET sampgdk APPEND PROPERTY COMPILE_DEFINITIONS "IN_SAMPGDK")
 
 if(WIN32)
-	set(DEF_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.def")
-	if(MINGW)
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " ${DEF_FILE}")
-	elseif(MSVC)
+	if(MSVC)
 		add_definitions(-D_CRT_SECURE_NO_WARNINGS)		
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " /DEF:${DEF_FILE}")
 	endif()
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
@@ -194,14 +191,13 @@ if(WIN32)
 	)
 endif()
 
-if(UNIX OR MINGW)
+if(UNIX)
 	set_target_properties(sampgdk PROPERTIES 
-		VERSION   ${SAMPGDK_VERSION_STRING}
-		SOVERSION ${SAMPGDK_VERSION_MAJOR}
+		VERSION   "${SAMPGDK_VERSION_STRING}"
+		SOVERSION "${SAMPGDK_VERSION_MAJOR}"
 	)
-	if(UNIX)
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-dynamic")
-		list(APPEND SAMPGDK_LINK_LIBRARIES "-lrt")
+	if(CMAKE_COMPILER_IS_GNUCC)
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-dynamic -lrt")
 	endif()
 endif()
 
