@@ -24,7 +24,7 @@
 #ifdef __cplusplus
 	#define SAMPGDK_EXTERN_C extern "C"
 #else
-	#define SAMPGDK_EXTERN_C extern
+	#define SAMPGDK_EXTERN_C
 #endif
 
 #if defined SAMPGDK_LINUX
