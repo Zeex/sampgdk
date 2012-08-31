@@ -203,6 +203,7 @@ if(UNIX)
 	)
 
 	if(CMAKE_COMPILER_IS_GNUCC)
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-attributes")
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-dynamic")
 	endif()
 
