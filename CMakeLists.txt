@@ -108,6 +108,8 @@ elseif(CMAKE_COMPILER_IS_GNUCC)
 	list(APPEND SAMPGDK_SOURCES
 		"src/support/asm-gcc.c"
 	)
+else()
+	message(FATAL_ERROR "Unsupported compiler")
 endif()
 
 if(WIN32)
@@ -120,6 +122,8 @@ elseif(UNIX)
 		"src/support/plugin-linux.c"
 		"src/support/timer-linux.c"
 	)
+else()
+	message(FATAL_ERROR "Unsupported operating system")
 endif()
 
 function(directory_source_group path)
