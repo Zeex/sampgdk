@@ -210,6 +210,7 @@ if(UNIX)
 		)
 		list(APPEND SAMPGDK_LINNK_FLAGS
 			"-Wl,--export-dynamic"
+			"-Wl,--no-undefined"
 		)
 	endif()
 
