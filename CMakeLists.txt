@@ -185,6 +185,7 @@ if(WIN32)
 	if(MSVC)
 		add_definitions(-D_CRT_SECURE_NO_WARNINGS)		
 	endif()
+
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
 		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}"
@@ -196,8 +197,18 @@ if(UNIX)
 		VERSION   "${SAMPGDK_VERSION_STRING}"
 		SOVERSION "${SAMPGDK_VERSION_MAJOR}"
 	)
+
 	if(CMAKE_COMPILER_IS_GNUCC)
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-dynamic -lrt")
+		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-dynamic")
+	endif()
+
+	# Find librt (POSIX realtime extensions), needed for clock_gettime().
+	find_library(LIBRT_PATH NAMES "rt")
+
+	if(LIBRT_PATH)
+		list(APPEND SAMPGDK_LINK_LIBRARIES ${LIBRT_PATH})
+	else()
+		message(WARNING "Could not find librt")
 	endif()
 endif()
 
