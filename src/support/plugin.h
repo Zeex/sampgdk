@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PLUGIN_H_
-#define SAMPGDK_PLUGIN_H_
+#ifndef SAMPGDK_SUPPORT_PLUGIN_H
+#define SAMPGDK_SUPPORT_PLUGIN_H
 
 #include <sampgdk/bool.h>
 
@@ -59,4 +59,4 @@ void plugin_address_to_filename(void *address, char *filename, size_t size);
  */
 struct plugin_list *plugin_get_list();
 
-#endif /* !SAMPGDK_PLUGIN_H_ */
+#endif /* !SAMPGDK_SUPPORT_PLUGIN_H */

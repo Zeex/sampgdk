@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_SERVER_CFG_H_
-#define SAMPGDK_SERVER_CFG_H_
+#ifndef SAMPGDK_SUPPORT_SERVER_CFG_H
+#define SAMPGDK_SUPPORT_SERVER_CFG_H
 
 typedef int (*server_cfg_callback)(const char *key, const char *value, void *param);
 
 int server_cfg_parse(server_cfg_callback callback, void *param, int buffer_size);
 
-#endif /* !SAMPGDK_SERVER_CFG_H_ */
+#endif /* !SAMPGDK_SUPPORT_SERVER_CFG_H */

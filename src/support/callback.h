@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_CALLBACK_H_
-#define SAMPGDK_CALLBACK_H_
+#ifndef SAMPGDK_SUPPORT_CALLBACK_H
+#define SAMPGDK_SUPPORT_CALLBACK_H
 
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
@@ -27,4 +27,4 @@ void callback_cleanup();
 int callback_add_handler(const char *name, callback_handler handler);
 int callback_invoke(AMX *amx, const char *name, cell *retval, bool *success);
 
-#endif /* !SAMPGDK_CALLBACK_H_ */
+#endif /* !SAMPGDK_SUPPORT_CALLBACK_H */

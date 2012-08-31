@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_ASM_H_
-#define SAMPGDK_ASM_H_
+#ifndef SAMPGDK_SUPPORT_ASM_H
+#define SAMPGDK_SUPPORT_ASM_H
 
 void *get_return_address(void *frame, int depth);
 
-#endif /* !SAMPGDK_ASM_H_ */
+#endif /* !SAMPGDK_ASM_H */

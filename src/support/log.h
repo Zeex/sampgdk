@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_LOG_H_
-#define SAMPGDK_LOG_H_
+#ifndef SAMPGDK_SUPPORT_LOG_H
+#define SAMPGDK_SUPPORT_LOG_H
 
 void message(const char *format, ...);
 void trace(const char *format, ...);
 void warning(const char *format, ...);
 void error(const char *format, ...);
 
-#endif /* !SAMPGDK_LOG_H_ */
+#endif /* !SAMPGDK_SUPPORT_LOG_H */

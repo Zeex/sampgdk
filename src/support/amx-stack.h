@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_STACK_H_
-#define SAMPGDK_AMX_STACK_H_
+#ifndef SAMPGDK_SUPPORT_AMX_STACK_H
+#define SAMPGDK_SUPPORT_AMX_STACK_H
 
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
@@ -24,4 +24,4 @@ bool  amx_stack_get_arg_bool(AMX *amx, int index);
 float amx_stack_get_arg_float(AMX *amx, int index);
 char *amx_stack_get_arg_string(AMX *amx, int index);
 
-#endif /* !SAMPGDK_AMX_STACK_H_ */
+#endif /* !SAMPGDK_AMX_STACK_H */

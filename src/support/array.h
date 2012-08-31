@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_ARRAY_H_
-#define SAMPGDK_ARRAY_H_
+#ifndef SAMPGDK_SUPPORT_ARRAY_H
+#define SAMPGDK_SUPPORT_ARRAY_H
 
 #include <sampgdk/bool.h>
 
@@ -41,4 +41,4 @@ int array_remove(struct array *a, int index, int count);
 int array_remove_single(struct array *a, int index);
 int array_append(struct array *a, void *elem);
 
-#endif /* !SAMPGDK_ARRAY_H_ */
+#endif /* !SAMPGDK_SUPPORT_ARRAY_H */

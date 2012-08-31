@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_LIKELY_H_
-#define SAMPGDK_LIKELY_H_
+#ifndef SAMPGDK_SUPPORT_LIKELY_H
+#define SAMPGDK_SUPPORT_LIKELY_H
 
 #if defined __GNUC__
 	#define likely(x)    __builtin_expect((x),1)
@@ -24,4 +24,4 @@
 	#define unlikely(x)  (x)
 #endif
 
-#endif /* !SAMPGDK_LIKELY_H_ */
+#endif /* !SAMPGDK_SUPPORT_LIKELY_H */
