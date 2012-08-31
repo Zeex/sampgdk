@@ -195,7 +195,6 @@ if(UNIX OR MINGW)
 		SOVERSION ${SAMPGDK_VERSION_MAJOR}
 	)
 	if(UNIX)
-		add_definitions(-DLINUX)
 		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-dynamic")
 		list(APPEND SAMPGDK_LINK_LIBRARIES "-lrt")
 	endif()
