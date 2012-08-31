@@ -172,6 +172,11 @@ configure_file(
 	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/version.h"
 )
 
+configure_file(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.rc.in"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.rc"
+)
+
 set_property(TARGET sampgdk PROPERTY DEBUG_POSTFIX "_d")
 set_property(TARGET sampgdk APPEND PROPERTY COMPILE_DEFINITIONS "IN_SAMPGDK")
 
