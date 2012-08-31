@@ -14,4 +14,4 @@ set(Sampgdk3_INCLUDE_DIRS ${Sampgdk3_INCLUDE_DIR})
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Sampgdk3 DEFAULT_MSG Sampgdk3_LIBRARY Sampgdk3_INCLUDE_DIR)
 
-mark_as_advanced(Sampgdk3_LIBRARY Sampgdk3_INCLUDE_DIR)
+mark_as_advanced(Sampgdk3_LIBRARIES Sampgdk3_INCLUDE_DIRS)
