@@ -10,8 +10,6 @@ include_directories("include")
 include_directories("include/sampgdk")
 include_directories("lib/subhook")
 
-add_definitions(-DSUBHOOK_STATIC)
-
 set(SUBHOOK_ARCH   x86)
 set(SUBHOOK_STATIC TRUE)
 
@@ -183,11 +181,15 @@ configure_file(
 )
 
 set_property(TARGET sampgdk PROPERTY DEBUG_POSTFIX "_d")
-set_property(TARGET sampgdk APPEND PROPERTY COMPILE_DEFINITIONS "IN_SAMPGDK")
+
+list(APPEND SAMPGDK_COMPILE_DEFS
+	"IN_SAMPGDK"
+	"SUBHOOK_STATIC"
+)
 
 if(WIN32)
 	if(MSVC)
-		add_definitions(-D_CRT_SECURE_NO_WARNINGS)		
+		list(APPEND SAMPGDK_COMPILE_DEFS "_CRT_SECURE_NO_WARNINGS")
 	endif()
 
 	set_target_properties(sampgdk PROPERTIES 
@@ -203,8 +205,12 @@ if(UNIX)
 	)
 
 	if(CMAKE_COMPILER_IS_GNUCC)
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-attributes")
-		set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " -Wl,--export-dynamic")
+		list(APPEND SAMPGDK_COMPILE_FLAGS
+			"-Wno-attributes"
+		)
+		list(APPEND SAMPGDK_LINNK_FLAGS
+			"-Wl,--export-dynamic"
+		)
 	endif()
 
 	# Find librt (POSIX realtime extensions), needed for clock_gettime().
@@ -216,6 +222,18 @@ if(UNIX)
 		message(WARNING "Could not find librt")
 	endif()
 endif()
+
+foreach(def IN LISTS SAMPGDK_COMPILE_DEFS)
+	set_property(TARGET sampgdk APPEND PROPERTY COMPILE_DEFINITIONS "${def}")
+endforeach()
+
+foreach(flag IN LISTS SAMPGDK_COMPILE_FLAGS)
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY COMPILE_FLAGS " ${flag}")
+endforeach()
+
+foreach(flag IN LISTS SAMPGDK_LINK_FLAGS)
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " ${flag}")
+endforeach()
 
 target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBRARIES})
 
