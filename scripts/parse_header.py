@@ -82,7 +82,7 @@ def get_callbacks(text):
 def main(argv):
 	code = sys.stdin.read()
 	document = xml.dom.minidom.Document()
-	root = document.createElement("root")
+	decls = document.createElement("declarations")
 	for type, name, args, attrs in get_natives(code):
 		native = document.createElement("native")
 		native.setAttribute("type", type)
@@ -98,7 +98,7 @@ def main(argv):
 			if value is not None:
 				attribute.setAttribute("value", value)
 			native.appendChild(attribute)
-		root.appendChild(native)
+		decls.appendChild(native)
 	for type, name, args, attrs in get_callbacks(code):
 		callback = document.createElement("callback")
 		callback.setAttribute("type", type)
@@ -114,8 +114,8 @@ def main(argv):
 			if value is not None:
 				attribute.setAttribute("value", value)
 			callback.appendChild(attribute)
-		root.appendChild(callback)
-	document.appendChild(root)
+		decls.appendChild(callback)
+	document.appendChild(decls)
 	print document.toprettyxml(indent="\t")
 
 if __name__ == "__main__":
