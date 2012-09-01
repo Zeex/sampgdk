@@ -246,7 +246,15 @@ install(TARGETS sampgdk
 	LIBRARY DESTINATION "lib" COMPONENT "libraries"
 	ARCHIVE DESTINATION "lib" COMPONENT "libraries"
 )
-install(DIRECTORY "include" DESTINATION "." COMPONENT "headers" FILES_MATCHING PATTERN "*.h")
+
+foreach(header IN LISTS SAMPGDK_HEADERS)
+	file(RELATIVE_PATH header_relative_to_include
+		"${CMAKE_CURRENT_SOURCE_DIR}/include"
+		"${CMAKE_CURRENT_SOURCE_DIR}/${header}"
+	)
+	get_filename_component(header_directory ${header_relative_to_include} PATH)
+	install(FILES ${header} DESTINATION "include/${header_directory}")
+endforeach()
 
 if(MSVC)
 	option(SAMPGDK_INSTALL_PDB "Install program database (.pdb) file" OFF)
