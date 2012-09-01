@@ -8,13 +8,6 @@ include(ParseVersionString)
 
 include_directories("include")
 include_directories("include/sampgdk")
-include_directories("lib/subhook")
-
-set(SUBHOOK_ARCH "x86")
-set(SUBHOOK_STATIC TRUE)
-
-add_subdirectory("lib/subhook")
-list(APPEND SAMPGDK_LINK_LIBRARIES subhook)
 
 find_package(PythonInterp 2.6 REQUIRED)
 
@@ -184,7 +177,6 @@ set_property(TARGET sampgdk PROPERTY DEBUG_POSTFIX "_d")
 
 list(APPEND SAMPGDK_COMPILE_DEFS
 	"IN_SAMPGDK"
-	"SUBHOOK_STATIC"
 )
 
 if(WIN32)
@@ -221,11 +213,15 @@ if(UNIX)
 	find_library(LIBRT_PATH NAMES "rt")
 
 	if(LIBRT_PATH)
-		list(APPEND SAMPGDK_LINK_LIBRARIES ${LIBRT_PATH})
+		list(APPEND SAMPGDK_LINK_LIBS ${LIBRT_PATH})
 	else()
 		message(WARNING "Could not find librt")
 	endif()
 endif()
+
+add_subdirectory("lib")
+
+include_directories(${SAMPGDK_INCLUDE_DIRS})
 
 foreach(def IN LISTS SAMPGDK_COMPILE_DEFS)
 	set_property(TARGET sampgdk APPEND PROPERTY COMPILE_DEFINITIONS "${def}")
@@ -239,7 +235,7 @@ foreach(flag IN LISTS SAMPGDK_LINK_FLAGS)
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " ${flag}")
 endforeach()
 
-target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBRARIES})
+target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBS})
 
 install(TARGETS sampgdk 
 	RUNTIME DESTINATION "bin" COMPONENT "bin"

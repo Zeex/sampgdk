@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 2.8)
+
+set(SUBHOOK_ARCH   "x86")
+set(SUBHOOK_STATIC TRUE)
+
+add_subdirectory("subhook")
+list(APPEND LIBS "subhook")
+list(APPEND DIRS "${CMAKE_CURRENT_SOURCE_DIR}/subhook")
+list(APPEND DEFS "SUBHOOK_STATIC")
+
+# list() doesn't support PARENT_SCOPE so we have to use set() instead.
+set(SAMPGDK_COMPILE_DEFS ${SAMPGDK_COMPILE_DEFS} ${DEFS} PARENT_SCOPE)
+set(SAMPGDK_INCLUDE_DIRS ${SAMPGDK_INCLUDE_DIRS} ${DIRS} PARENT_SCOPE)
+set(SAMPGDK_LINK_LIBS ${SAMPGDK_LINK_LIBRARIES} ${LIBS} PARENT_SCOPE)
