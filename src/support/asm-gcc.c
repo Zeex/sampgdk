@@ -13,15 +13,12 @@
  * limitations under the License.
  */
 
-#if defined __MINGW32__ || defined __CYGWIN__
-	#define PREFIX "_"
-#else
-	#define PREFIX
-#endif
+__asm__ (
+".globl "ASM_PREFIX"get_return_address;"
+);
 
 __asm__ (
-PREFIX"get_return_address:"
-".globl "PREFIX"get_return_address;"
+ASM_PREFIX"get_return_address:"
 
 "	movl 4(%esp), %eax;"
 "	cmpl $0, %eax;"
@@ -44,4 +41,3 @@ PREFIX"get_return_address:"
 "	movl %edx, %eax;"
 "	ret;"
 );
-
