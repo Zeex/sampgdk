@@ -19,7 +19,7 @@
 #include <sampgdk/a_samp.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
-#include <sampgdk/generated/a_vehicles-defs.h>
+#include <sampgdk/generated/a_vehicles-def.h>
 
 #define CARMODTYPE_SPOILER      (0)
 #define CARMODTYPE_HOOD         (1)
