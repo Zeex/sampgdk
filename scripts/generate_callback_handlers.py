@@ -64,6 +64,10 @@ def generate_callback_handler(name, args, bad_ret):
 	return typedef_code + code
 
 def main(argv):
+	if len(argv) < 2:
+		print "Usage:", os.path.basename(argv[0]), "<reg-func-name>"
+		sys.exit(1)
+
 	callbacks = list(get_callbacks(sys.stdin.read()))
 
 	for type, name, args, attrs in callbacks:
@@ -72,7 +76,7 @@ def main(argv):
 			bad_ret = attrs["$bad_ret"]
 		print generate_callback_handler(name, args, bad_ret)
 
-	print "int register_callback_handlers() {"
+	print "int " + argv[1] + "() {"
 	print "\tint error;\n"
 	for type, name, args, attrs in callbacks:
 		print "\tif ((error = callback_add_handler(\"" + name + "\", " + name + ")) < 0)"
