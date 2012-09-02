@@ -11,29 +11,43 @@ include_directories("include/sampgdk")
 
 find_package(PythonInterp 2.6 REQUIRED)
 
-function(run_python_script script input_file output_file)
+function(run_python_script script input output)
 	execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 		COMMAND        ${PYTHON_EXECUTABLE} ${script}
-		INPUT_FILE     ${input_file}
-		OUTPUT_FILE    ${output_file}
+		INPUT_FILE     ${input}
+		OUTPUT_FILE    ${output}
 		ERROR_VARIABLE error)
 	if(error)
 		message(FATAL_ERROR ${error})
 	endif()
 endfunction()
 
+function(generate_native_impl input output)
+	run_python_script("scripts/generate_native_impl.py" ${input} ${output})
+endfunction()
+
+function(generate_native_def input output)
+	run_python_script("scripts/generate_native_def.py" ${input} ${output})
+endfunction()
+
+function(generate_callback_handlers input output)
+	run_python_script("scripts/generate_callback_handlers.py" ${input} ${output})
+endfunction()
+
 file(MAKE_DIRECTORY "src/generated/")
-run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_objects.h" "src/generated/a_objects-impl.c")
-run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_players.h" "src/generated/a_players-impl.c")
-run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_samp.h" "src/generated/a_samp-impl.c")
-run_python_script("scripts/generate_native_impl.py" "include/sampgdk/a_vehicles.h" "src/generated/a_vehicles-impl.c")
-run_python_script("scripts/generate_callback_handlers.py" "include/sampgdk/a_samp.h" "src/generated/callback-handlers.c")
+generate_native_impl("include/sampgdk/a_objects.h" "src/generated/a_objects-impl.c")
+generate_native_impl("include/sampgdk/a_players.h" "src/generated/a_players-impl.c")
+generate_native_impl("include/sampgdk/a_samp.h" "src/generated/a_samp-impl.c")
+generate_native_impl("include/sampgdk/a_vehicles.h" "src/generated/a_vehicles-impl.c")
+
+file(MAKE_DIRECTORY "src/generated/")
+generate_callback_handlers("include/sampgdk/a_samp.h" "src/generated/callback-handlers.c")
 
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
-run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-def.h")
-run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_players.h" "include/sampgdk/generated/a_players-def.h")
-run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_samp.h" "include/sampgdk/generated/a_samp-def.h")
-run_python_script("scripts/generate_native_def.py" "include/sampgdk/a_vehicles.h" "include/sampgdk/generated/a_vehicles-def.h")
+generate_native_def("include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-def.h")
+generate_native_def("include/sampgdk/a_players.h" "include/sampgdk/generated/a_players-def.h")
+generate_native_def("include/sampgdk/a_samp.h" "include/sampgdk/generated/a_samp-def.h")
+generate_native_def("include/sampgdk/a_vehicles.h" "include/sampgdk/generated/a_vehicles-def.h")
 
 set(SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"
