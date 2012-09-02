@@ -37,21 +37,11 @@ function(generate_callback_handlers input output reg_func_name)
 	python("scripts/generate_callback_handlers.py" ${input} ${output} ${reg_func_name})
 endfunction()
 
-function(list_natives input output prefix)
-	python("scripts/list_natives.py" ${input} ${output} ${prefix})
-endfunction()
-
 file(MAKE_DIRECTORY "src/generated/")
 generate_native_impl("include/sampgdk/a_objects.h" "src/generated/a_objects-impl.c")
 generate_native_impl("include/sampgdk/a_players.h" "src/generated/a_players-impl.c")
 generate_native_impl("include/sampgdk/a_samp.h" "src/generated/a_samp-impl.c")
 generate_native_impl("include/sampgdk/a_vehicles.h" "src/generated/a_vehicles-impl.c")
-
-file(MAKE_DIRECTORY "src/generated/")
-list_natives("include/sampgdk/a_objects.h" "src/generated/a_objects.exports" "sampgdk_")
-list_natives("include/sampgdk/a_players.h" "src/generated/a_players.exports" "sampgdk_")
-list_natives("include/sampgdk/a_samp.h" "src/generated/a_samp.exports" "sampgdk_")
-list_natives("include/sampgdk/a_vehicles.h" "src/generated/a_vehicles.exports" "sampgdk_")
 
 file(MAKE_DIRECTORY "src/generated/core/")
 generate_callback_handlers("include/sampgdk/a_samp.h" "src/generated/core/callback-handlers.c" "register_callback_handlers")
