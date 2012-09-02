@@ -183,6 +183,16 @@ set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
 add_target_definitions(sampgdk "IN_SAMPGDK")
 
 if(WIN32)
+	# Generate a module definition (.def) file
+	file(WRITE "src/sampgdk.def" "EXPORTS\n")
+	file(GLOB_RECURSE exports_files "src/*.exports")
+	foreach(file IN LISTS exports_files)
+		file(STRINGS "${file}" functions)
+		foreach(name IN LISTS functions)
+			file(APPEND "src/sampgdk.def" "\t${name}\n")
+		endforeach()
+	endforeach()
+
 	if(MSVC)
 		add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
 	elseif(CMAKE_COMPILER_IS_GNUCC)
