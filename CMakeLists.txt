@@ -40,8 +40,8 @@ generate_native_impl("include/sampgdk/a_players.h" "src/generated/a_players-impl
 generate_native_impl("include/sampgdk/a_samp.h" "src/generated/a_samp-impl.c")
 generate_native_impl("include/sampgdk/a_vehicles.h" "src/generated/a_vehicles-impl.c")
 
-file(MAKE_DIRECTORY "src/generated/")
-generate_callback_handlers("include/sampgdk/a_samp.h" "src/generated/callback-handlers.c")
+file(MAKE_DIRECTORY "src/generated/core/")
+generate_callback_handlers("include/sampgdk/a_samp.h" "src/generated/core/callback-handlers.c")
 
 file(MAKE_DIRECTORY "include/sampgdk/generated/")
 generate_native_def("include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-def.h")

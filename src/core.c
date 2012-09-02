@@ -34,7 +34,7 @@
 #include "support/server-log.h"
 #include "support/timer.h"
 
-#include "generated/callback-handlers.c"
+#include "generated/core/callback-handlers.c"
 
 extern void *pAMXFunctions;
 static void **ppPluginData;
