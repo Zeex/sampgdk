@@ -14,48 +14,31 @@ include_directories("include/sampgdk")
 
 find_package(PythonInterp 2.6 REQUIRED)
 
-function(generate_native_impl input output)
+function(python script input_file output_file)
 	execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		COMMAND        ${PYTHON_EXECUTABLE} "scripts/generate_native_impl.py"
-		INPUT_FILE     ${input}
-		OUTPUT_FILE    ${output}
+		COMMAND        ${PYTHON_EXECUTABLE} ${script} ${ARGN}
+		INPUT_FILE     ${input_file}
+		OUTPUT_FILE    ${output_file}
 		ERROR_VARIABLE error)
 	if(error)
 		message(FATAL_ERROR ${error})
 	endif()
+endfunction()
+
+function(generate_native_impl input output)
+	python("scripts/generate_native_impl.py" ${input} ${output})
 endfunction()
 
 function(generate_native_def input output)
-	execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		COMMAND        ${PYTHON_EXECUTABLE} "scripts/generate_native_def.py"
-		INPUT_FILE     ${input}
-		OUTPUT_FILE    ${output}
-		ERROR_VARIABLE error)
-	if(error)
-		message(FATAL_ERROR ${error})
-	endif()
+	python("scripts/generate_native_def.py" ${input} ${output})
 endfunction()
 
 function(generate_callback_handlers input output reg_func_name)
-	execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		COMMAND        ${PYTHON_EXECUTABLE} "scripts/generate_callback_handlers.py" ${reg_func_name}
-		INPUT_FILE     ${input}
-		OUTPUT_FILE    ${output}
-		ERROR_VARIABLE error)
-	if(error)
-		message(FATAL_ERROR ${error})
-	endif()
+	python("scripts/generate_callback_handlers.py" ${input} ${output} ${reg_func_name})
 endfunction()
 
 function(list_natives input output)
-	execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		COMMAND        ${PYTHON_EXECUTABLE} "scripts/list_natives.py"
-		INPUT_FILE     ${input}
-		OUTPUT_FILE    ${output}
-		ERROR_VARIABLE error)
-	if(error)
-		message(FATAL_ERROR ${error})
-	endif()
+	python("scripts/list_natives.py" ${input} ${output})
 endfunction()
 
 file(MAKE_DIRECTORY "src/generated/")
