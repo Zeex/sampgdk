@@ -1,7 +1,6 @@
 #!/usr/bin/env python2
 
 import os
-import re
 import sys
 import itertools
 
