@@ -3,9 +3,11 @@ cmake_minimum_required(VERSION 2.8.8)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
+include(AddTargetCompileFlags)
+include(AddTargetDefinitions)
+include(AddTargetLinkFlags)
 include(AmxConfig)
 include(ReadVersionFromFile)
-include(TargetProperties)
 
 include_directories("include")
 include_directories("include/sampgdk")
