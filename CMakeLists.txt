@@ -5,6 +5,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 include(AmxConfig)
 include(ReadVersionFromFile)
+include(TargetProperties)
 
 include_directories("include")
 include_directories("include/sampgdk")
@@ -176,20 +177,17 @@ configure_file(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.rc"
 )
 
-set_property(TARGET sampgdk PROPERTY DEBUG_POSTFIX "_d")
-
-list(APPEND SAMPGDK_COMPILE_DEFS
-	"IN_SAMPGDK"
-)
+set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
+add_target_definitions(sampgdk "IN_SAMPGDK")
 
 if(WIN32)
 	if(MSVC)
-		list(APPEND SAMPGDK_COMPILE_DEFS "_CRT_SECURE_NO_WARNINGS")
+		add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
 	elseif(CMAKE_COMPILER_IS_GNUCC)
-		list(APPEND SAMPGDK_COMPILE_FLAGS "-Wno-attributes")
+		add_target_compile_flags(sampgdk "-Wno-attributes")
 	endif()
 
-	list(APPEND SAMPGDK_COMPILE_DEFS "ASM_PREFIX=\"_\"")
+	add_target_definitions(sampgdk "ASM_PREFIX=\"_\"")
 
 	set_target_properties(sampgdk PROPERTIES 
 		PREFIX      ""
@@ -203,10 +201,10 @@ if(UNIX)
 		SOVERSION "${SAMPGDK_VERSION_MAJOR}"
 	)
 
-	list(APPEND SAMPGDK_COMPILE_DEFS "ASM_PREFIX=")
+	add_target_definitions(sampgdk "ASM_PREFIX=")
 
 	if(CMAKE_COMPILER_IS_GNUCC)
-		list(APPEND SAMPGDK_LINNK_FLAGS
+		add_target_link_flags(sampgdk 
 			"-Wl,--export-dynamic"
 			"-Wl,--no-undefined"
 		)
@@ -227,7 +225,7 @@ add_subdirectory("lib")
 include_directories(${SAMPGDK_INCLUDE_DIRS})
 
 foreach(def IN LISTS SAMPGDK_COMPILE_DEFS)
-	set_property(TARGET sampgdk APPEND PROPERTY COMPILE_DEFINITIONS "${def}")
+	add_target_definitions(sampgdk ${def})
 endforeach()
 
 foreach(flag IN LISTS SAMPGDK_COMPILE_FLAGS)
@@ -235,7 +233,7 @@ foreach(flag IN LISTS SAMPGDK_COMPILE_FLAGS)
 endforeach()
 
 foreach(flag IN LISTS SAMPGDK_LINK_FLAGS)
-	set_property(TARGET sampgdk APPEND_STRING PROPERTY LINK_FLAGS " ${flag}")
+	add_target_link_flags(sampgdk ${flag})
 endforeach()
 
 target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBS})
