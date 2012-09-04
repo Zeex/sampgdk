@@ -42,6 +42,7 @@ exec_python(
 	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_objects.idl"
 	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_objects-natives.h"
 	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_objects-natives.c"
+	"-exports=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_objects-natives.exports"
 )
 
 exec_python(
@@ -49,6 +50,7 @@ exec_python(
 	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_players.idl"
 	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_players-natives.h"
 	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_players-natives.c"
+	"-exports=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_players-natives.exports"
 )
 
 exec_python(
@@ -56,6 +58,7 @@ exec_python(
 	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_samp.idl"
 	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_samp-natives.h"
 	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_samp-natives.c"
+	"-exports=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_samp-natives.exports"
 )
 
 exec_python(
@@ -63,6 +66,7 @@ exec_python(
 	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_vehicles.idl"
 	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_vehicles-natives.h"
 	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_vehicles-natives.c"
+	"-exports=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_vehicles-natives.exports"
 )
 
 exec_python(
