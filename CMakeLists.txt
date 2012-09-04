@@ -39,58 +39,58 @@ file(MAKE_DIRECTORY "include/sampgdk/generated")
 
 exec_python(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-natives.py"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_objects.idl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_objects-natives.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_objects-natives.c"
+	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_objects.idl"
+	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_objects-natives.h"
+	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_objects-natives.c"
 )
 
 exec_python(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-natives.py"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_players.idl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_players-natives.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_players-natives.c"
+	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_players.idl"
+	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_players-natives.h"
+	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_players-natives.c"
 )
 
 exec_python(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-natives.py"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_samp.idl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_samp-natives.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_samp-natives.c"
+	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_samp.idl"
+	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_samp-natives.h"
+	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_samp-natives.c"
 )
 
 exec_python(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-natives.py"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_vehicles.idl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_vehicles-natives.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_vehicles-natives.c"
+	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_vehicles.idl"
+	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_vehicles-natives.h"
+	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_vehicles-natives.c"
 )
 
 exec_python(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-callbacks.py"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_objects.idl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_objects-callbacks.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_objects-callbacks.c"
+	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_objects.idl"
+	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_objects-callbacks.h"
+	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_objects-callbacks.c"
 )
 
 exec_python(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-callbacks.py"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_players.idl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_players-callbacks.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_players-callbacks.c"
+	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_players.idl"
+	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_players-callbacks.h"
+	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_players-callbacks.c"
 )
 
 exec_python(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-callbacks.py"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_samp.idl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_samp-callbacks.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_samp-callbacks.c"
+	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_samp.idl"
+	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_samp-callbacks.h"
+	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_samp-callbacks.c"
 )
 
 exec_python(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-callbacks.py"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_vehicles.idl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_vehicles-callbacks.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_vehicles-callbacks.c"
+	"-idl=${CMAKE_CURRENT_SOURCE_DIR}/src/a_vehicles.idl"
+	"-header=${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_vehicles-callbacks.h"
+	"-source=${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_vehicles-callbacks.c"
 )
 
 set(SAMPGDK_HEADERS
