@@ -2,3 +2,4 @@ tags
 *.pyc
 *.out
 parsetab.*
+*.swp
