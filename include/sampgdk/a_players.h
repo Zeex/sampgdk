@@ -19,7 +19,7 @@
 #include <sampgdk/a_samp.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
-#include <sampgdk/generated/a_players-natives.h>
+#include <sampgdk/generated/a_players.h>
 
 #include <stddef.h>
 

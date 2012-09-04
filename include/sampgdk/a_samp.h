@@ -19,7 +19,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
-#include <sampgdk/generated/a_samp-natives.h>
+#include <sampgdk/generated/a_samp.h>
 
 #include <stddef.h>
 

@@ -24,5 +24,4 @@
 
 #define register_callbacks register_callbacks__a_players
 
-#include "generated/a_players-natives.c"
-#include "generated/a_players-callbacks.c"
+#include "generated/a_players.c"

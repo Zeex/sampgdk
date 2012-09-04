@@ -24,5 +24,4 @@
 
 #define register_callbacks register_callbacks__a_objects
 
-#include "generated/a_objects-natives.c"
-#include "generated/a_objects-callbacks.c"
+#include "generated/a_objects.c"

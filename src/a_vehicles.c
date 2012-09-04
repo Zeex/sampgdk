@@ -24,5 +24,4 @@
 
 #define register_callbacks register_callbacks__a_vehicles
 
-#include "generated/a_vehicles-natives.c"
-#include "generated/a_vehicles-callbacks.c"
+#include "generated/a_vehicles.c"

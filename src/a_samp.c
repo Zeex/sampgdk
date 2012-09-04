@@ -26,8 +26,7 @@
 
 #define register_callbacks register_callbacks__a_samp
 
-#include "generated/a_samp-natives.c"
-#include "generated/a_samp-callbacks.c"
+#include "generated/a_samp.c"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback, void *param)) {
 	int timerid;

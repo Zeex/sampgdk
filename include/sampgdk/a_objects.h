@@ -19,7 +19,7 @@
 #include <sampgdk/a_samp.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
-#include <sampgdk/generated/a_objects-natives.h>
+#include <sampgdk/generated/a_objects.h>
 
 #ifdef __cplusplus
 
