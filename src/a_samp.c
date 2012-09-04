@@ -17,12 +17,17 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
+#include "support/amx-stack.h"
+#include "support/callback.h"
 #include "support/fakeamx.h"
 #include "support/likely.h"
 #include "support/native.h"
 #include "support/timer.h"
 
-#include "generated/a_samp-impl.c"
+#define register_callbacks register_callbacks__a_samp
+
+#include "generated/a_samp-natives.c"
+#include "generated/a_samp-callbacks.c"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback, void *param)) {
 	int timerid;

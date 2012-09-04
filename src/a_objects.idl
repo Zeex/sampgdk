@@ -1,0 +1,69 @@
+/* Copyright (C) 2011-2012 Zeex
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+[native] int CreateObject([in] int modelid, [in] float x, [in] float y, [in] float z, [in] float rX, [in] float rY, [in] float rZ, [in] float DrawDistance);
+[native] bool AttachObjectToVehicle([in] int objectid, [in] int vehicleid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ);
+[native] bool AttachObjectToObject([in] int objectid, [in] int attachtoid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] bool SyncRotation);
+[native] bool AttachObjectToPlayer([in] int objectid, [in] int playerid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ);
+[native] bool SetObjectPos([in] int objectid, [in] float x, [in] float y, [in] float z);
+[native] bool GetObjectPos([in] int objectid, [out] float x, [out] float y, [out] float z);
+[native] bool SetObjectRot([in] int objectid, [in] float rotX, [in] float rotY, [in] float rotZ);
+[native] bool GetObjectRot([in] int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
+[native] bool IsValidObject([in] int objectid);
+[native] bool DestroyObject([in] int objectid);
+[native] int MoveObject([in] int objectid, [in] float X, [in] float Y, [in] float Z, [in] float Speed, [in] float RotX, [in] float RotY, [in] float RotZ);
+[native] bool StopObject([in] int objectid);
+[native] bool IsObjectMoving([in] int objectid);
+[native] bool EditObject([in] int playerid, [in] int objectid);
+[native] bool EditPlayerObject([in] int playerid, [in] int objectid);
+[native] bool SelectObject([in] int playerid);
+[native] bool CancelEdit([in] int playerid);
+[native] int CreatePlayerObject([in] int playerid, [in] int modelid, [in] float x, [in] float y, [in] float z, [in] float rX, [in] float rY, [in] float rZ, [in] float DrawDistance);
+[native] bool AttachPlayerObjectToPlayer([in] int objectplayer, [in] int objectid, [in] int attachplayer, [in] float OffsetX, [in] float OffsetY, [in] float OffsetZ, [in] float rX, [in] float rY, [in] float rZ);
+[native] bool AttachPlayerObjectToVehicle([in] int playerid, [in] int objectid, [in] int vehicleid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float RotZ);
+[native] bool SetPlayerObjectPos([in] int playerid, [in] int objectid, [in] float x, [in] float y, [in] float z);
+[native] bool GetPlayerObjectPos([in] int playerid, [in] int objectid, [out] float x, [out] float y, [out] float z);
+[native] bool SetPlayerObjectRot([in] int playerid, [in] int objectid, [in] float rotX, [in] float rotY, [in] float rotZ);
+[native] bool GetPlayerObjectRot([in] int playerid, [in] int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
+[native] bool IsValidPlayerObject([in] int playerid, [in] int objectid);
+[native] bool DestroyPlayerObject([in] int playerid, [in] int objectid);
+[native] int MovePlayerObject([in] int playerid, [in] int objectid, [in] float x, [in] float y, [in] float z, [in] float Speed, [in] float RotX, [in] float RotY, [in] float RotZ);
+[native] bool StopPlayerObject([in] int playerid, [in] int objectid);
+[native] bool IsPlayerObjectMoving([in] int playerid, [in] int objectid);
+
+const int OBJECT_MATERIAL_SIZE_32x32   = 10;
+const int OBJECT_MATERIAL_SIZE_64x32   = 20;
+const int OBJECT_MATERIAL_SIZE_64x64   = 30;
+const int OBJECT_MATERIAL_SIZE_128x32  = 40;
+const int OBJECT_MATERIAL_SIZE_128x64  = 50;
+const int OBJECT_MATERIAL_SIZE_128x128 = 60;
+const int OBJECT_MATERIAL_SIZE_256x32  = 70;
+const int OBJECT_MATERIAL_SIZE_256x64  = 80;
+const int OBJECT_MATERIAL_SIZE_256x128 = 90;
+const int OBJECT_MATERIAL_SIZE_256x256 = 100;
+const int OBJECT_MATERIAL_SIZE_512x64  = 110;
+const int OBJECT_MATERIAL_SIZE_512x128 = 120;
+const int OBJECT_MATERIAL_SIZE_512x256 = 130;
+const int OBJECT_MATERIAL_SIZE_512x512 = 140;
+
+const int OBJECT_MATERIAL_TEXT_ALIGN_LEFT   = 0;
+const int OBJECT_MATERIAL_TEXT_ALIGN_CENTER = 1;
+const int OBJECT_MATERIAL_TEXT_ALIGN_RIGHT  = 2;
+
+[native] bool SetObjectMaterial([in] int objectid, [in] int materialindex, [in] int modelid, [in] string txdname, [in] string texturename, [in] int materialcolor);
+[native] bool SetPlayerObjectMaterial([in] int playerid, [in] int objectid, [in] int materialindex, [in] int modelid, [in] string txdname, [in] string texturename, [in] int materialcolor);
+
+[native] bool SetObjectMaterialText([in] int objectid, [in] string text, [in] int materialindex, [in] int materialsize, [in] string fontface, [in] int fontsize, [in] bool bold, [in] int fontcolor, [in] int backcolor, [in] int textalignment);
+[native] bool SetPlayerObjectMaterialText([in] int playerid, [in] int objectid, [in] string text, [in] int materialindex, [in] int materialsize, [in] string fontface, [in] int fontsize, [in] bool bold, [in] int fontcolor, [in] int backcolor, [in] int textalignment);

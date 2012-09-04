@@ -14,43 +14,84 @@ include_directories("include/sampgdk")
 
 find_package(PythonInterp 2.6 REQUIRED)
 
-function(python script input_file output_file)
+set(PYTHONPATH
+	"${CMAKE_CURRENT_SOURCE_DIR}/cidl";
+	"${CMAKE_CURRENT_SOURCE_DIR}/python/ply-3.4.zip"
+)
+
+foreach(path IN LISTS PYTHONPATH)
+	set(ENV{PYTHONPATH} "${path};$ENV{PYTHONPATH}")
+endforeach()
+
+function(exec_python script)
 	execute_process(WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		COMMAND        ${PYTHON_EXECUTABLE} ${script} ${ARGN}
-		INPUT_FILE     ${input_file}
-		OUTPUT_FILE    ${output_file}
-		ERROR_VARIABLE error)
+		COMMAND           ${PYTHON_EXECUTABLE} ${PYTHON_MODULE_PATH} ${script} ${ARGN}
+		ERROR_VARIABLE     error
+		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/cidl"
+	)
 	if(error)
 		message(FATAL_ERROR ${error})
 	endif()
 endfunction()
 
-function(generate_native_impl input output)
-	python("scripts/generate_native_impl.py" ${input} ${output})
-endfunction()
-
-function(generate_native_def input output)
-	python("scripts/generate_native_def.py" ${input} ${output})
-endfunction()
-
-function(generate_callback_handlers input output reg_func_name)
-	python("scripts/generate_callback_handlers.py" ${input} ${output} ${reg_func_name})
-endfunction()
-
 file(MAKE_DIRECTORY "src/generated/")
-generate_native_impl("include/sampgdk/a_objects.h" "src/generated/a_objects-impl.c")
-generate_native_impl("include/sampgdk/a_players.h" "src/generated/a_players-impl.c")
-generate_native_impl("include/sampgdk/a_samp.h" "src/generated/a_samp-impl.c")
-generate_native_impl("include/sampgdk/a_vehicles.h" "src/generated/a_vehicles-impl.c")
+file(MAKE_DIRECTORY "include/sampgdk/generated")
 
-file(MAKE_DIRECTORY "src/generated/core/")
-generate_callback_handlers("include/sampgdk/a_samp.h" "src/generated/core/callback-handlers.c" "register_callback_handlers")
+exec_python(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-natives.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_objects.idl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_objects-natives.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_objects-natives.c"
+)
 
-file(MAKE_DIRECTORY "include/sampgdk/generated/")
-generate_native_def("include/sampgdk/a_objects.h" "include/sampgdk/generated/a_objects-def.h")
-generate_native_def("include/sampgdk/a_players.h" "include/sampgdk/generated/a_players-def.h")
-generate_native_def("include/sampgdk/a_samp.h" "include/sampgdk/generated/a_samp-def.h")
-generate_native_def("include/sampgdk/a_vehicles.h" "include/sampgdk/generated/a_vehicles-def.h")
+exec_python(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-natives.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_players.idl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_players-natives.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_players-natives.c"
+)
+
+exec_python(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-natives.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_samp.idl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_samp-natives.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_samp-natives.c"
+)
+
+exec_python(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-natives.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_vehicles.idl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_vehicles-natives.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_vehicles-natives.c"
+)
+
+exec_python(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-callbacks.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_objects.idl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_objects-callbacks.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_objects-callbacks.c"
+)
+
+exec_python(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-callbacks.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_players.idl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_players-callbacks.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_players-callbacks.c"
+)
+
+exec_python(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-callbacks.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_samp.idl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_samp-callbacks.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_samp-callbacks.c"
+)
+
+exec_python(
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/gen-callbacks.py"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/a_vehicles.idl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/a_vehicles-callbacks.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/a_vehicles-callbacks.c"
+)
 
 set(SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"

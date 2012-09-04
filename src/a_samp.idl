@@ -1,0 +1,386 @@
+/* Copyright (C) 2011-2012 Zeex
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+const int MAX_PLAYER_NAME       = 24;
+const int MAX_PLAYERS           = 500;
+const int MAX_VEHICLES          = 2000;
+const int INVALID_PLAYER_ID     = 0xFFFF;
+const int INVALID_VEHICLE_ID    = 0xFFFF;
+const int NO_TEAM               = 255;
+const int MAX_OBJECTS           = 1000;
+const int INVALID_OBJECT_ID     = 0xFFFF;
+const int MAX_GANG_ZONES        = 1024;
+const int MAX_TEXT_DRAWS        = 2048;
+const int MAX_PLAYER_TEXT_DRAWS = 256;
+const int MAX_MENUS             = 128;
+const int MAX_3DTEXT_GLOBAL     = 1024;
+const int MAX_3DTEXT_PLAYER     = 1024;
+const int MAX_PICKUPS           = 4096;
+const int INVALID_MENU          = 0xFF;
+const int INVALID_TEXT_DRAW     = 0xFFFF;
+const int INVALID_GANG_ZONE     = -1;
+const int INVALID_3DTEXT_ID     = 0xFFFF;
+
+[native] bool SendClientMessage([in] int playerid, [in] int color, [in] string message);
+[native] bool SendClientMessageToAll([in] int color, [in] string message);
+[native] bool SendPlayerMessageToPlayer([in] int playerid, [in] int senderid, [in] string message);
+[native] bool SendPlayerMessageToAll([in] int senderid, [in] string message);
+[native] bool SendDeathMessage([in] int killer, [in] int killee, [in] int weapon);
+[native] bool GameTextForAll([in] string text, [in] int time, [in] int style);
+[native] bool GameTextForPlayer([in] int playerid, [in] string text, [in] int time, [in] int style);
+[native] int GetTickCount();
+[native] int GetMaxPlayers();
+
+[native] bool SetGameModeText([in] string text);
+[native] bool SetTeamCount([in] int count);
+[native] int AddPlayerClass([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int weapon1, [in] int weapon1_ammo, [in] int weapon2, [in] int weapon2_ammo, [in] int weapon3, [in] int weapon3_ammo);
+[native] int AddPlayerClassEx([in] int teamid, [in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int weapon1, [in] int weapon1_ammo, [in] int weapon2, [in] int weapon2_ammo, [in] int weapon3, [in] int weapon3_ammo);
+[native] int AddStaticVehicle([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int color1, [in] int color2);
+[native] int AddStaticVehicleEx([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int color1, [in] int color2, [in] int respawn_delay);
+[native] int AddStaticPickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld);
+[native] int CreatePickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld);
+[native] bool DestroyPickup([in] int pickup);
+[native] bool ShowNameTags([in] bool show);
+[native] bool ShowPlayerMarkers([in] bool mode);
+[native] bool GameModeExit();
+[native] bool SetWorldTime([in] int hour);
+[native] bool GetWeaponName([in] int weaponid, [out] char name, [in] int size);
+[native] bool EnableTirePopping([in] bool enable);
+[native] bool AllowInteriorWeapons([in] bool allow);
+[native] bool SetWeather([in] int weatherid);
+[native] bool SetGravity([in] float gravity);
+[native] bool AllowAdminTeleport([in] bool allow);
+[native] bool SetDeathDropAmount([in] int amount);
+[native] bool CreateExplosion([in] float x, [in] float y, [in] float z, [in] int type, [in] float radius);
+[native] bool EnableZoneNames([in] bool enable);
+[native] bool UsePlayerPedAnims();
+[native] bool DisableInteriorEnterExits();
+[native] bool SetNameTagDrawDistance([in] float distance);
+[native] bool DisableNameTagLOS();
+[native] bool LimitGlobalChatRadius([in] float chat_radius);
+[native] bool LimitPlayerMarkerRadius([in] float marker_radius);
+
+[native] bool ConnectNPC([in] string name, [in] string script);
+[native] bool IsPlayerNPC([in] int playerid);
+
+[native] bool IsPlayerAdmin([in] int playerid);
+[native] bool Kick([in] int playerid);
+[native] bool Ban([in] int playerid);
+[native] bool BanEx([in] int playerid, [in] string reason);
+[native] bool SendRconCommand([in] string command);
+[native] bool GetServerVarAsString([in] string varname, [out] char value, [in] int size);
+[native] int GetServerVarAsInt([in] string varname);
+[native] bool GetServerVarAsbool([in] string varname);
+[native] bool GetPlayerNetworkStats([in] int playerid, [out] char retstr, [in] int size);
+[native] bool GetNetworkStats([out] char retstr, [in] int size);
+[native] bool GetPlayerVersion([in] int playerid, [out] char version, [in] int len);
+
+[native] int CreateMenu([in] string title, [in] int columns, [in] float x, [in] float y, [in] float col1width, [in] float col2width);
+[native] bool DestroyMenu([in] int menuid);
+[native] int AddMenuItem([in] int menuid, [in] int column, [in] string menutext);
+[native] bool SetMenuColumnHeader([in] int menuid, [in] int column, [in] string columnheader);
+[native] bool ShowMenuForPlayer([in] int menuid, [in] int playerid);
+[native] bool HideMenuForPlayer([in] int menuid, [in] int playerid);
+[native] bool IsValidMenu([in] int menuid);
+[native] bool DisableMenu([in] int menuid);
+[native] bool DisableMenuRow([in] int menuid, [in] int row);
+[native] int GetPlayerMenu([in] int playerid);
+
+[native] int TextDrawCreate([in] float x, [in] float y, [in] string text);
+[native] bool TextDrawDestroy([in] int text);
+[native] bool TextDrawLetterSize([in] int text, [in] float x, [in] float y);
+[native] bool TextDrawTextSize([in] int text, [in] float x, [in] float y);
+[native] bool TextDrawAlignment([in] int text, [in] int alignment);
+[native] bool TextDrawColor([in] int text, [in] int color);
+[native] bool TextDrawUseBox([in] int text, [in] bool use);
+[native] bool TextDrawBoxColor([in] int text, [in] int color);
+[native] bool TextDrawSetShadow([in] int text, [in] int size);
+[native] bool TextDrawSetOutline([in] int text, [in] int size);
+[native] bool TextDrawBackgroundColor([in] int text, [in] int color);
+[native] bool TextDrawFont([in] int text, [in] int font);
+[native] bool TextDrawSetProportional([in] int text, [in] bool set);
+[native] bool TextDrawSetSelectable([in] int text, [in] bool set);
+[native] bool TextDrawShowForPlayer([in] int playerid, [in] int text);
+[native] bool TextDrawHideForPlayer([in] int playerid, [in] int text);
+[native] bool TextDrawShowForAll([in] int text);
+[native] bool TextDrawHideForAll([in] int text);
+[native] bool TextDrawSetString([in] int text, [in] string string);
+[native] bool SelectTextDraw([in] int playerid, [in] int hovercolor);
+[native] bool CancelSelectTextDraw([in] int playerid);
+
+[native] int GangZoneCreate([in] float minx, [in] float miny, [in] float maxx, [in] float maxy);
+[native] bool GangZoneDestroy([in] int zone);
+[native] bool GangZoneShowForPlayer([in] int playerid, [in] int zone, [in] int color);
+[native] bool GangZoneShowForAll([in] int zone, [in] int color);
+[native] bool GangZoneHideForPlayer([in] int playerid, [in] int zone);
+[native] bool GangZoneHideForAll([in] int zone);
+[native] bool GangZoneFlashForPlayer([in] int playerid, [in] int zone, [in] int flashcolor);
+[native] bool GangZoneFlashForAll([in] int zone, [in] int flashcolor);
+[native] bool GangZoneStopFlashForPlayer([in] int playerid, [in] int zone);
+[native] bool GangZoneStopFlashForAll([in] int zone);
+
+[native] int Create3DTextLabel([in] string text, [in] int color, [in] float x, [in] float y, [in] float z, [in] float DrawDistance, [in] int virtualworld, [in] bool testLOS);
+[native] bool Delete3DTextLabel([in] int id);
+[native] bool Attach3DTextLabelToPlayer([in] int id, [in] int playerid, [in] float OffsetX, [in] float OffsetY, [in] float OffsetZ);
+[native] bool Attach3DTextLabelToVehicle([in] int id, [in] int vehicleid, [in] float OffsetX, [in] float OffsetY, [in] float OffsetZ);
+[native] bool Update3DTextLabelText([in] int id, [in] int color, [in] string text);
+
+[native] int CreatePlayer3DTextLabel([in] int playerid, [in] string text, [in] int color, [in] float x, [in] float y, [in] float z, [in] float DrawDistance, [in] int attachedplayer, [in] int attachedvehicle, [in] bool testLOS);
+[native] bool DeletePlayer3DTextLabel([in] int playerid, [in] int id);
+[native] bool UpdatePlayer3DTextLabelText([in] int playerid, [in] int id, [in] int color, [in] string text);
+
+const int DIALOG_STYLE_MSGBOX   = 0;
+const int DIALOG_STYLE_INPUT    = 1;
+const int DIALOG_STYLE_LIST     = 2;
+const int DIALOG_STYLE_PASSWORD = 3;
+
+[native] bool ShowPlayerDialog([in] int playerid, [in] int dialogid, [in] int style, [in] string caption, [in] string info, [in] string button1, [in] string button2);
+
+const int PLAYER_STATE_NONE                    = 0;
+const int PLAYER_STATE_ONFOOT                  = 1;
+const int PLAYER_STATE_DRIVER                  = 2;
+const int PLAYER_STATE_PASSENGER               = 3;
+const int PLAYER_STATE_EXIT_VEHICLE            = 4;
+const int PLAYER_STATE_ENTER_VEHICLE_DRIVER    = 5;
+const int PLAYER_STATE_ENTER_VEHICLE_PASSENGER = 6;
+const int PLAYER_STATE_WASTED                  = 7;
+const int PLAYER_STATE_SPAWNED                 = 8;
+const int PLAYER_STATE_SPECTATING              = 9;
+
+const int PLAYER_MARKERS_MODE_OFF              = 0;
+const int PLAYER_MARKERS_MODE_GLOBAL           = 1;
+const int PLAYER_MARKERS_MODE_STREAMED         = 2;
+
+const int WEAPON_BRASSKNUCKLE    = 1;
+const int WEAPON_GOLFCLUB        = 2;
+const int WEAPON_NITESTICK       = 3;
+const int WEAPON_KNIFE           = 4;
+const int WEAPON_BAT             = 5;
+const int WEAPON_SHOVEL          = 6;
+const int WEAPON_POOLSTICK       = 7;
+const int WEAPON_KATANA          = 8;
+const int WEAPON_CHAINSAW        = 9;
+const int WEAPON_DILDO           = 10;
+const int WEAPON_DILDO2          = 11;
+const int WEAPON_VIBRATOR        = 12;
+const int WEAPON_VIBRATOR2       = 13;
+const int WEAPON_FLOWER          = 14;
+const int WEAPON_CANE            = 15;
+const int WEAPON_GRENADE         = 16;
+const int WEAPON_TEARGAS         = 17;
+const int WEAPON_MOLTOV          = 18;
+const int WEAPON_COLT45          = 22;
+const int WEAPON_SILENCED        = 23;
+const int WEAPON_DEAGLE          = 24;
+const int WEAPON_SHOTGUN         = 25;
+const int WEAPON_SAWEDOFF        = 26;
+const int WEAPON_SHOTGSPA        = 27;
+const int WEAPON_UZI             = 28;
+const int WEAPON_MP5             = 29;
+const int WEAPON_AK47            = 30;
+const int WEAPON_M4              = 31;
+const int WEAPON_TEC9            = 32;
+const int WEAPON_RIFLE           = 33;
+const int WEAPON_SNIPER          = 34;
+const int WEAPON_ROCKETLAUNCHER  = 35;
+const int WEAPON_HEATSEEKER      = 36;
+const int WEAPON_FLAMETHROWER    = 37;
+const int WEAPON_MINIGUN         = 38;
+const int WEAPON_SATCHEL         = 39;
+const int WEAPON_BOMB            = 40;
+const int WEAPON_SPRAYCAN        = 41;
+const int WEAPON_FIREEXTINGUISHR = 42;
+const int WEAPON_CAMERA          = 43;
+const int WEAPON_PARACHUTE       = 46;
+const int WEAPON_VEHICLE         = 49;
+const int WEAPON_DROWN           = 53;
+const int WEAPON_COLLISION       = 54;
+
+const int KEY_ACTION           = 1;
+const int KEY_CROUCH           = 2;
+const int KEY_FIRE             = 4;
+const int KEY_SPRINT           = 8;
+const int KEY_SECONDARY_ATTACK = 16;
+const int KEY_JUMP             = 32;
+const int KEY_LOOK_RIGHT       = 64;
+const int KEY_HANDBRAKE        = 128;
+const int KEY_LOOK_LEFT        = 256;
+const int KEY_SUBMISSION       = 512;
+const int KEY_LOOK_BEHIND      = 512;
+const int KEY_WALK             = 1024;
+const int KEY_ANALOG_UP        = 2048;
+const int KEY_ANALOG_DOWN      = 4096;
+const int KEY_ANALOG_LEFT      = 8192;
+const int KEY_ANALOG_RIGHT     = 16384;
+const int KEY_YES              = 65536;
+const int KEY_NO               = 131072;
+const int KEY_CTRL_BACK        = 262144;
+const int KEY_UP               = -128;
+const int KEY_DOWN             = 128;
+const int KEY_LEFT             = -128;
+const int KEY_RIGHT            = 128;
+
+[native] bool gpci([in] int playerid, [out] char buffer, [in] int size);
+
+[callback]
+bool OnGameModeInit();
+
+[callback]
+bool OnGameModeExit();
+
+[callback, badret(false)]
+bool OnPlayerConnect([in] int playerid);
+
+[callback, badret(false)]
+bool OnPlayerDisconnect([in] int playerid, [in] int reason);
+
+[callback, badret(false)]
+bool OnPlayerSpawn([in] int playerid);
+
+[callback]
+bool OnPlayerDeath([in] int playerid, [in] int killerid, [in] int reason);
+
+[callback]
+bool OnVehicleSpawn([in] int vehicleid);
+
+[callback]
+bool OnVehicleDeath([in] int vehicleid, [in] int killerid);
+
+[callback, badret(false)]
+bool OnPlayerText([in] int playerid, [in] string text);
+
+[callback, badret(true)]
+bool OnPlayerCommandText([in] int playerid, [in] string cmdtext);
+
+[callback, badret(false)]
+bool OnPlayerRequestClass([in] int playerid, [in] int classid);
+
+[callback]
+bool OnPlayerEnterVehicle([in] int playerid, [in] int vehicleid, [in] bool ispassenger);
+
+[callback]
+bool OnPlayerExitVehicle([in] int playerid, [in] int vehicleid);
+
+[callback]
+bool OnPlayerStateChange([in] int playerid, [in] int newstate, [in] int oldstate);
+
+[callback, badret(false)]
+bool OnPlayerEnterCheckpoint([in] int playerid);
+
+[callback]
+bool OnPlayerLeaveCheckpoint([in] int playerid);
+
+[callback, badret(false)]
+bool OnPlayerEnterRaceCheckpoint([in] int playerid);
+
+[callback]
+bool OnPlayerLeaveRaceCheckpoint([in] int playerid);
+
+[callback, badret(true)]
+bool OnRconCommand([in] string cmd);
+
+[callback, badret(false)]
+bool OnPlayerRequestSpawn([in] int playerid);
+
+[callback]
+bool OnObjectMoved([in] int objectid);
+
+[callback]
+bool OnPlayerObjectMoved([in] int playerid, [in] int objectid);
+
+[callback]
+bool OnPlayerPickUpPickup([in] int playerid, [in] int pickupid);
+
+[callback, badret(false)]
+bool OnVehicleMod([in] int playerid, [in] int vehicleid, [in] int componentid);
+
+[callback]
+bool OnEnterExitModShop([in] int playerid, [in] int enterexit, [in] int interiorid);
+
+[callback]
+bool OnVehiclePaintjob([in] int playerid, [in] int vehicleid, [in] int paintjobid);
+
+[callback]
+bool OnVehicleRespray([in] int playerid, [in] int vehicleid, [in] int color1, [in] int color2);
+
+[callback]
+bool OnVehicleDamageStatusUpdate([in] int vehicleid, [in] int playerid);
+
+[callback]
+bool OnUnoccupiedVehicleUpdate([in] int vehicleid, [in] int playerid, [in] int passenger_seat);
+
+[callback]
+bool OnPlayerSelectedMenuRow([in] int playerid, [in] int row);
+
+[callback]
+bool OnPlayerExitedMenu([in] int playerid);
+
+[callback]
+bool OnPlayerInteriorChange([in] int playerid, [in] int newinteriorid, [in] int oldinteriorid);
+
+[callback, badret(false)]
+bool OnPlayerKeyStateChange([in] int playerid, [in] int newkeys, [in] int oldkeys);
+
+[callback]
+bool OnRconLoginAttempt([in] string ip, [in] string password, [in] bool success);
+
+[callback, badret(false)]
+bool OnPlayerUpdate([in] int playerid);
+
+[callback]
+bool OnPlayerStreamIn([in] int playerid, [in] int forplayerid);
+
+[callback]
+bool OnPlayerStreamOut([in] int playerid, [in] int forplayerid);
+
+[callback]
+bool OnVehicleStreamIn([in] int vehicleid, [in] int forplayerid);
+
+[callback]
+bool OnVehicleStreamOut([in] int vehicleid, [in] int forplayerid);
+
+[callback, badret(true)]
+bool OnDialogResponse([in] int playerid, [in] int dialogid, [in] int response, [in] int listitem, [in] string inputtext);
+
+[callback]
+bool OnPlayerTakeDamage([in] int playerid, [in] int issuerid, [in] float amount, [in] int weaponid);
+
+[callback]
+bool OnPlayerGiveDamage([in] int playerid, [in] int damagedid, [in] float amount, [in] int weaponid);
+
+[callback]
+bool OnPlayerClickMap([in] int playerid, [in] float fX, [in] float fY, [in] float fZ);
+
+const int CLICK_SOURCE_SCOREBOARD = 0;
+
+[callback]
+bool OnPlayerClickPlayer([in] int playerid, [in] int clickedplayerid, [in] int source);
+
+const int EDIT_RESPONSE_CANCEL = 0;
+const int EDIT_RESPONSE_FINAL  = 1;
+const int EDIT_RESPONSE_UPDATE = 2;
+
+[callback]
+bool OnPlayerEditObject([in] int playerid, [in] bool playerobject, [in] int objectid, [in] int response, [in] float fX, [in] float fY, [in] float fZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ);
+
+[callback]
+bool OnPlayerEditAttachedObject([in] int playerid, [in] int response, [in] int index, [in] int modelid, [in] int boneid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fScaleX, [in] float fScaleY, [in] float fScaleZ);
+
+const int SELECT_OBJECT_GLOBAL_OBJECT = 1;
+const int SELECT_OBJECT_PLAYER_OBJECT = 2;
+
+[callback]
+bool OnPlayerSelectObject([in] int playerid, [in] int type, [in] int objectid, [in] int modelid, [in] float fX, [in] float fY, [in] float fZ);
+

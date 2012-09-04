@@ -24,7 +24,6 @@
 #include <string.h>
 #include <subhook.h>
 
-#include "support/amx-stack.h"
 #include "support/asm.h"
 #include "support/callback.h"
 #include "support/log.h"
@@ -34,7 +33,10 @@
 #include "support/server-log.h"
 #include "support/timer.h"
 
-#include "generated/core/callback-handlers.c"
+extern int register_callbacks__a_samp();
+extern int register_callbacks__a_players();
+extern int register_callbacks__a_objects();
+extern int register_callbacks__a_vehicles();
 
 extern void *pAMXFunctions;
 static void **ppPluginData;
@@ -223,7 +225,10 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 		subhook_set_destination(amx_Callback_hook, (void*)amx_Callback_);
 		subhook_install(amx_Callback_hook);
 
-		register_callback_handlers();
+		register_callbacks__a_samp();
+		register_callbacks__a_players();
+		register_callbacks__a_objects();
+		register_callbacks__a_vehicles();
 	}
 
 	plugin = plugin_address_to_handle(get_return_address(NULL, 0));

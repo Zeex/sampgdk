@@ -16,8 +16,13 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
+#include "support/amx-stack.h"
+#include "support/callback.h"
 #include "support/fakeamx.h"
 #include "support/likely.h"
 #include "support/native.h"
 
-#include "generated/a_players-impl.c"
+#define register_callbacks register_callbacks__a_players
+
+#include "generated/a_players-natives.c"
+#include "generated/a_players-callbacks.c"

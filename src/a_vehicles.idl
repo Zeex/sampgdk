@@ -1,0 +1,83 @@
+/* Copyright (C) 2011-2012 Zeex
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+const int CARMODTYPE_SPOILER      = 0;
+const int CARMODTYPE_HOOD         = 1;
+const int CARMODTYPE_ROOF         = 2;
+const int CARMODTYPE_SIDESKIRT    = 3;
+const int CARMODTYPE_LAMPS        = 4;
+const int CARMODTYPE_NITRO        = 5;
+const int CARMODTYPE_EXHAUST      = 6;
+const int CARMODTYPE_WHEELS       = 7;
+const int CARMODTYPE_STEREO       = 8;
+const int CARMODTYPE_HYDRAULICS   = 9;
+const int CARMODTYPE_FRONT_BUMPER = 10;
+const int CARMODTYPE_REAR_BUMPER  = 11;
+const int CARMODTYPE_VENT_RIGHT   = 12;
+const int CARMODTYPE_VENT_LEFT    = 13;
+
+const int VEHICLE_PARAMS_UNSET = -1;
+const int VEHICLE_PARAMS_OFF   =  0;
+const int VEHICLE_PARAMS_ON    =  1;
+
+[native] float GetVehicleDistanceFromPoint([in] int vehicleid, [in] float x, [in] float y, [in] float z);
+[native] int CreateVehicle([in] int vehicletype, [in] float x, [in] float y, [in] float z, [in] float rotation, [in] int color1, [in] int color2, [in] int respawn_delay);
+[native] bool DestroyVehicle([in] int vehicleid);
+[native] bool IsVehicleStreamedIn([in] int vehicleid, [in] int forplayerid);
+[native] bool GetVehiclePos([in] int vehicleid, [out] float x, [out] float y, [out] float z);
+[native] bool SetVehiclePos([in] int vehicleid, [in] float x, [in] float y, [in] float z);
+[native] bool GetVehicleZAngle([in] int vehicleid, [out] float z_angle);
+[native] bool GetVehicleRotationQuat([in] int vehicleid, [out] float w, [out] float x, [out] float y, [out] float z);
+[native] bool SetVehicleZAngle([in] int vehicleid, [in] float z_angle);
+[native] bool SetVehicleParamsForPlayer([in] int vehicleid, [in] int playerid, [in] bool objective, [in] bool doorslocked);
+[native] bool ManualVehicleEngineAndLights();
+[native] bool SetVehicleParamsEx([in] int vehicleid, [in] bool engine, [in] bool lights, [in] bool alarm, [in] bool doors, [in] bool bonnet, [in] bool boot, [in] bool objective);
+[native] bool GetVehicleParamsEx([in] int vehicleid, [out] bool engine, [out] bool lights, [out] bool alarm, [out] bool doors, [out] bool bonnet, [out] bool boot, [out] bool objective);
+[native] bool SetVehicleToRespawn([in] int vehicleid);
+[native] bool LinkVehicleToInterior([in] int vehicleid, [in] int interiorid);
+[native] bool AddVehicleComponent([in] int vehicleid, [in] int componentid);
+[native] bool RemoveVehicleComponent([in] int vehicleid, [in] int componentid);
+[native] bool ChangeVehicleColor([in] int vehicleid, [in] int color1, [in] int color2);
+[native] bool ChangeVehiclePaintjob([in] int vehicleid, [in] int paintjobid);
+[native] bool SetVehicleHealth([in] int vehicleid, [in] float health);
+[native] bool GetVehicleHealth([in] int vehicleid, [out] float health);
+[native] bool AttachTrailerToVehicle([in] int trailerid, [in] int vehicleid);
+[native] bool DetachTrailerFromVehicle([in] int vehicleid);
+[native] bool IsTrailerAttachedToVehicle([in] int vehicleid);
+[native] int GetVehicleTrailer([in] int vehicleid);
+[native] bool SetVehicleNumberPlate([in] int vehicleid, [in] string numberplate);
+[native] int GetVehicleModel([in] int vehicleid);
+[native] int GetVehicleComponentInSlot([in] int vehicleid, [in] int slot);
+[native] int GetVehicleComponentType([in] int component);
+[native] bool RepairVehicle([in] int vehicleid);
+[native] bool GetVehicleVelocity([in] int vehicleid, [out] float X, [out] float Y, [out] float Z);
+[native] bool SetVehicleVelocity([in] int vehicleid, [in] float X, [in] float Y, [in] float Z);
+[native] bool SetVehicleAngularVelocity([in] int vehicleid, [in] float X, [in] float Y, [in] float Z);
+[native] bool GetVehicleDamageStatus([in] int vehicleid, [out] int panels, [out] int doors, [out] int lights, [out] int tires);
+[native] bool UpdateVehicleDamageStatus([in] int vehicleid, [in] int panels, [in] int doors, [in] int lights, [in] int tires);
+[native] bool SetVehicleVirtualWorld([in] int vehicleid, [in] int worldid);
+[native] int GetVehicleVirtualWorld([in] int vehicleid);
+
+const int VEHICLE_MODEL_INFO_SIZE           = 1;
+const int VEHICLE_MODEL_INFO_FRONTSEAT      = 2;
+const int VEHICLE_MODEL_INFO_REARSEAT       = 3;
+const int VEHICLE_MODEL_INFO_PETROLCAP      = 4;
+const int VEHICLE_MODEL_INFO_WHEELSFRONT    = 5;
+const int VEHICLE_MODEL_INFO_WHEELSREAR     = 6;
+const int VEHICLE_MODEL_INFO_WHEELSMID      = 7;
+const int VEHICLE_MODEL_INFO_FRONT_BUMPER_Z = 8;
+const int VEHICLE_MODEL_INFO_REAR_BUMPER_Z  = 9;
+
+[native] bool GetVehicleModelInfo([in] int model, [in] int infotype, [out] float X, [out] float Y, [out] float Z);

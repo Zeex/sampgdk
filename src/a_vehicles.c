@@ -16,8 +16,13 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
+#include "support/amx-stack.h"
+#include "support/callback.h"
 #include "support/fakeamx.h"
 #include "support/likely.h"
 #include "support/native.h"
 
-#include "generated/a_vehicles-impl.c"
+#define register_callbacks register_callbacks__a_vehicles
+
+#include "generated/a_vehicles-natives.c"
+#include "generated/a_vehicles-callbacks.c"
