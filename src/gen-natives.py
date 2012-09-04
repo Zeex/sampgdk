@@ -34,6 +34,7 @@ def main(argv):
 	argparser.add_argument("-idl", required=True)
 	argparser.add_argument("-header")
 	argparser.add_argument("-source")
+	argparser.add_argument("-exports")
 
 	args = argparser.parse_args(argv[1:])
 
@@ -135,6 +136,14 @@ def main(argv):
 				source.write('}\n')
 
 			source.close()
+
+		if args.exports is not None:
+			exports = open(args.exports, 'w')
+
+			for f in natives:
+				exports.write('sampgdk_%s\n' % f.name)
+
+			exports.close()
 
 	except cidl.Error as e:
 		print e
