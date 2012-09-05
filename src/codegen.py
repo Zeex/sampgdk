@@ -43,13 +43,10 @@ def get_param_c_type(p):
 		if p.is_in():
 			return idl_to_c_type_in[p.type]
 	except KeyError:
-		try:
-			if p.is_out():
-				return '%s *' % p.type
-			if p.is_in():
-				return p.type
-		except KeyError:
-			pass
+		if p.is_out():
+			return '%s *' % p.type
+		if p.is_in():
+			return p.type
 	return None
 
 def value_to_c_literal(v):
