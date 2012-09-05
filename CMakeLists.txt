@@ -15,7 +15,7 @@ include_directories("include/sampgdk")
 find_package(PythonInterp 2.6 REQUIRED)
 
 set(PYTHONPATH
-	"${CMAKE_CURRENT_SOURCE_DIR}/cidl";
+	"${CMAKE_CURRENT_SOURCE_DIR}/cidl"
 	"${CMAKE_CURRENT_SOURCE_DIR}/python/ply-3.4.zip"
 )
 
