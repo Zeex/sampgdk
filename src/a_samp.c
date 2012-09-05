@@ -17,6 +17,8 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
+#include <sampgdk/generated/a_samp.h>
+
 #include "support/amx-stack.h"
 #include "support/callback.h"
 #include "support/fakeamx.h"

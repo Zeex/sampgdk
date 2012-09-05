@@ -70,7 +70,7 @@ def value_to_c_literal(v):
 def params_to_string(params):
 	return ', '.join(['%s %s' % (get_param_c_type(p), p.name) for p in params])
 
-def params_to_string_no_type(params):
+def params_to_string_no_types(params):
 	return ', '.join(['%s' % p.name for p in params])
 
 def is_out_param(p):
@@ -99,17 +99,31 @@ def gen_natives(idl, header, source):
 	natives_with_source = filter(lambda x: x.get_attr('native').value != 'special', natives)
 
 	if header is not None:
-		# Generate native declarations and defines.
+		header.write('#ifndef SAMPGDK_NATIVE_EXPORT\n')
+		header.write('\t#define SAMPGDK_NATIVE_EXPORT SAMPGDK_EXPORT\n')
+		header.write('#endif\n')
+
+		header.write('#ifndef SAMPGDK_NATIVE_CALL\n')
+		header.write('\t#define SAMPGDK_NATIVE_CALL SAMPGDK_CALL\n')
+		header.write('#endif\n')
+
+		header.write('#ifndef SAMPGDK_NATIVE\n')
+		header.write('\t#define SAMPGDK_NATIVE(ret_type, func_and_params) \\\n')
+		header.write('\t\tSAMPGDK_NATIVE_EXPORT ret_type SAMPGDK_NATIVE_CALL sampgdk_##func_and_params\n')
+		header.write('#endif\n')
+
+		header.write('\n')
+
 		for f in natives:
-			header.write('SAMPGDK_EXPORT %s SAMPGDK_CALL sampgdk_%s(%s);\n' % (f.type, f.name, params_to_string(f.params)))
+			header.write('SAMPGDK_NATIVE(%s, %s(%s));\n' % (f.type, f.name, params_to_string(f.params)))
 			header.write('#undef  %s\n' % f.name)
-			header.write('#define %s sampgdk_%s\n\n' % (f.name, f.name))
+			header.write('#define %s sampgdk_##%s\n\n' % (f.name, f.name))
+
 		header.write('\n')
 
 	if source is not None:
-		# Generate native implementation code.
 		for f in natives_with_source:
-			source.write('SAMPGDK_EXPORT %s SAMPGDK_CALL sampgdk_%s(%s) {\n' % (f.type, f.name, params_to_string(f.params)))
+			source.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' % (f.type, f.name, params_to_string(f.params)))
 			source.write('\tstatic AMX_NATIVE native;\n')
 			source.write('\tstruct fakeamx *fa;\n')
 			source.write('\t%s retval;\n' % f.type)
@@ -185,8 +199,23 @@ def gen_callbacks(idl, header, source):
 	callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
 
 	if header is not None:
+		header.write('#ifndef SAMPGDK_CALLBACK_EXPORT\n')
+		header.write('\t#define SAMPGDK_CALLBACK_EXPORT PLUGIN_EXPORT\n')
+		header.write('#endif\n')
+
+		header.write('#ifndef SAMPGDK_CALLBACK_CALL\n')
+		header.write('\t#define SAMPGDK_CALLBACK_CALL PLUGIN_CALL\n')
+		header.write('#endif\n')
+
+		header.write('#ifndef SAMPGDK_CALLBACK\n')
+		header.write('\t#define SAMPGDK_CALLBACK(ret_type, func_and_params) \\\n')
+		header.write('\t\tSAMPGDK_CALLBACK_EXPORT ret_type SAMPGDK_CALLBACK_CALL func_and_params\n')
+		header.write('#endif\n')
+
+		header.write('\n')
+
 		for f in callbacks:
-			header.write('PLUGIN_EXPORT %s PLUGIN_CALL %s(%s);\n' % (f.type, f.name, params_to_string(f.params)))
+			header.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' % (f.type, f.name, params_to_string(f.params)))
 
 	if source is not None:
 		for f in callbacks:
@@ -215,12 +244,12 @@ def gen_callbacks(idl, header, source):
 
 			# Invoke the callback function.
 			if badret is not None:
-				source.write('\tretval_ = ((%s_type)callback)(%s);\n' % (f.name, params_to_string_no_type(f.params)))
+				source.write('\tretval_ = ((%s_type)callback)(%s);\n' % (f.name, params_to_string_no_types(f.params)))
 				source.write('\tif (retval != NULL) {\n')
 				source.write('\t\t*retval = (cell)retval_;\n')
 				source.write('\t}\n')
 			else:
-				source.write('\t((%s_type)callback)(%s);\n' % (f.name, params_to_string_no_type(f.params)))
+				source.write('\t((%s_type)callback)(%s);\n' % (f.name, params_to_string_no_types(f.params)))
 
 			# Free the memory allocated for strings.
 			for p in filter(lambda p: p.type == 'string', f.params):
