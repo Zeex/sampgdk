@@ -19,36 +19,26 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
-#include <sampgdk/generated/a_samp.h>
-
-#include <stddef.h>
 
 typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
 
-#undef  SetTimer
-#define SetTimer sampgdk_SetTimer
-
-SAMPGDK_EXPORT int SAMPGDK_CALL SetTimer(int interval, bool repeat, TimerCallback callback, void *param);
-
-#undef  KillTimer
-#define KillTimer sampgdk_KillTimer
-
-SAMPGDK_EXPORT bool SAMPGDK_CALL KillTimer(int timerid);
+#include <sampgdk/generated/a_samp.h>
 
 #ifdef __cplusplus
 
+#include <cstddef>
 #include <string>
 
-template<size_t N> inline bool GetNetworkStats(char (&retstr)[N]) {
+template<std::size_t N> inline bool GetNetworkStats(char (&retstr)[N]) {
 	return GetNetworkStats(retstr, N);
 }
-template<size_t N> inline bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) {
+template<std::size_t N> inline bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) {
 	return GetPlayerNetworkStats(playerid, retstr, N);
 }
-template<size_t N> inline bool GetPlayerVersion(int playerid, char (&version)[N]) {
+template<std::size_t N> inline bool GetPlayerVersion(int playerid, char (&version)[N]) {
 	return GetPlayerVersion(playerid, version, N);
 }
-template<size_t N> inline bool GetWeaponName(int weaponid, char (&name)[N]) {
+template<std::size_t N> inline bool GetWeaponName(int weaponid, char (&name)[N]) {
 	return GetWeaponName(weaponid, name, N);
 }
 

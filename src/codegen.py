@@ -96,6 +96,7 @@ def gen_constants(idl, header):
 
 def gen_natives(idl, header, source):
 	natives = filter(lambda x: x.has_attr('native'), idl.functions)
+	natives_with_source = filter(lambda x: x.get_attr('native').value != 'special', natives)
 
 	if header is not None:
 		# Generate native declarations and defines.
@@ -107,7 +108,7 @@ def gen_natives(idl, header, source):
 
 	if source is not None:
 		# Generate native implementation code.
-		for f in natives:
+		for f in natives_with_source:
 			source.write('SAMPGDK_EXPORT %s SAMPGDK_CALL sampgdk_%s(%s) {\n' % (f.type, f.name, params_to_string(f.params)))
 			source.write('\tstatic AMX_NATIVE native;\n')
 			source.write('\tstruct fakeamx *fa;\n')
@@ -279,3 +280,4 @@ def main(argv):
 
 if __name__ == '__main__':
 	main(sys.argv)
+
