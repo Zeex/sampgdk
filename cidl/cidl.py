@@ -302,6 +302,13 @@ class UndeclaredConstError(Error):
 	def __str__(self):
 		return "Undeclared constant '%s':\n%s" % (self._constname, self._location)
 
+class Logger(ply.yacc.PlyLogger):
+	def __init__(self):
+		super(Logger, self).__init__(sys.stderr)
+
+	def debug(self, msg, *args, **kwargs):
+		pass
+
 class Parser(object):
 	keywords = {
 		'const' : 'CONST',
@@ -549,8 +556,11 @@ class Parser(object):
 		self._attrlist  = []
 		self._constlist = []
 		self._funclist  = []
+
 		self._lexer = ply.lex.lex(object=self)
-		self._parser = ply.yacc.yacc(module=self)
+
+		errorlog = Logger()
+		self._parser = ply.yacc.yacc(module=self, errorlog=errorlog)
 
 	def token(self):
 		return self._lexer.token()
