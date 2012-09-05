@@ -557,10 +557,17 @@ class Parser(object):
 		self._constlist = []
 		self._funclist  = []
 
-		self._lexer = ply.lex.lex(object=self)
+		self._lexer = ply.lex.lex(
+			object=self,
+			lextab='cidl_lextab'
+		)
 
-		errorlog = Logger()
-		self._parser = ply.yacc.yacc(module=self, errorlog=errorlog)
+		self._parser = ply.yacc.yacc(
+			module=self,
+			errorlog=Logger(),
+			debugfile='cidl_parser.out',
+			tabmodule='cidl_parsetab'
+		)
 
 	def token(self):
 		return self._lexer.token()
