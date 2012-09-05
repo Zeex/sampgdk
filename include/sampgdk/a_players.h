@@ -21,28 +21,27 @@
 #include <sampgdk/export.h>
 #include <sampgdk/generated/a_players.h>
 
-#include <stddef.h>
-
 #ifdef __cplusplus
 
 #include <cassert>
 #include <cmath>
+#include <cstddef>
 #include <string>
 #include <vector>
 
-template<size_t N> inline bool GetPlayerName(int playerid, char (&name)[N]) {
+template<std::size_t N> inline bool GetPlayerName(int playerid, char (&name)[N]) {
 	return GetPlayerName(playerid, name, N);
 }
-template<size_t N> inline bool GetPlayerIp(int playerid, char (&ip)[N]) {
+template<std::size_t N> inline bool GetPlayerIp(int playerid, char (&ip)[N]) {
 	return GetPlayerIp(playerid, ip, N);
 }
-template<size_t N> inline bool GetPVarString(int playerid, const char *varname, char (&value)[N]) {
+template<std::size_t N> inline bool GetPVarString(int playerid, const char *varname, char (&value)[N]) {
 	return GetPVarString(playerid, varname, value, N);
 }
-template<size_t N> inline bool GetPVarNameAtIndex(int playerid, int index, char (&varname)[N]) {
+template<std::size_t N> inline bool GetPVarNameAtIndex(int playerid, int index, char (&varname)[N]) {
 	return GetPVarNameAtIndex(playerid, index, varname, N);
 }
-template<size_t N1, size_t N2> inline bool GetAnimationName(int index, char (&animlib)[N1], char (&animname)[N2]) {
+template<std::size_t N1, std::size_t N2> inline bool GetAnimationName(int index, char (&animlib)[N1], char (&animname)[N2]) {
 	return GetAnimationName(index, animlib, N1, animname, N2);
 }
 
