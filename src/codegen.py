@@ -102,7 +102,7 @@ def gen_natives(idl, header, source):
 		# Generate native declarations and defines.
 		for f in natives:
 			header.write('SAMPGDK_EXPORT %s SAMPGDK_CALL sampgdk_%s(%s);\n' % (f.type, f.name, params_to_string(f.params)))
-			header.write('#undef %s\n' % f.name)
+			header.write('#undef  %s\n' % f.name)
 			header.write('#define %s sampgdk_%s\n\n' % (f.name, f.name))
 		header.write('\n')
 
