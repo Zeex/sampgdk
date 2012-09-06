@@ -20,7 +20,11 @@ set(PYTHONPATH
 )
 
 foreach(path IN LISTS PYTHONPATH)
-	set(ENV{PYTHONPATH} "${path};$ENV{PYTHONPATH}")
+	if(WIN32)
+		set(ENV{PYTHONPATH} "${path};$ENV{PYTHONPATH}")
+	else()
+		set(ENV{PYTHONPATH} "${path}:$ENV{PYTHONPATH}")
+	endif()
 endforeach()
 
 function(run_codegen idl header source exports)
