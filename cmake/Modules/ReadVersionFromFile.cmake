@@ -12,7 +12,8 @@ function(read_version_from_file filename string_var major_var minor_var patch_va
 		message(WARNING "read_version: File ${filename} seems to be empty")
 	endif()
 
-	list(GET version_string 0 ${string_var})
+	set(${string_var} ${version_string} PARENT_SCOPE)
+
 	set(major 0)
 	set(minor 0)
 	set(patch 0)
