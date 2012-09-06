@@ -231,6 +231,13 @@ if(UNIX)
 	else()
 		message(WARNING "Could not find librt")
 	endif()
+
+	find_library(LIBDL_PATH NAMES "dl")
+	if(LIBDL_PATH)
+		list(APPEND SAMPGDK_LINK_LIBS ${LIBDL_PATH})
+	else()
+		message(WARNING "Could not find libdl")
+	endif()
 endif()
 
 add_subdirectory("lib")
