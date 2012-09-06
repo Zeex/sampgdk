@@ -286,6 +286,7 @@ def main(argv):
 	argparser.add_argument('-constants', dest='gen_constants', action='store_true')
 	argparser.add_argument('-natives', dest='gen_natives', action='store_true')
 	argparser.add_argument('-callbacks', dest='gen_callbacks', action='store_true')
+	argparser.add_argument('-all', dest='gen_all', action='store_true')
 
 	args = argparser.parse_args(argv[1:])
 
@@ -299,13 +300,13 @@ def main(argv):
 		if args.exports is not None:
 			exports = open(args.exports, 'w')
 
-		if args.gen_constants:
+		if args.gen_constants or args.gen_all:
 			gen_constants(idl, header)
 
-		if args.gen_natives:
+		if args.gen_natives or args.gen_all:
 			gen_natives(idl, header, source, exports)
 
-		if args.gen_callbacks:
+		if args.gen_callbacks or args.gen_all:
 			gen_callbacks(idl, header, source)
 
 		header.close()

@@ -25,10 +25,7 @@ endforeach()
 
 function(run_codegen idl header source exports)
 	execute_process(
-		COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/src/codegen.py"
-		        "-constants"
-		        "-natives"
-		        "-callbacks"
+		COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/src/codegen.py" "-all"
 		        "-idl=${CMAKE_CURRENT_SOURCE_DIR}/${idl}"
 		        "-header=${CMAKE_CURRENT_SOURCE_DIR}/${header}"
 		        "-source=${CMAKE_CURRENT_SOURCE_DIR}/${source}"
