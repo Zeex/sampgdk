@@ -179,6 +179,10 @@ endfunction()
 set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
 add_target_definitions(sampgdk "IN_SAMPGDK")
 
+if(CMAKE_COMPILER_IS_GNUCC)
+	add_target_compile_flags(sampgdk "-Wno-attributes")
+endif()
+
 if(WIN32)
 	set(def_path "src/sampgdk.def")
 	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${def_path}")
@@ -195,8 +199,6 @@ if(WIN32)
 
 	if(MSVC)
 		add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
-	elseif(CMAKE_COMPILER_IS_GNUCC)
-		add_target_compile_flags(sampgdk "-Wno-attributes")
 	endif()
 
 	add_target_definitions(sampgdk "ASM_PREFIX=\"_\"")
@@ -224,7 +226,6 @@ if(UNIX)
 
 	# Find librt (POSIX realtime extensions), needed for clock_gettime().
 	find_library(LIBRT_PATH NAMES "rt")
-
 	if(LIBRT_PATH)
 		list(APPEND SAMPGDK_LINK_LIBS ${LIBRT_PATH})
 	else()
