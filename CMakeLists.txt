@@ -165,19 +165,31 @@ configure_file(
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.rc"
 )
 
+function(get_exports var)
+	file(GLOB_RECURSE files "src/*.exports")
+	foreach(file IN LISTS files)
+		file(STRINGS ${file} exports)
+		list(APPEND all_exports ${exports})
+	endforeach()
+	set(${var} ${all_exports} PARENT_SCOPE)
+endfunction()
+
 set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
 add_target_definitions(sampgdk "IN_SAMPGDK")
 
 if(WIN32)
-	# Generate a module definition (.def) file
-	file(WRITE "src/sampgdk.def" "EXPORTS\n")
-	file(GLOB_RECURSE exports_files "src/*.exports")
-	foreach(file IN LISTS exports_files)
-		file(STRINGS "${file}" functions)
-		foreach(name IN LISTS functions)
-			file(APPEND "src/sampgdk.def" "\t${name}\n")
+	set(def_path "src/sampgdk.def")
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${def_path}")
+		file(REMOVE ${def_path})
+	endif()
+
+	get_exports(exports)
+	if(exports)
+		file(APPEND ${def_path} "EXPORTS\n")
+		foreach(name IN LISTS exports)
+			file(APPEND ${def_path} "\t${name}\n")
 		endforeach()
-	endforeach()
+	endif()
 
 	if(MSVC)
 		add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
