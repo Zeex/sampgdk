@@ -20,6 +20,8 @@ import itertools
 import os
 import sys
 
+export_prefix = 'sampgdk_'
+
 idl_to_c_type_in = {
 	'int'    : 'int',
 	'bool'   : 'bool',
@@ -106,7 +108,7 @@ def gen_natives(idl, header, source):
 
 		header.write('#ifndef SAMPGDK_NATIVE\n')
 		header.write('\t#define SAMPGDK_NATIVE(ret_type, func_and_params) \\\n')
-		header.write('\t\tSAMPGDK_NATIVE_EXPORT ret_type SAMPGDK_NATIVE_CALL sampgdk_##func_and_params\n')
+		header.write('\t\tSAMPGDK_NATIVE_EXPORT ret_type SAMPGDK_NATIVE_CALL %s##func_and_params\n' % export_prefix)
 		header.write('#endif\n')
 
 		header.write('\n')
@@ -114,7 +116,7 @@ def gen_natives(idl, header, source):
 		for f in natives:
 			header.write('SAMPGDK_NATIVE(%s, %s(%s));\n' % (f.type, f.name, params_to_string(f.params)))
 			header.write('#undef  %s\n' % f.name)
-			header.write('#define %s sampgdk_##%s\n\n' % (f.name, f.name))
+			header.write('#define %s %s##%s\n\n' % (f.name, export_prefix, f.name))
 
 		header.write('\n')
 
