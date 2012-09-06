@@ -184,8 +184,8 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 if(WIN32)
-	set(def_path "src/sampgdk.def")
-	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${def_path}")
+	set(def_path "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.def")
+	if(EXISTS "${def_path}")
 		file(REMOVE ${def_path})
 	endif()
 
@@ -210,6 +210,18 @@ if(WIN32)
 endif()
 
 if(UNIX)
+	set(sym_path "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.sym")
+	if(EXISTS ${sym_path})
+		file(REMOVE ${sym_path})
+	endif()
+
+	get_exports(exports)
+	if(exports)
+		foreach(name IN LISTS exports)
+			file(APPEND ${sym_path} "${name}\n")
+		endforeach()
+	endif()
+
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   "${SAMPGDK_VERSION_STRING}"
 		SOVERSION "${SAMPGDK_VERSION_MAJOR}"
@@ -218,9 +230,9 @@ if(UNIX)
 	add_target_definitions(sampgdk "ASM_PREFIX=")
 
 	if(CMAKE_COMPILER_IS_GNUCC)
-		add_target_link_flags(sampgdk 
-			"-Wl,--export-dynamic"
+		add_target_link_flags(sampgdk
 			"-Wl,--no-undefined"
+			"-Wl,--retain-symbols-file=${sym_path}"
 		)
 	endif()
 
