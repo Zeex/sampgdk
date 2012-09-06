@@ -93,7 +93,7 @@ def gen_constants(idl, header):
 			header.write('#define %s (%s)\n' % (c.name, value_to_c_literal(c.value)))
 		header.write('\n')
 
-def gen_natives(idl, header, source):
+def gen_natives(idl, header, source, exports):
 	natives = filter(lambda x: x.has_attr('native'), idl.functions)
 	natives_with_source = filter(lambda x: x.get_attr('native').value != 'special', natives)
 
@@ -194,6 +194,10 @@ def gen_natives(idl, header, source):
 
 		source.write('\n')
 
+	if exports is not None:
+		for f in natives:
+			exports.write('%s%s\n' % (export_prefix, f.name))
+
 def gen_callbacks(idl, header, source):
 	callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
 
@@ -278,6 +282,7 @@ def main(argv):
 	argparser.add_argument('-idl', required=True)
 	argparser.add_argument('-header', required=True)
 	argparser.add_argument('-source', required=True)
+	argparser.add_argument('-exports')
 	argparser.add_argument('-constants', dest='gen_constants', action='store_true')
 	argparser.add_argument('-natives', dest='gen_natives', action='store_true')
 	argparser.add_argument('-callbacks', dest='gen_callbacks', action='store_true')
@@ -291,17 +296,23 @@ def main(argv):
 		header = open(args.header, 'w')
 		source = open(args.source, 'w')
 
+		if args.exports is not None:
+			exports = open(args.exports, 'w')
+
 		if args.gen_constants:
 			gen_constants(idl, header)
 
 		if args.gen_natives:
-			gen_natives(idl, header, source)
+			gen_natives(idl, header, source, exports)
 
 		if args.gen_callbacks:
 			gen_callbacks(idl, header, source)
 
 		header.close()
 		source.close()
+
+		if args.exports is not None:
+			exports.close()
 
 	except cidl.Error as e:
 		print e
