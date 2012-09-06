@@ -279,14 +279,14 @@ def gen_callbacks(idl, header, source):
 def main(argv):
 	argparser = argparse.ArgumentParser()
 
-	argparser.add_argument('-idl', required=True)
-	argparser.add_argument('-header', required=True)
-	argparser.add_argument('-source', required=True)
-	argparser.add_argument('-exports')
-	argparser.add_argument('-constants', dest='gen_constants', action='store_true')
-	argparser.add_argument('-natives', dest='gen_natives', action='store_true')
-	argparser.add_argument('-callbacks', dest='gen_callbacks', action='store_true')
-	argparser.add_argument('-all', dest='gen_all', action='store_true')
+	argparser.add_argument('--idl', required=True)
+	argparser.add_argument('--header', required=True)
+	argparser.add_argument('--source', required=True)
+	argparser.add_argument('--exports')
+	argparser.add_argument('--constants', dest='gen_constants', action='store_true')
+	argparser.add_argument('--natives', dest='gen_natives', action='store_true')
+	argparser.add_argument('--callbacks', dest='gen_callbacks', action='store_true')
+	argparser.add_argument('--all', dest='gen_all', action='store_true')
 
 	args = argparser.parse_args(argv[1:])
 
