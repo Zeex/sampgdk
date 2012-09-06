@@ -254,14 +254,21 @@ endif()
 
 add_subdirectory("lib")
 
-lib_get_compile_defs(compile_defs)
-add_definitions(${compile_defs})
+include_directories(${SAMPGDK_INCLUDE_DIRS})
 
-lib_get_include_dirs(include_dirs)
-include_directories(${include_dirs})
+foreach(def IN LISTS SAMPGDK_COMPILE_DEFS)
+	add_target_definitions(sampgdk ${def})
+endforeach()
 
-lib_get_libraries(libraries)
-link_libraries(${libraries})
+foreach(flag IN LISTS SAMPGDK_COMPILE_FLAGS)
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY COMPILE_FLAGS " ${flag}")
+endforeach()
+
+foreach(flag IN LISTS SAMPGDK_LINK_FLAGS)
+	add_target_link_flags(sampgdk ${flag})
+endforeach()
+
+target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBS})
 
 option(SAMPGDK_INSTALL "Include installation and packaging rules" OFF)
 if(SAMPGDK_INSTALL)
