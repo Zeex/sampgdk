@@ -109,13 +109,13 @@ static int AMXAPI my_amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 static std::string GetBaseName(const std::string &path) {
 	std::string::size_type dot = path.find_last_of(".");
 	if (dot == std::string::npos) {
-		dot = path.length() + 1;
+		dot = path.length();
 	}
-	std::string::size_type sep = path.find_last_of("/\\");
+	std::string::size_type sep = path.find_last_of("/\\") + 1;
 	if (sep == std::string::npos) {
-		sep = -1;
+		sep = 0;
 	}
-	return std::string(path.begin() + sep + 1, path.begin() + dot);
+	return std::string(path.begin() + sep, path.begin() + dot);
 }
 
 typedef std::list<FilterScript*>::iterator FSIter;
