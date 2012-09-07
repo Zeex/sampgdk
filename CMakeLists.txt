@@ -106,8 +106,6 @@ set(SAMPGDK_SOURCES
 	"src/a_samp.c"
 	"src/a_vehicles.c"
 	"src/core.c"
-	"src/sampgdk.def"
-	"src/sampgdk.rc"
 	"src/version.c"
 )
 
@@ -125,6 +123,8 @@ endif()
 
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
+		"src/sampgdk.def"
+		"src/sampgdk.rc"
 		"src/support/plugin-win32.c"
 		"src/support/timer-win32.c"
 	)
