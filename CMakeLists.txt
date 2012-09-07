@@ -265,15 +265,7 @@ if(SAMPGDK_INSTALL)
 		ARCHIVE DESTINATION "lib" COMPONENT "dev"
 		LIBRARY DESTINATION "lib" COMPONENT "bin"
 	)
-
-	foreach(header IN LISTS SAMPGDK_HEADERS)
-		file(RELATIVE_PATH header_relative_to_include
-			"${CMAKE_CURRENT_SOURCE_DIR}/include"
-			"${CMAKE_CURRENT_SOURCE_DIR}/${header}"
-		)
-		get_filename_component(header_directory ${header_relative_to_include} PATH)
-		install(FILES ${header} DESTINATION "include/${header_directory}" COMPONENT "dev")
-	endforeach()
+	install(DIRECTORY "include" DESTINATION "." COMPONENT "dev" FILES_MATCHING PATTERN "*.h")
 
 	if(UNIX)
 		set(CPACK_PACKAGE_NAME "lib${CMAKE_PROJECT_NAME}")
