@@ -52,10 +52,6 @@ run_codegen("src/a_samp.idl"     "include/sampgdk/generated/a_samp.h"     "src/g
 run_codegen("src/a_vehicles.idl" "include/sampgdk/generated/a_vehicles.h" "src/generated/a_vehicles.c" "src/generated/a_vehicles.exports")
 
 set(SAMPGDK_HEADERS
-	"include/sampgdk/generated/a_objects.h"
-	"include/sampgdk/generated/a_players.h"
-	"include/sampgdk/generated/a_samp.h"
-	"include/sampgdk/generated/a_vehicles.h"
 	"include/sampgdk/sdk/amx/amx.h"
 	"include/sampgdk/sdk/amx/getch.h"
 	"include/sampgdk/sdk/amx/sclinux.h"
