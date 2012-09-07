@@ -5,6 +5,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
 
 include(AddTargetCompileFlags)
 include(AddTargetDefinitions)
+include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
 include(AmxConfig)
 include(ReadVersionFromFile)
@@ -253,22 +254,9 @@ if(UNIX)
 endif()
 
 add_subdirectory("lib")
-
-include_directories(${SAMPGDK_INCLUDE_DIRS})
-
-foreach(def IN LISTS SAMPGDK_COMPILE_DEFS)
-	add_target_definitions(sampgdk ${def})
-endforeach()
-
-foreach(flag IN LISTS SAMPGDK_COMPILE_FLAGS)
-	set_property(TARGET sampgdk APPEND_STRING PROPERTY COMPILE_FLAGS " ${flag}")
-endforeach()
-
-foreach(flag IN LISTS SAMPGDK_LINK_FLAGS)
-	add_target_link_flags(sampgdk ${flag})
-endforeach()
-
-target_link_libraries(sampgdk ${SAMPGDK_LINK_LIBS})
+add_target_definitions(sampgdk ${lib_compile_defs})
+add_target_include_dirs(sampgdk ${lib_include_dirs})
+target_link_libraries(sampgdk ${lib_libraries})
 
 option(SAMPGDK_INSTALL "Include installation and packaging rules" OFF)
 if(SAMPGDK_INSTALL)
