@@ -734,11 +734,20 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 		}
 	}
 
+	for (std::list<Plugin*>::iterator iterator = plugins.begin();
+			iterator != plugins.end(); ++iterator) {
+		(*iterator)->AmxLoad(amx);
+	}
+
 	::loading = false;
 	return AMX_ERR_NONE;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
+	for (std::list<Plugin*>::iterator iterator = plugins.begin();
+			iterator != plugins.end(); ++iterator) {
+		(*iterator)->AmxUnload(amx);
+	}
 	return AMX_ERR_NONE;
 }
 
