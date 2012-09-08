@@ -318,7 +318,7 @@ def main(argv):
 			exports.close()
 
 	except cidl.Error as e:
-		print e
+		sys.stderr.write('%s\n' % e)
 
 if __name__ == '__main__':
 	main(sys.argv)
