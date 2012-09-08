@@ -58,8 +58,10 @@ def value_to_c_literal(v):
 		if v.is_hex():
 			return '0x%s' % hex(v.data)[2:].upper()
 		elif v.is_oct():
-			return oct(v.data)
-		return int(v.data)
+			return '%s' % oct(v.data)
+		return '%s' % int(v.data)
+	elif v.is_float():
+		return '%s' % v.data
 	elif v.is_char():
 		return '\'%s\'' % v.data
 	elif v.is_string():

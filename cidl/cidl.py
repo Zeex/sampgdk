@@ -45,6 +45,9 @@ class Value(object):
 	def is_oct(self):
 		return self._type == 'oct'
 
+	def is_float(self):
+		return self._type == 'float'
+
 	def is_char(self):
 		return self._type in ('achar', 'cchar', 'uchar')
 
@@ -317,6 +320,10 @@ class Parser(object):
 	}
 
 	tokens = [
+		'FLOAT',
+		'HEX',
+		'OCT',
+		'INT',
 		'PCHAR',
 		'ECHAR',
 		'ACHAR',
@@ -327,13 +334,30 @@ class Parser(object):
 		'RPAREN',
 		'LBRACKET',
 		'RBRACKET',
-		'INT',
-		'HEX',
-		'OCT',
 		'EQUALS',
 		'COMMA',
 		'SEMICOLON'
 	] + list(keywords.values())
+
+	def t_FLOAT(self, t):
+		r'(([0-9]*\.[0-9]*)([eE][+-]?[0-9]+)?|[0-9]+[eE][+-][0-9]+)'
+		t.value = float(t.value)
+		return t
+
+	def t_HEX(self, t):
+		r'0(x|X)[0-9a-fA-F]{1,8}'
+		t.value = int(t.value, 16)
+		return t
+
+	def t_OCT(self, t):
+		r'0[0-7]+'
+		t.value = int(t.value, 8)
+		return t
+
+	def t_INT(self, t):
+		r'[+-]?([1-9][0-9]+|[0-9])'
+		t.value = int(t.value, 10)
+		return t
 
 	def t_PCHAR(self, t):
 		r'\'[^\a\b\f\n\r\t\v]\''
@@ -386,21 +410,6 @@ class Parser(object):
 	t_LBRACKET = r'\['
 	t_RBRACKET = r'\]'
 		
-	def t_HEX(self, t):
-		r'0(x|X)[0-9a-fA-F]{1,8}'
-		t.value = int(t.value, 16)
-		return t
-
-	def t_OCT(self, t):
-		r'0[0-7]+'
-		t.value = int(t.value, 8)
-		return t
-
-	def t_INT(self, t):
-		r'[+-]?([1-9][0-9]+|[0-9])'
-		t.value = int(t.value, 10)
-		return t
-
 	t_EQUALS = r'='
 
 	t_COMMA     = r','
@@ -442,7 +451,8 @@ class Parser(object):
 	def p_int(self, p):
 		"""number : dec
 		          | oct
-		          | hex"""
+		          | hex
+		          | float"""
 		p[0] = p[1]
 
 	def p_dec(self, p):
@@ -456,6 +466,10 @@ class Parser(object):
 	def p_hex(self, p):
 		"""hex : HEX"""
 		p[0] = Value(p[1], 'hex')
+
+	def p_float(self, p):
+		"""float : FLOAT"""
+		p[0] = Value(p[1], 'float')
 
 	def p_char(self, p):
 		"""char : pchar
