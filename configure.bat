@@ -28,8 +28,5 @@ if NOT EXIST "build\windows" (
 cd build\windows
 "%CMAKE%" ..\..\ %*
 
-echo Now it's time to compile!
-goto Exit
-
 :Exit
 exit
