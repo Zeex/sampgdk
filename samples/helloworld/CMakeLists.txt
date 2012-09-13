@@ -1,11 +1,14 @@
-set(PLUGIN_NAME "helloworld")
-set(PLUGIN_SOURCES "helloworld.cpp")
+cmake_minimum_required(VERSION 2.8)
+
+include(SampPlugin)
 
 if(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
-include(SampPlugin)
+add_samp_plugin(helloworld
+	helloworld.cpp
+	helloworld.def
+)
 
-set_property(TARGET ${PLUGIN_TARGET} PROPERTY FOLDER "sampgdk/samples")
-target_link_libraries(${PLUGIN_TARGET} sampgdk)
+target_link_libraries(helloworld sampgdk)

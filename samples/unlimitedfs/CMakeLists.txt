@@ -1,18 +1,18 @@
-set(PLUGIN_NAME "unlimitedfs")
+cmake_minimum_required(VERSION 2.8)
 
-set(PLUGIN_SOURCES 
-	filterscript.cpp
-	filterscript.h
-	plugin.cpp
-	plugin.h
-	unlimitedfs.cpp
-)
+include(SampPlugin)
 
 if(MSVC)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
-include(SampPlugin)
+add_samp_plugin(unlimitedfs
+	filterscript.cpp
+	filterscript.h
+	plugin.cpp
+	plugin.h
+	unlimitedfs.cpp
+	unlimitedfs.def
+)
 
-set_property(TARGET ${PLUGIN_TARGET} PROPERTY FOLDER "sampgdk/samples")
-target_link_libraries(${PLUGIN_TARGET} sampgdk)
+target_link_libraries(unlimitedfs sampgdk)
