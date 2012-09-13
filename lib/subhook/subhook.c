@@ -59,3 +59,13 @@ SUBHOOK_EXPORT int SUBHOOK_API subhook_get_flags(struct subhook *hook) {
 SUBHOOK_EXPORT void SUBHOOK_API subhook_set_flags(struct subhook *hook, int flags) {
 	hook->flags = flags;
 }
+
+#if defined SUBHOOK_WINDOWS
+	#include "subhook_windows.c"
+#elif defined SUBHOOK_LINUX
+	#include "subhook_linux.c"
+#endif
+
+#if defined SUBHOOK_X86
+	#include "subhook_x86.c"
+#endif

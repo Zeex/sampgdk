@@ -27,6 +27,20 @@
 
 #include <stddef.h>
 
+#if defined _M_IX86 || defined __i386__
+	#define SUBHOOK_X86
+#else
+	#error Unsupported architecture
+#endif
+
+#if defined __linux__
+	#define SUBHOOK_LINUX
+#elif defined _WIN32
+	#define SUBHOOK_WINDOWS
+#else
+	#error Unsupported operating system
+#endif
+
 #if !defined SUHOOK_EXTERN
 	#if defined __cplusplus
 		#define SUBHOOK_EXTERN extern "C"
@@ -41,21 +55,21 @@
 #endif
 
 #if !defined SUBHOOK_API
-	#if defined WIN32
+	#if SUBHOOK_WINDOWS
 		#define SUBHOOK_API __cdecl
-	#elif defined __GNUC__
+	#elif SUBHOOK_LINUX
 		#define SUBHOOK_API __attribute__((cdecl))
 	#endif
 #endif
 
 #if !defined SUBHOOK_EXPORT
-	#if defined WIN32
+	#if SUBHOOK_WINDOWS
 		#if defined SUBHOOK_IMPLEMENTATION
 			#define SUBHOOK_EXPORT SUBHOOK_EXTERN __declspec(dllexport)
 		#else
 			#define SUBHOOK_EXPORT SUBHOOK_EXTERN __declspec(dllimport)
 		#endif
-	#else
+	#elif SUBHOOK_LINUX
 		#if defined SUBHOOK_IMPLEMENTATION
 			#define SUBHOOK_EXPORT SUBHOOK_EXTERN __attribute__((visibility("default")))
 		#else
