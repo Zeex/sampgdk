@@ -196,39 +196,108 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 	return error_code;
 }
 
-SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = logprintf_impl;
+static void remove_hooks() {
+	if (amx_Register_hook != NULL) {
+		subhook_remove(amx_Register_hook);
+		subhook_free(amx_Register_hook);
+	}
+	if (amx_FindPublic_hook != NULL) {
+		subhook_remove(amx_FindPublic_hook);
+		subhook_free(amx_FindPublic_hook);
+	}
+	if (amx_Exec_hook != NULL) {
+		subhook_remove(amx_Exec_hook);
+		subhook_free(amx_Exec_hook);
+	}
+	if (amx_Callback_hook != NULL) {
+		subhook_remove(amx_Callback_hook);
+		subhook_free(amx_Callback_hook);
+	}
+}
+
+static int install_hooks() {
+	if ((amx_Register_hook = subhook_new()) == NULL)
+		goto no_memory;
+
+	if ((amx_FindPublic_hook = subhook_new()) == NULL)
+		goto no_memory;
+
+	if ((amx_Exec_hook = subhook_new()) == NULL)
+		goto no_memory;
+
+	if ((amx_Callback_hook = subhook_new()) == NULL)
+		goto no_memory;
+
+	subhook_set_source(amx_Register_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
+	subhook_set_destination(amx_Register_hook, (void*)amx_Register_);
+	subhook_install(amx_Register_hook);
+
+	subhook_set_source(amx_FindPublic_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_FindPublic]);
+	subhook_set_destination(amx_FindPublic_hook, (void*)amx_FindPublic_);
+	subhook_install(amx_FindPublic_hook);
+
+	subhook_set_source(amx_Exec_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Exec]);
+	subhook_set_destination(amx_Exec_hook, (void*)amx_Exec_);
+	subhook_install(amx_Exec_hook);
+
+	subhook_set_source(amx_Callback_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Callback]);
+	subhook_set_destination(amx_Callback_hook, (void*)amx_Callback_);
+	subhook_install(amx_Callback_hook);
+
+	return 0;
+
+no_memory:
+	remove_hooks();
+	return -ENOMEM;
+}
+
+static int register_callbacks() {
+	static bool registered = false;
+	int error_code;
+
+	if (registered)
+		return 0;
+
+	registered = true;
+
+	if ((error_code = register_callbacks__a_samp()) < 0)
+		return error_code;
+	if ((error_code = register_callbacks__a_players()) < 0)
+		return error_code;
+	if ((error_code = register_callbacks__a_objects()) < 0)
+		return error_code;
+	if ((error_code = register_callbacks__a_vehicles()) < 0)
+		return error_code;
+
+	return 0;
+}
+
+static void do_initialize(void **ppData) {
+	int error_code;
+
+	ppPluginData = ppData;
+	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
+
+	if ((error_code = register_callbacks()) < 0) {
+		error(strerror(-error_code));
+		return;
+	}
+
+	if ((error_code = install_hooks()) < 0) {
+		error(strerror(-error_code));
+		return;
+	}
+}
+
+static void do_finalize() {
+	remove_hooks();
+}
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	void *plugin;
 
 	if (plugin_get_list() == NULL) {
-		ppPluginData = ppData;
-		pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
-
-		amx_Register_hook = subhook_new();
-		subhook_set_source(amx_Register_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
-		subhook_set_destination(amx_Register_hook, (void*)amx_Register_);
-		subhook_install(amx_Register_hook);
-
-		amx_FindPublic_hook = subhook_new();
-		subhook_set_source(amx_FindPublic_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_FindPublic]);
-		subhook_set_destination(amx_FindPublic_hook, (void*)amx_FindPublic_);
-		subhook_install(amx_FindPublic_hook);
-
-		amx_Exec_hook = subhook_new();
-		subhook_set_source(amx_Exec_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Exec]);
-		subhook_set_destination(amx_Exec_hook, (void*)amx_Exec_);
-		subhook_install(amx_Exec_hook);
-
-		amx_Callback_hook = subhook_new();
-		subhook_set_source(amx_Callback_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Callback]);
-		subhook_set_destination(amx_Callback_hook, (void*)amx_Callback_);
-		subhook_install(amx_Callback_hook);
-
-		register_callbacks__a_samp();
-		register_callbacks__a_players();
-		register_callbacks__a_objects();
-		register_callbacks__a_vehicles();
+		do_initialize(ppData);
 	}
 
 	plugin = plugin_address_to_handle(get_return_address(NULL, 0));
@@ -242,17 +311,7 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 	plugin_unregister(plugin);
 
 	if (plugin_get_list() == NULL) {
-		subhook_remove(amx_Register_hook);
-		subhook_free(amx_Register_hook);
-
-		subhook_remove(amx_FindPublic_hook);
-		subhook_free(amx_FindPublic_hook);
-
-		subhook_remove(amx_Exec_hook);
-		subhook_free(amx_Exec_hook);
-
-		subhook_remove(amx_Callback_hook);
-		subhook_free(amx_Callback_hook);
+		do_finalize();
 	}
 }
 
@@ -291,3 +350,5 @@ SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives() {
 	return native_get_num_natives();
 }
+
+SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = logprintf_impl;
