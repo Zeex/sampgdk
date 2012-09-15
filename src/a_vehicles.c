@@ -18,11 +18,11 @@
 
 #include <sampgdk/generated/a_vehicles.h>
 
-#include "support/amx-stack.h"
-#include "support/callback.h"
-#include "support/fakeamx.h"
-#include "support/likely.h"
-#include "support/native.h"
+#include "amx-stack.h"
+#include "callback.h"
+#include "fakeamx.h"
+#include "likely.h"
+#include "native.h"
 
 #define register_callbacks register_callbacks__a_vehicles
 
