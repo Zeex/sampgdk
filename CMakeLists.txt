@@ -32,10 +32,10 @@ endforeach()
 function(run_codegen idl header source exports)
 	execute_process(
 		COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/src/codegen.py" "--all"
-		        "--idl"     "${CMAKE_CURRENT_SOURCE_DIR}/${idl}"
-		        "--header"  "${CMAKE_CURRENT_SOURCE_DIR}/${header}"
-		        "--source"  "${CMAKE_CURRENT_SOURCE_DIR}/${source}"
-		        "--exports" "${CMAKE_CURRENT_SOURCE_DIR}/${exports}"
+		        "--idl"     "${idl}"
+		        "--header"  "${header}"
+		        "--source"  "${source}"
+		        "--exports" "${exports}"
 		ERROR_VARIABLE error
 		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/cidl"
 	)
@@ -44,13 +44,20 @@ function(run_codegen idl header source exports)
 	endif()
 endfunction()
 
+file(GLOB_RECURSE idl_files "src/*.idl")
 file(MAKE_DIRECTORY "src/generated/")
 file(MAKE_DIRECTORY "include/sampgdk/generated")
 
-run_codegen("src/a_objects.idl"  "include/sampgdk/generated/a_objects.h"  "src/generated/a_objects.c"  "src/generated/a_objects.exports")
-run_codegen("src/a_players.idl"  "include/sampgdk/generated/a_players.h"  "src/generated/a_players.c"  "src/generated/a_players.exports")
-run_codegen("src/a_samp.idl"     "include/sampgdk/generated/a_samp.h"     "src/generated/a_samp.c"     "src/generated/a_samp.exports")
-run_codegen("src/a_vehicles.idl" "include/sampgdk/generated/a_vehicles.h" "src/generated/a_vehicles.c" "src/generated/a_vehicles.exports")
+foreach(idl IN LISTS idl_files)
+	get_filename_component(path ${idl} PATH)
+	get_filename_component(name ${idl} NAME_WE)
+	file(RELATIVE_PATH rel_path "${CMAKE_CURRENT_SOURCE_DIR}/src/" ${path})
+	run_codegen(${idl}
+		"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/${rel_path}/${name}.h"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/${rel_path}/${name}.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/${rel_path}/${name}.exports"
+	)
+endforeach()
 
 set(SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"
