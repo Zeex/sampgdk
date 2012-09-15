@@ -19,6 +19,7 @@
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <stddef.h>
 #include <string.h>
@@ -147,24 +148,24 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 
 static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 	int error_code;
-	bool can_do_exec;
+	bool can_exec;
 
 	subhook_remove(amx_Exec_hook);
 	subhook_install(amx_Callback_hook);
 
-	can_do_exec = true;
+	can_exec = true;
 
 	if (index == AMX_EXEC_MAIN) {
 		gamemode_amx = amx;
-		callback_invoke(gamemode_amx, "OnGameModeInit", retval, NULL);
+		callback_invoke(gamemode_amx, "OnGameModeInit", retval);
 	} else {
 		if (amx == gamemode_amx && index != AMX_EXEC_CONT && current_public != NULL)
-			callback_invoke(gamemode_amx, current_public, retval, &can_do_exec);
+			can_exec = callback_invoke(gamemode_amx, current_public, retval);
 	}
 
 	error_code = AMX_ERR_NONE;
 
-	if (can_do_exec && index != AMX_EXEC_GDK)
+	if (can_exec && index != AMX_EXEC_GDK)
 		error_code = amx_Exec(amx, retval, index);
 	else
 		amx->stk += amx->paramcount * sizeof(cell);
@@ -252,13 +253,7 @@ no_memory:
 }
 
 static int register_callbacks() {
-	static bool registered = false;
 	int error_code;
-
-	if (registered)
-		return 0;
-
-	registered = true;
 
 	if ((error_code = register_callbacks__a_samp()) < 0)
 		return error_code;
@@ -272,24 +267,48 @@ static int register_callbacks() {
 	return 0;
 }
 
-static void do_initialize(void **ppData) {
+static int do_initialize(void **ppData) {
 	int error_code;
 
 	ppPluginData = ppData;
+	assert(ppData != NULL);
+
 	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
+	assert(pAMXFunctions != NULL);
 
-	if ((error_code = register_callbacks()) < 0) {
-		error(strerror(-error_code));
-		return;
-	}
+	if ((error_code = register_callbacks()) < 0)
+		goto register_callbacks_failed;
+	if ((error_code = install_hooks()) < 0)
+		goto install_hooks_failed;
+	if ((error_code = callback_init()) < 0)
+		goto callback_init_failed;
+	if ((error_code = native_init()) < 0)
+		goto native_init_failed;
+	if ((error_code = timer_init()) < 0)
+		goto timer_init_failed;
 
-	if ((error_code = install_hooks()) < 0) {
-		error(strerror(-error_code));
-		return;
-	}
+	goto out;
+
+timer_init_failed:
+	timer_cleanup();
+native_init_failed:
+	native_cleanup();
+callback_init_failed:
+	callback_cleanup();
+install_hooks_failed:
+	remove_hooks();
+register_callbacks_failed:
+	error(strerror(-error_code));
+	return error_code;
+
+out:
+	return 0;
 }
 
 static void do_finalize() {
+	timer_cleanup();
+	native_cleanup();
+	callback_cleanup();
 	remove_hooks();
 }
 

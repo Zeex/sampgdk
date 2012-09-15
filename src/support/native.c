@@ -26,7 +26,6 @@
 #include "log.h"
 
 static struct array natives;
-static bool init_ok = false;
 
 int native_init() {
 	return array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
@@ -38,15 +37,6 @@ void native_cleanup() {
 
 int native_register(const char *name, AMX_NATIVE func) {
 	AMX_NATIVE_INFO native;
-
-	if (unlikely(!init_ok)) {
-		int error;
-
-		if ((error = native_init()) < 0)
-			return error;
-
-		init_ok = true;
-	}
 
 	native.name = name;
 	native.func = func;

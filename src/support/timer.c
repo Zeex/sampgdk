@@ -36,7 +36,6 @@ struct timer_info {
 };
 
 static struct array timers;
-static bool init_ok = false;
 
 static struct timer_info *get_timer_ptr(int timerid) {
 	return ((void**)timers.data)[timerid];
@@ -86,15 +85,6 @@ int timer_set(int *timerid, time_t interval, bool repeat, timer_callback callbac
 
 	assert(timerid != NULL);
 	assert(callback != NULL);
-
-	if (unlikely(!init_ok)) {
-		int error;
-
-		if ((error = timer_init()) < 0)
-			return error;
-
-		init_ok = true;
-	}
 
 	timer = malloc(sizeof(*timer));
 	if (timer == NULL)

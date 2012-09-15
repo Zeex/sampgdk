@@ -34,7 +34,6 @@ struct handler_list {
 };
 
 static struct handler_list *handlers;
-static bool init_ok = false;
 
 int callback_init() {
 	return 0;
@@ -67,17 +66,8 @@ int callback_add_handler(const char *name, callback_handler handler) {
 	return 0;
 }
 
-int callback_invoke(AMX *amx, const char *name, cell *retval, bool *success) {
+bool callback_invoke(AMX *amx, const char *name, cell *retval) {
 	struct plugin_list *plugin;
-
-	if (unlikely(!init_ok)) {
-		int error;
-
-		if ((error = callback_init()) < 0)
-			return error;
-
-		init_ok = true;
-	}
 
 	for (plugin = plugin_get_list(); plugin != NULL; plugin = plugin->next) {
 		void *func;
@@ -89,17 +79,12 @@ int callback_invoke(AMX *amx, const char *name, cell *retval, bool *success) {
 
 		for (handler = handlers; handler != NULL; handler = handler->next) {
 			if (strcmp(handler->name, name) == 0) {
-				if (!handler->handler(amx, func, retval)) {
-					if (success != NULL)
-						*success = false;
-					return 0;
-				}
+				if (!handler->handler(amx, func, retval))
+					return false;
+				continue;
 			}
 		}
 	}
 
-	if (success != NULL)
-		*success = true;
-
-	return 0;
+	return true;
 }
