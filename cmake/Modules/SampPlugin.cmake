@@ -17,9 +17,7 @@ include(AmxConfig)
 function(add_samp_plugin name)
 	add_library(${name} MODULE ${ARGN})
 
-	if(WIN32)
-		set_target_properties(${name} PROPERTIES PREFIX "")
-	endif()
+	set_target_properties(${name} PROPERTIES PREFIX "")
 
 	if(CMAKE_COMPILER_IS_GNUCC)
 		set_property(TARGET ${name} APPEND PROPERTY COMPILE_FLAGS "-m32")
