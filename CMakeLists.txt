@@ -79,6 +79,13 @@ set(SAMPGDK_HEADERS
 	"include/sampgdk/version.h"
 )
 
+set(SAMPGDK_GENERATED_HEADERS
+	"include/sampgdk/generated/a_objects.h"
+	"include/sampgdk/generated/a_players.h"
+	"include/sampgdk/generated/a_samp.h"
+	"include/sampgdk/generated/a_vehicles.h"
+)
+
 set(SAMPGDK_SOURCES
 	"src/sdk/amxplugin.c"
 	"src/amx-stack.c"
@@ -113,6 +120,13 @@ set(SAMPGDK_SOURCES
 	"src/version.c"
 )
 
+set(SAMPGDK_GENERATED_SOURCES
+	"src/generated/a_objects.c"
+	"src/generated/a_players.c"
+	"src/generated/a_samp.c"
+	"src/generated/a_vehicles.c"
+)
+
 if(MSVC)
 	list(APPEND SAMPGDK_SOURCES
 		"src/asm-msvc.c"
@@ -140,6 +154,12 @@ elseif(UNIX)
 else()
 	message(FATAL_ERROR "Unsupported operating system")
 endif()
+
+set_source_files_properties(${SAMPGDK_GENERATED_HEADERS} PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)
+
+list(APPEND SAMPGDK_HEADERS ${SAMPGDK_GENERATED_HEADERS})
+list(APPEND SAMPGDK_SOURCES ${SAMPGDK_GENERATED_SOURCES})
 
 function(directory_source_group path)
 	string(REGEX REPLACE "/" "\\\\" win_path ${path})
