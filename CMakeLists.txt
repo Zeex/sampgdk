@@ -200,9 +200,11 @@ function(directory_source_group path)
 endfunction()
 
 directory_source_group("src")
+directory_source_group("src/generated")
 directory_source_group("src/sdk")
 directory_source_group("src/support")
 directory_source_group("include/sampgdk")
+directory_source_group("include/sampgdk/generated")
 directory_source_group("include/sampgdk/sdk")
 directory_source_group("include/sampgdk/sdk/amx")
 
