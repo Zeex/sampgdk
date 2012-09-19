@@ -7,11 +7,6 @@ include(ParseVersionString)
 function(read_version_from_file filename string_var major_var minor_var patch_var tweak_var)
 	file(STRINGS ${filename} version_string LIMIT_COUNT 1)
 
-	list(LENGTH version_string length)
-	if(length EQUAL 0)
-		message(WARNING "read_version: File ${filename} seems to be empty")
-	endif()
-
 	set(${string_var} ${version_string} PARENT_SCOPE)
 
 	set(major 0)
