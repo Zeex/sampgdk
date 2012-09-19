@@ -23,17 +23,9 @@ include_directories("include/sampgdk")
 find_package(PythonInterp 2.7 REQUIRED)
 
 set(PYTHONPATH
-	"${CMAKE_CURRENT_SOURCE_DIR}/cidl"
-	"${CMAKE_CURRENT_SOURCE_DIR}/python/ply-3.4.zip"
+	"${CMAKE_SOURCE_DIR}/cidl"
+	"${CMAKE_SOURCE_DIR}/python/ply-3.4.zip"
 )
-
-foreach(path IN LISTS PYTHONPATH)
-	if(WIN32)
-		set(ENV{PYTHONPATH} "${path};$ENV{PYTHONPATH}")
-	else()
-		set(ENV{PYTHONPATH} "${path}:$ENV{PYTHONPATH}")
-	endif()
-endforeach()
 
 file(MAKE_DIRECTORY "src/generated")
 file(MAKE_DIRECTORY "include/sampgdk/generated")
@@ -44,13 +36,19 @@ add_custom_command(
 		"${CMAKE_SOURCE_DIR}/src/generated/a_objects.c"
 		"${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports"
 	COMMAND
-		${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/codegen.py" "--all"
-			"--idl"     "${CMAKE_SOURCE_DIR}/src/a_objects.idl"
-			"--header"  "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_objects.h"
-			"--source"  "${CMAKE_SOURCE_DIR}/src/generated/a_objects.c"
-			"--exports" "${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports"
+		${CMAKE_COMMAND}
+			"-DPYTHON=${PYTHON_EXECUTABLE}"
+			"-DPYTHONPATH=\"${PYTHONPATH}\""
+			"-DPATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
+			"-DIDL_FILE=${CMAKE_SOURCE_DIR}/src/a_objects.idl"
+			"-DHEADER_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_objects.h"
+			"-DSOURCE_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_objects.c"
+			"-DEXPORTS_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports"
+		"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
 	DEPENDS
 		"${CMAKE_SOURCE_DIR}/src/a_objects.idl"
+	WORKING_DIRECTORY
+		"${CMAKE_SOURCE_DIR}/cidl"
 )
 
 add_custom_command(
@@ -59,13 +57,19 @@ add_custom_command(
 		"${CMAKE_SOURCE_DIR}/src/generated/a_players.c"
 		"${CMAKE_SOURCE_DIR}/src/generated/a_players.exports"
 	COMMAND
-		${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/codegen.py" "--all"
-			"--idl"     "${CMAKE_SOURCE_DIR}/src/a_players.idl"
-			"--header"  "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_players.h"
-			"--source"  "${CMAKE_SOURCE_DIR}/src/generated/a_players.c"
-			"--exports" "${CMAKE_SOURCE_DIR}/src/generated/a_players.exports"
+		${CMAKE_COMMAND}
+			"-DPYTHON=${PYTHON_EXECUTABLE}"
+			"-DPYTHONPATH=\"${PYTHONPATH}\""
+			"-DPATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
+			"-DIDL_FILE=${CMAKE_SOURCE_DIR}/src/a_players.idl"
+			"-DHEADER_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_players.h"
+			"-DSOURCE_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_players.c"
+			"-DEXPORTS_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_players.exports"
+		"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
 	DEPENDS
 		"${CMAKE_SOURCE_DIR}/src/a_players.idl"
+	WORKING_DIRECTORY
+		"${CMAKE_SOURCE_DIR}/cidl"
 )
 
 add_custom_command(
@@ -74,13 +78,19 @@ add_custom_command(
 		"${CMAKE_SOURCE_DIR}/src/generated/a_samp.c"
 		"${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports"
 	COMMAND
-		${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/codegen.py" "--all"
-			"--idl"     "${CMAKE_SOURCE_DIR}/src/a_samp.idl"
-			"--header"  "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h"
-			"--source"  "${CMAKE_SOURCE_DIR}/src/generated/a_samp.c"
-			"--exports" "${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports"
+		${CMAKE_COMMAND}
+			"-DPYTHON=${PYTHON_EXECUTABLE}"
+			"-DPYTHONPATH=\"${PYTHONPATH}\""
+			"-DPATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
+			"-DIDL_FILE=${CMAKE_SOURCE_DIR}/src/a_samp.idl"
+			"-DHEADER_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h"
+			"-DSOURCE_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_samp.c"
+			"-DEXPORTS_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports"
+		"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
 	DEPENDS
 		"${CMAKE_SOURCE_DIR}/src/a_samp.idl"
+	WORKING_DIRECTORY
+		"${CMAKE_SOURCE_DIR}/cidl"
 )
 
 add_custom_command(
@@ -89,13 +99,19 @@ add_custom_command(
 		"${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c"
 		"${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports"
 	COMMAND
-		${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/codegen.py" "--all"
-			"--idl"     "${CMAKE_SOURCE_DIR}/src/a_vehicles.idl"
-			"--header"  "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h"
-			"--source"  "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c"
-			"--exports" "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports"
+		${CMAKE_COMMAND}
+			"-DPYTHON=${PYTHON_EXECUTABLE}"
+			"-DPYTHONPATH=\"${PYTHONPATH}\""
+			"-DPATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
+			"-DIDL_FILE=${CMAKE_SOURCE_DIR}/src/a_vehicles.idl"
+			"-DHEADER_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h"
+			"-DSOURCE_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c"
+			"-DEXPORTS_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports"
+		"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
 	DEPENDS
 		"${CMAKE_SOURCE_DIR}/src/a_vehicles.idl"
+	WORKING_DIRECTORY
+		"${CMAKE_SOURCE_DIR}/cidl"
 )
 
 set(SAMPGDK_HEADERS
