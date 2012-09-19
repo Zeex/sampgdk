@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 2.8.8)
 
 project(sampgdk)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules")
+list(APPEND CMAKE_MODULE_PATH
+	"${CMAKE_SOURCE_DIR}"
+	"${CMAKE_SOURCE_DIR}/cmake/Modules"
+)
 
 include(AddTargetCompileFlags)
 include(AddTargetDefinitions)
@@ -10,6 +13,9 @@ include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
 include(AmxConfig)
 include(ReadVersionFromFile)
+
+set(SUBHOOK_STATIC TRUE)
+add_subdirectory("lib/subhook")
 
 include_directories("include")
 include_directories("include/sampgdk")
@@ -316,10 +322,7 @@ if(UNIX)
 	endif()
 endif()
 
-add_subdirectory("lib")
-add_target_definitions(sampgdk ${lib_compile_defs})
-add_target_include_dirs(sampgdk ${lib_include_dirs})
-target_link_libraries(sampgdk ${lib_libraries})
+target_link_libraries(sampgdk "subhook")
 
 option(SAMPGDK_INSTALL "Include installation and packaging rules" OFF)
 if(SAMPGDK_INSTALL)
@@ -388,4 +391,3 @@ option(SAMPGDK_BUILD_SAMPLES "Build sample gamemodes" OFF)
 if(SAMPGDK_BUILD_SAMPLES)
 	add_subdirectory("samples")
 endif()
-
