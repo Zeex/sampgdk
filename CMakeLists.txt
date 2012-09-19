@@ -29,35 +29,68 @@ foreach(path IN LISTS PYTHONPATH)
 	endif()
 endforeach()
 
-function(run_codegen idl header source exports)
-	execute_process(
-		COMMAND "${PYTHON_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/src/codegen.py" "--all"
-		        "--idl"     "${idl}"
-		        "--header"  "${header}"
-		        "--source"  "${source}"
-		        "--exports" "${exports}"
-		ERROR_VARIABLE error
-		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/cidl"
-	)
-	if(error)
-		message(FATAL_ERROR ${error})
-	endif()
-endfunction()
-
-file(GLOB_RECURSE idl_files "src/*.idl")
-file(MAKE_DIRECTORY "src/generated/")
+file(MAKE_DIRECTORY "src/generated")
 file(MAKE_DIRECTORY "include/sampgdk/generated")
 
-foreach(idl IN LISTS idl_files)
-	get_filename_component(path ${idl} PATH)
-	get_filename_component(name ${idl} NAME_WE)
-	file(RELATIVE_PATH rel_path "${CMAKE_CURRENT_SOURCE_DIR}/src/" ${path})
-	run_codegen(${idl}
-		"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/generated/${rel_path}/${name}.h"
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/${rel_path}/${name}.c"
-		"${CMAKE_CURRENT_SOURCE_DIR}/src/generated/${rel_path}/${name}.exports"
-	)
-endforeach()
+add_custom_command(
+	OUTPUT
+		"${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_objects.h"
+		"${CMAKE_SOURCE_DIR}/src/generated/a_objects.c"
+		"${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports"
+	COMMAND
+		${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/codegen.py" "--all"
+			"--idl"     "${CMAKE_SOURCE_DIR}/src/a_objects.idl"
+			"--header"  "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_objects.h"
+			"--source"  "${CMAKE_SOURCE_DIR}/src/generated/a_objects.c"
+			"--exports" "${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports"
+	DEPENDS
+		"${CMAKE_SOURCE_DIR}/src/a_objects.idl"
+)
+
+add_custom_command(
+	OUTPUT
+		"${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_players.h"
+		"${CMAKE_SOURCE_DIR}/src/generated/a_players.c"
+		"${CMAKE_SOURCE_DIR}/src/generated/a_players.exports"
+	COMMAND
+		${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/codegen.py" "--all"
+			"--idl"     "${CMAKE_SOURCE_DIR}/src/a_players.idl"
+			"--header"  "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_players.h"
+			"--source"  "${CMAKE_SOURCE_DIR}/src/generated/a_players.c"
+			"--exports" "${CMAKE_SOURCE_DIR}/src/generated/a_players.exports"
+	DEPENDS
+		"${CMAKE_SOURCE_DIR}/src/a_players.idl"
+)
+
+add_custom_command(
+	OUTPUT
+		"${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h"
+		"${CMAKE_SOURCE_DIR}/src/generated/a_samp.c"
+		"${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports"
+	COMMAND
+		${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/codegen.py" "--all"
+			"--idl"     "${CMAKE_SOURCE_DIR}/src/a_samp.idl"
+			"--header"  "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h"
+			"--source"  "${CMAKE_SOURCE_DIR}/src/generated/a_samp.c"
+			"--exports" "${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports"
+	DEPENDS
+		"${CMAKE_SOURCE_DIR}/src/a_samp.idl"
+)
+
+add_custom_command(
+	OUTPUT
+		"${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h"
+		"${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c"
+		"${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports"
+	COMMAND
+		${PYTHON_EXECUTABLE} "${CMAKE_SOURCE_DIR}/src/codegen.py" "--all"
+			"--idl"     "${CMAKE_SOURCE_DIR}/src/a_vehicles.idl"
+			"--header"  "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h"
+			"--source"  "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c"
+			"--exports" "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports"
+	DEPENDS
+		"${CMAKE_SOURCE_DIR}/src/a_vehicles.idl"
+)
 
 set(SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"
