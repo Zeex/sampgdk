@@ -55,21 +55,21 @@
 #endif
 
 #if !defined SUBHOOK_API
-	#if SUBHOOK_WINDOWS
+	#if defined SUBHOOK_WINDOWS
 		#define SUBHOOK_API __cdecl
-	#elif SUBHOOK_LINUX
+	#elif defined SUBHOOK_LINUX
 		#define SUBHOOK_API __attribute__((cdecl))
 	#endif
 #endif
 
 #if !defined SUBHOOK_EXPORT
-	#if SUBHOOK_WINDOWS
+	#if defined SUBHOOK_WINDOWS
 		#if defined SUBHOOK_IMPLEMENTATION
 			#define SUBHOOK_EXPORT SUBHOOK_EXTERN __declspec(dllexport)
 		#else
 			#define SUBHOOK_EXPORT SUBHOOK_EXTERN __declspec(dllimport)
 		#endif
-	#elif SUBHOOK_LINUX
+	#elif defined SUBHOOK_LINUX
 		#if defined SUBHOOK_IMPLEMENTATION
 			#define SUBHOOK_EXPORT SUBHOOK_EXTERN __attribute__((visibility("default")))
 		#else
