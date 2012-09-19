@@ -1,4 +1,0 @@
-#!/bin/sh
-
-mkdir -p build/linux && cd build/linux
-cmake ../../ -DCMAKE_C_FLAGS=-m32 $*
