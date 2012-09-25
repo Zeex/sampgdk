@@ -13,10 +13,6 @@ if(NOT PYTHON)
 	set(PYTHON ${PYTHON_EXECUTABLE})
 endif()
 
-if(NOT CODEGEN_PATH)
-	set(CODEGEN_PATH "${CMAKE_CURRENT_SOURCE_DIR}/codegen.py")
-endif()
-
 if(CODEGEN_IDL_FILE)
 	list(APPEND ARGS "--idl=${CODEGEN_IDL_FILE}")
 endif()
@@ -30,7 +26,7 @@ if(CODEGEN_EXPORTS_FILE)
 	list(APPEND ARGS "--exports=${CODEGEN_EXPORTS_FILE}")
 endif()
 
-execute_process(COMMAND ${PYTHON} ${CODEGEN_PATH} "--all" ${ARGS}
+execute_process(COMMAND ${PYTHON} "${CMAKE_SOURCE_DIR}/codegen.py" "--all" ${ARGS}
 	ERROR_VARIABLE PYTHON_ERRORS OUTPUT_VARIABLE PYTHON_OUTPUT)
 
 if(OUTPUT_VARIABLE)
