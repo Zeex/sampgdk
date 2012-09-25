@@ -13,8 +13,6 @@ include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
 include(AmxConfig)
 
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
 add_subdirectory("lib")
 
 include_directories("include")
@@ -258,10 +256,7 @@ directory_source_group("include/sampgdk/sdk/amx")
 
 add_library(sampgdk SHARED ${SAMPGDK_HEADER_FILES} ${SAMPGDK_SOURCE_FILES})
 
-set_target_properties(sampgdk PROPERTIES
-	FOLDER        "sampgdk"
-	DEBUG_POSTFIX "_d"
-)
+set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
 
 add_custom_command(
 	OUTPUT 
