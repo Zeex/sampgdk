@@ -245,11 +245,6 @@ add_custom_command(
 		"${CMAKE_SOURCE_DIR}/VERSION.txt"
 )
 
-configure_file(
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.rc.in"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.rc"
-)
-
 function(get_exports var)
 	file(GLOB_RECURSE files "src/*.exports")
 	foreach(file IN LISTS files)
