@@ -15,8 +15,7 @@ include(AmxConfig)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-set(SUBHOOK_STATIC TRUE)
-add_subdirectory("lib/subhook")
+add_subdirectory("lib")
 
 include_directories("include")
 include_directories("include/sampgdk")
