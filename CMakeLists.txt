@@ -12,7 +12,6 @@ include(AddTargetDefinitions)
 include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
 include(AmxConfig)
-include(ReadVersionFromFile)
 
 set(SUBHOOK_STATIC TRUE)
 add_subdirectory("lib/subhook")
@@ -233,17 +232,17 @@ add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_property(TARGET sampgdk PROPERTY FOLDER "sampgdk")
 
-read_version_from_file("${CMAKE_CURRENT_SOURCE_DIR}/VERSION.txt"
-	SAMPGDK_VERSION_STRING
-	SAMPGDK_VERSION_MAJOR
-	SAMPGDK_VERSION_MINOR
-	SAMPGDK_VERSION_PATCH
-	SAMPGDK_VERSION_TWEAK
-)
-
-configure_file(
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/version.h.in"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/sampgdk/version.h"
+add_custom_command(
+	OUTPUT 
+		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h"
+	COMMAND
+		${CMAKE_COMMAND}
+			"-DVERSION_TEXT_FILE=${CMAKE_SOURCE_DIR}/VERSION.txt"
+			"-DVERSION_INPUT_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.in"
+			"-DVERSION_OUTPUT_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/version.h"
+		"-P" "${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.cmake"
+	DEPENDS
+		"${CMAKE_SOURCE_DIR}/VERSION.txt"
 )
 
 configure_file(
