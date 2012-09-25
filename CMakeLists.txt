@@ -243,6 +243,7 @@ add_custom_command(
 		"-P" "${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.cmake"
 	DEPENDS
 		"${CMAKE_SOURCE_DIR}/VERSION.txt"
+		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.in"
 )
 
 function(get_exports var)
