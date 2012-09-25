@@ -245,10 +245,10 @@ elseif(UNIX)
 	)
 endif()
 
-function(directory_source_group path)
+macro(directory_source_group path)
 	string(REGEX REPLACE "/" "\\\\" win_path ${path})
 	source_group(${win_path} REGULAR_EXPRESSION "${path}/[^/\\]+\\..*")
-endfunction()
+endmacro()
 
 directory_source_group("src")
 directory_source_group("src/generated")
