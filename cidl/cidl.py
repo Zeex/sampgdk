@@ -17,6 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import ply.lex
 import ply.yacc
 import sys
@@ -571,16 +572,25 @@ class Parser(object):
 		self._constlist = []
 		self._funclist  = []
 
+		def choose_path(filename):
+			path = os.path.join(os.path.dirname(__file__), filename)
+			try:
+				open(path, 'w')
+				os.remove(path)
+			except OSError:
+				return filename
+			return path
+
 		self._lexer = ply.lex.lex(
 			object=self,
-			lextab='cidl_lextab'
+			lextab=choose_path('cidl_lextab')
 		)
 
 		self._parser = ply.yacc.yacc(
 			module=self,
 			errorlog=Logger(),
-			debugfile='cidl_parser.out',
-			tabmodule='cidl_parsetab'
+			debugfile=choose_path('cidl_parser.out'),
+			tabmodule=choose_path('cidl_parsetab')
 		)
 
 	def token(self):
