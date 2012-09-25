@@ -13,13 +13,15 @@ include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
 include(AmxConfig)
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 set(SUBHOOK_STATIC TRUE)
 add_subdirectory("lib/subhook")
 
 include_directories("include")
 include_directories("include/sampgdk")
 
-list(APPEND SAMPGDK_HEADERS
+list(APPEND SAMPGDK_HEADER_FILES
 	"include/sampgdk/sdk/amx/amx.h"
 	"include/sampgdk/sdk/amx/getch.h"
 	"include/sampgdk/sdk/amx/sclinux.h"
@@ -39,7 +41,7 @@ list(APPEND SAMPGDK_HEADERS
 	"include/sampgdk/version.h"
 )
 
-list(APPEND SAMPGDK_SOURCES
+list(APPEND SAMPGDK_SOURCE_FILES
 	"src/sdk/amxplugin.c"
 	"src/amx-stack.c"
 	"src/amx-stack.h"
@@ -73,12 +75,17 @@ list(APPEND SAMPGDK_SOURCES
 	"src/version.c"
 )
 
+list(APPEND SAMPGDK_EXPORTS_FILES
+	"src/core.exports"
+	"src/version.exports"
+)
+
 if(MSVC)
-	list(APPEND SAMPGDK_SOURCES
+	list(APPEND SAMPGDK_SOURCE_FILES
 		"src/asm-msvc.c"
 	)
 elseif(CMAKE_COMPILER_IS_GNUCC)
-	list(APPEND SAMPGDK_SOURCES
+	list(APPEND SAMPGDK_SOURCE_FILES
 		"src/asm-gcc.c"
 	)
 else()
@@ -86,15 +93,16 @@ else()
 endif()
 
 if(WIN32)
-	list(APPEND SAMPGDK_SOURCES
+	list(APPEND SAMPGDK_SOURCE_FILES
+		"src/plugin-win32.c"
 		"src/sampgdk.def"
 		"src/sampgdk.rc"
-		"src/plugin-win32.c"
 		"src/timer-win32.c"
 	)
 elseif(UNIX)
-	list(APPEND SAMPGDK_SOURCES
+	list(APPEND SAMPGDK_SOURCE_FILES
 		"src/plugin-linux.c"
+		"src/sampgdk.sym"
 		"src/timer-linux.c"
 	)
 else()
@@ -134,7 +142,7 @@ add_header_gen("${CMAKE_SOURCE_DIR}/src/a_players.idl" "${CMAKE_SOURCE_DIR}/incl
 add_header_gen("${CMAKE_SOURCE_DIR}/src/a_samp.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h")
 add_header_gen("${CMAKE_SOURCE_DIR}/src/a_vehicles.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h")
 
-list(APPEND SAMPGDK_GENERATED_HEADERS
+list(APPEND SAMPGDK_HEADER_FILES
 	"include/sampgdk/generated/a_objects.h"
 	"include/sampgdk/generated/a_players.h"
 	"include/sampgdk/generated/a_samp.h"
@@ -174,6 +182,9 @@ list(APPEND SAMPGDK_GENERATED_SOURCES
 	"src/generated/a_vehicles.c"
 )
 
+set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)
+list(APPEND SAMPGDK_SOURCE_FILES ${SAMPGDK_GENERATED_SOURCES})
+
 file(MAKE_DIRECTORY "src/generated")
 
 macro(add_exports_gen idl_file exports_file)
@@ -200,18 +211,40 @@ add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_players.idl" "${CMAKE_SOURCE_DIR}/src
 add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_samp.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports")
 add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_vehicles.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports")
 
-list(APPEND SAMPGDK_GENERATED_SOURCES
+list(APPEND SAMPGDK_EXPORTS_FILES
 	"src/generated/a_objects.exports"
 	"src/generated/a_players.exports"
 	"src/generated/a_samp.exports"
 	"src/generated/a_vehicles.exports"
 )
 
-set_source_files_properties(${SAMPGDK_GENERATED_HEADERS} PROPERTIES HEADER_FILE_ONLY TRUE)
-set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)
+list(APPEND SAMPGDK_SOURCE_FILES ${SAMPGDK_EXPORTS_FILES})
 
-list(APPEND SAMPGDK_HEADERS ${SAMPGDK_GENERATED_HEADERS})
-list(APPEND SAMPGDK_SOURCES ${SAMPGDK_GENERATED_SOURCES})
+if(WIN32)
+	add_custom_command(
+		OUTPUT
+			"${CMAKE_SOURCE_DIR}/src/sampgdk.def"
+		COMMAND
+			${CMAKE_COMMAND}
+			"-P" "${CMAKE_SOURCE_DIR}/src/sampgdk.def.cmake"
+		DEPENDS
+			${SAMPGDK_EXPORTS_FILES}
+		WORKING_DIRECTORY
+			"${CMAKE_SOURCE_DIR}/src"
+	)
+elseif(UNIX)
+	add_custom_command(
+		OUTPUT
+			"${CMAKE_SOURCE_DIR}/src/sampgdk.sym"
+		COMMAND
+			${CMAKE_COMMAND}
+			"-P" "${CMAKE_SOURCE_DIR}/src/sampgdk.sym.cmake"
+		DEPENDS
+			${SAMPGDK_EXPORTS_FILES}
+		WORKING_DIRECTORY
+			"${CMAKE_SOURCE_DIR}/src"
+	)
+endif()
 
 function(directory_source_group path)
 	string(REGEX REPLACE "/" "\\\\" win_path ${path})
@@ -227,10 +260,12 @@ directory_source_group("include/sampgdk/generated")
 directory_source_group("include/sampgdk/sdk")
 directory_source_group("include/sampgdk/sdk/amx")
 
-add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
+add_library(sampgdk SHARED ${SAMPGDK_HEADER_FILES} ${SAMPGDK_SOURCE_FILES})
 
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-set_property(TARGET sampgdk PROPERTY FOLDER "sampgdk")
+set_target_properties(sampgdk PROPERTIES
+	FOLDER        "sampgdk"
+	DEBUG_POSTFIX "_d"
+)
 
 add_custom_command(
 	OUTPUT 
@@ -246,75 +281,37 @@ add_custom_command(
 		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.in"
 )
 
-function(get_exports var)
-	file(GLOB_RECURSE files "src/*.exports")
-	foreach(file IN LISTS files)
-		file(STRINGS ${file} exports)
-		list(APPEND all_exports ${exports})
-	endforeach()
-	set(${var} ${all_exports} PARENT_SCOPE)
-endfunction()
-
-set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
-add_target_definitions(sampgdk "IN_SAMPGDK")
-
-if(CMAKE_COMPILER_IS_GNUCC)
-	add_target_compile_flags(sampgdk "-Wno-attributes")
-endif()
-
 if(WIN32)
-	set(def_path "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.def")
-	if(EXISTS "${def_path}")
-		file(REMOVE ${def_path})
-	endif()
-
-	get_exports(exports)
-	if(exports)
-		file(APPEND ${def_path} "EXPORTS\n")
-		foreach(name IN LISTS exports)
-			file(APPEND ${def_path} "\t${name}\n")
-		endforeach()
-	endif()
-
-	if(MSVC)
-		add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
-	endif()
-
-	add_target_definitions(sampgdk "ASM_PREFIX=\"_\"")
-
-	set_target_properties(sampgdk PROPERTIES 
-		PREFIX      ""
-		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}"
-	)
-endif()
-
-if(UNIX)
-	set(sym_path "${CMAKE_CURRENT_SOURCE_DIR}/src/sampgdk.sym")
-	if(EXISTS ${sym_path})
-		file(REMOVE ${sym_path})
-	endif()
-
-	get_exports(exports)
-	if(exports)
-		foreach(name IN LISTS exports)
-			file(APPEND ${sym_path} "${name}\n")
-		endforeach()
-	endif()
-
+	set_target_properties(sampgdk OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
+elseif(UNIX)
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   "${SAMPGDK_VERSION_STRING}"
 		SOVERSION "${SAMPGDK_VERSION_MAJOR}"
 	)
+endif()
 
+add_target_definitions(sampgdk "IN_SAMPGDK")
+
+if(WIN32)
+	if(MSVC)
+		add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
+	endif()
+	add_target_definitions(sampgdk "ASM_PREFIX=\"_\"")
+elseif(UNIX)
 	add_target_definitions(sampgdk "ASM_PREFIX=")
+endif()
 
-	if(CMAKE_COMPILER_IS_GNUCC)
+if(CMAKE_COMPILER_IS_GNUCC)
+	add_target_compile_flags(sampgdk "-Wno-attributes")
+	if(UNIX)
 		add_target_link_flags(sampgdk
 			"-Wl,--no-undefined"
-			"-Wl,--retain-symbols-file=${sym_path}"
+			"-Wl,--retain-symbols-file=${CMAKE_SOURCE_DIR}/src/sampgdk.sym"
 		)
 	endif()
+endif()
 
+if(UNIX)
 	# Find librt (POSIX realtime extensions), needed for clock_gettime().
 	find_library(LIBRT_PATH NAMES "rt")
 	if(LIBRT_PATH)
