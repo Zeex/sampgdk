@@ -272,12 +272,12 @@ add_custom_command(
 	COMMAND
 		${CMAKE_COMMAND}
 			"-DVERSION_TEXT_FILE=${CMAKE_SOURCE_DIR}/VERSION.txt"
-			"-DVERSION_INPUT_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.in"
-			"-DVERSION_OUTPUT_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/version.h"
 		"-P" "${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.cmake"
 	DEPENDS
 		"${CMAKE_SOURCE_DIR}/VERSION.txt"
 		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.in"
+	WORKING_DIRECTORY
+		"${CMAKE_SOURCE_DIR}/include/sampgdk"
 )
 
 if(WIN32)

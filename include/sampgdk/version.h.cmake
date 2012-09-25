@@ -33,4 +33,7 @@ if(VERSION_LENGTH GREATER 3)
 	list(GET VERSION_COMPONENTS 3 VERSION_TWEAK)
 endif()
 
-configure_file(${VERSION_INPUT_FILE} ${VERSION_OUTPUT_FILE})
+configure_file(
+	"${CMAKE_SOURCE_DIR}/version.h.in"
+	"${CMAKE_SOURCE_DIR}/version.h"
+)
