@@ -121,7 +121,7 @@ macro(add_header_gen idl_file header_file)
 				"-DCODEGEN_PATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
 				"-DCODEGEN_IDL_FILE=${idl_file}"
 				"-DCODEGEN_HEADER_FILE=${header_file}"
-			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
+			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.py.cmake"
 		DEPENDS
 			${idl_file}
 		WORKING_DIRECTORY
@@ -154,7 +154,7 @@ macro(add_source_gen idl_file source_file)
 				"-DCODEGEN_PATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
 				"-DCODEGEN_IDL_FILE=${idl_file}"
 				"-DCODEGEN_SOURCE_FILE=${source_file}"
-			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
+			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.py.cmake"
 		DEPENDS
 			${idl_file}
 		WORKING_DIRECTORY
@@ -187,7 +187,7 @@ macro(add_exports_gen idl_file exports_file)
 				"-DCODEGEN_PATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
 				"-DCODEGEN_IDL_FILE=${idl_file}"
 				"-DCODEGEN_EXPORTS_FILE=${exports_file}"
-			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
+			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.py.cmake"
 		DEPENDS
 			${idl_file}
 		WORKING_DIRECTORY
