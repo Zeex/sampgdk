@@ -20,101 +20,7 @@ add_subdirectory("lib/subhook")
 include_directories("include")
 include_directories("include/sampgdk")
 
-find_package(PythonInterp 2.7 REQUIRED)
-
-set(PYTHONPATH
-	"${CMAKE_SOURCE_DIR}/cidl"
-	"${CMAKE_SOURCE_DIR}/python/ply-3.4.zip"
-)
-
-file(MAKE_DIRECTORY "src/generated")
-file(MAKE_DIRECTORY "include/sampgdk/generated")
-
-add_custom_command(
-	OUTPUT
-		"${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_objects.h"
-		"${CMAKE_SOURCE_DIR}/src/generated/a_objects.c"
-		"${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports"
-	COMMAND
-		${CMAKE_COMMAND}
-			"-DPYTHON=${PYTHON_EXECUTABLE}"
-			"-DPYTHONPATH=\"${PYTHONPATH}\""
-			"-DPATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
-			"-DIDL_FILE=${CMAKE_SOURCE_DIR}/src/a_objects.idl"
-			"-DHEADER_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_objects.h"
-			"-DSOURCE_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_objects.c"
-			"-DEXPORTS_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports"
-		"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
-	DEPENDS
-		"${CMAKE_SOURCE_DIR}/src/a_objects.idl"
-	WORKING_DIRECTORY
-		"${CMAKE_SOURCE_DIR}/cidl"
-)
-
-add_custom_command(
-	OUTPUT
-		"${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_players.h"
-		"${CMAKE_SOURCE_DIR}/src/generated/a_players.c"
-		"${CMAKE_SOURCE_DIR}/src/generated/a_players.exports"
-	COMMAND
-		${CMAKE_COMMAND}
-			"-DPYTHON=${PYTHON_EXECUTABLE}"
-			"-DPYTHONPATH=\"${PYTHONPATH}\""
-			"-DPATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
-			"-DIDL_FILE=${CMAKE_SOURCE_DIR}/src/a_players.idl"
-			"-DHEADER_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_players.h"
-			"-DSOURCE_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_players.c"
-			"-DEXPORTS_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_players.exports"
-		"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
-	DEPENDS
-		"${CMAKE_SOURCE_DIR}/src/a_players.idl"
-	WORKING_DIRECTORY
-		"${CMAKE_SOURCE_DIR}/cidl"
-)
-
-add_custom_command(
-	OUTPUT
-		"${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h"
-		"${CMAKE_SOURCE_DIR}/src/generated/a_samp.c"
-		"${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports"
-	COMMAND
-		${CMAKE_COMMAND}
-			"-DPYTHON=${PYTHON_EXECUTABLE}"
-			"-DPYTHONPATH=\"${PYTHONPATH}\""
-			"-DPATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
-			"-DIDL_FILE=${CMAKE_SOURCE_DIR}/src/a_samp.idl"
-			"-DHEADER_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h"
-			"-DSOURCE_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_samp.c"
-			"-DEXPORTS_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports"
-		"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
-	DEPENDS
-		"${CMAKE_SOURCE_DIR}/src/a_samp.idl"
-	WORKING_DIRECTORY
-		"${CMAKE_SOURCE_DIR}/cidl"
-)
-
-add_custom_command(
-	OUTPUT
-		"${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h"
-		"${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c"
-		"${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports"
-	COMMAND
-		${CMAKE_COMMAND}
-			"-DPYTHON=${PYTHON_EXECUTABLE}"
-			"-DPYTHONPATH=\"${PYTHONPATH}\""
-			"-DPATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
-			"-DIDL_FILE=${CMAKE_SOURCE_DIR}/src/a_vehicles.idl"
-			"-DHEADER_FILE=${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h"
-			"-DSOURCE_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c"
-			"-DEXPORTS_FILE=${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports"
-		"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
-	DEPENDS
-		"${CMAKE_SOURCE_DIR}/src/a_vehicles.idl"
-	WORKING_DIRECTORY
-		"${CMAKE_SOURCE_DIR}/cidl"
-)
-
-set(SAMPGDK_HEADERS
+list(APPEND SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"
 	"include/sampgdk/sdk/amx/getch.h"
 	"include/sampgdk/sdk/amx/sclinux.h"
@@ -134,14 +40,7 @@ set(SAMPGDK_HEADERS
 	"include/sampgdk/version.h"
 )
 
-set(SAMPGDK_GENERATED_HEADERS
-	"include/sampgdk/generated/a_objects.h"
-	"include/sampgdk/generated/a_players.h"
-	"include/sampgdk/generated/a_samp.h"
-	"include/sampgdk/generated/a_vehicles.h"
-)
-
-set(SAMPGDK_SOURCES
+list(APPEND SAMPGDK_SOURCES
 	"src/sdk/amxplugin.c"
 	"src/amx-stack.c"
 	"src/amx-stack.h"
@@ -175,13 +74,6 @@ set(SAMPGDK_SOURCES
 	"src/version.c"
 )
 
-set(SAMPGDK_GENERATED_SOURCES
-	"src/generated/a_objects.c"
-	"src/generated/a_players.c"
-	"src/generated/a_samp.c"
-	"src/generated/a_vehicles.c"
-)
-
 if(MSVC)
 	list(APPEND SAMPGDK_SOURCES
 		"src/asm-msvc.c"
@@ -209,6 +101,112 @@ elseif(UNIX)
 else()
 	message(FATAL_ERROR "Unsupported operating system")
 endif()
+
+find_package(PythonInterp 2.7 REQUIRED)
+
+set(PYTHONPATH
+	"${CMAKE_SOURCE_DIR}/cidl"
+	"${CMAKE_SOURCE_DIR}/python/ply-3.4.zip"
+)
+
+file(MAKE_DIRECTORY "include/sampgdk/generated")
+
+macro(add_header_gen idl_file header_file)
+	add_custom_command(
+		OUTPUT
+			${header_file}
+		COMMAND
+			${CMAKE_COMMAND}
+				"-DPYTHON=${PYTHON_EXECUTABLE}"
+				"-DPYTHONPATH=\"${PYTHONPATH}\""
+				"-DCODEGEN_PATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
+				"-DCODEGEN_IDL_FILE=${idl_file}"
+				"-DCODEGEN_HEADER_FILE=${header_file}"
+			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
+		DEPENDS
+			${idl_file}
+		WORKING_DIRECTORY
+			"${CMAKE_SOURCE_DIR}/cidl"
+	)
+endmacro()
+
+add_header_gen("${CMAKE_SOURCE_DIR}/src/a_objects.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_objects.h")
+add_header_gen("${CMAKE_SOURCE_DIR}/src/a_players.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_players.h")
+add_header_gen("${CMAKE_SOURCE_DIR}/src/a_samp.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h")
+add_header_gen("${CMAKE_SOURCE_DIR}/src/a_vehicles.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h")
+
+list(APPEND SAMPGDK_GENERATED_HEADERS
+	"include/sampgdk/generated/a_objects.h"
+	"include/sampgdk/generated/a_players.h"
+	"include/sampgdk/generated/a_samp.h"
+	"include/sampgdk/generated/a_vehicles.h"
+)
+
+file(MAKE_DIRECTORY "src/generated")
+
+macro(add_source_gen idl_file source_file)
+	add_custom_command(
+		OUTPUT
+			${source_file}
+		COMMAND
+			${CMAKE_COMMAND}
+				"-DPYTHON=${PYTHON_EXECUTABLE}"
+				"-DPYTHONPATH=\"${PYTHONPATH}\""
+				"-DCODEGEN_PATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
+				"-DCODEGEN_IDL_FILE=${idl_file}"
+				"-DCODEGEN_SOURCE_FILE=${source_file}"
+			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
+		DEPENDS
+			${idl_file}
+		WORKING_DIRECTORY
+			"${CMAKE_SOURCE_DIR}/cidl"
+	)
+endmacro()
+
+add_source_gen("${CMAKE_SOURCE_DIR}/src/a_objects.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_objects.c")
+add_source_gen("${CMAKE_SOURCE_DIR}/src/a_players.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_players.c")
+add_source_gen("${CMAKE_SOURCE_DIR}/src/a_samp.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_samp.c")
+add_source_gen("${CMAKE_SOURCE_DIR}/src/a_vehicles.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c")
+
+list(APPEND SAMPGDK_GENERATED_SOURCES
+	"src/generated/a_objects.c"
+	"src/generated/a_players.c"
+	"src/generated/a_samp.c"
+	"src/generated/a_vehicles.c"
+)
+
+file(MAKE_DIRECTORY "src/generated")
+
+macro(add_exports_gen idl_file exports_file)
+	add_custom_command(
+		OUTPUT
+			${exports_file}
+		COMMAND
+			${CMAKE_COMMAND}
+				"-DPYTHON=${PYTHON_EXECUTABLE}"
+				"-DPYTHONPATH=\"${PYTHONPATH}\""
+				"-DCODEGEN_PATH=${CMAKE_SOURCE_DIR}/src/codegen.py"
+				"-DCODEGEN_IDL_FILE=${idl_file}"
+				"-DCODEGEN_EXPORTS_FILE=${exports_file}"
+			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.cmake"
+		DEPENDS
+			${idl_file}
+		WORKING_DIRECTORY
+			"${CMAKE_SOURCE_DIR}/cidl"
+	)
+endmacro()
+
+add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_objects.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports")
+add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_players.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_players.exports")
+add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_samp.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports")
+add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_vehicles.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports")
+
+list(APPEND SAMPGDK_GENERATED_SOURCES
+	"src/generated/a_objects.exports"
+	"src/generated/a_players.exports"
+	"src/generated/a_samp.exports"
+	"src/generated/a_vehicles.exports"
+)
 
 set_source_files_properties(${SAMPGDK_GENERATED_HEADERS} PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)

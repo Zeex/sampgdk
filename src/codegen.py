@@ -282,8 +282,8 @@ def main(argv):
 	argparser = argparse.ArgumentParser()
 
 	argparser.add_argument('--idl', required=True)
-	argparser.add_argument('--header', required=True)
-	argparser.add_argument('--source', required=True)
+	argparser.add_argument('--header')
+	argparser.add_argument('--source')
 	argparser.add_argument('--exports')
 	argparser.add_argument('--constants', dest='gen_constants', action='store_true')
 	argparser.add_argument('--natives', dest='gen_natives', action='store_true')
@@ -296,26 +296,22 @@ def main(argv):
 		idlparser = cidl.Parser()
 		idl = idlparser.parse(open(args.idl, 'r').read())
 
-		header = open(args.header, 'w')
-		source = open(args.source, 'w')
-
+		header = None
+		if args.header is not None:
+			header = open(args.header, 'w')
+		source = None
+		if args.source is not None:
+			source = open(args.source, 'w')
+		exports = None
 		if args.exports is not None:
 			exports = open(args.exports, 'w')
 
 		if args.gen_constants or args.gen_all:
 			gen_constants(idl, header)
-
 		if args.gen_natives or args.gen_all:
 			gen_natives(idl, header, source, exports)
-
 		if args.gen_callbacks or args.gen_all:
 			gen_callbacks(idl, header, source)
-
-		header.close()
-		source.close()
-
-		if args.exports is not None:
-			exports.close()
 
 	except cidl.Error as e:
 		sys.stderr.write('%s\n' % e)
