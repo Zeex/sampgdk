@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_SUPPORT_AMX_STACK_H
-#define SAMPGDK_SUPPORT_AMX_STACK_H
+#ifndef SAMPGDK_AMX_STACK_H_
+#define SAMPGDK_AMX_STACK_H_
 
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>

@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_SUPPORT_SERVER_LOG_H
-#define SAMPGDK_SUPPORT_SERVER_LOG_H
+#ifndef SAMPGDK_SERVER_LOG_H_
+#define SAMPGDK_SERVER_LOG_H_
 
 #include <stdarg.h>
 
 void server_log_printf(const char *format, ...);
 void server_log_vprintf(const char *format, va_list args);
 
-#endif /* !SAMPGDK_SUPPORT_SERVER_LOG_H */
+#endif /* !SAMPGDK_SERVER_LOG_H */

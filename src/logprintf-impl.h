@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_SUPPORT_LOGPRINTF_IMPL_H
-#define SAMPGDK_SUPPORT_LOGPRINTF_IMPL_H
+#ifndef SAMPGDK_LOGPRINTF_IMPL_H_
+#define SAMPGDK_LOGPRINTF_IMPL_H_
 
 void logprintf_impl(const char *format, ...);
 
-#endif /* !SAMPGDK_SUPPORT_LOGPRINTF_IMPL_H */
+#endif /* !SAMPGDK_LOGPRINTF_IMPL_H */
