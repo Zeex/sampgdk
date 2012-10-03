@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 2.8.8)
 
 project(sampgdk)
 
+if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+	set(CMAKE_COMPILER_IS_GNUCC TRUE)
+endif()
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+	set(CMAKE_COMPILER_IS_GNUCXX TRUE)
+endif()
+
 list(APPEND CMAKE_MODULE_PATH
 	"${CMAKE_SOURCE_DIR}"
 	"${CMAKE_SOURCE_DIR}/cmake/Modules"
