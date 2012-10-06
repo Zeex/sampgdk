@@ -12,8 +12,6 @@
 #   MinGW
 #   Microsoft Visual C++
 
-include(AmxConfig)
-
 function(add_samp_plugin name)
 	add_library(${name} MODULE ${ARGN})
 

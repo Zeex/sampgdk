@@ -24,7 +24,6 @@ include(AddTargetCompileFlags)
 include(AddTargetDefinitions)
 include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
-include(AmxConfig)
 
 add_subdirectory("lib")
 
