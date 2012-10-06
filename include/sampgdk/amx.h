@@ -31,13 +31,13 @@
 #include <stddef.h>
 
 /* alloca() */
-#if SAMPGDK_WINDOWS
+#if defined SAMPGDK_WINDOWS
 	#undef HAVE_ALLOCA_H
 	#include <malloc.h> /* for _alloca() */
 	#if !defined alloca
 		#define alloca _alloca
 	#endif
-#elif SAMPGDK_LINUX
+#elif defined SAMPGDK_LINUX
 	#if defined __GNUC__
 		#define HAVE_ALLOCA_H 1
 		#if !defined alloca
