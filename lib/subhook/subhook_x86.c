@@ -68,7 +68,7 @@ SUBHOOK_EXPORT int SUBHOOK_API subhook_install(struct subhook *hook) {
 
 SUBHOOK_EXPORT int SUBHOOK_API subhook_remove(struct subhook *hook) {
 	if (!subhook_is_installed(hook))
-		-EINVAL;
+		return -EINVAL;
 
 	memcpy(subhook_get_source(hook), ((struct subhook_x86 *)hook->arch)->code, SUBHOOK_JUMP_SIZE);
 	subhook_set_flags(hook, subhook_get_flags(hook) & ~(SUBHOOK_FLAG_INSTALLED));
