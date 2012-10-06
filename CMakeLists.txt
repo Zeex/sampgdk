@@ -307,18 +307,14 @@ elseif(UNIX)
 	add_target_definitions(sampgdk "ASM_PREFIX=")
 endif()
 
-if(CMAKE_COMPILER_IS_GNUCC)
-	add_target_compile_flags(sampgdk "-Wno-attributes")
-	if(UNIX)
+if(UNIX)
+	if(CMAKE_COMPILER_IS_GNUCC)
 		add_target_link_flags(sampgdk
 			"-Wl,--no-undefined"
 			"-Wl,--retain-symbols-file=${CMAKE_SOURCE_DIR}/src/sampgdk.sym"
 		)
 	endif()
-endif()
 
-if(UNIX)
-	# Find librt (POSIX realtime extensions), needed for clock_gettime().
 	find_library(LIBRT_PATH NAMES "rt")
 	if(LIBRT_PATH)
 		target_link_libraries(sampgdk ${LIBRT_PATH})
