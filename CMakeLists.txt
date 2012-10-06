@@ -336,7 +336,7 @@ endif()
 
 target_link_libraries(sampgdk "subhook")
 
-option(SAMPGDK_INSTALL "Include installation and packaging rules" OFF)
+option(SAMPGDK_INSTALL "Install library and headers" OFF)
 if(SAMPGDK_INSTALL)
 	install(TARGETS sampgdk 
 		RUNTIME DESTINATION "bin" COMPONENT "bin"
@@ -399,7 +399,7 @@ if(SAMPGDK_INSTALL)
 	include(CPack)
 endif()
 
-option(SAMPGDK_BUILD_SAMPLES "Build sample gamemodes" OFF)
+option(SAMPGDK_BUILD_SAMPLES "Build sample plugins" OFF)
 if(SAMPGDK_BUILD_SAMPLES)
 	add_subdirectory("samples")
 endif()
