@@ -699,6 +699,8 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 					case PLUGIN_ERROR_API:
 						logprintf("  Plugin does not conform to acrhitecture.");
 						break;
+					default:
+						break;
 				}
 				delete plugin;
 			}
