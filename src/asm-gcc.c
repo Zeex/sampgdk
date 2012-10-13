@@ -14,30 +14,30 @@
  */
 
 __asm__ (
-".globl "ASM_PREFIX"get_return_address;"
+".globl "ASM_PREFIX"get_return_address\n"
 );
 
 __asm__ (
-ASM_PREFIX"get_return_address:"
+ASM_PREFIX"get_return_address:\n"
 
-"	movl 4(%esp), %eax;"
-"	cmpl $0, %eax;"
-"	jnz gra_init;"
-"	movl %ebp, %eax;"
+"	movl 4(%esp), %eax\n"
+"	cmpl $0, %eax\n"
+"	jnz gra_init\n"
+"	movl %ebp, %eax\n"
 
-"gra_init:"
-"	movl 8(%esp), %ecx;"
-"	movl $0, %edx;"
+"gra_init:\n"
+"	movl 8(%esp), %ecx\n"
+"	movl $0, %edx\n"
 
-"gra_loop:"
-"	cmpl $0, %ecx;"
-"	jl gra_exit;"
-"	movl 4(%eax), %edx;"
-"	movl (%eax), %eax;"
-"	decl %ecx;"
-"	jmp gra_loop;"
+"gra_loop:\n"
+"	cmpl $0, %ecx\n"
+"	jl gra_exit\n"
+"	movl 4(%eax), %edx\n"
+"	movl (%eax), %eax\n"
+"	decl %ecx\n"
+"	jmp gra_loop\n"
 
-"gra_exit:"
-"	movl %edx, %eax;"
-"	ret;"
+"gra_exit:\n"
+"	movl %edx, %eax\n"
+"	ret\n"
 );
