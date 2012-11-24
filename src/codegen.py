@@ -20,7 +20,7 @@ import itertools
 import os
 import sys
 
-export_prefix = 'sampgdk_'
+EXPORT_PREFIX = 'sampgdk_'
 
 idl_to_c_type_in = {
 	'int'    : 'int',
@@ -110,21 +110,21 @@ def gen_natives(idl, header, source, exports):
 
 		header.write('#ifndef SAMPGDK_NATIVE\n')
 		header.write('\t#define SAMPGDK_NATIVE(ret_type, func_and_params) \\\n')
-		header.write('\t\tSAMPGDK_NATIVE_EXPORT ret_type SAMPGDK_NATIVE_CALL %s##func_and_params\n' % export_prefix)
+		header.write('\t\tSAMPGDK_NATIVE_EXPORT ret_type SAMPGDK_NATIVE_CALL %s##func_and_params\n' % EXPORT_PREFIX)
 		header.write('#endif\n')
 
 		header.write('\n')
 
 		for f in natives:
-			header.write('SAMPGDK_NATIVE(%s, %s(%s));\n' % (f.type, f.name, params_to_string(f.params)))
+			header.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s);\n' % (f.type, EXPORT_PREFIX, f.name, params_to_string(f.params)))
 			header.write('#undef  %s\n' % f.name)
-			header.write('#define %s %s##%s\n\n' % (f.name, export_prefix, f.name))
+			header.write('#define %s %s%s\n\n' % (f.name, EXPORT_PREFIX, f.name))
 
 		header.write('\n')
 
 	if source is not None:
 		for f in natives_with_source:
-			source.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' % (f.type, f.name, params_to_string(f.params)))
+			source.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' % (f.type, EXPORT_PREFIX, f.name, params_to_string(f.params)))
 			source.write('\tstatic AMX_NATIVE native;\n')
 			source.write('\tstruct fakeamx *fa;\n')
 			source.write('\t%s retval;\n' % f.type)
@@ -198,7 +198,7 @@ def gen_natives(idl, header, source, exports):
 
 	if exports is not None:
 		for f in natives:
-			exports.write('%s%s\n' % (export_prefix, f.name))
+			exports.write('%s%s\n' % (EXPORT_PREFIX, f.name))
 
 def gen_callbacks(idl, header, source):
 	callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
@@ -220,7 +220,7 @@ def gen_callbacks(idl, header, source):
 		header.write('\n')
 
 		for f in callbacks:
-			header.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' % (f.type, f.name, params_to_string(f.params)))
+			header.write('SAMPGDK_CALLBACK_EXPORT %s SAMPGDK_CALLBACK_CALL %s(%s);\n' % (f.type, f.name, params_to_string(f.params)))
 
 	if source is not None:
 		for f in callbacks:
@@ -250,9 +250,8 @@ def gen_callbacks(idl, header, source):
 			# Invoke the callback function.
 			if badret is not None:
 				source.write('\tretval_ = ((%s_type)callback)(%s);\n' % (f.name, params_to_string_no_types(f.params)))
-				source.write('\tif (retval != NULL) {\n')
+				source.write('\tif (retval != NULL)\n')
 				source.write('\t\t*retval = (cell)retval_;\n')
-				source.write('\t}\n')
 			else:
 				source.write('\t((%s_type)callback)(%s);\n' % (f.name, params_to_string_no_types(f.params)))
 
