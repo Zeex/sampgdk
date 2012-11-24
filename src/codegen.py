@@ -136,8 +136,8 @@ def gen_natives(idl, header, source, exports):
 				for p in filter(is_ref_param, f.params):
 					source.write('\tcell %s_;\n' % p.name)
 
-				source.write('\tif (unlikely(native == NULL))\n')
-				source.write('\t\tnative = native_lookup_warn_stub("%s");\n' % f.name)
+			source.write('\tif (unlikely(native == NULL))\n')
+			source.write('\t\tnative = native_lookup_warn_stub("%s");\n' % f.name)
 
 			source.write('\tfakeamx_instance(&fa);\n')
 
