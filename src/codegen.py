@@ -296,14 +296,22 @@ def main(argv):
 		idlparser = cidl.Parser()
 		idl = idlparser.parse(open(args.idl, 'r').read())
 
+		def ensure_path_ok(filename):
+			directory = os.path.dirname(filename)
+			if not os.path.exists(directory):
+				os.mkdir(directory)
+
 		header = None
 		if args.header is not None:
+			ensure_path_ok(args.header)
 			header = open(args.header, 'w')
 		source = None
 		if args.source is not None:
+			ensure_path_ok(args.source)
 			source = open(args.source, 'w')
 		exports = None
 		if args.exports is not None:
+			ensure_path_ok(args.exports)
 			exports = open(args.exports, 'w')
 
 		if args.gen_constants or args.gen_all:

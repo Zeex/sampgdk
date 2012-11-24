@@ -117,8 +117,6 @@ set(PYTHONPATH
 	"${CMAKE_SOURCE_DIR}/python/ply-3.4.zip"
 )
 
-file(MAKE_DIRECTORY "include/sampgdk/generated")
-
 macro(add_header_gen idl_file header_file)
 	add_custom_command(
 		OUTPUT
@@ -148,8 +146,6 @@ list(APPEND SAMPGDK_HEADER_FILES
 	"include/sampgdk/generated/a_samp.h"
 	"include/sampgdk/generated/a_vehicles.h"
 )
-
-file(MAKE_DIRECTORY "src/generated")
 
 macro(add_source_gen idl_file source_file)
 	add_custom_command(
@@ -183,8 +179,6 @@ list(APPEND SAMPGDK_GENERATED_SOURCES
 
 set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)
 list(APPEND SAMPGDK_SOURCE_FILES ${SAMPGDK_GENERATED_SOURCES})
-
-file(MAKE_DIRECTORY "src/generated")
 
 macro(add_exports_gen idl_file exports_file)
 	add_custom_command(
