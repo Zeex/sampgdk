@@ -237,153 +237,64 @@ const int KEY_RIGHT            = 128;
 
 [native] bool gpci([in] int playerid, [out] char buffer, [in] int size);
 
-[callback]
-bool OnGameModeInit();
-
-[callback]
-bool OnGameModeExit();
-
-[callback, badret(false)]
-bool OnPlayerConnect([in] int playerid);
-
-[callback, badret(false)]
-bool OnPlayerDisconnect([in] int playerid, [in] int reason);
-
-[callback, badret(false)]
-bool OnPlayerSpawn([in] int playerid);
-
-[callback]
-bool OnPlayerDeath([in] int playerid, [in] int killerid, [in] int reason);
-
-[callback]
-bool OnVehicleSpawn([in] int vehicleid);
-
-[callback]
-bool OnVehicleDeath([in] int vehicleid, [in] int killerid);
-
-[callback, badret(false)]
-bool OnPlayerText([in] int playerid, [in] string text);
-
-[callback, badret(true)]
-bool OnPlayerCommandText([in] int playerid, [in] string cmdtext);
-
-[callback, badret(false)]
-bool OnPlayerRequestClass([in] int playerid, [in] int classid);
-
-[callback]
-bool OnPlayerEnterVehicle([in] int playerid, [in] int vehicleid, [in] bool ispassenger);
-
-[callback]
-bool OnPlayerExitVehicle([in] int playerid, [in] int vehicleid);
-
-[callback]
-bool OnPlayerStateChange([in] int playerid, [in] int newstate, [in] int oldstate);
-
-[callback, badret(false)]
-bool OnPlayerEnterCheckpoint([in] int playerid);
-
-[callback]
-bool OnPlayerLeaveCheckpoint([in] int playerid);
-
-[callback, badret(false)]
-bool OnPlayerEnterRaceCheckpoint([in] int playerid);
-
-[callback]
-bool OnPlayerLeaveRaceCheckpoint([in] int playerid);
-
-[callback, badret(true)]
-bool OnRconCommand([in] string cmd);
-
-[callback, badret(false)]
-bool OnPlayerRequestSpawn([in] int playerid);
-
-[callback]
-bool OnObjectMoved([in] int objectid);
-
-[callback]
-bool OnPlayerObjectMoved([in] int playerid, [in] int objectid);
-
-[callback]
-bool OnPlayerPickUpPickup([in] int playerid, [in] int pickupid);
-
-[callback, badret(false)]
-bool OnVehicleMod([in] int playerid, [in] int vehicleid, [in] int componentid);
-
-[callback]
-bool OnEnterExitModShop([in] int playerid, [in] int enterexit, [in] int interiorid);
-
-[callback]
-bool OnVehiclePaintjob([in] int playerid, [in] int vehicleid, [in] int paintjobid);
-
-[callback]
-bool OnVehicleRespray([in] int playerid, [in] int vehicleid, [in] int color1, [in] int color2);
-
-[callback]
-bool OnVehicleDamageStatusUpdate([in] int vehicleid, [in] int playerid);
-
-[callback]
-bool OnUnoccupiedVehicleUpdate([in] int vehicleid, [in] int playerid, [in] int passenger_seat);
-
-[callback]
-bool OnPlayerSelectedMenuRow([in] int playerid, [in] int row);
-
-[callback]
-bool OnPlayerExitedMenu([in] int playerid);
-
-[callback]
-bool OnPlayerInteriorChange([in] int playerid, [in] int newinteriorid, [in] int oldinteriorid);
-
-[callback, badret(false)]
-bool OnPlayerKeyStateChange([in] int playerid, [in] int newkeys, [in] int oldkeys);
-
-[callback]
-bool OnRconLoginAttempt([in] string ip, [in] string password, [in] bool success);
-
-[callback, badret(false)]
-bool OnPlayerUpdate([in] int playerid);
-
-[callback]
-bool OnPlayerStreamIn([in] int playerid, [in] int forplayerid);
-
-[callback]
-bool OnPlayerStreamOut([in] int playerid, [in] int forplayerid);
-
-[callback]
-bool OnVehicleStreamIn([in] int vehicleid, [in] int forplayerid);
-
-[callback]
-bool OnVehicleStreamOut([in] int vehicleid, [in] int forplayerid);
-
-[callback, badret(true)]
-bool OnDialogResponse([in] int playerid, [in] int dialogid, [in] int response, [in] int listitem, [in] string inputtext);
-
-[callback]
-bool OnPlayerTakeDamage([in] int playerid, [in] int issuerid, [in] float amount, [in] int weaponid);
-
-[callback]
-bool OnPlayerGiveDamage([in] int playerid, [in] int damagedid, [in] float amount, [in] int weaponid);
-
-[callback]
-bool OnPlayerClickMap([in] int playerid, [in] float fX, [in] float fY, [in] float fZ);
+[callback] bool OnGameModeInit();
+[callback] bool OnGameModeExit();
+[callback, badret(false)] bool OnPlayerConnect([in] int playerid);
+[callback, badret(false)] bool OnPlayerDisconnect([in] int playerid, [in] int reason);
+[callback, badret(false)] bool OnPlayerSpawn([in] int playerid);
+[callback] bool OnPlayerDeath([in] int playerid, [in] int killerid, [in] int reason);
+[callback] bool OnVehicleSpawn([in] int vehicleid);
+[callback] bool OnVehicleDeath([in] int vehicleid, [in] int killerid);
+[callback, badret(false)] bool OnPlayerText([in] int playerid, [in] string text);
+[callback, badret(true)] bool OnPlayerCommandText([in] int playerid, [in] string cmdtext);
+[callback, badret(false)] bool OnPlayerRequestClass([in] int playerid, [in] int classid);
+[callback] bool OnPlayerEnterVehicle([in] int playerid, [in] int vehicleid, [in] bool ispassenger);
+[callback] bool OnPlayerExitVehicle([in] int playerid, [in] int vehicleid);
+[callback] bool OnPlayerStateChange([in] int playerid, [in] int newstate, [in] int oldstate);
+[callback, badret(false)] bool OnPlayerEnterCheckpoint([in] int playerid);
+[callback] bool OnPlayerLeaveCheckpoint([in] int playerid);
+[callback, badret(false)] bool OnPlayerEnterRaceCheckpoint([in] int playerid);
+[callback] bool OnPlayerLeaveRaceCheckpoint([in] int playerid);
+[callback, badret(true)] bool OnRconCommand([in] string cmd);
+[callback, badret(false)] bool OnPlayerRequestSpawn([in] int playerid);
+[callback] bool OnObjectMoved([in] int objectid);
+[callback] bool OnPlayerObjectMoved([in] int playerid, [in] int objectid);
+[callback] bool OnPlayerPickUpPickup([in] int playerid, [in] int pickupid);
+[callback, badret(false)] bool OnVehicleMod([in] int playerid, [in] int vehicleid, [in] int componentid);
+[callback] bool OnEnterExitModShop([in] int playerid, [in] int enterexit, [in] int interiorid);
+[callback] bool OnVehiclePaintjob([in] int playerid, [in] int vehicleid, [in] int paintjobid);
+[callback] bool OnVehicleRespray([in] int playerid, [in] int vehicleid, [in] int color1, [in] int color2);
+[callback] bool OnVehicleDamageStatusUpdate([in] int vehicleid, [in] int playerid);
+[callback] bool OnUnoccupiedVehicleUpdate([in] int vehicleid, [in] int playerid, [in] int passenger_seat);
+[callback] bool OnPlayerSelectedMenuRow([in] int playerid, [in] int row);
+[callback] bool OnPlayerExitedMenu([in] int playerid);
+[callback] bool OnPlayerInteriorChange([in] int playerid, [in] int newinteriorid, [in] int oldinteriorid);
+[callback, badret(false)] bool OnPlayerKeyStateChange([in] int playerid, [in] int newkeys, [in] int oldkeys);
+[callback] bool OnRconLoginAttempt([in] string ip, [in] string password, [in] bool success);
+[callback, badret(false)] bool OnPlayerUpdate([in] int playerid);
+[callback] bool OnPlayerStreamIn([in] int playerid, [in] int forplayerid);
+[callback] bool OnPlayerStreamOut([in] int playerid, [in] int forplayerid);
+[callback] bool OnVehicleStreamIn([in] int vehicleid, [in] int forplayerid);
+[callback] bool OnVehicleStreamOut([in] int vehicleid, [in] int forplayerid);
+[callback, badret(true)] bool OnDialogResponse([in] int playerid, [in] int dialogid, [in] int response, [in] int listitem, [in] string inputtext);
+[callback] bool OnPlayerTakeDamage([in] int playerid, [in] int issuerid, [in] float amount, [in] int weaponid);
+[callback] bool OnPlayerGiveDamage([in] int playerid, [in] int damagedid, [in] float amount, [in] int weaponid);
+[callback] bool OnPlayerClickMap([in] int playerid, [in] float fX, [in] float fY, [in] float fZ);
 
 const int CLICK_SOURCE_SCOREBOARD = 0;
 
-[callback]
-bool OnPlayerClickPlayer([in] int playerid, [in] int clickedplayerid, [in] int source);
+[callback] bool OnPlayerClickPlayer([in] int playerid, [in] int clickedplayerid, [in] int source);
 
 const int EDIT_RESPONSE_CANCEL = 0;
 const int EDIT_RESPONSE_FINAL  = 1;
 const int EDIT_RESPONSE_UPDATE = 2;
 
-[callback]
-bool OnPlayerEditObject([in] int playerid, [in] bool playerobject, [in] int objectid, [in] int response, [in] float fX, [in] float fY, [in] float fZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ);
+[callback] bool OnPlayerEditObject([in] int playerid, [in] bool playerobject, [in] int objectid, [in] int response, [in] float fX, [in] float fY, [in] float fZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ);
 
-[callback]
-bool OnPlayerEditAttachedObject([in] int playerid, [in] int response, [in] int index, [in] int modelid, [in] int boneid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fScaleX, [in] float fScaleY, [in] float fScaleZ);
+[callback] bool OnPlayerEditAttachedObject([in] int playerid, [in] int response, [in] int index, [in] int modelid, [in] int boneid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fScaleX, [in] float fScaleY, [in] float fScaleZ);
 
 const int SELECT_OBJECT_GLOBAL_OBJECT = 1;
 const int SELECT_OBJECT_PLAYER_OBJECT = 2;
 
-[callback]
-bool OnPlayerSelectObject([in] int playerid, [in] int type, [in] int objectid, [in] int modelid, [in] float fX, [in] float fY, [in] float fZ);
+[callback] bool OnPlayerSelectObject([in] int playerid, [in] int type, [in] int objectid, [in] int modelid, [in] float fX, [in] float fY, [in] float fZ);
 
