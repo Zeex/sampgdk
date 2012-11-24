@@ -34,7 +34,8 @@
 		#define __bool_true_false_are_defined
 	#endif
 #else
-	/* Make sure their "bool" is one byte in size. */
+	/* Make sure their "bool" is one byte in size. This is required for binary
+	 * compatibility with C++ code. */
 	SAMPGDK_STATIC_ASSERT(sizeof(bool) == 1, sizeof_bool_must_be_1);
 #endif
 
