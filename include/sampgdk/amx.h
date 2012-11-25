@@ -49,7 +49,7 @@
 #if defined __INTEL_COMPILER
 	/* ... */
 #elif defined __clang__
-	#pragma clang pop
+	#pragma clang push
 	#pragma clang diagnostic ignored "-Wignored-attributes"
 #elif defined __GNUC__ && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
 	#pragma GCC diagnostic push
