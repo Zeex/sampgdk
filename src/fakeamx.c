@@ -122,7 +122,7 @@ int fakeamx_push_cell(struct fakeamx *fa, cell value, cell *address) {
 	return 0;
 }
 
-cell fakeamx_push_float(struct fakeamx *fa, float value, cell *address) {
+int fakeamx_push_float(struct fakeamx *fa, float value, cell *address) {
 	return fakeamx_push_cell(fa, amx_ftoc(value), address);
 }
 
