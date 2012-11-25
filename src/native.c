@@ -95,6 +95,6 @@ const AMX_NATIVE_INFO *native_get_natives() {
 	return (const AMX_NATIVE_INFO*)natives.data;
 }
 
-const int native_get_num_natives() {
+int native_get_num_natives() {
 	return (int)natives.count;
 }
