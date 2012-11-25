@@ -46,20 +46,24 @@
 	#endif
 #endif
 
-#if defined __GNUC__ && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wattributes"
+#if defined __INTEL_COMPILER
+	/* ... */
 #elif defined __clang__
 	#pragma clang pop
 	#pragma clang diagnostic ignored "-Wignored-attributes"
+#elif defined __GNUC__ && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Wattributes"
 #endif
 
 #include <sampgdk/sdk/amx/amx.h>
 
-#if defined __GNUC__ && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
-	#pragma GCC pop
+#if defined __INTEL_COMPILER
+	/* ... */
 #elif defined __clang_
 	#pragma clang pop
+#elif defined __GNUC__ && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+	#pragma GCC pop
 #endif
 
 #define AMX_EXEC_GDK (-10)
