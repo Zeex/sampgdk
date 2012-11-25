@@ -274,7 +274,9 @@ add_custom_command(
 )
 
 if(WIN32)
-	set_target_properties(sampgdk OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
+	set_target_properties(sampgdk PROPERTIES
+		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}"
+	)
 elseif(UNIX)
 	set_target_properties(sampgdk PROPERTIES 
 		VERSION   "${SAMPGDK_VERSION_STRING}"
