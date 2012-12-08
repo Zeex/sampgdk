@@ -49,15 +49,15 @@ public:
 		}
 	}
 
-	void Push(cell c) {
+	void PushCell(cell c) {
 		amx_Push(amx_, c);
 	}
 
-	void Push(float f) {
+	void PushFloat(float f) {
 		amx_Push(amx_, amx_ftoc(f));
 	}
 
-	void Push(const char *s) {
+	void PushString(const char *s) {
 		cell amx_addr;
 		amx_PushString(amx_, &amx_addr, 0, s, 0, 0);
 		heap_args_.push(amx_addr);

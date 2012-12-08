@@ -141,7 +141,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit() {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerConnect")) {
 			return false;
 		}
@@ -152,8 +152,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(reason);
-		ctx.Push(playerid);
+		ctx.PushCell(reason);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerDisconnect")) {
 			return false;
 		}
@@ -164,7 +164,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerSpawn")) {
 			return false;
 		}
@@ -175,9 +175,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(reason);
-		ctx.Push(killerid);
-		ctx.Push(playerid);
+		ctx.PushCell(reason);
+		ctx.PushCell(killerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerDeath")) {
 			return false;
 		}
@@ -188,7 +188,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int rea
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleSpawn(int vehicleid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(vehicleid);
+		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleSpawn")) {
 			return false;
 		}
@@ -199,8 +199,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleSpawn(int vehicleid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(killerid);
-		ctx.Push(vehicleid);
+		ctx.PushCell(killerid);
+		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleDeath")) {
 			return false;
 		}
@@ -211,8 +211,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char text[]) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(text);
-		ctx.Push(playerid);
+		ctx.PushString(text);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerText")) {
 			return false;
 		}
@@ -223,8 +223,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char text[]) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char cmdtext[]) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(cmdtext);
-		ctx.Push(playerid);
+		ctx.PushString(cmdtext);
+		ctx.PushCell(playerid);
 		if ((*it)->Exec("OnPlayerCommandText", false)) {
 			return true;
 		}
@@ -235,8 +235,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char cmdt
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(classid);
-		ctx.Push(playerid);
+		ctx.PushCell(classid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerRequestClass")) {
 			return false;
 		}
@@ -247,9 +247,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid, int ispassenger) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(ispassenger);
-		ctx.Push(vehicleid);
-		ctx.Push(playerid);
+		ctx.PushCell(ispassenger);
+		ctx.PushCell(vehicleid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerEnterVehicle")) {
 			return false;
 		}
@@ -260,8 +260,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid,
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(vehicleid);
-		ctx.Push(playerid);
+		ctx.PushCell(vehicleid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerExitVehicle")) {
 			return false;
 		}
@@ -272,9 +272,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid) 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, int oldstate) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(oldstate);
-		ctx.Push(newstate);
-		ctx.Push(playerid);
+		ctx.PushCell(oldstate);
+		ctx.PushCell(newstate);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerStateChange")) {
 			return false;
 		}
@@ -285,7 +285,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, i
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterCheckpoint(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerEnterCheckpoint")) {
 			return false;
 		}
@@ -296,7 +296,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterCheckpoint(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveCheckpoint(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerLeaveCheckpoint")) {
 			return false;
 		}
@@ -307,7 +307,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveCheckpoint(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterRaceCheckpoint(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerEnterRaceCheckpoint")) {
 			return false;
 		}
@@ -318,7 +318,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterRaceCheckpoint(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerLeaveRaceCheckpoint")) {
 			return false;
 		}
@@ -329,7 +329,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char cmd[]) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(cmd);
+		ctx.PushString(cmd);
 		if (!(*it)->Exec("OnRconCommand")) {
 			return false;
 		}
@@ -340,7 +340,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char cmd[]) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestSpawn(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerRequestSpawn")) {
 			return false;
 		}
@@ -351,7 +351,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestSpawn(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnObjectMoved(int objectid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(objectid);
+		ctx.PushCell(objectid);
 		if (!(*it)->Exec("OnObjectMoved")) {
 			return false;
 		}
@@ -362,8 +362,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnObjectMoved(int objectid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerObjectMoved(int playerid, int objectid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(objectid);
-		ctx.Push(playerid);
+		ctx.PushCell(objectid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerObjectMoved")) {
 			return false;
 		}
@@ -374,8 +374,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerObjectMoved(int playerid, int objectid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerPickUpPickup(int playerid, int pickupid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(pickupid);
-		ctx.Push(playerid);
+		ctx.PushCell(pickupid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerPickUpPickup")) {
 			return false;
 		}
@@ -386,9 +386,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerPickUpPickup(int playerid, int pickupid) 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int componentid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(componentid);
-		ctx.Push(vehicleid);
-		ctx.Push(playerid);
+		ctx.PushCell(componentid);
+		ctx.PushCell(vehicleid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnVehicleMod")) {
 			return false;
 		}
@@ -399,9 +399,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int com
 PLUGIN_EXPORT bool PLUGIN_CALL OnEnterExitModShop(int playerid, int enterexit, int interiorid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(interiorid);
-		ctx.Push(enterexit);
-		ctx.Push(playerid);
+		ctx.PushCell(interiorid);
+		ctx.PushCell(enterexit);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnEnterExitModShop")) {
 			return false;
 		}
@@ -412,9 +412,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnEnterExitModShop(int playerid, int enterexit, i
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(paintjobid);
-		ctx.Push(vehicleid);
-		ctx.Push(playerid);
+		ctx.PushCell(paintjobid);
+		ctx.PushCell(vehicleid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnVehiclePaintjob")) {
 			return false;
 		}
@@ -425,10 +425,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, in
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleRespray(int playerid, int vehicleid, int color1, int color2) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(color2);
-		ctx.Push(color1);
-		ctx.Push(vehicleid);
-		ctx.Push(playerid);
+		ctx.PushCell(color2);
+		ctx.PushCell(color1);
+		ctx.PushCell(vehicleid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnVehicleRespray")) {
 			return false;
 		}
@@ -439,8 +439,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleRespray(int playerid, int vehicleid, int
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
-		ctx.Push(vehicleid);
+		ctx.PushCell(playerid);
+		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleDamageStatusUpdate")) {
 			return false;
 		}
@@ -451,9 +451,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int pl
 PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(passenger_seat);
-		ctx.Push(playerid);
-		ctx.Push(vehicleid);
+		ctx.PushCell(passenger_seat);
+		ctx.PushCell(playerid);
+		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnUnoccupiedVehicleUpdate")) {
 			return false;
 		}
@@ -464,8 +464,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int play
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(row);
-		ctx.Push(playerid);
+		ctx.PushCell(row);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerSelectedMenuRow")) {
 			return false;
 		}
@@ -476,7 +476,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitedMenu(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerExitedMenu")) {
 			return false;
 		}
@@ -487,9 +487,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitedMenu(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(oldinteriorid);
-		ctx.Push(newinteriorid);
-		ctx.Push(playerid);
+		ctx.PushCell(oldinteriorid);
+		ctx.PushCell(newinteriorid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerInteriorChange")) {
 			return false;
 		}
@@ -500,9 +500,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerInteriorChange(int playerid, int newinter
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(oldkeys);
-		ctx.Push(newkeys);
-		ctx.Push(playerid);
+		ctx.PushCell(oldkeys);
+		ctx.PushCell(newkeys);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerKeyStateChange")) {
 			return false;
 		}
@@ -513,9 +513,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys,
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconLoginAttempt(const char ip[], const char password[], int success) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(success);
-		ctx.Push(password);
-		ctx.Push(ip);
+		ctx.PushCell(success);
+		ctx.PushString(password);
+		ctx.PushString(ip);
 		if (!(*it)->Exec("OnRconLoginAttempt")) {
 			return false;
 		}
@@ -526,7 +526,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconLoginAttempt(const char ip[], const char pa
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(playerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerUpdate")) {
 			return false;
 		}
@@ -537,8 +537,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamIn(int playerid, int forplayerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(forplayerid);
-		ctx.Push(playerid);
+		ctx.PushCell(forplayerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerStreamIn")) {
 			return false;
 		}
@@ -549,8 +549,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamIn(int playerid, int forplayerid) {
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamOut(int playerid, int forplayerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(forplayerid);
-		ctx.Push(playerid);
+		ctx.PushCell(forplayerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerStreamOut")) {
 			return false;
 		}
@@ -561,8 +561,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamOut(int playerid, int forplayerid) 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamIn(int vehicleid, int forplayerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(forplayerid);
-		ctx.Push(vehicleid);
+		ctx.PushCell(forplayerid);
+		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleStreamIn")) {
 			return false;
 		}
@@ -573,8 +573,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamIn(int vehicleid, int forplayerid)
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamOut(int vehicleid, int forplayerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(forplayerid);
-		ctx.Push(vehicleid);
+		ctx.PushCell(forplayerid);
+		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleStreamOut")) {
 			return false;
 		}
@@ -585,11 +585,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamOut(int vehicleid, int forplayerid
 PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char inputtext[]) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(inputtext);
-		ctx.Push(listitem);
-		ctx.Push(response);
-		ctx.Push(dialogid);
-		ctx.Push(playerid);
+		ctx.PushString(inputtext);
+		ctx.PushCell(listitem);
+		ctx.PushCell(response);
+		ctx.PushCell(dialogid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnDialogResponse")) {
 			return false;
 		}
@@ -600,10 +600,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(weaponid);
-		ctx.Push(amount);
-		ctx.Push(issuerid);
-		ctx.Push(playerid);
+		ctx.PushCell(weaponid);
+		ctx.PushFloat(amount);
+		ctx.PushCell(issuerid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerTakeDamage")) {
 			return false;
 		}
@@ -614,10 +614,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, fl
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(weaponid);
-		ctx.Push(amount);
-		ctx.Push(damagedid);
-		ctx.Push(playerid);
+		ctx.PushCell(weaponid);
+		ctx.PushFloat(amount);
+		ctx.PushCell(damagedid);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerGiveDamage")) {
 			return false;
 		}
@@ -628,10 +628,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, f
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickMap(int playerid, float fX, float fY, float fZ) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
 		ExecContext ctx(*it);
-		ctx.Push(fZ);
-		ctx.Push(fY);
-		ctx.Push(fX);
-		ctx.Push(playerid);
+		ctx.PushFloat(fZ);
+		ctx.PushFloat(fY);
+		ctx.PushFloat(fX);
+		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerClickMap")) {
 			return false;
 		}
