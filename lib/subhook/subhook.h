@@ -110,6 +110,13 @@ static int subhook_is_installed(struct subhook *hook) {
  */
 SUBHOOK_EXPORT void *SUBHOOK_API subhook_read_destination(void *src);
 
+#define SUBHOOK_INSTALL_HOOK(hook, src, dest) \
+	do {\
+		subhook_set_source(hook, src);\
+		subhook_set_destination(hook, dest);\
+		subhook_install(hook);\
+	} while (0);
+
 #ifdef __cplusplus
 
 class SubHook {

@@ -219,31 +219,33 @@ static void remove_hooks() {
 static int install_hooks() {
 	if ((amx_Register_hook = subhook_new()) == NULL)
 		goto no_memory;
-
 	if ((amx_FindPublic_hook = subhook_new()) == NULL)
 		goto no_memory;
-
 	if ((amx_Exec_hook = subhook_new()) == NULL)
 		goto no_memory;
-
 	if ((amx_Callback_hook = subhook_new()) == NULL)
 		goto no_memory;
 
-	subhook_set_source(amx_Register_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register]);
-	subhook_set_destination(amx_Register_hook, (void*)amx_Register_);
-	subhook_install(amx_Register_hook);
-
-	subhook_set_source(amx_FindPublic_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_FindPublic]);
-	subhook_set_destination(amx_FindPublic_hook, (void*)amx_FindPublic_);
-	subhook_install(amx_FindPublic_hook);
-
-	subhook_set_source(amx_Exec_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Exec]);
-	subhook_set_destination(amx_Exec_hook, (void*)amx_Exec_);
-	subhook_install(amx_Exec_hook);
-
-	subhook_set_source(amx_Callback_hook, ((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Callback]);
-	subhook_set_destination(amx_Callback_hook, (void*)amx_Callback_);
-	subhook_install(amx_Callback_hook);
+	SUBHOOK_INSTALL_HOOK(
+		amx_Register_hook,
+		((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register],
+		(void*)amx_Register_
+	);
+	SUBHOOK_INSTALL_HOOK(
+		amx_FindPublic_hook,
+		((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_FindPublic],
+		(void*)amx_FindPublic_
+	);
+	SUBHOOK_INSTALL_HOOK(
+		amx_Exec_hook,
+		((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Exec],
+		(void*)amx_Exec_
+	);
+	SUBHOOK_INSTALL_HOOK(
+		amx_Callback_hook,
+		((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Callback],
+		(void*)amx_Callback_
+	);
 
 	return 0;
 
