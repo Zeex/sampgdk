@@ -1,4 +1,4 @@
 tags
 cscope.out
 *.swp
-*.user
+CMakeLists.txt.user*
