@@ -33,10 +33,9 @@ SUBHOOK_EXPORT void *SUBHOOK_API subhook_unprotect(void *address, size_t size) {
 	size_t pagesize;
 
 	pagesize = sysconf(_SC_PAGESIZE);
+	address = (void*)((size_t)address & ~(pagesize - 1));
 
-	if (mprotect((void*)((size_t)address / pagesize * pagesize),
-	             (size / pagesize) * pagesize + pagesize * 2,
-	             PROT_READ | PROT_WRITE | PROT_EXEC) == 0) {
+	if (mprotect(address, size, PROT_READ | PROT_WRITE | PROT_EXEC) == 0) {
 		return address;
 	}
 
