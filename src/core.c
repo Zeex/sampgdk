@@ -278,7 +278,8 @@ static void init_amx_exports(void **ppData) {
 
 static void init_logprintf(void **ppData) {
 	logprintf = ppData[PLUGIN_DATA_LOGPRINTF];
-	sampgdk_logprintf = logprintf;
+	sampgdk_logprintf  = logprintf;
+	sampgdk_vlogprintf = vlogprintf;
 }
 
 static int do_initialize(void **ppData) {
@@ -383,3 +384,4 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives() {
 }
 
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;
+SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf = NULL;
