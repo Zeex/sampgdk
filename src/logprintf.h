@@ -16,6 +16,11 @@
 #ifndef SAMPGDK_LOGPRINTF_IMPL_H_
 #define SAMPGDK_LOGPRINTF_IMPL_H_
 
-void logprintf_impl(const char *format, ...);
+#include <stdarg.h>
+
+typedef void (*logprintf_t)(const char *format, ...);
+
+extern logprintf_t logprintf;
+extern void vlogprintf(const char *format, va_list va);
 
 #endif /* !SAMPGDK_LOGPRINTF_IMPL_H */

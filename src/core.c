@@ -28,10 +28,9 @@
 #include "asm.h"
 #include "callback.h"
 #include "log.h"
-#include "logprintf-impl.h"
+#include "logprintf.h"
 #include "native.h"
 #include "plugin.h"
-#include "server-log.h"
 #include "timer.h"
 
 extern int register_callbacks__a_samp();
@@ -269,14 +268,25 @@ static int register_callbacks() {
 	return 0;
 }
 
+static void init_plugin_data(void **ppData) {
+	ppPluginData = ppData;
+}
+
+static void init_amx_exports(void **ppData) {
+	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
+}
+
+static void init_logprintf(void **ppData) {
+	logprintf = ppData[PLUGIN_DATA_LOGPRINTF];
+	sampgdk_logprintf = logprintf;
+}
+
 static int do_initialize(void **ppData) {
 	int error_code;
 
-	ppPluginData = ppData;
-	assert(ppData != NULL);
-
-	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
-	assert(pAMXFunctions != NULL);
+	init_plugin_data(ppData);
+	init_amx_exports(ppData);
+	init_logprintf(ppData);
 
 	if ((error_code = register_callbacks()) < 0)
 		goto register_callbacks_failed;
@@ -321,14 +331,14 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 		do_initialize(ppData);
 	}
 
-	plugin = plugin_address_to_handle(get_return_address(NULL, 0));
+	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
 	plugin_register(plugin);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 	void *plugin;
 
-	plugin = plugin_address_to_handle(get_return_address(NULL, 0));
+	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
 	plugin_unregister(plugin);
 
 	if (plugin_get_list() == NULL) {
@@ -372,4 +382,4 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives() {
 	return native_get_num_natives();
 }
 
-SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = logprintf_impl;
+SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;

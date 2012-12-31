@@ -16,6 +16,8 @@
 #ifndef SAMPGDK_CORE_H
 #define SAMPGDK_CORE_H
 
+#include <stdarg.h>
+
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>

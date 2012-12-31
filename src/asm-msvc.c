@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-__declspec(naked) void *get_return_address(void *frame, int depth) {
+__declspec(naked) void *get_ret_addr(void *frame, int depth) {
 	__asm mov eax, dword ptr [esp + 4]
 	__asm cmp eax, 0
 	__asm jnz init
@@ -23,16 +23,58 @@ init:
 	__asm mov ecx, dword ptr [esp + 8]
 	__asm mov edx, 0
 
-iteration:
+begin_loop:
 	__asm cmp ecx, 0
 	__asm jl exit
 	__asm mov edx, dword ptr [eax + 4]
 	__asm mov eax, dword ptr [eax]
 	__asm dec ecx
-	__asm jmp iteration
+	__asm jmp begin_loop
 
 exit:
 	__asm mov eax, edx
 	__asm ret
 }
 
+__declspec(naked) void *call_func_cdecl(void *func, const void *const *args, int nargs)
+{
+	__asm mov eax, dword ptr [esp + 4]
+	__asm mov edx, dword ptr [esp + 8]
+	__asm mov ecx, dword ptr [esp + 12]
+	__asm push edi
+	__asm mov edi, ecx
+	__asm sal edi, 2
+	__asm push esi
+begin_loop:
+	__asm cmp ecx, 0
+	__asm jle end_loop
+	__asm dec ecx
+	__asm mov esi, dword ptr [edx + ecx * 4]
+	__asm push esi
+	__asm jmp begin_loop
+end_loop:
+	__asm call eax
+	__asm add esp, edi
+	__asm pop esi
+	__asm pop edi
+	__asm ret
+	}
+
+__declspec(naked) void *call_func_stdcall(void *func, const void *const *args, int nargs)
+{
+	__asm mov eax, dword ptr [esp + 4]
+	__asm mov edx, dword ptr [esp + 8]
+	__asm mov ecx, dword ptr [esp + 12]
+	__asm push esi
+begin_loop:
+	__asm cmp ecx, 0
+	__asm jle end_loop
+	__asm dec ecx
+	__asm mov esi, dword ptr [edx + ecx * 4]
+	__asm push esi
+	__asm jmp begin_loop
+end_loop:
+	__asm call eax
+	__asm pop esi
+	__asm ret
+}

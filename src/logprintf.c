@@ -13,12 +13,38 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_SERVER_LOG_H_
-#define SAMPGDK_SERVER_LOG_H_
-
+#include <errno.h>
 #include <stdarg.h>
+#include <stdlib.h>
+#include <string.h>
 
-void server_log_printf(const char *format, ...);
-void server_log_vprintf(const char *format, va_list args);
+#include "asm.h"
+#include "log.h"
+#include "logprintf.h"
 
-#endif /* !SAMPGDK_SERVER_LOG_H */
+logprintf_t logprintf;
+
+void vlogprintf(const char *format, va_list va) {
+	int i;
+	int nargs = 1;
+	const void **args;
+
+	for (i = 0; format[i] != '\0'; i++) {
+		if (format[i] == '%' && format[i + 1] != '%') {
+			nargs++;
+		}
+	}
+
+	if ((args = malloc((nargs + 1) * sizeof(*args))) == NULL) {
+		logprintf(strerror(errno));
+		return;
+	}
+
+	args[0] = format;
+	for (i = 1; i <= nargs; i++) {
+		args[i] = va_arg(va, const void *);
+	}
+
+	call_func_cdecl((void*)logprintf, args, nargs);
+	free(args);
+}

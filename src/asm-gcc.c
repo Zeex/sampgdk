@@ -13,31 +13,80 @@
  * limitations under the License.
  */
 
+#define SYMBOL(x) ASM_PREFIX x
+
+#define GLOBAL(x) ".globl "SYMBOL(x)"\n"
+
+#define BEGIN_GLOBAL(x) \
+	GLOBAL(x) \
+	x":\n"
+
+#define FUNC "get_ret_addr"
 __asm__ (
-".globl "ASM_PREFIX"get_return_address\n"
+	BEGIN_GLOBAL(FUNC)
+	"	movl 4(%esp), %eax\n"
+	"	cmpl $0, %eax\n"
+	"	jnz "FUNC"_init\n"
+	"	movl %ebp, %eax\n"
+	FUNC"_init:\n"
+	"	movl 8(%esp), %ecx\n"
+	"	movl $0, %edx\n"
+	FUNC"_begin_loop:\n"
+	"	cmpl $0, %ecx\n"
+	"	jl "FUNC"_exit\n"
+	"	movl 4(%eax), %edx\n"
+	"	movl (%eax), %eax\n"
+	"	decl %ecx\n"
+	"	jmp "FUNC"_begin_loop\n"
+	FUNC"_exit:\n"
+	"	movl %edx, %eax\n"
+	"	ret\n"
 );
+#undef FUNC
 
+#define FUNC "call_func_cdecl"
 __asm__ (
-ASM_PREFIX"get_return_address:\n"
-
-"	movl 4(%esp), %eax\n"
-"	cmpl $0, %eax\n"
-"	jnz gra_init\n"
-"	movl %ebp, %eax\n"
-
-"gra_init:\n"
-"	movl 8(%esp), %ecx\n"
-"	movl $0, %edx\n"
-
-"gra_loop:\n"
-"	cmpl $0, %ecx\n"
-"	jl gra_exit\n"
-"	movl 4(%eax), %edx\n"
-"	movl (%eax), %eax\n"
-"	decl %ecx\n"
-"	jmp gra_loop\n"
-
-"gra_exit:\n"
-"	movl %edx, %eax\n"
-"	ret\n"
+	BEGIN_GLOBAL(FUNC)
+	"	movl 4(%esp), %eax\n"
+	"	movl 8(%esp), %edx\n"
+	"	movl 12(%esp), %ecx\n"
+	"	pushl %edi\n"
+	"	movl %ecx, %edi\n"
+	"	sal $2, %edi\n"
+	"	pushl %esi\n"
+	FUNC"_begin_loop:"
+	"	cmpl $0, %ecx\n"
+	"	jle "FUNC"_end_loop\n"
+	"	dec %ecx\n"
+	"	movl (%edx, %ecx, 4), %esi\n"
+	"	pushl %esi\n"
+	"	jmp "FUNC"_begin_loop\n"
+	FUNC"_end_loop:"
+	"	call *%eax\n"
+	"	addl %edi, %esp\n"
+	"	popl %esi\n"
+	"	popl %edi\n"
+	"	ret\n"
 );
+#undef FUNC
+
+#define FUNC "call_func_stdcall"
+__asm__ (
+	BEGIN_GLOBAL(FUNC)
+	"	movl 4(%esp), %eax\n"
+	"	movl 8(%esp), %edx\n"
+	"	movl 12(%esp), %ecx\n"
+	"	pushl %esi\n"
+	FUNC"_begin_loop:"
+	"	cmpl $0, %ecx\n"
+	"	jle "FUNC"_end_loop\n"
+	"	dec %ecx\n"
+	"	movl (%edx, %ecx, 4), %esi\n"
+	"	pushl %esi\n"
+	"	jmp "FUNC"_begin_loop\n"
+	FUNC"_end_loop:"
+	"	call *%eax\n"
+	"	popl %esi\n"
+	"	ret\n"
+);
+#undef FUNC

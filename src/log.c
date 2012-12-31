@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "server-log.h"
+#include "logprintf.h"
 
 enum log_type {
 	log_default,
@@ -59,7 +59,7 @@ static void do_log(enum log_type type, const char *format, va_list args) {
 	strcat(real_format, format);
 	strcat(real_format, "\n");
 
-	server_log_vprintf(real_format, args);
+	vlogprintf(real_format, args);
 
 	free(real_format);
 }
