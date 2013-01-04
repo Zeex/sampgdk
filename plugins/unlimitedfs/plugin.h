@@ -4,6 +4,8 @@
 #include <string>
 #include <sampgdk/amx.h>
 
+namespace unlimitedfs {
+
 enum PluginError {
 	PLUGIN_ERROR_OK,
 	PLUGIN_ERROR_LOAD,
@@ -53,5 +55,7 @@ private:
 	AmxUnload_t AmxUnload_;
 	ProcessTick_t ProcessTick_;
 };
+
+} // namespace samp
 
 #endif // UNLIMIITEDFS_PLUGIN_H

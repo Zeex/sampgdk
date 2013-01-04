@@ -5,6 +5,8 @@
 #include <string>
 #include <sampgdk/amx.h>
 
+namespace unlimitedfs {
+
 class FilterScript {
 public:
 	FilterScript();
@@ -67,5 +69,7 @@ private:
 	AMX *amx_;
 	std::stack<cell> heap_args_;
 };
+
+} // namespace samp
 
 #endif // UNLIMIITEDFS_FILTERSCRIPT_H

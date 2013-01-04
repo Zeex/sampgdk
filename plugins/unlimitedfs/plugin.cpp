@@ -7,6 +7,8 @@
 	#include <dlfcn.h>
 #endif
 
+namespace unlimitedfs {
+
 Plugin::Plugin()
 	: loaded_(false)
 {
@@ -126,3 +128,5 @@ void Plugin::ProcessTick() const {
 		ProcessTick_();
 	}
 }
+
+} // namespace samp

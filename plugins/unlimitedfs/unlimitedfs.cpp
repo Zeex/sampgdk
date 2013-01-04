@@ -23,12 +23,12 @@
 	#define PLUGIN_EXT "so"
 #endif
 
-static ThisPlugin unlimitedfs;
+static ThisPlugin ufs;
 
 static void **ppPluginData;
 
-static std::list<Plugin*> plugins;
-static std::list<FilterScript*> filterscripts;
+static std::list<unlimitedfs::Plugin*> plugins;
+static std::list<unlimitedfs::FilterScript*> filterscripts;
 
 static bool loading = false;
 
@@ -118,7 +118,7 @@ static std::string GetBaseName(const std::string &path) {
 	return std::string(path.begin() + sep, path.begin() + dot);
 }
 
-typedef std::list<FilterScript*>::iterator FSIter;
+typedef std::list<unlimitedfs::FilterScript*>::iterator FSIter;
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
@@ -140,7 +140,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit() {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerConnect")) {
 			return false;
@@ -151,7 +151,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(reason);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerDisconnect")) {
@@ -163,7 +163,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerSpawn")) {
 			return false;
@@ -174,7 +174,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(reason);
 		ctx.PushCell(killerid);
 		ctx.PushCell(playerid);
@@ -187,7 +187,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int rea
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleSpawn(int vehicleid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleSpawn")) {
 			return false;
@@ -198,7 +198,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleSpawn(int vehicleid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(killerid);
 		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleDeath")) {
@@ -210,7 +210,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char text[]) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushString(text);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerText")) {
@@ -222,7 +222,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char text[]) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char cmdtext[]) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushString(cmdtext);
 		ctx.PushCell(playerid);
 		if ((*it)->Exec("OnPlayerCommandText", false)) {
@@ -234,7 +234,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char cmdt
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(classid);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerRequestClass")) {
@@ -246,7 +246,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid, int ispassenger) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(ispassenger);
 		ctx.PushCell(vehicleid);
 		ctx.PushCell(playerid);
@@ -259,7 +259,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid,
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(vehicleid);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerExitVehicle")) {
@@ -271,7 +271,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid) 
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, int oldstate) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(oldstate);
 		ctx.PushCell(newstate);
 		ctx.PushCell(playerid);
@@ -284,7 +284,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, i
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterCheckpoint(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerEnterCheckpoint")) {
 			return false;
@@ -295,7 +295,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterCheckpoint(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveCheckpoint(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerLeaveCheckpoint")) {
 			return false;
@@ -306,7 +306,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveCheckpoint(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterRaceCheckpoint(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerEnterRaceCheckpoint")) {
 			return false;
@@ -317,7 +317,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterRaceCheckpoint(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerLeaveRaceCheckpoint")) {
 			return false;
@@ -328,7 +328,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char cmd[]) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushString(cmd);
 		if (!(*it)->Exec("OnRconCommand")) {
 			return false;
@@ -339,7 +339,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char cmd[]) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestSpawn(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerRequestSpawn")) {
 			return false;
@@ -350,7 +350,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestSpawn(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnObjectMoved(int objectid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(objectid);
 		if (!(*it)->Exec("OnObjectMoved")) {
 			return false;
@@ -361,7 +361,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnObjectMoved(int objectid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerObjectMoved(int playerid, int objectid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(objectid);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerObjectMoved")) {
@@ -373,7 +373,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerObjectMoved(int playerid, int objectid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerPickUpPickup(int playerid, int pickupid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(pickupid);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerPickUpPickup")) {
@@ -385,7 +385,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerPickUpPickup(int playerid, int pickupid) 
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int componentid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(componentid);
 		ctx.PushCell(vehicleid);
 		ctx.PushCell(playerid);
@@ -398,7 +398,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int com
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnEnterExitModShop(int playerid, int enterexit, int interiorid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(interiorid);
 		ctx.PushCell(enterexit);
 		ctx.PushCell(playerid);
@@ -411,7 +411,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnEnterExitModShop(int playerid, int enterexit, i
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(paintjobid);
 		ctx.PushCell(vehicleid);
 		ctx.PushCell(playerid);
@@ -424,7 +424,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, in
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleRespray(int playerid, int vehicleid, int color1, int color2) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(color2);
 		ctx.PushCell(color1);
 		ctx.PushCell(vehicleid);
@@ -438,7 +438,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleRespray(int playerid, int vehicleid, int
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleDamageStatusUpdate")) {
@@ -450,7 +450,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int pl
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(passenger_seat);
 		ctx.PushCell(playerid);
 		ctx.PushCell(vehicleid);
@@ -463,7 +463,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int play
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(row);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerSelectedMenuRow")) {
@@ -475,7 +475,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitedMenu(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerExitedMenu")) {
 			return false;
@@ -486,7 +486,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitedMenu(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(oldinteriorid);
 		ctx.PushCell(newinteriorid);
 		ctx.PushCell(playerid);
@@ -499,7 +499,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerInteriorChange(int playerid, int newinter
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(oldkeys);
 		ctx.PushCell(newkeys);
 		ctx.PushCell(playerid);
@@ -512,7 +512,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys,
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnRconLoginAttempt(const char ip[], const char password[], int success) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(success);
 		ctx.PushString(password);
 		ctx.PushString(ip);
@@ -525,7 +525,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnRconLoginAttempt(const char ip[], const char pa
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerUpdate")) {
 			return false;
@@ -536,7 +536,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamIn(int playerid, int forplayerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(forplayerid);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerStreamIn")) {
@@ -548,7 +548,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamIn(int playerid, int forplayerid) {
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamOut(int playerid, int forplayerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(forplayerid);
 		ctx.PushCell(playerid);
 		if (!(*it)->Exec("OnPlayerStreamOut")) {
@@ -560,7 +560,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamOut(int playerid, int forplayerid) 
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamIn(int vehicleid, int forplayerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(forplayerid);
 		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleStreamIn")) {
@@ -572,7 +572,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamIn(int vehicleid, int forplayerid)
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamOut(int vehicleid, int forplayerid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(forplayerid);
 		ctx.PushCell(vehicleid);
 		if (!(*it)->Exec("OnVehicleStreamOut")) {
@@ -584,7 +584,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamOut(int vehicleid, int forplayerid
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char inputtext[]) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushString(inputtext);
 		ctx.PushCell(listitem);
 		ctx.PushCell(response);
@@ -599,7 +599,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int 
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(weaponid);
 		ctx.PushFloat(amount);
 		ctx.PushCell(issuerid);
@@ -613,7 +613,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, fl
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushCell(weaponid);
 		ctx.PushFloat(amount);
 		ctx.PushCell(damagedid);
@@ -627,7 +627,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, f
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickMap(int playerid, float fX, float fY, float fZ) {
 	for (FSIter it = filterscripts.begin(); it != filterscripts.end(); ++it) {
-		ExecContext ctx(*it);
+		unlimitedfs::ExecContext ctx(*it);
 		ctx.PushFloat(fZ);
 		ctx.PushFloat(fY);
 		ctx.PushFloat(fX);
@@ -656,7 +656,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
 	((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Align32] = (void*)my_amx_Align;
 	((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Align64] = (void*)my_amx_Align;
 
-	unlimitedfs.Load(ppData);
+	ufs.Load(ppData);
 
 	return (::loading = true);
 }
@@ -681,22 +681,22 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 			continue;
 		}
 		ServerLog::Printf(" Loading plugin: %s", plugin_name.c_str());
-		Plugin *plugin = new Plugin(*iterator);
+		unlimitedfs::Plugin *plugin = new unlimitedfs::Plugin(*iterator);
 		if (plugin != 0) {
-			PluginError error = plugin->Load(ppPluginData);
+			unlimitedfs::PluginError error = plugin->Load(ppPluginData);
 			if (plugin->IsLoaded()) {
 				plugins.push_back(plugin);
 				ServerLog::Printf("  Loaded.");
 			} else {
 				switch (error) {
-					case PLUGIN_ERROR_LOAD: {
+					case unlimitedfs::PLUGIN_ERROR_LOAD: {
 						ServerLog::Printf("  Failed.");
 						break;
 					}
-					case PLUGIN_ERROR_VERSION:
+					case unlimitedfs::PLUGIN_ERROR_VERSION:
 						ServerLog::Printf("  Unsupported version.");
 						break;
-					case PLUGIN_ERROR_API:
+					case unlimitedfs::PLUGIN_ERROR_API:
 						ServerLog::Printf("  Plugin does not conform to acrhitecture.");
 						break;
 					default:
@@ -717,12 +717,12 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 			iterator != files.end(); ++iterator) {
 		std::string fs_name = GetBaseName(*iterator);
 		ServerLog::Printf("  Loading filter script: %s", fs_name.c_str());
-		FilterScript *fs = new FilterScript(*iterator);
+		unlimitedfs::FilterScript *fs = new unlimitedfs::FilterScript(*iterator);
 		if (fs != 0) {
 			if (fs->IsLoaded()) {
 				filterscripts.push_back(fs);
 				my_amx_Register(fs->amx(), sampgdk_get_natives(), -1);
-				for (std::list<Plugin*>::iterator iterator = plugins.begin();
+				for (std::list<unlimitedfs::Plugin*>::iterator iterator = plugins.begin();
 						iterator != plugins.end(); ++iterator) {
 					(*iterator)->AmxLoad(fs->amx());
 				}
@@ -736,7 +736,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 		}
 	}
 
-	for (std::list<Plugin*>::iterator iterator = plugins.begin();
+	for (std::list<unlimitedfs::Plugin*>::iterator iterator = plugins.begin();
 			iterator != plugins.end(); ++iterator) {
 		(*iterator)->AmxLoad(amx);
 	}
@@ -746,7 +746,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
-	for (std::list<Plugin*>::iterator iterator = plugins.begin();
+	for (std::list<unlimitedfs::Plugin*>::iterator iterator = plugins.begin();
 			iterator != plugins.end(); ++iterator) {
 		(*iterator)->AmxUnload(amx);
 	}
@@ -754,12 +754,12 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-	unlimitedfs.Unload();
+	ufs.Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
-	sampgdk_process_timers();
-	for (std::list<Plugin*>::iterator iterator = plugins.begin();
+	ufs.ProcessTimers();
+	for (std::list<unlimitedfs::Plugin*>::iterator iterator = plugins.begin();
 			iterator != plugins.end(); ++iterator) {
 		(*iterator)->ProcessTick();
 	}

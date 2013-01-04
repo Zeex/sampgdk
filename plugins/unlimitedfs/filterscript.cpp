@@ -63,6 +63,7 @@ static int AMXAPI aux_FreeProgram(AMX *amx)
 	return AMX_ERR_NONE;
 }
 
+namespace unlimitedfs {
 
 FilterScript::FilterScript()
 	: loaded_(false)
@@ -116,3 +117,5 @@ bool FilterScript::Exec(const char *name, bool default_retval) {
 	}
 	return default_retval;
 }
+
+} // namespace samp
