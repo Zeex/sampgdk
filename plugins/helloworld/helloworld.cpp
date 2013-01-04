@@ -8,7 +8,7 @@
 
 static ThisPlugin helloworld;
 
-void SAMPGDK_CALL Timer(int timerid, void *param) {
+void SAMPGDK_CALL Timer(int /*timerid*/, void */*param*/) {
 	ServerLog::Printf("timer!");
 }
 
