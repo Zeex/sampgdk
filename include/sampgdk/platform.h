@@ -31,4 +31,12 @@
 	#define SAMPGDK_LINUX 1
 #endif
 
+#if defined __GNUC__
+	#define SAMPGDK_DEPRECATED(func) func __attribute__((deprecated))
+#elif defined _MSC_VER
+	#define SAMPGDK_DEPRECATED(func) __declspec(deprecated) func
+#else
+	#define SAMPGDK_DEPRECATED(func)
+#endif
+
 #endif /* !SAMPGDK_PLATFORM_H */

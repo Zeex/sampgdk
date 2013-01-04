@@ -24,9 +24,9 @@
 #include <sampgdk/export.h>
 
 /* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData);
+SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData));
 /* Deprecated. Use sampgdk_exit() or sampgdk_exit_plugin() instead. */
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize();
+SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize());
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init(void **ppData);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData);
