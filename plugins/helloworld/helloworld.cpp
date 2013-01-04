@@ -6,7 +6,7 @@
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
-static Plugin helloworld;
+static ThisPlugin helloworld;
 
 void SAMPGDK_CALL Timer(int timerid, void *param) {
 	Log::Printf("timer!");

@@ -50,9 +50,9 @@ SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
 #ifdef __cplusplus
 
-class Plugin {
+class ThisPlugin {
 public:
-	Plugin() : handle_(::sampgdk_get_plugin_handle(this)) {}
+	ThisPlugin() : handle_(::sampgdk_get_plugin_handle(this)) {}
 
 	void *GetHandle() { return handle_; }
 
