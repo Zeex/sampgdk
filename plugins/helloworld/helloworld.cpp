@@ -10,7 +10,7 @@ static SampPlugin helloworld;
 
 void SAMPGDK_CALL Timer(int timerid, void *param) {
 	Log::Printf("timer!");
-};
+}
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 	SetGameModeText("Hello, World!");
