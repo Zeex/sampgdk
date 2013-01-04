@@ -16,8 +16,6 @@
 #ifndef SAMPGDK_BOOL_H
 #define SAMPGDK_BOOL_H
 
-#include <sampgdk/static-assert.h>
-
 /* bool */
 #if !defined __cplusplus && !defined HAVE_BOOL
 	/* If HAVE_BOOL is not defined we attempt to detect stdbool.h first,
@@ -36,7 +34,7 @@
 #else
 	/* Make sure their "bool" is one byte in size. This is required for binary
 	 * compatibility with C++ code. */
-	SAMPGDK_STATIC_ASSERT(sizeof(bool) == 1, sizeof_bool_must_be_1);
+	typedef int sizeof_bool_must_be_1[sizeof(bool) == 1 ? 1 : -1];
 #endif
 
 #endif /* !SAMPGDK_BOOL_H */

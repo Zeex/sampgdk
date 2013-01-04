@@ -38,7 +38,6 @@ list(APPEND SAMPGDK_HEADER_FILES
 	"include/sampgdk/platform.h"
 	"include/sampgdk/plugin.h"
 	"include/sampgdk/plugincommon.h"
-	"include/sampgdk/static-assert.h"
 	"include/sampgdk/version.h"
 )
 
