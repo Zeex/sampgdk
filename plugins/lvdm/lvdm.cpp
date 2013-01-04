@@ -16,7 +16,7 @@
 
 #define PocketMoney   50000 // Amount player recieves on spawn.
 
-#define logprintf sampgdk_logprintf
+static ThisPlugin lvdm;
 
 int CashScoreOld;
 int iSpawnSet[MAX_PLAYERS];
@@ -189,7 +189,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmd
 				SendClientMessage(playerid, COLOR_YELLOW, string);
 				sprintf(string, "You have recieved $%d from %s(player: %d).", moneys, sendername, playerid);
 				SendClientMessage(giveplayerid, COLOR_YELLOW, string);
-				logprintf("%s(playerid:%d) has transfered %d to %s(playerid:%d)",sendername, playerid, moneys, giveplayer, giveplayerid);
+				ServerLog::Printf("%s(playerid:%d) has transfered %d to %s(playerid:%d)",sendername, playerid, moneys, giveplayer, giveplayerid);
 			}
 			else {
 				SendClientMessage(playerid, COLOR_YELLOW, "Invalid transaction amount.");
@@ -250,11 +250,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid)
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit()
 {
-	logprintf("\n----------------------------------");
-	logprintf("  Running LVDM ~MoneyGrub\n");
-	logprintf("		 Coded By");
-	logprintf("			Jax");
-	logprintf("----------------------------------\n");
+	ServerLog::Printf("\n----------------------------------");
+	ServerLog::Printf("  Running LVDM ~MoneyGrub\n");
+	ServerLog::Printf("		 Coded By");
+	ServerLog::Printf("			Jax");
+	ServerLog::Printf("----------------------------------\n");
 
 	SetGameModeText("Ventura's DM~MG");
 
@@ -784,15 +784,15 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 	return SUPPORTS_VERSION | SUPPORTS_PROCESS_TICK;
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
-	sampgdk_initialize_plugin(ppPluginData);
+PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
+	lvdm.Load(ppData);
 	return true;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-	sampgdk_finalize();
+	lvdm.Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
-	sampgdk_process_timers();
+	lvdm.ProcessTimers();
 }

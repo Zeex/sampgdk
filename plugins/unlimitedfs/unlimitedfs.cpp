@@ -23,7 +23,7 @@
 	#define PLUGIN_EXT "so"
 #endif
 
-#define logprintf sampgdk_logprintf
+static ThisPlugin unlimitedfs;
 
 static void **ppPluginData;
 
@@ -656,7 +656,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
 	((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Align32] = (void*)my_amx_Align;
 	((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Align64] = (void*)my_amx_Align;
 
-	sampgdk_initialize_plugin(ppData);
+	unlimitedfs.Load(ppData);
 
 	return (::loading = true);
 }
@@ -667,9 +667,9 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 		return AMX_ERR_NONE;
 	}
 
-	logprintf("");
-	logprintf("Server Plugins");
-	logprintf("--------------");
+	ServerLog::Printf("");
+	ServerLog::Printf("Server Plugins");
+	ServerLog::Printf("--------------");
 
 	std::list<std::string> files;
 	GetFilesInDirectory("plugins", "*."PLUGIN_EXT, std::back_inserter(files));
@@ -680,24 +680,24 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 		if (plugin_name == "unlimitedfs") {
 			continue;
 		}
-		logprintf(" Loading plugin: %s", plugin_name.c_str());
+		ServerLog::Printf(" Loading plugin: %s", plugin_name.c_str());
 		Plugin *plugin = new Plugin(*iterator);
 		if (plugin != 0) {
 			PluginError error = plugin->Load(ppPluginData);
 			if (plugin->IsLoaded()) {
 				plugins.push_back(plugin);
-				logprintf("  Loaded.");
+				ServerLog::Printf("  Loaded.");
 			} else {
 				switch (error) {
 					case PLUGIN_ERROR_LOAD: {
-						logprintf("  Failed.");
+						ServerLog::Printf("  Failed.");
 						break;
 					}
 					case PLUGIN_ERROR_VERSION:
-						logprintf("  Unsupported version.");
+						ServerLog::Printf("  Unsupported version.");
 						break;
 					case PLUGIN_ERROR_API:
-						logprintf("  Plugin does not conform to acrhitecture.");
+						ServerLog::Printf("  Plugin does not conform to acrhitecture.");
 						break;
 					default:
 						break;
@@ -707,8 +707,8 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 		}
 	}
 
-	logprintf(" Loaded %d plugins.", plugins.size());
-	logprintf("\n");
+	ServerLog::Printf(" Loaded %d plugins.", plugins.size());
+	ServerLog::Printf("\n");
 
 	// Load ALL scripts from "filterscripts/"
 	files.clear();
@@ -716,7 +716,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 	for (std::list<std::string>::iterator iterator = files.begin();
 			iterator != files.end(); ++iterator) {
 		std::string fs_name = GetBaseName(*iterator);
-		logprintf("  Loading filter script: %s", fs_name.c_str());
+		ServerLog::Printf("  Loading filter script: %s", fs_name.c_str());
 		FilterScript *fs = new FilterScript(*iterator);
 		if (fs != 0) {
 			if (fs->IsLoaded()) {
@@ -728,9 +728,9 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 				}
 				cell retval;
 				fs->Init(retval);
-				logprintf("   Loaded.");
+				ServerLog::Printf("   Loaded.");
 			} else {
-				logprintf("   Failed.");
+				ServerLog::Printf("   Failed.");
 				delete fs;
 			}
 		}
@@ -754,7 +754,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-	sampgdk_finalize();
+	unlimitedfs.Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
