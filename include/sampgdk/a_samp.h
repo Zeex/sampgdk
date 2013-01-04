@@ -45,7 +45,6 @@ template<std::size_t N> inline bool GetWeaponName(int weaponid, char (&name)[N])
 class Menu {
 public:
 	Menu(int menuid) : id_(menuid) {}
-	virtual ~Menu() {}
 
 	int GetId() const { return id_; }
 	operator int() const { return id_; }	
@@ -83,7 +82,6 @@ private:
 class TextDraw {
 public:
 	TextDraw(int text) : id_(text) {}
-	virtual ~TextDraw() {}
 
 	int GetId() const { return id_; }
 	operator int() const { return id_; }
@@ -139,7 +137,6 @@ private:
 class GangZone {
 public:
 	GangZone(int zone) : id_(zone) {}
-	virtual ~GangZone() {}
 
 	int GetId() const { return id_; }
 	operator int() const { return id_; }

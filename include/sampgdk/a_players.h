@@ -50,7 +50,6 @@ class Player {
 public:
 	// Construct from a player ID
 	Player(int playerid) : id_(playerid) { assert(id_ != INVALID_PLAYER_ID); }
-	virtual ~Player() {}
 
 	// Implicit conversion to 'int'
 	operator int() const { return id_; }
@@ -379,7 +378,6 @@ private:
 class PlayerTextDraw {
 public:
 	PlayerTextDraw(int id, int playerid) : id_(id), playerid_(playerid) {}
-	virtual ~PlayerTextDraw() {}
 
 	int GetId() const { return id_; }
 	int GetPlayerId() const { return playerid_; }	

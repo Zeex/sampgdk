@@ -32,7 +32,6 @@ class Vehicle {
 public:
 	// Construct from a vehicle ID
 	Vehicle(int vehicleid) : id_(vehicleid) { assert(id_ != INVALID_VEHICLE_ID); }
-	virtual ~Vehicle() {}
 
 	// Implicit convertion to 'int'
 	operator int() const { return id_; }

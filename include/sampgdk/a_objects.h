@@ -32,7 +32,6 @@ class Object {
 public:
 	// Construct from an object ID
 	Object(int objectid) : id_(objectid) { assert(id_ != INVALID_OBJECT_ID); }
-	virtual ~Object() {}
 
 	// Implicit convertion to 'int'
 	operator int() const { return id_; }
@@ -95,8 +94,6 @@ public:
 		assert(objectid_ != INVALID_OBJECT_ID);
 		assert(playerid_ != INVALID_PLAYER_ID);
 	}
-
-	virtual ~PlayerObject() {}
 
 	// Explicit ID request
 	int GetPlayerId() const { return playerid_; }
