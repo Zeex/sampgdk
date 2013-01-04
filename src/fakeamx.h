@@ -40,4 +40,4 @@ void fakeamx_get_float(struct fakeamx *fa, cell address, float *value);
 void fakeamx_get_string(struct fakeamx *fa, cell address, char *dest, int size);
 void fakeamx_pop(struct fakeamx *fa, cell address);
 
-#endif /* !SAMPGDK_FAKEAMX_H */
+#endif /* !SAMPGDK_FAKEAMX_H_ */

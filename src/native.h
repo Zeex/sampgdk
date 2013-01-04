@@ -60,4 +60,4 @@ const AMX_NATIVE_INFO *native_get_natives();
  */
 int native_get_num_natives();
 
-#endif /* !SAMPGDK_NATIVE_H */
+#endif /* !SAMPGDK_NATIVE_H_ */

@@ -24,4 +24,4 @@ bool  amx_stack_get_arg_bool(AMX *amx, int index);
 float amx_stack_get_arg_float(AMX *amx, int index);
 char *amx_stack_get_arg_string(AMX *amx, int index);
 
-#endif /* !SAMPGDK_AMX_STACK_H */
+#endif /* !SAMPGDK_AMX_STACK_H_ */

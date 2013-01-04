@@ -24,4 +24,4 @@
 	#define unlikely(x)  (x)
 #endif
 
-#endif /* !SAMPGDK_LIKELY_H */
+#endif /* !SAMPGDK_LIKELY_H_ */

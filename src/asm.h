@@ -21,4 +21,4 @@ void *get_ret_addr(void *frame, int depth);
 void *call_func_cdecl(void *func, const void *const *args, int nargs);
 void *call_func_stdcall(void *func, const void *const *args, int nargs);
 
-#endif /* !SAMPGDK_ASM_H */
+#endif /* !SAMPGDK_ASM_H_ */

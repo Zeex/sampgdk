@@ -21,4 +21,4 @@ void trace(const char *format, ...);
 void warning(const char *format, ...);
 void error(const char *format, ...);
 
-#endif /* !SAMPGDK_LOG_H */
+#endif /* !SAMPGDK_LOG_H_ */

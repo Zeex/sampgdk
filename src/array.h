@@ -41,4 +41,4 @@ int array_remove(struct array *a, int index, int count);
 int array_remove_single(struct array *a, int index);
 int array_append(struct array *a, void *elem);
 
-#endif /* !SAMPGDK_ARRAY_H */
+#endif /* !SAMPGDK_ARRAY_H_ */

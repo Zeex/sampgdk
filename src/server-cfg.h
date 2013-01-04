@@ -20,4 +20,4 @@ typedef int (*server_cfg_callback)(const char *key, const char *value, void *par
 
 int server_cfg_parse(server_cfg_callback callback, void *param, int buffer_size);
 
-#endif /* !SAMPGDK_SERVER_CFG_H */
+#endif /* !SAMPGDK_SERVER_CFG_H_ */

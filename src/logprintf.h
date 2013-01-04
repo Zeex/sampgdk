@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_LOGPRINTF_IMPL_H_
-#define SAMPGDK_LOGPRINTF_IMPL_H_
+#ifndef SAMPGDK_LOGPRINTF_H_
+#define SAMPGDK_LOGPRINTF_H_
 
 #include <stdarg.h>
 
@@ -23,4 +23,4 @@ typedef void (*logprintf_t)(const char *format, ...);
 extern logprintf_t logprintf;
 extern void vlogprintf(const char *format, va_list va);
 
-#endif /* !SAMPGDK_LOGPRINTF_IMPL_H */
+#endif /* !SAMPGDK_LOGPRINTF_H_ */

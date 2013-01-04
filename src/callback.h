@@ -27,4 +27,4 @@ void callback_cleanup();
 int callback_add_handler(const char *name, callback_handler handler);
 bool callback_invoke(AMX *amx, const char *name, cell *retval);
 
-#endif /* !SAMPGDK_CALLBACK_H */
+#endif /* !SAMPGDK_CALLBACK_H_ */

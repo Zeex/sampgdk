@@ -34,4 +34,4 @@ void timer_process_timers(void *plugin);
 /* Returns number of milliseconds since some fixed point of time. */
 time_t timer_clock();
 
-#endif /* !SAMPGDK_TIMER_H */
+#endif /* !SAMPGDK_TIMER_H_ */
