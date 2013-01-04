@@ -282,7 +282,7 @@ static void init_logprintf(void **ppData) {
 	sampgdk_vlogprintf = vlogprintf;
 }
 
-static int do_initialize(void **ppData) {
+static int do_init(void **ppData) {
 	int error_code;
 
 	init_plugin_data(ppData);
@@ -318,33 +318,55 @@ out:
 	return 0;
 }
 
-static void do_finalize() {
+static void do_cleanup() {
 	timer_cleanup();
 	native_cleanup();
 	callback_cleanup();
 	remove_hooks();
 }
 
+/* deprecated */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	void *plugin;
 
-	if (plugin_get_list() == NULL) {
-		do_initialize(ppData);
-	}
+	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
+	sampgdk_init_plugin(plugin, ppData);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init(void **ppData) {
+	void *plugin;
 
 	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
+	sampgdk_init_plugin(plugin, ppData);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData) {
+	if (plugin_get_list() == NULL) {
+		do_init(ppData);
+	}
 	plugin_register(plugin);
 }
 
+/* deprecated */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 	void *plugin;
 
 	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
-	plugin_unregister(plugin);
+	sampgdk_cleanup_plugin(plugin);
+}
 
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_cleanup() {
+	void *plugin;
+
+	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
+	sampgdk_cleanup_plugin(plugin);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
 	if (plugin_get_list() == NULL) {
-		do_finalize();
+		do_cleanup();
 	}
+	plugin_unregister(plugin);
 }
 
 SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data() {

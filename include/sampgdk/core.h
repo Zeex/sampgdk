@@ -23,9 +23,15 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-/* These should be called only once, e.g. in Load() and Unload() respectively. */
+/* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData);
+/* Deprecated. Use sampgdk_exit() or sampgdk_exit_plugin() instead. */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize();
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init(void **ppData);
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData);
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_cleanup();
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin);
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin);
@@ -34,6 +40,7 @@ SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data();
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol);
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name);
 
+/* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
 #define sampgdk_initialize_plugin sampgdk_initialize
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers();
@@ -57,8 +64,8 @@ public:
 	void *GetHandle() { return handle_; }
 	void SetHandle(void *handle) { handle_ = handle; }
 
-	void Load(void **ppData) { ::sampgdk_initialize(ppData); }
-	void Unload() { ::sampgdk_finalize(); }
+	void Load(void **ppData) { ::sampgdk_init_plugin(handle_, ppData); }
+	void Unload() { ::sampgdk_cleanup_plugin(handle_); }
 
 	void Register() { ::sampgdk_register_plugin(handle_); }
 	void Unregister() { ::sampgdk_unregister_plugin(handle_); }
