@@ -9,7 +9,7 @@
 static ThisPlugin helloworld;
 
 void SAMPGDK_CALL Timer(int timerid, void *param) {
-	Log::Printf("timer!");
+	ServerLog::Printf("timer!");
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
@@ -17,9 +17,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 
 	AddPlayerClass(0, 1958.3783f, 1343.1572f, 15.3746f, 269.1425f, 0, 0, 0, 0, 0, 0);
 
-	Log::Printf("------------------------------------------\n");
-	Log::Printf("      HelloWorld gamemode got loaded.     \n");
-	Log::Printf("------------------------------------------\n");
+	ServerLog::Printf("------------------------------------------\n");
+	ServerLog::Printf("      HelloWorld gamemode got loaded.     \n");
+	ServerLog::Printf("------------------------------------------\n");
 
 	SetTimer(1000, true, Timer, 0);
 

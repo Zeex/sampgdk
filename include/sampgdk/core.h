@@ -72,7 +72,7 @@ private:
 	void *handle_;
 };
 
-class Log {
+class ServerLog {
 public:
 	static void Printf(const char *format, ...) {
 		va_list args;
