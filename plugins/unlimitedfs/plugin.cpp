@@ -7,35 +7,35 @@
 	#include <dlfcn.h>
 #endif
 
-Plugin::Plugin()
+Plugin_::Plugin_()
 	: loaded_(false)
 {
 }
 
-Plugin::Plugin(const std::string &filename)
+Plugin_::Plugin_(const std::string &filename)
 	: loaded_(false)
 	, filename_(filename)
 {
 }
 
-Plugin::Plugin(const std::string &filename, void **ppData)
+Plugin_::Plugin_(const std::string &filename, void **ppData)
 	: loaded_(false)
 {
 	Load(filename_, ppData);
 }
 
-Plugin::~Plugin() {
+Plugin_::~Plugin_() {
 	Unload();
 }
 
-PluginError Plugin::Load(void **ppData) {
+PluginError Plugin_::Load(void **ppData) {
 	if (!filename_.empty()) {
 		return Load(filename_, ppData);
 	}
 	return PLUGIN_ERROR_LOAD;
 }
 
-PluginError Plugin::Load(const std::string &filename, void **ppData) {
+PluginError Plugin_::Load(const std::string &filename, void **ppData) {
 	if (!loaded_) {
 		#ifdef _WIN32
 			handle_ = (void*)LoadLibrary(filename.c_str());
@@ -85,7 +85,7 @@ PluginError Plugin::Load(const std::string &filename, void **ppData) {
 	return PLUGIN_ERROR_LOAD;
 }
 
-void Plugin::Unload() {
+void Plugin_::Unload() {
 	if (loaded_) {
 		Unload_t Unload = (Unload_t)GetSymbol("Unload");
 		if (Unload != 0) {
@@ -99,7 +99,7 @@ void Plugin::Unload() {
 	}
 }
 
-void *Plugin::GetSymbol(const std::string &name) const {
+void *Plugin_::GetSymbol(const std::string &name) const {
 	#ifdef _WIN32
 		return (void*)GetProcAddress((HMODULE)handle_, name.c_str());
 	#else
@@ -107,21 +107,21 @@ void *Plugin::GetSymbol(const std::string &name) const {
 	#endif
 }
 
-int Plugin::AmxLoad(AMX *amx) const {
+int Plugin_::AmxLoad(AMX *amx) const {
 	if (AmxLoad_ != 0) {
 		return AmxLoad_(amx);
 	}
 	return AMX_ERR_NONE;
 }
 
-int Plugin::AmxUnload(AMX *amx) const {
+int Plugin_::AmxUnload(AMX *amx) const {
 	if (AmxUnload_ != 0) {
 		return AmxUnload_(amx);
 	}
 	return AMX_ERR_NONE;
 }
 
-void Plugin::ProcessTick() const {
+void Plugin_::ProcessTick() const {
 	if (ProcessTick_ != 0) {
 		ProcessTick_();
 	}
