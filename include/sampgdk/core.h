@@ -47,4 +47,30 @@ SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
 typedef void (*sampgdk_vlogprintf_t)(const char *format, va_list args);
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
+#ifdef __cplusplus
+
+class SampPlugin {
+public:
+	SampPlugin() : handle_(::sampgdk_get_plugin_handle(this)) {}
+
+	void Load(void **ppData) { ::sampgdk_initialize(ppData); }
+	void Unload() { ::sampgdk_finalize(); }
+
+	void Register() { ::sampgdk_register_plugin(handle_); }
+	void Unregister() { ::sampgdk_unregister_plugin(handle_); }
+
+	void *GetHandle() { return handle_; }
+
+	void *GetSymbol(const char *name) {
+		return ::sampgdk_get_plugin_symbol(handle_, name);
+	}
+
+	void ProcessTimers() { ::sampgdk_process_plugin_timers(handle_); }
+
+private:
+	void *handle_;
+};
+
+#endif /* __cplusplus */
+
 #endif /* !SAMPGDK_CORE_H */

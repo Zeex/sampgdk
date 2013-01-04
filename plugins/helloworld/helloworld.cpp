@@ -8,6 +8,8 @@
 
 #define logprintf sampgdk_logprintf
 
+static SampPlugin helloworld;
+
 void SAMPGDK_CALL Timer(int timerid, void *param) {
 	logprintf("timer!");
 };
@@ -62,15 +64,15 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 	return SUPPORTS_VERSION | SUPPORTS_PROCESS_TICK;
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppPluginData) {
-	sampgdk_initialize(ppPluginData);
+PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
+	helloworld.Load(ppData);
 	return true;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-	sampgdk_finalize();
+	helloworld.Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
-	sampgdk_process_timers();
+	helloworld.ProcessTimers();
 }
