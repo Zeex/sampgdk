@@ -16,6 +16,7 @@
 #ifndef SAMPGDK_CORE_H
 #define SAMPGDK_CORE_H
 
+#include <assert.h>
 #include <stdarg.h>
 
 #include <sampgdk/amx.h>
@@ -48,6 +49,21 @@ typedef void (*sampgdk_vlogprintf_t)(const char *format, va_list args);
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
 #ifdef __cplusplus
+
+class Log {
+public:
+	static void Printf(const char *format, ...) {
+		va_list args;
+		va_start(args, format);
+		VPrintf(format, args);
+		va_end(args);
+	}
+
+	static void VPrintf(const char *format, va_list args) {
+		assert(::sampgdk_vlogprintf != 0 && "sampgdk has not been initialized");
+		::sampgdk_vlogprintf(format, args);
+	}
+};
 
 class SampPlugin {
 public:
