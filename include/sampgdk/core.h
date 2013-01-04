@@ -50,11 +50,12 @@ SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
 #ifdef __cplusplus
 
-class ThisPlugin {
+class Plugin {
 public:
-	ThisPlugin() : handle_(::sampgdk_get_plugin_handle(this)) {}
+	Plugin(void *handle) : handle_(handle) {}
 
 	void *GetHandle() { return handle_; }
+	void SetHandle(void *handle) { handle_ = handle; }
 
 	void Load(void **ppData) { ::sampgdk_initialize(ppData); }
 	void Unload() { ::sampgdk_finalize(); }
@@ -70,6 +71,11 @@ public:
 
 private:
 	void *handle_;
+};
+
+class ThisPlugin : public Plugin {
+public:
+	ThisPlugin() : Plugin(::sampgdk_get_plugin_handle(this)) {}
 };
 
 class ServerLog {
