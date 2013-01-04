@@ -11,7 +11,7 @@ enum PluginError {
 	PLUGIN_ERROR_API
 };
 
-class Plugin_ {
+class Plugin {
 public:
 	typedef unsigned int (PLUGIN_CALL *Supports_t)();
 	typedef bool (PLUGIN_CALL *Load_t)(void **ppData);
@@ -20,10 +20,10 @@ public:
 	typedef int (PLUGIN_CALL *AmxUnload_t)(AMX *amx);
 	typedef void (PLUGIN_CALL *ProcessTick_t)();
 
-	Plugin_();
-	explicit Plugin_(const std::string &filename);
-	Plugin_(const std::string &filename, void **ppData);
-	~Plugin_();
+	Plugin();
+	explicit Plugin(const std::string &filename);
+	Plugin(const std::string &filename, void **ppData);
+	~Plugin();
 
 	PluginError Load(void **ppData);
 	PluginError Load(const std::string &filename, void **ppData);
@@ -42,8 +42,8 @@ public:
 
 private:
 	// Disable copying
-	Plugin_(const Plugin_ &other);
-	Plugin_ &operator=(const Plugin_ &other);
+	Plugin(const Plugin &other);
+	Plugin &operator=(const Plugin &other);
 
 	std::string filename_;
 	void *handle_;

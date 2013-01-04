@@ -27,7 +27,7 @@
 
 static void **ppPluginData;
 
-static std::list<Plugin_*> plugins;
+static std::list<Plugin*> plugins;
 static std::list<FilterScript*> filterscripts;
 
 static bool loading = false;
@@ -681,7 +681,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 			continue;
 		}
 		logprintf(" Loading plugin: %s", plugin_name.c_str());
-		Plugin_ *plugin = new Plugin_(*iterator);
+		Plugin *plugin = new Plugin(*iterator);
 		if (plugin != 0) {
 			PluginError error = plugin->Load(ppPluginData);
 			if (plugin->IsLoaded()) {
@@ -722,7 +722,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 			if (fs->IsLoaded()) {
 				filterscripts.push_back(fs);
 				my_amx_Register(fs->amx(), sampgdk_get_natives(), -1);
-				for (std::list<Plugin_*>::iterator iterator = plugins.begin();
+				for (std::list<Plugin*>::iterator iterator = plugins.begin();
 						iterator != plugins.end(); ++iterator) {
 					(*iterator)->AmxLoad(fs->amx());
 				}
@@ -736,7 +736,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 		}
 	}
 
-	for (std::list<Plugin_*>::iterator iterator = plugins.begin();
+	for (std::list<Plugin*>::iterator iterator = plugins.begin();
 			iterator != plugins.end(); ++iterator) {
 		(*iterator)->AmxLoad(amx);
 	}
@@ -746,7 +746,7 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
-	for (std::list<Plugin_*>::iterator iterator = plugins.begin();
+	for (std::list<Plugin*>::iterator iterator = plugins.begin();
 			iterator != plugins.end(); ++iterator) {
 		(*iterator)->AmxUnload(amx);
 	}
@@ -759,7 +759,7 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload() {
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
 	sampgdk_process_timers();
-	for (std::list<Plugin_*>::iterator iterator = plugins.begin();
+	for (std::list<Plugin*>::iterator iterator = plugins.begin();
 			iterator != plugins.end(); ++iterator) {
 		(*iterator)->ProcessTick();
 	}
