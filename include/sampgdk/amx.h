@@ -51,7 +51,7 @@
 #elif defined __clang__
 	#pragma clang push
 	#pragma clang diagnostic ignored "-Wignored-attributes"
-#elif defined __GNUC__ && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+#elif defined __GNUC__
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wattributes"
 #endif
@@ -62,7 +62,7 @@
 	/* ... */
 #elif defined __clang_
 	#pragma clang pop
-#elif defined __GNUC__ && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+#elif defined __GNUC__
 	#pragma GCC pop
 #endif
 
