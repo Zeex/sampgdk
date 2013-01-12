@@ -119,7 +119,13 @@ set(PYTHONPATH
 	"${CMAKE_SOURCE_DIR}/python/ply-3.4.zip"
 )
 
-macro(add_header_gen idl_file header_file)
+function(add_header_gen idl_file header_file)
+	if(NOT IS_ABSOLUTE "${idl_file}")
+		set(idl_file "${CMAKE_CURRENT_SOURCE_DIR}/${idl_file}")
+	endif()
+	if(NOT IS_ABSOLUTE "${header_file}")
+		set(header_file "${CMAKE_CURRENT_SOURCE_DIR}/${header_file}")
+	endif()
 	add_custom_command(
 		OUTPUT
 			${header_file}
@@ -135,12 +141,24 @@ macro(add_header_gen idl_file header_file)
 		WORKING_DIRECTORY
 			"${CMAKE_SOURCE_DIR}/src"
 	)
-endmacro()
+endfunction()
 
-add_header_gen("${CMAKE_SOURCE_DIR}/src/a_objects.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_objects.h")
-add_header_gen("${CMAKE_SOURCE_DIR}/src/a_players.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_players.h")
-add_header_gen("${CMAKE_SOURCE_DIR}/src/a_samp.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_samp.h")
-add_header_gen("${CMAKE_SOURCE_DIR}/src/a_vehicles.idl" "${CMAKE_SOURCE_DIR}/include/sampgdk/generated/a_vehicles.h")
+add_header_gen(
+	"src/a_objects.idl"
+	"include/sampgdk/generated/a_objects.h"
+)
+add_header_gen(
+	"src/a_players.idl"
+	"include/sampgdk/generated/a_players.h"
+)
+add_header_gen(
+	"src/a_samp.idl"
+	"include/sampgdk/generated/a_samp.h"
+)
+add_header_gen(
+	"src/a_vehicles.idl"
+	"include/sampgdk/generated/a_vehicles.h"
+)
 
 list(APPEND SAMPGDK_HEADER_FILES
 	"include/sampgdk/generated/a_objects.h"
@@ -149,7 +167,13 @@ list(APPEND SAMPGDK_HEADER_FILES
 	"include/sampgdk/generated/a_vehicles.h"
 )
 
-macro(add_source_gen idl_file source_file)
+function(add_source_gen idl_file source_file)
+	if(NOT IS_ABSOLUTE "${idl_file}")
+		set(idl_file "${CMAKE_CURRENT_SOURCE_DIR}/${idl_file}")
+	endif()
+	if(NOT IS_ABSOLUTE "${source_file}")
+		set(source_file "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
+	endif()
 	add_custom_command(
 		OUTPUT
 			${source_file}
@@ -165,12 +189,24 @@ macro(add_source_gen idl_file source_file)
 		WORKING_DIRECTORY
 			"${CMAKE_SOURCE_DIR}/src"
 	)
-endmacro()
+endfunction()
 
-add_source_gen("${CMAKE_SOURCE_DIR}/src/a_objects.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_objects.c")
-add_source_gen("${CMAKE_SOURCE_DIR}/src/a_players.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_players.c")
-add_source_gen("${CMAKE_SOURCE_DIR}/src/a_samp.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_samp.c")
-add_source_gen("${CMAKE_SOURCE_DIR}/src/a_vehicles.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.c")
+add_source_gen(
+	"src/a_objects.idl"
+	"src/generated/a_objects.c"
+)
+add_source_gen(
+	"src/a_players.idl"
+	"src/generated/a_players.c"
+)
+add_source_gen(
+	"src/a_samp.idl"
+	"src/generated/a_samp.c"
+)
+add_source_gen(
+	"src/a_vehicles.idl"
+	"src/generated/a_vehicles.c"
+)
 
 list(APPEND SAMPGDK_GENERATED_SOURCES
 	"src/generated/a_objects.c"
@@ -182,7 +218,13 @@ list(APPEND SAMPGDK_GENERATED_SOURCES
 set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)
 list(APPEND SAMPGDK_SOURCE_FILES ${SAMPGDK_GENERATED_SOURCES})
 
-macro(add_exports_gen idl_file exports_file)
+function(add_exports_gen idl_file exports_file)
+	if(NOT IS_ABSOLUTE "${idl_file}")
+		set(idl_file "${CMAKE_CURRENT_SOURCE_DIR}/${idl_file}")
+	endif()
+	if(NOT IS_ABSOLUTE "${exports_file}")
+		set(exports_file "${CMAKE_CURRENT_SOURCE_DIR}/${exports_file}")
+	endif()
 	add_custom_command(
 		OUTPUT
 			${exports_file}
@@ -198,12 +240,24 @@ macro(add_exports_gen idl_file exports_file)
 		WORKING_DIRECTORY
 			"${CMAKE_SOURCE_DIR}/src"
 	)
-endmacro()
+endfunction()
 
-add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_objects.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_objects.exports")
-add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_players.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_players.exports")
-add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_samp.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_samp.exports")
-add_exports_gen("${CMAKE_SOURCE_DIR}/src/a_vehicles.idl" "${CMAKE_SOURCE_DIR}/src/generated/a_vehicles.exports")
+add_exports_gen(
+	"src/a_objects.idl"
+	"src/generated/a_objects.exports"
+)
+add_exports_gen(
+	"src/a_players.idl"
+	"src/generated/a_players.exports"
+)
+add_exports_gen(
+	"src/a_samp.idl"
+	"src/generated/a_samp.exports"
+)
+add_exports_gen(
+	"src/a_vehicles.idl"
+	"src/generated/a_vehicles.exports"
+)
 
 list(APPEND SAMPGDK_EXPORTS_FILES
 	"src/generated/a_objects.exports"
@@ -240,6 +294,23 @@ elseif(UNIX)
 	)
 endif()
 
+add_custom_command(
+	OUTPUT 
+		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h"
+	COMMAND
+		${CMAKE_COMMAND}
+			"-DVERSION_MAJOR=${SAMPGDK_VERSION_MAJOR}"
+			"-DVERSION_MINOR=${SAMPGDK_VERSION_MINOR}"
+			"-DVERSION_PATCH=${SAMPGDK_VERSION_PATCH}"
+			"-DVERSION_TWEAK=${SAMPGDK_VERSION_TWEAK}"
+			"-DVERSION_STRING=${SAMPGDK_VERSION_STRING}"
+		"-P" "${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.cmake"
+	DEPENDS
+		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.in"
+	WORKING_DIRECTORY
+		"${CMAKE_SOURCE_DIR}/include/sampgdk"
+)
+
 macro(directory_source_group path)
 	string(REGEX REPLACE "/" "\\\\" win_path ${path})
 	source_group(${win_path} REGULAR_EXPRESSION "${path}/[^/\\]+\\..*")
@@ -256,23 +327,6 @@ directory_source_group("include/sampgdk/sdk/amx")
 
 add_library(sampgdk SHARED ${SAMPGDK_HEADER_FILES} ${SAMPGDK_SOURCE_FILES})
 
-set_target_properties(sampgdk PROPERTIES DEBUG_POSTFIX "_d")
-
-add_custom_command(
-	OUTPUT 
-		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h"
-	COMMAND
-		${CMAKE_COMMAND}
-			"-DVERSION_MAJOR=${SAMPGDK_VERSION_MAJOR}"
-			"-DVERSION_MINOR=${SAMPGDK_VERSION_MINOR}"
-			"-DVERSION_PATCH=${SAMPGDK_VERSION_PATCH}"
-			"-DVERSION_TWEAK=${SAMPGDK_VERSION_TWEAK}"
-			"-DVERSION_STRING=${SAMPGDK_VERSION_STRING}"
-		"-P" "${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.cmake"
-	DEPENDS
-		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h.in"
-	WORKING_DIRECTORY
-		"${CMAKE_SOURCE_DIR}/include/sampgdk"
 )
 
 if(WIN32)
