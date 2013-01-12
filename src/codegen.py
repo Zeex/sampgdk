@@ -298,7 +298,7 @@ def main(argv):
 		def ensure_path_ok(filename):
 			directory = os.path.dirname(filename)
 			if not os.path.exists(directory):
-				os.mkdir(directory)
+				os.makedirs(directory)
 
 		header = None
 		if args.header is not None:
