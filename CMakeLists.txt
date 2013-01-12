@@ -108,6 +108,19 @@ else()
 	message(FATAL_ERROR "Unsupported operating system")
 endif()
 
+macro(directory_source_group path)
+	string(REGEX REPLACE "/" "\\\\" win_path ${path})
+	source_group(${win_path} REGULAR_EXPRESSION "${path}/[^/\\]+\\..*")
+endmacro()
+
+directory_source_group("src")
+directory_source_group("src/generated")
+directory_source_group("src/sdk")
+directory_source_group("include/sampgdk")
+directory_source_group("include/sampgdk/generated")
+directory_source_group("include/sampgdk/sdk")
+directory_source_group("include/sampgdk/sdk/amx")
+
 find_package(PythonInterp 2.7 REQUIRED)
 
 set(PYTHONPATH
@@ -270,20 +283,6 @@ add_custom_command(
 	WORKING_DIRECTORY
 		"${CMAKE_SOURCE_DIR}/include/sampgdk"
 )
-
-macro(directory_source_group path)
-	string(REGEX REPLACE "/" "\\\\" win_path ${path})
-	source_group(${win_path} REGULAR_EXPRESSION "${path}/[^/\\]+\\..*")
-endmacro()
-
-directory_source_group("src")
-directory_source_group("src/generated")
-directory_source_group("src/sdk")
-directory_source_group("src/support")
-directory_source_group("include/sampgdk")
-directory_source_group("include/sampgdk/generated")
-directory_source_group("include/sampgdk/sdk")
-directory_source_group("include/sampgdk/sdk/amx")
 
 add_library(sampgdk SHARED ${SAMPGDK_HEADER_FILES} ${SAMPGDK_SOURCE_FILES})
 
