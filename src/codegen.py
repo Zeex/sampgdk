@@ -97,7 +97,7 @@ def gen_constants(idl, header):
 
 def gen_natives(idl, header, source, api):
 	natives = filter(lambda x: x.has_attr('native'), idl.functions)
-	natives_with_source = filter(lambda x: x.get_attr('native').value != 'special', natives)
+	natives_with_impl = filter(lambda x: not x.has_attr('noimpl'), natives)
 
 	if header is not None:
 		header.write('#ifndef SAMPGDK_NATIVE_EXPORT\n')
@@ -123,7 +123,7 @@ def gen_natives(idl, header, source, api):
 		header.write('\n')
 
 	if source is not None:
-		for f in natives_with_source:
+		for f in natives_with_impl:
 			source.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' % (f.type, EXPORT_PREFIX, f.name, params_to_string(f.params)))
 			source.write('\tstatic AMX_NATIVE native;\n')
 			source.write('\tstruct fakeamx *fa;\n')
