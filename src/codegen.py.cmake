@@ -22,8 +22,8 @@ endif()
 if(CODEGEN_SOURCE_FILE)
 	list(APPEND ARGS "--source=${CODEGEN_SOURCE_FILE}")
 endif()
-if(CODEGEN_EXPORTS_FILE)
-	list(APPEND ARGS "--exports=${CODEGEN_EXPORTS_FILE}")
+if(CODEGEN_API_FILE)
+	list(APPEND ARGS "--api=${CODEGEN_API_FILE}")
 endif()
 
 execute_process(COMMAND ${PYTHON} "${CMAKE_SOURCE_DIR}/codegen.py" "--all" ${ARGS}

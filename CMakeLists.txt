@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8.8)
-
 project(sampgdk)
 
 set(SAMPGDK_VERSION_MAJOR "3")
@@ -78,9 +77,10 @@ list(APPEND SAMPGDK_SOURCE_FILES
 	"src/version.c"
 )
 
-list(APPEND SAMPGDK_EXPORTS_FILES
-	"src/core.exports"
-	"src/version.exports"
+list(APPEND SAMPGDK_API_FILES
+	"src/sdk/amxplugin.api"
+	"src/core.api"
+	"src/version.api"
 )
 
 if(MSVC)
@@ -143,22 +143,10 @@ function(add_header_gen idl_file header_file)
 	)
 endfunction()
 
-add_header_gen(
-	"src/a_objects.idl"
-	"include/sampgdk/generated/a_objects.h"
-)
-add_header_gen(
-	"src/a_players.idl"
-	"include/sampgdk/generated/a_players.h"
-)
-add_header_gen(
-	"src/a_samp.idl"
-	"include/sampgdk/generated/a_samp.h"
-)
-add_header_gen(
-	"src/a_vehicles.idl"
-	"include/sampgdk/generated/a_vehicles.h"
-)
+add_header_gen("src/a_objects.idl"  "include/sampgdk/generated/a_objects.h")
+add_header_gen("src/a_players.idl"  "include/sampgdk/generated/a_players.h")
+add_header_gen("src/a_samp.idl"     "include/sampgdk/generated/a_samp.h")
+add_header_gen("src/a_vehicles.idl" "include/sampgdk/generated/a_vehicles.h")
 
 list(APPEND SAMPGDK_HEADER_FILES
 	"include/sampgdk/generated/a_objects.h"
@@ -191,22 +179,10 @@ function(add_source_gen idl_file source_file)
 	)
 endfunction()
 
-add_source_gen(
-	"src/a_objects.idl"
-	"src/generated/a_objects.c"
-)
-add_source_gen(
-	"src/a_players.idl"
-	"src/generated/a_players.c"
-)
-add_source_gen(
-	"src/a_samp.idl"
-	"src/generated/a_samp.c"
-)
-add_source_gen(
-	"src/a_vehicles.idl"
-	"src/generated/a_vehicles.c"
-)
+add_source_gen("src/a_objects.idl"  "src/generated/a_objects.c")
+add_source_gen("src/a_players.idl"  "src/generated/a_players.c")
+add_source_gen("src/a_samp.idl"     "src/generated/a_samp.c")
+add_source_gen("src/a_vehicles.idl" "src/generated/a_vehicles.c")
 
 list(APPEND SAMPGDK_GENERATED_SOURCES
 	"src/generated/a_objects.c"
@@ -218,22 +194,22 @@ list(APPEND SAMPGDK_GENERATED_SOURCES
 set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)
 list(APPEND SAMPGDK_SOURCE_FILES ${SAMPGDK_GENERATED_SOURCES})
 
-function(add_exports_gen idl_file exports_file)
+function(add_api_gen idl_file api_file)
 	if(NOT IS_ABSOLUTE "${idl_file}")
 		set(idl_file "${CMAKE_CURRENT_SOURCE_DIR}/${idl_file}")
 	endif()
-	if(NOT IS_ABSOLUTE "${exports_file}")
-		set(exports_file "${CMAKE_CURRENT_SOURCE_DIR}/${exports_file}")
+	if(NOT IS_ABSOLUTE "${api_file}")
+		set(api_file "${CMAKE_CURRENT_SOURCE_DIR}/${api_file}")
 	endif()
 	add_custom_command(
 		OUTPUT
-			${exports_file}
+			${api_file}
 		COMMAND
 			${CMAKE_COMMAND}
 				"-DPYTHON=${PYTHON_EXECUTABLE}"
 				"-DPYTHONPATH=\"${PYTHONPATH}\""
 				"-DCODEGEN_IDL_FILE=${idl_file}"
-				"-DCODEGEN_EXPORTS_FILE=${exports_file}"
+				"-DCODEGEN_API_FILE=${api_file}"
 			"-P" "${CMAKE_SOURCE_DIR}/src/codegen.py.cmake"
 		DEPENDS
 			${idl_file} "src/codegen.py"
@@ -242,31 +218,19 @@ function(add_exports_gen idl_file exports_file)
 	)
 endfunction()
 
-add_exports_gen(
-	"src/a_objects.idl"
-	"src/generated/a_objects.exports"
-)
-add_exports_gen(
-	"src/a_players.idl"
-	"src/generated/a_players.exports"
-)
-add_exports_gen(
-	"src/a_samp.idl"
-	"src/generated/a_samp.exports"
-)
-add_exports_gen(
-	"src/a_vehicles.idl"
-	"src/generated/a_vehicles.exports"
+add_api_gen("src/a_objects.idl"  "src/generated/a_objects.api")
+add_api_gen("src/a_players.idl"  "src/generated/a_players.api")
+add_api_gen("src/a_samp.idl"     "src/generated/a_samp.api")
+add_api_gen("src/a_vehicles.idl" "src/generated/a_vehicles.api")
+
+list(APPEND SAMPGDK_API_FILES
+	"src/generated/a_objects.api"
+	"src/generated/a_players.api"
+	"src/generated/a_samp.api"
+	"src/generated/a_vehicles.api"
 )
 
-list(APPEND SAMPGDK_EXPORTS_FILES
-	"src/generated/a_objects.exports"
-	"src/generated/a_players.exports"
-	"src/generated/a_samp.exports"
-	"src/generated/a_vehicles.exports"
-)
-
-list(APPEND SAMPGDK_SOURCE_FILES ${SAMPGDK_EXPORTS_FILES})
+list(APPEND SAMPGDK_SOURCE_FILES ${SAMPGDK_API_FILES})
 
 if(WIN32)
 	add_custom_command(
@@ -276,7 +240,7 @@ if(WIN32)
 			${CMAKE_COMMAND}
 			"-P" "${CMAKE_SOURCE_DIR}/src/sampgdk.def.cmake"
 		DEPENDS
-			${SAMPGDK_EXPORTS_FILES}
+			${SAMPGDK_API_FILES}
 		WORKING_DIRECTORY
 			"${CMAKE_SOURCE_DIR}/src"
 	)
@@ -288,14 +252,14 @@ elseif(UNIX)
 			${CMAKE_COMMAND}
 			"-P" "${CMAKE_SOURCE_DIR}/src/sampgdk.sym.cmake"
 		DEPENDS
-			${SAMPGDK_EXPORTS_FILES}
+			${SAMPGDK_API_FILES}
 		WORKING_DIRECTORY
 			"${CMAKE_SOURCE_DIR}/src"
 	)
 endif()
 
 add_custom_command(
-	OUTPUT 
+	OUTPUT
 		"${CMAKE_SOURCE_DIR}/include/sampgdk/version.h"
 	COMMAND
 		${CMAKE_COMMAND}
