@@ -327,6 +327,9 @@ directory_source_group("include/sampgdk/sdk/amx")
 
 add_library(sampgdk SHARED ${SAMPGDK_HEADER_FILES} ${SAMPGDK_SOURCE_FILES})
 
+set_target_properties(sampgdk PROPERTIES
+	DEBUG_POSTFIX "_d"
+	DEFINE_SYMBOL "IN_SAMPGDK"
 )
 
 if(WIN32)
@@ -339,8 +342,6 @@ elseif(UNIX)
 		SOVERSION "${SAMPGDK_VERSION_MAJOR}"
 	)
 endif()
-
-add_target_definitions(sampgdk "IN_SAMPGDK")
 
 if(WIN32)
 	if(MSVC)
