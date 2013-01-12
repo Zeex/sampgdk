@@ -146,6 +146,9 @@ const int MAX_PLAYER_ATTACHED_OBJECTS = 10;
 [native] bool PlayerTextDrawShow([in] int playerid, [in] int text);
 [native] bool PlayerTextDrawHide([in] int playerid, [in] int text);
 [native] bool PlayerTextDrawSetString([in] int playerid, [in] int text, [in] string string);
+[native] bool PlayerTextDrawSetPreviewModel([in] int playerid, [in] int text, [in] int modelindex);
+[native] bool PlayerTextDrawSetPreviewRot([in] int playerid, [in] int text, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fZoom);
+[native] bool PlayerTextDrawSetPreviewVehCol([in] int playerid, [in] int text, [in] int color1, [in] int color2);
 
 const int PLAYER_VARTYPE_NONE   = 0;
 const int PLAYER_VARTYPE_INT    = 1;
