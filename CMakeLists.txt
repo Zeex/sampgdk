@@ -47,6 +47,10 @@ list(APPEND SAMPGDK_HEADER_FILES
 
 list(APPEND SAMPGDK_SOURCE_FILES
 	"src/sdk/amxplugin.c"
+	"src/a_objects.c"
+	"src/a_players.c"
+	"src/a_samp.c"
+	"src/a_vehicles.c"
 	"src/amx-stack.c"
 	"src/amx-stack.h"
 	"src/array.c"
@@ -54,6 +58,7 @@ list(APPEND SAMPGDK_SOURCE_FILES
 	"src/asm.h"
 	"src/callback.c"
 	"src/callback.h"
+	"src/core.c"
 	"src/fakeamx.c"
 	"src/fakeamx.h"
 	"src/likely.h"
@@ -69,11 +74,6 @@ list(APPEND SAMPGDK_SOURCE_FILES
 	"src/server-cfg.h"
 	"src/timer.c"
 	"src/timer.h"
-	"src/a_objects.c"
-	"src/a_players.c"
-	"src/a_samp.c"
-	"src/a_vehicles.c"
-	"src/core.c"
 	"src/version.c"
 )
 
