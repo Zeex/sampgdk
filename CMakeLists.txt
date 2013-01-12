@@ -12,10 +12,6 @@ list(APPEND CMAKE_MODULE_PATH
 	"${CMAKE_SOURCE_DIR}/cmake/Modules"
 )
 
-if(CMAKE_SOURCE_DIR STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
-	include("cmake/BuildConfig.cmake")
-endif()
-
 include(AddTargetCompileFlags)
 include(AddTargetDefinitions)
 include(AddTargetIncludeDirs)
