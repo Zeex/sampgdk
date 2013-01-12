@@ -316,26 +316,13 @@ elseif(UNIX)
 	add_target_definitions(sampgdk "ASM_PREFIX=")
 endif()
 
-if(UNIX)
+if(UNIX AND NOT WIN32)
 	if(CMAKE_COMPILER_IS_GNUCC)
 		add_target_link_flags(sampgdk
 			"-Wl,--no-undefined"
 			"-Wl,--retain-symbols-file=${CMAKE_SOURCE_DIR}/src/sampgdk.sym"
 		)
-	endif()
-
-	find_library(LIBRT_PATH NAMES "rt")
-	if(LIBRT_PATH)
-		target_link_libraries(sampgdk ${LIBRT_PATH})
-	else()
-		message(WARNING "Could not find librt")
-	endif()
-
-	find_library(LIBDL_PATH NAMES "dl")
-	if(LIBDL_PATH)
-		target_link_libraries(sampgdk ${LIBDL_PATH})
-	else()
-		message(WARNING "Could not find libdl")
+		target_link_libraries(sampgdk "dl" "rt")
 	endif()
 endif()
 
