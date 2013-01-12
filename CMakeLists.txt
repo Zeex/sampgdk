@@ -133,12 +133,8 @@ set(PYTHONPATH
 )
 
 function(add_header_gen idl_file header_file)
-	if(NOT IS_ABSOLUTE "${idl_file}")
-		set(idl_file "${CMAKE_CURRENT_SOURCE_DIR}/${idl_file}")
-	endif()
-	if(NOT IS_ABSOLUTE "${header_file}")
-		set(header_file "${CMAKE_CURRENT_SOURCE_DIR}/${header_file}")
-	endif()
+	get_filename_component(idl_file ${idl_file} ABSOLUTE)
+	get_filename_component(header_file ${header_file} ABSOLUTE)
 	add_custom_command(
 		OUTPUT
 			${header_file}
@@ -169,12 +165,8 @@ list(APPEND SAMPGDK_HEADER_FILES
 )
 
 function(add_source_gen idl_file source_file)
-	if(NOT IS_ABSOLUTE "${idl_file}")
-		set(idl_file "${CMAKE_CURRENT_SOURCE_DIR}/${idl_file}")
-	endif()
-	if(NOT IS_ABSOLUTE "${source_file}")
-		set(source_file "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
-	endif()
+	get_filename_component(idl_file ${idl_file} ABSOLUTE)
+	get_filename_component(source_file ${source_file} ABSOLUTE)
 	add_custom_command(
 		OUTPUT
 			${source_file}
@@ -208,12 +200,8 @@ set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_
 list(APPEND SAMPGDK_SOURCE_FILES ${SAMPGDK_GENERATED_SOURCES})
 
 function(add_api_gen idl_file api_file)
-	if(NOT IS_ABSOLUTE "${idl_file}")
-		set(idl_file "${CMAKE_CURRENT_SOURCE_DIR}/${idl_file}")
-	endif()
-	if(NOT IS_ABSOLUTE "${api_file}")
-		set(api_file "${CMAKE_CURRENT_SOURCE_DIR}/${api_file}")
-	endif()
+	get_filename_component(idl_file ${idl_file} ABSOLUTE)
+	get_filename_component(api_file ${api_file} ABSOLUTE)
 	add_custom_command(
 		OUTPUT
 			${api_file}
