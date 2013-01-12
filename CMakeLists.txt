@@ -8,14 +8,19 @@ set(SAMPGDK_VERSION_PATCH "3")
 set(SAMPGDK_VERSION_TWEAK "0")
 set(SAMPGDK_VERSION_STRING "3.1.3")
 
-if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
-	include("cmake/GlobalBuildConfig.cmake")
+list(APPEND CMAKE_MODULE_PATH
+	"${CMAKE_SOURCE_DIR}/cmake"
+	"${CMAKE_SOURCE_DIR}/cmake/Modules"
+)
+
+if(CMAKE_SOURCE_DIR STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
+	include("cmake/BuildConfig.cmake")
 endif()
 
-include("AddTargetCompileFlags")
-include("AddTargetDefinitions")
-include("AddTargetIncludeDirs")
-include("AddTargetLinkFlags")
+include(AddTargetCompileFlags)
+include(AddTargetDefinitions)
+include(AddTargetIncludeDirs)
+include(AddTargetLinkFlags)
 
 add_subdirectory("lib")
 
