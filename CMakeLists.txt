@@ -316,6 +316,10 @@ elseif(UNIX)
 	add_target_definitions(sampgdk "ASM_PREFIX=")
 endif()
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+	add_target_compile_flags(sampgdk "-m32")
+endif()
+
 if(UNIX AND NOT WIN32)
 	if(CMAKE_COMPILER_IS_GNUCC)
 		add_target_link_flags(sampgdk
