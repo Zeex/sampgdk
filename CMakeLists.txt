@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8.8)
+
 project(sampgdk)
 
 set(SAMPGDK_VERSION_MAJOR "3")
@@ -12,14 +13,26 @@ list(APPEND CMAKE_MODULE_PATH
 	"${CMAKE_SOURCE_DIR}/cmake/Modules"
 )
 
-if(CMAKE_SOURCE_DIR STREQUAL "${CMAKE_CURRENT_SOURCE_DIR}")
-	include("cmake/BuildConfig.cmake")
-endif()
-
 include(AddTargetCompileFlags)
 include(AddTargetDefinitions)
 include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
+
+if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
+   "${CMAKE_C_COMPILER_ID}" STREQUAL "Intel")
+	set(CMAKE_COMPILER_IS_GNUCC TRUE)
+endif()
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
+   "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
+	set(CMAKE_COMPILER_IS_GNUCXX TRUE)
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCC)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+endif()
+if(CMAKE_COMPILER_IS_GNUCXX)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+endif()
 
 add_subdirectory("lib")
 
