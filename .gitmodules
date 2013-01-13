@@ -1,0 +1,4 @@
+[submodule "python/ply"]
+	path = python/ply
+	url = git://github.com/dabeaz/ply.git
+	ignore = untracked

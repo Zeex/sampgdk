@@ -129,7 +129,7 @@ find_package(PythonInterp 2.7 REQUIRED)
 
 set(PYTHONPATH
 	"${CMAKE_SOURCE_DIR}/cidl"
-	"${CMAKE_SOURCE_DIR}/python/ply-3.4.zip"
+	"${CMAKE_SOURCE_DIR}/python/ply"
 )
 
 function(add_header_gen idl_file header_file)
