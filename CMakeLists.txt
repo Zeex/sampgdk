@@ -18,7 +18,9 @@ include(AddTargetDefinitions)
 include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
 
-set(CMAKE_ASM_NASM_OBJECT_FORMAT "elf32")
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	set(CMAKE_ASM_NASM_OBJECT_FORMAT "elf32")
+endif()
 enable_language(ASM_NASM)
 
 if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
@@ -30,11 +32,13 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
 	set(CMAKE_COMPILER_IS_GNUCXX TRUE)
 endif()
 
-if(CMAKE_COMPILER_IS_GNUCC)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
-endif()
-if(CMAKE_COMPILER_IS_GNUCXX)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	if(CMAKE_COMPILER_IS_GNUCC)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
+	endif()
+	if(CMAKE_COMPILER_IS_GNUCXX)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
+	endif()
 endif()
 
 add_subdirectory("lib")
@@ -321,7 +325,7 @@ if(SAMPGDK_INSTALL)
 	                        ARCHIVE DESTINATION "lib" COMPONENT "dev"
 	                        LIBRARY DESTINATION "lib" COMPONENT "bin")
 	install(DIRECTORY "include" DESTINATION "." COMPONENT "dev"
-	        FILES_MATCHING PATTERN "*.h")
+			FILES_MATCHING PATTERN "*.h")
 
 	set(CPACK_PACKAGE_NAME ${CMAKE_PROJECT_NAME})
 	set(CPACK_PACKAGE_CONTACT "CPack")
