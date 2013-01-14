@@ -1,8 +1,12 @@
+sampgdk_cleanup
+sampgdk_cleanup_plugin
 sampgdk_finalize
 sampgdk_get_natives
 sampgdk_get_plugin_data
 sampgdk_get_plugin_handle
 sampgdk_get_plugin_symbol
+sampgdk_init
+sampgdk_init_plugin
 sampgdk_initialize
 sampgdk_logprintf
 sampgdk_num_natives
@@ -10,3 +14,4 @@ sampgdk_process_plugin_timers
 sampgdk_process_timers
 sampgdk_register_plugin
 sampgdk_unregister_plugin
+sampgdk_vlogprintf
