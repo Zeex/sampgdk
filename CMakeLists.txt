@@ -21,7 +21,11 @@ include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-	set(CMAKE_ASM_NASM_OBJECT_FORMAT "elf32")
+	if(WIN32)
+		set(CMAKE_ASM_NASM_OBJECT_FORMAT "win32")
+	elseif(UNIX)
+		set(CMAKE_ASM_NASM_OBJECT_FORMAT "elf32")
+	endif()
 endif()
 enable_language(ASM_NASM)
 
