@@ -46,5 +46,5 @@ void vlogprintf(const char *format, va_list va) {
 	}
 
 	call_func_cdecl((void*)logprintf, args, nargs);
-	free(args);
+	free((void*)args);
 }
