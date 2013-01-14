@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.8)
-
 project(sampgdk)
+
+option(SAMPGDK_INSTALL "Install library and headers" OFF)
+option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
 
 set(SAMPGDK_VERSION_MAJOR "3")
 set(SAMPGDK_VERSION_MINOR "1")
@@ -41,10 +43,13 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	endif()
 endif()
 
-add_subdirectory("lib")
-
 include_directories("include")
 include_directories("include/sampgdk")
+
+add_subdirectory("lib")
+if(SAMPGDK_BUILD_PLUGINS)
+	add_subdirectory("plugins")
+endif()
 
 list(APPEND SAMPGDK_HEADER_FILES
 	"include/sampgdk/sdk/amx/amx.h"
@@ -319,27 +324,21 @@ endif()
 
 target_link_libraries(sampgdk "subhook")
 
-option(SAMPGDK_INSTALL "Install library and headers" OFF)
 if(SAMPGDK_INSTALL)
+	install(DIRECTORY "include" DESTINATION "." COMPONENT "dev" FILES_MATCHING PATTERN "*.h")
 	install(TARGETS sampgdk RUNTIME DESTINATION "bin" COMPONENT "bin"
 	                        ARCHIVE DESTINATION "lib" COMPONENT "dev"
 	                        LIBRARY DESTINATION "lib" COMPONENT "bin")
-	install(DIRECTORY "include" DESTINATION "." COMPONENT "dev"
-			FILES_MATCHING PATTERN "*.h")
-
 	set(CPACK_PACKAGE_NAME ${CMAKE_PROJECT_NAME})
 	set(CPACK_PACKAGE_CONTACT "CPack")
 	set(CPACK_PACKAGE_VERSION ${SAMPGDK_VERSION_STRING})
 	set(CPACK_PACKAGE_VERSION_MAJOR ${SAMPGDK_VERSION_MAJOR})
 	set(CPACK_PACKAGE_VERSION_MINOR ${SAMPGDK_VERSION_MINOR})
 	set(CPACK_PACKAGE_VERSION_PATCH ${SAMPGDK_VERSION_PATCH})
-
 	if(WIN32)
 		set(CPACK_PACKAGE_INSTALL_DIRECTORY "sampgdk ${SAMPGDK_VERSION_MAJOR}.${SAMPGDK_VERSION_MINOR}")
 	endif()
-
 	set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
-
 	set(CPACK_COMPONENT_BIN_DISPLAY_NAME "Runtime")
 	set(CPACK_COMPONENT_BIN_DESCRIPTION "Runtime library needed to run plugins")
 	set(CPACK_COMPONENT_BIN_INSTALL_TYPES "Full" "Minimal")
@@ -347,14 +346,7 @@ if(SAMPGDK_INSTALL)
 	set(CPACK_COMPONENT_DEV_DESCRIPTION "Import library and C/C++ headers")
 	set(CPACK_COMPONENT_DEV_INSTALL_TYPES "Full")
 	set(CPACK_COMPONENT_DEV_DEPENDS "bin")
-
 	set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
 	set(CPACK_NSIS_MODIFY_PATH ON)
-
 	include(CPack)
-endif()
-
-option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
-if(SAMPGDK_BUILD_PLUGINS)
-	add_subdirectory("plugins")
 endif()
