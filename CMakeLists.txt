@@ -18,6 +18,9 @@ include(AddTargetDefinitions)
 include(AddTargetIncludeDirs)
 include(AddTargetLinkFlags)
 
+set(CMAKE_ASM_NASM_OBJECT_FORMAT "elf32")
+enable_language(ASM_NASM)
+
 if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
    "${CMAKE_C_COMPILER_ID}" STREQUAL "Intel")
 	set(CMAKE_COMPILER_IS_GNUCC TRUE)
@@ -68,7 +71,8 @@ list(APPEND SAMPGDK_SOURCE_FILES
 	"src/amx-stack.h"
 	"src/array.c"
 	"src/array.h"
-	"src/asm.h"
+	"src/call.asm"
+	"src/call.h"
 	"src/callback.c"
 	"src/callback.h"
 	"src/core.c"
@@ -95,18 +99,6 @@ list(APPEND SAMPGDK_API_FILES
 	"src/core.api"
 	"src/version.api"
 )
-
-if(MSVC)
-	list(APPEND SAMPGDK_SOURCE_FILES
-		"src/asm-msvc.c"
-	)
-elseif(CMAKE_COMPILER_IS_GNUCC)
-	list(APPEND SAMPGDK_SOURCE_FILES
-		"src/asm-gcc.c"
-	)
-else()
-	message(FATAL_ERROR "Unsupported compiler")
-endif()
 
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCE_FILES
@@ -307,13 +299,8 @@ elseif(UNIX)
 	)
 endif()
 
-if(WIN32)
-	if(MSVC)
-		add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
-	endif()
-	add_target_definitions(sampgdk "ASM_PREFIX=\"_\"")
-elseif(UNIX)
-	add_target_definitions(sampgdk "ASM_PREFIX=")
+if(MSVC)
+	add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
 endif()
 
 if(UNIX AND NOT WIN32)

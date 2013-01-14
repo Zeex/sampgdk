@@ -13,12 +13,11 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_ASM_H_
-#define SAMPGDK_ASM_H_
+#ifndef SAMPGDK_CALL_H_
+#define SAMPGDK_CALL_H_
 
 void *get_ret_addr(void *frame, int depth);
-
 void *call_func_cdecl(void *func, const void *const *args, int nargs);
 void *call_func_stdcall(void *func, const void *const *args, int nargs);
 
-#endif /* !SAMPGDK_ASM_H_ */
+#endif /* !SAMPGDK_CALL_H_ */

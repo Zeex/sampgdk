@@ -25,7 +25,7 @@
 #include <string.h>
 #include <subhook.h>
 
-#include "asm.h"
+#include "call.h"
 #include "callback.h"
 #include "log.h"
 #include "logprintf.h"

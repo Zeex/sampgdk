@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "asm.h"
+#include "call.h"
 #include "log.h"
 #include "logprintf.h"
 
