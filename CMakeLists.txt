@@ -91,6 +91,8 @@ list(APPEND SAMPGDK_SOURCE_FILES
 	"src/core.c"
 	"src/fakeamx.c"
 	"src/fakeamx.h"
+	"src/hooks.c"
+	"src/hooks.h"
 	"src/likely.h"
 	"src/log.c"
 	"src/log.h"
