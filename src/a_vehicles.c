@@ -16,7 +16,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-#include <sampgdk/generated/a_vehicles.h>
+#include <sampgdk/a_vehicles.h>
 
 #include "amx-stack.h"
 #include "callback.h"
@@ -26,4 +26,4 @@
 
 #define register_callbacks register_callbacks__a_vehicles
 
-#include "generated/a_vehicles.c"
+#include "a_vehicles-impl.c"

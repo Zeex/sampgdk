@@ -16,7 +16,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-#include <sampgdk/generated/a_players.h>
+#include <sampgdk/a_players.h>
 
 #include "amx-stack.h"
 #include "callback.h"
@@ -26,4 +26,4 @@
 
 #define register_callbacks register_callbacks__a_players
 
-#include "generated/a_players.c"
+#include "a_players-impl.c"

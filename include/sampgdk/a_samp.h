@@ -22,7 +22,7 @@
 
 typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
 
-#include <sampgdk/generated/a_samp.h>
+#include <sampgdk/a_samp-decl.h>
 
 #ifdef __cplusplus
 

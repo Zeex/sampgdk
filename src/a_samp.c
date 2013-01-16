@@ -17,7 +17,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-#include <sampgdk/generated/a_samp.h>
+#include <sampgdk/a_samp.h>
 
 #include "amx-stack.h"
 #include "callback.h"
@@ -28,7 +28,7 @@
 
 #define register_callbacks register_callbacks__a_samp
 
-#include "generated/a_samp.c"
+#include "a_samp-impl.c"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback, void *param)) {
 	int timerid;

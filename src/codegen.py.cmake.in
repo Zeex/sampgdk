@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 2.8)
+
+foreach(path @PYTHONPATH@)
+	if(WIN32)
+		set(ENV{PYTHONPATH} "${path};$ENV{PYTHONPATH}")
+	else()
+		set(ENV{PYTHONPATH} "${path}:$ENV{PYTHONPATH}")
+	endif()
+endforeach()
+
+if(CODEGEN_IDL_FILE)
+	list(APPEND ARGS "--idl=${CODEGEN_IDL_FILE}")
+endif()
+if(CODEGEN_HDR_FILE)
+	list(APPEND ARGS "--hdr=${CODEGEN_HDR_FILE}")
+endif()
+if(CODEGEN_SRC_FILE)
+	list(APPEND ARGS "--src=${CODEGEN_SRC_FILE}")
+endif()
+if(CODEGEN_API_FILE)
+	list(APPEND ARGS "--api=${CODEGEN_API_FILE}")
+endif()
+
+execute_process(COMMAND @PYTHON_EXECUTABLE@ "@CMAKE_CURRENT_SOURCE_DIR@/codegen.py"
+	"--all" ${ARGS} ERROR_VARIABLE PYTHON_ERRORS OUTPUT_VARIABLE PYTHON_OUTPUT)
+
+if(PYTHON_OUTPUT)
+	message(${PYTHON_OUTPUT})
+endif()
+if(PYTHON_ERRORS)
+	message(FATAL_ERROR ${PYTHON_ERRORS})
+endif()

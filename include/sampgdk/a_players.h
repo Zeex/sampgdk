@@ -20,7 +20,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-#include <sampgdk/generated/a_players.h>
+#include <sampgdk/a_players-decl.h>
 
 #ifdef __cplusplus
 

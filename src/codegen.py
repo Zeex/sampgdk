@@ -306,8 +306,8 @@ def main(argv):
   argparser = argparse.ArgumentParser()
 
   argparser.add_argument('--idl', dest='idl_file', metavar='filename', required=True)
-  argparser.add_argument('--header', dest='header_file', metavar='filename')
-  argparser.add_argument('--source', dest='source_file', metavar='filename')
+  argparser.add_argument('--hdr', dest='hdr_file', metavar='filename')
+  argparser.add_argument('--src', dest='src_file', metavar='filename')
   argparser.add_argument('--api', dest='api_file', metavar='filename')
   argparser.add_argument('--constants', dest='gen_constants', action='store_true')
   argparser.add_argument('--natives', dest='gen_natives', action='store_true')
@@ -326,13 +326,13 @@ def main(argv):
         os.makedirs(directory)
 
     hdr = None
-    if args.header_file is not None:
-      ensure_dir(args.header_file)
-      hdr = open(args.header_file, 'w')
+    if args.hdr_file is not None:
+      ensure_dir(args.hdr_file)
+      hdr = open(args.hdr_file, 'w')
     src = None
-    if args.source_file is not None:
-      ensure_dir(args.source_file)
-      src = open(args.source_file, 'w')
+    if args.src_file is not None:
+      ensure_dir(args.src_file)
+      src = open(args.src_file, 'w')
     api = None
     if args.api_file is not None:
       ensure_dir(args.api_file)

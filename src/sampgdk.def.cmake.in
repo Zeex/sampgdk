@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(def_path "${CMAKE_SOURCE_DIR}/sampgdk.def")
+set(def_path "@CMAKE_CURRENT_BINARY_DIR@/sampgdk.def")
 if(EXISTS ${def_path})
 	file(REMOVE ${def_path})
 endif()
 
-file(GLOB_RECURSE files "${CMAKE_SOURCE_DIR}/*.api")
+file(GLOB_RECURSE files "@CMAKE_CURRENT_SOURCE_DIR@/*.api"
+                        "@CMAKE_CURRENT_BINARY_DIR@/*.api")
 
 file(APPEND ${def_path} "EXPORTS\n")
 foreach(file IN LISTS files)
