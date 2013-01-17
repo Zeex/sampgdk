@@ -63,13 +63,13 @@ AMX_NATIVE native_lookup_warn(const char *name) {
 
 	fn = native_lookup(name);
 	if (fn == NULL)
-		warning("Native function not found: %s", name);
+		log_warning("Native function not found: %s", name);
 
 	return fn;
 }
 
 cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
-	error("Native stub");
+	log_error("Native stub");
 	return 0;
 }
 

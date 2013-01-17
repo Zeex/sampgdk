@@ -19,25 +19,25 @@
 
 #include "logprintf.h"
 
-enum log_type {
-	log_default,
-	log_trace,
-	log_warning,
-	log_error
+enum log_msg_type {
+	LOG_MSG_NORMAL,
+	LOG_MSG_TRACE,
+	LOG_MSG_WARNING,
+	LOG_MSG_ERROR
 };
 
-static void do_log(enum log_type type, const char *format, va_list args) {
+static void do_log(enum log_msg_type type, const char *format, va_list args) {
 	const char *prefix;
 	char *real_format;
 
 	switch (type) {
-		case log_trace:
+		case LOG_MSG_TRACE:
 			prefix = "TRACE: ";
 			break;
-		case log_warning:
+		case LOG_MSG_WARNING:
 			prefix = "WARNING: ";
 			break;
-		case log_error:
+		case LOG_MSG_ERROR:
 			prefix = "ERROR: ";
 			break;
 		default:
@@ -64,34 +64,34 @@ static void do_log(enum log_type type, const char *format, va_list args) {
 	free(real_format);
 }
 
-void message(const char *format, ...) {
+void log_message(const char *format, ...) {
 	va_list args;
 
 	va_start(args, format);
-	do_log(log_default, format, args);
+	do_log(LOG_MSG_NORMAL, format, args);
 	va_end(args);
 }
 
-void trace(const char *format, ...) {
+void log_trace(const char *format, ...) {
 	va_list args;
 
 	va_start(args, format);
-	do_log(log_trace, format, args);
+	do_log(LOG_MSG_TRACE, format, args);
 	va_end(args);
 }
 
-void warning(const char *format, ...) {
+void log_warning(const char *format, ...) {
 	va_list args;
 
 	va_start(args, format);
-	do_log(log_warning, format, args);
+	do_log(LOG_MSG_WARNING, format, args);
 	va_end(args);
 }
 
-void error(const char *format, ...) {
+void log_error(const char *format, ...) {
 	va_list args;
 
 	va_start(args, format);
-	do_log(log_error, format, args);
+	do_log(LOG_MSG_ERROR, format, args);
 	va_end(args);
 }

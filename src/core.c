@@ -40,16 +40,16 @@ extern void *pAMXFunctions;
 static void **ppPluginData;
 
 static int register_callbacks() {
-	int error_code;
+	int error;
 
-	if ((error_code = register_callbacks__a_samp()) < 0)
-		return error_code;
-	if ((error_code = register_callbacks__a_players()) < 0)
-		return error_code;
-	if ((error_code = register_callbacks__a_objects()) < 0)
-		return error_code;
-	if ((error_code = register_callbacks__a_vehicles()) < 0)
-		return error_code;
+	if ((error = register_callbacks__a_samp()) < 0)
+		return error;
+	if ((error = register_callbacks__a_players()) < 0)
+		return error;
+	if ((error = register_callbacks__a_objects()) < 0)
+		return error;
+	if ((error = register_callbacks__a_vehicles()) < 0)
+		return error;
 
 	return 0;
 }
@@ -69,21 +69,21 @@ static void init_logprintf(void **ppData) {
 }
 
 static int do_init(void **ppData) {
-	int error_code;
+	int error;
 
 	init_plugin_data(ppData);
 	init_amx_exports(ppData);
 	init_logprintf(ppData);
 
-	if ((error_code = register_callbacks()) < 0)
+	if ((error = register_callbacks()) < 0)
 		goto register_callbacks_failed;
-	if ((error_code = callback_init()) < 0)
+	if ((error = callback_init()) < 0)
 		goto callback_init_failed;
-	if ((error_code = native_init()) < 0)
+	if ((error = native_init()) < 0)
 		goto native_init_failed;
-	if ((error_code = timer_init()) < 0)
+	if ((error = timer_init()) < 0)
 		goto timer_init_failed;
-	if ((error_code = hooks_init()) < 0)
+	if ((error = hooks_init()) < 0)
 		goto hooks_init_failed;
 
 	goto out;
@@ -97,8 +97,8 @@ native_init_failed:
 callback_init_failed:
 	callback_cleanup();
 register_callbacks_failed:
-	error(strerror(-error_code));
-	return error_code;
+	log_error(strerror(-error));
+	return error;
 
 out:
 	return 0;
