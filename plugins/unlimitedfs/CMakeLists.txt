@@ -7,7 +7,7 @@ if(MSVC)
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 endif()
 
-add_samp_plugin(unlimitedfs
+add_samp_plugin(${PROJECT_NAME}
 	"filterscript.cpp"
 	"filterscript.h"
 	"plugin.cpp"
@@ -16,4 +16,4 @@ add_samp_plugin(unlimitedfs
 	"unlimitedfs.def"
 )
 
-target_link_libraries(unlimitedfs "sampgdk")
+target_link_libraries(${PROJECT_NAME} "sampgdk")
