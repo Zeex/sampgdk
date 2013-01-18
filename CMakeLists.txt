@@ -299,13 +299,11 @@ if(MSVC)
 endif()
 
 if(UNIX AND NOT WIN32)
-	if(CMAKE_COMPILER_IS_GNUCC)
-		add_target_link_flags(sampgdk
-			"-Wl,--no-undefined"
-			"-Wl,--retain-symbols-file=${CMAKE_BINARY_DIR}/src/sampgdk.sym"
-		)
-		target_link_libraries(sampgdk "dl" "rt")
-	endif()
+	add_target_link_flags(sampgdk
+		"-Wl,--no-undefined"
+		"-Wl,--retain-symbols-file=${CMAKE_BINARY_DIR}/src/sampgdk.sym"
+	)
+	target_link_libraries(sampgdk "dl" "rt")
 endif()
 
 target_link_libraries(sampgdk "subhook")
