@@ -119,6 +119,22 @@ list(APPEND SAMPGDK_SOURCES
 	"src/version.c"
 )
 
+if(WIN32)
+	list(APPEND SAMPGDK_SOURCES "${CMAKE_BINARY_DIR}/src/call.asm.obj")
+	if("${CMAKE_ASM_NASM_COMPILER}" MATCHES "[yY][aA][sS][mM]")
+		set(options "-f" "win32" "--prefix=_")
+	else()
+		set(options "-fwin32" "--prefix" "_")
+	endif()
+	add_custom_command(
+		OUTPUT  "${CMAKE_BINARY_DIR}/src/call.asm.obj"
+		COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${options} "-o"
+			"${CMAKE_BINARY_DIR}/src/call.asm.obj"
+			"${CMAKE_SOURCE_DIR}/src/call.asm"
+		MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/src/call.asm"
+	)
+endif()
+
 list(APPEND SAMPGDK_APIS
 	"src/sdk/amxplugin.api"
 	"src/core.api"
