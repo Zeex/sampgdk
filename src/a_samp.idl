@@ -58,6 +58,7 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool SetWorldTime([in] int hour);
 [native] bool GetWeaponName([in] int weaponid, [out] char name, [in] int size);
 [native] bool EnableTirePopping([in] bool enable);
+[native] bool EnableVehicleFriendlyFire();
 [native] bool AllowInteriorWeapons([in] bool allow);
 [native] bool SetWeather([in] int weatherid);
 [native] bool SetGravity([in] float gravity);
