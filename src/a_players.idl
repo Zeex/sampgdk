@@ -30,6 +30,7 @@ const int SPECIAL_ACTION_DRINK_BEER       = 20;
 const int SPECIAL_ACTION_SMOKE_CIGGY      = 21;
 const int SPECIAL_ACTION_DRINK_WINE       = 22;
 const int SPECIAL_ACTION_DRINK_SPRUNK     = 23;
+const int SPECIAL_ACTION_CUFFED           = 24;
 
 const int FIGHT_STYLE_NORMAL   = 4;
 const int FIGHT_STYLE_BOXING   = 5;
