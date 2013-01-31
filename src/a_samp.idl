@@ -119,6 +119,9 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool TextDrawSetString([in] int text, [in] string string);
 [native] bool SelectTextDraw([in] int playerid, [in] int hovercolor);
 [native] bool CancelSelectTextDraw([in] int playerid);
+[native] bool TextDrawSetPreviewModel([in] int text, [in] int modelindex);
+[native] bool TextDrawSetPreviewRot([in] int text, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fZoom);
+[native] bool TextDrawSetPreviewVehCol([in] int text, [in] int color1, [in] int color2);
 
 [native] int GangZoneCreate([in] float minx, [in] float miny, [in] float maxx, [in] float maxy);
 [native] bool GangZoneDestroy([in] int zone);
