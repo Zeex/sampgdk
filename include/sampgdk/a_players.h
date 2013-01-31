@@ -422,7 +422,7 @@ public:
 	bool SetPreviewRot(float fRotX, float fRotY, float fRotZ, float fZoom = 1.0f) const
 		{ return ::PlayerTextDrawSetPreviewRot(playerid_, id_, fRotX, fRotY, fRotZ, fZoom); }
 	bool SetPreviewVehCol(int color1, int color2) const
-		{ return ::PlayerTextDrawSetPreviewVehCol(playerid_, color1, color2); }
+		{ return ::PlayerTextDrawSetPreviewVehCol(playerid_, id_, color1, color2); }
 	bool Show() const
 		{ return ::PlayerTextDrawShow(playerid_, id_); }
 	bool Hide() const 

@@ -126,7 +126,7 @@ public:
 	bool SetPreviewRot(float fRotX, float fRotY, float fRotZ, float fZoom = 1.0f) const
 		{ return ::TextDrawSetPreviewRot(id_, fRotX, fRotY, fRotZ, fZoom); }
 	bool SetPreviewVehCol(int color1, int color2) const
-		{ return ::TextDrawSetPreviewVehCol(color1, color2); }
+		{ return ::TextDrawSetPreviewVehCol(id_, color1, color2); }
 	bool ShowForPlayer(int playerid) const 
 		{ return ::TextDrawShowForPlayer(playerid, id_); }
 	bool HideForPlayer(int playerid) const 
