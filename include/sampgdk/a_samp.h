@@ -115,12 +115,18 @@ public:
 		{ return ::TextDrawFont(id_, font); }
 	bool SetProportional(bool set) const 
 		{ return ::TextDrawSetProportional(id_, set); }
+	bool SetSelectable(bool set) const
+		{ return ::TextDrawSetSelectable(id_, set); }
 	bool SetString(const char *string) const
 		{ return ::TextDrawSetString(id_, string); }
 	bool SetString(const std::string &string) const
 		{ return ::TextDrawSetString(id_, string.c_str()); }
-	bool SetSelectable(bool set) const
-		{ return ::TextDrawSetSelectable(id_, set); }
+	bool SetPreviewModel(int modelindex) const
+		{ return ::TextDrawSetPreviewModel(id_, modelindex); }
+	bool SetPreviewRot(float fRotX, float fRotY, float fRotZ, float fZoom = 1.0f) const
+		{ return ::TextDrawSetPreviewRot(id_, fRotX, fRotY, fRotZ, fZoom); }
+	bool SetPreviewVehCol(int color1, int color2) const
+		{ return ::TextDrawSetPreviewVehCol(color1, color2); }
 	bool ShowForPlayer(int playerid) const 
 		{ return ::TextDrawShowForPlayer(playerid, id_); }
 	bool HideForPlayer(int playerid) const 

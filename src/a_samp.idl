@@ -58,6 +58,7 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool SetWorldTime([in] int hour);
 [native] bool GetWeaponName([in] int weaponid, [out] char name, [in] int size);
 [native] bool EnableTirePopping([in] bool enable);
+[native] bool EnableVehicleFriendlyFire();
 [native] bool AllowInteriorWeapons([in] bool allow);
 [native] bool SetWeather([in] int weatherid);
 [native] bool SetGravity([in] float gravity);
@@ -98,6 +99,9 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool DisableMenuRow([in] int menuid, [in] int row);
 [native] int GetPlayerMenu([in] int playerid);
 
+const int TEXT_DRAW_FONT_SPRITE_DRAW   = 4;
+const int TEXT_DRAW_FONT_MODEL_PREVIEW = 5;
+
 [native] int TextDrawCreate([in] float x, [in] float y, [in] string text);
 [native] bool TextDrawDestroy([in] int text);
 [native] bool TextDrawLetterSize([in] int text, [in] float x, [in] float y);
@@ -117,6 +121,10 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool TextDrawShowForAll([in] int text);
 [native] bool TextDrawHideForAll([in] int text);
 [native] bool TextDrawSetString([in] int text, [in] string string);
+[native] bool TextDrawSetPreviewModel([in] int text, [in] int modelindex);
+[native] bool TextDrawSetPreviewRot([in] int text, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fZoom);
+[native] bool TextDrawSetPreviewVehCol([in] int text, [in] int color1, [in] int color2);
+
 [native] bool SelectTextDraw([in] int playerid, [in] int hovercolor);
 [native] bool CancelSelectTextDraw([in] int playerid);
 

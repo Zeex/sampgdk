@@ -31,6 +31,7 @@ const int SPECIAL_ACTION_SMOKE_CIGGY      = 21;
 const int SPECIAL_ACTION_DRINK_WINE       = 22;
 const int SPECIAL_ACTION_DRINK_SPRUNK     = 23;
 const int SPECIAL_ACTION_CUFFED           = 24;
+const int SPECIAL_ACTION_CARRY            = 25;
 
 const int FIGHT_STYLE_NORMAL   = 4;
 const int FIGHT_STYLE_BOXING   = 5;
@@ -146,6 +147,9 @@ const int MAX_PLAYER_ATTACHED_OBJECTS = 10;
 [native] bool PlayerTextDrawShow([in] int playerid, [in] int text);
 [native] bool PlayerTextDrawHide([in] int playerid, [in] int text);
 [native] bool PlayerTextDrawSetString([in] int playerid, [in] int text, [in] string string);
+[native] bool PlayerTextDrawSetPreviewModel([in] int playerid, [in] int text, [in] int modelindex);
+[native] bool PlayerTextDrawSetPreviewRot([in] int playerid, [in] int text, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fZoom);
+[native] bool PlayerTextDrawSetPreviewVehCol([in] int playerid, [in] int text, [in] int color1, [in] int color2);
 
 const int PLAYER_VARTYPE_NONE   = 0;
 const int PLAYER_VARTYPE_INT    = 1;
