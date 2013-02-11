@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.8.8)
 project(sampgdk)
 
-option(SAMPGDK_INSTALL       "Generate install target" OFF)
-option(SAMPGDK_BUILD_PLUGINS "Generate package target" OFF)
+option(SAMPGDK_INSTALL "Generate install target" OFF)
+option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
 
 set(SAMPGDK_VERSION_MAJOR "3")
 set(SAMPGDK_VERSION_MINOR "2")
