@@ -1,11 +1,10 @@
 * text=auto
 
-*.c text eol=lf
+# C/C++ files
+*.c   text eol=lf
 *.cpp text eol=lf
-*.h text eol=lf
-*.patch text eol=lf
+*.h   text eol=lf
+*.hpp text eol=lf
+
+# Python files
 *.py text eol=lf
-
-*.pwn text eol=ctlf
-*.amx binary
-
