@@ -25,7 +25,7 @@
 
 /* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
 SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData));
-/* Deprecated. Use sampgdk_exit() or sampgdk_exit_plugin() instead. */
+/* Deprecated. Use sampgdk_cleanup() or sampgdk_cleanup_plugin() instead. */
 SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize());
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init(void **ppData);
