@@ -91,11 +91,11 @@ bool FilterScript::Load(const std::string &filename) {
 	return false;
 }
 
-int FilterScript::Init(cell &retval) {
+int FilterScript::Init(cell *retval) {
 	int error, index;
 	error = amx_FindPublic(&amx_, "OnFilterScriptInit", &index) == AMX_ERR_NONE;
 	if (error != AMX_ERR_NONE) {
-		error = amx_Exec(&amx_, &retval, index) == AMX_ERR_NONE;
+		error = amx_Exec(&amx_, retval, index) == AMX_ERR_NONE;
 	}
 	return error;
 }

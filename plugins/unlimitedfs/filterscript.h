@@ -19,8 +19,9 @@ public:
 		{ return &amx_; }
 
 	bool Load(const std::string &filename);
-	int Init(cell &retval);
 	bool Unload();
+
+	int Init(cell *retval = 0);
 
 	bool IsLoaded() const
 		{ return loaded_; }
