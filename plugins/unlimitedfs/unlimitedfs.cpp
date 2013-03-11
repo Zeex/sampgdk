@@ -819,6 +819,9 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx) {
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
 	ufs.Unload();
+	for (FSMap::iterator it = ::fs_map.begin(); it != ::fs_map.end(); ++it) {
+		UnloadFilterScript(it->second);
+	}
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
