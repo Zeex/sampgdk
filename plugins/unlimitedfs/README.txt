@@ -1,7 +1,5 @@
 UnlimitedFS allows you to run an unlimited amount of filterscripts and 
-plugins. It loads ALL filterscripts and plugins from "filterscripts/" 
-and "plugins/" directories respectively. Therefore you don't have to
-edit server.cfg each time you add something. 
-
-However UnlimitedFS doesn't handle RCON commands like "loadfs", etc, 
+plugins. It loads filterscripts and plugins from specified via the
+"filterscripts2" and "plugins2" server.cfg options. However it doesn't handle
+RCON commands like loadfs and friends (I'm thinking of adding loadfs2, etc),
 so there's a room for improvement.

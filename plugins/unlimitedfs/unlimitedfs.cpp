@@ -1,6 +1,8 @@
 #include <cstring>
+#include <fstream>
 #include <iterator>
 #include <list>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -18,25 +20,27 @@
 #include "plugin.h"
 
 #ifdef WIN32
-	#define PLUGIN_EXT "dll"
+	#define PLUGIN_EXT ".dll"
 #else
-	#define PLUGIN_EXT "so"
+	#define PLUGIN_EXT ".so"
 #endif
 
-static ThisPlugin ufs;
+namespace {
 
-static void **ppPluginData;
+ThisPlugin ufs;
 
-static std::list<unlimitedfs::Plugin*> plugins;
-static std::list<unlimitedfs::FilterScript*> filterscripts;
+void **ppPluginData;
 
-static bool loading = false;
+std::list<unlimitedfs::Plugin*> plugins;
+std::list<unlimitedfs::FilterScript*> filterscripts;
 
-static void *AMXAPI my_amx_Align(void *v) {
+bool loading = false;
+
+void *AMXAPI my_amx_Align(void *v) {
 	return v;
 }
 
-static int AMXAPI my_amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
+int AMXAPI my_amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
 	AMX_HEADER *hdr = reinterpret_cast<AMX_HEADER*>(amx->base);
 
 	AMX_FUNCSTUBNT *natives = reinterpret_cast<AMX_FUNCSTUBNT*>(amx->base + hdr->natives);
@@ -65,58 +69,71 @@ static int AMXAPI my_amx_Register(AMX *amx, const AMX_NATIVE_INFO *nativelist, i
 	return error;
 }
 
-#if defined _WIN32
-
-	template<typename OutputIterator>
-	static void GetFilesInDirectory(const std::string &dir,
-	                                const std::string &pattern,
-	                                OutputIterator result) 
-	{
-		WIN32_FIND_DATA findFileData;
-		HANDLE hFindFile = FindFirstFile((dir + "\\" + pattern).c_str(), &findFileData);
-		if (hFindFile != INVALID_HANDLE_VALUE) {
-			do {
-				if (!(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-					*result++ = dir + "\\" + findFileData.cFileName;
-				}
-			} while (FindNextFile(hFindFile, &findFileData) != 0);
-			FindClose(hFindFile);
-		}
-	}
-
-#else
-
-	template<typename OutputIterator>
-	static void GetFilesInDirectory(const std::string &dir,
-	                                const std::string &pattern,
-	                                OutputIterator result) 
-	{
-		DIR *dp = 0;
-		if ((dp = opendir(dir.c_str())) != 0) {
-			struct dirent *dirp;
-			while ((dirp = readdir(dp)) != 0) {
-				if (!fnmatch(pattern.c_str(), dirp->d_name,
-								FNM_CASEFOLD | FNM_NOESCAPE | FNM_PERIOD)) {
-					*result++ = dir + "/" + dirp->d_name;
-				}
+std::string GetServerCfgOption(const std::string &option) {
+	std::string name, value;
+	std::string line;
+	std::fstream server_cfg("server.cfg");
+	if (server_cfg) {
+		while (std::getline(server_cfg, line)) {
+			std::stringstream ss(line);
+			ss >> name;
+			if (name == option) {
+				ss >> value;
+				break;
 			}
-			closedir(dp);
 		}
 	}
-
-#endif
-
-static std::string GetBaseName(const std::string &path) {
-	std::string::size_type dot = path.find_last_of(".");
-	if (dot == std::string::npos) {
-		dot = path.length();
-	}
-	std::string::size_type sep = path.find_last_of("/\\") + 1;
-	if (sep == std::string::npos) {
-		sep = 0;
-	}
-	return std::string(path.begin() + sep, path.begin() + dot);
+	return value;
 }
+
+void SplitString(const std::string &string, std::list<std::string> &substrings) {
+	std::stringstream stream(string);
+	std::copy(
+		std::istream_iterator<std::string>(stream),
+		std::istream_iterator<std::string>(),
+		std::back_inserter(substrings)
+	);
+}
+
+void GetFilterScriptNames(std::list<std::string> &names) {
+	std::string opt = GetServerCfgOption("filterscripts2");
+	if (!opt.empty()) {
+		SplitString(opt, names);
+	}
+}
+
+static void GetPluginNames(std::list<std::string> &names) {
+	std::string opt = GetServerCfgOption("plugins2");
+	if (!opt.empty()) {
+		SplitString(opt, names);
+	}
+}
+
+bool StringEndsWith(const std::string &s, const std::string &what) {
+	return s.rfind(what) == s.length() - what.length();
+}
+
+std::string GetItemPath(const std::string &name, const std::string &dir,
+                        const std::string &ext) {
+	std::string path;
+	path.append(dir);
+	path.append("/");
+	path.append(name);
+	if (!StringEndsWith(name, ext)) {
+		path.append(ext);
+	}
+	return path;
+}
+
+std::string GetFilterScriptPath(const std::string &name) {
+	return GetItemPath(name, "filterscripts", ".amx");
+}
+
+std::string GetPluginPath(const std::string &name) {
+	return GetItemPath(name, "plugins", PLUGIN_EXT);
+}
+
+} // anonymous namespace
 
 typedef std::list<unlimitedfs::FilterScript*>::iterator FSIter;
 
@@ -662,26 +679,20 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
-	if (!loading) {
-		// Everything is alrady loaded
-		return AMX_ERR_NONE;
-	}
-
 	ServerLog::Printf("");
 	ServerLog::Printf("Server Plugins");
 	ServerLog::Printf("--------------");
 
-	std::list<std::string> files;
-	GetFilesInDirectory("plugins", "*."PLUGIN_EXT, std::back_inserter(files));
+	std::list<std::string> plugin_names;
+	GetPluginNames(plugin_names);
 
-	for (std::list<std::string>::iterator iterator = files.begin();
-			iterator != files.end(); ++iterator) {
-		std::string plugin_name = GetBaseName(*iterator);
-		if (plugin_name == "unlimitedfs") {
-			continue;
-		}
+	for (std::list<std::string>::const_iterator iterator = plugin_names.begin();
+			iterator != plugin_names.end(); ++iterator)
+	{
+		const std::string &plugin_name = *iterator;
 		ServerLog::Printf(" Loading plugin: %s", plugin_name.c_str());
-		unlimitedfs::Plugin *plugin = new unlimitedfs::Plugin(*iterator);
+
+		unlimitedfs::Plugin *plugin = new unlimitedfs::Plugin(GetPluginPath(plugin_name));
 		if (plugin != 0) {
 			unlimitedfs::PluginError error = plugin->Load(ppPluginData);
 			if (plugin->IsLoaded()) {
@@ -710,14 +721,16 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
 	ServerLog::Printf(" Loaded %d plugins.", plugins.size());
 	ServerLog::Printf("\n");
 
-	// Load ALL scripts from "filterscripts/"
-	files.clear();
-	GetFilesInDirectory("filterscripts", "*.amx", std::back_inserter(files));
-	for (std::list<std::string>::iterator iterator = files.begin();
-			iterator != files.end(); ++iterator) {
-		std::string fs_name = GetBaseName(*iterator);
+	std::list<std::string> fs_names;
+	GetFilterScriptNames(fs_names);
+
+	for (std::list<std::string>::const_iterator iterator = fs_names.begin();
+			iterator != fs_names.end(); ++iterator)
+	{
+		const std::string &fs_name = *iterator;
 		ServerLog::Printf("  Loading filter script: %s", fs_name.c_str());
-		unlimitedfs::FilterScript *fs = new unlimitedfs::FilterScript(*iterator);
+
+		unlimitedfs::FilterScript *fs = new unlimitedfs::FilterScript(GetFilterScriptPath(fs_name));
 		if (fs != 0) {
 			if (fs->IsLoaded()) {
 				filterscripts.push_back(fs);
