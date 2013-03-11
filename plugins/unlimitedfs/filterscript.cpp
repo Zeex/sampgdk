@@ -100,6 +100,15 @@ int FilterScript::Init(cell *retval) {
 	return error;
 }
 
+int FilterScript::Exit(cell *retval) {
+	int error, index;
+	error = amx_FindPublic(&amx_, "OnFilterScriptExit", &index) == AMX_ERR_NONE;
+	if (error != AMX_ERR_NONE) {
+		error = amx_Exec(&amx_, retval, index) == AMX_ERR_NONE;
+	}
+	return error;
+}
+
 bool FilterScript::Unload() {
 	if (loaded_) {
 		return aux_FreeProgram(&amx_) == AMX_ERR_NONE;

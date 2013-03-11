@@ -22,6 +22,7 @@ public:
 	bool Unload();
 
 	int Init(cell *retval = 0);
+	int Exit(cell *retval = 0);
 
 	bool IsLoaded() const
 		{ return loaded_; }

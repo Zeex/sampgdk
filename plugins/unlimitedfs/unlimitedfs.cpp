@@ -158,7 +158,9 @@ bool LoadFilterScript(const std::string &name) {
 }
 
 bool UnloadFilterScript(unlimitedfs::FilterScript *fs) {
-	return fs->Unload();
+	fs->Exit();
+	fs->Unload();
+	return true;
 }
 
 bool UnloadFilterScript(const std::string &name) {
