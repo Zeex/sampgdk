@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8.8)
 project(sampgdk)
+cmake_minimum_required(VERSION 2.8.8)
 
 option(SAMPGDK_INSTALL "Generate install target" OFF)
 option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
@@ -274,59 +274,59 @@ elseif(UNIX)
 	)
 endif()
 
-add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
+add_library(${PROJECT_NAME} SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 
-set_target_properties(sampgdk PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
 	DEBUG_POSTFIX "_d"
 	DEFINE_SYMBOL "IN_SAMPGDK"
 )
 
 if(WIN32)
-	set_target_properties(sampgdk PROPERTIES
+	set_target_properties(${PROJECT_NAME} PROPERTIES
 		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}"
 	)
 elseif(UNIX)
-	set_target_properties(sampgdk PROPERTIES 
+	set_target_properties(${PROJECT_NAME} PROPERTIES 
 		VERSION   "${SAMPGDK_VERSION_STRING}"
 		SOVERSION "${SAMPGDK_VERSION_MAJOR}"
 	)
 endif()
 
 if(MSVC)
-	add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
+	add_target_definitions(${PROJECT_NAME} "_CRT_SECURE_NO_WARNINGS")
 endif()
 
 if(UNIX AND NOT WIN32)
-	add_target_link_flags(sampgdk
+	add_target_link_flags(${PROJECT_NAME}
 		"-Wl,--no-undefined"
 		"-Wl,--retain-symbols-file=${CMAKE_BINARY_DIR}/src/sampgdk.sym"
 	)
-	target_link_libraries(sampgdk "dl" "rt")
+	target_link_libraries(${PROJECT_NAME} "dl" "rt")
 endif()
 
-target_link_libraries(sampgdk "subhook")
+target_link_libraries(${PROJECT_NAME} "subhook")
 
 if(SAMPGDK_INSTALL)
-	install(
-		DIRECTORY "include" "${CMAKE_BINARY_DIR}/include"
-		DESTINATION "."
-		COMPONENT "dev" FILES_MATCHING PATTERN "*.h"
-	)
-	install(
-		TARGETS sampgdk
-		RUNTIME DESTINATION "bin" COMPONENT "bin"
-		ARCHIVE DESTINATION "lib" COMPONENT "dev"
-		LIBRARY DESTINATION "lib" COMPONENT "bin"
-	)
+	install(DIRECTORY "include" "${CMAKE_BINARY_DIR}/include"
+	        DESTINATION "." COMPONENT "dev" FILES_MATCHING PATTERN "*.h")
+
+	install(TARGETS ${PROJECT_NAME}
+	        RUNTIME DESTINATION "bin" COMPONENT "bin"
+	        ARCHIVE DESTINATION "lib" COMPONENT "dev"
+	        LIBRARY DESTINATION "lib" COMPONENT "bin")
+
 	set(CPACK_PACKAGE_NAME ${CMAKE_PROJECT_NAME})
 	set(CPACK_PACKAGE_CONTACT "CPack")
 	set(CPACK_PACKAGE_VERSION ${SAMPGDK_VERSION_STRING})
 	set(CPACK_PACKAGE_VERSION_MAJOR ${SAMPGDK_VERSION_MAJOR})
 	set(CPACK_PACKAGE_VERSION_MINOR ${SAMPGDK_VERSION_MINOR})
 	set(CPACK_PACKAGE_VERSION_PATCH ${SAMPGDK_VERSION_PATCH})
+
 	if(WIN32)
-		set(CPACK_PACKAGE_INSTALL_DIRECTORY "sampgdk ${SAMPGDK_VERSION_MAJOR}.${SAMPGDK_VERSION_MINOR}")
+		set(CPACK_PACKAGE_INSTALL_DIRECTORY
+		    "${CPACK_PACKAGE_NAME} ${SAMPGDK_VERSION_MAJOR}.${SAMPGDK_VERSION_MINOR}")
 	endif()
+
 	set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
 	set(CPACK_COMPONENT_BIN_DISPLAY_NAME "Runtime")
 	set(CPACK_COMPONENT_BIN_DESCRIPTION "Runtime library needed to run plugins")
@@ -337,5 +337,6 @@ if(SAMPGDK_INSTALL)
 	set(CPACK_COMPONENT_DEV_DEPENDS "bin")
 	set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
 	set(CPACK_NSIS_MODIFY_PATH ON)
+
 	include(CPack)
 endif()
