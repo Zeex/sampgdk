@@ -122,21 +122,6 @@ def gen_natives(idl, hdr, src, api):
   natives_with_impl = filter(lambda x: not x.has_attr('noimpl'), natives)
 
   if hdr is not None:
-    hdr.write('#ifndef SAMPGDK_NATIVE_EXPORT\n')
-    hdr.write('\t#define SAMPGDK_NATIVE_EXPORT SAMPGDK_EXPORT\n')
-    hdr.write('#endif\n')
-
-    hdr.write('#ifndef SAMPGDK_NATIVE_CALL\n')
-    hdr.write('\t#define SAMPGDK_NATIVE_CALL SAMPGDK_CALL\n')
-    hdr.write('#endif\n')
-
-    hdr.write('#ifndef SAMPGDK_NATIVE\n')
-    hdr.write('\t#define SAMPGDK_NATIVE(type, func) \\\n')
-    hdr.write('\t\tSAMPGDK_NATIVE_EXPORT type SAMPGDK_NATIVE_CALL %s##func\n' % EXPORT_PREFIX)
-    hdr.write('#endif\n')
-
-    hdr.write('\n')
-
     for f in natives:
       hdr.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s);\n' % (f.type, EXPORT_PREFIX, f.name, ParamList(f.params)))
       hdr.write('#undef  %s\n' % f.name)
@@ -226,21 +211,6 @@ def gen_callbacks(idl, hdr, src):
   callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
 
   if hdr is not None:
-    hdr.write('#ifndef SAMPGDK_CALLBACK_EXPORT\n')
-    hdr.write('\t#define SAMPGDK_CALLBACK_EXPORT PLUGIN_EXPORT\n')
-    hdr.write('#endif\n')
-
-    hdr.write('#ifndef SAMPGDK_CALLBACK_CALL\n')
-    hdr.write('\t#define SAMPGDK_CALLBACK_CALL PLUGIN_CALL\n')
-    hdr.write('#endif\n')
-
-    hdr.write('#ifndef SAMPGDK_CALLBACK\n')
-    hdr.write('\t#define SAMPGDK_CALLBACK(type, func) \\\n')
-    hdr.write('\t\tSAMPGDK_CALLBACK_EXPORT type SAMPGDK_CALLBACK_CALL func\n')
-    hdr.write('#endif\n')
-
-    hdr.write('\n')
-
     for f in callbacks:
       hdr.write('SAMPGDK_CALLBACK_EXPORT %s SAMPGDK_CALLBACK_CALL %s(%s);\n' %
                    (f.type, f.name, ParamList(f.params)))

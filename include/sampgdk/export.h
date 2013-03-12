@@ -20,6 +20,7 @@
 #undef SAMPGDK_CALL
 
 #include <sampgdk/platform.h>
+#include <sampgdk/plugincommon.h>
 
 #ifdef __cplusplus
 	#define SAMPGDK_EXTERN_C extern "C"
@@ -43,6 +44,28 @@
 	#endif
 #else
 	#error Usupported operating system
+#endif
+
+#ifndef SAMPGDK_NATIVE_EXPORT
+	#define SAMPGDK_NATIVE_EXPORT SAMPGDK_EXPORT
+#endif
+#ifndef SAMPGDK_NATIVE_CALL
+	#define SAMPGDK_NATIVE_CALL SAMPGDK_CALL
+#endif
+#ifndef SAMPGDK_NATIVE
+	#define SAMPGDK_NATIVE(type, func) \
+		SAMPGDK_NATIVE_EXPORT type SAMPGDK_NATIVE_CALL sampgdk_##func
+#endif
+
+#ifndef SAMPGDK_CALLBACK_EXPORT
+	#define SAMPGDK_CALLBACK_EXPORT PLUGIN_EXPORT
+#endif
+#ifndef SAMPGDK_CALLBACK_CALL
+	#define SAMPGDK_CALLBACK_CALL PLUGIN_CALL
+#endif
+#ifndef SAMPGDK_CALLBACK
+	#define SAMPGDK_CALLBACK(type, func) \
+		SAMPGDK_CALLBACK_EXPORT type SAMPGDK_CALLBACK_CALL func
 #endif
 
 #endif /* !SAMPGDK_EXPORT_H */
