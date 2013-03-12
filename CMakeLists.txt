@@ -112,8 +112,6 @@ list(APPEND SAMPGDK_SOURCES
 	"src/native.h"
 	"src/plugin.c"
 	"src/plugin.h"
-	"src/server-cfg.c"
-	"src/server-cfg.h"
 	"src/timer.c"
 	"src/timer.h"
 	"src/version.c"
