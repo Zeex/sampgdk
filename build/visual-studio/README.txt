@@ -3,7 +3,7 @@ These .vcxproj.user files add two things:
 o A post-build event that copies your plugin or the GDK DLL (if you're building
   GDK) to $(SAMP_SERVER_ROOT)/plugins/ and $(SAMP_SERVER_ROOT)/ respectively.
 
-o St application command line and working directory in debugger options for you
+o Set application command line and working directory in debugger options for you
   so you just hit F5 and get the SA-MP server started automatically.
 
 Both files expect the SAMP_SERVER_ROOT environment variable to be set to the
