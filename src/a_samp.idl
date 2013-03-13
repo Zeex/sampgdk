@@ -288,6 +288,8 @@ const int KEY_RIGHT            = 128;
 [callback] bool OnPlayerTakeDamage([in] int playerid, [in] int issuerid, [in] float amount, [in] int weaponid);
 [callback] bool OnPlayerGiveDamage([in] int playerid, [in] int damagedid, [in] float amount, [in] int weaponid);
 [callback] bool OnPlayerClickMap([in] int playerid, [in] float fX, [in] float fY, [in] float fZ);
+[callback, badret(true)] bool OnPlayerClickTextDraw([in] int playerid, [in] int clickedid);
+[callback, badret(true)] bool OnPlayerClickPlayerTextDraw([in] int playerid, [in] int playertextid);
 
 const int CLICK_SOURCE_SCOREBOARD = 0;
 
