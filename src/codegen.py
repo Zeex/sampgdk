@@ -134,7 +134,7 @@ def gen_natives(idl, hdr, src, api):
       src.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' % (f.type, EXPORT_PREFIX, f.name, ParamList(f.params)))
       src.write('\tstatic AMX_NATIVE native;\n')
       src.write('\tstruct fakeamx *fa;\n')
-      src.write('\t%s retval;\n' % f.type)
+      src.write('\tcell retval;\n')
 
       if f.params:
         src.write('\tcell params[%d];\n' % (len(f.params) + 1))
@@ -174,7 +174,8 @@ def gen_natives(idl, hdr, src, api):
           else:
             src.write('\tparams[%d] = %s_;\n' % (index, p.name))
 
-      src.write('\tretval = (%s)native(&fa->amx, %s);\n' % (f.type, ('NULL', 'params')[bool(f.params)]))
+
+      src.write('\tretval = native(&fa->amx, %s);\n' % ('NULL', 'params')[bool(f.params)])
 
       if f.params:
         # Copy data to output arguments.
@@ -187,9 +188,9 @@ def gen_natives(idl, hdr, src, api):
             else:
               src.write('\tfakeamx_get_%s(fa, %s_, %s);\n' % (
                 {
-                  'int'   : "cell",
-                  'bool'  : "bool",
-                  'float' : "float"
+                  'int'   : 'cell',
+                  'bool'  : 'bool',
+                  'float' : 'float',
                 }[p.type]
               ,  
               p.name, p.name))
@@ -198,7 +199,12 @@ def gen_natives(idl, hdr, src, api):
         for p in reversed(filter(lambda p: p.is_ref, f.params)):
           src.write('\tfakeamx_pop(fa, %s_);\n' % p.name)
 
-      src.write('\treturn retval;\n')
+      src.write('\treturn %s(retval);\n' % ({
+          'int'   : '(int)',
+          'bool'  : '(bool)',
+          'float' : 'amx_ctof',
+        }[f.type]
+      ))
       src.write('}\n\n')
 
     src.write('\n')
@@ -237,7 +243,7 @@ def gen_callbacks(idl, hdr, src):
             'bool'   : 'bool',
             'float'  : 'float',
             'char'   : 'char',
-            'string' : 'string'
+            'string' : 'string',
           }[p.type], index)
         )
 
