@@ -23,47 +23,61 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "array.h"
 #include "callback.h"
 #include "likely.h"
 #include "plugin.h"
 
-struct handler_list {
-	callback_handler     handler;
-	struct handler_list *next;
-	char                 name[1];
-};
-
-static struct handler_list *handlers;
+static struct array handlers;
 
 int callback_init() {
-	return 0;
+	return array_new(&handlers, 1, sizeof(struct callback_info));
 }
 
 void callback_cleanup() {
-	struct handler_list *cur;
-	struct handler_list *tmp;
+	int i;
 
-	cur = handlers;
-	while (cur != NULL) {
-		tmp = cur;
-		cur = cur->next;
-		free(tmp);
+	for (i = 0; i < handlers.count; i++) {
+		struct callback_info *info =
+			(struct callback_info *)array_get(&handlers, i);
+		free(info->name);
 	}
+
+	array_free(&handlers);
 }
 
 int callback_add_handler(const char *name, callback_handler handler) {
-	struct handler_list *ptr;
+	int error;
+	struct callback_info info;
 
-	ptr = malloc(sizeof(*ptr) + strlen(name));
-	if (ptr == NULL)
+	info.name = malloc(strlen(name) + 1);
+	if (info.name == NULL)
 		return -ENOMEM;
 
-	ptr->handler = handler;
-	ptr->next = handlers;
-	strcpy(ptr->name, name);
+	strcpy(info.name, name);
+	info.handler = handler;
 
-	handlers = ptr;
+	error = array_append(&handlers, &info);
+	if (error < 0) {
+		free(info.name);
+		return error;
+	}
+
 	return 0;
+}
+
+callback_handler callback_find(const char *name) {
+	int i;
+
+	for (i = 0; i < handlers.count; i++) {
+		struct callback_info *info =
+			(struct callback_info *)array_get(&handlers, i);
+
+		if (strcmp(info->name, name) == 0)
+			return info->handler;
+	}
+	
+	return NULL;
 }
 
 bool callback_invoke(AMX *amx, const char *name, cell *retval) {
@@ -71,19 +85,21 @@ bool callback_invoke(AMX *amx, const char *name, cell *retval) {
 
 	for (plugin = plugin_get_list(); plugin != NULL; plugin = plugin->next) {
 		void *func;
-		struct handler_list *handler;
+		callback_handler handler;
 
 		func = plugin_find_symbol(plugin->plugin, name);
 		if (func == NULL)
 			continue;
 
-		for (handler = handlers; handler != NULL; handler = handler->next) {
-			if (strcmp(handler->name, name) == 0) {
-				if (!handler->handler(amx, func, retval))
-					return false;
-				continue;
-			}
-		}
+		handler = callback_find(name);
+		if (handler == NULL)
+			continue;
+
+		/* If the callback handler returns false, the call chain
+		 * should be interrupted.
+		 */
+		if (!handler(amx, func, retval))
+			return false;
 	}
 
 	return true;

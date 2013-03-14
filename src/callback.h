@@ -22,7 +22,7 @@
 typedef bool (*callback_handler)(AMX *amx, void *callback, cell *retval);
 
 struct callback_info {
-	const char       *name;
+	char             *name;
 	callback_handler  handler;
 };
 
@@ -41,6 +41,13 @@ void callback_cleanup();
  * value on error.
  */
 int callback_add_handler(const char *name, callback_handler handler);
+
+/* 
+ * Searches for a callback handler corresponding to the specified
+ * callback by name. Returns NULL if there is no callback with such
+ * a name.
+ */
+callback_handler callback_find(const char *name);
 
 /*
  * Invokes a callback by name and stores return value in retval

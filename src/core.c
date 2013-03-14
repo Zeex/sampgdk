@@ -85,8 +85,6 @@ static int do_init(void **ppData) {
 	init_amx_exports(ppData);
 	init_logprintf(ppData);
 
-	if ((error = register_callbacks()) < 0)
-		goto register_callbacks_failed;
 	if ((error = callback_init()) < 0)
 		goto callback_init_failed;
 	if ((error = native_init()) < 0)
@@ -95,9 +93,12 @@ static int do_init(void **ppData) {
 		goto timer_init_failed;
 	if ((error = hooks_init()) < 0)
 		goto hooks_init_failed;
+	if ((error = register_callbacks()) < 0)
+		goto register_callbacks_failed;
 
 	goto out;
 
+register_callbacks_failed:
 hooks_init_failed:
 	hooks_cleanup();
 timer_init_failed:
@@ -106,7 +107,6 @@ native_init_failed:
 	native_cleanup();
 callback_init_failed:
 	callback_cleanup();
-register_callbacks_failed:
 	return error;
 
 out:
