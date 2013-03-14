@@ -28,28 +28,29 @@
 #include "likely.h"
 #include "plugin.h"
 
-static struct array handlers;
+static struct array callbacks;
 
 int callback_init() {
-	return array_new(&handlers, 1, sizeof(struct callback_info));
+	return array_new(&callbacks, 1, sizeof(struct callback_info));
 }
 
 void callback_cleanup() {
 	int i;
 
-	for (i = 0; i < handlers.count; i++) {
+	for (i = 0; i < callbacks.count; i++) {
 		struct callback_info *info =
-			(struct callback_info *)array_get(&handlers, i);
+			(struct callback_info *)array_get(&callbacks, i);
 		free(info->name);
 	}
 
-	array_free(&handlers);
+	array_free(&callbacks);
 }
 
 int callback_set_handler(const char *name, callback_handler handler) {
 	int error;
 	struct callback_info info;
 	struct callback_info *ptr;
+	int index;
 	
 	ptr = callback_find(name);
 	if (ptr != NULL) {
@@ -64,7 +65,20 @@ int callback_set_handler(const char *name, callback_handler handler) {
 	strcpy(info.name, name);
 	info.handler = handler;
 
-	error = array_append(&handlers, &info);
+	/* Maintain element order (by name). */
+	for (index = 0; index < callbacks.count; index++) {
+		ptr = (struct callback_info *)array_get(&callbacks, index);
+		if (strcmp(ptr->name, name) >= 0) {
+			error = array_insert_single(&callbacks, index, &info);
+			break;
+		}
+	}
+
+	/* Append to the end. */
+	if (index == callbacks.count) {
+		error = array_append(&callbacks, &info);
+	}
+
 	if (error < 0) {
 		free(info.name);
 		return error;
@@ -79,8 +93,8 @@ static int compare_info(const void *key, const void *elem) {
 }
 
 struct callback_info *callback_find(const char *name) {
-	return bsearch(name, handlers.data, handlers.count,
-	               handlers.elem_size, compare_info);
+	return bsearch(name, callbacks.data, callbacks.count,
+	               callbacks.elem_size, compare_info);
 }
 
 bool callback_invoke(AMX *amx, const char *name, cell *retval) {
