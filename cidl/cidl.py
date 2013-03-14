@@ -3,7 +3,7 @@
 # cidl.py - parser for a small IDL-like language where you can
 # declare only functions and constants (no interfaces, etc).
 #
-# Copyright (C) 2012 Zeex
+# Copyright (C) 2012-2013 Zeex
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
