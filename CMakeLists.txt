@@ -86,6 +86,7 @@ list(APPEND SAMPGDK_HEADERS
 
 list(APPEND SAMPGDK_SOURCES
 	"src/sdk/amxplugin.c"
+	"src/sdk/plugin.h"
 	"src/a_objects.c"
 	"src/a_players.c"
 	"src/a_samp.c"
