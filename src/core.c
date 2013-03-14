@@ -107,7 +107,6 @@ native_init_failed:
 callback_init_failed:
 	callback_cleanup();
 register_callbacks_failed:
-	log_error(strerror(-error));
 	return error;
 
 out:
@@ -138,8 +137,13 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init(void **ppData) {
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData) {
 	if (plugin_get_list() == NULL) {
-		do_init(ppData);
+		int error;
+
+		if ((error = do_init(ppData)) < 0) {
+			log_error(strerror(-error));
+		}
 	}
+
 	plugin_register(plugin);
 }
 
