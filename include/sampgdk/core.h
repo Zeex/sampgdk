@@ -16,7 +16,6 @@
 #ifndef SAMPGDK_CORE_H
 #define SAMPGDK_CORE_H
 
-#include <assert.h>
 #include <stdarg.h>
 
 #include <sampgdk/amx.h>
@@ -95,7 +94,6 @@ public:
 	}
 
 	static void VPrintf(const char *format, va_list args) {
-		assert(::sampgdk_vlogprintf != 0 && "sampgdk has not been initialized");
 		::sampgdk_vlogprintf(format, args);
 	}
 };
