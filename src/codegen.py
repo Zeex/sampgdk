@@ -214,7 +214,8 @@ def gen_natives(idl, hdr, src, api):
       api.write('%s%s\n' % (EXPORT_PREFIX, f.name))
 
 def gen_callbacks(idl, hdr, src):
-  callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
+  callbacks = sorted(filter(lambda x: x.has_attr('callback'), idl.functions),
+                     key=lambda x: x.name)
 
   if hdr is not None:
     for f in callbacks:
