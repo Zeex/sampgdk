@@ -269,7 +269,7 @@ def gen_callbacks(idl, hdr, src):
 
     src.write('const struct callback_info callback_table[] = {\n')
 
-    for f in sorted(callbacks, key=lambda x: x.name):
+    for f in sorted(callbacks, key=lambda x: x.name, reverse=True):
       src.write('\t"%s", %s_handler,\n' % (f.name, f.name))
 
     src.write('\tNULL, NULL\n')
