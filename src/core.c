@@ -55,7 +55,7 @@ static int register_callbacks() {
 		int error = 0;
 
 		for (p = callback_tables[i]; p->name != NULL; p++) {
-			error = callback_set_handler(p->name, p->handler);
+			error = callback_register(p->name, p->handler);
 			if (error < 0)
 				return error;
 		}

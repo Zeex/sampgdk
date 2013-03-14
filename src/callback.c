@@ -46,13 +46,23 @@ void callback_cleanup() {
 	array_free(&callbacks);
 }
 
-int callback_set_handler(const char *name, callback_handler handler) {
+static int compare_info(const void *key, const void *elem) {
+	return strcmp((const char *)key,
+	              ((const struct callback_info *)elem)->name);
+}
+
+struct callback_info *callback_lookup(const char *name) {
+	return bsearch(name, callbacks.data, callbacks.count,
+	               callbacks.elem_size, compare_info);
+}
+
+int callback_register(const char *name, callback_handler handler) {
 	int error;
 	struct callback_info info;
 	struct callback_info *ptr;
 	int index;
 	
-	ptr = callback_find(name);
+	ptr = callback_lookup(name);
 	if (ptr != NULL) {
 		ptr->handler = handler;
 		return 0;
@@ -87,16 +97,6 @@ int callback_set_handler(const char *name, callback_handler handler) {
 	return 0;
 }
 
-static int compare_info(const void *key, const void *elem) {
-	return strcmp((const char *)key,
-	              ((const struct callback_info *)elem)->name);
-}
-
-struct callback_info *callback_find(const char *name) {
-	return bsearch(name, callbacks.data, callbacks.count,
-	               callbacks.elem_size, compare_info);
-}
-
 bool callback_invoke(AMX *amx, const char *name, cell *retval) {
 	struct plugin_list *plugin;
 
@@ -109,7 +109,7 @@ bool callback_invoke(AMX *amx, const char *name, cell *retval) {
 		if (func == NULL)
 			continue;
 
-		info = callback_find(name);
+		info = callback_lookup(name);
 		if (info == NULL)
 			continue;
 
