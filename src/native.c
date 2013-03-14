@@ -36,26 +36,35 @@ void native_cleanup() {
 }
 
 int native_register(const char *name, AMX_NATIVE func) {
-	AMX_NATIVE_INFO native;
+	AMX_NATIVE_INFO info;
+	AMX_NATIVE_INFO *ptr;
+	int index;
 
-	native.name = name;
-	native.func = func;
+	info.name = name;
+	info.func = func;
 
-	return array_append(&natives, &native);
+	/* Maintain element order (by name). */
+	for (index = 0; index < natives.count; index++) {
+		ptr = (AMX_NATIVE_INFO *)array_get(&natives, index);
+		if (strcmp(ptr->name, name) >= 0) {
+			return array_insert_single(&natives, index, &info);
+		}
+	}
+
+	return array_append(&natives, &info);
+}
+
+static int compare_info(const void *key, const void *elem) {
+	return strcmp((const char *)key,
+	              ((const AMX_NATIVE_INFO *)elem)->name);
 }
 
 AMX_NATIVE native_lookup(const char *name) {
-	int index = 0;
 	AMX_NATIVE_INFO *info;
 
-	info = (AMX_NATIVE_INFO*)natives.data;
-	while (index < natives.count) {
-		if (strcmp(info[index].name, name) == 0)
-			return info[index].func;
-		index++;
-	}
-
-	return NULL;
+	info = bsearch(name, natives.data, natives.count,
+	               natives.elem_size, compare_info);
+	return info->func;
 }
 
 AMX_NATIVE native_lookup_warn(const char *name) {
