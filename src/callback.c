@@ -73,18 +73,14 @@ int callback_set_handler(const char *name, callback_handler handler) {
 	return 0;
 }
 
+static int compare_info(const void *key, const void *elem) {
+	return strcmp((const char *)key,
+	              ((const struct callback_info *)elem)->name);
+}
+
 struct callback_info *callback_find(const char *name) {
-	int i;
-
-	for (i = 0; i < handlers.count; i++) {
-		struct callback_info *info =
-			(struct callback_info *)array_get(&handlers, i);
-
-		if (strcmp(info->name, name) == 0)
-			return info;
-	}
-	
-	return NULL;
+	return bsearch(name, handlers.data, handlers.count,
+	               handlers.elem_size, compare_info);
 }
 
 bool callback_invoke(AMX *amx, const char *name, cell *retval) {
