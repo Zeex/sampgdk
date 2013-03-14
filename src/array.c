@@ -148,6 +148,9 @@ void array_set(struct array *a, int index, void *elem) {
 }
 
 int array_insert(struct array *a, int index, int count, void *elems) {
+	int need_count;
+	int move_count;
+
 	assert(a != NULL);
 	assert(elems != NULL);
 	assert(index >= 0);
@@ -156,19 +159,26 @@ int array_insert(struct array *a, int index, int count, void *elems) {
 	if (count <= 0)
 		return -EINVAL;
 
-	if (a->count + count > a->size) {
+	need_count = a->count + count - a->size;
+	move_count = a->count - index + 1;
+
+	if (need_count > 0) {
 		int error;
 
-		if ((error = array_resize(a, a->count + count)) < 0)
+		if ((error = array_resize(a, a->size + need_count)) < 0)
 			return -error;
 	}
 
-	memmove(
-		array_get_ptr(a, index + count),
-		array_get_ptr(a, index),
-		a->elem_size * (a->count - index + 1)
-	);
+	if (move_count > 0) {
+		memmove(array_get_ptr(a, index + count),
+		        array_get_ptr(a, index),
+		        move_count * a->elem_size);
+	}
+
 	a->count += count;
+	memcpy(array_get_ptr(a, index),
+	       elems,
+	       count * a->elem_size);
 
 	return 0;
 }
@@ -185,11 +195,10 @@ int array_remove(struct array *a, int index, int count) {
 	if (count <= 0 || count > a->count - index)
 		return -EINVAL;
 
-	memmove(
-		array_get_ptr(a, index),
-		array_get_ptr(a, index + count),
-		a->elem_size * (a->count - index - count + 1)
-	);
+	memmove(array_get_ptr(a, index),
+	        array_get_ptr(a, index + count),
+	        (a->count - index - count + 1) * a->elem_size);
+
 	a->count -= count;
 
 	return 0;
