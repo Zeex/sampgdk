@@ -21,6 +21,7 @@
 #endif
 
 #if defined WIN32 || defined _WIN32 || defined __WIN32__
+	#define SAMPGDK_LINUX 0
 	#define SAMPGDK_WINDOWS 1
 #endif
 
@@ -29,6 +30,7 @@
 		#define LINUX
 	#endif
 	#define SAMPGDK_LINUX 1
+	#define SAMPGDK_WINDOWS 0
 #endif
 
 #if defined __GNUC__
@@ -39,10 +41,10 @@
 	#define SAMPGDK_DEPRECATED(func)
 #endif
 
-#if defined SAMPGDK_WINDOWS
+#if SAMPGDK_WINDOWS
 	#define SAMPGDK_CDECL __cdecl
 	#define SAMPGDK_STDCALL __stdcall
-#elif defined __GNUC__
+#elif SAMPGDK_LINUX
 	#define SAMPGDK_CDECL __attribute__((cdecl))
 	#define SAMPGDK_STDCALL __attribute__((stdcall))
 #endif

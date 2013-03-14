@@ -30,13 +30,13 @@
 
 #define SAMPGDK_CALL SAMPGDK_CDECL
 
-#if defined SAMPGDK_LINUX
+#if SAMPGDK_LINUX
 	#if defined IN_SAMPGDK
 		#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __attribute__((visibility("default")))
 	#else
 		#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C
 	#endif
-#elif defined SAMPGDK_WINDOWS
+#elif SAMPGDK_WINDOWS
 	#if defined IN_SAMPGDK
 		#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllexport)
 	#else
