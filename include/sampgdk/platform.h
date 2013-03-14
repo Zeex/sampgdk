@@ -39,4 +39,12 @@
 	#define SAMPGDK_DEPRECATED(func)
 #endif
 
+#if defined SAMPGDK_WINDOWS
+	#define SAMPGDK_CDECL __cdecl
+	#define SAMPGDK_STDCALL __stdcall
+#elif defined __GNUC__
+	#define SAMPGDK_CDECL __attribute__((cdecl))
+	#define SAMPGDK_STDCALL __attribute__((stdcall))
+#endif
+
 #endif /* !SAMPGDK_PLATFORM_H */
