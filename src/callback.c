@@ -25,7 +25,6 @@
 
 #include "array.h"
 #include "callback.h"
-#include "likely.h"
 #include "plugin.h"
 
 static struct array callbacks;
@@ -35,25 +34,25 @@ int callback_init() {
 }
 
 void callback_cleanup() {
-	int i;
+	int index;
 
-	for (i = 0; i < callbacks.count; i++) {
+	for (index = 0; index < callbacks.count; index++) {
 		struct callback_info *info =
-			(struct callback_info *)array_get(&callbacks, i);
+			(struct callback_info *)array_get(&callbacks, index);
 		free(info->name);
 	}
 
 	array_free(&callbacks);
 }
 
-static int compare_info(const void *key, const void *elem) {
+static int compare(const void *key, const void *elem) {
 	return strcmp((const char *)key,
 	              ((const struct callback_info *)elem)->name);
 }
 
 struct callback_info *callback_lookup(const char *name) {
 	return bsearch(name, callbacks.data, callbacks.count,
-	               callbacks.elem_size, compare_info);
+	               callbacks.elem_size, compare);
 }
 
 int callback_register(const char *name, callback_handler handler) {

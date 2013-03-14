@@ -22,7 +22,6 @@
 #include <string.h>
 
 #include "array.h"
-#include "likely.h"
 #include "log.h"
 
 static struct array natives;
@@ -54,7 +53,7 @@ int native_register(const char *name, AMX_NATIVE func) {
 	return array_append(&natives, &info);
 }
 
-static int compare_info(const void *key, const void *elem) {
+static int compare(const void *key, const void *elem) {
 	return strcmp((const char *)key,
 	              ((const AMX_NATIVE_INFO *)elem)->name);
 }
@@ -63,18 +62,18 @@ AMX_NATIVE native_lookup(const char *name) {
 	AMX_NATIVE_INFO *info;
 
 	info = bsearch(name, natives.data, natives.count,
-	               natives.elem_size, compare_info);
+	               natives.elem_size, compare);
 	return info->func;
 }
 
 AMX_NATIVE native_lookup_warn(const char *name) {
-	AMX_NATIVE fn;
+	AMX_NATIVE func;
 
-	fn = native_lookup(name);
-	if (fn == NULL)
+	func = native_lookup(name);
+	if (func == NULL)
 		log_warning("Native function not found: %s", name);
 
-	return fn;
+	return func;
 }
 
 cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
@@ -83,21 +82,21 @@ cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
 }
 
 AMX_NATIVE native_lookup_stub(const char *name) {
-	AMX_NATIVE fn;
+	AMX_NATIVE func;
 
-	if ((fn = native_lookup(name)) == NULL)
+	if ((func = native_lookup(name)) == NULL)
 		return native_stub;
 
-	return fn;
+	return func;
 }
 
 AMX_NATIVE native_lookup_warn_stub(const char *name) {
-	AMX_NATIVE fn;
+	AMX_NATIVE func;
 
-	if ((fn = native_lookup_warn(name)) == NULL)
+	if ((func = native_lookup_warn(name)) == NULL)
 		return native_stub;
 
-	return fn;
+	return func;
 }
 
 const AMX_NATIVE_INFO *native_get_natives() {
@@ -105,5 +104,5 @@ const AMX_NATIVE_INFO *native_get_natives() {
 }
 
 int native_get_num_natives() {
-	return (int)natives.count;
+	return natives.count;
 }
