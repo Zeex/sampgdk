@@ -24,6 +24,6 @@
 #include "likely.h"
 #include "native.h"
 
-#define register_callbacks register_callbacks__a_players
+#define callback_table callback_table__a_players
 
 #include "a_players-impl.c"

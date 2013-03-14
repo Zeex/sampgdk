@@ -214,8 +214,7 @@ def gen_natives(idl, hdr, src, api):
       api.write('%s%s\n' % (EXPORT_PREFIX, f.name))
 
 def gen_callbacks(idl, hdr, src):
-  callbacks = sorted(filter(lambda x: x.has_attr('callback'), idl.functions),
-                     key=lambda x: x.name)
+  callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
 
   if hdr is not None:
     for f in callbacks:
@@ -268,16 +267,13 @@ def gen_callbacks(idl, hdr, src):
 
       src.write('}\n\n')
 
-    src.write('int register_callbacks() {\n')
-    src.write('\tint error;\n')
+    src.write('const struct callback_info callback_table[] = {\n')
 
-    for f in callbacks:
-      src.write('\tif ((error = callback_add_handler("%s", %s_handler)) < 0)\n' % (f.name, f.name))
-      src.write('\t\treturn error;\n')
+    for f in sorted(callbacks, key=lambda x: x.name):
+      src.write('\t"%s", %s_handler,\n' % (f.name, f.name))
 
-    src.write('\t(void)error;\n')
-    src.write('\treturn 0;\n')
-    src.write('}\n\n')
+    src.write('\tNULL, NULL\n')
+    src.write('};\n')
     
 def main(argv):
   argparser = argparse.ArgumentParser()

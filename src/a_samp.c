@@ -26,7 +26,7 @@
 #include "native.h"
 #include "timer.h"
 
-#define register_callbacks register_callbacks__a_samp
+#define callback_table callback_table__a_samp
 
 #include "a_samp-impl.c"
 

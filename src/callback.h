@@ -21,6 +21,11 @@
 
 typedef bool (*callback_handler)(AMX *amx, void *callback, cell *retval);
 
+struct callback_info {
+	const char       *name;
+	callback_handler  handler;
+};
+
 int callback_init();
 void callback_cleanup();
 

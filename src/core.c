@@ -31,25 +31,35 @@
 #include "plugin.h"
 #include "timer.h"
 
-extern int register_callbacks__a_samp();
-extern int register_callbacks__a_players();
-extern int register_callbacks__a_objects();
-extern int register_callbacks__a_vehicles();
+extern const struct callback_info callback_table__a_samp[];
+extern const struct callback_info callback_table__a_players[];
+extern const struct callback_info callback_table__a_objects[];
+extern const struct callback_info callback_table__a_vehicles[];
+
+static const struct callback_info *callback_tables[] = {
+	callback_table__a_samp,
+	callback_table__a_players,
+	callback_table__a_objects,
+	callback_table__a_vehicles
+};
 
 extern void *pAMXFunctions;
 static void **ppPluginData;
 
 static int register_callbacks() {
-	int error;
+	static size_t n = sizeof(callback_tables) / sizeof(*callback_tables);
+	size_t i;
 
-	if ((error = register_callbacks__a_samp()) < 0)
-		return error;
-	if ((error = register_callbacks__a_players()) < 0)
-		return error;
-	if ((error = register_callbacks__a_objects()) < 0)
-		return error;
-	if ((error = register_callbacks__a_vehicles()) < 0)
-		return error;
+	for (i = 0; i < n; i++) {
+		const struct callback_info *p;
+		int error = 0;
+
+		for (p = callback_tables[i]; p->name != NULL; p++) {
+			error = callback_add_handler(p->name, p->handler);
+			if (error < 0)
+				return error;
+		}
+	}
 
 	return 0;
 }
