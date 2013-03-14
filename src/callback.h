@@ -26,10 +26,27 @@ struct callback_info {
 	callback_handler  handler;
 };
 
+/*
+ * Initializes the API. Returns 0 on success and a negative value on error.
+ */
 int callback_init();
+
+/*
+ * Frees allocated resources.
+ */
 void callback_cleanup();
 
+/*
+ * Adds a new callback handler. Returns 0 on success and a negative
+ * value on error.
+ */
 int callback_add_handler(const char *name, callback_handler handler);
+
+/*
+ * Invokes a callback by name and stores return value in retval
+ * if retval is not NULL. Returns false if there is no callback
+ * with such a name.
+ */
 bool callback_invoke(AMX *amx, const char *name, cell *retval);
 
 #endif /* !SAMPGDK_CALLBACK_H_ */
