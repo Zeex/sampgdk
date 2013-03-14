@@ -46,9 +46,16 @@ void callback_cleanup() {
 	array_free(&handlers);
 }
 
-int callback_add_handler(const char *name, callback_handler handler) {
+int callback_set_handler(const char *name, callback_handler handler) {
 	int error;
 	struct callback_info info;
+	struct callback_info *ptr;
+	
+	ptr = callback_find(name);
+	if (ptr != NULL) {
+		ptr->handler = handler;
+		return 0;
+	}
 
 	info.name = malloc(strlen(name) + 1);
 	if (info.name == NULL)
@@ -66,7 +73,7 @@ int callback_add_handler(const char *name, callback_handler handler) {
 	return 0;
 }
 
-callback_handler callback_find(const char *name) {
+struct callback_info *callback_find(const char *name) {
 	int i;
 
 	for (i = 0; i < handlers.count; i++) {
@@ -74,7 +81,7 @@ callback_handler callback_find(const char *name) {
 			(struct callback_info *)array_get(&handlers, i);
 
 		if (strcmp(info->name, name) == 0)
-			return info->handler;
+			return info;
 	}
 	
 	return NULL;
@@ -85,13 +92,18 @@ bool callback_invoke(AMX *amx, const char *name, cell *retval) {
 
 	for (plugin = plugin_get_list(); plugin != NULL; plugin = plugin->next) {
 		void *func;
+		struct callback_info *info;
 		callback_handler handler;
 
 		func = plugin_find_symbol(plugin->plugin, name);
 		if (func == NULL)
 			continue;
 
-		handler = callback_find(name);
+		info = callback_find(name);
+		if (info == NULL)
+			continue;
+
+		handler = info->handler;
 		if (handler == NULL)
 			continue;
 

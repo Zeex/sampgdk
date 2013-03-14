@@ -40,14 +40,13 @@ void callback_cleanup();
  * Adds a new callback handler. Returns 0 on success and a negative
  * value on error.
  */
-int callback_add_handler(const char *name, callback_handler handler);
+int callback_set_handler(const char *name, callback_handler handler);
 
 /* 
- * Searches for a callback handler corresponding to the specified
- * callback by name. Returns NULL if there is no callback with such
- * a name.
+ * Finds a calback by name. Returns NULL if there is no callback with
+ * such a name.
  */
-callback_handler callback_find(const char *name);
+struct callback_info *callback_find(const char *name);
 
 /*
  * Invokes a callback by name and stores return value in retval
