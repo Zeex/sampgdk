@@ -46,6 +46,9 @@
 	#endif
 #endif
 
+/* AMXEXPORT */
+#define AMXEXPORT SAMPGDK_EXPORT SAMPGDK_CDECL
+
 #if defined __INTEL_COMPILER
 	/* ... */
 #elif defined __clang__
