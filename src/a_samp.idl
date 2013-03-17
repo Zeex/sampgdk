@@ -53,7 +53,7 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] int CreatePickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld);
 [native] bool DestroyPickup([in] int pickup);
 [native] bool ShowNameTags([in] bool show);
-[native] bool ShowPlayerMarkers([in] bool mode);
+[native] bool ShowPlayerMarkers([in] int mode);
 [native] bool GameModeExit();
 [native] bool SetWorldTime([in] int hour);
 [native] bool GetWeaponName([in] int weaponid, [out] char name, [in] int size);
