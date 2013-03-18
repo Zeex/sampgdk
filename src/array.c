@@ -166,7 +166,7 @@ int array_insert(struct array *a, int index, int count, void *elems) {
 		int error;
 
 		if ((error = array_resize(a, a->size + need_count)) < 0)
-			return -error;
+			return error;
 	}
 
 	if (move_count > 0) {
@@ -216,7 +216,7 @@ int array_append(struct array *a, void *elem) {
 		int error;
 
 		if ((error = array_grow(a)) < 0)
-			return -error;
+			return error;
 	}
 
 	a->count++;
