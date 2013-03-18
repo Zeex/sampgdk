@@ -160,7 +160,7 @@ int array_insert(struct array *a, int index, int count, void *elems) {
 		return -EINVAL;
 
 	need_count = a->count + count - a->size;
-	move_count = a->count - index + 1;
+	move_count = a->count - index;
 
 	if (need_count > 0) {
 		int error;
