@@ -188,6 +188,8 @@ int array_insert_single(struct array *a, int index, void *elem) {
 }
 
 int array_remove(struct array *a, int index, int count) {
+  int move_count;
+
 	assert(a != NULL);
 	assert(index >= 0);
 	assert(index < count);
@@ -195,9 +197,13 @@ int array_remove(struct array *a, int index, int count) {
 	if (count <= 0 || count > a->count - index)
 		return -EINVAL;
 
-	memmove(array_get_ptr(a, index),
-	        array_get_ptr(a, index + count),
-	        (a->count - index - count + 1) * a->elem_size);
+  move_count = a->count - index - count;
+
+  if (move_count > 0) {
+	  memmove(array_get_ptr(a, index),
+	          array_get_ptr(a, index + count),
+	          move_count * a->elem_size);
+  }
 
 	a->count -= count;
 
