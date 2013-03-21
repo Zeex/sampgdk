@@ -176,9 +176,7 @@ int array_insert(struct array *a, int index, int count, void *elems) {
 	}
 
 	a->count += count;
-	memcpy(array_get_ptr(a, index),
-	       elems,
-	       count * a->elem_size);
+	memcpy(array_get_ptr(a, index), elems, count * a->elem_size);
 
 	return 0;
 }
@@ -197,12 +195,12 @@ int array_remove(struct array *a, int index, int count) {
 	if (count <= 0 || count > a->count - index)
 		return -EINVAL;
 
-  move_count = a->count - index - count;
+	move_count = a->count - index - count;
 
-  if (move_count > 0) {
-	  memmove(array_get_ptr(a, index),
-	          array_get_ptr(a, index + count),
-	          move_count * a->elem_size);
+	if (move_count > 0) {
+		memmove(array_get_ptr(a, index),
+		        array_get_ptr(a, index + count),
+		        move_count * a->elem_size);
   }
 
 	a->count -= count;
