@@ -16,4 +16,7 @@ add_samp_plugin(${PROJECT_NAME}
 	"unlimitedfs.def"
 )
 
+file(RELATIVE_PATH folder ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER "${folder}")
+
 target_link_libraries(${PROJECT_NAME} "sampgdk")

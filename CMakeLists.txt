@@ -57,6 +57,8 @@ set(PYTHONPATH
 	"${CMAKE_SOURCE_DIR}/python/ply"
 )
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 add_subdirectory("include")
 add_subdirectory("lib")
 add_subdirectory("src")
