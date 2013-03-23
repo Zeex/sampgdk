@@ -186,7 +186,7 @@ int array_insert_single(struct array *a, int index, void *elem) {
 }
 
 int array_remove(struct array *a, int index, int count) {
-  int move_count;
+	int move_count;
 
 	assert(a != NULL);
 	assert(index >= 0);
@@ -201,7 +201,7 @@ int array_remove(struct array *a, int index, int count) {
 		memmove(array_get_ptr(a, index),
 		        array_get_ptr(a, index + count),
 		        move_count * a->elem_size);
-  }
+ 	}
 
 	a->count -= count;
 
