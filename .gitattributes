@@ -1,10 +1,5 @@
 * text=auto
 
-# C/C++ files
 *.c   text eol=lf
-*.cpp text eol=lf
 *.h   text eol=lf
-*.hpp text eol=lf
-
-# Python files
-*.py text eol=lf
+*.py  text eol=lf
