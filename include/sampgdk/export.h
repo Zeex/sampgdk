@@ -28,22 +28,30 @@
 	#define SAMPGDK_EXTERN_C
 #endif
 
-#define SAMPGDK_CALL SAMPGDK_CDECL
-
-#if SAMPGDK_LINUX
-	#if defined IN_SAMPGDK
-		#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __attribute__((visibility("default")))
-	#else
-		#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C
-	#endif
-#elif SAMPGDK_WINDOWS
-	#if defined IN_SAMPGDK
-		#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllexport)
-	#else
-		#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllimport)
-	#endif
+#if defined SAMPGDK_STATIC
+	#define SAMPGDK_CALL
 #else
-	#error Usupported operating system
+	#define SAMPGDK_CALL SAMPGDK_CDECL
+#endif
+
+#if defined SAMPGDK_STATIC
+	#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C
+#else
+	#if SAMPGDK_LINUX
+		#if defined IN_SAMPGDK
+			#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __attribute__((visibility("default")))
+		#else
+			#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C
+		#endif
+	#elif SAMPGDK_WINDOWS
+		#if defined IN_SAMPGDK
+			#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllexport)
+		#else
+			#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllimport)
+		#endif
+	#else
+		#error Usupported operating system
+	#endif
 #endif
 
 #ifndef SAMPGDK_NATIVE_EXPORT
