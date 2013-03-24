@@ -13,20 +13,28 @@
  * limitations under the License.
  */
 
+#include <assert.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 void *plugin_address_to_handle(void *address) {
 	MEMORY_BASIC_INFORMATION mbi;
 
-	VirtualQuery(address, &mbi, sizeof(mbi));
+	assert(address != NULL);
+	if (VirtualQuery(address, &mbi, sizeof(mbi)) == 0)
+		return NULL;
+
 	return (void*)mbi.AllocationBase;
 }
 
 void plugin_address_to_filename(void *address, char *filename, size_t size) {
+	assert(address != NULL);
+	assert(filename != NULL);
 	GetModuleFileName((HMODULE)plugin_address_to_handle(address), filename, size);
 }
 
 void *plugin_find_symbol(void *plugin, const char *name)  {
+	assert(plugin != NULL);
+	assert(name != NULL);
 	return (void*)GetProcAddress((HMODULE)plugin, name);
 }

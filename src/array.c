@@ -127,6 +127,8 @@ int array_pad(struct array *a) {
 }
 
 static void *array_get_ptr(struct array *a, int index) {
+	assert(a != NULL);
+	assert(index >= 0);
 	return (unsigned char*)a->data + (index * a->elem_size);
 }
 
@@ -182,6 +184,8 @@ int array_insert(struct array *a, int index, int count, void *elems) {
 }
 
 int array_insert_single(struct array *a, int index, void *elem) {
+	assert(a != NULL);
+	assert(elem != NULL);
 	return array_insert(a, index, 1, elem);
 }
 
@@ -209,6 +213,9 @@ int array_remove(struct array *a, int index, int count) {
 }
 
 int array_remove_single(struct array *a, int index) {
+	assert(a != NULL);
+	assert(index >= 0);
+	assert(index < a->count);
 	return array_remove(a, index, 1);
 }
 

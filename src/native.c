@@ -17,6 +17,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
 
+#include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,6 +43,8 @@ int native_register(const char *name, AMX_NATIVE func) {
 	info.name = name;
 	info.func = func;
 
+	assert(name != 0);
+
 	/* Maintain element order (by name). */
 	for (index = 0; index < natives.count; index++) {
 		ptr = (AMX_NATIVE_INFO *)array_get(&natives, index);
@@ -54,12 +57,16 @@ int native_register(const char *name, AMX_NATIVE func) {
 }
 
 static int compare(const void *key, const void *elem) {
+	assert(key != NULL);
+	assert(elem != NULL);
 	return strcmp((const char *)key,
 	              ((const AMX_NATIVE_INFO *)elem)->name);
 }
 
 AMX_NATIVE native_lookup(const char *name) {
 	AMX_NATIVE_INFO *info;
+
+	assert(name != NULL);
 
 	info = bsearch(name, natives.data, natives.count,
 	               natives.elem_size, compare);
@@ -68,6 +75,8 @@ AMX_NATIVE native_lookup(const char *name) {
 
 AMX_NATIVE native_lookup_warn(const char *name) {
 	AMX_NATIVE func;
+
+	assert(name != NULL);
 
 	func = native_lookup(name);
 	if (func == NULL)
@@ -84,6 +93,8 @@ cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
 AMX_NATIVE native_lookup_stub(const char *name) {
 	AMX_NATIVE func;
 
+	assert(name != NULL);
+
 	if ((func = native_lookup(name)) == NULL)
 		return native_stub;
 
@@ -92,6 +103,8 @@ AMX_NATIVE native_lookup_stub(const char *name) {
 
 AMX_NATIVE native_lookup_warn_stub(const char *name) {
 	AMX_NATIVE func;
+
+	assert(name != NULL);
 
 	if ((func = native_lookup_warn(name)) == NULL)
 		return native_stub;

@@ -18,6 +18,7 @@
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -46,11 +47,14 @@ void callback_cleanup() {
 }
 
 static int compare(const void *key, const void *elem) {
+	assert(key != NULL);
+	assert(elem != NULL);
 	return strcmp((const char *)key,
 	              ((const struct callback_info *)elem)->name);
 }
 
 struct callback_info *callback_lookup(const char *name) {
+	assert(name != NULL);
 	return bsearch(name, callbacks.data, callbacks.count,
 	               callbacks.elem_size, compare);
 }
@@ -61,6 +65,9 @@ int callback_register(const char *name, callback_handler handler) {
 	struct callback_info *ptr;
 	int index;
 	
+	assert(name != NULL);
+	assert(handler != NULL);
+
 	ptr = callback_lookup(name);
 	if (ptr != NULL) {
 		ptr->handler = handler;
@@ -98,6 +105,8 @@ int callback_register(const char *name, callback_handler handler) {
 
 bool callback_invoke(AMX *amx, const char *name, cell *retval) {
 	struct plugin_list *plugin;
+
+	assert(name != NULL);
 
 	for (plugin = plugin_get_list(); plugin != NULL; plugin = plugin->next) {
 		void *func;

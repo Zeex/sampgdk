@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+#include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -29,16 +30,17 @@ void vlogprintf(const char *format, va_list va) {
 	int nargs = 1;
 	const void **args;
 
+	assert(logprintf != NULL);
+
 	for (i = 0; format[i] != '\0'; i++) {
 		if (format[i] == '%' && format[i + 1] != '%') {
 			nargs++;
 		}
 	}
 
-	if ((args = malloc((nargs + 1) * sizeof(*args))) == NULL) {
-		logprintf(strerror(errno));
+	args = malloc((nargs + 1) * sizeof(*args));
+	if (args == NULL)
 		return;
-	}
 
 	args[0] = format;
 	for (i = 1; i <= nargs; i++) {

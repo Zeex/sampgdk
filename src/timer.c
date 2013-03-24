@@ -127,6 +127,8 @@ void timer_process_timers(void *plugin) {
 	int i;
 	struct timer_info *timer;
 
+	assert(plugin != NULL);
+
 	now = timer_clock();
 
 	for (i = 0; i < timers.count; i++) {

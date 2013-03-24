@@ -59,7 +59,6 @@ int fakeamx_new(struct fakeamx *fa) {
 
 void fakeamx_free(struct fakeamx *fa) {
 	assert(fa != NULL);
-
 	array_free(&fa->heap);
 }
 
@@ -123,6 +122,7 @@ int fakeamx_push_cell(struct fakeamx *fa, cell value, cell *address) {
 }
 
 int fakeamx_push_float(struct fakeamx *fa, float value, cell *address) {
+	assert(fa != NULL);
 	return fakeamx_push_cell(fa, amx_ftoc(value), address);
 }
 
@@ -130,6 +130,8 @@ int fakeamx_push_string(struct fakeamx *fa, const char *src, int *size, cell *ad
 	int src_size;
 	int error;
 
+	assert(address != NULL);
+	assert(src != NULL);
 	assert(address != NULL);
 
 	src_size = (int)strlen(src) + 1;
@@ -147,6 +149,7 @@ int fakeamx_push_string(struct fakeamx *fa, const char *src, int *size, cell *ad
 void fakeamx_get_cell(struct fakeamx *fa, cell address, cell *value) {
 	assert(fa != NULL);
 	assert(is_cell_aligned(address));
+	assert(value != NULL);
 
 	*value = *(cell *)array_get(&fa->heap, address / sizeof(cell));
 }
@@ -156,6 +159,7 @@ void fakeamx_get_bool(struct fakeamx *fa, cell address, bool *value) {
 
 	assert(fa != NULL);
 	assert(is_cell_aligned(address));
+	assert(value != NULL);
 
 	fakeamx_get_cell(fa, address, &tmp);
 	*value = (bool)tmp;
@@ -166,6 +170,7 @@ void fakeamx_get_float(struct fakeamx *fa, cell address, float *value) {
 
 	assert(fa != NULL);
 	assert(is_cell_aligned(address));
+	assert(value != NULL);
 
 	fakeamx_get_cell(fa, address, &tmp);
 	*value = amx_ctof(tmp);
@@ -174,6 +179,7 @@ void fakeamx_get_float(struct fakeamx *fa, cell address, float *value) {
 void fakeamx_get_string(struct fakeamx *fa, cell address, char *dest, int size) {
 	assert(fa != NULL);
 	assert(is_cell_aligned(address));
+	assert(dest != NULL);
 
 	amx_GetString(dest, (cell *)array_get(&fa->heap, address / sizeof(cell)), 0, size);
 }

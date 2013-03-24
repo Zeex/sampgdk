@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 
+#include <assert.h>
 #ifndef _GNU_SOURCE
 	#define _GNU_SOURCE 1
 #endif
@@ -22,17 +23,27 @@
 void *plugin_address_to_handle(void *address) {
 	Dl_info info;
 
-	dladdr(address, &info);
+	assert(address != NULL);
+	if (dladdr(address, &info) == 0)
+		return NULL;
+
 	return dlopen(info.dli_fname, RTLD_NOW);
 }
 
 void plugin_address_to_filename(void *address, char *fileame, size_t size) {
 	Dl_info info;
 
-	dladdr(address, &info);
+	assert(address != NULL);
+	assert(filename != NULL);
+
+	if (dladdr(address, &info) == 0)
+		return;
+
 	strncpy(fileame, info.dli_fname, size);
 }
 
 void *plugin_find_symbol(void *plugin, const char *name)  {
+	assert(plugin != NULL);
+	assert(name != NULL);
 	return dlsym(plugin, name);
 }
