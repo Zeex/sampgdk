@@ -29,7 +29,7 @@ int array_new(struct array *a, int size, int elem_size) {
 	assert(elem_size > 0);
 
 	if ((a->data = malloc(elem_size * size)) == NULL)
-		return -ENOMEM;
+		return -errno;
 
 	a->size = size;
 	a->elem_size = elem_size;
@@ -74,7 +74,7 @@ int array_resize(struct array *a, int new_size) {
 	new_data = realloc(a->data, a->elem_size * new_size);
 
 	if (new_data == NULL)
-		return -ENOMEM;
+		return -errno;
 
 	a->data = new_data;
 	a->size = new_size;
