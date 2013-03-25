@@ -13,10 +13,10 @@
  * limitations under the License.
  */
 
-#include <assert.h>
 #ifndef _GNU_SOURCE
 	#define _GNU_SOURCE 1
 #endif
+#include <assert.h>
 #include <dlfcn.h>
 #include <string.h>
 
@@ -30,7 +30,7 @@ void *plugin_address_to_handle(void *address) {
 	return dlopen(info.dli_fname, RTLD_NOW);
 }
 
-void plugin_address_to_filename(void *address, char *fileame, size_t size) {
+void plugin_address_to_filename(void *address, char *filename, size_t size) {
 	Dl_info info;
 
 	assert(address != NULL);
@@ -39,7 +39,7 @@ void plugin_address_to_filename(void *address, char *fileame, size_t size) {
 	if (dladdr(address, &info) == 0)
 		return;
 
-	strncpy(fileame, info.dli_fname, size);
+	strncpy(filename, info.dli_fname, size);
 }
 
 void *plugin_find_symbol(void *plugin, const char *name)  {
