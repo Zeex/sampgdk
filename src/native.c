@@ -70,6 +70,10 @@ AMX_NATIVE native_lookup(const char *name) {
 
 	info = bsearch(name, natives.data, natives.count,
 	               natives.elem_size, compare);
+
+	if (info == NULL)
+		return NULL;
+
 	return info->func;
 }
 
