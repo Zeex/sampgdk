@@ -1,6 +1,7 @@
 # Find sampgdk 3.x library and headers
 #
 # Defined variables:
+#
 #   Sampgdk3_FOUND
 #   Sampgdk3_LIBRARY_DIRS
 #   Sampgdk3_LIBRARY (cached)
@@ -9,8 +10,31 @@
 #   Sampgdk3_LIBRARIES
 #   Sampgdk3_INCLUDE_DIR (cached)
 #   Sampgdk3_INCLUDE_DIRS
+#   Sampgdk3_VERSION
+#   Sampgdk3_VERSION_MAJOR
+#   Sampgdk3_VERSION_MINOR
+#   Sampgdk3_VERSION_PATCH
+#   Sampgdk3_VERSION_TWEAK
+#
+# Using this module:
+#
+#   find_package(Sampgdk3 VERSION 3.2.1)
+#   if(Sampgk3_FOUND)
+#     link_directories(${Sampgdk3_LIBRARY_DIRS})
+#     include_directories(${Sampgdk3_INCLUDE_DIRS})
+#     target_link_libraries(your_target ${Sampgdk_LIBRARIES})
+#   else()
+#     ... do something about this ...
+#   endif()
+#
+#   or:
+#
+#   find_package(Sampgdk3 VERSION 3.2.1 REQUIRED)
+#   link_directories(${Sampgdk3_LIBRARY_DIRS})
+#   include_directories(${Sampgdk3_INCLUDE_DIRS})
+#   target_link_libraries(your_target ${Sampgdk_LIBRARIES})
 	
-find_path(Sampgdk3_INCLUDE_DIR NAMES "sampgdk/a_samp.h")
+find_path(Sampgdk3_INCLUDE_DIR NAMES "sampgdk/version.h")
 
 find_library(Sampgdk3_LIBRARY_DEBUG NAMES "sampgdk3_d" "libsampgdk_d.so.3")
 find_library(Sampgdk3_LIBRARY_RELEASE NAMES "sampgdk3" "libsampgdk.so.3")
@@ -58,7 +82,35 @@ mark_as_advanced(
 	Sampgdk3_INCLUDE_DIRS
 )
 
+function(get_version name text)
+	string(REGEX MATCH "#define[ \t]+SAMPGDK_VERSION_${name}[ \t]+[0-9]+" match "${text}")
+	if(match)
+		string(REGEX REPLACE ".* ([0-9]+)" "\\1" number "${match}")
+		set(Sampgdk3_VERSION_${name} ${number} PARENT_SCOPE)
+	endif()
+endfunction()
+
+if(Sampgdk3_INCLUDE_DIR)
+	file(READ "${Sampgdk3_INCLUDE_DIR}/sampgdk/version.h" text)
+	
+	get_version(MAJOR "${text}")
+	get_version(MINOR "${text}")
+	get_version(PATCH "${text}")
+	get_version(TWEAK "${text}")
+	
+	if(NOT Sampgdk3_VERSION_TWEAK OR Sampgdk3_VERSION_TWEAK EQUAL 0)
+		if(NOT Sampgdk3_VERSION_PATCH OR Sampgdk3_VERSION_PATCH EQUAL 0)
+			set(Sampgdk3_VERSION "${Sampgdk3_VERSION_MAJOR}.${Sampgdk3_VERSION_MINOR}")
+		else()
+			set(Sampgdk3_VERSION "${Sampgdk3_VERSION_MAJOR}.${Sampgdk3_VERSION_MINOR}.${Sampgdk3_VERSION_PATCH}")
+		endif()
+	else()
+		set(Sampgdk3_VERSION "${Sampgdk3_VERSION_MAJOR}.${Sampgdk3_VERSION_MINOR}.${Sampgdk3_VERSION_PATCH}.${Sampgdk3_VERSION_TWEAK}")
+	endif()
+endif()
+
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Sampgdk3
 	REQUIRED_VARS Sampgdk3_INCLUDE_DIRS Sampgdk3_LIBRARY_DIRS Sampgdk3_LIBRARIES
+	VERSION_VAR Sampgdk3_VERSION
 )
