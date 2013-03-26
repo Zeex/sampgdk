@@ -18,9 +18,7 @@
 #
 # Using this module:
 #
-#   set(SampGdk3_USE_STATIC_LIB FALSE)
 #   find_package(SampGdk3 VERSION 3.2.1)
-#
 #   if(SampGdk3_FOUND)
 #     include_directories(${SampGdk3_INCLUDE_DIRS})
 #     target_link_libraries(foo ${Sampgdk_LIBRARIES})
