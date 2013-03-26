@@ -61,8 +61,8 @@ if(SampGdk3_LIBRARY_RELEASE AND NOT SampGdk3_LIBRARY_DEBUG)
 	set(SampGdk3_LIBRARY_DEBUG   ${SampGdk3_LIBRARY_RELEASE})
 endif()
 
-set(SampGdk3_LIBRARY ${SampGdk3_LIBRARY} CACHE FILEPATH "SA-MP GDK library")
-set(SampGdk3_INCLUDE_DIR ${SampGdk3_INCLUDE_DIR} CACHE PATH "SA-MP GDK include directory")
+set(SampGdk3_LIBRARY ${SampGdk3_LIBRARY} CACHE FILEPATH "SampGdk3 library")
+set(SampGdk3_INCLUDE_DIR ${SampGdk3_INCLUDE_DIR} CACHE PATH "SampGdk3 include directory")
 
 mark_as_advanced(
 	SampGdk3_LIBRARY_DIRS
