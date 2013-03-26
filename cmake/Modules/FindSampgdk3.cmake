@@ -1,6 +1,10 @@
 # Find sampgdk 3.x library and headers
 #
-# Defined variables:
+# Recognized user-defind variables:
+# 
+#   Sampgdk3_USE_STATIC_LIB
+#
+# Variables defined by this module:
 #
 #   Sampgdk3_FOUND
 #   Sampgdk3_LIBRARY_DIRS
@@ -18,26 +22,26 @@
 #
 # Using this module:
 #
+#   set(Sampgdk3_USE_STATIC_LIB FALSE)
 #   find_package(Sampgdk3 VERSION 3.2.1)
-#   if(Sampgk3_FOUND)
-#     link_directories(${Sampgdk3_LIBRARY_DIRS})
+#
+#   if(Sampgdk3_FOUND)
 #     include_directories(${Sampgdk3_INCLUDE_DIRS})
-#     target_link_libraries(your_target ${Sampgdk_LIBRARIES})
-#   else()
-#     ... do something about this ...
+#     target_link_libraries(foo ${Sampgdk_LIBRARIES})
 #   endif()
-#
-#   or:
-#
-#   find_package(Sampgdk3 VERSION 3.2.1 REQUIRED)
-#   link_directories(${Sampgdk3_LIBRARY_DIRS})
-#   include_directories(${Sampgdk3_INCLUDE_DIRS})
-#   target_link_libraries(your_target ${Sampgdk_LIBRARIES})
 	
 find_path(Sampgdk3_INCLUDE_DIR NAMES "sampgdk/version.h")
 
-find_library(Sampgdk3_LIBRARY_DEBUG NAMES "sampgdk3_d" "libsampgdk_d.so.3")
-find_library(Sampgdk3_LIBRARY_RELEASE NAMES "sampgdk3" "libsampgdk.so.3")
+if(Sampgdk3_USE_STATIC_LIB)
+	set(Sampgdk3_LIBRARY_NAMES_DEBUG "sampgdk3_d" "libsampgdk_d.a")
+	set(Sampgdk3_LIBRARY_NAMES_RELEASE "sampgdk3" "libsampgdk.a")
+else()
+	set(Sampgdk3_LIBRARY_NAMES_DEBUG "sampgdk3_d" "libsampgdk_d.so.3")
+	set(Sampgdk3_LIBRARY_NAMES_RELEASE "sampgdk3" "libsampgdk.so.3")
+endif()
+
+find_library(Sampgdk3_LIBRARY_DEBUG NAMES ${Sampgdk3_LIBRARY_NAMES_DEBUG})
+find_library(Sampgdk3_LIBRARY_RELEASE NAMES ${Sampgdk3_LIBRARY_NAMES_RELEASE})
 
 if(Sampgdk3_LIBRARY_DEBUG AND Sampgdk3_LIBRARY_RELEASE)
 	if(CMAKE_CONFIGURATIONS OR CMAKE_BUILD_TYPE)
