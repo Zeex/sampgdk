@@ -1,10 +1,6 @@
-# Find sampgdk 3.x library and headers
+# Find sampgdk 3.x library and headers.
 #
-# Recognized user-defind variables:
-# 
-#   SampGdk3_USE_STATIC_LIB
-#
-# Variables defined by this module:
+# Defined variables:
 #
 #   SampGdk3_FOUND
 #   SampGdk3_LIBRARY_DIRS
@@ -32,16 +28,8 @@
 	
 find_path(SampGdk3_INCLUDE_DIR NAMES "sampgdk/version.h")
 
-if(SampGdk3_USE_STATIC_LIB)
-	set(SampGdk3_LIBRARY_NAMES_DEBUG "sampgdk3_d" "libsampgdk_d.a")
-	set(SampGdk3_LIBRARY_NAMES_RELEASE "sampgdk3" "libsampgdk.a")
-else()
-	set(SampGdk3_LIBRARY_NAMES_DEBUG "sampgdk3_d" "libsampgdk_d.so.3")
-	set(SampGdk3_LIBRARY_NAMES_RELEASE "sampgdk3" "libsampgdk.so.3")
-endif()
-
-find_library(SampGdk3_LIBRARY_DEBUG NAMES ${SampGdk3_LIBRARY_NAMES_DEBUG})
-find_library(SampGdk3_LIBRARY_RELEASE NAMES ${SampGdk3_LIBRARY_NAMES_RELEASE})
+find_library(SampGdk3_LIBRARY_DEBUG NAMES "sampgdk3_d" "sampgdk_d")
+find_library(SampGdk3_LIBRARY_RELEASE NAMES "sampgdk3" "sampgdk")
 
 if(SampGdk3_LIBRARY_DEBUG AND SampGdk3_LIBRARY_RELEASE)
 	if(CMAKE_CONFIGURATIONS OR CMAKE_BUILD_TYPE)
