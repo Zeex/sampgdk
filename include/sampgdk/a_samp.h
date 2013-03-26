@@ -29,16 +29,16 @@ typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
 #include <cstddef>
 #include <string>
 
-template<std::size_t N> inline bool GetNetworkStats(char (&retstr)[N]) {
+template<std::size_t N> bool GetNetworkStats(char (&retstr)[N]) {
 	return GetNetworkStats(retstr, N);
 }
-template<std::size_t N> inline bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) {
+template<std::size_t N> bool GetPlayerNetworkStats(int playerid, char (&retstr)[N]) {
 	return GetPlayerNetworkStats(playerid, retstr, N);
 }
-template<std::size_t N> inline bool GetPlayerVersion(int playerid, char (&version)[N]) {
+template<std::size_t N> bool GetPlayerVersion(int playerid, char (&version)[N]) {
 	return GetPlayerVersion(playerid, version, N);
 }
-template<std::size_t N> inline bool GetWeaponName(int weaponid, char (&name)[N]) {
+template<std::size_t N> bool GetWeaponName(int weaponid, char (&name)[N]) {
 	return GetWeaponName(weaponid, name, N);
 }
 
@@ -47,7 +47,7 @@ public:
 	Menu(int menuid) : id_(menuid) {}
 
 	int GetId() const { return id_; }
-	operator int() const { return id_; }	
+	operator int() const { return id_; }
 
 	static Menu Create(const char *title, int columns, float x, float y, float col1width, float col2width = 0.0) 
 		{ return ::CreateMenu(title, columns, x, y, col1width, col2width); }
