@@ -303,7 +303,7 @@ if(UNIX AND NOT WIN32)
 		"-Wl,--no-undefined"
 		"-Wl,--retain-symbols-file=${CMAKE_BINARY_DIR}/src/sampgdk.sym"
 	)
-	target_link_libraries(${PROJECT_NAME} "dl" "rt")
+	target_link_libraries(${PROJECT_NAME} ${CMAKE_DL_LIBS} "rt")
 endif()
 
 target_link_libraries(${PROJECT_NAME} "subhook")
