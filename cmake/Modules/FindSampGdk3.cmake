@@ -62,7 +62,10 @@ foreach(lib IN LISTS SampGdk3_LIBRARY)
 	get_filename_component(path "${lib}" PATH)
 	list(APPEND SampGdk3_LIBRARY_DIRS "${path}")
 endforeach()
-list(REMOVE_DUPLICATES SampGdk3_LIBRARY_DIRS)
+
+if(SampGdk3_LIBRARY_DIRS)
+	list(REMOVE_DUPLICATES SampGdk3_LIBRARY_DIRS)
+endif()
 
 set(SampGdk3_LIBRARIES ${SampGdk3_LIBRARY})
 set(SampGdk3_INCLUDE_DIRS ${SampGdk3_INCLUDE_DIR})
