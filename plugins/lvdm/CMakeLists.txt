@@ -7,9 +7,9 @@ if(MSVC)
 	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 endif()
 
-add_samp_plugin(${PROJECT_NAME}
+add_samp_plugin(lvdm
 	"lvdm.cpp"
 	"lvdm.def"
 )
 
-target_link_libraries(${PROJECT_NAME} "sampgdk")
+target_link_libraries(lvdm "sampgdk")
