@@ -318,11 +318,10 @@ class Logger(ply.yacc.PlyLogger):
 class Parser(object):
   keywords = {
     'const' : 'CONST',
-    'false' : 'FALSE',
-    'true'  : 'TRUE'
   }
 
   tokens = [
+    'BOOL',
     'FLOAT',
     'HEX',
     'OCT',
@@ -339,8 +338,16 @@ class Parser(object):
     'RBRACKET',
     'EQUALS',
     'COMMA',
-    'SEMICOLON'
+    'SEMICOLON',
   ] + list(keywords.values())
+
+  def t_BOOL(self, t):
+    r'(true|false)'
+    if t.value =='true':
+      t.value = True
+    elif t.value == 'false':
+      t.value = False
+    return t
 
   def t_FLOAT(self, t):
     r'(([0-9]*\.[0-9]*)([eE][+-]?[0-9]+)?|[0-9]+[eE][+-][0-9]+)'
@@ -498,9 +505,8 @@ class Parser(object):
     p[0] = self._value_class('uchar', p[1])
 
   def p_bool(self, p):
-    """bool : TRUE
-               | FALSE"""
-    p[0] = self._value_class('bool', bool(p[1]))
+    """bool : BOOL"""
+    p[0] = self._value_class('bool', p[1])
 
   def p_string(self, p):
     """string : STRING"""
