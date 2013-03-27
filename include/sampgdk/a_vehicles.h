@@ -67,7 +67,7 @@ public:
 	}
 	bool GetRotationQuat(float *w, float *x, float *y, float *z) const
 		{ return ::GetVehicleRotationQuat(id_, w, x, y, z); }
-	bool SetVehicleZAngle(float z_angle) const
+	bool SetZAngle(float z_angle) const
 		{ return ::SetVehicleZAngle(id_, z_angle); }
 	bool GetRotationQuat(float &w, float &x, float &y, float &z) const
 		{ return ::GetVehicleRotationQuat(id_, &w, &x, &y, &z); }
@@ -139,7 +139,7 @@ public:
 		{ return ::UpdateVehicleDamageStatus(id_, panels, doors, lights, tires); }
 	bool SetVirtualWorld(int worldid) const
 		{ return ::SetVehicleVirtualWorld(id_, worldid); }
-	int GetVehicleVirtualWorld() const
+	int GetVirtualWorld() const
 		{ return ::GetVehicleVirtualWorld(id_); }
 
 private:

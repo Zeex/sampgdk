@@ -105,9 +105,9 @@ public:
 		{ return ::GetPlayerWeaponState(id_); }
 	int GetTargetPlayer() const
 		{ return ::GetPlayerTargetPlayer(id_); }
-	bool SetPlayerTeam(int teamid) const
+	bool SetTeam(int teamid) const
 		{ return ::SetPlayerTeam(id_, teamid); }
-	int GetPlayerTeam() const
+	int GetTeam() const
 		{ return ::GetPlayerTeam(id_); }
 	bool SetScore(int score) const
 		{ return ::SetPlayerScore(id_, score); }
@@ -225,7 +225,7 @@ public:
 	}
 	bool RemoveAttachedObject(int index) const
 		{ return ::RemovePlayerAttachedObject(id_, index); }
-	bool IsPlayerAttachedObjectSlotUsed(int index) const
+	bool IsAttachedObjectSlotUsed(int index) const
 		{ return ::IsPlayerAttachedObjectSlotUsed(id_, index); }
 
 	bool SetChatBubble(const char *text, int color, float drawdistance, int expiretime) const
@@ -306,15 +306,15 @@ public:
 			float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT) const
 		{ return ::InterpolateCameraLookAt(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
 
-	bool IsPlayerConnected() const
+	bool IsConnected() const
 		{ return ::IsPlayerConnected(id_); }
-	bool IsPlayerInVehicle(int vehicleid) const
+	bool IsInVehicle(int vehicleid) const
 		{ return ::IsPlayerInVehicle(id_, vehicleid); }
-	bool IsPlayerInAnyVehicle() const
+	bool IsInAnyVehicle() const
 		{ return ::IsPlayerInAnyVehicle(id_); }
-	bool IsPlayerInCheckpoint() const
+	bool IsInCheckpoint() const
 		{ return ::IsPlayerInCheckpoint(id_); }
-	bool IsPlayerInRaceCheckpoint() const
+	bool IsInRaceCheckpoint() const
 		{ return ::IsPlayerInRaceCheckpoint(id_); }
 
 	bool SetVirtualWorld(int worldid) const
@@ -325,7 +325,7 @@ public:
 	bool EnableStuntBonus(bool enable) const
 		{ return ::EnableStuntBonusForPlayer(id_, enable); }
 
-	bool TogglePlayerSpectating(bool toggle) const
+	bool ToggleSpectating(bool toggle) const
 		{ return ::TogglePlayerSpectating(id_, toggle); }
 	bool SpectatePlayer(int playerid, int mode = SPECTATE_MODE_NORMAL) const 
 		{ return ::PlayerSpectatePlayer(id_, playerid, mode); }
