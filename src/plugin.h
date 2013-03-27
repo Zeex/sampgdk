@@ -31,11 +31,11 @@ struct plugin_list {
  * This functions walks through the list of registered plugins and compares
  * their handles with the given one so it's O(n).
  */
-void plugin_register(void *plugin);
+int plugin_register(void *plugin);
 
 /* Opposite of plugin_register(). 
  */
-bool plugin_unregister(void *plugin);
+int plugin_unregister(void *plugin);
 
 /* Checks if a plugin was registered with plugin_register().
  */

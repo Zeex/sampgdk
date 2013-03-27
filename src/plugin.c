@@ -16,6 +16,7 @@
 #include <sampgdk/bool.h>
 
 #include <assert.h>
+#include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -23,22 +24,26 @@
 
 static struct plugin_list *plugins;
 
-void plugin_register(void *plugin) {
+int plugin_register(void *plugin) {
 	struct plugin_list *ptr;
 
 	assert(plugin != NULL);
 
 	if (plugin_is_registered(plugin))
-		return;
+		return -EINVAL;
 
 	ptr = malloc(sizeof(*ptr));
+	if (ptr == NULL)
+		return -errno;
+
 	ptr->plugin = plugin;
 	ptr->next = plugins;
-
 	plugins = ptr;
+
+	return 0;
 }
 
-bool plugin_unregister(void *plugin) {
+int plugin_unregister(void *plugin) {
 	struct plugin_list *prev;
 	struct plugin_list *cur;
 
@@ -52,11 +57,11 @@ bool plugin_unregister(void *plugin) {
 			if (prev != NULL)
 				prev->next = cur->next;
 			free(cur);
-			return true;
+			return 0;
 		}
 	}
 
-	return false;
+	return -EINVAL;
 }
 
 bool plugin_is_registered(void *plugin) {

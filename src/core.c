@@ -128,23 +128,24 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
 	sampgdk_init_plugin(plugin, ppData);
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init(void **ppData) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **ppData) {
 	void *plugin;
 
 	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
-	sampgdk_init_plugin(plugin, ppData);
+	return sampgdk_init_plugin(plugin, ppData);
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData) {
 	if (plugin_get_list() == NULL) {
 		int error;
 
 		if ((error = do_init(ppData)) < 0) {
 			log_error(strerror(-error));
+			return error;
 		}
 	}
 
-	plugin_register(plugin);
+	return plugin_register(plugin);
 }
 
 /* deprecated */
@@ -155,30 +156,30 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
 	sampgdk_cleanup_plugin(plugin);
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_cleanup() {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup() {
 	void *plugin;
 
 	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
-	sampgdk_cleanup_plugin(plugin);
+	return sampgdk_cleanup_plugin(plugin);
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
 	if (plugin_get_list() == NULL) {
 		do_cleanup();
 	}
-	plugin_unregister(plugin);
+	return plugin_unregister(plugin);
 }
 
 SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data() {
 	return ppPluginData;
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
-	plugin_register(plugin);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
+	return plugin_register(plugin);
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin) {
-	plugin_unregister(plugin);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin) {
+	return plugin_unregister(plugin);
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {

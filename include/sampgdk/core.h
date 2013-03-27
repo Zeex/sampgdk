@@ -27,13 +27,13 @@ SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **pp
 /* Deprecated. Use sampgdk_cleanup() or sampgdk_cleanup_plugin() instead. */
 SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize());
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init(void **ppData);
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData);
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_cleanup();
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **ppData);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup();
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin);
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin);
 
 SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data();
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol);
@@ -66,11 +66,11 @@ public:
 	void *GetHandle() { return handle_; }
 	void SetHandle(void *handle) { handle_ = handle; }
 
-	void Load(void **ppData) { ::sampgdk_init_plugin(handle_, ppData); }
-	void Unload() { ::sampgdk_cleanup_plugin(handle_); }
+	int Load(void **ppData) { return ::sampgdk_init_plugin(handle_, ppData); }
+	int Unload() { return ::sampgdk_cleanup_plugin(handle_); }
 
-	void Register() { ::sampgdk_register_plugin(handle_); }
-	void Unregister() { ::sampgdk_unregister_plugin(handle_); }
+	int Register() { return ::sampgdk_register_plugin(handle_); }
+	int Unregister() { return ::sampgdk_unregister_plugin(handle_); }
 
 	void *GetSymbol(const char *name) {
 		return ::sampgdk_get_plugin_symbol(handle_, name);
