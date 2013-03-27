@@ -66,17 +66,17 @@ public:
 	void *GetHandle() { return handle_; }
 	void SetHandle(void *handle) { handle_ = handle; }
 
-	int Load(void **ppData) { return ::sampgdk_init_plugin(handle_, ppData); }
-	int Unload() { return ::sampgdk_cleanup_plugin(handle_); }
+	int Load(void **ppData) { return sampgdk_init_plugin(handle_, ppData); }
+	int Unload() { return sampgdk_cleanup_plugin(handle_); }
 
-	int Register() { return ::sampgdk_register_plugin(handle_); }
-	int Unregister() { return ::sampgdk_unregister_plugin(handle_); }
+	int Register() { return sampgdk_register_plugin(handle_); }
+	int Unregister() { return sampgdk_unregister_plugin(handle_); }
 
 	void *GetSymbol(const char *name) {
-		return ::sampgdk_get_plugin_symbol(handle_, name);
+		return sampgdk_get_plugin_symbol(handle_, name);
 	}
 
-	void ProcessTimers() { ::sampgdk_process_plugin_timers(handle_); }
+	void ProcessTimers() { sampgdk_process_plugin_timers(handle_); }
 
 private:
 	void *handle_;
@@ -97,8 +97,8 @@ public:
 	}
 
 	static void VPrintf(const char *format, std::va_list args) {
-		assert(::sampgdk_logprintf != 0 && "sampgdk is not initialized");
-		::sampgdk_vlogprintf(format, args);
+		assert(sampgdk_logprintf != 0 && "sampgdk is not initialized");
+		sampgdk_vlogprintf(format, args);
 	}
 };
 

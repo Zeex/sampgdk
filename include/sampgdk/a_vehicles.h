@@ -41,106 +41,106 @@ public:
 
 	// Sort of factory method
 	static Vehicle Create(int type, float x, float y, float z, float rotation, int color1, int color2, int respawn_delay) {
-		return ::CreateVehicle(type, x, y, z, rotation, color1, color2, respawn_delay);
+		return CreateVehicle(type, x, y, z, rotation, color1, color2, respawn_delay);
 	}
 
 	float GetDistanceFromPoint(float x, float y, float z) const
-		{ return ::GetVehicleDistanceFromPoint(id_, x, y, z); }
+		{ return GetVehicleDistanceFromPoint(id_, x, y, z); }
 	bool Destroy() const 
-		{ return ::DestroyVehicle(id_); }
+		{ return DestroyVehicle(id_); }
 	bool IsStreamedInFor(int playerid) const
-		{ return ::IsVehicleStreamedIn(id_, playerid); }
+		{ return IsVehicleStreamedIn(id_, playerid); }
 	bool GetPos(float *x, float *y, float *z) const
-		{ return ::GetVehiclePos(id_, x, y, z); }
+		{ return GetVehiclePos(id_, x, y, z); }
 	bool GetPos(float &x, float &y, float &z) const
-		{ return ::GetVehiclePos(id_, &x, &y, &z); }
+		{ return GetVehiclePos(id_, &x, &y, &z); }
 	bool SetPos(float x, float y, float z) const
-		{ return ::SetVehiclePos(id_, x, y, z); }
+		{ return SetVehiclePos(id_, x, y, z); }
 	bool GetZAngle(float *z_angle) const
-		{ return ::GetVehicleZAngle(id_, z_angle); }
+		{ return GetVehicleZAngle(id_, z_angle); }
 	bool GetZAngle(float &z_angle) const
-		{ return ::GetVehicleZAngle(id_, &z_angle); }
+		{ return GetVehicleZAngle(id_, &z_angle); }
 	float GetZAngle() const { 
 		float z_angle;
-		::GetVehicleZAngle(id_, &z_angle); 
+		GetVehicleZAngle(id_, &z_angle); 
 		return z_angle;
 	}
 	bool GetRotationQuat(float *w, float *x, float *y, float *z) const
-		{ return ::GetVehicleRotationQuat(id_, w, x, y, z); }
+		{ return GetVehicleRotationQuat(id_, w, x, y, z); }
 	bool SetZAngle(float z_angle) const
-		{ return ::SetVehicleZAngle(id_, z_angle); }
+		{ return SetVehicleZAngle(id_, z_angle); }
 	bool GetRotationQuat(float &w, float &x, float &y, float &z) const
-		{ return ::GetVehicleRotationQuat(id_, &w, &x, &y, &z); }
+		{ return GetVehicleRotationQuat(id_, &w, &x, &y, &z); }
 	bool SetParamsForPlayer(int playerid, bool objective, bool doorslocked) const
-		{ return ::SetVehicleParamsForPlayer(id_, playerid, objective, doorslocked); }
+		{ return SetVehicleParamsForPlayer(id_, playerid, objective, doorslocked); }
 	bool SetParamsEx(bool engine, bool lights, bool alarm, bool doors, bool bonnet, bool boot, bool objective) const
-		{ return ::SetVehicleParamsEx(id_, engine, lights, alarm, doors, bonnet, boot, objective); }
+		{ return SetVehicleParamsEx(id_, engine, lights, alarm, doors, bonnet, boot, objective); }
 	bool GetParamsEx(bool *engine, bool *lights, bool *alarm, bool *doors, bool *bonnet, bool *boot, bool *objective) const
-		{ return ::GetVehicleParamsEx(id_, engine, lights, alarm, doors, bonnet, boot, objective); }
+		{ return GetVehicleParamsEx(id_, engine, lights, alarm, doors, bonnet, boot, objective); }
 	bool GetParamsEx(bool &engine, bool &lights, bool &alarm, bool &doors, bool &bonnet, bool &boot, bool &objective) const
-		{ return ::GetVehicleParamsEx(id_, &engine, &lights, &alarm, &doors, &bonnet, &boot, &objective); }
+		{ return GetVehicleParamsEx(id_, &engine, &lights, &alarm, &doors, &bonnet, &boot, &objective); }
 	bool SetToRespawn() const
-		{ return ::SetVehicleToRespawn(id_); }
+		{ return SetVehicleToRespawn(id_); }
 	bool LinkToInterior(int interiorid) const
-		{ return ::LinkVehicleToInterior(id_, interiorid); }
+		{ return LinkVehicleToInterior(id_, interiorid); }
 	bool AddComponent(int componentid) const 
-		{ return ::AddVehicleComponent(id_, componentid); }
+		{ return AddVehicleComponent(id_, componentid); }
 	bool RemoveComponent(int componentid) const
-		{ return ::RemoveVehicleComponent(id_, componentid); }
+		{ return RemoveVehicleComponent(id_, componentid); }
 	bool ChangeColor(int color1, int color2) const
-		{ return ::ChangeVehicleColor(id_, color1, color2); }
+		{ return ChangeVehicleColor(id_, color1, color2); }
 	bool ChangePaintjob(int paintjobid) const
-		{ return ::ChangeVehiclePaintjob(id_, paintjobid); }
+		{ return ChangeVehiclePaintjob(id_, paintjobid); }
 	bool SetHealth(float health) const
-		{ return ::SetVehicleHealth(id_, health); }
+		{ return SetVehicleHealth(id_, health); }
 	bool GetHealth(float *health) const
-		{ return ::GetVehicleHealth(id_, health); }
+		{ return GetVehicleHealth(id_, health); }
 	bool GetHealth(float &health) const
-		{ return ::GetVehicleHealth(id_, &health); }
+		{ return GetVehicleHealth(id_, &health); }
 	float GetHealth() const {
 		float health;
-		::GetVehicleHealth(id_, &health);
+		GetVehicleHealth(id_, &health);
 		return health;
 	}
 	bool AttachTrailer(int trailerid) const
-		{ return ::AttachTrailerToVehicle(trailerid, id_); }
+		{ return AttachTrailerToVehicle(trailerid, id_); }
 	bool DetachTrailer() const
-		{ return ::DetachTrailerFromVehicle(id_); }
+		{ return DetachTrailerFromVehicle(id_); }
 	bool IsTrailerAttached() const
-		{ return ::IsTrailerAttachedToVehicle(id_); }
+		{ return IsTrailerAttachedToVehicle(id_); }
 	int GetTrailer() const
-		{ return ::GetVehicleTrailer(id_); }
+		{ return GetVehicleTrailer(id_); }
 	bool SetNumberPlate(const char *numberplate) const
-		{ return ::SetVehicleNumberPlate(id_, numberplate); }
+		{ return SetVehicleNumberPlate(id_, numberplate); }
 	int GetModel() const
-		{ return ::GetVehicleModel(id_); }
+		{ return GetVehicleModel(id_); }
 	int GetComponentInSlot(int slot) const
-		{ return ::GetVehicleComponentInSlot(id_, slot); }
+		{ return GetVehicleComponentInSlot(id_, slot); }
 	bool Repair() const
-		{ return ::RepairVehicle(id_); }
+		{ return RepairVehicle(id_); }
 	bool GetVelocity(float *X, float *Y, float *Z) const
-		{ return ::GetVehicleVelocity(id_, X, Y, Z); }
+		{ return GetVehicleVelocity(id_, X, Y, Z); }
 	bool GetVelocity(float &X, float &Y, float &Z) const
-		{ return ::GetVehicleVelocity(id_, &X, &Y, &Z); }
+		{ return GetVehicleVelocity(id_, &X, &Y, &Z); }
 	float GetSpeed() const {
 		float velX, velY, velZ;
 		GetVelocity(velX, velY, velZ);
 		return std::sqrt(velX*velX + velY*velY + velZ*velZ);
 	}
 	bool SetVelocity(float X, float Y, float Z) const
-		{ return ::SetVehicleVelocity(id_, X, Y, Z); }
+		{ return SetVehicleVelocity(id_, X, Y, Z); }
 	bool SetAngularVelocity(float X, float Y, float Z) const
-		{ return ::SetVehicleAngularVelocity(id_, X, Y, Z); }
+		{ return SetVehicleAngularVelocity(id_, X, Y, Z); }
 	bool GetDamageStatus(int *panels, int *doors, int *lights, int *tires) const
-		{ return ::GetVehicleDamageStatus(id_, panels, doors, lights, tires); }
+		{ return GetVehicleDamageStatus(id_, panels, doors, lights, tires); }
 	bool GetDamageStatus(int &panels, int &doors, int &lights, int &tires) const
-		{ return ::GetVehicleDamageStatus(id_, &panels, &doors, &lights, &tires); }
+		{ return GetVehicleDamageStatus(id_, &panels, &doors, &lights, &tires); }
 	bool UpdateDamageStatus(int panels, int doors, int lights, int tires) const
-		{ return ::UpdateVehicleDamageStatus(id_, panels, doors, lights, tires); }
+		{ return UpdateVehicleDamageStatus(id_, panels, doors, lights, tires); }
 	bool SetVirtualWorld(int worldid) const
-		{ return ::SetVehicleVirtualWorld(id_, worldid); }
+		{ return SetVehicleVirtualWorld(id_, worldid); }
 	int GetVirtualWorld() const
-		{ return ::GetVehicleVirtualWorld(id_); }
+		{ return GetVehicleVirtualWorld(id_); }
 
 private:
 	const int id_;
