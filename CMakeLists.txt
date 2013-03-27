@@ -10,8 +10,8 @@ set(SAMPGDK_VERSION_TWEAK "0")
 set(SAMPGDK_VERSION_STRING "3.2.1")
 
 list(APPEND CMAKE_MODULE_PATH
-	"${CMAKE_SOURCE_DIR}/cmake"
-	"${CMAKE_SOURCE_DIR}/cmake/Modules"
+	"${PROJECT_SOURCE_DIR}/cmake"
+	"${PROJECT_SOURCE_DIR}/cmake/Modules"
 )
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -41,15 +41,15 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	endif()
 endif()
 
-include_directories("${CMAKE_SOURCE_DIR}/include")
-include_directories("${CMAKE_BINARY_DIR}/include")
-include_directories("${CMAKE_BINARY_DIR}/src") # FIXME: should be done from src
+include_directories("${PROJECT_SOURCE_DIR}/include")
+include_directories("${PROJECT_BINARY_DIR}/include")
+include_directories("${PROJECT_BINARY_DIR}/src") # FIXME: should be done from src
 
 find_package(PythonInterp 2.7 REQUIRED)
 
 set(PYTHONPATH
-	"${CMAKE_SOURCE_DIR}/cidl"
-	"${CMAKE_SOURCE_DIR}/python/ply"
+	"${PROJECT_SOURCE_DIR}/cidl"
+	"${PROJECT_SOURCE_DIR}/python/ply"
 )
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -77,7 +77,7 @@ list(APPEND SAMPGDK_HEADERS
 	"include/sampgdk/platform.h"
 	"include/sampgdk/plugin.h"
 	"include/sampgdk/plugincommon.h"
-	"${CMAKE_BINARY_DIR}/include/sampgdk/version.h"
+	"${PROJECT_BINARY_DIR}/include/sampgdk/version.h"
 )
 
 list(APPEND SAMPGDK_SOURCES
@@ -115,18 +115,18 @@ list(APPEND SAMPGDK_SOURCES
 )
 
 if(WIN32)
-	list(APPEND SAMPGDK_SOURCES "${CMAKE_BINARY_DIR}/src/call.asm.obj")
+	list(APPEND SAMPGDK_SOURCES "${PROJECT_BINARY_DIR}/src/call.asm.obj")
 	if("${CMAKE_ASM_NASM_COMPILER}" MATCHES "[yY][aA][sS][mM]")
 		set(options "-f" "win32" "--prefix=_")
 	else()
 		set(options "-fwin32" "--prefix" "_")
 	endif()
 	add_custom_command(
-		OUTPUT  "${CMAKE_BINARY_DIR}/src/call.asm.obj"
+		OUTPUT  "${PROJECT_BINARY_DIR}/src/call.asm.obj"
 		COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${options} "-o"
-			"${CMAKE_BINARY_DIR}/src/call.asm.obj"
-			"${CMAKE_SOURCE_DIR}/src/call.asm"
-		MAIN_DEPENDENCY "${CMAKE_SOURCE_DIR}/src/call.asm"
+			"${PROJECT_BINARY_DIR}/src/call.asm.obj"
+			"${PROJECT_SOURCE_DIR}/src/call.asm"
+		MAIN_DEPENDENCY "${PROJECT_SOURCE_DIR}/src/call.asm"
 	)
 endif()
 
@@ -176,22 +176,22 @@ function(add_header_gen idl_file header_file)
 			${CMAKE_COMMAND}
 				"-DCODEGEN_IDL_FILE=${idl_file}"
 				"-DCODEGEN_HDR_FILE=${header_file}"
-			"-P" "${CMAKE_BINARY_DIR}/src/codegen.py.cmake"
+			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
 		DEPENDS
 			${idl_file} "src/codegen.py"
 	)
 endfunction()
 
-add_header_gen("src/a_objects.idl"  "${CMAKE_BINARY_DIR}/include/sampgdk/a_objects-decl.h")
-add_header_gen("src/a_players.idl"  "${CMAKE_BINARY_DIR}/include/sampgdk/a_players-decl.h")
-add_header_gen("src/a_samp.idl"     "${CMAKE_BINARY_DIR}/include/sampgdk/a_samp-decl.h")
-add_header_gen("src/a_vehicles.idl" "${CMAKE_BINARY_DIR}/include/sampgdk/a_vehicles-decl.h")
+add_header_gen("src/a_objects.idl"  "${PROJECT_BINARY_DIR}/include/sampgdk/a_objects-decl.h")
+add_header_gen("src/a_players.idl"  "${PROJECT_BINARY_DIR}/include/sampgdk/a_players-decl.h")
+add_header_gen("src/a_samp.idl"     "${PROJECT_BINARY_DIR}/include/sampgdk/a_samp-decl.h")
+add_header_gen("src/a_vehicles.idl" "${PROJECT_BINARY_DIR}/include/sampgdk/a_vehicles-decl.h")
 
 list(APPEND SAMPGDK_GENERATED_HEADERS
-	"${CMAKE_BINARY_DIR}/include/sampgdk/a_objects-decl.h"
-	"${CMAKE_BINARY_DIR}/include/sampgdk/a_players-decl.h"
-	"${CMAKE_BINARY_DIR}/include/sampgdk/a_samp-decl.h"
-	"${CMAKE_BINARY_DIR}/include/sampgdk/a_vehicles-decl.h"
+	"${PROJECT_BINARY_DIR}/include/sampgdk/a_objects-decl.h"
+	"${PROJECT_BINARY_DIR}/include/sampgdk/a_players-decl.h"
+	"${PROJECT_BINARY_DIR}/include/sampgdk/a_samp-decl.h"
+	"${PROJECT_BINARY_DIR}/include/sampgdk/a_vehicles-decl.h"
 )
 
 list(APPEND SAMPGDK_HEADERS ${SAMPGDK_GENERATED_HEADERS})
@@ -206,22 +206,22 @@ function(add_source_gen idl_file source_file)
 			${CMAKE_COMMAND}
 				"-DCODEGEN_IDL_FILE=${idl_file}"
 				"-DCODEGEN_SRC_FILE=${source_file}"
-			"-P" "${CMAKE_BINARY_DIR}/src/codegen.py.cmake"
+			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
 		DEPENDS
 			${idl_file} "src/codegen.py"
 	)
 endfunction()
 
-add_source_gen("src/a_objects.idl"  "${CMAKE_BINARY_DIR}/src/a_objects-impl.c")
-add_source_gen("src/a_players.idl"  "${CMAKE_BINARY_DIR}/src/a_players-impl.c")
-add_source_gen("src/a_samp.idl"     "${CMAKE_BINARY_DIR}/src/a_samp-impl.c")
-add_source_gen("src/a_vehicles.idl" "${CMAKE_BINARY_DIR}/src/a_vehicles-impl.c")
+add_source_gen("src/a_objects.idl"  "${PROJECT_BINARY_DIR}/src/a_objects-impl.c")
+add_source_gen("src/a_players.idl"  "${PROJECT_BINARY_DIR}/src/a_players-impl.c")
+add_source_gen("src/a_samp.idl"     "${PROJECT_BINARY_DIR}/src/a_samp-impl.c")
+add_source_gen("src/a_vehicles.idl" "${PROJECT_BINARY_DIR}/src/a_vehicles-impl.c")
 
 list(APPEND SAMPGDK_GENERATED_SOURCES
-	"${CMAKE_BINARY_DIR}/src/a_objects-impl.c"
-	"${CMAKE_BINARY_DIR}/src/a_players-impl.c"
-	"${CMAKE_BINARY_DIR}/src/a_samp-impl.c"
-	"${CMAKE_BINARY_DIR}/src/a_vehicles-impl.c"
+	"${PROJECT_BINARY_DIR}/src/a_objects-impl.c"
+	"${PROJECT_BINARY_DIR}/src/a_players-impl.c"
+	"${PROJECT_BINARY_DIR}/src/a_samp-impl.c"
+	"${PROJECT_BINARY_DIR}/src/a_vehicles-impl.c"
 )
 
 set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -237,36 +237,36 @@ function(add_api_gen idl_file api_file)
 			${CMAKE_COMMAND}
 				"-DCODEGEN_IDL_FILE=${idl_file}"
 				"-DCODEGEN_API_FILE=${api_file}"
-			"-P" "${CMAKE_BINARY_DIR}/src/codegen.py.cmake"
+			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
 		DEPENDS
 			${idl_file} "src/codegen.py"
 	)
 endfunction()
 
-add_api_gen("src/a_objects.idl"  "${CMAKE_BINARY_DIR}/src/a_objects.api")
-add_api_gen("src/a_players.idl"  "${CMAKE_BINARY_DIR}/src/a_players.api")
-add_api_gen("src/a_samp.idl"     "${CMAKE_BINARY_DIR}/src/a_samp.api")
-add_api_gen("src/a_vehicles.idl" "${CMAKE_BINARY_DIR}/src/a_vehicles.api")
+add_api_gen("src/a_objects.idl"  "${PROJECT_BINARY_DIR}/src/a_objects.api")
+add_api_gen("src/a_players.idl"  "${PROJECT_BINARY_DIR}/src/a_players.api")
+add_api_gen("src/a_samp.idl"     "${PROJECT_BINARY_DIR}/src/a_samp.api")
+add_api_gen("src/a_vehicles.idl" "${PROJECT_BINARY_DIR}/src/a_vehicles.api")
 
 list(APPEND SAMPGDK_APIS
-	"${CMAKE_BINARY_DIR}/src/a_objects.api"
-	"${CMAKE_BINARY_DIR}/src/a_players.api"
-	"${CMAKE_BINARY_DIR}/src/a_samp.api"
-	"${CMAKE_BINARY_DIR}/src/a_vehicles.api"
+	"${PROJECT_BINARY_DIR}/src/a_objects.api"
+	"${PROJECT_BINARY_DIR}/src/a_players.api"
+	"${PROJECT_BINARY_DIR}/src/a_samp.api"
+	"${PROJECT_BINARY_DIR}/src/a_vehicles.api"
 )
 
 list(APPEND SAMPGDK_SOURCES ${SAMPGDK_APIS})
 
 if(WIN32)
 	add_custom_command(
-		OUTPUT  "${CMAKE_BINARY_DIR}/src/sampgdk.def"
-		COMMAND "${CMAKE_COMMAND}" "-P" "${CMAKE_BINARY_DIR}/src/sampgdk.def.cmake"
+		OUTPUT  "${PROJECT_BINARY_DIR}/src/sampgdk.def"
+		COMMAND "${CMAKE_COMMAND}" "-P" "${PROJECT_BINARY_DIR}/src/sampgdk.def.cmake"
 		DEPENDS ${SAMPGDK_APIS}
 	)
 elseif(UNIX)
 	add_custom_command(
-		OUTPUT  "${CMAKE_BINARY_DIR}/src/sampgdk.sym"
-		COMMAND "${CMAKE_COMMAND}" "-P" "${CMAKE_BINARY_DIR}/src/sampgdk.sym.cmake"
+		OUTPUT  "${PROJECT_BINARY_DIR}/src/sampgdk.sym"
+		COMMAND "${CMAKE_COMMAND}" "-P" "${PROJECT_BINARY_DIR}/src/sampgdk.sym.cmake"
 		DEPENDS ${SAMPGDK_APIS}
 	)
 endif()
@@ -298,13 +298,13 @@ if(UNIX AND NOT WIN32)
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY
 	             LINK_FLAGS " -Wl,--no-undefined")
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY
-	             LINK_FLAGS " -Wl,--retain-symbols-file=${CMAKE_BINARY_DIR}/src/sampgdk.sym")
+	             LINK_FLAGS " -Wl,--retain-symbols-file=${PROJECT_BINARY_DIR}/src/sampgdk.sym")
 	target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
 endif()
 
 target_link_libraries(sampgdk subhook)
 
-install(DIRECTORY "include" "${CMAKE_BINARY_DIR}/include"
+install(DIRECTORY "include" "${PROJECT_BINARY_DIR}/include"
         DESTINATION "." COMPONENT "dev" FILES_MATCHING PATTERN "*.h")
 
 install(TARGETS sampgdk
@@ -324,7 +324,7 @@ if(WIN32)
 	    "${CPACK_PACKAGE_NAME} ${SAMPGDK_VERSION_MAJOR}.${SAMPGDK_VERSION_MINOR}")
 endif()
 
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE.txt")
 set(CPACK_COMPONENT_BIN_DISPLAY_NAME "Runtime")
 set(CPACK_COMPONENT_BIN_DESCRIPTION "Runtime library needed to run plugins")
 set(CPACK_COMPONENT_BIN_INSTALL_TYPES "Full" "Minimal")
