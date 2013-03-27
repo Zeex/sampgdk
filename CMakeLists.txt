@@ -14,11 +14,6 @@ list(APPEND CMAKE_MODULE_PATH
 	"${CMAKE_SOURCE_DIR}/cmake/Modules"
 )
 
-include(AddTargetCompileFlags)
-include(AddTargetDefinitions)
-include(AddTargetIncludeDirs)
-include(AddTargetLinkFlags)
-
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	if(WIN32)
 		set(CMAKE_ASM_NASM_OBJECT_FORMAT "win32")
@@ -295,14 +290,15 @@ elseif(UNIX)
 endif()
 
 if(MSVC)
-	add_target_definitions(sampgdk "_CRT_SECURE_NO_WARNINGS")
+	set_property(TARGET sampgdk APPEND PROPERTY
+	             COMPILE_DEFINITIONS "_CRT_SECURE_NO_WARNINGS")
 endif()
 
 if(UNIX AND NOT WIN32)
-	add_target_link_flags(sampgdk
-		"-Wl,--no-undefined"
-		"-Wl,--retain-symbols-file=${CMAKE_BINARY_DIR}/src/sampgdk.sym"
-	)
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY
+	             LINK_FLAGS " -Wl,--no-undefined")
+	set_property(TARGET sampgdk APPEND_STRING PROPERTY
+	             LINK_FLAGS " -Wl,--retain-symbols-file=${CMAKE_BINARY_DIR}/src/sampgdk.sym")
 	target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
 endif()
 
