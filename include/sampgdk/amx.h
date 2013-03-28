@@ -21,7 +21,7 @@
 /* stdint.h */
 #if !defined HAVE_STDINT_H
 	#if (!defined __STDC__ && __STDC_VERSION__ >= 199901L /* C99 or newer */)\
-		|| (defined _MSC_VER_ && _MSC_VER >= 1600 /* Visual Studio 2010 and later */)\
+		|| (defined _MSC_VER && _MSC_VER >= 1600 /* Visual Studio 2010 and later */)\
 		|| defined __GNUC__ /* GCC, MinGW, etc */
 		#define HAVE_STDINT_H 1
 	#endif
