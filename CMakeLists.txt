@@ -304,8 +304,8 @@ endif()
 
 target_link_libraries(sampgdk subhook)
 
-install(DIRECTORY "include" "${PROJECT_BINARY_DIR}/include"
-        DESTINATION "." COMPONENT "dev" FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY "include/sampgdk" "${PROJECT_BINARY_DIR}/include/sampgdk"
+        DESTINATION "include" COMPONENT "dev" FILES_MATCHING PATTERN "*.h")
 
 install(TARGETS sampgdk
         RUNTIME DESTINATION "bin" COMPONENT "bin"
