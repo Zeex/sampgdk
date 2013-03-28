@@ -741,7 +741,9 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
 	((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Align32] = (void*)my_amx_Align;
 	((void**)pAMXFunctions)[PLUGIN_AMX_EXPORT_Align64] = (void*)my_amx_Align;
 
-	ufs.Load(ppData);
+	if (ufs.Load(ppData) < 0) {
+		return false;
+	}
 
 	return (::loading = true);
 }

@@ -785,8 +785,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
-	lvdm.Load(ppData);
-	return true;
+	return lvdm.Load(ppData) >= 0;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
