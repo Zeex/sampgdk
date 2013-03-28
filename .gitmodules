@@ -1,7 +1,7 @@
-[submodule "python/ply"]
-	path = python/ply
-	url = git://github.com/dabeaz/ply.git
-	ignore = untracked
 [submodule "lib/subhook"]
 	path = lib/subhook
 	url = git://github.com/Zeex/subhook.git
+[submodule "lib/python/ply"]
+	path = lib/python/ply
+	url = git://github.com/dabeaz/ply.git
+	ignore = untracked

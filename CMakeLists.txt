@@ -49,7 +49,7 @@ find_package(PythonInterp 2.7 REQUIRED)
 
 set(PYTHONPATH
 	"${PROJECT_SOURCE_DIR}/cidl"
-	"${PROJECT_SOURCE_DIR}/python/ply"
+	"${PROJECT_SOURCE_DIR}/lib/python/ply"
 )
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
