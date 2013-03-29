@@ -304,13 +304,24 @@ endif()
 
 target_link_libraries(sampgdk subhook)
 
-install(DIRECTORY "include/sampgdk" "${PROJECT_BINARY_DIR}/include/sampgdk"
-        DESTINATION "include" COMPONENT "dev" FILES_MATCHING PATTERN "*.h")
+foreach(header IN LISTS SAMPGDK_HEADERS)
+	get_filename_component(path ${header} PATH)
+	get_filename_component(abs_path ${path} ABSOLUTE)
+
+	if(header MATCHES "${PROJECT_BINARY_DIR}")
+		file(RELATIVE_PATH dir ${PROJECT_BINARY_DIR} ${abs_path})
+	else()
+		file(RELATIVE_PATH dir ${PROJECT_SOURCE_DIR} ${abs_path})
+	endif()
+
+	install(FILES ${header} DESTINATION ${dir})
+endforeach()
 
 install(TARGETS sampgdk
-        RUNTIME DESTINATION "bin" COMPONENT "bin"
-        ARCHIVE DESTINATION "lib" COMPONENT "dev"
-        LIBRARY DESTINATION "lib" COMPONENT "bin")
+	RUNTIME DESTINATION "bin" COMPONENT "bin"
+	ARCHIVE DESTINATION "lib" COMPONENT "dev"
+	LIBRARY DESTINATION "lib" COMPONENT "bin"
+)
 
 set(CPACK_PACKAGE_NAME "sampgdk")
 set(CPACK_PACKAGE_CONTACT "CPack")
