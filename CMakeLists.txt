@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.8)
 project(sampgdk)
 
 option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
+option(SAMPGDK_STATIC "Build static library instead" OFF)
 
 set(SAMPGDK_VERSION_MAJOR "3")
 set(SAMPGDK_VERSION_MINOR "3")
@@ -53,6 +54,10 @@ set(PYTHONPATH
 )
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+if(SAMPGDK_STATIC)
+	add_definitions(-DSAMPGDK_STATIC)
+endif()
 
 add_subdirectory("include")
 add_subdirectory("lib")
@@ -271,7 +276,11 @@ elseif(UNIX)
 	)
 endif()
 
-add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
+if(SAMPGDK_STATIC)
+	add_library(sampgdk STATIC ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
+else()
+	add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
+endif()
 
 set_target_properties(sampgdk PROPERTIES
 	DEBUG_POSTFIX "_d"
