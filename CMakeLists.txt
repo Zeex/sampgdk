@@ -57,6 +57,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 if(SAMPGDK_STATIC)
 	add_definitions(-DSAMPGDK_STATIC)
+	
 endif()
 
 add_subdirectory("include")
@@ -64,6 +65,17 @@ add_subdirectory("lib")
 add_subdirectory("src")
 if(SAMPGDK_BUILD_PLUGINS)
 	add_subdirectory("plugins")
+endif()
+
+if(SAMPGDK_STATIC)
+	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
+	            PROPERTY LIBRARIES)
+	foreach(lib IN LISTS libs)
+		get_target_property(sources ${lib} SOURCES)
+		foreach(file IN LISTS sources)
+			list(APPEND SAMPGDK_SOURCES "${${lib}_SOURCE_DIR}/${file}")
+		endforeach()
+	endforeach()
 endif()
 
 list(APPEND SAMPGDK_HEADERS
@@ -311,7 +323,11 @@ if(UNIX AND NOT WIN32)
 	target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
 endif()
 
-target_link_libraries(sampgdk subhook)
+if(NOT SAMPGDK_STATIC)
+	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
+	            PROPERTY LIBRARIES)
+	target_link_libraries(sampgdk ${libs})
+endif()
 
 foreach(header IN LISTS SAMPGDK_HEADERS)
 	get_filename_component(path ${header} PATH)
