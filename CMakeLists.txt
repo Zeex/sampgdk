@@ -320,7 +320,9 @@ if(UNIX AND NOT WIN32)
 	             LINK_FLAGS " -Wl,--no-undefined")
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY
 	             LINK_FLAGS " -Wl,--retain-symbols-file=${PROJECT_BINARY_DIR}/src/sampgdk.sym")
-	target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
+	if(NOT SAMPGDK_STATIC)
+		target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
+	endif()
 endif()
 
 if(NOT SAMPGDK_STATIC)
