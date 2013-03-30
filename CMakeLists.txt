@@ -89,6 +89,7 @@ list(APPEND SAMPGDK_HEADERS
 	"include/sampgdk/a_vehicles.h"
 	"include/sampgdk/amx.h"
 	"include/sampgdk/bool.h"
+	"include/sampgdk/callnative.hpp"
 	"include/sampgdk/core.h"
 	"include/sampgdk/export.h"
 	"include/sampgdk/platform.h"
