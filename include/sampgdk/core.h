@@ -55,53 +55,7 @@ typedef void (*sampgdk_vlogprintf_t)(const char *format, va_list args);
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
 #ifdef __cplusplus
-
-#include <cassert>
-#include <cstdarg>
-
-class Plugin {
-public:
-	Plugin(void *handle) : handle_(handle) {}
-
-	void *GetHandle() { return handle_; }
-	void SetHandle(void *handle) { handle_ = handle; }
-
-	int Load(void **ppData) { return sampgdk_init_plugin(handle_, ppData); }
-	int Unload() { return sampgdk_cleanup_plugin(handle_); }
-
-	int Register() { return sampgdk_register_plugin(handle_); }
-	int Unregister() { return sampgdk_unregister_plugin(handle_); }
-
-	void *GetSymbol(const char *name) {
-		return sampgdk_get_plugin_symbol(handle_, name);
-	}
-
-	void ProcessTimers() { sampgdk_process_plugin_timers(handle_); }
-
-private:
-	void *handle_;
-};
-
-class ThisPlugin : public Plugin {
-public:
-	ThisPlugin() : Plugin(::sampgdk_get_plugin_handle(this)) {}
-};
-
-class ServerLog {
-public:
-	static void Printf(const char *format, ...) {
-		std::va_list args;
-		va_start(args, format);
-		VPrintf(format, args);
-		va_end(args);
-	}
-
-	static void VPrintf(const char *format, std::va_list args) {
-		assert(sampgdk_logprintf != 0 && "sampgdk is not initialized");
-		sampgdk_vlogprintf(format, args);
-	}
-};
-
-#endif /* __cplusplus */
+	#include <sampgdk/core.hpp>
+#endif
 
 #endif /* !SAMPGDK_CORE_H */
