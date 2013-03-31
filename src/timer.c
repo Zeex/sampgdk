@@ -107,7 +107,10 @@ int timer_set(time_t interval, bool repeat, timer_callback callback, void *param
 	if (slot >= 0) {
 		array_set(&timers, slot, &timer);
 	} else {
-		array_append(&timers, &timer);
+		if (array_append(&timers, &timer) < 0) {
+			free(timer);
+			return -errno;
+		}
 		slot = timers.count - 1;
 	}
 
