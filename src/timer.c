@@ -26,15 +26,6 @@
 #include "likely.h"
 #include "timer.h"
 
-struct timer_info {
-	time_t          interval;
-	bool            repeat;
-	timer_callback  callback;
-	void           *param;
-	time_t          started;
-	void           *plugin;
-};
-
 static struct array timers;
 
 static struct timer_info *get_timer_ptr(int timerid) {
