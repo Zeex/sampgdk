@@ -14,7 +14,6 @@
  */
 
 #include <sampgdk/bool.h>
-#include <sampgdk/core.h>
 
 #include <assert.h>
 #include <errno.h>
@@ -24,6 +23,7 @@
 
 #include "array.h"
 #include "likely.h"
+#include "plugin.h"
 #include "timer.h"
 
 static struct array timers;
@@ -101,7 +101,7 @@ int timer_set(time_t interval, bool repeat, timer_callback callback, void *param
 	timer->callback = callback;
 	timer->param    = param;
 	timer->started  = timer_clock();
-	timer->plugin   = sampgdk_get_plugin_handle(callback);
+	timer->plugin   = plugin_address_to_handle(callback);
 
 	slot = find_free_slot();
 	if (slot >= 0) {
