@@ -13,9 +13,6 @@
  * limitations under the License.
  */
 
-#include <sampgdk/bool.h>
-#include <sampgdk/export.h>
-
 #include <sampgdk/a_vehicles.h>
 
 #include "amx-stack.h"
