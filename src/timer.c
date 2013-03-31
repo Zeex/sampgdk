@@ -56,8 +56,16 @@ static void fire_timer(int timerid, time_t elapsed) {
 
 	(timer->callback)(timerid, timer->param);
 
-	if (timer->repeat)
-		timer->started = timer_clock() - (elapsed - timer->interval);
+	/* At this point the timer may be NULL as it could be killed
+	 * by the timer callback.
+	 */
+
+	timer = get_timer_ptr(timerid);
+	if (timer != NULL)
+		if (timer->repeat)
+			timer->started = timer_clock() - (elapsed - timer->interval);
+		else
+			timer_kill(timerid);
 }
 
 int timer_init() {
@@ -139,11 +147,7 @@ void timer_process_timers(void *plugin) {
 
 		elapsed = now - timer->started;
 
-		if (elapsed >= timer->interval) {
+		if (elapsed >= timer->interval)
 			fire_timer(i, elapsed);
-
-			if (!timer->repeat)
-				timer_kill(i);
-		}
 	}
 }
