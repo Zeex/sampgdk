@@ -29,11 +29,11 @@
 static struct array timers;
 
 static struct timer_info *get_timer_ptr(int timerid) {
-	return ((void**)timers.data)[timerid];
+	return ((void**)timers.data)[timerid - 1];
 }
 
 static void set_timer_ptr(int timerid, struct timer_info *ptr) {
-	((void**)timers.data)[timerid] = ptr;
+	((void**)timers.data)[timerid - 1] = ptr;
 }
 
 static int find_free_slot() {
@@ -56,10 +56,9 @@ static void fire_timer(int timerid, time_t elapsed) {
 
 	(timer->callback)(timerid, timer->param);
 
-	/* At this point the timer may be NULL as it could be killed
-	 * by the timer callback.
+	/* At this point the could be killed by the timer callback,
+	 * so the timer pointer may be no longer valid.
 	 */
-
 	timer = get_timer_ptr(timerid);
 	if (timer != NULL)
 		if (timer->repeat)
@@ -83,10 +82,10 @@ void timer_cleanup() {
 	array_free(&timers);
 }
 
-int timer_set(int *timerid, time_t interval, bool repeat, timer_callback callback, void *param) {
+int timer_set(time_t interval, bool repeat, timer_callback callback, void *param) {
 	struct timer_info *timer;
+	int slot;
 
-	assert(timerid != NULL);
 	assert(callback != NULL);
 
 	timer = malloc(sizeof(*timer));
@@ -100,24 +99,28 @@ int timer_set(int *timerid, time_t interval, bool repeat, timer_callback callbac
 	timer->started  = timer_clock();
 	timer->plugin   = sampgdk_get_plugin_handle(callback);
 
-	*timerid = find_free_slot();
-	if (*timerid >= 0) {
-		array_set(&timers, *timerid, &timer);
+	slot = find_free_slot();
+	if (slot >= 0) {
+		array_set(&timers, slot, &timer);
 	} else {
 		array_append(&timers, &timer);
-		*timerid = timers.count - 1;
+		slot = timers.count - 1;
 	}
 
-	return 0;
+	/* Timer IDs returned by the SA:MP's SetTimer() API begin
+	 * with 1, and so do they here.
+	 */
+	return slot + 1;
 }
 
 int timer_kill(int timerid) {
 	struct timer_info *timer;
 
-	if (timerid < 0 || timerid >= timers.count)
+	if (timerid <= 0 || timerid > timers.count)
 		return -EINVAL;
 
-	if ((timer = get_timer_ptr(timerid)) ==  NULL)
+	timer = get_timer_ptr(timerid);
+	if (timer ==  NULL)
 		return -EINVAL;
 
 	free(timer);
@@ -136,7 +139,7 @@ void timer_process_timers(void *plugin) {
 
 	now = timer_clock();
 
-	for (i = 0; i < timers.count; i++) {
+	for (i = 1; i <= timers.count; i++) {
 		timer = get_timer_ptr(i);
 
 		if (timer == NULL) 

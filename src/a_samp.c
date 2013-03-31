@@ -31,15 +31,9 @@
 #include "a_samp-impl.c"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback, void *param)) {
-	int timerid;
-
-	if (timer_set(&timerid, interval, repeat, (timer_callback)callback, param) >= 0) {
-		return timerid + 1;
-	}
-
-	return 0;
+	return timer_set(interval, repeat, (timer_callback)callback, param);
 }
 
 SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
-	return timer_kill(timerid - 1) >= 0;
+	return timer_kill(timerid) >= 0;
 }

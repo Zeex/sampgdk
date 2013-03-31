@@ -35,7 +35,7 @@ struct timer_info {
 int timer_init();
 void timer_cleanup();
 
-int timer_set(int *timerid, time_t interval, bool repeat, timer_callback calback, void *param);
+int timer_set(time_t interval, bool repeat, timer_callback calback, void *param);
 int timer_kill(int timerid);
 
 void timer_process_timers(void *plugin);
