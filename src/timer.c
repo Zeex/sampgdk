@@ -83,7 +83,7 @@ int timer_set(int *timerid, time_t interval, bool repeat, timer_callback callbac
 
 	timer = malloc(sizeof(*timer));
 	if (timer == NULL)
-		return -ENOMEM;
+		return -errno;
 
 	timer->interval = interval;
 	timer->repeat   = repeat;
