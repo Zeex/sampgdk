@@ -29,10 +29,12 @@
 static struct array timers;
 
 static struct timer_info *get_timer_ptr(int timerid) {
+	assert(timerid > 0 && timerid <= timers.count);
 	return ((void**)timers.data)[timerid - 1];
 }
 
 static void set_timer_ptr(int timerid, struct timer_info *ptr) {
+	assert(timerid > 0 && timerid <= timers.count);
 	((void**)timers.data)[timerid - 1] = ptr;
 }
 
@@ -49,6 +51,8 @@ static int find_free_slot() {
 
 static void fire_timer(int timerid, time_t elapsed) {
 	struct timer_info *timer;
+
+	assert(timerid > 0 && timerid <= timers.count);
 
 	timer = get_timer_ptr(timerid);
 	if (timer == NULL)
