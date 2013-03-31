@@ -224,7 +224,7 @@ def gen_callbacks(idl, hdr, src):
   if src is not None:
     for f in callbacks:
       src.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_type)(%s);\n' % (f.type, f.name, ParamList(f.params)))
-      src.write('bool %s_handler(AMX *amx, void *callback, cell *retval) {\n' % f.name)
+      src.write('static bool %s_handler(AMX *amx, void *callback, cell *retval) {\n' % f.name)
 
       badret = f.get_attr('badret')
       if badret is not None:
