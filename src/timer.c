@@ -32,6 +32,10 @@ static struct timer_info *get_timer_ptr(int timerid) {
 	return ((void**)timers.data)[timerid];
 }
 
+static void set_timer_ptr(int timerid, struct timer_info *ptr) {
+	((void**)timers.data)[timerid] = ptr;
+}
+
 static int find_free_slot() {
 	int i;
 
@@ -109,6 +113,8 @@ int timer_kill(int timerid) {
 		return -EINVAL;
 
 	free(timer);
+	set_timer_ptr(timerid, NULL);
+
 	return 0;
 }
 
