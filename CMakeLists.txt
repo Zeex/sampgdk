@@ -192,7 +192,7 @@ macro(sampgdk_add_header_gen module_name idl_file header_file)
 		COMMAND ${CMAKE_COMMAND}
 			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
-			"-DCODEGEN_HDR_FILE=${header_file}"
+			"-DCODEGEN_HEADER_FILE=${header_file}"
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
 		DEPENDS ${idl_file} "src/codegen.py"
 	)
@@ -204,7 +204,7 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
 		COMMAND ${CMAKE_COMMAND}
 			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
-			"-DCODEGEN_SRC_FILE=${source_file}"
+			"-DCODEGEN_SOURCE_FILE=${source_file}"
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
 		DEPENDS ${idl_file} "src/codegen.py")
 	list(APPEND SAMPGDK_SOURCES ${source_file})

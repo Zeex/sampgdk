@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-#include <sampgdk/a_players.hpp>
+#include <sampgdk/a_players-decl.h>
 
 template<std::size_t N> bool GetPlayerName(int playerid, char (&name)[N]) {
 	return GetPlayerName(playerid, name, N);
