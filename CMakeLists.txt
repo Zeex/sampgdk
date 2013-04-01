@@ -176,70 +176,10 @@ else()
 	message(FATAL_ERROR "Unsupported operating system")
 endif()
 
-function(add_header_gen idl_file header_file)
-	get_filename_component(idl_file ${idl_file} ABSOLUTE)
-	get_filename_component(header_file ${header_file} ABSOLUTE)
-	add_custom_command(
-		OUTPUT
-			${header_file}
-		COMMAND
-			${CMAKE_COMMAND}
-				"-DCODEGEN_IDL_FILE=${idl_file}"
-				"-DCODEGEN_HDR_FILE=${header_file}"
-			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
-		DEPENDS
-			${idl_file} "src/codegen.py"
-	)
-endfunction()
-
-add_header_gen("src/a_objects.idl"  "${PROJECT_BINARY_DIR}/include/sampgdk/a_objects-decl.h")
-add_header_gen("src/a_players.idl"  "${PROJECT_BINARY_DIR}/include/sampgdk/a_players-decl.h")
-add_header_gen("src/a_samp.idl"     "${PROJECT_BINARY_DIR}/include/sampgdk/a_samp-decl.h")
-add_header_gen("src/a_vehicles.idl" "${PROJECT_BINARY_DIR}/include/sampgdk/a_vehicles-decl.h")
-
-list(APPEND SAMPGDK_GENERATED_HEADERS
-	"${PROJECT_BINARY_DIR}/include/sampgdk/a_objects-decl.h"
-	"${PROJECT_BINARY_DIR}/include/sampgdk/a_players-decl.h"
-	"${PROJECT_BINARY_DIR}/include/sampgdk/a_samp-decl.h"
-	"${PROJECT_BINARY_DIR}/include/sampgdk/a_vehicles-decl.h"
-)
-
-list(APPEND SAMPGDK_HEADERS ${SAMPGDK_GENERATED_HEADERS})
-
-function(add_source_gen idl_file source_file)
-	get_filename_component(idl_file ${idl_file} ABSOLUTE)
-	get_filename_component(source_file ${source_file} ABSOLUTE)
-	add_custom_command(
-		OUTPUT
-			${source_file}
-		COMMAND
-			${CMAKE_COMMAND}
-				"-DCODEGEN_IDL_FILE=${idl_file}"
-				"-DCODEGEN_SRC_FILE=${source_file}"
-			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
-		DEPENDS
-			${idl_file} "src/codegen.py"
-	)
-endfunction()
-
-add_source_gen("src/a_objects.idl"  "${PROJECT_BINARY_DIR}/src/a_objects-impl.c")
-add_source_gen("src/a_players.idl"  "${PROJECT_BINARY_DIR}/src/a_players-impl.c")
-add_source_gen("src/a_samp.idl"     "${PROJECT_BINARY_DIR}/src/a_samp-impl.c")
-add_source_gen("src/a_vehicles.idl" "${PROJECT_BINARY_DIR}/src/a_vehicles-impl.c")
-
-list(APPEND SAMPGDK_GENERATED_SOURCES
-	"${PROJECT_BINARY_DIR}/src/a_objects-impl.c"
-	"${PROJECT_BINARY_DIR}/src/a_players-impl.c"
-	"${PROJECT_BINARY_DIR}/src/a_samp-impl.c"
-	"${PROJECT_BINARY_DIR}/src/a_vehicles-impl.c"
-)
-
-set_source_files_properties(${SAMPGDK_GENERATED_SOURCES} PROPERTIES HEADER_FILE_ONLY TRUE)
-list(APPEND SAMPGDK_SOURCES ${SAMPGDK_GENERATED_SOURCES})
-
 function(add_api_gen idl_file api_file)
 	get_filename_component(idl_file ${idl_file} ABSOLUTE)
 	get_filename_component(api_file ${api_file} ABSOLUTE)
+
 	add_custom_command(
 		OUTPUT
 			${api_file}
@@ -251,21 +191,68 @@ function(add_api_gen idl_file api_file)
 		DEPENDS
 			${idl_file} "src/codegen.py"
 	)
+
+	set(SAMPGDK_APIS ${SAMPGDK_APIS} ${api_file} PARENT_SCOPE)
 endfunction()
 
-add_api_gen("src/a_objects.idl"  "${PROJECT_BINARY_DIR}/src/a_objects.api")
-add_api_gen("src/a_players.idl"  "${PROJECT_BINARY_DIR}/src/a_players.api")
-add_api_gen("src/a_samp.idl"     "${PROJECT_BINARY_DIR}/src/a_samp.api")
-add_api_gen("src/a_vehicles.idl" "${PROJECT_BINARY_DIR}/src/a_vehicles.api")
+function(add_header_gen idl_file header_file)
+	get_filename_component(idl_file ${idl_file} ABSOLUTE)
+	get_filename_component(header_file ${header_file} ABSOLUTE)
 
-list(APPEND SAMPGDK_APIS
-	"${PROJECT_BINARY_DIR}/src/a_objects.api"
-	"${PROJECT_BINARY_DIR}/src/a_players.api"
-	"${PROJECT_BINARY_DIR}/src/a_samp.api"
-	"${PROJECT_BINARY_DIR}/src/a_vehicles.api"
-)
+	add_custom_command(
+		OUTPUT
+			${header_file}
+		COMMAND
+			${CMAKE_COMMAND}
+				"-DCODEGEN_IDL_FILE=${idl_file}"
+				"-DCODEGEN_HDR_FILE=${header_file}"
+			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
+		DEPENDS
+			${idl_file} "src/codegen.py"
+	)
 
-list(APPEND SAMPGDK_SOURCES ${SAMPGDK_APIS})
+	set(SAMPGDK_HEADERS ${SAMPGDK_HEADERS} ${header_file} PARENT_SCOPE)
+endfunction()
+
+function(add_source_gen idl_file source_file)
+	get_filename_component(idl_file ${idl_file} ABSOLUTE)
+	get_filename_component(source_file ${source_file} ABSOLUTE)
+
+	add_custom_command(
+		OUTPUT
+			${source_file}
+		COMMAND
+			${CMAKE_COMMAND}
+				"-DCODEGEN_IDL_FILE=${idl_file}"
+				"-DCODEGEN_SRC_FILE=${source_file}"
+			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
+		DEPENDS
+			${idl_file} "src/codegen.py"
+	)
+
+	set(SAMPGDK_SOURCES ${SAMPGDK_SOURCES} ${source_file} PARENT_SCOPE)
+	set_source_files_properties(${source_file} PROPERTIES HEADER_FILE_ONLY TRUE)
+endfunction()
+
+macro(add_module name)
+	add_api_gen(
+		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
+		"${PROJECT_BINARY_DIR}/src/${name}.api"
+	)
+	add_source_gen(
+		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
+		"${PROJECT_BINARY_DIR}/src/${name}-impl.c"
+	)
+	add_header_gen(
+		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
+		"${PROJECT_BINARY_DIR}/include/sampgdk/${name}-decl.h"
+	)
+endmacro()
+
+add_module("a_objects")
+add_module("a_players")
+add_module("a_samp")
+add_module("a_vehicles")
 
 if(WIN32)
 	add_custom_command(
@@ -280,6 +267,8 @@ elseif(UNIX)
 		DEPENDS ${SAMPGDK_APIS}
 	)
 endif()
+
+list(APPEND SAMPGDK_SOURCES ${SAMPGDK_APIS})
 
 if(SAMPGDK_STATIC)
 	add_library(sampgdk STATIC ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
