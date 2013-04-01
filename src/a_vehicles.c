@@ -12,14 +12,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-#include <sampgdk/a_vehicles.h>
-
-#include "amx-stack.h"
-#include "callback.h"
-#include "fakeamx.h"
-#include "init.h"
-#include "likely.h"
-#include "native.h"
-
-#include "a_vehicles-impl.c"

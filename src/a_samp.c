@@ -14,16 +14,7 @@
  */
 
 #include <sampgdk/a_samp.h>
-
-#include "amx-stack.h"
-#include "callback.h"
-#include "fakeamx.h"
-#include "init.h"
-#include "likely.h"
-#include "native.h"
 #include "timer.h"
-
-#include "a_samp-impl.c"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback, void *param)) {
 	return timer_set(interval, repeat, (timer_callback)callback, param);

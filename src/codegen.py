@@ -130,6 +130,18 @@ def gen_natives(module_name, idl, hdr, src, api):
     hdr.write('\n')
 
   if src is not None:
+    includes = [
+      '<sampgdk/export.h>',
+      '"amx-stack.h"',
+      '"fakeamx.h"',
+      '"likely.h"',
+      '"native.h"',
+    ]
+
+    for file in includes:
+      src.write('#include %s\n' % file)
+    src.write('\n')
+
     for f in natives_with_impl:
       src.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' % (f.type, EXPORT_PREFIX, f.name, ParamList(f.params)))
       src.write('\tstatic AMX_NATIVE native;\n')
@@ -222,6 +234,16 @@ def gen_callbacks(module_name, idl, hdr, src):
                    (f.type, f.name, ParamList(f.params)))
 
   if src is not None:
+    includes = [
+      '<sampgdk/export.h>',
+      '"callback.h"',
+      '"init.h"',
+    ]
+
+    for file in includes:
+      src.write('#include %s\n' % file)
+    src.write('\n')
+
     for f in callbacks:
       src.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_type)(%s);\n' % (f.type, f.name, ParamList(f.params)))
       src.write('static bool %s_handler(AMX *amx, void *callback, cell *retval) {\n' % f.name)

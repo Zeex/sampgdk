@@ -44,7 +44,8 @@ endif()
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_BINARY_DIR}/include")
-include_directories("${PROJECT_BINARY_DIR}/src") # FIXME: should be done from src
+include_directories("${PROJECT_SOURCE_DIR}/src")
+include_directories("${PROJECT_BINARY_DIR}/src")
 
 find_package(PythonInterp 2.7 REQUIRED)
 
@@ -207,7 +208,6 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
 		DEPENDS ${idl_file} "src/codegen.py")
 	list(APPEND SAMPGDK_SOURCES ${source_file})
-	set_source_files_properties(${source_file} PROPERTIES HEADER_FILE_ONLY TRUE)
 endmacro()
 
 macro(sampgdk_add_module name)
