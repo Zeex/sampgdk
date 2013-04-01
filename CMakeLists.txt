@@ -176,7 +176,7 @@ else()
 	message(FATAL_ERROR "Unsupported operating system")
 endif()
 
-function(add_api_gen idl_file api_file)
+function(sampgdk_add_api_gen idl_file api_file)
 	get_filename_component(idl_file ${idl_file} ABSOLUTE)
 	get_filename_component(api_file ${api_file} ABSOLUTE)
 
@@ -195,7 +195,7 @@ function(add_api_gen idl_file api_file)
 	set(SAMPGDK_APIS ${SAMPGDK_APIS} ${api_file} PARENT_SCOPE)
 endfunction()
 
-function(add_header_gen idl_file header_file)
+function(sampgdk_add_header_gen idl_file header_file)
 	get_filename_component(idl_file ${idl_file} ABSOLUTE)
 	get_filename_component(header_file ${header_file} ABSOLUTE)
 
@@ -214,7 +214,7 @@ function(add_header_gen idl_file header_file)
 	set(SAMPGDK_HEADERS ${SAMPGDK_HEADERS} ${header_file} PARENT_SCOPE)
 endfunction()
 
-function(add_source_gen idl_file source_file)
+function(sampgdk_add_source_gen idl_file source_file)
 	get_filename_component(idl_file ${idl_file} ABSOLUTE)
 	get_filename_component(source_file ${source_file} ABSOLUTE)
 
@@ -234,25 +234,25 @@ function(add_source_gen idl_file source_file)
 	set_source_files_properties(${source_file} PROPERTIES HEADER_FILE_ONLY TRUE)
 endfunction()
 
-macro(add_module name)
-	add_api_gen(
+macro(sampgdk_add_module name)
+	sampgdk_add_api_gen(
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
 		"${PROJECT_BINARY_DIR}/src/${name}.api"
 	)
-	add_source_gen(
+	sampgdk_add_source_gen(
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
 		"${PROJECT_BINARY_DIR}/src/${name}-impl.c"
 	)
-	add_header_gen(
+	sampgdk_add_header_gen(
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
 		"${PROJECT_BINARY_DIR}/include/sampgdk/${name}-decl.h"
 	)
 endmacro()
 
-add_module("a_objects")
-add_module("a_players")
-add_module("a_samp")
-add_module("a_vehicles")
+sampgdk_add_module("a_objects")
+sampgdk_add_module("a_players")
+sampgdk_add_module("a_samp")
+sampgdk_add_module("a_vehicles")
 
 if(WIN32)
 	add_custom_command(
