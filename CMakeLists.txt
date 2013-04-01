@@ -176,63 +176,37 @@ else()
 	message(FATAL_ERROR "Unsupported operating system")
 endif()
 
-function(sampgdk_add_api_gen idl_file api_file)
-	get_filename_component(idl_file ${idl_file} ABSOLUTE)
-	get_filename_component(api_file ${api_file} ABSOLUTE)
-
-	add_custom_command(
-		OUTPUT
-			${api_file}
-		COMMAND
-			${CMAKE_COMMAND}
-				"-DCODEGEN_IDL_FILE=${idl_file}"
-				"-DCODEGEN_API_FILE=${api_file}"
+macro(sampgdk_add_api_gen idl_file api_file)
+	add_custom_command(OUTPUT ${api_file}
+		COMMAND ${CMAKE_COMMAND}
+			"-DCODEGEN_IDL_FILE=${idl_file}"
+			"-DCODEGEN_API_FILE=${api_file}"
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
-		DEPENDS
-			${idl_file} "src/codegen.py"
-	)
+		DEPENDS ${idl_file} "src/codegen.py")
+	list(APPEND SAMPGDK_APIS ${api_file})
+endmacro()
 
-	set(SAMPGDK_APIS ${SAMPGDK_APIS} ${api_file} PARENT_SCOPE)
-endfunction()
-
-function(sampgdk_add_header_gen idl_file header_file)
-	get_filename_component(idl_file ${idl_file} ABSOLUTE)
-	get_filename_component(header_file ${header_file} ABSOLUTE)
-
-	add_custom_command(
-		OUTPUT
-			${header_file}
-		COMMAND
-			${CMAKE_COMMAND}
-				"-DCODEGEN_IDL_FILE=${idl_file}"
-				"-DCODEGEN_HDR_FILE=${header_file}"
+macro(sampgdk_add_header_gen idl_file header_file)
+	add_custom_command(OUTPUT ${header_file}
+		COMMAND ${CMAKE_COMMAND}
+			"-DCODEGEN_IDL_FILE=${idl_file}"
+			"-DCODEGEN_HDR_FILE=${header_file}"
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
-		DEPENDS
-			${idl_file} "src/codegen.py"
+		DEPENDS ${idl_file} "src/codegen.py"
 	)
+	list(APPEND SAMPGDK_HEADERS ${header_file})
+endmacro()
 
-	set(SAMPGDK_HEADERS ${SAMPGDK_HEADERS} ${header_file} PARENT_SCOPE)
-endfunction()
-
-function(sampgdk_add_source_gen idl_file source_file)
-	get_filename_component(idl_file ${idl_file} ABSOLUTE)
-	get_filename_component(source_file ${source_file} ABSOLUTE)
-
-	add_custom_command(
-		OUTPUT
-			${source_file}
-		COMMAND
-			${CMAKE_COMMAND}
-				"-DCODEGEN_IDL_FILE=${idl_file}"
-				"-DCODEGEN_SRC_FILE=${source_file}"
+macro(sampgdk_add_source_gen idl_file source_file)
+	add_custom_command(OUTPUT ${source_file}
+		COMMAND ${CMAKE_COMMAND}
+			"-DCODEGEN_IDL_FILE=${idl_file}"
+			"-DCODEGEN_SRC_FILE=${source_file}"
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
-		DEPENDS
-			${idl_file} "src/codegen.py"
-	)
-
-	set(SAMPGDK_SOURCES ${SAMPGDK_SOURCES} ${source_file} PARENT_SCOPE)
+		DEPENDS ${idl_file} "src/codegen.py")
+	list(APPEND SAMPGDK_SOURCES ${source_file})
 	set_source_files_properties(${source_file} PROPERTIES HEADER_FILE_ONLY TRUE)
-endfunction()
+endmacro()
 
 macro(sampgdk_add_module name)
 	sampgdk_add_api_gen(
