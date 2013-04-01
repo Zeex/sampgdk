@@ -27,24 +27,11 @@
 
 #include "call.h"
 #include "callback.h"
-#include "init.h"
 #include "log.h"
 #include "logprintf.h"
 #include "native.h"
 #include "plugin.h"
 #include "timer.h"
-
-extern const struct callback_info callback_table__a_samp[];
-extern const struct callback_info callback_table__a_players[];
-extern const struct callback_info callback_table__a_objects[];
-extern const struct callback_info callback_table__a_vehicles[];
-
-static const struct callback_info *callback_tables[] = {
-	callback_table__a_samp,
-	callback_table__a_players,
-	callback_table__a_objects,
-	callback_table__a_vehicles
-};
 
 static void **ppPluginData;
 
@@ -264,32 +251,6 @@ static int install_hooks() {
 no_memory:
 	remove_hooks();
 	return -ENOMEM;
-}
-
-static int register_callbacks() {
-	static size_t n = sizeof(callback_tables) / sizeof(*callback_tables);
-	size_t i;
-
-	for (i = 0; i < n; i++) {
-		const struct callback_info *p;
-		int error = 0;
-
-		for (p = callback_tables[i]; p->name != NULL; p++) {
-			error = callback_register(p->name, p->handler);
-			if (error < 0)
-				return error;
-		}
-	}
-
-	return 0;
-}
-
-DEFINE_INIT_FUNC(core_init) {
-	int error;
-
-	error = register_callbacks();
-	if (error < 0)
-		log_error(strerror(-error));
 }
 
 static void init_plugin_data(void **ppData) {

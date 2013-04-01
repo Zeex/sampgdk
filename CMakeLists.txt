@@ -175,9 +175,10 @@ else()
 	message(FATAL_ERROR "Unsupported operating system")
 endif()
 
-macro(sampgdk_add_api_gen idl_file api_file)
+macro(sampgdk_add_api_gen module_name idl_file api_file)
 	add_custom_command(OUTPUT ${api_file}
 		COMMAND ${CMAKE_COMMAND}
+			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
 			"-DCODEGEN_API_FILE=${api_file}"
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
@@ -185,9 +186,10 @@ macro(sampgdk_add_api_gen idl_file api_file)
 	list(APPEND SAMPGDK_APIS ${api_file})
 endmacro()
 
-macro(sampgdk_add_header_gen idl_file header_file)
+macro(sampgdk_add_header_gen module_name idl_file header_file)
 	add_custom_command(OUTPUT ${header_file}
 		COMMAND ${CMAKE_COMMAND}
+			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
 			"-DCODEGEN_HDR_FILE=${header_file}"
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
@@ -196,9 +198,10 @@ macro(sampgdk_add_header_gen idl_file header_file)
 	list(APPEND SAMPGDK_HEADERS ${header_file})
 endmacro()
 
-macro(sampgdk_add_source_gen idl_file source_file)
+macro(sampgdk_add_source_gen module_name idl_file source_file)
 	add_custom_command(OUTPUT ${source_file}
 		COMMAND ${CMAKE_COMMAND}
+			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
 			"-DCODEGEN_SRC_FILE=${source_file}"
 			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
@@ -208,15 +211,15 @@ macro(sampgdk_add_source_gen idl_file source_file)
 endmacro()
 
 macro(sampgdk_add_module name)
-	sampgdk_add_api_gen(
+	sampgdk_add_api_gen(${name}
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
 		"${PROJECT_BINARY_DIR}/src/${name}.api"
 	)
-	sampgdk_add_source_gen(
+	sampgdk_add_source_gen(${name}
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
 		"${PROJECT_BINARY_DIR}/src/${name}-impl.c"
 	)
-	sampgdk_add_header_gen(
+	sampgdk_add_header_gen(${name}
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
 		"${PROJECT_BINARY_DIR}/include/sampgdk/${name}-decl.h"
 	)

@@ -18,11 +18,10 @@
 #include "amx-stack.h"
 #include "callback.h"
 #include "fakeamx.h"
+#include "init.h"
 #include "likely.h"
 #include "native.h"
 #include "timer.h"
-
-#define callback_table callback_table__a_samp
 
 #include "a_samp-impl.c"
 

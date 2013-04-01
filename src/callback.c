@@ -46,7 +46,10 @@ DEFINE_CLEANUP_FUNC(callback_cleanup) {
 
 DEFINE_INIT_FUNC(callback_init) {
 	int error;
-	
+
+	if (callbacks.data != NULL)
+		return; /* alrady initialized */
+
 	error = array_new(&callbacks, 1, sizeof(struct callback_info));
 	if (error < 0)
 		log_error(strerror(-error));
@@ -76,6 +79,9 @@ int callback_register(const char *name, callback_handler handler) {
 	assert(name != NULL);
 	assert(handler != NULL);
 
+	/* This is rather an exception than a rule. */
+	callback_init();
+
 	ptr = callback_lookup(name);
 	if (ptr != NULL) {
 		ptr->handler = handler;
@@ -99,13 +105,25 @@ int callback_register(const char *name, callback_handler handler) {
 	}
 
 	/* Append to the end. */
-	if (index == callbacks.count) {
+	if (index == callbacks.count)
 		error = array_append(&callbacks, &info);
-	}
 
 	if (error < 0) {
 		free(info.name);
 		return error;
+	}
+
+	return 0;
+}
+
+int callback_register_table(const struct callback_info *table) {
+	const struct callback_info *p;
+	int error;
+
+	for (p = table; p->name != NULL; p++) {
+		error = callback_register(p->name, p->handler);
+		if (error < 0)
+			return error;
 	}
 
 	return 0;

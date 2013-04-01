@@ -111,13 +111,13 @@ def previous_and_next(iterable):
     nexts = itertools.chain(itertools.islice(nexts, 1, None), [None])
     return itertools.izip(prevs, items, nexts)
 
-def gen_constants(idl, hdr):
+def gen_constants(module_name, idl, hdr):
   if hdr is not None:
     for c in idl.constants:
       hdr.write('#define %s (%s)\n' % (c.name, c.value))
     hdr.write('\n')
 
-def gen_natives(idl, hdr, src, api):
+def gen_natives(module_name, idl, hdr, src, api):
   natives = filter(lambda x: x.has_attr('native'), idl.functions)
   natives_with_impl = filter(lambda x: not x.has_attr('noimpl'), natives)
 
@@ -213,7 +213,7 @@ def gen_natives(idl, hdr, src, api):
     for f in natives:
       api.write('%s%s\n' % (EXPORT_PREFIX, f.name))
 
-def gen_callbacks(idl, hdr, src):
+def gen_callbacks(module_name, idl, hdr, src):
   callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
 
   if hdr is not None:
@@ -266,17 +266,22 @@ def gen_callbacks(idl, hdr, src):
 
       src.write('}\n\n')
 
-    src.write('const struct callback_info callback_table[] = {\n')
+    src.write('static const struct callback_info callback_table[] = {\n')
 
     for f in sorted(callbacks, key=lambda x: x.name, reverse=True):
       src.write('\t"%s", %s_handler,\n' % (f.name, f.name))
 
     src.write('\tNULL, NULL\n')
-    src.write('};\n')
+    src.write('};\n\n')
+
+    src.write('DEFINE_INIT_FUNC(register_callbacks__%s) {\n' % module_name)
+    src.write('\tcallback_register_table(callback_table);\n')
+    src.write('}\n')
     
 def main(argv):
   argparser = argparse.ArgumentParser()
 
+  argparser.add_argument('--module-name', dest='module_name', metavar='name', required=True)
   argparser.add_argument('--idl', dest='idl_file', metavar='filename', required=True)
   argparser.add_argument('--hdr', dest='hdr_file', metavar='filename')
   argparser.add_argument('--src', dest='src_file', metavar='filename')
@@ -311,11 +316,11 @@ def main(argv):
       api = open(args.api_file, 'w')
 
     if args.gen_constants or args.gen_all:
-      gen_constants(idl, hdr)
+      gen_constants(args.module_name, idl, hdr)
     if args.gen_natives or args.gen_all:
-      gen_natives(idl, hdr, src, api)
+      gen_natives(args.module_name, idl, hdr, src, api)
     if args.gen_callbacks or args.gen_all:
-      gen_callbacks(idl, hdr, src)
+      gen_callbacks(args.module_name, idl, hdr, src)
 
   except cidl.Error as e:
     sys.stderr.write('%s\n' % e)

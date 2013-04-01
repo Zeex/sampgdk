@@ -38,6 +38,10 @@ struct callback_info *callback_lookup(const char *name);
  */
 int callback_register(const char *name, callback_handler handler);
 
+/* A "vectorized" version of the above function.
+ */
+int callback_register_table(const struct callback_info *table);
+
 /*
  * Invokes a callback by name and stores return value in retval
  * if retval is not NULL. Returns false if there is no callback
