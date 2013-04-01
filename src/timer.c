@@ -19,10 +19,13 @@
 #include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include "array.h"
+#include "init.h"
 #include "likely.h"
+#include "log.h"
 #include "plugin.h"
 #include "timer.h"
 
@@ -71,19 +74,20 @@ static void fire_timer(int timerid, time_t elapsed) {
 			timer_kill(timerid);
 }
 
-int timer_init() {
+DEFINE_CLEANUP_FUNC(timer_cleanup) {
+	array_free(&timers);
+}
+
+DEFINE_INIT_FUNC(timer_init) {
 	int error;
 	
 	error = array_new(&timers, 10, sizeof(void *));
 	if (error < 0)
-		return error;
+		log_error(strerror(-error));
+	else
+		array_zero(&timers);
 
-	array_zero(&timers);
-	return 0;
-}
-
-void timer_cleanup() {
-	array_free(&timers);
+	atexit(timer_cleanup);
 }
 
 int timer_set(time_t interval, bool repeat, timer_callback callback, void *param) {

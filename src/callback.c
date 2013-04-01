@@ -26,15 +26,13 @@
 
 #include "array.h"
 #include "callback.h"
+#include "init.h"
+#include "log.h"
 #include "plugin.h"
 
 static struct array callbacks;
 
-int callback_init() {
-	return array_new(&callbacks, 1, sizeof(struct callback_info));
-}
-
-void callback_cleanup() {
+DEFINE_CLEANUP_FUNC(callback_cleanup) {
 	int index;
 
 	for (index = 0; index < callbacks.count; index++) {
@@ -44,6 +42,16 @@ void callback_cleanup() {
 	}
 
 	array_free(&callbacks);
+}
+
+DEFINE_INIT_FUNC(callback_init) {
+	int error;
+	
+	error = array_new(&callbacks, 1, sizeof(struct callback_info));
+	if (error < 0)
+		log_error(strerror(-error));
+
+	atexit(callback_cleanup);
 }
 
 static int compare(const void *key, const void *elem) {

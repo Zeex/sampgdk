@@ -32,15 +32,6 @@ struct timer_info {
 	void           *plugin;
 };
 
-/* Initializes internal global data. Returns 0 on success or a negative
- * value otherwise.
- */
-int timer_init();
-
-/* Frees internal data.
- */
-void timer_cleanup();
-
 /* Sets a new timer that is fired after interval milliseconds. If repeat is
  * true the timer is called repeatedly until it gets killed by timer_kill().
  * The callback parameter specifies the function to be called once the timer

@@ -23,16 +23,23 @@
 #include <string.h>
 
 #include "array.h"
+#include "init.h"
 #include "log.h"
 
 static struct array natives;
 
-int native_init() {
-	return array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
+DEFINE_CLEANUP_FUNC(native_cleanup) {
+	array_free(&natives);
 }
 
-void native_cleanup() {
-	array_free(&natives);
+DEFINE_INIT_FUNC(native_init) {
+	int error;
+	
+	error = array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
+	if (error < 0)
+		log_error(strerror(-error));
+
+	atexit(native_cleanup);
 }
 
 int native_register(const char *name, AMX_NATIVE func) {

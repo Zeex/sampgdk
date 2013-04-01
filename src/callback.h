@@ -26,16 +26,6 @@ struct callback_info {
 	callback_handler  handler;
 };
 
-/*
- * Initializes the API. Returns 0 on success and a negative value on error.
- */
-int callback_init();
-
-/*
- * Frees allocated resources.
- */
-void callback_cleanup();
-
 /* 
  * Finds a calback by name. Returns NULL if there is no callback with
  * such a name.
