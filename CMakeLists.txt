@@ -50,7 +50,7 @@ include_directories("${PROJECT_BINARY_DIR}/src")
 find_package(PythonInterp 2.7 REQUIRED)
 
 set(PYTHONPATH
-	"${PROJECT_SOURCE_DIR}/cidl"
+	"${PROJECT_SOURCE_DIR}/scripts"
 	"${PROJECT_SOURCE_DIR}/lib/python/ply"
 )
 
