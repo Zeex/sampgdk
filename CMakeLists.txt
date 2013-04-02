@@ -63,6 +63,7 @@ endif()
 
 add_subdirectory("include")
 add_subdirectory("lib")
+add_subdirectory("scripts")
 add_subdirectory("src")
 if(SAMPGDK_BUILD_PLUGINS)
 	add_subdirectory("plugins")
@@ -182,8 +183,8 @@ macro(sampgdk_add_api_gen module_name idl_file api_file)
 			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
 			"-DCODEGEN_API_FILE=${api_file}"
-			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
-		DEPENDS ${idl_file} "src/codegen.py")
+			"-P" "${PROJECT_BINARY_DIR}/scripts/codegen.py.cmake"
+		DEPENDS ${idl_file} "scripts/codegen.py")
 	list(APPEND SAMPGDK_APIS ${api_file})
 endmacro()
 
@@ -193,8 +194,8 @@ macro(sampgdk_add_header_gen module_name idl_file header_file)
 			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
 			"-DCODEGEN_HEADER_FILE=${header_file}"
-			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
-		DEPENDS ${idl_file} "src/codegen.py"
+			"-P" "${PROJECT_BINARY_DIR}/scripts/codegen.py.cmake"
+		DEPENDS ${idl_file} "scripts/codegen.py"
 	)
 	list(APPEND SAMPGDK_HEADERS ${header_file})
 endmacro()
@@ -205,8 +206,8 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
 			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
 			"-DCODEGEN_SOURCE_FILE=${source_file}"
-			"-P" "${PROJECT_BINARY_DIR}/src/codegen.py.cmake"
-		DEPENDS ${idl_file} "src/codegen.py")
+			"-P" "${PROJECT_BINARY_DIR}/scripts/codegen.py.cmake"
+		DEPENDS ${idl_file} "scripts/codegen.py")
 	list(APPEND SAMPGDK_SOURCES ${source_file})
 endmacro()
 
