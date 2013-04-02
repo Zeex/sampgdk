@@ -135,12 +135,12 @@ def generate_source_file(module_name, idl, file):
   file.write(
     '#include <sampgdk/export.h>\n'
     '\n'
-    '#include "amx-stack.h"\n'
-    '#include "callback.h"\n'
-    '#include "fakeamx.h"\n'
-    '#include "init.h"\n'
-    '#include "likely.h"\n'
-    '#include "native.h"\n'
+    '#include "private/amx-stack.h"\n'
+    '#include "private/callback.h"\n'
+    '#include "private/fakeamx.h"\n'
+    '#include "private/init.h"\n'
+    '#include "private/likely.h"\n'
+    '#include "private/native.h"\n'
   )
 
   file.write('\n')

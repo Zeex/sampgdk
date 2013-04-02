@@ -108,34 +108,34 @@ list(APPEND SAMPGDK_HEADERS
 )
 
 list(APPEND SAMPGDK_SOURCES
+	"src/private/amx-stack.c"
+	"src/private/amx-stack.h"
+	"src/private/array.c"
+	"src/private/array.h"
+	"src/private/call.asm"
+	"src/private/call.h"
+	"src/private/callback.c"
+	"src/private/callback.h"
+	"src/core.c"
+	"src/private/fakeamx.c"
+	"src/private/fakeamx.h"
+	"src/private/init.h"
+	"src/private/likely.h"
+	"src/private/log.c"
+	"src/private/log.h"
+	"src/private/logprintf.c"
+	"src/private/logprintf.h"
+	"src/private/native.c"
+	"src/private/native.h"
+	"src/private/plugin.c"
+	"src/private/plugin.h"
+	"src/private/timer.c"
+	"src/private/timer.h"
 	"src/sdk/amx/amx.asm"
 	"src/a_objects.c"
 	"src/a_players.c"
 	"src/a_samp.c"
 	"src/a_vehicles.c"
-	"src/amx-stack.c"
-	"src/amx-stack.h"
-	"src/array.c"
-	"src/array.h"
-	"src/call.asm"
-	"src/call.h"
-	"src/callback.c"
-	"src/callback.h"
-	"src/core.c"
-	"src/fakeamx.c"
-	"src/fakeamx.h"
-	"src/init.h"
-	"src/likely.h"
-	"src/log.c"
-	"src/log.h"
-	"src/logprintf.c"
-	"src/logprintf.h"
-	"src/native.c"
-	"src/native.h"
-	"src/plugin.c"
-	"src/plugin.h"
-	"src/timer.c"
-	"src/timer.h"
 	"src/version.c"
 )
 
@@ -175,16 +175,15 @@ set(SAMPGDK_SYM_FILE "${PROJECT_BINARY_DIR}/src/sampgdk.sym")
 
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
-		"src/plugin-win32.c"
+		"src/private/plugin-win32.c"
+		"src/private/timer-win32.c"
 		"src/sampgdk.rc"
-		"src/timer-win32.c"
 		${SAMPGDK_DEF_FILE}
 	)
 elseif(UNIX)
 	list(APPEND SAMPGDK_SOURCES
-		"src/plugin-linux.c"
-		"src/sampgdk.sym"
-		"src/timer-linux.c"
+		"src/private/plugin-linux.c"
+		"src/private/timer-linux.c"
 		${SAMPGDK_SYM_FILE}
 	)
 else()

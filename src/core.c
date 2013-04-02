@@ -25,13 +25,13 @@
 #include <string.h>
 #include <subhook.h>
 
-#include "call.h"
-#include "callback.h"
-#include "log.h"
-#include "logprintf.h"
-#include "native.h"
-#include "plugin.h"
-#include "timer.h"
+#include "private/call.h"
+#include "private/callback.h"
+#include "private/log.h"
+#include "private/logprintf.h"
+#include "private/native.h"
+#include "private/plugin.h"
+#include "private/timer.h"
 
 static void **ppPluginData;
 
