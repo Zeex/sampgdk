@@ -13,8 +13,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	{
 		BLOCK "04090025"
 		{
-			VALUE "FileVersion",      SAMPGDK_VERSION_STRING
-			VALUE "ProductVersion",   SAMPGDK_VERSION_STRING
+			VALUE "ProductName",     "SA-MP GDK"
+			VALUE "FileDescription", "SA-MP GDK Runtime Library"
+			VALUE "FileVersion",     SAMPGDK_VERSION_STRING
+			VALUE "ProductVersion",  SAMPGDK_VERSION_STRING
 		}
 	}
 	BLOCK "VarFileInfo"
