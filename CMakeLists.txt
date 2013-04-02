@@ -160,18 +160,22 @@ list(APPEND SAMPGDK_APIS
 	"src/version.api"
 )
 
+set(SAMPGDK_DEF_FILE "${PROJECT_BINARY_DIR}/src/sampgdk.def")
+set(SAMPGDK_SYM_FILE "${PROJECT_BINARY_DIR}/src/sampgdk.sym")
+
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
 		"src/plugin-win32.c"
-		"src/sampgdk.def"
 		"src/sampgdk.rc"
 		"src/timer-win32.c"
+		${SAMPGDK_DEF_FILE}
 	)
 elseif(UNIX)
 	list(APPEND SAMPGDK_SOURCES
 		"src/plugin-linux.c"
 		"src/sampgdk.sym"
 		"src/timer-linux.c"
+		${SAMPGDK_SYM_FILE}
 	)
 else()
 	message(FATAL_ERROR "Unsupported operating system")
@@ -232,17 +236,15 @@ sampgdk_add_module("a_samp")
 sampgdk_add_module("a_vehicles")
 
 if(WIN32)
-	add_custom_command(
-		OUTPUT  "${PROJECT_BINARY_DIR}/src/sampgdk.def"
-		COMMAND "${CMAKE_COMMAND}" "-P" "${PROJECT_BINARY_DIR}/src/sampgdk.def.cmake"
-		DEPENDS ${SAMPGDK_APIS}
-	)
+	add_custom_command(OUTPUT ${SAMPGDK_DEF_FILE}
+		COMMAND "${CMAKE_COMMAND}" 
+			"-P" "${PROJECT_BINARY_DIR}/src/sampgdk.def.cmake"
+		DEPENDS ${SAMPGDK_APIS})
 elseif(UNIX)
-	add_custom_command(
-		OUTPUT  "${PROJECT_BINARY_DIR}/src/sampgdk.sym"
-		COMMAND "${CMAKE_COMMAND}" "-P" "${PROJECT_BINARY_DIR}/src/sampgdk.sym.cmake"
-		DEPENDS ${SAMPGDK_APIS}
-	)
+	add_custom_command(OUTPUT ${SAMPGDK_SYM_FILE}
+		COMMAND "${CMAKE_COMMAND}"
+			"-P" "${PROJECT_BINARY_DIR}/src/sampgdk.sym.cmake"
+		DEPENDS ${SAMPGDK_APIS})
 endif()
 
 list(APPEND SAMPGDK_SOURCES ${SAMPGDK_APIS})
@@ -278,7 +280,7 @@ if(UNIX AND NOT WIN32)
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY
 	             LINK_FLAGS " -Wl,--no-undefined")
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY
-	             LINK_FLAGS " -Wl,--retain-symbols-file=${PROJECT_BINARY_DIR}/src/sampgdk.sym")
+	             LINK_FLAGS " -Wl,--retain-symbols-file=${SAMPGDK_SYM_FILE}")
 	if(NOT SAMPGDK_STATIC)
 		target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
 	endif()
