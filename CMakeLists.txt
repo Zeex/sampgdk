@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 2.8.8)
 project(sampgdk)
+cmake_minimum_required(VERSION 2.8.8)
 
-option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
 option(SAMPGDK_STATIC "Build static library instead" OFF)
+option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
 
 set(SAMPGDK_VERSION_MAJOR "3")
 set(SAMPGDK_VERSION_MINOR "3")
@@ -260,40 +260,33 @@ endif()
 group_target_sources(sampgdk)
 
 set_target_properties(sampgdk PROPERTIES
+	VERSION       "${SAMPGDK_VERSION_STRING}"
+	SOVERSION     "${SAMPGDK_VERSION_MAJOR}"
 	DEBUG_POSTFIX "_d"
 	DEFINE_SYMBOL "IN_SAMPGDK"
 )
 
 if(WIN32)
-	set_target_properties(sampgdk PROPERTIES
-		OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}"
-	)
+	set_property(TARGET sampgdk PROPERTY
+	             OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
+	if(MSVC)
+		set_property(TARGET sampgdk APPEND PROPERTY
+		             COMPILE_DEFINITIONS "_CRT_SECURE_NO_WARNINGS")
+	endif()
 elseif(UNIX)
-	set_target_properties(sampgdk PROPERTIES 
-		VERSION   "${SAMPGDK_VERSION_STRING}"
-		SOVERSION "${SAMPGDK_VERSION_MAJOR}"
-	)
-endif()
-
-if(MSVC)
-	set_property(TARGET sampgdk APPEND PROPERTY
-	             COMPILE_DEFINITIONS "_CRT_SECURE_NO_WARNINGS")
-endif()
-
-if(UNIX AND NOT WIN32)
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY
 	             LINK_FLAGS " -Wl,--no-undefined")
 	set_property(TARGET sampgdk APPEND_STRING PROPERTY
 	             LINK_FLAGS " -Wl,--retain-symbols-file=${SAMPGDK_SYM_FILE}")
-	if(NOT SAMPGDK_STATIC)
-		target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
-	endif()
 endif()
 
 if(NOT SAMPGDK_STATIC)
 	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
 	            PROPERTY LIBRARIES)
 	target_link_libraries(sampgdk ${libs})
+	if(UNIX)
+		target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
+	endif()
 endif()
 
 foreach(header IN LISTS SAMPGDK_HEADERS)

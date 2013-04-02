@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.8)
 project(unlimitedfs)
+cmake_minimum_required(VERSION 2.8)
 
 include(SampPlugin)
 include(GroupTargetSources)
