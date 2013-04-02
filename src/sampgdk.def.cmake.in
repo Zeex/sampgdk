@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(def_path "@CMAKE_CURRENT_BINARY_DIR@/sampgdk.def")
+set(def_path "@PROJECT_BINARY_DIR@/@SAMPGDK_DEF_FILE@")
 if(EXISTS ${def_path})
 	file(REMOVE ${def_path})
 endif()

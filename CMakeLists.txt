@@ -44,6 +44,10 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	endif()
 endif()
 
+if(SAMPGDK_STATIC)
+	add_definitions(-DSAMPGDK_STATIC)
+endif()
+
 include_directories("${PROJECT_SOURCE_DIR}/include")
 include_directories("${PROJECT_BINARY_DIR}/include")
 include_directories("${PROJECT_SOURCE_DIR}/src")
@@ -55,32 +59,6 @@ set(PYTHONPATH
 	"${PROJECT_SOURCE_DIR}/scripts"
 	"${PROJECT_SOURCE_DIR}/lib/python/ply"
 )
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-if(SAMPGDK_STATIC)
-	add_definitions(-DSAMPGDK_STATIC)
-	
-endif()
-
-add_subdirectory("include")
-add_subdirectory("lib")
-add_subdirectory("scripts")
-add_subdirectory("src")
-if(SAMPGDK_BUILD_PLUGINS)
-	add_subdirectory("plugins")
-endif()
-
-if(SAMPGDK_STATIC)
-	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
-	            PROPERTY LIBRARIES)
-	foreach(lib IN LISTS libs)
-		get_target_property(sources ${lib} SOURCES)
-		foreach(file IN LISTS sources)
-			list(APPEND SAMPGDK_SOURCES "${${lib}_SOURCE_DIR}/${file}")
-		endforeach()
-	endforeach()
-endif()
 
 list(APPEND SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"
@@ -170,21 +148,21 @@ list(APPEND SAMPGDK_APIS
 	"src/version.api"
 )
 
-set(SAMPGDK_DEF_FILE "${PROJECT_BINARY_DIR}/src/sampgdk.def")
-set(SAMPGDK_SYM_FILE "${PROJECT_BINARY_DIR}/src/sampgdk.sym")
+set(SAMPGDK_DEF_FILE "src/sampgdk.def")
+set(SAMPGDK_SYM_FILE "src/sampgdk.sym")
 
 if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
 		"src/private/plugin-win32.c"
 		"src/private/timer-win32.c"
 		"src/sampgdk.rc"
-		${SAMPGDK_DEF_FILE}
+		"${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}"
 	)
 elseif(UNIX)
 	list(APPEND SAMPGDK_SOURCES
 		"src/private/plugin-linux.c"
 		"src/private/timer-linux.c"
-		${SAMPGDK_SYM_FILE}
+		"${PROJECT_BINARY_DIR}/${SAMPGDK_SYM_FILE}"
 	)
 else()
 	message(FATAL_ERROR "Unsupported operating system")
@@ -245,18 +223,39 @@ sampgdk_add_module("a_samp")
 sampgdk_add_module("a_vehicles")
 
 if(WIN32)
-	add_custom_command(OUTPUT ${SAMPGDK_DEF_FILE}
+	add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}"
 		COMMAND "${CMAKE_COMMAND}" 
-			"-P" "${PROJECT_BINARY_DIR}/src/sampgdk.def.cmake"
+			"-P" "${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}.cmake"
 		DEPENDS ${SAMPGDK_APIS})
 elseif(UNIX)
 	add_custom_command(OUTPUT ${SAMPGDK_SYM_FILE}
 		COMMAND "${CMAKE_COMMAND}"
-			"-P" "${PROJECT_BINARY_DIR}/src/sampgdk.sym.cmake"
+			"-P" "${PROJECT_BINARY_DIR}/${SAMPGDK_SYM_FILE}.cmake"
 		DEPENDS ${SAMPGDK_APIS})
 endif()
 
 list(APPEND SAMPGDK_SOURCES ${SAMPGDK_APIS})
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+add_subdirectory("include")
+add_subdirectory("lib")
+add_subdirectory("scripts")
+add_subdirectory("src")
+if(SAMPGDK_BUILD_PLUGINS)
+	add_subdirectory("plugins")
+endif()
+
+if(SAMPGDK_STATIC)
+	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
+	            PROPERTY LIBRARIES)
+	foreach(lib IN LISTS libs)
+		get_target_property(sources ${lib} SOURCES)
+		foreach(file IN LISTS sources)
+			list(APPEND SAMPGDK_SOURCES "${${lib}_SOURCE_DIR}/${file}")
+		endforeach()
+	endforeach()
+endif()
 
 if(SAMPGDK_STATIC)
 	add_library(sampgdk STATIC ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})

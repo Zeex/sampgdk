@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(sym_path "@CMAKE_CURRENT_BINARY_DIR@/sampgdk.sym")
+set(sym_path "@PROJECT_BINARY_DIR@/@SAMPGDK_SYM_FILE@")
 if(EXISTS ${sym_path})
 	file(REMOVE ${sym_path})
 endif()
