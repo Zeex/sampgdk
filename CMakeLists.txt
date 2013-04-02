@@ -108,8 +108,7 @@ list(APPEND SAMPGDK_HEADERS
 )
 
 list(APPEND SAMPGDK_SOURCES
-	"src/sdk/amxplugin.c"
-	"src/sdk/plugin.h"
+	"src/sdk/amx/amx.asm"
 	"src/a_objects.c"
 	"src/a_players.c"
 	"src/a_samp.c"
@@ -140,24 +139,33 @@ list(APPEND SAMPGDK_SOURCES
 	"src/version.c"
 )
 
-if(WIN32)
-	list(APPEND SAMPGDK_SOURCES "${PROJECT_BINARY_DIR}/src/call.asm.obj")
+macro(sampgdk_add_nasm_source file)
+	list(APPEND SAMPGDK_SOURCES "${PROJECT_BINARY_DIR}/${file}.obj")
+
 	if("${CMAKE_ASM_NASM_COMPILER}" MATCHES "[yY][aA][sS][mM]")
-		set(options "-f" "win32" "--prefix=_")
+		set(SAMPGDK_NASM_OPTIONS "-f" "win32" "--prefix=_")
 	else()
-		set(options "-fwin32" "--prefix" "_")
+		set(SAMPGDK_NASM_OPTIONS "-fwin32" "--prefix" "_")
 	endif()
-	add_custom_command(
-		OUTPUT  "${PROJECT_BINARY_DIR}/src/call.asm.obj"
-		COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${options} "-o"
-			"${PROJECT_BINARY_DIR}/src/call.asm.obj"
-			"${PROJECT_SOURCE_DIR}/src/call.asm"
-		MAIN_DEPENDENCY "${PROJECT_SOURCE_DIR}/src/call.asm"
+
+	add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/${file}.obj"
+		COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${SAMPGDK_NASM_OPTIONS} "-o"
+			"${PROJECT_BINARY_DIR}/${file}.obj"
+			"${PROJECT_SOURCE_DIR}/${file}"
+		MAIN_DEPENDENCY "${PROJECT_SOURCE_DIR}/${file}"
 	)
+endmacro()
+
+if(WIN32)
+	foreach(file IN LISTS SAMPGDK_SOURCES)
+		if(file MATCHES ".asm")
+			sampgdk_add_nasm_source("${file}")
+		endif()
+	endforeach()
 endif()
 
 list(APPEND SAMPGDK_APIS
-	"src/sdk/amxplugin.api"
+	"src/sdk/amx/amx.api"
 	"src/core.api"
 	"src/version.api"
 )

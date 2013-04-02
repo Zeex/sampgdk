@@ -36,7 +36,7 @@
 static void **ppPluginData;
 
 /* Defined in "amxplugin.c". */
-extern void *pAMXFunctions;
+extern void *amx_exports;
 
 /* AMX corresponding to the game mode. */
 static AMX *g_main_amx = NULL;
@@ -227,22 +227,22 @@ static int install_hooks() {
 
 	SUBHOOK_INSTALL_HOOK(
 		amx_Register_hook,
-		((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Register],
+		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Register],
 		(void*)amx_Register_
 	);
 	SUBHOOK_INSTALL_HOOK(
 		amx_FindPublic_hook,
-		((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_FindPublic],
+		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_FindPublic],
 		(void*)amx_FindPublic_
 	);
 	SUBHOOK_INSTALL_HOOK(
 		amx_Exec_hook,
-		((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Exec],
+		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Exec],
 		(void*)amx_Exec_
 	);
 	SUBHOOK_INSTALL_HOOK(
 		amx_Callback_hook,
-		((void**)(pAMXFunctions))[PLUGIN_AMX_EXPORT_Callback],
+		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Callback],
 		(void*)amx_Callback_
 	);
 
@@ -258,7 +258,7 @@ static void init_plugin_data(void **ppData) {
 }
 
 static void init_amx_exports(void **ppData) {
-	pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
+	amx_exports = ppData[PLUGIN_DATA_AMX_EXPORTS];
 }
 
 static void init_logprintf(void **ppData) {
