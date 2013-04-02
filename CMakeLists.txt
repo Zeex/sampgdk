@@ -15,6 +15,8 @@ list(APPEND CMAKE_MODULE_PATH
 	"${PROJECT_SOURCE_DIR}/cmake/Modules"
 )
 
+include(GroupTargetSources)
+
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	if(WIN32)
 		set(CMAKE_ASM_NASM_OBJECT_FORMAT "win32")
@@ -254,6 +256,8 @@ if(SAMPGDK_STATIC)
 else()
 	add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 endif()
+
+group_target_sources(sampgdk)
 
 set_target_properties(sampgdk PROPERTIES
 	DEBUG_POSTFIX "_d"

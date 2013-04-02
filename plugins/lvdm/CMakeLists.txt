@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(lvdm)
 
+include(GroupTargetSources)
 include(SampPlugin)
 
 if(MSVC)
@@ -12,4 +13,5 @@ add_samp_plugin(lvdm
 	"lvdm.def"
 )
 
+group_target_sources(unlimitedfs)
 target_link_libraries(lvdm "sampgdk")
