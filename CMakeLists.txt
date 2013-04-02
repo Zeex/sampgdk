@@ -60,6 +60,8 @@ set(PYTHONPATH
 	"${PROJECT_SOURCE_DIR}/lib/python/ply"
 )
 
+set(SAMPGDK_VERSION_FILE "include/sampgdk/version.h")
+
 list(APPEND SAMPGDK_HEADERS
 	"include/sampgdk/sdk/amx/amx.h"
 	"include/sampgdk/sdk/amx/getch.h"
@@ -82,7 +84,7 @@ list(APPEND SAMPGDK_HEADERS
 	"include/sampgdk/platform.h"
 	"include/sampgdk/plugin.h"
 	"include/sampgdk/plugincommon.h"
-	"${PROJECT_BINARY_DIR}/include/sampgdk/version.h"
+	"${PROJECT_BINARY_DIR}/${SAMPGDK_VERSION_FILE}"
 )
 
 list(APPEND SAMPGDK_SOURCES
