@@ -1,0 +1,28 @@
+#include <windows.h>
+
+#define SAMPGDK_VERSION @SAMPGDK_VERSION_MAJOR@, @SAMPGDK_VERSION_MINOR@, \
+                        @SAMPGDK_VERSION_PATCH@, @SAMPGDK_VERSION_TWEAK@
+
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+1 VERSIONINFO
+	FILEVERSION    SAMPGDK_VERSION
+	PRODUCTVERSION SAMPGDK_VERSION
+	FILEOS         VOS_NT_WINDOWS32
+	FILETYPE       VFT_DLL
+{
+	BLOCK "StringFileInfo"
+	{
+		BLOCK "04090025"
+		{
+			VALUE "ProductName",     "SA-MP GDK"
+			VALUE "FileDescription", "SA-MP GDK Runtime Library"
+			VALUE "FileVersion",     "@SAMPGDK_VERSION_STRING@"
+			VALUE "ProductVersion",  "@SAMPGDK_VERSION_STRING@"
+		}
+	}
+	BLOCK "VarFileInfo"
+	{
+		VALUE "Translation", 1033, 37
+	}
+}

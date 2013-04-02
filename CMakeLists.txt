@@ -148,6 +148,7 @@ list(APPEND SAMPGDK_APIS
 	"src/version.api"
 )
 
+set(SAMPGDK_RC_FILE  "src/sampgdk.rc")
 set(SAMPGDK_DEF_FILE "src/sampgdk.def")
 set(SAMPGDK_SYM_FILE "src/sampgdk.sym")
 
@@ -155,7 +156,7 @@ if(WIN32)
 	list(APPEND SAMPGDK_SOURCES
 		"src/private/plugin-win32.c"
 		"src/private/timer-win32.c"
-		"src/sampgdk.rc"
+		"${PROJECT_BINARY_DIR}/${SAMPGDK_RC_FILE}"
 		"${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}"
 	)
 elseif(UNIX)
