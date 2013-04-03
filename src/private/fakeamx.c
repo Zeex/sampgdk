@@ -72,7 +72,7 @@ int fakeamx_new(struct fakeamx *fa) {
 	fa->amx.callback = amx_Callback;
 	fa->amx.stp = INT_MAX;
 
-	return 0;
+	return -1;
 }
 
 void fakeamx_free(struct fakeamx *fa) {
