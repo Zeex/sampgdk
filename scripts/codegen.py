@@ -193,7 +193,7 @@ def generate_native_impl(file, func):
   file.write('\tif (unlikely(native == NULL))\n')
   file.write('\t\tnative = native_lookup_warn_stub("%s");\n' % func.name)
 
-  file.write('\tfakeamx_instance(&fa);\n')
+  file.write('\tfakeamx_global(&fa);\n')
 
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):

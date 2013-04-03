@@ -23,9 +23,27 @@
 
 #include "array.h"
 #include "fakeamx.h"
+#include "init.h"
 #include "likely.h"
+#include "log.h"
 
 #define INITIAL_HEAP_SIZE 1024
+
+static struct fakeamx global;
+
+DEFINE_CLEANUP_FUNC(fakeamx_cleanup) {
+	fakeamx_free(&global);
+}
+
+DEFINE_INIT_FUNC(fakeamx_init) {
+	int error;
+
+	error = fakeamx_new(&global);
+	if (error < 0)
+		log_error(strerror(-error));
+
+	atexit(fakeamx_cleanup);
+}
 
 static bool is_cell_aligned(cell address) {
 	return address % sizeof(cell) == 0;
@@ -62,24 +80,8 @@ void fakeamx_free(struct fakeamx *fa) {
 	array_free(&fa->heap);
 }
 
-int fakeamx_instance(struct fakeamx **fa) {
-	static struct fakeamx static_fa;
-	static bool ok = false;
-
-	assert(fa != NULL);
-
-	if (unlikely(!ok)) {
-		int error;
-
-		if ((error = fakeamx_new(&static_fa)) < 0)
-			return error;
-		
-		ok = true;
-	}
-
-	*fa = &static_fa;
-
-	return 0;
+void fakeamx_global(struct fakeamx **fa) {
+	*fa = &global;
 }
 
 int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address) {
