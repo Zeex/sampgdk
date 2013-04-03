@@ -13,9 +13,7 @@
  * limitations under the License.
  */
 
-#ifndef _GNU_SOURCE
-	#define _GNU_SOURCE 1
-#endif
+#define _GNU_SOURCE
 #include <assert.h>
 #include <dlfcn.h>
 #include <string.h>
