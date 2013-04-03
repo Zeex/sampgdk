@@ -12,6 +12,8 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
+%include "amx.inc"
+
 global amx_exports
 global amx_Align16
 global amx_Align32
@@ -62,170 +64,170 @@ section .text
 
 amx_Align16:
 	mov eax, [amx_exports]
-	jmp dword [eax + 0*4]
+	jmp dword [eax + AMX_EXPORT_ALIGN16 * 4]
 	
 amx_Align32:
 	mov eax, [amx_exports]
-	jmp dword [eax + 1*4]	
+	jmp dword [eax + AMX_EXPORT_ALIGN32 * 4]	
 
 amx_Align64:
 	mov eax, [amx_exports]
-	jmp dword [eax + 2*4]
+	jmp dword [eax + AMX_EXPORT_ALIGN64 * 4]
 
 amx_Allot:
 	mov eax, [amx_exports]
-	jmp dword [eax + 3*4]
+	jmp dword [eax + AMX_EXPORT_ALLOT * 4]
 	
 amx_Callback:
 	mov eax, [amx_exports]
-	jmp dword [eax + 4*4]
+	jmp dword [eax + AMX_EXPORT_CALLBACK * 4]
 	
 amx_Cleanup:
 	mov eax, [amx_exports]
-	jmp dword [eax + 5*4]
+	jmp dword [eax + AMX_EXPORT_CLEANUP * 4]
 	
 amx_Clone:
 	mov eax, [amx_exports]
-	jmp dword [eax + 6*4]			
+	jmp dword [eax + AMX_EXPORT_CLONE * 4]			
 amx_Exec:
 	mov eax, [amx_exports]
-	jmp dword [eax + 7*4]
+	jmp dword [eax + AMX_EXPORT_EXEC * 4]
 	
 amx_FindNative:
 	mov eax, [amx_exports]
-	jmp dword [eax + 8*4]
+	jmp dword [eax + AMX_EXPORT_FINDNATIVE * 4]
 	
 amx_FindPublic:
 	mov eax, [amx_exports]
-	jmp dword [eax + 9*4]
+	jmp dword [eax + AMX_EXPORT_FINDPUBLIC * 4]
 	
 amx_FindPubVar:
 	mov eax, [amx_exports]
-	jmp dword [eax + 10*4]
+	jmp dword [eax + AMX_EXPORT_FINDPUBVAR * 4]
 
 amx_FindTagId:
 	mov eax, [amx_exports]
-	jmp dword [eax + 11*4]
+	jmp dword [eax + AMX_EXPORT_FINDTAGID * 4]
 	
 amx_Flags:
 	mov eax, [amx_exports]
-	jmp dword [eax + 12*4]
+	jmp dword [eax + AMX_EXPORT_FLAGS * 4]
 	
 amx_GetAddr:
 	mov eax, [amx_exports]
-	jmp dword [eax + 13*4]
+	jmp dword [eax + AMX_EXPORT_GETADDR * 4]
 	
 amx_GetNative:
 	mov eax, [amx_exports]
-	jmp dword [eax + 14*4]
+	jmp dword [eax + AMX_EXPORT_GETNATIVE * 4]
 
 amx_GetPublic:
 	mov eax, [amx_exports]
-	jmp dword [eax + 15*4]
+	jmp dword [eax + AMX_EXPORT_GETPUBLIC * 4]
 	
 amx_GetPubVar:
 	mov eax, [amx_exports]
-	jmp dword [eax + 16*4]
+	jmp dword [eax + AMX_EXPORT_GETPUBVAR * 4]
 	
 amx_GetString:
 	mov eax, [amx_exports]
-	jmp dword [eax + 17*4]
+	jmp dword [eax + AMX_EXPORT_GETSTRING * 4]
 	
 amx_GetTag:
 	mov eax, [amx_exports]
-	jmp dword [eax + 18*4]
+	jmp dword [eax + AMX_EXPORT_GETTAG * 4]
 	
 amx_GetUserData:
 	mov eax, [amx_exports]
-	jmp dword [eax + 19*4]
+	jmp dword [eax + AMX_EXPORT_GETUSERDATA * 4]
 	
 amx_Init:
 	mov eax, [amx_exports]
-	jmp dword [eax + 20*4]
+	jmp dword [eax + AMX_EXPORT_INIT * 4]
 	
 amx_InitJIT:
 	mov eax, [amx_exports]
-	jmp dword [eax + 21*4]
+	jmp dword [eax + AMX_EXPORT_INITJIT * 4]
 	
 amx_MemInfo:
 	mov eax, [amx_exports]
-	jmp dword [eax + 22*4]						
+	jmp dword [eax + AMX_EXPORT_MEMINFO * 4]						
 	
 amx_NameLength:
 	mov eax, [amx_exports]
-	jmp dword [eax + 23*4]			
+	jmp dword [eax + AMX_EXPORT_NAMELENGTH * 4]			
 	
 amx_NativeInfo:
 	mov eax, [amx_exports]
-	jmp dword [eax + 24*4]			
+	jmp dword [eax + AMX_EXPORT_NATIVEINFO * 4]			
 	
 amx_NumNatives:
 	mov eax, [amx_exports]
-	jmp dword [eax + 25*4]			
+	jmp dword [eax + AMX_EXPORT_NUMNATIVES * 4]			
 	
 amx_NumPublics:
 	mov eax, [amx_exports]
-	jmp dword [eax + 26*4]							
+	jmp dword [eax + AMX_EXPORT_NUMPUBLICS * 4]							
 	
 amx_NumPubVars:
 	mov eax, [amx_exports]
-	jmp dword [eax + 27*4]				
+	jmp dword [eax + AMX_EXPORT_NUMPUBVARS * 4]				
 	
 amx_NumTags:
 	mov eax, [amx_exports]
-	jmp dword [eax + 28*4]				
+	jmp dword [eax + AMX_EXPORT_NUMTAGS * 4]				
 	
 amx_Push:
 	mov eax, [amx_exports]
-	jmp dword [eax + 29*4]				
+	jmp dword [eax + AMX_EXPORT_PUSH * 4]				
 	
 amx_PushArray:
 	mov eax, [amx_exports]
-	jmp dword [eax + 30*4]				
+	jmp dword [eax + AMX_EXPORT_PUSHARRAY * 4]				
 	
 amx_PushString:
 	mov eax, [amx_exports]
-	jmp dword [eax + 31*4]				
+	jmp dword [eax + AMX_EXPORT_PUSHSTRING * 4]				
 	
 amx_RaiseError:
 	mov eax, [amx_exports]
-	jmp dword [eax + 32*4]				
+	jmp dword [eax + AMX_EXPORT_RAISEERROR * 4]				
 	
 amx_Register:
 	mov eax, [amx_exports]
-	jmp dword [eax + 33*4]				
+	jmp dword [eax + AMX_EXPORT_REGISTER * 4]				
 	
 amx_Release:
 	mov eax, [amx_exports]
-	jmp dword [eax + 34*4]				
+	jmp dword [eax + AMX_EXPORT_RELEASE * 4]				
 	
 amx_SetCallback:
 	mov eax, [amx_exports]
-	jmp dword [eax + 35*4]				
+	jmp dword [eax + AMX_EXPORT_SETCALLBACK * 4]				
 	
 amx_SetDebugHook:
 	mov eax, [amx_exports]
-	jmp dword [eax + 36*4]				
+	jmp dword [eax + AMX_EXPORT_SETDEBUGHOOK * 4]				
 	
 amx_SetString:
 	mov eax, [amx_exports]
-	jmp dword [eax + 37*4]				
+	jmp dword [eax + AMX_EXPORT_SETSTRING * 4]				
 	
 amx_SetUserData:
 	mov eax, [amx_exports]
-	jmp dword [eax + 38*4]				
+	jmp dword [eax + AMX_EXPORT_SETUSERDATA * 4]				
 	
 amx_StrLen:
 	mov eax, [amx_exports]
-	jmp dword [eax + 39*4]				
+	jmp dword [eax + AMX_EXPORT_STRLEN * 4]				
 	
 amx_UTF8Check:
 	mov eax, [amx_exports]
-	jmp dword [eax + 40*4]			
+	jmp dword [eax + AMX_EXPORT_UTF8CHECK * 4]			
 	
 amx_UTF8Get:
 	mov eax, [amx_exports]
-	jmp dword [eax + 41*4]			
+	jmp dword [eax + AMX_EXPORT_UTF8GET * 4]			
 		
 amx_UTF8Len:
 	mov eax, [amx_exports]	
@@ -233,8 +235,8 @@ amx_UTF8Len:
 				
 amx_UTF8Put:
 	mov eax, [amx_exports]
-	jmp dword [eax + 43*4]
-	
+	jmp dword [eax + AMX_EXPORT_UTF8PUT * 4]
+
 section .data
 
 amx_exports: dd 0
