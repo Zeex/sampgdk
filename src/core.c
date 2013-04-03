@@ -132,8 +132,9 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 		if (g_public_name != NULL)
 			free(g_public_name);
 
-		if ((g_public_name = malloc(strlen(name) + 1)) == NULL) {
-			log_error(strerror(ENOMEM));
+		g_public_name = malloc(strlen(name) + 1);
+		if (g_public_name == NULL) {
+			log_error_code(errno);
 			return error;
 		}
 
@@ -306,7 +307,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData)
 		int error;
 
 		if ((error = do_init(ppData)) < 0) {
-			log_error(strerror(-error));
+			log_error_code(error);
 			return error;
 		}
 	}

@@ -19,7 +19,6 @@
 #include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <string.h>
 #include <time.h>
 
 #include "array.h"
@@ -83,7 +82,7 @@ DEFINE_INIT_FUNC(timer_init) {
 	
 	error = array_new(&timers, 10, sizeof(void *));
 	if (error < 0)
-		log_error(strerror(-error));
+		log_error_code(error);
 	else
 		array_zero(&timers);
 

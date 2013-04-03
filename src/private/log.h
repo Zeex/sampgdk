@@ -20,5 +20,6 @@ void log_message(const char *format, ...);
 void log_trace(const char *format, ...);
 void log_warning(const char *format, ...);
 void log_error(const char *format, ...);
+void log_error_code(int error);
 
 #endif /* !SAMPGDK_LOG_H_ */

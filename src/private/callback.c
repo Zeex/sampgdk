@@ -52,7 +52,7 @@ DEFINE_INIT_FUNC(callback_init) {
 
 	error = array_new(&callbacks, 1, sizeof(struct callback_info));
 	if (error < 0)
-		log_error(strerror(-error));
+		log_error_code(error);
 
 	atexit(callback_cleanup);
 }

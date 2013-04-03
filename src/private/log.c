@@ -99,3 +99,7 @@ void log_error(const char *format, ...) {
 	do_log(LOG_MSG_ERROR, format, args);
 	va_end(args);
 }
+
+void log_error_code(int error) {
+	do_log(LOG_MSG_ERROR, strerror(-error), NULL);
+}

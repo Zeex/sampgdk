@@ -37,7 +37,7 @@ DEFINE_INIT_FUNC(native_init) {
 	
 	error = array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
 	if (error < 0)
-		log_error(strerror(-error));
+		log_error_code(error);
 
 	atexit(native_cleanup);
 }

@@ -40,7 +40,7 @@ DEFINE_INIT_FUNC(fakeamx_init) {
 
 	error = fakeamx_new(&global);
 	if (error < 0)
-		log_error(strerror(-error));
+		log_error_code(error);
 
 	atexit(fakeamx_cleanup);
 }
@@ -72,7 +72,7 @@ int fakeamx_new(struct fakeamx *fa) {
 	fa->amx.callback = amx_Callback;
 	fa->amx.stp = INT_MAX;
 
-	return -1;
+	return 0;
 }
 
 void fakeamx_free(struct fakeamx *fa) {
