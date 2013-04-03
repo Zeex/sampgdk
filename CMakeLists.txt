@@ -119,6 +119,15 @@ list(APPEND SAMPGDK_SOURCES
 	"src/version.c"
 )
 
+macro(sampgdk_make_output_dir file)
+	get_filename_component(path ${file} PATH)
+	if(path MATCHES ${PROJECT_BINARY_DIR})
+		file(MAKE_DIRECTORY ${path})
+	else()
+		file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/${path}")
+	endif()
+endmacro()
+
 macro(sampgdk_add_nasm_source file)
 	list(APPEND SAMPGDK_SOURCES "${PROJECT_BINARY_DIR}/${file}.obj")
 
@@ -128,6 +137,7 @@ macro(sampgdk_add_nasm_source file)
 		set(SAMPGDK_NASM_OPTIONS "-fwin32" "--prefix" "_")
 	endif()
 
+	sampgdk_make_output_dir(${file})
 	add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/${file}.obj"
 		COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${SAMPGDK_NASM_OPTIONS} "-o"
 			"${PROJECT_BINARY_DIR}/${file}.obj"
@@ -172,6 +182,7 @@ else()
 endif()
 
 macro(sampgdk_add_api_gen module_name idl_file api_file)
+	sampgdk_make_output_dir(${api_file})
 	add_custom_command(OUTPUT ${api_file}
 		COMMAND ${CMAKE_COMMAND}
 			"-DCODEGEN_MODULE_NAME=${module_name}"
@@ -183,6 +194,7 @@ macro(sampgdk_add_api_gen module_name idl_file api_file)
 endmacro()
 
 macro(sampgdk_add_header_gen module_name idl_file header_file)
+	sampgdk_make_output_dir(${header_file})
 	add_custom_command(OUTPUT ${header_file}
 		COMMAND ${CMAKE_COMMAND}
 			"-DCODEGEN_MODULE_NAME=${module_name}"
@@ -195,6 +207,7 @@ macro(sampgdk_add_header_gen module_name idl_file header_file)
 endmacro()
 
 macro(sampgdk_add_source_gen module_name idl_file source_file)
+	sampgdk_make_output_dir(${source_file})
 	add_custom_command(OUTPUT ${source_file}
 		COMMAND ${CMAKE_COMMAND}
 			"-DCODEGEN_MODULE_NAME=${module_name}"
