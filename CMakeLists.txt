@@ -163,7 +163,7 @@ if(WIN32)
 	)
 elseif(UNIX)
 	list(APPEND SAMPGDK_SOURCES
-		"src/private/plugin-linux.c"
+		"src/private/plugin-glibc.c"
 		"src/private/timer-posix.c"
 		"${PROJECT_BINARY_DIR}/${SAMPGDK_SYM_FILE}"
 	)
