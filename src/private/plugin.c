@@ -80,6 +80,6 @@ bool plugin_is_registered(void *plugin) {
 	return false;
 }
 
-struct plugin_list *plugin_get_list() {
+struct plugin_list *plugin_get_list(void) {
 	return plugins;
 }

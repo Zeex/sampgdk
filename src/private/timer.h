@@ -53,6 +53,6 @@ int timer_kill(int timerid);
 void timer_process_timers(void *plugin);
 
 /* Returns the number of milliseconds since some fixed point of time. */
-time_t timer_clock();
+time_t timer_clock(void);
 
 #endif /* !SAMPGDK_TIMER_H_ */

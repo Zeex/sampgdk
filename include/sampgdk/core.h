@@ -25,28 +25,28 @@
 /* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
 SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData));
 /* Deprecated. Use sampgdk_cleanup() or sampgdk_cleanup_plugin() instead. */
-SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize());
+SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void));
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **ppData);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData);
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup();
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin);
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin);
 
-SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data();
+SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data(void);
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol);
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name);
 
 /* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
 #define sampgdk_initialize_plugin sampgdk_initialize
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers();
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers(void);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin);
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives();
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives();
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void);
 
 typedef void (*sampgdk_logprintf_t)(const char *format, ...);
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;

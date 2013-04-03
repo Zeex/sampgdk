@@ -17,6 +17,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-time_t timer_clock() {
+time_t timer_clock(void) {
 	return GetTickCount();
 }

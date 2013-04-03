@@ -57,6 +57,6 @@ void plugin_address_to_filename(void *address, char *filename, size_t size);
 
 /* Returns the list of currently registered plugins. 
  */
-struct plugin_list *plugin_get_list();
+struct plugin_list *plugin_get_list(void);
 
 #endif /* !SAMPGDK_PLUGIN_H_ */

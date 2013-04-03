@@ -196,7 +196,7 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 	return error;
 }
 
-static void remove_hooks() {
+static void remove_hooks(void) {
 	if (amx_Register_hook != NULL) {
 		subhook_remove(amx_Register_hook);
 		subhook_free(amx_Register_hook);
@@ -215,7 +215,7 @@ static void remove_hooks() {
 	}
 }
 
-static int install_hooks() {
+static int install_hooks(void) {
 	if ((amx_Register_hook = subhook_new()) == NULL)
 		goto no_memory;
 	if ((amx_FindPublic_hook = subhook_new()) == NULL)
@@ -282,7 +282,7 @@ static int do_init(void **ppData) {
 	return 0;
 }
 
-static void do_cleanup() {
+static void do_cleanup(void) {
 	remove_hooks();
 }
 
@@ -315,14 +315,14 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData)
 }
 
 /* deprecated */
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize() {
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void) {
 	void *plugin;
 
 	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
 	sampgdk_cleanup_plugin(plugin);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup() {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void) {
 	void *plugin;
 
 	plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
@@ -336,7 +336,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
 	return plugin_unregister(plugin);
 }
 
-SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data() {
+SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data(void) {
 	return ppPluginData;
 }
 
@@ -356,7 +356,7 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const 
 	return plugin_find_symbol(plugin, name);
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers() {
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers(void) {
 	timer_process_timers(NULL);
 }
 
@@ -364,11 +364,11 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin) {
 	timer_process_timers(plugin);
 }
 
-SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives() {
+SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives(void) {
 	return native_get_natives();
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives() {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void) {
 	return native_get_num_natives();
 }
 

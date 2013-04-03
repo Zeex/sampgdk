@@ -15,7 +15,7 @@
 
 #include <time.h>
 
-time_t timer_clock() {
+time_t timer_clock(void) {
 	struct timespec ts;
 
 	clock_gettime(CLOCK_MONOTONIC, &ts);

@@ -123,10 +123,10 @@ AMX_NATIVE native_lookup_warn_stub(const char *name) {
 	return func;
 }
 
-const AMX_NATIVE_INFO *native_get_natives() {
+const AMX_NATIVE_INFO *native_get_natives(void) {
 	return (const AMX_NATIVE_INFO*)natives.data;
 }
 
-int native_get_num_natives() {
+int native_get_num_natives(void) {
 	return natives.count;
 }

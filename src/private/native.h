@@ -47,11 +47,11 @@ AMX_NATIVE native_lookup_warn_stub(const char *name);
 
 /* Returns a pointer to the internal array of currently registered natives. 
  */
-const AMX_NATIVE_INFO *native_get_natives();
+const AMX_NATIVE_INFO *native_get_natives(void);
 
 /* Returns the total number of natives that have been registered with
  * native_register().
  */
-int native_get_num_natives();
+int native_get_num_natives(void);
 
 #endif /* !SAMPGDK_NATIVE_H_ */
