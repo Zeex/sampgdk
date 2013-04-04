@@ -83,7 +83,7 @@ macro(sampgdk_make_output_dir file)
 	get_filename_component(_path ${_file} PATH)
 	file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
 
-	if(path MATCHES ${PROJECT_BINARY_DIR})
+	if(_path MATCHES ${PROJECT_BINARY_DIR})
 		file(MAKE_DIRECTORY ${_path})
 	else()
 		file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_path}")
