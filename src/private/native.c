@@ -28,10 +28,6 @@
 
 static struct array natives;
 
-DEFINE_CLEANUP_FUNC(native_cleanup) {
-	array_free(&natives);
-}
-
 DEFINE_INIT_FUNC(native_init) {
 	int error;
 	
@@ -39,8 +35,11 @@ DEFINE_INIT_FUNC(native_init) {
 	if (error < 0)
 		return error;
 
-	atexit(native_cleanup);
 	return 0;
+}
+
+DEFINE_CLEANUP_FUNC(native_cleanup) {
+	array_free(&natives);
 }
 
 int native_register(const char *name, AMX_NATIVE func) {

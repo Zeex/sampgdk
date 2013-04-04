@@ -32,18 +32,6 @@
 
 static struct array callbacks;
 
-DEFINE_CLEANUP_FUNC(callback_cleanup) {
-	int index;
-
-	for (index = 0; index < callbacks.count; index++) {
-		struct callback_info *info =
-			(struct callback_info *)array_get(&callbacks, index);
-		free(info->name);
-	}
-
-	array_free(&callbacks);
-}
-
 DEFINE_INIT_FUNC(callback_init) {
 	int error;
 
@@ -54,8 +42,19 @@ DEFINE_INIT_FUNC(callback_init) {
 	if (error < 0)
 		return error;
 
-	atexit(callback_cleanup);
 	return 0;
+}
+
+DEFINE_CLEANUP_FUNC(callback_cleanup) {
+	int index;
+
+	for (index = 0; index < callbacks.count; index++) {
+		struct callback_info *info =
+			(struct callback_info *)array_get(&callbacks, index);
+		free(info->name);
+	}
+
+	array_free(&callbacks);
 }
 
 static int compare(const void *key, const void *elem) {

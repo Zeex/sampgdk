@@ -224,21 +224,6 @@ sampgdk_add_init_modules(
 	"timer"
 )
 
-macro(sampgdk_write_init_func name file)
-	file(REMOVE ${file})
-	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-		file(APPEND ${file} "extern int ${module}_init(void);\n")
-	endforeach()
-	file(APPEND ${file} "\nint ${name}(void) {\n"
-	                    "\tint error;\n")
-	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-		file(APPEND ${file} "\n\tif ((error = ${module}_init()) < 0)\n"
-		                    "\t\treturn error;\n")
-	endforeach()
-	file(APPEND ${file} "\n\treturn 0;\n"
-	                    "}\n")
-endmacro()
-
 macro(sampgdk_add_module name)
 	sampgdk_add_api_gen(${name}
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
@@ -296,8 +281,34 @@ if(SAMPGDK_BUILD_PLUGINS)
 	add_subdirectory("plugins")
 endif()
 
-sampgdk_write_init_func("init_modules"
-                        "${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
+macro(sampgdk_write_module_init file)
+	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
+		file(APPEND ${file} "extern int ${module}_init(void);\n")
+	endforeach()
+	file(APPEND ${file} "\nint module_init(void) {\n"
+	                    "\tint error;\n")
+	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
+		file(APPEND ${file} "\tif ((error = ${module}_init()) < 0)\n"
+		                    "\t\treturn error;\n")
+	endforeach()
+	file(APPEND ${file} "\treturn 0;\n"
+	                    "}\n\n")
+endmacro()
+
+macro(sampgdk_write_module_cleanup file)
+	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
+		file(APPEND ${file} "extern void ${module}_cleanup(void);\n")
+	endforeach()
+	file(APPEND ${file} "\nvoid module_cleanup(void) {\n")
+	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
+		file(APPEND ${file} "\t${module}_cleanup();\n")
+	endforeach()
+	file(APPEND ${file} "}\n\n")
+endmacro()
+
+file(REMOVE "${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
+sampgdk_write_module_init("${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
+sampgdk_write_module_cleanup("${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
 
 if(SAMPGDK_STATIC)
 	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"

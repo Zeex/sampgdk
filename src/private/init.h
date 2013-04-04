@@ -16,8 +16,6 @@
 #ifndef SAMPGDK_PRIVATE_INIT_H_
 #define SAMPGDK_PRIVATE_INIT_H_
 
-#include <stdlib.h> /* for atexit() */
-
 #define DEFINE_INIT_FUNC(f) \
 	int f(void)
 

@@ -27,6 +27,9 @@
 #include "private/plugin.h"
 #include "private/timer.h"
 
+extern int module_init(void);
+extern void module_cleanup(void);
+
 static void **ppPluginData;
 
 static void init_plugin_data(void **ppData) {
@@ -43,8 +46,6 @@ static void init_logprintf(void **ppData) {
 	sampgdk_vlogprintf = vlogprintf;
 }
 
-extern int init_modules(void);
-
 static int do_init(void **ppData) {
 	int error;
 
@@ -52,7 +53,7 @@ static int do_init(void **ppData) {
 	init_amx_exports(ppData);
 	init_logprintf(ppData);
 
-	error = init_modules();
+	error = module_init();
 	if (error < 0)
 		return error;
 
@@ -60,6 +61,7 @@ static int do_init(void **ppData) {
 }
 
 static void do_cleanup(void) {
+	module_cleanup();
 }
 
 /* deprecated */

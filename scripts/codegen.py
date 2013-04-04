@@ -168,6 +168,9 @@ def generate_source_file(module_name, idl, file):
   file.write('\treturn callback_register_table(callback_table);\n')
   file.write('}\n')
 
+  file.write('DEFINE_CLEANUP_FUNC(%s_cleanup) {\n' % module_name)
+  file.write('}\n')
+
 def generate_constant(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
 

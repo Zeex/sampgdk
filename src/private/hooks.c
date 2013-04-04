@@ -244,10 +244,6 @@ no_memory:
 	return -ENOMEM;
 }
 
-DEFINE_CLEANUP_FUNC(hooks_cleanup) {
-	remove_hooks();
-}
-
 DEFINE_INIT_FUNC(hooks_init) {
 	int error;
 
@@ -257,6 +253,9 @@ DEFINE_INIT_FUNC(hooks_init) {
 		return error;
 	}
 
-	atexit(hooks_cleanup);
 	return 0;
+}
+
+DEFINE_CLEANUP_FUNC(hooks_cleanup) {
+	remove_hooks();
 }

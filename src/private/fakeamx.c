@@ -31,10 +31,6 @@
 
 static struct fakeamx global;
 
-DEFINE_CLEANUP_FUNC(fakeamx_cleanup) {
-	fakeamx_free(&global);
-}
-
 DEFINE_INIT_FUNC(fakeamx_init) {
 	int error;
 
@@ -42,8 +38,11 @@ DEFINE_INIT_FUNC(fakeamx_init) {
 	if (error < 0)
 		return error;
 
-	atexit(fakeamx_cleanup);
 	return 0;
+}
+
+DEFINE_CLEANUP_FUNC(fakeamx_cleanup) {
+	fakeamx_free(&global);
 }
 
 static bool is_cell_aligned(cell address) {

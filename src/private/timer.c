@@ -73,10 +73,6 @@ static void fire_timer(int timerid, time_t elapsed) {
 			timer_kill(timerid);
 }
 
-DEFINE_CLEANUP_FUNC(timer_cleanup) {
-	array_free(&timers);
-}
-
 DEFINE_INIT_FUNC(timer_init) {
 	int error;
 	
@@ -86,8 +82,11 @@ DEFINE_INIT_FUNC(timer_init) {
 	
 	array_zero(&timers);
 
-	atexit(timer_cleanup);
 	return 0;
+}
+
+DEFINE_CLEANUP_FUNC(timer_cleanup) {
+	array_free(&timers);
 }
 
 int timer_set(time_t interval, bool repeat, timer_callback callback, void *param) {
