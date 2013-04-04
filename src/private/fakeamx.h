@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_FAKEAMX_H_
-#define SAMPGDK_FAKEAMX_H_
+#ifndef SAMPGDK_PRIVATE_FAKEAMX_H_
+#define SAMPGDK_PRIVATE_FAKEAMX_H_
 
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
@@ -40,4 +40,4 @@ void fakeamx_get_float(struct fakeamx *fa, cell address, float *value);
 void fakeamx_get_string(struct fakeamx *fa, cell address, char *dest, int size);
 void fakeamx_pop(struct fakeamx *fa, cell address);
 
-#endif /* !SAMPGDK_FAKEAMX_H_ */
+#endif /* !SAMPGDK_PRIVATE_FAKEAMX_H_ */

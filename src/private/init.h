@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_INIT_H_
-#define SAMPGDK_INIT_H_
+#ifndef SAMPGDK_PRIVATE_INIT_H_
+#define SAMPGDK_PRIVATE_INIT_H_
 
 #include <stdlib.h> /* for atexit() */
 
@@ -24,4 +24,4 @@
 #define DEFINE_CLEANUP_FUNC(f) \
 	void f(void)
 
-#endif /* !SAMPGDK_INIT_H_ */
+#endif /* !SAMPGDK_PRIVATE_INIT_H_ */

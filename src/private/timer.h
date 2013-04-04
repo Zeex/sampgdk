@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_TIMER_H_
-#define SAMPGDK_TIMER_H_
+#ifndef SAMPGDK_PRIVATE_TIMER_H_
+#define SAMPGDK_PRIVATE_TIMER_H_
 
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
@@ -55,4 +55,4 @@ void timer_process_timers(void *plugin);
 /* Returns the number of milliseconds since some fixed point of time. */
 time_t timer_clock(void);
 
-#endif /* !SAMPGDK_TIMER_H_ */
+#endif /* !SAMPGDK_PRIVATE_TIMER_H_ */

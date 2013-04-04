@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_LOG_H_
-#define SAMPGDK_LOG_H_
+#ifndef SAMPGDK_PRIVATE_LOG_H_
+#define SAMPGDK_PRIVATE_LOG_H_
 
 void log_message(const char *format, ...);
 void log_trace(const char *format, ...);
@@ -22,4 +22,4 @@ void log_warning(const char *format, ...);
 void log_error(const char *format, ...);
 void log_error_code(int error);
 
-#endif /* !SAMPGDK_LOG_H_ */
+#endif /* !SAMPGDK_PRIVATE_LOG_H_ */

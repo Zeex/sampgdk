@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_NATIVE_H_
-#define SAMPGDK_NATIVE_H_
+#ifndef SAMPGDK_PRIVATE_NATIVE_H_
+#define SAMPGDK_PRIVATE_NATIVE_H_
 
 #include <sampgdk/amx.h>
 
@@ -54,4 +54,4 @@ const AMX_NATIVE_INFO *native_get_natives(void);
  */
 int native_get_num_natives(void);
 
-#endif /* !SAMPGDK_NATIVE_H_ */
+#endif /* !SAMPGDK_PRIVATE_NATIVE_H_ */

@@ -12,8 +12,8 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-%ifndef AMX_INC
-%define AMX_INC
+%ifndef SAMPGDK_SDK_AMX_AMX_INC_
+%define SAMPGDK_SDK_AMX_AMX_INC_
 
 %define AMX_EXPORT_ALIGN16       0
 %define AMX_EXPORT_ALIGN32       1
@@ -60,4 +60,4 @@
 %define AMX_EXPORT_UTF8LEN       42
 %define AMX_EXPORT_UTF8PUT       43
 
-%endif // !AMX_INC
+%endif ; !SAMPGDK_SDK_AMX_AMX_INC_ */
