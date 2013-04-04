@@ -14,7 +14,6 @@
  */
 
 #include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -60,10 +59,7 @@ static void do_log(enum log_msg_type type, const char *format, va_list args) {
 	strcat(real_format, format);
 	strcat(real_format, "\n");
 
-	if (logprintf == NULL)
-		vprintf(real_format, args);
-	else
-		vlogprintf(real_format, args);
+	vlogprintf(real_format, args);
 
 	free(real_format);
 }
