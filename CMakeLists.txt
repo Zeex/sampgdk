@@ -1,4 +1,4 @@
-project(sampgdk)
+project(sampgdk C ASM_NASM)
 cmake_minimum_required(VERSION 2.8.8)
 
 option(SAMPGDK_STATIC "Build static library instead" OFF)
@@ -20,26 +20,9 @@ include(GroupTargetSources)
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 	if(WIN32)
 		set(CMAKE_ASM_NASM_OBJECT_FORMAT "win32")
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
 	elseif(UNIX)
 		set(CMAKE_ASM_NASM_OBJECT_FORMAT "elf32")
-	endif()
-endif()
-enable_language(ASM_NASM)
-
-if("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR
-   "${CMAKE_C_COMPILER_ID}" STREQUAL "Intel")
-	set(CMAKE_COMPILER_IS_GNUCC TRUE)
-endif()
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR
-   "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-	set(CMAKE_COMPILER_IS_GNUCXX TRUE)
-endif()
-
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-	if(CMAKE_COMPILER_IS_GNUCC)
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
-	endif()
-	if(CMAKE_COMPILER_IS_GNUCXX)
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
 	endif()
 endif()
