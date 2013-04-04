@@ -162,13 +162,13 @@ source tree, namely:
 
 * [HelloWorld][helloworld]
 
-  The most basic one, demonstrates how to initialize GDK, add commands and
-  set timers. 
+  Demonstrates how to initialize GDK and do basic stuff like how to add
+  commands and set timers.
 
 
 * [LVDM][lvdm]
 
-  A C++ port of the famous LVDM gamemode that shipped with SA-MP server download
+  A C++ port of the LVDM gamemode that shipped with the SA-MP server download
   until 0.3x.
 
 
@@ -187,7 +187,7 @@ on Linux and Visual Studio on Windows (but there are far more systems
 supported). You just create a single build definition file (usually called
 `CMakeLists.txt`) and run CMake against it on the target system.
 
-Below is an example of a `CMakeLists.txt` file:
+Below is an example of such a file:
 
 ```cmake
 cmake_minimum_required(VERSION 2.8)
@@ -227,9 +227,9 @@ endif()
 ```
 
 For your convenience, there's a module called [FindSampGdk3][FindSampGdk3.cmake]
-that can be used together with the [`find_package`][find_package] command that
+that can be used together with the [`find_package()`][find_package] command that
 searches for the library and header paths for you. Just copy the module to 
-`cmake/Modules` and find_package() will automatically use it when you will be
+`cmake/Modules` and `find_package()` will automatically use it when you will be
 searching for a package named SampGdk3:
 
 ```cmake
@@ -247,7 +247,7 @@ find_package(SampGdk3 3.3 REQUIRED)
 
 For the above code to work you have to do one more thing - add the GDK
 installation's `lib` and `include` directories to one of the search paths
-supported by CMake (see the documentation of `find_package`). For example,
+supported by CMake (see the documentation of `find_package()`). For example,
 you can add the `include` directory to the `INCLUDE` environment variable and
 the `lib` directory to the `LIB` variable.
 
