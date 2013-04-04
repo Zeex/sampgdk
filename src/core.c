@@ -25,6 +25,7 @@
 #include <string.h>
 #include <subhook.h>
 
+#include "sdk/amx/amx.h"
 #include "private/call.h"
 #include "private/callback.h"
 #include "private/log.h"
@@ -34,9 +35,6 @@
 #include "private/timer.h"
 
 static void **ppPluginData;
-
-/* Defined in "amxplugin.c". */
-extern void *amx_exports;
 
 /* AMX corresponding to the game mode. */
 static AMX *g_main_amx = NULL;

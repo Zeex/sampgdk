@@ -97,6 +97,7 @@ list(APPEND SAMPGDK_SOURCES
 	"src/private/timer.c"
 	"src/private/timer.h"
 	"src/sdk/amx/amx.asm"
+	"src/sdk/amx/amx.h"
 	"src/a_objects.c"
 	"src/a_players.c"
 	"src/a_samp.c"
