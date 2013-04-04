@@ -85,6 +85,10 @@ bool plugin_is_registered(void *plugin) {
 	return false;
 }
 
+bool plugin_list_empty(void) {
+	return plugins == NULL;
+}
+
 struct plugin_list *plugin_get_list(void) {
 	return plugins;
 }

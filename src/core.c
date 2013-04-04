@@ -80,7 +80,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **ppData) {
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData) {
-	if (plugin_get_list() == NULL) {
+	if (plugin_list_empty()) {
 		int error;
 
 		if ((error = do_init(ppData)) < 0) {
@@ -112,7 +112,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
 
 	error = plugin_unregister(plugin);
 	
-	if (plugin_get_list() == NULL) {
+	if (plugin_list_empty()) {
 		do_cleanup();
 	}
 

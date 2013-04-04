@@ -55,6 +55,10 @@ void *plugin_address_to_handle(void *address);
  */ 
 void plugin_address_to_filename(void *address, char *filename, size_t size);
 
+/* Returns true if there are currently no plugins registered.
+ */
+bool plugin_list_empty(void);
+
 /* Returns the list of currently registered plugins. 
  */
 struct plugin_list *plugin_get_list(void);
