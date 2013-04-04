@@ -30,10 +30,10 @@
 extern int module_init(void);
 extern void module_cleanup(void);
 
-static void **ppPluginData;
+static void **plugin_data;
 
 static void init_plugin_data(void **ppData) {
-	ppPluginData = ppData;
+	plugin_data = ppData;
 }
 
 static void init_amx_exports(void **ppData) {
@@ -46,7 +46,7 @@ static void init_logprintf(void **ppData) {
 	sampgdk_vlogprintf = vlogprintf;
 }
 
-static int do_init(void **ppData) {
+static int init(void **ppData) {
 	int error;
 
 	init_plugin_data(ppData);
@@ -60,7 +60,7 @@ static int do_init(void **ppData) {
 	return 0;
 }
 
-static void do_cleanup(void) {
+static void cleanup(void) {
 	module_cleanup();
 }
 
@@ -83,7 +83,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData)
 	if (plugin_list_empty()) {
 		int error;
 
-		if ((error = do_init(ppData)) < 0) {
+		if ((error = init(ppData)) < 0) {
 			log_error_code(error);
 			return error;
 		}
@@ -113,14 +113,14 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
 	error = plugin_unregister(plugin);
 	
 	if (plugin_list_empty()) {
-		do_cleanup();
+		cleanup();
 	}
 
 	return error;
 }
 
 SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data(void) {
-	return ppPluginData;
+	return plugin_data;
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
