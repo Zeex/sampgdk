@@ -40,9 +40,10 @@ DEFINE_INIT_FUNC(fakeamx_init) {
 
 	error = fakeamx_new(&global);
 	if (error < 0)
-		log_error_code(error);
+		return error;
 
 	atexit(fakeamx_cleanup);
+	return 0;
 }
 
 static bool is_cell_aligned(cell address) {

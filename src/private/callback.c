@@ -48,13 +48,14 @@ DEFINE_INIT_FUNC(callback_init) {
 	int error;
 
 	if (callbacks.data != NULL)
-		return; /* alrady initialized */
+		return 0; /* alrady initialized */
 
 	error = array_new(&callbacks, 1, sizeof(struct callback_info));
 	if (error < 0)
-		log_error_code(error);
+		return error;
 
 	atexit(callback_cleanup);
+	return 0;
 }
 
 static int compare(const void *key, const void *elem) {

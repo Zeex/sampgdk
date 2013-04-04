@@ -268,12 +268,17 @@ static void init_logprintf(void **ppData) {
 	sampgdk_vlogprintf = vlogprintf;
 }
 
+extern int init_modules(void);
+
 static int do_init(void **ppData) {
 	int error;
 
 	init_plugin_data(ppData);
 	init_amx_exports(ppData);
 	init_logprintf(ppData);
+
+	if ((error = init_modules()) < 0)
+		return error;
 
 	if ((error = install_hooks()) < 0) {
 		remove_hooks();

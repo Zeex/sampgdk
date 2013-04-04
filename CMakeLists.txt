@@ -87,6 +87,8 @@ list(APPEND SAMPGDK_HEADERS
 	"${PROJECT_BINARY_DIR}/${SAMPGDK_VERSION_FILE}"
 )
 
+set(SAMPGDK_INIT_FILE "src/init.c")
+
 list(APPEND SAMPGDK_SOURCES
 	"src/private/amx-stack.c"
 	"src/private/amx-stack.h"
@@ -117,6 +119,7 @@ list(APPEND SAMPGDK_SOURCES
 	"src/a_samp.c"
 	"src/a_vehicles.c"
 	"src/version.c"
+	"${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}"
 )
 
 macro(sampgdk_make_output_dir file)
@@ -218,6 +221,38 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
 	list(APPEND SAMPGDK_SOURCES ${source_file})
 endmacro()
 
+macro(sampgdk_add_init_module name)
+	list(APPEND SAMPGDK_INIT_MODULES ${name})
+endmacro()
+
+macro(sampgdk_add_init_modules)
+	foreach(module ${ARGN})
+		sampgdk_add_init_module(${module})
+	endforeach()
+endmacro()
+
+sampgdk_add_init_modules(
+	"callback"
+	"fakeamx"
+	"native"
+	"timer"
+)
+
+macro(sampgdk_write_init_func name file)
+	file(REMOVE ${file})
+	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
+		file(APPEND ${file} "extern int ${module}_init(void);\n")
+	endforeach()
+	file(APPEND ${file} "\nint ${name}(void) {\n"
+	                    "\tint error;\n")
+	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
+		file(APPEND ${file} "\n\tif ((error = ${module}_init()) < 0)\n"
+		                    "\t\treturn error;\n")
+	endforeach()
+	file(APPEND ${file} "\n\treturn 0;\n"
+	                    "}\n")
+endmacro()
+
 macro(sampgdk_add_module name)
 	sampgdk_add_api_gen(${name}
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
@@ -231,12 +266,21 @@ macro(sampgdk_add_module name)
 		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
 		"${PROJECT_BINARY_DIR}/include/sampgdk/${name}-decl.h"
 	)
+	sampgdk_add_init_module(${name})
 endmacro()
 
-sampgdk_add_module("a_objects")
-sampgdk_add_module("a_players")
-sampgdk_add_module("a_samp")
-sampgdk_add_module("a_vehicles")
+macro(sampgdk_add_modules)
+	foreach(module ${ARGN})
+		sampgdk_add_module(${module})
+	endforeach()
+endmacro()
+
+sampgdk_add_modules(
+	"a_objects"
+	"a_players"
+	"a_samp"
+	"a_vehicles"
+)
 
 if(WIN32)
 	add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}"
@@ -265,6 +309,9 @@ add_subdirectory("src")
 if(SAMPGDK_BUILD_PLUGINS)
 	add_subdirectory("plugins")
 endif()
+
+sampgdk_write_init_func("init_modules"
+                        "${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
 
 if(SAMPGDK_STATIC)
 	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"

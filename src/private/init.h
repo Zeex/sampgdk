@@ -18,25 +18,10 @@
 
 #include <stdlib.h> /* for atexit() */
 
-/* Thanks to Joe Lowe for his wonderful post on StackOverflow:
- * http://stackoverflow.com/a/2390626/249230
- */
-#if defined _MSC_VER
-	#pragma section(".CRT$XCU", read)
-	#define DEFINE_INIT_FUNC(f) \
-		static void __cdecl f(void); \
-		__declspec(allocate(".CRT$XCU")) void (__cdecl*f##_)(void) = f; \
-		static void __cdecl f(void)
-#elif defined(__GNUC__)
-	#define DEFINE_INIT_FUNC(f) \
-		static void f(void) __attribute__((constructor)); \
-		static void f(void)
-#else
-	#error Unsupported compiler
-#endif
+#define DEFINE_INIT_FUNC(f) \
+	int f(void)
 
-/* Just for the sake of completeness. */
 #define DEFINE_CLEANUP_FUNC(f) \
-	static void f(void)
+	void f(void)
 
 #endif /* !SAMPGDK_INIT_H_ */

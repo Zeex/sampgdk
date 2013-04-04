@@ -82,11 +82,12 @@ DEFINE_INIT_FUNC(timer_init) {
 	
 	error = array_new(&timers, 10, sizeof(void *));
 	if (error < 0)
-		log_error_code(error);
-	else
-		array_zero(&timers);
+		return error;
+	
+	array_zero(&timers);
 
 	atexit(timer_cleanup);
+	return 0;
 }
 
 int timer_set(time_t interval, bool repeat, timer_callback callback, void *param) {

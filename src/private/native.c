@@ -37,9 +37,10 @@ DEFINE_INIT_FUNC(native_init) {
 	
 	error = array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
 	if (error < 0)
-		log_error_code(error);
+		return error;
 
 	atexit(native_cleanup);
+	return 0;
 }
 
 int native_register(const char *name, AMX_NATIVE func) {

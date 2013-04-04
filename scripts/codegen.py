@@ -164,8 +164,8 @@ def generate_source_file(module_name, idl, file):
   file.write('\tNULL, NULL\n')
   file.write('};\n\n')
 
-  file.write('DEFINE_INIT_FUNC(register_callbacks__%s) {\n' % module_name)
-  file.write('\tcallback_register_table(callback_table);\n')
+  file.write('DEFINE_INIT_FUNC(%s_init) {\n' % module_name)
+  file.write('\treturn callback_register_table(callback_table);\n')
   file.write('}\n')
 
 def generate_constant(file, const):
