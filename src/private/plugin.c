@@ -53,12 +53,17 @@ int plugin_unregister(void *plugin) {
 	prev = NULL;
 
 	while (cur != NULL) {
-		if (cur->plugin == plugin) {
-			if (prev != NULL)
-				prev->next = cur->next;
-			free(cur);
-			return 0;
-		}
+		if (cur->plugin != plugin)
+			continue;
+
+		if (prev != NULL)
+			prev->next = cur->next;
+
+		if (plugins == cur)
+			plugins = NULL;
+
+		free(cur);
+		return 0;
 	}
 
 	return -EINVAL;
