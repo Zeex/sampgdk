@@ -181,7 +181,6 @@ macro(sampgdk_add_module name)
 		"${CMAKE_CURRENT_BINARY_DIR}/include/sampgdk/${name}-decl.h"
 	)
 	sampgdk_add_init_module(${name})
-	sampgdk_add_sources("src/${name}.c")
 endmacro()
 
 file(GLOB_RECURSE list_files "modules.list")
