@@ -210,19 +210,13 @@ macro(sampgdk_add_init_module name)
 	list(APPEND SAMPGDK_INIT_MODULES ${name})
 endmacro()
 
-macro(sampgdk_add_init_modules)
-	foreach(module ${ARGN})
+file(GLOB_RECURSE list_files ${PROJECT_SOURCE_DIR} "init-modules.list")
+foreach(file IN LISTS list_files)
+	file(STRINGS ${file} modules)
+	foreach(module IN LISTS modules)
 		sampgdk_add_init_module(${module})
 	endforeach()
-endmacro()
-
-sampgdk_add_init_modules(
-	"callback"
-	"fakeamx"
-	"hooks"
-	"native"
-	"timer"
-)
+endforeach()
 
 macro(sampgdk_add_module name)
 	sampgdk_add_api_gen(${name}
@@ -240,18 +234,13 @@ macro(sampgdk_add_module name)
 	sampgdk_add_init_module(${name})
 endmacro()
 
-macro(sampgdk_add_modules)
-	foreach(module ${ARGN})
+file(GLOB_RECURSE list_files ${PROJECT_SOURCE_DIR} "modules.list")
+foreach(file IN LISTS list_files)
+	file(STRINGS ${file} modules)
+	foreach(module IN LISTS modules)
 		sampgdk_add_module(${module})
 	endforeach()
-endmacro()
-
-sampgdk_add_modules(
-	"a_objects"
-	"a_players"
-	"a_samp"
-	"a_vehicles"
-)
+endforeach()
 
 if(WIN32)
 	add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}"
