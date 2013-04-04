@@ -169,6 +169,7 @@ def generate_source_file(module_name, idl, file):
   file.write('}\n')
 
   file.write('DEFINE_CLEANUP_FUNC(%s_cleanup) {\n' % module_name)
+  file.write('\tcallback_unregister_table(callback_table);\n')
   file.write('}\n')
 
 def generate_constant(file, const):

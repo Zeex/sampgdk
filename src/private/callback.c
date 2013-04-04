@@ -117,16 +117,36 @@ int callback_register(const char *name, callback_handler handler) {
 }
 
 int callback_register_table(const struct callback_info *table) {
-	const struct callback_info *p;
+	const struct callback_info *ptr;
 	int error;
 
-	for (p = table; p->name != NULL; p++) {
-		error = callback_register(p->name, p->handler);
+	for (ptr = table; ptr->name != NULL; ptr++) {
+		error = callback_register(ptr->name, ptr->handler);
 		if (error < 0)
 			return error;
 	}
 
 	return 0;
+}
+
+void callback_unregister(const char *name) {
+	const struct callback_info *ptr;
+	int index;
+
+	for (index = 0; index < callbacks.count; index++) {
+		ptr = (const struct callback_info *)array_get(&callbacks, index);
+		if (strcmp(ptr->name, name) == 0) {
+			array_remove_single(&callbacks, index);
+			break;
+		}
+	}
+}
+
+void callback_unregister_table(const struct callback_info *table) {
+	const struct callback_info *ptr;
+
+	for (ptr = table; ptr->name != NULL; ptr++)
+		callback_unregister(ptr->name);
 }
 
 bool callback_invoke(AMX *amx, const char *name, cell *retval) {

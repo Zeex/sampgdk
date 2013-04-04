@@ -38,9 +38,19 @@ struct callback_info *callback_lookup(const char *name);
  */
 int callback_register(const char *name, callback_handler handler);
 
-/* A "vectorized" version of the above function.
+/* Same as callback_register() but can register *multiple*
+ * callbacks  at once.
  */
 int callback_register_table(const struct callback_info *table);
+
+/* Unregisters a callback previously registered with callback_register.
+ */
+void callback_unregister(const char *name);
+
+/* Same as callback_unregister() but can unregister *multiple*
+ * callbacks at once.
+ */
+void callback_unregister_table(const struct callback_info *table);
 
 /*
  * Invokes a callback by name and stores return value in retval
