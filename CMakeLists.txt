@@ -84,6 +84,7 @@ list(APPEND SAMPGDK_SOURCES
 	"src/core.c"
 	"src/private/fakeamx.c"
 	"src/private/fakeamx.h"
+	"src/private/hooks.c"
 	"src/private/init.h"
 	"src/private/likely.h"
 	"src/private/log.c"
@@ -218,6 +219,7 @@ endmacro()
 sampgdk_add_init_modules(
 	"callback"
 	"fakeamx"
+	"hooks"
 	"native"
 	"timer"
 )
