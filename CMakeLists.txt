@@ -15,6 +15,10 @@ list(APPEND CMAKE_MODULE_PATH
 	"${PROJECT_SOURCE_DIR}/cmake/Modules"
 )
 
+if(NOT (MSVC_IDE AND MSVC_VERSION LESS 1600))
+	set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+endif()
+
 include(GroupTargetSources)
 
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -259,8 +263,6 @@ elseif(UNIX)
 endif()
 
 list(APPEND SAMPGDK_SOURCES ${SAMPGDK_APIS})
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory("include")
 add_subdirectory("lib")
