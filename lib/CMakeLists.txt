@@ -1,5 +1,4 @@
-set_property(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" APPEND PROPERTY
-             LIBRARIES "subhook")
+sampgdk_add_libraries("subhook")
 
 if(SAMPGDK_STATIC)
 	set_property(DIRECTORY "${CMAKE_SOURCE_DIR}" APPEND PROPERTY

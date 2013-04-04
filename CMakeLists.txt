@@ -11,8 +11,8 @@ set(SAMPGDK_VERSION_TWEAK "0")
 set(SAMPGDK_VERSION_STRING "3.3")
 
 list(APPEND CMAKE_MODULE_PATH
-	"${PROJECT_SOURCE_DIR}/cmake"
-	"${PROJECT_SOURCE_DIR}/cmake/Modules"
+	"${CMAKE_CURRENT_SOURCE_DIR}/cmake"
+	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules"
 )
 
 if(NOT (MSVC_IDE AND MSVC_VERSION LESS 1600))
@@ -35,11 +35,6 @@ if(SAMPGDK_STATIC)
 	add_definitions(-DSAMPGDK_STATIC)
 endif()
 
-include_directories("${PROJECT_SOURCE_DIR}/include")
-include_directories("${PROJECT_BINARY_DIR}/include")
-include_directories("${PROJECT_SOURCE_DIR}/src")
-include_directories("${PROJECT_BINARY_DIR}/src")
-
 find_package(PythonInterp 2.7 REQUIRED)
 
 set(PYTHONPATH
@@ -47,131 +42,81 @@ set(PYTHONPATH
 	"${PROJECT_SOURCE_DIR}/lib/python/ply"
 )
 
-set(SAMPGDK_VERSION_FILE "include/sampgdk/version.h")
+macro(sampgdk_add_sources)
+	foreach(file ${ARGN})
+		if(NOT IS_ABSOLUTE "${file}")
+			set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
+			             SAMPGDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/${file}")
+		else()
+			set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
+			             SAMPGDK_SOURCES "${file}")
+		endif()
+	endforeach()
+endmacro()
 
-list(APPEND SAMPGDK_HEADERS
-	"include/sampgdk/sdk/amx/amx.h"
-	"include/sampgdk/sdk/amx/getch.h"
-	"include/sampgdk/sdk/amx/sclinux.h"
-	"include/sampgdk/sdk/plugincommon.h"
-	"include/sampgdk/a_objects.h"
-	"include/sampgdk/a_objects.hpp"
-	"include/sampgdk/a_players.h"
-	"include/sampgdk/a_players.hpp"
-	"include/sampgdk/a_samp.h"
-	"include/sampgdk/a_samp.hpp"
-	"include/sampgdk/a_vehicles.h"
-	"include/sampgdk/a_vehicles.hpp"
-	"include/sampgdk/amx.h"
-	"include/sampgdk/bool.h"
-	"include/sampgdk/callnative.hpp"
-	"include/sampgdk/core.h"
-	"include/sampgdk/core.hpp"
-	"include/sampgdk/export.h"
-	"include/sampgdk/platform.h"
-	"include/sampgdk/plugin.h"
-	"include/sampgdk/plugincommon.h"
-	"${PROJECT_BINARY_DIR}/${SAMPGDK_VERSION_FILE}"
-)
+macro(sampgdk_add_headers)
+	foreach(file ${ARGN})
+		if(NOT IS_ABSOLUTE "${file}")
+			set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
+			             SAMPGDK_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/${file}")
+		else()
+			set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
+			             SAMPGDK_HEADERS "${file}")
+		endif()
+	endforeach()
+endmacro()
 
-set(SAMPGDK_INIT_FILE "src/private/init.c")
-
-list(APPEND SAMPGDK_SOURCES
-	"src/private/amx-stack.c"
-	"src/private/amx-stack.h"
-	"src/private/array.c"
-	"src/private/array.h"
-	"src/private/call.asm"
-	"src/private/call.h"
-	"src/private/callback.c"
-	"src/private/callback.h"
-	"src/core.c"
-	"src/private/fakeamx.c"
-	"src/private/fakeamx.h"
-	"src/private/hooks.c"
-	"src/private/init.h"
-	"src/private/likely.h"
-	"src/private/log.c"
-	"src/private/log.h"
-	"src/private/logprintf.c"
-	"src/private/logprintf.h"
-	"src/private/native.c"
-	"src/private/native.h"
-	"src/private/plugin.c"
-	"src/private/plugin.h"
-	"src/private/timer.c"
-	"src/private/timer.h"
-	"src/sdk/amx/amx.asm"
-	"src/sdk/amx/amx.h"
-	"src/a_objects.c"
-	"src/a_players.c"
-	"src/a_samp.c"
-	"src/a_vehicles.c"
-	"src/version.c"
-	"${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}"
-)
+macro(sampgdk_add_libraries)
+	foreach(library ${ARGN})
+		set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
+		             SAMPGDK_LIBRARIES "${library}")
+	endforeach()
+endmacro()
 
 macro(sampgdk_make_output_dir file)
-	get_filename_component(path ${file} PATH)
-	if(path MATCHES ${PROJECT_BINARY_DIR})
-		file(MAKE_DIRECTORY ${path})
+	if(NOT IS_ABSOLUTE file)
+		get_filename_component(_file ${file} ABSOLUTE)
 	else()
-		file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/${path}")
+		set(_file ${file})
+	endif()
+
+	get_filename_component(_path ${_file} PATH)
+	file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
+
+	if(path MATCHES ${PROJECT_BINARY_DIR})
+		file(MAKE_DIRECTORY ${_path})
+	else()
+		file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_path}")
 	endif()
 endmacro()
 
 macro(sampgdk_add_nasm_source file)
-	list(APPEND SAMPGDK_SOURCES "${PROJECT_BINARY_DIR}/${file}.obj")
+	if(file MATCHES "${CMAKE_CURRENT_SOURCE_DIR}")
+		file(RELATIVE_PATH _file ${CMAKE_CURRENT_SOURCE_DIR} ${file})
+	else()
+		set(_file ${file})
+	endif()
 
-	if("${CMAKE_ASM_NASM_COMPILER}" MATCHES "[yY][aA][sS][mM]")
+	set(_asm_file "${CMAKE_CURRENT_SOURCE_DIR}/${_file}")
+	set(_obj_file "${CMAKE_CURRENT_BINARY_DIR}/${_file}.obj")
+
+	sampgdk_add_sources(${_obj_file})
+
+	if(CMAKE_ASM_NASM_COMPILER MATCHES "[yY][aA][sS][mM]")
 		set(SAMPGDK_NASM_OPTIONS "-f" "win32" "--prefix=_")
 	else()
 		set(SAMPGDK_NASM_OPTIONS "-fwin32" "--prefix" "_")
 	endif()
 
-	sampgdk_make_output_dir(${file})
-	add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/${file}.obj"
+	sampgdk_make_output_dir(${_obj_file})
+
+	add_custom_command(OUTPUT ${_obj_file}
 		COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${SAMPGDK_NASM_OPTIONS} "-o"
-			"${PROJECT_BINARY_DIR}/${file}.obj"
-			"${PROJECT_SOURCE_DIR}/${file}"
-		MAIN_DEPENDENCY "${PROJECT_SOURCE_DIR}/${file}"
+			"${_obj_file}"
+			"${_asm_file}"
+		MAIN_DEPENDENCY ${_asm_file}
 	)
 endmacro()
-
-if(WIN32)
-	foreach(file IN LISTS SAMPGDK_SOURCES)
-		if(file MATCHES ".asm")
-			sampgdk_add_nasm_source("${file}")
-		endif()
-	endforeach()
-endif()
-
-list(APPEND SAMPGDK_APIS
-	"src/sdk/amx/amx.api"
-	"src/core.api"
-	"src/version.api"
-)
-
-set(SAMPGDK_RC_FILE  "src/sampgdk.rc")
-set(SAMPGDK_DEF_FILE "src/sampgdk.def")
-set(SAMPGDK_SYM_FILE "src/sampgdk.sym")
-
-if(WIN32)
-	list(APPEND SAMPGDK_SOURCES
-		"src/private/plugin-win32.c"
-		"src/private/timer-win32.c"
-		"${PROJECT_BINARY_DIR}/${SAMPGDK_RC_FILE}"
-		"${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}"
-	)
-elseif(UNIX)
-	list(APPEND SAMPGDK_SOURCES
-		"src/private/plugin-glibc.c"
-		"src/private/timer-posix.c"
-		"${PROJECT_BINARY_DIR}/${SAMPGDK_SYM_FILE}"
-	)
-else()
-	message(FATAL_ERROR "Unsupported operating system")
-endif()
 
 macro(sampgdk_add_api_gen module_name idl_file api_file)
 	sampgdk_make_output_dir(${api_file})
@@ -180,9 +125,9 @@ macro(sampgdk_add_api_gen module_name idl_file api_file)
 			"-DCODEGEN_MODULE_NAME=${module_name}"
 			"-DCODEGEN_IDL_FILE=${idl_file}"
 			"-DCODEGEN_API_FILE=${api_file}"
-			"-P" "${PROJECT_BINARY_DIR}/scripts/codegen.py.cmake"
+			"-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/codegen.py.cmake"
 		DEPENDS ${idl_file} "scripts/codegen.py")
-	list(APPEND SAMPGDK_APIS ${api_file})
+	sampgdk_add_sources(${api_file})
 endmacro()
 
 macro(sampgdk_add_header_gen module_name idl_file header_file)
@@ -195,7 +140,7 @@ macro(sampgdk_add_header_gen module_name idl_file header_file)
 			"-P" "${PROJECT_BINARY_DIR}/scripts/codegen.py.cmake"
 		DEPENDS ${idl_file} "scripts/codegen.py"
 	)
-	list(APPEND SAMPGDK_HEADERS ${header_file})
+	sampgdk_add_headers(${header_file})
 endmacro()
 
 macro(sampgdk_add_source_gen module_name idl_file source_file)
@@ -207,14 +152,14 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
 			"-DCODEGEN_SOURCE_FILE=${source_file}"
 			"-P" "${PROJECT_BINARY_DIR}/scripts/codegen.py.cmake"
 		DEPENDS ${idl_file} "scripts/codegen.py")
-	list(APPEND SAMPGDK_SOURCES ${source_file})
+	sampgdk_add_sources(${source_file})
 endmacro()
 
 macro(sampgdk_add_init_module name)
 	list(APPEND SAMPGDK_INIT_MODULES ${name})
 endmacro()
 
-file(GLOB_RECURSE list_files ${PROJECT_SOURCE_DIR} "init-modules.list")
+file(GLOB_RECURSE list_files "init-modules.list")
 foreach(file IN LISTS list_files)
 	file(STRINGS ${file} modules)
 	foreach(module IN LISTS modules)
@@ -224,45 +169,27 @@ endforeach()
 
 macro(sampgdk_add_module name)
 	sampgdk_add_api_gen(${name}
-		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
-		"${PROJECT_BINARY_DIR}/src/${name}.api"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl"
+		"${CMAKE_CURRENT_BINARY_DIR}/src/${name}.api"
 	)
 	sampgdk_add_source_gen(${name}
-		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
-		"${PROJECT_BINARY_DIR}/src/${name}-impl.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl"
+		"${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c"
 	)
 	sampgdk_add_header_gen(${name}
-		"${PROJECT_SOURCE_DIR}/src/${name}.idl"
-		"${PROJECT_BINARY_DIR}/include/sampgdk/${name}-decl.h"
+		"${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl"
+		"${CMAKE_CURRENT_BINARY_DIR}/include/sampgdk/${name}-decl.h"
 	)
 	sampgdk_add_init_module(${name})
 endmacro()
 
-file(GLOB_RECURSE list_files ${PROJECT_SOURCE_DIR} "modules.list")
+file(GLOB_RECURSE list_files "modules.list")
 foreach(file IN LISTS list_files)
 	file(STRINGS ${file} modules)
 	foreach(module IN LISTS modules)
 		sampgdk_add_module(${module})
 	endforeach()
 endforeach()
-
-if(WIN32)
-	add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}"
-		COMMAND "${CMAKE_COMMAND}" 
-			"-DDEFGEN_OUTPUT_FILE=${PROJECT_BINARY_DIR}/${SAMPGDK_DEF_FILE}"
-			"-DDEFGEN_SEARCH_DIRS=\"${PROJECT_BINARY_DIR};${PROJECT_SOURCE_DIR}\""
-			"-P" "${PROJECT_BINARY_DIR}/scripts/defgen.py.cmake"
-		DEPENDS ${SAMPGDK_APIS})
-elseif(UNIX)
-	add_custom_command(OUTPUT "${PROJECT_BINARY_DIR}/${SAMPGDK_SYM_FILE}"
-		COMMAND "${CMAKE_COMMAND}"
-			"-DSYMGEN_OUTPUT_FILE=${PROJECT_BINARY_DIR}/${SAMPGDK_SYM_FILE}"
-			"-DSYMGEN_SEARCH_DIRS=\"${PROJECT_BINARY_DIR};${PROJECT_SOURCE_DIR}\""
-			"-P" "${PROJECT_BINARY_DIR}/scripts/symgen.py.cmake"
-		DEPENDS ${SAMPGDK_APIS})
-endif()
-
-list(APPEND SAMPGDK_SOURCES ${SAMPGDK_APIS})
 
 add_subdirectory("include")
 add_subdirectory("lib")
@@ -272,44 +199,51 @@ if(SAMPGDK_BUILD_PLUGINS)
 	add_subdirectory("plugins")
 endif()
 
-macro(sampgdk_write_module_init file)
-	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-		file(APPEND ${file} "extern int ${module}_init(void);\n")
-	endforeach()
-	file(APPEND ${file} "\nint module_init(void) {\n"
-	                    "\tint error;\n")
-	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-		file(APPEND ${file} "\tif ((error = ${module}_init()) < 0)\n"
-		                    "\t\treturn error;\n")
-	endforeach()
-	file(APPEND ${file} "\treturn 0;\n"
-	                    "}\n\n")
-endmacro()
-
-macro(sampgdk_write_module_cleanup file)
-	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-		file(APPEND ${file} "extern void ${module}_cleanup(void);\n")
-	endforeach()
-	file(APPEND ${file} "\nvoid module_cleanup(void) {\n")
-	foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-		file(APPEND ${file} "\t${module}_cleanup();\n")
-	endforeach()
-	file(APPEND ${file} "}\n\n")
-endmacro()
-
-file(REMOVE "${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
-sampgdk_write_module_init("${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
-sampgdk_write_module_cleanup("${PROJECT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
-
 if(SAMPGDK_STATIC)
 	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
 	            PROPERTY LIBRARIES)
 	foreach(lib IN LISTS libs)
 		get_target_property(sources ${lib} SOURCES)
 		foreach(file IN LISTS sources)
-			list(APPEND SAMPGDK_SOURCES "${${lib}_SOURCE_DIR}/${file}")
+			sampgdk_add_sources("${${lib}_SOURCE_DIR}/${file}")
 		endforeach()
 	endforeach()
+endif()
+
+get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
+             PROPERTY SAMPGDK_SOURCES)
+get_property(SAMPGDK_HEADERS DIRECTORY ${PROJECT_SOURCE_DIR}
+             PROPERTY SAMPGDK_HEADERS)
+get_property(SAMPGDK_LIBRARIES DIRECTORY ${PROJECT_SOURCE_DIR}
+             PROPERTY SAMPGDK_LIBRARIES)
+
+foreach(file IN LISTS SAMPGDK_SOURCES)
+	if(file MATCHES "\\.api")
+		list(APPEND SAMPGDK_APIS ${file})
+	endif()
+	if(WIN32 AND file MATCHES "\\.asm")
+		sampgdk_add_nasm_source(${file})
+	endif()
+endforeach()
+
+# Have to do this one more time because of added .obj files.
+get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
+             PROPERTY SAMPGDK_SOURCES)
+
+if(SAMPGDK_DEF_FILE)
+	add_custom_command(OUTPUT "${SAMPGDK_DEF_FILE}"
+		COMMAND "${CMAKE_COMMAND}" 
+			"-DDEFGEN_OUTPUT_FILE=${SAMPGDK_DEF_FILE}"
+			"-DDEFGEN_SEARCH_DIRS=\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
+			"-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/defgen.py.cmake")
+endif()
+
+if(SAMPGDK_SYM_FILE)
+	add_custom_command(OUTPUT ${SAMPGDK_SYM_FILE}
+		COMMAND "${CMAKE_COMMAND}"
+			"-DSYMGEN_OUTPUT_FILE=${SAMPGDK_SYM_FILE}"
+			"-DSYMGEN_SEARCH_DIRS=\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
+			"-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/symgen.py.cmake")
 endif()
 
 if(SAMPGDK_STATIC)
@@ -342,9 +276,7 @@ elseif(UNIX)
 endif()
 
 if(NOT SAMPGDK_STATIC)
-	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
-	            PROPERTY LIBRARIES)
-	target_link_libraries(sampgdk ${libs})
+	target_link_libraries(sampgdk ${SAMPGDK_LIBRARIES})
 	if(UNIX)
 		target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
 	endif()
@@ -354,10 +286,10 @@ foreach(header IN LISTS SAMPGDK_HEADERS)
 	get_filename_component(path ${header} PATH)
 	get_filename_component(abs_path ${path} ABSOLUTE)
 
-	if(header MATCHES "${PROJECT_BINARY_DIR}")
-		file(RELATIVE_PATH dir ${PROJECT_BINARY_DIR} ${abs_path})
+	if(header MATCHES ${CMAKE_CURRENT_BINARY_DIR})
+		file(RELATIVE_PATH dir ${CMAKE_CURRENT_BINARY_DIR} ${abs_path})
 	else()
-		file(RELATIVE_PATH dir ${PROJECT_SOURCE_DIR} ${abs_path})
+		file(RELATIVE_PATH dir ${CMAKE_CURRENT_SOURCE_DIR} ${abs_path})
 	endif()
 
 	install(FILES ${header} DESTINATION ${dir})
@@ -369,7 +301,7 @@ install(TARGETS sampgdk
 	LIBRARY DESTINATION "lib" COMPONENT "bin"
 )
 
-set(CPACK_PACKAGE_NAME "sampgdk")
+set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_CONTACT "CPack")
 set(CPACK_PACKAGE_VERSION ${SAMPGDK_VERSION_STRING})
 set(CPACK_PACKAGE_VERSION_MAJOR ${SAMPGDK_VERSION_MAJOR})
@@ -381,7 +313,7 @@ if(WIN32)
 	    "${CPACK_PACKAGE_NAME} ${SAMPGDK_VERSION_MAJOR}.${SAMPGDK_VERSION_MINOR}")
 endif()
 
-set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
 set(CPACK_COMPONENT_BIN_DISPLAY_NAME "Runtime")
 set(CPACK_COMPONENT_BIN_DESCRIPTION "Runtime library needed to run plugins")
 set(CPACK_COMPONENT_BIN_INSTALL_TYPES "Full" "Minimal")
