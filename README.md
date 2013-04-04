@@ -233,7 +233,7 @@ searches for the library and header paths for you. Just copy the module to
 searching for a package named SampGdk3:
 
 ```cmake
-find_package(SampGdk3 REQRUIED)
+find_package(SampGdk3 REQUIRED)
 include_directories(${SampGdk3_INCLUDE_DIRS})
 link_libraries(${SampGdk3_LIBRARIES})
 ```
@@ -242,7 +242,7 @@ You can also specify a minimum or exact version of the package when calling
 `find_package` so incompatibles version will be rejected:
 
 ```cmake
-find_package(SampGdk3 3.3 REQURIED)
+find_package(SampGdk3 3.3 REQUIRED)
 ```
 
 For the above code to work you have to do one more thing - add the GDK
