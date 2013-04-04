@@ -108,10 +108,15 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void) {
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
+	int error;
+
+	error = plugin_unregister(plugin);
+	
 	if (plugin_get_list() == NULL) {
 		do_cleanup();
 	}
-	return plugin_unregister(plugin);
+
+	return error;
 }
 
 SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data(void) {
