@@ -70,7 +70,7 @@ list(APPEND SAMPGDK_HEADERS
 	"${PROJECT_BINARY_DIR}/${SAMPGDK_VERSION_FILE}"
 )
 
-set(SAMPGDK_INIT_FILE "src/init.c")
+set(SAMPGDK_INIT_FILE "src/private/init.c")
 
 list(APPEND SAMPGDK_SOURCES
 	"src/private/amx-stack.c"
