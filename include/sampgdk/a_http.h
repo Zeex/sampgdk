@@ -20,8 +20,6 @@
 #include <sampgdk/core.h>
 #include <sampgdk/export.h>
 
-typedef void (SAMPGDK_CALL *HTTPCallback)(int index, int response_code, const char *data[]);
-
 #include <sampgdk/a_http-decl.h>
 
 #endif /* !SAMPGDK_A_HTTP_H */
