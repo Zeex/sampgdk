@@ -515,7 +515,7 @@ class Parser(object):
 
   def p_string(self, p):
     """string : STRING"""
-    p[0] = p[1]
+    p[0] = self._value_class('string', p[1])
 
   def p_constref(self, p):
     """constref : IDENT"""
