@@ -97,9 +97,10 @@ class Attribute(object):
     return self._name == other._name
 
 class Parameter(object):
-  def __init__(self, type, name, attrlist=None):
+  def __init__(self, type, name, default=None, attrlist=None):
     self._type = type
     self._name = name
+    self._default = default
     self._attrlist = attrlist
 
   @property
@@ -109,6 +110,10 @@ class Parameter(object):
   @property
   def name(self):
     return self._name
+
+  @property
+  def default(self):
+    return self._default
 
   @property
   def attrs(self):
@@ -559,11 +564,17 @@ class Parser(object):
 
   def p_param(self, p):
     """param :       typename IDENT
-             | attrs typename IDENT"""
+             |       typename IDENT EQUALS constexpr
+             | attrs typename IDENT
+             | attrs typename IDENT EQUALS constexpr"""
     if len(p) == 3:
       p[0] = self._param_class(p[1], p[2])
-    else:
-      p[0] = self._param_class(p[2], p[3], p[1])
+    elif len(p) == 5:
+      p[0] = self_.param_class(p[1], p[2], default=p[4])
+    elif len(p) == 4:
+      p[0] = self._param_class(p[2], p[3], attrlist=p[1])
+    elif len(p) == 6:
+      p[0] = self._param_class(p[2], p[3], default=p[5], attrlist=p[1])
     self._paramlist.append(p[0])
 
   def p_typename(self, p):
