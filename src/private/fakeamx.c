@@ -117,9 +117,9 @@ int fakeamx_resize_heap(struct fakeamx *fa, size_t new_size) {
 	new_stp = fa->amx.stp + (new_size - old_size) * sizeof(cell);
 
 	/* Shift stack contents. */
-	memmove((unsigned char *)fa->heap.data + new_stp - STACK_SIZE,
-		    (unsigned char *)fa->heap.data + old_stp - STACK_SIZE,
-		    STACK_SIZE);
+	memmove((unsigned char *)fa->heap.data + new_stk - STACK_SIZE,
+	        (unsigned char *)fa->heap.data + old_stk - STACK_SIZE,
+	        STACK_SIZE);
 
 	fa->amx.stk = new_stk;
 	fa->amx.stp = new_stp;
