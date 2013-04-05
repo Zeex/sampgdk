@@ -290,7 +290,7 @@ foreach(header IN LISTS SAMPGDK_HEADERS)
 		file(RELATIVE_PATH dir ${CMAKE_CURRENT_SOURCE_DIR} ${abs_path})
 	endif()
 
-	install(FILES ${header} DESTINATION ${dir})
+	install(FILES ${header} DESTINATION ${dir} COMPONENT "dev")
 endforeach()
 
 install(TARGETS sampgdk
