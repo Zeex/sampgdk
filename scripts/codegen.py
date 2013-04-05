@@ -39,8 +39,8 @@ idl_to_c_type_out = {
 }
 
 class Parameter(cidl.Parameter):
-  def __init__(self, type, name, attrlist=None):
-    cidl.Parameter.__init__(self, type, name, attrlist)
+  def __init__(self, type, name, default=None, attrlist=None):
+    cidl.Parameter.__init__(self, type, name, default, attrlist)
 
   @property
   def c_type(self):
@@ -96,7 +96,8 @@ class ParamList:
     self._params = params
 
   def __str__(self):
-    return ', '.join(['%s %s' % (p.c_type, p.name) for p in self._params])
+    return ', '.join(['%s %s' % (p.c_type, p.name) for p in
+                      filter(lambda x: x.default is None, self._params)])
 
 class ArgList:
   def __init__(self, params):
@@ -202,22 +203,30 @@ def generate_native_impl(file, func):
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):
       if p.is_ref:
-        if p.type == 'char': # output string (const char *)
+        if p.default is not None:
+          value = p.default
+        else:
+          value = p.name
+        if p.type == 'char':
           file.write('\tfakeamx_push(fa, %s, &%s_);\n' % (pnext.name, p.name))
-        elif p.type == 'string': # input string (char *)
-          file.write('\tfakeamx_push_string(fa, %s, NULL, &%s_);\n' % (p.name, p.name))
+        elif p.type == 'string':
+          file.write('\tfakeamx_push_string(fa, %s, NULL, &%s_);\n' % (value, p.name))
         else:
           file.write('\tfakeamx_push(fa, 1, &%s_);\n' % p.name)
 
     file.write('\tparams[0] = %d * sizeof(cell);\n' % len(func.params))
     for index, p in enumerate(func.params, 1):
       if p.is_value:
+        if p.default is not None:
+          value = p.default
+        else:
+          value = p.name
         file.write('\tparams[%d] = %s;\n' % (index, 
           {
-            'int'   : '(cell)%s' % p.name,
-            'bool'  : '(cell)%s' % p.name,
-            'char'  : '(cell)%s' % p.name,
-            'float' : 'amx_ftoc(%s)' % p.name,
+            'int'   : '(cell)%s' % value,
+            'bool'  : '(cell)%s' % value,
+            'char'  : '(cell)%s' % value,
+            'float' : 'amx_ftoc(%s)' % value,
           }[p.type]
         ))
       else:
