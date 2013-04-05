@@ -40,6 +40,7 @@ static struct subhook *amx_FindPublic_hook;
 static struct subhook *amx_Exec_hook;
 static struct subhook *amx_Register_hook;
 static struct subhook *amx_Callback_hook;
+static struct subhook *amx_Allot_hook;
 
 /* The "funcidx" native uses amx_FindPublic() to get public function index
  * but our FindPublic always succeeds regardless of public existence, so
@@ -198,6 +199,31 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
 	return error;
 }
 
+static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_addr) {
+	int error;
+
+	subhook_remove(amx_Allot_hook);
+
+	/* There is a bug in amx_Allot() where it returns success even though
+	 * there's not enough space on the heap:
+	 *
+	 * if (amx->stk - amx->hea - cells*sizeof(cell) < STKMARGIN)
+     *   return AMX_ERR_MEMORY;
+	 *
+	 * The expression on the right side of the comparison is converted
+	 * to an unsigned type (because result of sizeof is of type size_t).
+	 * and in fact never results in a negative value. 
+	 */
+	if ((size_t)amx->stk < (size_t)(amx->hea + cells*sizeof(cell) + 16*sizeof(cell)))
+		error =  AMX_ERR_MEMORY;
+	else
+		error = amx_Allot(amx, cells, amx_addr, phys_addr);
+
+	subhook_install(amx_Allot_hook);
+
+	return error;
+}
+
 static void remove_hooks() {
 	if (amx_Register_hook != NULL) {
 		subhook_remove(amx_Register_hook);
@@ -215,6 +241,10 @@ static void remove_hooks() {
 		subhook_remove(amx_Callback_hook);
 		subhook_free(amx_Callback_hook);
 	}
+	if (amx_Allot_hook != NULL) {
+		subhook_remove(amx_Allot_hook);
+		subhook_free(amx_Allot_hook);
+	}
 }
 
 static int install_hooks() {
@@ -225,6 +255,8 @@ static int install_hooks() {
 	if ((amx_Exec_hook = subhook_new()) == NULL)
 		goto no_memory;
 	if ((amx_Callback_hook = subhook_new()) == NULL)
+		goto no_memory;
+	if ((amx_Allot_hook = subhook_new()) == NULL)
 		goto no_memory;
 
 	SUBHOOK_INSTALL_HOOK(
@@ -246,6 +278,11 @@ static int install_hooks() {
 		amx_Callback_hook,
 		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Callback],
 		(void*)amx_Callback_
+	);
+	SUBHOOK_INSTALL_HOOK(
+		amx_Allot_hook,
+		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Allot],
+		(void*)amx_Allot_
 	);
 
 	return 0;
