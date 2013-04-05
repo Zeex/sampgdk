@@ -224,82 +224,66 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_ad
 	return error;
 }
 
-static void remove_hooks() {
-	if (amx_Register_hook != NULL) {
-		subhook_remove(amx_Register_hook);
-		subhook_free(amx_Register_hook);
-	}
-	if (amx_FindPublic_hook != NULL) {
-		subhook_remove(amx_FindPublic_hook);
-		subhook_free(amx_FindPublic_hook);
-	}
-	if (amx_Exec_hook != NULL) {
-		subhook_remove(amx_Exec_hook);
-		subhook_free(amx_Exec_hook);
-	}
-	if (amx_Callback_hook != NULL) {
-		subhook_remove(amx_Callback_hook);
-		subhook_free(amx_Callback_hook);
-	}
-	if (amx_Allot_hook != NULL) {
-		subhook_remove(amx_Allot_hook);
-		subhook_free(amx_Allot_hook);
-	}
+#define CREATE_HOOK(name, failure_label) \
+	if ((amx_##name##_hook = subhook_new()) == NULL) \
+		goto failure_label;
+
+#define DESTROY_HOOK(name) \
+	subhook_free(amx_##name##_hook); \
+
+#define INSTALL_HOOK(name) \
+	subhook_set_src(amx_##name##_hook, ((void**)(amx_exports))[PLUGIN_AMX_EXPORT_##name]); \
+	subhook_set_dst(amx_##name##_hook, (void*)amx_##name##_); \
+	subhook_install(amx_##name##_hook);
+
+#define REMOVE_HOOK(name)\
+	subhook_remove(amx_##name##_hook); \
+
+static int create_hooks(void) {
+	CREATE_HOOK(Register, no_memory);
+	CREATE_HOOK(FindPublic, no_memory);
+	CREATE_HOOK(Exec, no_memory);
+	CREATE_HOOK(Callback, no_memory);
+	CREATE_HOOK(Allot, no_memory);
+	return 0;
+no_memory:
+	return -ENOMEM;
 }
 
-static int install_hooks() {
-	if ((amx_Register_hook = subhook_new()) == NULL)
-		goto no_memory;
-	if ((amx_FindPublic_hook = subhook_new()) == NULL)
-		goto no_memory;
-	if ((amx_Exec_hook = subhook_new()) == NULL)
-		goto no_memory;
-	if ((amx_Callback_hook = subhook_new()) == NULL)
-		goto no_memory;
-	if ((amx_Allot_hook = subhook_new()) == NULL)
-		goto no_memory;
+static void destroy_hooks(void) {
+	DESTROY_HOOK(Register);
+	DESTROY_HOOK(FindPublic);
+	DESTROY_HOOK(Exec);
+	DESTROY_HOOK(Callback);
+	DESTROY_HOOK(Allot);
+}
 
-	SUBHOOK_INSTALL_HOOK(
-		amx_Register_hook,
-		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Register],
-		(void*)amx_Register_
-	);
-	SUBHOOK_INSTALL_HOOK(
-		amx_FindPublic_hook,
-		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_FindPublic],
-		(void*)amx_FindPublic_
-	);
-	SUBHOOK_INSTALL_HOOK(
-		amx_Exec_hook,
-		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Exec],
-		(void*)amx_Exec_
-	);
-	SUBHOOK_INSTALL_HOOK(
-		amx_Callback_hook,
-		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Callback],
-		(void*)amx_Callback_
-	);
-	SUBHOOK_INSTALL_HOOK(
-		amx_Allot_hook,
-		((void**)(amx_exports))[PLUGIN_AMX_EXPORT_Allot],
-		(void*)amx_Allot_
-	);
+static void install_hooks(void) {
+	INSTALL_HOOK(Register);
+	INSTALL_HOOK(FindPublic);
+	INSTALL_HOOK(Exec);
+	INSTALL_HOOK(Callback);
+	INSTALL_HOOK(Allot);
+}
 
-	return 0;
-
-no_memory:
-	remove_hooks();
-	return -ENOMEM;
+static void remove_hooks(void) {
+	REMOVE_HOOK(Register);
+	REMOVE_HOOK(FindPublic);
+	REMOVE_HOOK(Exec);
+	REMOVE_HOOK(Callback);
+	REMOVE_HOOK(Allot);
 }
 
 DEFINE_INIT_FUNC(hooks_init) {
 	int error;
 
-	error = install_hooks();
+	error = create_hooks();
 	if (error < 0) {
-		remove_hooks();
+		destroy_hooks();
 		return error;
 	}
+
+	install_hooks();
 
 	return 0;
 }
