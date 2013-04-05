@@ -231,7 +231,7 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_ad
 		 */
 		new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
 
-		if (fakeamx_resize_heap(fakeamx_global(), new_size) >= 0)
+		if (fakeamx_heap_resize(fakeamx_global(), new_size) >= 0)
 			error = amx_Allot(amx, cells, amx_addr, phys_addr);
 	}
 

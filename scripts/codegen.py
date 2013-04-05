@@ -208,11 +208,11 @@ def generate_native_impl(file, func):
         else:
           value = p.name
         if p.type == 'char':
-          file.write('\tfakeamx_push(fa, %s, &%s_);\n' % (pnext.name, p.name))
+          file.write('\tfakeamx_heap_push(fa, %s, &%s_);\n' % (pnext.name, p.name))
         elif p.type == 'string':
-          file.write('\tfakeamx_push_string(fa, %s, NULL, &%s_);\n' % (value, p.name))
+          file.write('\tfakeamx_heap_push_string(fa, %s, NULL, &%s_);\n' % (value, p.name))
         else:
-          file.write('\tfakeamx_push(fa, 1, &%s_);\n' % p.name)
+          file.write('\tfakeamx_heap_push(fa, 1, &%s_);\n' % p.name)
 
     file.write('\tparams[0] = %d * sizeof(cell);\n' % len(func.params))
     for index, p in enumerate(func.params, 1):
@@ -242,10 +242,10 @@ def generate_native_impl(file, func):
         if p.type == 'string':
           pass
         elif p.type == 'char':
-          file.write('\tfakeamx_get_string(fa, %s_, %s, %s);\n' %
+          file.write('\tfakeamx_heap_get_string(fa, %s_, %s, %s);\n' %
                      (p.name, p.name, pnext.name))
         else:
-          file.write('\tfakeamx_get_%s(fa, %s_, %s);\n' % (
+          file.write('\tfakeamx_heap_get_%s(fa, %s_, %s);\n' % (
             {
               'int'   : 'cell',
               'bool'  : 'bool',
@@ -255,7 +255,7 @@ def generate_native_impl(file, func):
           p.name, p.name))
 
     for p in reversed(filter(lambda p: p.is_ref, func.params)):
-      file.write('\tfakeamx_pop(fa, %s_);\n' % p.name)
+      file.write('\tfakeamx_heap_pop(fa, %s_);\n' % p.name)
 
   file.write('\treturn %s(retval);\n' % ({
       'int'   : '(int)',

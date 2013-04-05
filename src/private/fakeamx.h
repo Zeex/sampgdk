@@ -30,15 +30,15 @@ struct fakeamx {
 int fakeamx_new(struct fakeamx *fa);
 void fakeamx_free(struct fakeamx *fa);
 struct fakeamx *fakeamx_global(void);
-int fakeamx_resize_heap(struct fakeamx *fa, size_t new_size);
-int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address);
-int fakeamx_push_cell(struct fakeamx *fa, cell value, cell *address);
-int fakeamx_push_float(struct fakeamx *fa, float value, cell *address);
-int fakeamx_push_string(struct fakeamx *fa, const char *src, int *size /* = NULL */, cell *address);
-void fakeamx_get_cell(struct fakeamx *fa, cell address, cell *value);
-void fakeamx_get_bool(struct fakeamx *fa, cell address, bool *value);
-void fakeamx_get_float(struct fakeamx *fa, cell address, float *value);
-void fakeamx_get_string(struct fakeamx *fa, cell address, char *dest, int size);
-void fakeamx_pop(struct fakeamx *fa, cell address);
+int fakeamx_heap_resize(struct fakeamx *fa, size_t new_size);
+int fakeamx_heap_push(struct fakeamx *fa, size_t cells, cell *address);
+int fakeamx_heap_push_cell(struct fakeamx *fa, cell value, cell *address);
+int fakeamx_heap_push_float(struct fakeamx *fa, float value, cell *address);
+int fakeamx_heap_push_string(struct fakeamx *fa, const char *src, int *size, cell *address);
+void fakeamx_heap_get_cell(struct fakeamx *fa, cell address, cell *value);
+void fakeamx_heap_get_bool(struct fakeamx *fa, cell address, bool *value);
+void fakeamx_heap_get_float(struct fakeamx *fa, cell address, float *value);
+void fakeamx_heap_get_string(struct fakeamx *fa, cell address, char *dest, int size);
+void fakeamx_heap_pop(struct fakeamx *fa, cell address);
 
 #endif /* !SAMPGDK_PRIVATE_FAKEAMX_H_ */
