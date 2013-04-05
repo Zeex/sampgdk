@@ -4,6 +4,7 @@ configure_file("${SAMPGDK_VERSION_FILE}.in"
                "${SAMPGDK_VERSION_FILE}" @ONLY)
 
 sampgdk_add_headers(
+	"a_http.h"
 	"a_objects.h"
 	"a_objects.hpp"
 	"a_players.h"
