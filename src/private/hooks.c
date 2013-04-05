@@ -25,6 +25,7 @@
 
 #include "sdk/amx/amx.h"
 #include "callback.h"
+#include "fakeamx.h"
 #include "init.h"
 #include "log.h"
 #include "native.h"
@@ -106,19 +107,28 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist, int
  */
 static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 	int error;
+	bool proceed = false;
 
 	subhook_remove(amx_FindPublic_hook);
 
+	/* We are interested in calling publics against two AMX instances:
+	 * - the main AMX (the gamemode)
+	 * - the fake AMX
+	 */
+	proceed = (amx == g_main_amx || amx == &fakeamx_global()->amx);
+
 	error = amx_FindPublic(amx, name, index);
+	if (error != AMX_ERR_NONE && proceed) {
+		/* Trick the server to make it call this public with amx_Exec()
+			* even though the public doesn't actually exist.
+			*/
+		error = AMX_ERR_NONE;
+		*index = AMX_EXEC_GDK;
+	}
 
-	if (amx == g_main_amx) {
-		if (error != AMX_ERR_NONE) {
-			error = AMX_ERR_NONE;
-			*index = AMX_EXEC_GDK;
-		}
-
-		/* Store the function name in a global string to be able
-		 * to access it from amx_Exec_.
+	if (proceed) {
+		/* Store the function name in a global string to later access
+		 * it in amx_Exec_().
 		 */
 		if (g_public_name != NULL)
 			free(g_public_name);
@@ -138,24 +148,25 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 
 static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 	int error;
-	bool can_exec;
+	bool proceed;
 
 	subhook_remove(amx_Exec_hook);
 	subhook_install(amx_Callback_hook);
 
-	can_exec = true;
+	proceed = true;
 
 	if (index == AMX_EXEC_MAIN) {
 		g_main_amx = amx;
 		callback_invoke(g_main_amx, "OnGameModeInit", retval);
 	} else {
-		if (amx == g_main_amx && index != AMX_EXEC_CONT && g_public_name != NULL)
-			can_exec = callback_invoke(g_main_amx, g_public_name, retval);
+		if (index != AMX_EXEC_CONT && g_public_name != NULL
+				&& (amx == g_main_amx || amx == &fakeamx_global()->amx))
+			proceed = callback_invoke(amx, g_public_name, retval);
 	}
 
 	error = AMX_ERR_NONE;
 
-	if (can_exec && index != AMX_EXEC_GDK)
+	if (proceed && index != AMX_EXEC_GDK)
 		error = amx_Exec(amx, retval, index);
 	else
 		amx->stk += amx->paramcount * sizeof(cell);
