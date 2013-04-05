@@ -61,18 +61,18 @@ int fakeamx_new(struct fakeamx *fa) {
 	memset(fa, 0, sizeof(*fa));
 
 	error = array_new(&fa->heap, INITIAL_HEAP_SIZE + STACK_SIZE,
-	                  sizeof(cell));
+	                 sizeof(cell));
 	if (error < 0)
 		return error;
 
 	fa->amxhdr.magic = AMX_MAGIC;
 	fa->amxhdr.file_version = MIN_FILE_VERSION;
 	fa->amxhdr.amx_version = MIN_AMX_VERSION;
-	fa->amxhdr.dat = (int)fa->heap.data - (int)&fa->amxhdr;
+	fa->amxhdr.dat = (cell)fa->heap.data - (cell)&fa->amxhdr;
 	fa->amxhdr.defsize = sizeof(AMX_FUNCSTUBNT);
 
-	fa->amx.base = (unsigned char*)&fa->amxhdr;
-	fa->amx.data = (unsigned char*)fa->heap.data;
+	fa->amx.base = (unsigned char *)&fa->amxhdr;
+	fa->amx.data = (unsigned char *)fa->heap.data;
 	fa->amx.callback = amx_Callback;
 
 	fa->amx.stp = fa->heap.size * sizeof(cell);
@@ -105,6 +105,10 @@ int fakeamx_resize_heap(struct fakeamx *fa, size_t new_size) {
 		return error;
 
 	array_pad(&fa->heap);
+
+	/* Update data pointers to point at the newly allocated heap. */
+	fa->amxhdr.dat = (cell)fa->heap.data - (cell)&fa->amxhdr;
+	fa->amx.data = (unsigned char *)fa->heap.data;
 
 	old_stk = fa->amx.stk;
 	new_stk = fa->amx.stk + (new_size - old_size) * sizeof(cell);
