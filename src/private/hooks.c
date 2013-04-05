@@ -214,10 +214,26 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_ad
 	 * to an unsigned type (because result of sizeof is of type size_t).
 	 * and in fact never results in a negative value. 
 	 */
-	if ((size_t)amx->stk < (size_t)(amx->hea + cells*sizeof(cell) + 16*sizeof(cell)))
+	#define STKMARGIN (cell)(16 * sizeof(cell))
+	if ((size_t)amx->stk < (size_t)(amx->hea + cells*sizeof(cell) + STKMARGIN))
 		error =  AMX_ERR_MEMORY;
 	else
 		error = amx_Allot(amx, cells, amx_addr, phys_addr);
+
+	/* If failing to allocate on the fake AMX heap, resize the heap
+	 * automatically.
+	 */
+	if (error == AMX_ERR_MEMORY && amx == &fakeamx_global()->amx) {
+		cell new_size;
+
+		/* STKMARGIN + 2 is here to stop amx_Push() from thinking that there's
+		 * no space left on the stack.
+		 */
+		new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
+
+		if (fakeamx_resize_heap(fakeamx_global(), new_size) >= 0)
+			error = amx_Allot(amx, cells, amx_addr, phys_addr);
+	}
 
 	subhook_install(amx_Allot_hook);
 
