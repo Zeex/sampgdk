@@ -104,8 +104,6 @@ int fakeamx_resize_heap(struct fakeamx *fa, size_t new_size) {
 	if (error < 0)
 		return error;
 
-	array_pad(&fa->heap);
-
 	/* Update data pointers to point at the newly allocated heap. */
 	fa->amxhdr.dat = (cell)fa->heap.data - (cell)&fa->amxhdr;
 	fa->amx.data = (unsigned char *)fa->heap.data;
