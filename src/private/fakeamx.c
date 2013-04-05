@@ -66,6 +66,7 @@ int fakeamx_new(struct fakeamx *fa) {
 	fa->amxhdr.file_version = MIN_FILE_VERSION;
 	fa->amxhdr.amx_version = MIN_AMX_VERSION;
 	fa->amxhdr.dat = (int)fa->heap.data - (int)&fa->amxhdr;
+	fa->amxhdr.defsize = sizeof(AMX_FUNCSTUBNT);
 
 	fa->amx.base = (unsigned char*)&fa->amxhdr;
 	fa->amx.data = (unsigned char*)fa->heap.data;
