@@ -199,17 +199,6 @@ if(SAMPGDK_BUILD_PLUGINS)
 	add_subdirectory("plugins")
 endif()
 
-if(SAMPGDK_STATIC)
-	get_property(libs DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lib"
-	            PROPERTY LIBRARIES)
-	foreach(lib IN LISTS libs)
-		get_target_property(sources ${lib} SOURCES)
-		foreach(file IN LISTS sources)
-			sampgdk_add_sources("${${lib}_SOURCE_DIR}/${file}")
-		endforeach()
-	endforeach()
-endif()
-
 get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
              PROPERTY SAMPGDK_SOURCES)
 get_property(SAMPGDK_HEADERS DIRECTORY ${PROJECT_SOURCE_DIR}
@@ -225,6 +214,15 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
 		sampgdk_add_nasm_source(${file})
 	endif()
 endforeach()
+
+if(SAMPGDK_STATIC)
+	foreach(lib IN LISTS SAMPGDK_LIBRARIES)
+		get_target_property(sources ${lib} SOURCES)
+		foreach(file IN LISTS sources)
+			sampgdk_add_sources("${${lib}_SOURCE_DIR}/${file}")
+		endforeach()
+	endforeach()
+endif()
 
 # Have to do this one more time because of added .obj files.
 get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
