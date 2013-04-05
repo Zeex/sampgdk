@@ -9,10 +9,7 @@ set(SAMPGDK_SYM_FILE "sampgdk.sym")
 sampgdk_add_sources(
 	"core.api"
 	"core.c"
-	"a_objects.c"
-	"a_players.c"
 	"a_samp.c"
-	"a_vehicles.c"
 	"version.api"
 	"version.c"
 )
