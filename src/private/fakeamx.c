@@ -75,7 +75,7 @@ int fakeamx_new(struct fakeamx *fa) {
 	fa->amx.data = (unsigned char*)fa->heap.data;
 	fa->amx.callback = amx_Callback;
 
-	fa->amx.stp = fa->heap.size;
+	fa->amx.stp = fa->heap.size * sizeof(cell);
 	fa->amx.stk = fa->amx.stp;
 
 	array_pad(&fa->heap);
@@ -92,10 +92,39 @@ struct fakeamx *fakeamx_global(void) {
 	return &global;
 }
 
-int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address) {
-	cell old_hea, new_hea;
+int fakeamx_resize_heap(struct fakeamx *fa, size_t new_size) {
+	int error;
+	cell old_size;
 	cell old_stk, new_stk;
 	cell old_stp, new_stp;
+
+	old_size = fa->heap.size;
+
+	error = array_resize(&fa->heap, new_size);
+	if (error < 0)
+		return error;
+
+	array_pad(&fa->heap);
+
+	old_stk = fa->amx.stk;
+	new_stk = fa->amx.stk + (new_size - old_size) * sizeof(cell);
+
+	old_stp = fa->amx.stp;
+	new_stp = fa->amx.stp + (new_size - old_size) * sizeof(cell);
+
+	/* Shift stack contents. */
+	memmove((unsigned char *)fa->heap.data + new_stp - STACK_SIZE,
+		    (unsigned char *)fa->heap.data + old_stp - STACK_SIZE,
+		    STACK_SIZE);
+
+	fa->amx.stk = new_stk;
+	fa->amx.stp = new_stp;
+
+	return 0;
+}
+
+int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address) {
+	cell old_hea, new_hea;
 	cell old_heap_size, new_heap_size;
 
 	assert(fa != NULL);
@@ -103,31 +132,15 @@ int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address) {
 	old_hea = fa->amx.hea;
 	new_hea = fa->amx.hea + cells * sizeof(cell);
 
-	old_heap_size = fa->heap.size * (int)sizeof(cell);
+	old_heap_size = fa->heap.size;
 	new_heap_size = (new_hea + STACK_SIZE) / sizeof(cell);
 
-	old_stk = fa->amx.stk;
-	new_stk = fa->amx.stk + (new_heap_size - old_heap_size);
-
-	old_stp = fa->amx.stp;
-	new_stp = fa->amx.stp + (new_heap_size - old_heap_size);
-
-	if (new_hea >= old_heap_size) {
+	if (new_hea >= (cell)(old_heap_size * sizeof(cell))) {
 		int error;
 
-		error = array_resize(&fa->heap, new_heap_size);
+		error = fakeamx_resize_heap(fa, new_heap_size);
 		if (error < 0)
 			return error;
-
-		array_pad(&fa->heap);
-
-		/* Shift stack contents. */
-		memmove((unsigned char *)fa->heap.data + new_stp - STACK_SIZE,
-		        (unsigned char *)fa->heap.data + old_stp - STACK_SIZE,
-		        STACK_SIZE);
-
-		fa->amx.stk = new_stk;
-		fa->amx.stp = new_stp;
 	}
 
 	fa->amx.hea = new_hea;
