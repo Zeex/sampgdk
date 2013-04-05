@@ -29,7 +29,7 @@ struct fakeamx {
 
 int fakeamx_new(struct fakeamx *fa);
 void fakeamx_free(struct fakeamx *fa);
-void fakeamx_global(struct fakeamx **fa);
+struct fakeamx *fakeamx_global(void);
 int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address);
 int fakeamx_push_cell(struct fakeamx *fa, cell value, cell *address);
 int fakeamx_push_float(struct fakeamx *fa, float value, cell *address);

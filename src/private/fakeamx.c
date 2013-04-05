@@ -81,8 +81,8 @@ void fakeamx_free(struct fakeamx *fa) {
 	array_free(&fa->heap);
 }
 
-void fakeamx_global(struct fakeamx **fa) {
-	*fa = &global;
+struct fakeamx *fakeamx_global(void) {
+	return &global;
 }
 
 int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address) {
