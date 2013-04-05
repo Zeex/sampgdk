@@ -27,6 +27,10 @@
 #include "likely.h"
 #include "log.h"
 
+/* Space reserved for the stack. */
+#define STACK_SIZE 64
+
+/* The initial size of the heap. */
 #define INITIAL_HEAP_SIZE 1024
 
 static struct fakeamx global;
@@ -54,13 +58,12 @@ int fakeamx_new(struct fakeamx *fa) {
 
 	assert(fa != NULL);
 
-	/* clear the struct */
 	memset(fa, 0, sizeof(*fa));
-	
-	if ((error = array_new(&fa->heap, INITIAL_HEAP_SIZE, sizeof(cell))) < 0)
-		return error;
 
-	array_pad(&fa->heap);
+	error = array_new(&fa->heap, INITIAL_HEAP_SIZE + STACK_SIZE,
+	                  sizeof(cell));
+	if (error < 0)
+		return error;
 
 	fa->amxhdr.magic = AMX_MAGIC;
 	fa->amxhdr.file_version = MIN_FILE_VERSION;
@@ -71,7 +74,11 @@ int fakeamx_new(struct fakeamx *fa) {
 	fa->amx.base = (unsigned char*)&fa->amxhdr;
 	fa->amx.data = (unsigned char*)fa->heap.data;
 	fa->amx.callback = amx_Callback;
-	fa->amx.stp = INT_MAX;
+
+	fa->amx.stp = fa->heap.size;
+	fa->amx.stk = fa->amx.stp;
+
+	array_pad(&fa->heap);
 
 	return 0;
 }
@@ -86,21 +93,41 @@ struct fakeamx *fakeamx_global(void) {
 }
 
 int fakeamx_push(struct fakeamx *fa, size_t cells, cell *address) {
-	cell old_hea;
-	cell new_hea;
+	cell old_hea, new_hea;
+	cell old_stk, new_stk;
+	cell old_stp, new_stp;
+	cell old_heap_size, new_heap_size;
 
 	assert(fa != NULL);
 	
 	old_hea = fa->amx.hea;
 	new_hea = fa->amx.hea + cells * sizeof(cell);
 
-	if (new_hea >= fa->heap.size * (int)sizeof(cell)) {
+	old_heap_size = fa->heap.size * (int)sizeof(cell);
+	new_heap_size = (new_hea + STACK_SIZE) / sizeof(cell);
+
+	old_stk = fa->amx.stk;
+	new_stk = fa->amx.stk + (new_heap_size - old_heap_size);
+
+	old_stp = fa->amx.stp;
+	new_stp = fa->amx.stp + (new_heap_size - old_heap_size);
+
+	if (new_hea >= old_heap_size) {
 		int error;
 
-		if ((error = array_resize(&fa->heap, new_hea / sizeof(cell))) < 0)
+		error = array_resize(&fa->heap, new_heap_size);
+		if (error < 0)
 			return error;
 
 		array_pad(&fa->heap);
+
+		/* Shift stack contents. */
+		memmove((unsigned char *)fa->heap.data + new_stp - STACK_SIZE,
+		        (unsigned char *)fa->heap.data + old_stp - STACK_SIZE,
+		        STACK_SIZE);
+
+		fa->amx.stk = new_stk;
+		fa->amx.stp = new_stp;
 	}
 
 	fa->amx.hea = new_hea;
