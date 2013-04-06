@@ -81,6 +81,11 @@ DEFINE_INIT_FUNC(timer_init) {
 }
 
 DEFINE_CLEANUP_FUNC(timer_cleanup) {
+	int i;
+
+	for (i = 1; i <= timers.count; i++)
+		free(get_timer_ptr(i));
+
 	array_free(&timers);
 }
 
