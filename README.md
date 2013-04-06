@@ -16,7 +16,7 @@ To download binary packages for Windows and Linux please visit
 Source code
 -----------
 
-The source code can is hosted at [GitHub][github].
+The source code is hosted at [GitHub][github].
 
 Installation
 ------------
