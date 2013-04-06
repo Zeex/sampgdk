@@ -306,4 +306,5 @@ DEFINE_INIT_FUNC(hooks_init) {
 
 DEFINE_CLEANUP_FUNC(hooks_cleanup) {
 	remove_hooks();
+	destroy_hooks();
 }
