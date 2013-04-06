@@ -1,5 +1,7 @@
-GDK - Gamemode SDK for C/C++ [![Donate][donate_button]][donate]
-===============================================================
+GDK - Gamemode SDK for C/C++ 
+============================
+
+[![Donate][donate_button]][donate]
 
 GDK provides an API for developing SA-MP gamemodes in C or C++. Gamemodes
 written with GDK are no different from ordinary server plugins except that
@@ -90,39 +92,39 @@ Pawn script:
 
 ```c++
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
-	SetGameModeText("Hello, World!");
+  SetGameModeText("Hello, World!");
 
-	AddPlayerClass(0, 1958.3783f, 1343.1572f, 15.3746f, 269.1425f, 0, 0, 0, 0, 0, 0);
+  AddPlayerClass(0, 1958.3783f, 1343.1572f, 15.3746f, 269.1425f, 0, 0, 0, 0, 0, 0);
 
-	ServerLog::Printf("------------------------------------------\n");
-	ServerLog::Printf("      HelloWorld gamemode got loaded.     \n");
-	ServerLog::Printf("------------------------------------------\n");
+  ServerLog::Printf("------------------------------------------\n");
+  ServerLog::Printf("      HelloWorld gamemode got loaded.     \n");
+  ServerLog::Printf("------------------------------------------\n");
 
-	return true;
+  return true;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
-	SendClientMessage(playerid, 0xFFFFFFFF, "Welcome to the HelloWorld server!");
-	return true;
+  SendClientMessage(playerid, 0xFFFFFFFF, "Welcome to the HelloWorld server!");
+  return true;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
-	SetPlayerPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
-	SetPlayerCameraPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
-	SetPlayerCameraLookAt(playerid, 1958.3783f, 1343.1572f, 15.3746f, CAMERA_CUT);
-	return true;
+  SetPlayerPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
+  SetPlayerCameraPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
+  SetPlayerCameraLookAt(playerid, 1958.3783f, 1343.1572f, 15.3746f, CAMERA_CUT);
+  return true;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmdtext) {
-	if (std::strcmp(cmdtext, "/hello") == 0) {
-		char name[MAX_PLAYER_NAME];
-		GetPlayerName(playerid, name, MAX_PLAYER_NAME);
-		char message[128];
-		std::sprintf(message, "Hello, %s!", name);
-		SendClientMessage(playerid, 0x00FF00FF, message);
-		return true;
-	}
-	return false;
+  if (std::strcmp(cmdtext, "/hello") == 0) {
+    char name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, MAX_PLAYER_NAME);
+    char message[128];
+    std::sprintf(message, "Hello, %s!", name);
+    SendClientMessage(playerid, 0x00FF00FF, message);
+    return true;
+  }
+  return false;
 }
 ```
 
@@ -134,12 +136,12 @@ that you also have to perform some additional initialization and cleanup steps:
 static ThisPlugin helloworld;
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
-	helloworld.Load(ppData);
-	return true;
+  helloworld.Load(ppData);
+  return true;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-	helloworld.Unload();
+  helloworld.Unload();
 }
 ```
 
@@ -148,7 +150,7 @@ Otherwise, there's one more thing left to do:
 
 ```c++
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
-	helloworld.ProcessTimers();
+  helloworld.ProcessTimers();
 }
 ```
 
@@ -197,8 +199,8 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 include(SampPlugin)
 
 add_samp_plugin(gamemode
-	gamemode.cpp
-	gamemode.def
+  gamemode.cpp
+  gamemode.def
 )
 ```
 
@@ -220,9 +222,9 @@ link_directories(${THE_LIB_DIRECTORY})
 
 # The library names slightly differ on Windows and Linux.
 if(WIN32)
-	target_link_libraries(gamemode sampgdk3)
+  target_link_libraries(gamemode sampgdk3)
 else()
-	target_link_libraries(gamemode sampgdk)
+  target_link_libraries(gamemode sampgdk)
 endif()
 ```
 
@@ -251,8 +253,8 @@ supported by CMake (see the documentation of `find_package()`). For example,
 you can add the `include` directory to the `INCLUDE` environment variable and
 the `lib` directory to the `LIB` variable.
 
-[donate]: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=T8B6KQ4XFAJLC
-[donate_button]: https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif
+[donate]: http://pledgie.com/campaigns/19068
+[donate_button]: http://pledgie.com/campaigns/19068.png
 [download]: http://zeex.github.com/sampgdk
 [github]: https://github.com/Zeex/sampgdk
 [guide]: http://forum.sa-mp.com/showthread.php?t=295798
