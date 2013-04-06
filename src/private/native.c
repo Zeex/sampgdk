@@ -13,17 +13,13 @@
  * limitations under the License.
  */
 
-#include <sampgdk/amx.h>
-#include <sampgdk/bool.h>
-#include <sampgdk/core.h>
-
 #include <assert.h>
-#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "array.h"
 #include "init.h"
+#include "native.h"
 #include "log.h"
 
 static struct array natives;

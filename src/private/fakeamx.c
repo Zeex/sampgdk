@@ -13,9 +13,6 @@
  * limitations under the License.
  */
 
-#include <sampgdk/amx.h>
-#include <sampgdk/bool.h>
-
 #include <assert.h>
 #include <limits.h>
 #include <stddef.h>
@@ -24,8 +21,6 @@
 #include "array.h"
 #include "fakeamx.h"
 #include "init.h"
-#include "likely.h"
-#include "log.h"
 
 /* Space reserved for the stack. */
 #define STACK_SIZE 64

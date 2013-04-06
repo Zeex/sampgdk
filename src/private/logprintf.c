@@ -20,7 +20,6 @@
 #include <string.h>
 
 #include "call.h"
-#include "log.h"
 #include "logprintf.h"
 
 logprintf_t logprintf;

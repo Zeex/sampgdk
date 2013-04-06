@@ -13,18 +13,13 @@
  * limitations under the License.
  */
 
-#include <sampgdk/bool.h>
-
 #include <assert.h>
 #include <errno.h>
-#include <stddef.h>
 #include <stdlib.h>
 #include <time.h>
 
 #include "array.h"
 #include "init.h"
-#include "likely.h"
-#include "log.h"
 #include "plugin.h"
 #include "timer.h"
 

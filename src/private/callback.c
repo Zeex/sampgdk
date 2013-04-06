@@ -13,21 +13,14 @@
  * limitations under the License.
  */
 
-#include <sampgdk/amx.h>
-#include <sampgdk/bool.h>
-#include <sampgdk/core.h>
-#include <sampgdk/plugin.h>
-
 #include <assert.h>
 #include <errno.h>
-#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "array.h"
 #include "callback.h"
 #include "init.h"
-#include "log.h"
 #include "plugin.h"
 
 static struct array callbacks;

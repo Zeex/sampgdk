@@ -16,6 +16,7 @@
 #define _GNU_SOURCE
 #include <assert.h>
 #include <dlfcn.h>
+#include <stddef.h>
 #include <string.h>
 
 void *plugin_address_to_handle(void *address) {
