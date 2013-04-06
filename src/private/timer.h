@@ -24,6 +24,7 @@
 typedef void (SAMPGDK_CALL *timer_callback)(int timerid, void *param);
 
 struct timer_info {
+	bool            is_set;
 	time_t          interval;
 	bool            repeat;
 	timer_callback  callback;

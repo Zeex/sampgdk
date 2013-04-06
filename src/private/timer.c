@@ -25,21 +25,14 @@
 
 static struct array timers;
 
-static struct timer_info *get_timer_ptr(int timerid) {
-	assert(timerid > 0 && timerid <= timers.count);
-	return ((void**)timers.data)[timerid - 1];
-}
-
-static void set_timer_ptr(int timerid, struct timer_info *ptr) {
-	assert(timerid > 0 && timerid <= timers.count);
-	((void**)timers.data)[timerid - 1] = ptr;
-}
-
-static int find_free_slot() {
+static int find_slot() {
 	int i;
 
 	for (i = 0; i < timers.count; i++) {
-		if (get_timer_ptr(i) == NULL)
+		struct timer_info *timer;
+
+		timer = array_get(&timers, i);
+		if (!timer->is_set)
 			return i;
 	}
 
@@ -51,8 +44,8 @@ static void fire_timer(int timerid, time_t elapsed) {
 
 	assert(timerid > 0 && timerid <= timers.count);
 
-	timer = get_timer_ptr(timerid);
-	if (timer == NULL)
+	timer = array_get(&timers, timerid - 1);
+	if (!timer->is_set)
 		return;
 
 	(timer->callback)(timerid, timer->param);
@@ -60,8 +53,7 @@ static void fire_timer(int timerid, time_t elapsed) {
 	/* At this point the could be killed by the timer callback,
 	 * so the timer pointer may be no longer valid.
 	 */
-	timer = get_timer_ptr(timerid);
-	if (timer != NULL)
+	if (timer->is_set)
 		if (timer->repeat)
 			timer->started = timer_clock() - (elapsed - timer->interval);
 		else
@@ -71,7 +63,7 @@ static void fire_timer(int timerid, time_t elapsed) {
 DEFINE_INIT_FUNC(timer_init) {
 	int error;
 	
-	error = array_new(&timers, 10, sizeof(void *));
+	error = array_new(&timers, 10, sizeof(struct timer_info));
 	if (error < 0)
 		return error;
 	
@@ -81,39 +73,31 @@ DEFINE_INIT_FUNC(timer_init) {
 }
 
 DEFINE_CLEANUP_FUNC(timer_cleanup) {
-	int i;
-
-	for (i = 1; i <= timers.count; i++)
-		free(get_timer_ptr(i));
-
 	array_free(&timers);
 }
 
 int timer_set(time_t interval, bool repeat, timer_callback callback, void *param) {
-	struct timer_info *timer;
+	struct timer_info timer;
 	int slot;
+	int error;
 
 	assert(callback != NULL);
 
-	timer = malloc(sizeof(*timer));
-	if (timer == NULL)
-		return -errno;
+	timer.is_set   = true;
+	timer.interval = interval;
+	timer.repeat   = repeat;
+	timer.callback = callback;
+	timer.param    = param;
+	timer.started  = timer_clock();
+	timer.plugin   = plugin_address_to_handle(callback);
 
-	timer->interval = interval;
-	timer->repeat   = repeat;
-	timer->callback = callback;
-	timer->param    = param;
-	timer->started  = timer_clock();
-	timer->plugin   = plugin_address_to_handle(callback);
-
-	slot = find_free_slot();
+	slot = find_slot();
 	if (slot >= 0) {
 		array_set(&timers, slot, &timer);
 	} else {
-		if (array_append(&timers, &timer) < 0) {
-			free(timer);
-			return -errno;
-		}
+		error = array_append(&timers, &timer);
+		if (error < 0)
+			return -error;
 		slot = timers.count - 1;
 	}
 
@@ -129,13 +113,11 @@ int timer_kill(int timerid) {
 	if (timerid <= 0 || timerid > timers.count)
 		return -EINVAL;
 
-	timer = get_timer_ptr(timerid);
-	if (timer ==  NULL)
+	timer = array_get(&timers, timerid - 1);
+	if (!timer->is_set)
 		return -EINVAL;
 
-	free(timer);
-	set_timer_ptr(timerid, NULL);
-
+	timer->is_set = false;
 	return 0;
 }
 
@@ -149,10 +131,10 @@ void timer_process_timers(void *plugin) {
 
 	now = timer_clock();
 
-	for (i = 1; i <= timers.count; i++) {
-		timer = get_timer_ptr(i);
+	for (i = 0; i < timers.count; i++) {
+		timer = array_get(&timers, i);
 
-		if (timer == NULL) 
+		if (!timer->is_set) 
 			continue;
 
 		if (plugin != NULL && timer->plugin != plugin)
@@ -161,6 +143,6 @@ void timer_process_timers(void *plugin) {
 		elapsed = now - timer->started;
 
 		if (elapsed >= timer->interval)
-			fire_timer(i, elapsed);
+			fire_timer(i + 1, elapsed);
 	}
 }
