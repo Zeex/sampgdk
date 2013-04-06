@@ -15,7 +15,6 @@
 
 #include <assert.h>
 #include <limits.h>
-#include <stddef.h>
 #include <string.h>
 
 #include "array.h"
@@ -87,13 +86,16 @@ struct fakeamx *fakeamx_global(void) {
 	return &global;
 }
 
-int fakeamx_heap_resize(struct fakeamx *fa, size_t new_size) {
+int fakeamx_heap_resize(struct fakeamx *fa, int cells) {
 	int error;
-	cell old_size;
+	cell old_size, new_size;
 	cell old_stk, new_stk;
 	cell old_stp, new_stp;
 
+	assert(cells > 0);
+
 	old_size = fa->heap.size;
+	new_size = cells;
 
 	error = array_resize(&fa->heap, new_size);
 	if (error < 0)
@@ -120,11 +122,12 @@ int fakeamx_heap_resize(struct fakeamx *fa, size_t new_size) {
 	return 0;
 }
 
-int fakeamx_heap_push(struct fakeamx *fa, size_t cells, cell *address) {
+int fakeamx_heap_push(struct fakeamx *fa, int cells, cell *address) {
 	cell old_hea, new_hea;
 	cell old_heap_size, new_heap_size;
 
 	assert(fa != NULL);
+	assert(cells > 0);
 	
 	old_hea = fa->amx.hea;
 	new_hea = fa->amx.hea + cells * sizeof(cell);

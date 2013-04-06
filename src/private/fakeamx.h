@@ -30,8 +30,8 @@ struct fakeamx {
 int fakeamx_new(struct fakeamx *fa);
 void fakeamx_free(struct fakeamx *fa);
 struct fakeamx *fakeamx_global(void);
-int fakeamx_heap_resize(struct fakeamx *fa, size_t new_size);
-int fakeamx_heap_push(struct fakeamx *fa, size_t cells, cell *address);
+int fakeamx_heap_resize(struct fakeamx *fa, int cells);
+int fakeamx_heap_push(struct fakeamx *fa, int cells, cell *address);
 int fakeamx_heap_push_cell(struct fakeamx *fa, cell value, cell *address);
 int fakeamx_heap_push_float(struct fakeamx *fa, float value, cell *address);
 int fakeamx_heap_push_string(struct fakeamx *fa, const char *src, int *size, cell *address);
