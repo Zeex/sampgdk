@@ -15,7 +15,6 @@
 #ifndef SAMPGDK_A_OBJECTS_HPP
 #define SAMPGDK_A_OBJECTS_HPP
 
-#include <cassert>
 #include <cmath>
 #include <string>
 
@@ -24,7 +23,7 @@
 class Object {
 public:
 	// Construct from an object ID
-	Object(int objectid) : id_(objectid) { assert(id_ != INVALID_OBJECT_ID); }
+	Object(int objectid) : id_(objectid) {}
 
 	// Implicit convertion to 'int'
 	operator int() const { return id_; }
@@ -84,8 +83,6 @@ public:
 		: playerid_(playerid)
 		, objectid_(objectid) 
 	{
-		assert(objectid_ != INVALID_OBJECT_ID);
-		assert(playerid_ != INVALID_PLAYER_ID);
 	}
 
 	// Explicit ID request

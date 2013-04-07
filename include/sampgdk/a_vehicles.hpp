@@ -15,7 +15,6 @@
 #ifndef SAMPGDK_A_VEHICLES_HPP
 #define SAMPGDK_A_VEHICLES_HPP
 
-#include <cassert>
 #include <cmath>
 #include <string>
 
@@ -24,7 +23,7 @@
 class Vehicle {
 public:
 	// Construct from a vehicle ID
-	Vehicle(int vehicleid) : id_(vehicleid) { assert(id_ != INVALID_VEHICLE_ID); }
+	Vehicle(int vehicleid) : id_(vehicleid) {}
 
 	// Implicit convertion to 'int'
 	operator int() const { return id_; }

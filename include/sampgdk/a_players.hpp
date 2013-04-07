@@ -15,7 +15,6 @@
 #ifndef SAMPGDK_A_PLAYERS_HPP
 #define SAMPGDK_A_PLAYERS_HPP
 
-#include <cassert>
 #include <cmath>
 #include <cstddef>
 #include <string>
@@ -42,7 +41,7 @@ template<std::size_t N1, std::size_t N2> bool GetAnimationName(int index, char (
 class Player {
 public:
 	// Construct from a player ID
-	Player(int playerid) : id_(playerid) { assert(id_ != INVALID_PLAYER_ID); }
+	Player(int playerid) : id_(playerid) {}
 
 	// Implicit conversion to 'int'
 	operator int() const { return id_; }
