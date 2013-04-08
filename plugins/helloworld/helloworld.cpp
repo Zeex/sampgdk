@@ -8,8 +8,8 @@
 
 static ThisPlugin helloworld;
 
-static void SAMPGDK_CALL RepeatingTimer(int, void *sec) {
-	ServerLog::Printf("%d sec", ++*reinterpret_cast<int*>(sec));
+static void SAMPGDK_CALL RepeatingTimer(int, void *) {
+	ServerLog::Printf("RepeatingTimer");
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
@@ -21,7 +21,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
 	ServerLog::Printf("      HelloWorld gamemode got loaded.     \n");
 	ServerLog::Printf("------------------------------------------\n");
 
-	SetTimer(1000, true, RepeatingTimer, new int(0));
+	SetTimer(1000, true, RepeatingTimer, 0);
 
 	return true;
 }
