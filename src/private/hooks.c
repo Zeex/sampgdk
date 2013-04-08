@@ -23,18 +23,18 @@
 #include <string.h>
 #include <subhook.h>
 
-#include "sdk/amx/amx.h"
 #include "callback.h"
 #include "fakeamx.h"
 #include "init.h"
 #include "log.h"
 #include "native.h"
+#include "../sdk/amx/amx.h"
 
-/* AMX corresponding to the game mode. */
-static AMX *g_main_amx = NULL;
+/* The main AMX instance. */
+static AMX *main_amx = NULL;
 
-/* The name of the most recently Exec'ed public function. */
-static char *g_public_name = NULL;
+/* The name of the currently executing public function. */
+static char *public_name = NULL;
 
 static struct subhook *amx_FindPublic_hook;
 static struct subhook *amx_Exec_hook;
@@ -48,7 +48,7 @@ static struct subhook *amx_Allot_hook;
  *
  * Thanks to Incognito for finding this bug!
  */
-static cell AMX_NATIVE_CALL fixed_funcidx(AMX *amx, cell *params) {
+static cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params) {
 	char *funcname;
 	int index;
 	int error;
@@ -83,16 +83,15 @@ static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
 }
 
 static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
+	int i;
 	int error;
-	int index;
 
 	subhook_remove(amx_Register_hook);
 
-	for (index = 0; nativelist[index].name != 0 && (index < number || number == -1); ++index)
-		native_register(nativelist[index].name, nativelist[index].func);
+	hook_native(amx, "funcidx", funcidx);
 
-	/* fix for the funcidx() problem */
-	hook_native(amx, "funcidx", fixed_funcidx);
+	for (i = 0; nativelist[i].name != 0 && (i < number || number == -1); i++)
+		native_register(nativelist[i].name, nativelist[i].func);
 
 	error = amx_Register(amx, nativelist, number);
 	subhook_install(amx_Register_hook);
@@ -116,13 +115,13 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 	 * - the main AMX (the gamemode)
 	 * - the fake AMX
 	 */
-	proceed = (amx == g_main_amx || amx == &fakeamx_global()->amx);
+	proceed = (amx == main_amx || amx == &fakeamx_global()->amx);
 
 	error = amx_FindPublic(amx, name, index);
 	if (error != AMX_ERR_NONE && proceed) {
 		/* Trick the server to make it call this public with amx_Exec()
-			* even though the public doesn't actually exist.
-			*/
+		 * even though the public doesn't actually exist.
+		 */
 		error = AMX_ERR_NONE;
 		*index = AMX_EXEC_GDK;
 	}
@@ -131,15 +130,15 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 		/* Store the function name in a global string to later access
 		 * it in amx_Exec_().
 		 */
-		if (g_public_name != NULL)
-			free(g_public_name);
+		if (public_name != NULL)
+			free(public_name);
 
-		if ((g_public_name = malloc(strlen(name) + 1)) == NULL) {
+		if ((public_name = malloc(strlen(name) + 1)) == NULL) {
 			log_error(strerror(ENOMEM));
 			return error;
 		}
 
-		strcpy(g_public_name, name);
+		strcpy(public_name, name);
 	}
 
 	subhook_install(amx_FindPublic_hook);
@@ -156,13 +155,16 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 
 	proceed = true;
 
+	/* Since filterscripts don't use main() we can assume that the AMX
+	 * that executes main() is indeed the main AMX i.e. the gamemode.
+	 */
 	if (index == AMX_EXEC_MAIN) {
-		g_main_amx = amx;
-		callback_invoke(g_main_amx, "OnGameModeInit", retval);
+		main_amx = amx;
+		callback_invoke(main_amx, "OnGameModeInit", retval);
 	} else {
-		if (index != AMX_EXEC_CONT && g_public_name != NULL
-				&& (amx == g_main_amx || amx == &fakeamx_global()->amx))
-			proceed = callback_invoke(amx, g_public_name, retval);
+		if (index != AMX_EXEC_CONT && public_name != NULL
+				&& (amx == main_amx || amx == &fakeamx_global()->amx))
+			proceed = callback_invoke(amx, public_name, retval);
 	}
 
 	error = AMX_ERR_NONE;
@@ -208,7 +210,7 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_ad
 	 * there's not enough space on the heap:
 	 *
 	 * if (amx->stk - amx->hea - cells*sizeof(cell) < STKMARGIN)
-     *   return AMX_ERR_MEMORY;
+	 *   return AMX_ERR_MEMORY;
 	 *
 	 * The expression on the right side of the comparison is converted
 	 * to an unsigned type (because result of sizeof is of type size_t).
