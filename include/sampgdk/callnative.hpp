@@ -106,7 +106,7 @@ R DoCallNative(AMX *amx, AMX_NATIVE native, int num_params) {
 	amx->paramcount = 0;
 
 	cell retval = native(amx, params);
-	amx->stk += params_size;
+	amx->stk += params_size + sizeof(cell);
 
 	return ConvertCell<R>::Convert(retval);
 }
