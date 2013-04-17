@@ -18,7 +18,7 @@
 #include <cstddef>
 #include <string>
 
-#include <sampgdk/a_samp-decl.h>
+#include <sampgdk/a_samp.h>
 
 template<std::size_t N> bool GetNetworkStats(char (&retstr)[N]) {
 	return GetNetworkStats(retstr, N);
