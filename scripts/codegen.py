@@ -20,7 +20,8 @@ import itertools
 import os
 import sys
 
-EXPORT_PREFIX = 'sampgdk_'
+NAMESPACE = 'sampgdk'
+EXPORT_PREFIX = NAMESPACE + '_'
 
 idl_to_c_type_in = {
   'int'    : 'int',
@@ -134,14 +135,16 @@ def generate_header_file(module_name, idl, file):
   file.write('\n')
 
   file.write('#else /* __cplusplus */\n\n')
+  file.write('namespace %s {\n\n' % NAMESPACE)
 
   for const in idl.constants:
     generate_constant_cxx(file, const)
-  file.write('\n')  
+  file.write('\n')
   for func in natives:
     generate_native_alias_cxx(file, func)
   file.write('\n')
 
+  file.write('} // namespace %s\n\n' % NAMESPACE)
   file.write('#endif /* __cplusplus */\n\n')
 
   callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)

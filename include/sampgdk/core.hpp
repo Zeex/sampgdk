@@ -20,6 +20,8 @@
 
 #include <sampgdk/core.h>
 
+namespace sampgdk {
+
 class Plugin {
 public:
 	Plugin(void *handle) : handle_(handle) {}
@@ -62,5 +64,7 @@ public:
 		sampgdk_vlogprintf(format, args);
 	}
 };
+
+} // namespace sampgdk
 
 #endif // !SAMPGDK_CORE_HPP

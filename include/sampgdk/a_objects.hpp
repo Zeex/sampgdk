@@ -20,6 +20,8 @@
 
 #include <sampgdk/a_objects.h>
 
+namespace sampgdk {
+
 class Object {
 public:
 	// Construct from an object ID
@@ -131,5 +133,7 @@ private:
 	const int playerid_;
 	const int objectid_;
 };
+
+} // namespace sampgdk
 
 #endif // !SAMPGDK_A_OBJECTS_HPP

@@ -19,6 +19,8 @@
 
 #include <sampgdk/amx.h>
 
+namespace sampgdk {
+
 class NativeCaller {
 public:
 	template<typename T> class Arg {
@@ -190,5 +192,7 @@ R CallNative(AMX *amx, AMX_NATIVE native, T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 
 	NativeCaller::Arg<T1> a1(amx, x1);
 	return NativeCaller::Call<R>(amx, native, 9);
 }
+
+} // namespace sampgdk
 
 #endif // !SAMPGDK_CALLNATIVE_HPP

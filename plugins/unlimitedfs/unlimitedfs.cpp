@@ -26,6 +26,8 @@
 	#define PLUGIN_EXT ".so"
 #endif
 
+using namespace sampgdk;
+
 namespace {
 
 ThisPlugin ufs;

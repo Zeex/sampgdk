@@ -16,6 +16,8 @@
 
 #define PocketMoney   50000 // Amount player recieves on spawn.
 
+using namespace sampgdk;
+
 static ThisPlugin lvdm;
 
 int CashScoreOld;

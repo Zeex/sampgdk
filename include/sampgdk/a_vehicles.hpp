@@ -20,6 +20,8 @@
 
 #include <sampgdk/a_vehicles.h>
 
+namespace sampgdk {
+
 class Vehicle {
 public:
 	// Construct from a vehicle ID
@@ -137,5 +139,7 @@ public:
 private:
 	const int id_;
 };
+
+} // namespace sampgdk
 
 #endif // !SAMPGDK_A_VEHICLES_HPP
