@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2013 Zeex
+/* Copyright (C) 2013 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,19 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_A_PLAYERS_H
-#define SAMPGDK_A_PLAYERS_H
+#ifndef SAMPGDK_COMPAT_H
+#define SAMPGDK_COMPAT_H
 
-#include <sampgdk/a_samp.h>
-#include <sampgdk/bool.h>
-#include <sampgdk/compat.h>
-#include <sampgdk/export.h>
-
-#include <sampgdk/a_players-decl.h>
-
-#ifdef __cplusplus
-	#include <sampgdk/a_players.hpp>
+#if defined __cplusplus
+	#if defined SAMPGDK_USE_NAMESPACE
+		#define SAMPGDK_NAMESPACE sampgdk
+		#define SAMPGDK_BEGIN_NAMESPACE namespace SAMPGDK_NAMESPACE {
+		#define SAMPGDK_END_NAMESPACE }
+	#else
+		#define SAMPGDK_NAMESPACE
+		#define SAMPGDK_BEGIN_NAMESPACE
+		#define SAMPGDK_END_NAMESPACE
+	#endif
 #endif
 
-#endif /* !SAMPGDK_A_PLAYERS_H */
+#endif /* !SAMPGDK_COMPAT_H */

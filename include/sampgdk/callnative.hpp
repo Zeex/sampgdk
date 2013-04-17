@@ -18,8 +18,9 @@
 #include <string>
 
 #include <sampgdk/amx.h>
+#include <sampgdk/compat.h>
 
-namespace sampgdk {
+SAMPGDK_BEGIN_NAMESPACE
 
 class NativeCaller {
 public:
@@ -193,6 +194,6 @@ R CallNative(AMX *amx, AMX_NATIVE native, T1 x1, T2 x2, T3 x3, T4 x4, T5 x5, T6 
 	return NativeCaller::Call<R>(amx, native, 9);
 }
 
-} // namespace sampgdk
+SAMPGDK_END_NAMESPACE
 
 #endif // !SAMPGDK_CALLNATIVE_HPP

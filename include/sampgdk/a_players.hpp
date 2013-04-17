@@ -22,7 +22,7 @@
 
 #include <sampgdk/a_players.h>
 
-namespace sampgdk {
+SAMPGDK_BEGIN_NAMESPACE
 
 template<std::size_t N> bool GetPlayerName(int playerid, char (&name)[N]) {
 	return GetPlayerName(playerid, name, N);
@@ -169,7 +169,7 @@ public:
 	bool SetWeather(int weather) const
 		{ return SetPlayerWeather(id_, weather); }
 	bool ForceClassSelection() const
-		{ return sampgdk::ForceClassSelection(id_); }
+		{ return SAMPGDK_NAMESPACE::ForceClassSelection(id_); }
 	bool SetWantedLevel(int level) const
 		{ return SetPlayerWantedLevel(id_, level); }
 	int GetWantedLevel() const 
@@ -240,9 +240,9 @@ public:
 	bool PlaySound(int soundid, float x, float y, float z) const
 		{ return PlayerPlaySound(id_, soundid, x, y, z); }
 	bool ApplyAnimation(const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync = false) const
-		{ return sampgdk::ApplyAnimation(id_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
+		{ return SAMPGDK_NAMESPACE::ApplyAnimation(id_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
 	bool ClearAnimations(bool forcesync = false) const
-		{ return sampgdk::ClearAnimations(id_, forcesync); }
+		{ return SAMPGDK_NAMESPACE::ClearAnimations(id_, forcesync); }
 	int GetAnimationIndex() const
 		{ return GetPlayerAnimationIndex(id_); }
 	int GetSpecialAction() const
@@ -290,15 +290,15 @@ public:
 	int GetCameraMode() const
 		{ return GetPlayerCameraMode(id_); }
 	bool AttachCameraToObject(int objectid) const
-		{ return sampgdk::AttachCameraToObject(id_, objectid); }
+		{ return SAMPGDK_NAMESPACE::AttachCameraToObject(id_, objectid); }
 	bool AttachCameraToPlayerObject(int playerobjectid) const
-		{ return sampgdk::AttachCameraToPlayerObject(id_, playerobjectid); }
+		{ return SAMPGDK_NAMESPACE::AttachCameraToPlayerObject(id_, playerobjectid); }
 	bool InterpolateCameraPos(float FromX, float FromY, float FromZ, 
 			float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT) const
-		{ return sampgdk::InterpolateCameraPos(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
+		{ return SAMPGDK_NAMESPACE::InterpolateCameraPos(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
 	bool InterpolateCameraLookAt(float FromX, float FromY, float FromZ, 
 			float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT) const
-		{ return sampgdk::InterpolateCameraLookAt(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
+		{ return SAMPGDK_NAMESPACE::InterpolateCameraLookAt(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
 
 	bool IsConnected() const
 		{ return IsPlayerConnected(id_); }
@@ -339,13 +339,13 @@ public:
 	bool IsAdmin() const
 		{ return IsPlayerAdmin(id_); }
 	bool Kick() const
-		{ return sampgdk::Kick(id_); }
+		{ return SAMPGDK_NAMESPACE::Kick(id_); }
 	bool Ban() const
-		{ return sampgdk::Ban(id_); }
+		{ return SAMPGDK_NAMESPACE::Ban(id_); }
 	bool BanEx(const char *reason) const
-		{ return sampgdk::BanEx(id_, reason); }
+		{ return SAMPGDK_NAMESPACE::BanEx(id_, reason); }
 	bool BanEx(const std::string &reason) const
-		{ return sampgdk::BanEx(id_, reason.c_str()); }
+		{ return SAMPGDK_NAMESPACE::BanEx(id_, reason.c_str()); }
 	bool GetNetworkStats(char *retstr, int size) const
 		{ return GetPlayerNetworkStats(id_, retstr, size); }
 	int GetMenu() const
@@ -361,9 +361,9 @@ public:
 	bool GetVersion(char *version, int len) const
 		{ return GetPlayerVersion(id_, version, len); }
 	bool SelectTextDraw(int hovercolor) const
-		{ return sampgdk::SelectTextDraw(id_, hovercolor); }
+		{ return SAMPGDK_NAMESPACE::SelectTextDraw(id_, hovercolor); }
 	bool CancelSelectTextDraw() const
-		{ return sampgdk::CancelSelectTextDraw(id_); }
+		{ return SAMPGDK_NAMESPACE::CancelSelectTextDraw(id_); }
 
 private:
 	const int id_;
@@ -427,6 +427,6 @@ private:
 	const int playerid_;	
 };
 
-} // namespace sampgdk
+SAMPGDK_END_NAMESPACE
 
 #endif // !SAMPGDK_A_PLAYERS_HPP

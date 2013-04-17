@@ -20,7 +20,7 @@
 
 #include <sampgdk/a_samp.h>
 
-namespace sampgdk {
+SAMPGDK_BEGIN_NAMESPACE
 
 template<std::size_t N> bool GetNetworkStats(char (&retstr)[N]) {
 	return GetNetworkStats(retstr, N);
@@ -166,6 +166,6 @@ private:
 	const int id_;
 };
 
-} // namespace sampgdk
+SAMPGDK_END_NAMESPACE
 
 #endif // !SAMPGDK_A_SAMP_HPP

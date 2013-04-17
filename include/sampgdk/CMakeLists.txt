@@ -16,6 +16,7 @@ sampgdk_add_headers(
 	"amx.h"
 	"bool.h"
 	"callnative.hpp"
+	"compat.h"
 	"core.h"
 	"core.hpp"
 	"export.h"

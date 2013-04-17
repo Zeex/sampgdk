@@ -18,9 +18,10 @@
 #include <cassert>
 #include <cstdarg>
 
+#include <sampgdk/compat.h>
 #include <sampgdk/core.h>
 
-namespace sampgdk {
+SAMPGDK_BEGIN_NAMESPACE
 
 class Plugin {
 public:
@@ -65,6 +66,6 @@ public:
 	}
 };
 
-} // namespace sampgdk
+SAMPGDK_END_NAMESPACE
 
 #endif // !SAMPGDK_CORE_HPP
