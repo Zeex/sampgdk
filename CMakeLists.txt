@@ -90,13 +90,13 @@ macro(sampgdk_make_output_dir file)
 	endif()
 
 	get_filename_component(_path ${_file} PATH)
-	file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
-
 	if(_path MATCHES ${PROJECT_BINARY_DIR})
-		file(MAKE_DIRECTORY ${_path})
-	else()
-		file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_path}")
+		file(RELATIVE_PATH _path ${CMAKE_CURRENT_BINARY_DIR} ${_path})
+	else()	
+		file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
 	endif()
+
+	file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_path}")
 endmacro()
 
 macro(sampgdk_add_nasm_source file)
