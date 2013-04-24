@@ -60,4 +60,4 @@
 %define AMX_EXPORT_UTF8LEN       42
 %define AMX_EXPORT_UTF8PUT       43
 
-%endif ; !SAMPGDK_SDK_AMX_AMX_INC_ */
+%endif ; !SAMPGDK_SDK_AMX_AMX_INC_
