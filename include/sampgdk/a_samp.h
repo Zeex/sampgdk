@@ -17,7 +17,7 @@
 #define SAMPGDK_A_SAMP_H
 
 #include <sampgdk/bool.h>
-#include <sampgdk/compat.h>
+#include <sampgdk/compatibility.h>
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
 

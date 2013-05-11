@@ -18,7 +18,7 @@
 #include <cassert>
 #include <cstdarg>
 
-#include <sampgdk/compat.h>
+#include <sampgdk/compatibility.h>
 #include <sampgdk/core.h>
 
 SAMPGDK_BEGIN_NAMESPACE

@@ -18,7 +18,7 @@
 
 #include <sampgdk/a_samp.h>
 #include <sampgdk/bool.h>
-#include <sampgdk/compat.h>
+#include <sampgdk/compatibility.h>
 #include <sampgdk/export.h>
 
 #include <sampgdk/a_players-decl.h>

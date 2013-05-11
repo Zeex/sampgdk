@@ -18,7 +18,7 @@
 #include <string>
 
 #include <sampgdk/amx.h>
-#include <sampgdk/compat.h>
+#include <sampgdk/compatibility.h>
 
 SAMPGDK_BEGIN_NAMESPACE
 
