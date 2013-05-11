@@ -24,7 +24,7 @@
 #include <sampgdk/a_vehicles-decl.h>
 
 #ifdef __cplusplus
-	#include <sampgdk/a_vehicles.hpp>
+  #include <sampgdk/a_vehicles.hpp>
 #endif
 
 #endif /* !SAMPGDK_A_VEHICLES_H */

@@ -21,8 +21,8 @@
 #include <stddef.h>
 
 struct plugin_list {
-	void               *plugin;
-	struct plugin_list *next;
+  void               *plugin;
+  struct plugin_list *next;
 };
 
 /* Registers a plugin (for notifying it about SA-MP events, etc). If the

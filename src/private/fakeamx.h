@@ -22,9 +22,9 @@
 #include "array.h"
 
 struct fakeamx {
-	AMX          amx;
-	AMX_HEADER   amxhdr;
-	struct array heap;
+  AMX          amx;
+  AMX_HEADER   amxhdr;
+  struct array heap;
 };
 
 int fakeamx_new(struct fakeamx *fa);

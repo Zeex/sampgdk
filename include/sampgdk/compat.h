@@ -17,15 +17,15 @@
 #define SAMPGDK_COMPAT_H
 
 #if defined __cplusplus
-	#if defined SAMPGDK_USE_NAMESPACE
-		#define SAMPGDK_NAMESPACE sampgdk
-		#define SAMPGDK_BEGIN_NAMESPACE namespace SAMPGDK_NAMESPACE {
-		#define SAMPGDK_END_NAMESPACE }
-	#else
-		#define SAMPGDK_NAMESPACE
-		#define SAMPGDK_BEGIN_NAMESPACE
-		#define SAMPGDK_END_NAMESPACE
-	#endif
+  #if defined SAMPGDK_USE_NAMESPACE
+    #define SAMPGDK_NAMESPACE sampgdk
+    #define SAMPGDK_BEGIN_NAMESPACE namespace SAMPGDK_NAMESPACE {
+    #define SAMPGDK_END_NAMESPACE }
+  #else
+    #define SAMPGDK_NAMESPACE
+    #define SAMPGDK_BEGIN_NAMESPACE
+    #define SAMPGDK_END_NAMESPACE
+  #endif
 #endif
 
 #endif /* !SAMPGDK_COMPAT_H */

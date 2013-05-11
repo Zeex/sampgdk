@@ -17,36 +17,36 @@
 #define SAMPGDK_PLATFORM_H
 
 #if !(defined _M_IX86 || defined __i386__)
-	#error Unsupported architecture
+  #error Unsupported architecture
 #endif
 
 #if defined WIN32 || defined _WIN32 || defined __WIN32__
-	#define SAMPGDK_LINUX 0
-	#define SAMPGDK_WINDOWS 1
+  #define SAMPGDK_LINUX 0
+  #define SAMPGDK_WINDOWS 1
 #endif
 
 #if defined __linux__ || defined __linux || defined linux
-	#if !defined LINUX
-		#define LINUX
-	#endif
-	#define SAMPGDK_LINUX 1
-	#define SAMPGDK_WINDOWS 0
+  #if !defined LINUX
+    #define LINUX
+  #endif
+  #define SAMPGDK_LINUX 1
+  #define SAMPGDK_WINDOWS 0
 #endif
 
 #if defined __GNUC__
-	#define SAMPGDK_DEPRECATED(func) func __attribute__((deprecated))
+  #define SAMPGDK_DEPRECATED(func) func __attribute__((deprecated))
 #elif defined _MSC_VER
-	#define SAMPGDK_DEPRECATED(func) __declspec(deprecated) func
+  #define SAMPGDK_DEPRECATED(func) __declspec(deprecated) func
 #else
-	#define SAMPGDK_DEPRECATED(func)
+  #define SAMPGDK_DEPRECATED(func)
 #endif
 
 #if SAMPGDK_WINDOWS
-	#define SAMPGDK_CDECL __cdecl
-	#define SAMPGDK_STDCALL __stdcall
+  #define SAMPGDK_CDECL __cdecl
+  #define SAMPGDK_STDCALL __stdcall
 #elif SAMPGDK_LINUX
-	#define SAMPGDK_CDECL __attribute__((cdecl))
-	#define SAMPGDK_STDCALL __attribute__((stdcall))
+  #define SAMPGDK_CDECL __attribute__((cdecl))
+  #define SAMPGDK_STDCALL __attribute__((stdcall))
 #endif
 
 #endif /* !SAMPGDK_PLATFORM_H */

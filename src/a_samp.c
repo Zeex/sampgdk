@@ -17,9 +17,9 @@
 #include "private/timer.h"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback, void *param)) {
-	return timer_set(interval, repeat, (timer_callback)callback, param);
+  return timer_set(interval, repeat, (timer_callback)callback, param);
 }
 
 SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
-	return timer_kill(timerid) >= 0;
+  return timer_kill(timerid) >= 0;
 }

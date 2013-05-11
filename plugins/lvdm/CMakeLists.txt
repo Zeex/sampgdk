@@ -5,12 +5,12 @@ include(GroupTargetSources)
 include(SampPlugin)
 
 if(MSVC)
-	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
+  add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 endif()
 
 add_samp_plugin(lvdm
-	"lvdm.cpp"
-	"lvdm.def"
+  "lvdm.cpp"
+  "lvdm.def"
 )
 
 group_target_sources(unlimitedfs)

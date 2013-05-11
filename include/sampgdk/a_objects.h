@@ -24,7 +24,7 @@
 #include <sampgdk/a_objects-decl.h>
 
 #ifdef __cplusplus
-	#include <sampgdk/a_objects.hpp>
+  #include <sampgdk/a_objects.hpp>
 #endif
 
 #endif /* !SAMPGDK_A_OBJECTS_H */

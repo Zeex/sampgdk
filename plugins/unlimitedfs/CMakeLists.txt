@@ -5,16 +5,16 @@ include(SampPlugin)
 include(GroupTargetSources)
 
 if(MSVC)
-	add_definitions("-D_CRT_SECURE_NO_WARNINGS")
+  add_definitions("-D_CRT_SECURE_NO_WARNINGS")
 endif()
 
 add_samp_plugin(unlimitedfs
-	"filterscript.cpp"
-	"filterscript.h"
-	"plugin.cpp"
-	"plugin.h"
-	"unlimitedfs.cpp"
-	"unlimitedfs.def"
+  "filterscript.cpp"
+  "filterscript.h"
+  "plugin.cpp"
+  "plugin.h"
+  "unlimitedfs.cpp"
+  "unlimitedfs.def"
 )
 
 group_target_sources(unlimitedfs)

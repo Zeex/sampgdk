@@ -20,29 +20,31 @@
 #include <string.h>
 
 void *plugin_address_to_handle(void *address) {
-	Dl_info info;
+  Dl_info info;
 
-	assert(address != NULL);
-	if (dladdr(address, &info) == 0)
-		return NULL;
+  assert(address != NULL);
+  if (dladdr(address, &info) == 0) {
+    return NULL;
+  }
 
-	return dlopen(info.dli_fname, RTLD_NOW);
+  return dlopen(info.dli_fname, RTLD_NOW);
 }
 
 void plugin_address_to_filename(void *address, char *filename, size_t size) {
-	Dl_info info;
+  Dl_info info;
 
-	assert(address != NULL);
-	assert(filename != NULL);
+  assert(address != NULL);
+  assert(filename != NULL);
 
-	if (dladdr(address, &info) == 0)
-		return;
+  if (dladdr(address, &info) == 0) {
+    return;
+  }
 
-	strncpy(filename, info.dli_fname, size);
+  strncpy(filename, info.dli_fname, size);
 }
 
 void *plugin_find_symbol(void *plugin, const char *name)  {
-	assert(plugin != NULL);
-	assert(name != NULL);
-	return dlsym(plugin, name);
+  assert(plugin != NULL);
+  assert(name != NULL);
+  return dlsym(plugin, name);
 }

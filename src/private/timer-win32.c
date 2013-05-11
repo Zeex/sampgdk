@@ -18,5 +18,5 @@
 #include <windows.h>
 
 time_t timer_clock(void) {
-	return GetTickCount();
+  return GetTickCount();
 }

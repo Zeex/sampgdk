@@ -18,23 +18,23 @@
 
 /* bool */
 #if !defined __cplusplus && !defined HAVE_BOOL
-	/* If HAVE_BOOL is not defined we attempt to detect stdbool.h first,
-	 * then define our own "bool" type.
-	 */
-	#if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L\
-			|| defined HAVE_STDBOOL_H
-		/* Have a C99-conformant compiler. */
-		#include <stdbool.h>
-	#else
-		typedef unsigned char bool;
-		#define true 1
-		#define false 0
-		#define __bool_true_false_are_defined
-	#endif
+  /* If HAVE_BOOL is not defined we attempt to detect stdbool.h first,
+   * then define our own "bool" type.
+   */
+  #if defined __STDC__ && defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L\
+      || defined HAVE_STDBOOL_H
+    /* Have a C99-conformant compiler. */
+    #include <stdbool.h>
+  #else
+    typedef unsigned char bool;
+    #define true 1
+    #define false 0
+    #define __bool_true_false_are_defined
+  #endif
 #else
-	/* Make sure their "bool" is one byte in size. This is required for binary
-	 * compatibility with C++ code. */
-	typedef int sizeof_bool_must_be_1[sizeof(bool) == 1 ? 1 : -1];
+  /* Make sure their "bool" is one byte in size. This is required for binary
+   * compatibility with C++ code. */
+  typedef int sizeof_bool_must_be_1[sizeof(bool) == 1 ? 1 : -1];
 #endif
 
 #endif /* !SAMPGDK_BOOL_H */

@@ -25,34 +25,35 @@
 logprintf_t logprintf;
 
 void vlogprintf(const char *format, va_list va) {
-	int i;
-	int nargs;
-	const void **args;
+  int i;
+  int nargs;
+  const void **args;
 
-	assert(logprintf != NULL);
+  assert(logprintf != NULL);
 
-	nargs = 1;
+  nargs = 1;
 
-	if (va != NULL) {
-		for (i = 0; format[i] != '\0'; i++) {
-			if (format[i] == '%' && format[i + 1] != '%') {
-				nargs++;
-			}
-		}
-	}
+  if (va != NULL) {
+    for (i = 0; format[i] != '\0'; i++) {
+      if (format[i] == '%' && format[i + 1] != '%') {
+        nargs++;
+      }
+    }
+  }
 
-	args = malloc((nargs + 1) * sizeof(*args));
-	if (args == NULL)
-		return;
+  args = malloc((nargs + 1) * sizeof(*args));
+  if (args == NULL) {
+    return;
+  }
 
-	args[0] = format;
+  args[0] = format;
 
-	if (va != NULL) {
-		for (i = 1; i <= nargs; i++) {
-			args[i] = va_arg(va, const void *);
-		}
-	}
+  if (va != NULL) {
+    for (i = 1; i <= nargs; i++) {
+      args[i] = va_arg(va, const void *);
+    }
+  }
 
-	call_func_cdecl((void*)logprintf, args, nargs);
-	free((void*)args);
+  call_func_cdecl((void*)logprintf, args, nargs);
+  free((void*)args);
 }

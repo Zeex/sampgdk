@@ -1,5 +1,5 @@
 sampgdk_add_headers(
-	"amx.h"
-	"getch.h"
-	"sclinux.h"
+  "amx.h"
+  "getch.h"
+  "sclinux.h"
 )

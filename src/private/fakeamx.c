@@ -30,207 +30,217 @@
 static struct fakeamx global;
 
 DEFINE_INIT_FUNC(fakeamx_init) {
-	int error;
+  int error;
 
-	error = fakeamx_new(&global);
-	if (error < 0)
-		return error;
+  error = fakeamx_new(&global);
+  if (error < 0) {
+    return error;
+  }
 
-	return 0;
+  return 0;
 }
 
 DEFINE_CLEANUP_FUNC(fakeamx_cleanup) {
-	fakeamx_free(&global);
+  fakeamx_free(&global);
 }
 
 static bool is_cell_aligned(cell address) {
-	return address % sizeof(cell) == 0;
+  return address % sizeof(cell) == 0;
 }
 
 int fakeamx_new(struct fakeamx *fa) {
-	int error;
+  int error;
 
-	assert(fa != NULL);
+  assert(fa != NULL);
 
-	memset(fa, 0, sizeof(*fa));
+  memset(fa, 0, sizeof(*fa));
 
-	error = array_new(&fa->heap, INITIAL_HEAP_SIZE + STACK_SIZE,
-	                 sizeof(cell));
-	if (error < 0)
-		return error;
+  error = array_new(&fa->heap, INITIAL_HEAP_SIZE + STACK_SIZE,
+                   sizeof(cell));
+  if (error < 0) {
+    return error;
+  }
 
-	fa->amxhdr.magic = AMX_MAGIC;
-	fa->amxhdr.file_version = MIN_FILE_VERSION;
-	fa->amxhdr.amx_version = MIN_AMX_VERSION;
-	fa->amxhdr.dat = (cell)fa->heap.data - (cell)&fa->amxhdr;
-	fa->amxhdr.defsize = sizeof(AMX_FUNCSTUBNT);
+  fa->amxhdr.magic = AMX_MAGIC;
+  fa->amxhdr.file_version = MIN_FILE_VERSION;
+  fa->amxhdr.amx_version = MIN_AMX_VERSION;
+  fa->amxhdr.dat = (cell)fa->heap.data - (cell)&fa->amxhdr;
+  fa->amxhdr.defsize = sizeof(AMX_FUNCSTUBNT);
 
-	fa->amx.base = (unsigned char *)&fa->amxhdr;
-	fa->amx.data = (unsigned char *)fa->heap.data;
-	fa->amx.callback = amx_Callback;
+  fa->amx.base = (unsigned char *)&fa->amxhdr;
+  fa->amx.data = (unsigned char *)fa->heap.data;
+  fa->amx.callback = amx_Callback;
 
-	fa->amx.stp = fa->heap.size * sizeof(cell);
-	fa->amx.stk = fa->amx.stp;
+  fa->amx.stp = fa->heap.size * sizeof(cell);
+  fa->amx.stk = fa->amx.stp;
 
-	array_pad(&fa->heap);
+  array_pad(&fa->heap);
 
-	return 0;
+  return 0;
 }
 
 void fakeamx_free(struct fakeamx *fa) {
-	assert(fa != NULL);
-	array_free(&fa->heap);
+  assert(fa != NULL);
+  array_free(&fa->heap);
 }
 
 struct fakeamx *fakeamx_global(void) {
-	return &global;
+  return &global;
 }
 
 int fakeamx_heap_resize(struct fakeamx *fa, int cells) {
-	int error;
-	cell old_size, new_size;
-	cell old_stk, new_stk;
-	cell old_stp, new_stp;
+  int error;
+  cell old_size, new_size;
+  cell old_stk, new_stk;
+  cell old_stp, new_stp;
 
-	assert(cells > 0);
+  assert(cells > 0);
 
-	old_size = fa->heap.size;
-	new_size = cells;
+  old_size = fa->heap.size;
+  new_size = cells;
 
-	error = array_resize(&fa->heap, new_size);
-	if (error < 0)
-		return error;
+  error = array_resize(&fa->heap, new_size);
+  if (error < 0) {
+    return error;
+  }
 
-	/* Update data pointers to point at the newly allocated heap. */
-	fa->amxhdr.dat = (cell)fa->heap.data - (cell)&fa->amxhdr;
-	fa->amx.data = (unsigned char *)fa->heap.data;
+  /* Update data pointers to point at the newly allocated heap. */
+  fa->amxhdr.dat = (cell)fa->heap.data - (cell)&fa->amxhdr;
+  fa->amx.data = (unsigned char *)fa->heap.data;
 
-	old_stk = fa->amx.stk;
-	new_stk = fa->amx.stk + (new_size - old_size) * sizeof(cell);
+  old_stk = fa->amx.stk;
+  new_stk = fa->amx.stk + (new_size - old_size) * sizeof(cell);
 
-	old_stp = fa->amx.stp;
-	new_stp = fa->amx.stp + (new_size - old_size) * sizeof(cell);
+  old_stp = fa->amx.stp;
+  new_stp = fa->amx.stp + (new_size - old_size) * sizeof(cell);
 
-	/* Shift stack contents. */
-	memmove((unsigned char *)fa->heap.data + new_stk - STACK_SIZE,
-	        (unsigned char *)fa->heap.data + old_stk - STACK_SIZE,
-	        STACK_SIZE);
+  /* Shift stack contents. */
+  memmove((unsigned char *)fa->heap.data + new_stk - STACK_SIZE,
+          (unsigned char *)fa->heap.data + old_stk - STACK_SIZE,
+          STACK_SIZE);
 
-	fa->amx.stk = new_stk;
-	fa->amx.stp = new_stp;
+  fa->amx.stk = new_stk;
+  fa->amx.stp = new_stp;
 
-	return 0;
+  return 0;
 }
 
 int fakeamx_heap_push(struct fakeamx *fa, int cells, cell *address) {
-	cell old_hea, new_hea;
-	cell old_heap_size, new_heap_size;
+  cell old_hea, new_hea;
+  cell old_heap_size, new_heap_size;
 
-	assert(fa != NULL);
-	assert(cells > 0);
-	
-	old_hea = fa->amx.hea;
-	new_hea = fa->amx.hea + cells * sizeof(cell);
+  assert(fa != NULL);
+  assert(cells > 0);
+  
+  old_hea = fa->amx.hea;
+  new_hea = fa->amx.hea + cells * sizeof(cell);
 
-	old_heap_size = fa->heap.size;
-	new_heap_size = (new_hea + STACK_SIZE) / sizeof(cell);
+  old_heap_size = fa->heap.size;
+  new_heap_size = (new_hea + STACK_SIZE) / sizeof(cell);
 
-	if (new_hea >= (cell)(old_heap_size * sizeof(cell))) {
-		int error;
+  if (new_hea >= (cell)(old_heap_size * sizeof(cell))) {
+    int error;
 
-		error = fakeamx_heap_resize(fa, new_heap_size);
-		if (error < 0)
-			return error;
-	}
+    error = fakeamx_heap_resize(fa, new_heap_size);
+    if (error < 0) {
+      return error;
+    }
+  }
 
-	fa->amx.hea = new_hea;
+  fa->amx.hea = new_hea;
 
-	if (address != NULL)
-		*address = old_hea;
+  if (address != NULL) {
+    *address = old_hea;
+  }
 
-	return 0;
+  return 0;
 }
 
 int fakeamx_heap_push_cell(struct fakeamx *fa, cell value, cell *address) {
-	int error;
+  int error;
 
-	assert(address != NULL);
+  assert(address != NULL);
 
-	if ((error = fakeamx_heap_push(fa, 1, address)) < 0)
-		return error;
+  if ((error = fakeamx_heap_push(fa, 1, address)) < 0) {
+    return error;
+  }
 
-	((cell *)(fa->heap.data))[*address / sizeof(cell)] = value;
+  ((cell *)(fa->heap.data))[*address / sizeof(cell)] = value;
 
-	return 0;
+  return 0;
 }
 
 int fakeamx_heap_push_float(struct fakeamx *fa, float value, cell *address) {
-	assert(fa != NULL);
-	return fakeamx_heap_push_cell(fa, amx_ftoc(value), address);
+  assert(fa != NULL);
+  return fakeamx_heap_push_cell(fa, amx_ftoc(value), address);
 }
 
 int fakeamx_heap_push_string(struct fakeamx *fa, const char *src, int *size, cell *address) {
-	int src_size;
-	int error;
+  int src_size;
+  int error;
 
-	assert(address != NULL);
-	assert(src != NULL);
-	assert(address != NULL);
+  assert(address != NULL);
+  assert(src != NULL);
+  assert(address != NULL);
 
-	src_size = (int)strlen(src) + 1;
-	if ((error = fakeamx_heap_push(fa, src_size, address)) < 0)
-		return error;
+  src_size = (int)strlen(src) + 1;
+  if ((error = fakeamx_heap_push(fa, src_size, address)) < 0) {
+    return error;
+  }
 
-	amx_SetString((cell *)array_get(&fa->heap, *address / sizeof(cell)), src, 0, 0, src_size);
+  amx_SetString((cell *)array_get(&fa->heap, *address / sizeof(cell)),
+                src, 0, 0, src_size);
 
-	if (size != NULL)
-		*size = src_size;
+  if (size != NULL) {
+    *size = src_size;
+  }
 
-	return 0;
+  return 0;
 }
 
 void fakeamx_heap_get_cell(struct fakeamx *fa, cell address, cell *value) {
-	assert(fa != NULL);
-	assert(is_cell_aligned(address));
-	assert(value != NULL);
+  assert(fa != NULL);
+  assert(is_cell_aligned(address));
+  assert(value != NULL);
 
-	*value = *(cell *)array_get(&fa->heap, address / sizeof(cell));
+  *value = *(cell *)array_get(&fa->heap, address / sizeof(cell));
 }
 
 void fakeamx_heap_get_bool(struct fakeamx *fa, cell address, bool *value) {
-	cell tmp;
+  cell tmp;
 
-	assert(fa != NULL);
-	assert(is_cell_aligned(address));
-	assert(value != NULL);
+  assert(fa != NULL);
+  assert(is_cell_aligned(address));
+  assert(value != NULL);
 
-	fakeamx_heap_get_cell(fa, address, &tmp);
-	*value = (bool)tmp;
+  fakeamx_heap_get_cell(fa, address, &tmp);
+  *value = (bool)tmp;
 }
 
 void fakeamx_heap_get_float(struct fakeamx *fa, cell address, float *value) {
-	cell tmp;
+  cell tmp;
 
-	assert(fa != NULL);
-	assert(is_cell_aligned(address));
-	assert(value != NULL);
+  assert(fa != NULL);
+  assert(is_cell_aligned(address));
+  assert(value != NULL);
 
-	fakeamx_heap_get_cell(fa, address, &tmp);
-	*value = amx_ctof(tmp);
+  fakeamx_heap_get_cell(fa, address, &tmp);
+  *value = amx_ctof(tmp);
 }
 
 void fakeamx_heap_get_string(struct fakeamx *fa, cell address, char *dest, int size) {
-	assert(fa != NULL);
-	assert(is_cell_aligned(address));
-	assert(dest != NULL);
+  assert(fa != NULL);
+  assert(is_cell_aligned(address));
+  assert(dest != NULL);
 
-	amx_GetString(dest, (cell *)array_get(&fa->heap, address / sizeof(cell)), 0, size);
+  amx_GetString(dest, (cell *)array_get(&fa->heap, address / sizeof(cell)), 0, size);
 }
 
 void fakeamx_heap_pop(struct fakeamx *fa, cell address) {
-	assert(fa != NULL);
-	assert(is_cell_aligned(address));
+  assert(fa != NULL);
+  assert(is_cell_aligned(address));
 
-	if (fa->amx.hea > address)
-		fa->amx.hea = address;
+  if (fa->amx.hea > address) {
+    fa->amx.hea = address;
+  }
 }

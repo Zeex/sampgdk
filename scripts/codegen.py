@@ -178,17 +178,17 @@ def generate_source_file(module_name, idl, file):
   file.write('static const struct callback_info callback_table[] = {\n')
 
   for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
-    file.write('\t"%s", %s_handler,\n' % (func.name, func.name))
+    file.write('  "%s", %s_handler,\n' % (func.name, func.name))
 
-  file.write('\tNULL, NULL\n')
+  file.write('  NULL, NULL\n')
   file.write('};\n\n')
 
   file.write('DEFINE_INIT_FUNC(%s_init) {\n' % module_name)
-  file.write('\treturn callback_register_table(callback_table);\n')
+  file.write('  return callback_register_table(callback_table);\n')
   file.write('}\n')
 
   file.write('DEFINE_CLEANUP_FUNC(%s_cleanup) {\n' % module_name)
-  file.write('\tcallback_unregister_table(callback_table);\n')
+  file.write('  callback_unregister_table(callback_table);\n')
   file.write('}\n')
 
 def generate_constant_c(file, const):
@@ -208,28 +208,29 @@ def generate_native_alias_c(file, func):
 def generate_native_alias_cxx(file, func):
   file.write('static inline %s %s(%s) {\n' % (func.type, func.name, ParamList(func.params)))
   if func.type != 'void':
-    file.write('\treturn ::%s%s(%s);\n' % (EXPORT_PREFIX, func.name, ArgList(func.params)))
+    file.write('  return ::%s%s(%s);\n' % (EXPORT_PREFIX, func.name, ArgList(func.params)))
   else:
-    file.write('\t::%s%s(%s);\n' % (EXPORT_PREFIX, func.name, ArgList(func.params)))
+    file.write('  ::%s%s(%s);\n' % (EXPORT_PREFIX, func.name, ArgList(func.params)))
   file.write('}\n')
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' %
              (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
-  file.write('\tstatic AMX_NATIVE native;\n')
-  file.write('\tstruct fakeamx *fa;\n')
-  file.write('\tcell retval;\n')
+  file.write('  static AMX_NATIVE native;\n')
+  file.write('  struct fakeamx *fa;\n')
+  file.write('  cell retval;\n')
 
   if func.params:
-    file.write('\tcell params[%d];\n' % (len(func.params) + 1))
+    file.write('  cell params[%d];\n' % (len(func.params) + 1))
 
     for p in filter(lambda p: p.is_ref, func.params):
-      file.write('\tcell %s_;\n' % p.name)
+      file.write('  cell %s_;\n' % p.name)
 
-  file.write('\tif (unlikely(native == NULL))\n')
-  file.write('\t\tnative = native_lookup_warn_stub("%s");\n' % func.name)
+  file.write('  if (unlikely(native == NULL)) {\n')
+  file.write('    native = native_lookup_warn_stub("%s");\n' % func.name)
+  file.write('  }\n')
 
-  file.write('\tfa = fakeamx_global();\n')
+  file.write('  fa = fakeamx_global();\n')
 
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):
@@ -239,20 +240,20 @@ def generate_native_impl(file, func):
         else:
           value = p.name
         if p.type == 'char':
-          file.write('\tfakeamx_heap_push(fa, %s, &%s_);\n' % (pnext.name, p.name))
+          file.write('  fakeamx_heap_push(fa, %s, &%s_);\n' % (pnext.name, p.name))
         elif p.type == 'string':
-          file.write('\tfakeamx_heap_push_string(fa, %s, NULL, &%s_);\n' % (value, p.name))
+          file.write('  fakeamx_heap_push_string(fa, %s, NULL, &%s_);\n' % (value, p.name))
         else:
-          file.write('\tfakeamx_heap_push(fa, 1, &%s_);\n' % p.name)
+          file.write('  fakeamx_heap_push(fa, 1, &%s_);\n' % p.name)
 
-    file.write('\tparams[0] = %d * sizeof(cell);\n' % len(func.params))
+    file.write('  params[0] = %d * sizeof(cell);\n' % len(func.params))
     for index, p in enumerate(func.params, 1):
       if p.is_value:
         if p.default is not None:
           value = p.default
         else:
           value = p.name
-        file.write('\tparams[%d] = %s;\n' % (index, 
+        file.write('  params[%d] = %s;\n' % (index, 
           {
             'int'   : '(cell)%s' % value,
             'bool'  : '(cell)%s' % value,
@@ -261,10 +262,10 @@ def generate_native_impl(file, func):
           }[p.type]
         ))
       else:
-        file.write('\tparams[%d] = %s_;\n' % (index, p.name))
+        file.write('  params[%d] = %s_;\n' % (index, p.name))
 
 
-  file.write('\tretval = native(&fa->amx, %s);\n' %
+  file.write('  retval = native(&fa->amx, %s);\n' %
              ('NULL', 'params')[bool(func.params)])
 
   if func.params:
@@ -273,10 +274,10 @@ def generate_native_impl(file, func):
         if p.type == 'string':
           pass
         elif p.type == 'char':
-          file.write('\tfakeamx_heap_get_string(fa, %s_, %s, %s);\n' %
+          file.write('  fakeamx_heap_get_string(fa, %s_, %s, %s);\n' %
                      (p.name, p.name, pnext.name))
         else:
-          file.write('\tfakeamx_heap_get_%s(fa, %s_, %s);\n' % (
+          file.write('  fakeamx_heap_get_%s(fa, %s_, %s);\n' % (
             {
               'int'   : 'cell',
               'bool'  : 'bool',
@@ -286,9 +287,9 @@ def generate_native_impl(file, func):
           p.name, p.name))
 
     for p in reversed(filter(lambda p: p.is_ref, func.params)):
-      file.write('\tfakeamx_heap_pop(fa, %s_);\n' % p.name)
+      file.write('  fakeamx_heap_pop(fa, %s_);\n' % p.name)
 
-  file.write('\treturn %s(retval);\n' % ({
+  file.write('  return %s(retval);\n' % ({
       'int'   : '(int)',
       'bool'  : '(bool)',
       'float' : 'amx_ctof',
@@ -309,13 +310,13 @@ def generate_callback_impl(file, func):
 
   badret = func.get_attr('badret')
   if badret is not None:
-    file.write('\tbool retval_;\n')
+    file.write('  bool retval_;\n')
 
   for p in func.params:
-    file.write('\t%s %s;\n' % (p.c_type, p.name))
+    file.write('  %s %s;\n' % (p.c_type, p.name))
 
   for index, p in enumerate(func.params):
-    file.write('\t%s = amx_stack_get_arg_%s(amx, %d);\n' % (p.name,
+    file.write('  %s = amx_stack_get_arg_%s(amx, %d);\n' % (p.name,
       {
         'int'    : 'cell',
         'bool'   : 'bool',
@@ -326,20 +327,21 @@ def generate_callback_impl(file, func):
     )
 
   if badret is not None:
-    file.write('\tretval_ = ((%s_type)callback)(%s);\n' % (func.name, ArgList(func.params)))
-    file.write('\tif (retval != NULL)\n')
-    file.write('\t\t*retval = (cell)retval_;\n')
+    file.write('  retval_ = ((%s_type)callback)(%s);\n' % (func.name, ArgList(func.params)))
+    file.write('  if (retval != NULL) {\n')
+    file.write('    *retval = (cell)retval_;\n')
+    file.write('  }\n')
   else:
-    file.write('\t((%s_type)callback)(%s);\n' %
+    file.write('  ((%s_type)callback)(%s);\n' %
                  (func.name, ArgList(func.params)))
 
   for p in filter(lambda p: p.type == 'string', func.params):
-    file.write('\tfree((void*)%s);\n' % p.name)
+    file.write('  free((void*)%s);\n' % p.name)
 
   if badret is not None:
-    file.write('\treturn (retval_ != %s);\n' % badret.value)
+    file.write('  return (retval_ != %s);\n' % badret.value)
   else:
-    file.write('\treturn true;\n')
+    file.write('  return true;\n')
 
   file.write('}\n')
 

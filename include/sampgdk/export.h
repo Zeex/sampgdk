@@ -23,57 +23,57 @@
 #include <sampgdk/plugincommon.h>
 
 #ifdef __cplusplus
-	#define SAMPGDK_EXTERN_C extern "C"
+  #define SAMPGDK_EXTERN_C extern "C"
 #else
-	#define SAMPGDK_EXTERN_C
+  #define SAMPGDK_EXTERN_C
 #endif
 
 #if defined SAMPGDK_STATIC
-	#define SAMPGDK_CALL
+  #define SAMPGDK_CALL
 #else
-	#define SAMPGDK_CALL SAMPGDK_CDECL
+  #define SAMPGDK_CALL SAMPGDK_CDECL
 #endif
 
 #if defined SAMPGDK_STATIC
-	#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C
+  #define SAMPGDK_EXPORT SAMPGDK_EXTERN_C
 #else
-	#if SAMPGDK_LINUX
-		#if defined IN_SAMPGDK
-			#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __attribute__((visibility("default")))
-		#else
-			#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C
-		#endif
-	#elif SAMPGDK_WINDOWS
-		#if defined IN_SAMPGDK
-			#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllexport)
-		#else
-			#define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllimport)
-		#endif
-	#else
-		#error Usupported operating system
-	#endif
+  #if SAMPGDK_LINUX
+    #if defined IN_SAMPGDK
+      #define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __attribute__((visibility("default")))
+    #else
+      #define SAMPGDK_EXPORT SAMPGDK_EXTERN_C
+    #endif
+  #elif SAMPGDK_WINDOWS
+    #if defined IN_SAMPGDK
+      #define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllexport)
+    #else
+      #define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllimport)
+    #endif
+  #else
+    #error Usupported operating system
+  #endif
 #endif
 
 #ifndef SAMPGDK_NATIVE_EXPORT
-	#define SAMPGDK_NATIVE_EXPORT SAMPGDK_EXPORT
+  #define SAMPGDK_NATIVE_EXPORT SAMPGDK_EXPORT
 #endif
 #ifndef SAMPGDK_NATIVE_CALL
-	#define SAMPGDK_NATIVE_CALL SAMPGDK_CALL
+  #define SAMPGDK_NATIVE_CALL SAMPGDK_CALL
 #endif
 #ifndef SAMPGDK_NATIVE
-	#define SAMPGDK_NATIVE(type, func) \
-		SAMPGDK_NATIVE_EXPORT type SAMPGDK_NATIVE_CALL sampgdk_##func
+  #define SAMPGDK_NATIVE(type, func) \
+    SAMPGDK_NATIVE_EXPORT type SAMPGDK_NATIVE_CALL sampgdk_##func
 #endif
 
 #ifndef SAMPGDK_CALLBACK_EXPORT
-	#define SAMPGDK_CALLBACK_EXPORT PLUGIN_EXPORT
+  #define SAMPGDK_CALLBACK_EXPORT PLUGIN_EXPORT
 #endif
 #ifndef SAMPGDK_CALLBACK_CALL
-	#define SAMPGDK_CALLBACK_CALL PLUGIN_CALL
+  #define SAMPGDK_CALLBACK_CALL PLUGIN_CALL
 #endif
 #ifndef SAMPGDK_CALLBACK
-	#define SAMPGDK_CALLBACK(type, func) \
-		SAMPGDK_CALLBACK_EXPORT type SAMPGDK_CALLBACK_CALL func
+  #define SAMPGDK_CALLBACK(type, func) \
+    SAMPGDK_CALLBACK_EXPORT type SAMPGDK_CALLBACK_CALL func
 #endif
 
 #endif /* !SAMPGDK_EXPORT_H */

@@ -55,7 +55,7 @@ typedef void (*sampgdk_vlogprintf_t)(const char *format, va_list args);
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
 #ifdef __cplusplus
-	#include <sampgdk/core.hpp>
+  #include <sampgdk/core.hpp>
 #endif
 
 #endif /* !SAMPGDK_CORE_H */

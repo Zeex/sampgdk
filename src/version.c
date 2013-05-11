@@ -17,9 +17,9 @@
 #include <sampgdk/version.h>
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version_id() {
-	return SAMPGDK_VERSION_ID;
+  return SAMPGDK_VERSION_ID;
 }
 
 SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string() {
-	return SAMPGDK_VERSION_STRING;
+  return SAMPGDK_VERSION_STRING;
 }

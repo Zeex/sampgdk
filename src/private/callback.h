@@ -22,8 +22,8 @@
 typedef bool (*callback_handler)(AMX *amx, void *callback, cell *retval);
 
 struct callback_info {
-	char             *name;
-	callback_handler  handler;
+  char             *name;
+  callback_handler  handler;
 };
 
 /* 

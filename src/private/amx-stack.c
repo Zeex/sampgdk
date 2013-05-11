@@ -18,49 +18,49 @@
 #include "amx-stack.h"
 
 static unsigned char *get_arg_data_ptr(AMX *amx) {
-	return amx->data != 0 
-		? amx->data 
-		: amx->base + ((AMX_HEADER*)amx->base)->dat;
+  return amx->data != 0 
+    ? amx->data 
+    : amx->base + ((AMX_HEADER*)amx->base)->dat;
 }
 
 static cell *get_arg_stack_ptr(AMX *amx) {
-	return (cell*)(get_arg_data_ptr(amx) + amx->stk);
+  return (cell*)(get_arg_data_ptr(amx) + amx->stk);
 }
 
 cell amx_stack_get_arg_cell(AMX *amx, int index) {
-	return get_arg_stack_ptr(amx)[index];
+  return get_arg_stack_ptr(amx)[index];
 }
 
 bool amx_stack_get_arg_bool(AMX *amx, int index) {
-	return (bool)amx_stack_get_arg_cell(amx, index);
+  return (bool)amx_stack_get_arg_cell(amx, index);
 }
 
 float amx_stack_get_arg_float(AMX *amx, int index) {
-	cell value;
+  cell value;
 
-	value = amx_stack_get_arg_cell(amx, index);
-	return amx_ctof(value);
+  value = amx_stack_get_arg_cell(amx, index);
+  return amx_ctof(value);
 }
 
 char *amx_stack_get_arg_string(AMX *amx, int index) {
-	cell amx_addr;
-	cell *phys_addr;
-	int length;
-	char *string;
-	
-	amx_addr = amx_stack_get_arg_cell(amx, index);
-	if (amx_GetAddr(amx, amx_addr, &phys_addr) != AMX_ERR_NONE) {
-		return NULL;
-	}
-	
-	amx_StrLen(phys_addr, &length);
-	string = malloc((length + 1) * sizeof(char));
-	
-	if (amx_GetString(string, phys_addr, 0, length + 1) != AMX_ERR_NONE) {
-		free(string);
-		return NULL;
-	}
+  cell amx_addr;
+  cell *phys_addr;
+  int length;
+  char *string;
+  
+  amx_addr = amx_stack_get_arg_cell(amx, index);
+  if (amx_GetAddr(amx, amx_addr, &phys_addr) != AMX_ERR_NONE) {
+    return NULL;
+  }
+  
+  amx_StrLen(phys_addr, &length);
+  string = malloc((length + 1) * sizeof(char));
+  
+  if (amx_GetString(string, phys_addr, 0, length + 1) != AMX_ERR_NONE) {
+    free(string);
+    return NULL;
+  }
 
-	return string;
+  return string;
 }
 

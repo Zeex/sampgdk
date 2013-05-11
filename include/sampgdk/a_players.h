@@ -24,7 +24,7 @@
 #include <sampgdk/a_players-decl.h>
 
 #ifdef __cplusplus
-	#include <sampgdk/a_players.hpp>
+  #include <sampgdk/a_players.hpp>
 #endif
 
 #endif /* !SAMPGDK_A_PLAYERS_H */

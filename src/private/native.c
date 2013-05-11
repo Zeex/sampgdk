@@ -25,104 +25,108 @@
 static struct array natives;
 
 DEFINE_INIT_FUNC(native_init) {
-	int error;
-	
-	error = array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
-	if (error < 0)
-		return error;
+  int error;
+  
+  error = array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
+  if (error < 0) {
+    return error;
+  }
 
-	return 0;
+  return 0;
 }
 
 DEFINE_CLEANUP_FUNC(native_cleanup) {
-	array_free(&natives);
+  array_free(&natives);
 }
 
 int native_register(const char *name, AMX_NATIVE func) {
-	AMX_NATIVE_INFO info;
-	AMX_NATIVE_INFO *ptr;
-	int index;
+  AMX_NATIVE_INFO info;
+  AMX_NATIVE_INFO *ptr;
+  int index;
 
-	info.name = name;
-	info.func = func;
+  info.name = name;
+  info.func = func;
 
-	assert(name != 0);
+  assert(name != 0);
 
-	/* Maintain element order (by name). */
-	for (index = 0; index < natives.count; index++) {
-		ptr = (AMX_NATIVE_INFO *)array_get(&natives, index);
-		if (strcmp(ptr->name, name) >= 0) {
-			return array_insert_single(&natives, index, &info);
-		}
-	}
+  /* Maintain element order (by name). */
+  for (index = 0; index < natives.count; index++) {
+    ptr = (AMX_NATIVE_INFO *)array_get(&natives, index);
+    if (strcmp(ptr->name, name) >= 0) {
+      return array_insert_single(&natives, index, &info);
+    }
+  }
 
-	return array_append(&natives, &info);
+  return array_append(&natives, &info);
 }
 
 static int compare(const void *key, const void *elem) {
-	assert(key != NULL);
-	assert(elem != NULL);
-	return strcmp((const char *)key,
-	              ((const AMX_NATIVE_INFO *)elem)->name);
+  assert(key != NULL);
+  assert(elem != NULL);
+  return strcmp((const char *)key,
+                ((const AMX_NATIVE_INFO *)elem)->name);
 }
 
 AMX_NATIVE native_lookup(const char *name) {
-	AMX_NATIVE_INFO *info;
+  AMX_NATIVE_INFO *info;
 
-	assert(name != NULL);
+  assert(name != NULL);
 
-	info = bsearch(name, natives.data, natives.count,
-	               natives.elem_size, compare);
+  info = bsearch(name, natives.data, natives.count,
+                 natives.elem_size, compare);
+  if (info == NULL) {
+    return NULL;
+  }
 
-	if (info == NULL)
-		return NULL;
-
-	return info->func;
+  return info->func;
 }
 
 AMX_NATIVE native_lookup_warn(const char *name) {
-	AMX_NATIVE func;
+  AMX_NATIVE func;
 
-	assert(name != NULL);
+  assert(name != NULL);
 
-	func = native_lookup(name);
-	if (func == NULL)
-		log_warning("Native function not found: %s", name);
+  func = native_lookup(name);
+  if (func == NULL) {
+    log_warning("Native function not found: %s", name);
+  }
 
-	return func;
+  return func;
 }
 
 cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
-	log_error("Native stub");
-	return 0;
+  log_error("Native stub");
+  return 0;
 }
 
 AMX_NATIVE native_lookup_stub(const char *name) {
-	AMX_NATIVE func;
+  AMX_NATIVE func;
 
-	assert(name != NULL);
+  assert(name != NULL);
 
-	if ((func = native_lookup(name)) == NULL)
-		return native_stub;
+  if ((func = native_lookup(name)) == NULL) {
+    return native_stub;
+  }
 
-	return func;
+  return func;
 }
 
 AMX_NATIVE native_lookup_warn_stub(const char *name) {
-	AMX_NATIVE func;
+  AMX_NATIVE func;
 
-	assert(name != NULL);
+  assert(name != NULL);
 
-	if ((func = native_lookup_warn(name)) == NULL)
-		return native_stub;
+  if ((func = native_lookup_warn(name)) == NULL) {
+    return native_stub;
+  }
 
-	return func;
+  return func;
 }
 
 const AMX_NATIVE_INFO *native_get_natives(void) {
-	return (const AMX_NATIVE_INFO*)natives.data;
+  return (const AMX_NATIVE_INFO*)natives.data;
 }
 
 int native_get_num_natives(void) {
-	return natives.count;
+  return natives.count;
 }

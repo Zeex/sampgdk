@@ -20,82 +20,83 @@
 #include "logprintf.h"
 
 enum log_msg_type {
-	LOG_MSG_NORMAL,
-	LOG_MSG_TRACE,
-	LOG_MSG_WARNING,
-	LOG_MSG_ERROR
+  LOG_MSG_NORMAL,
+  LOG_MSG_TRACE,
+  LOG_MSG_WARNING,
+  LOG_MSG_ERROR
 };
 
 static void do_log(enum log_msg_type type, const char *format, va_list args) {
-	const char *prefix;
-	char *real_format;
+  const char *prefix;
+  char *real_format;
 
-	switch (type) {
-		case LOG_MSG_TRACE:
-			prefix = "TRACE: ";
-			break;
-		case LOG_MSG_WARNING:
-			prefix = "WARNING: ";
-			break;
-		case LOG_MSG_ERROR:
-			prefix = "ERROR: ";
-			break;
-		default:
-			prefix = "";
-	}
+  switch (type) {
+    case LOG_MSG_TRACE:
+      prefix = "TRACE: ";
+      break;
+    case LOG_MSG_WARNING:
+      prefix = "WARNING: ";
+      break;
+    case LOG_MSG_ERROR:
+      prefix = "ERROR: ";
+      break;
+    default:
+      prefix = "";
+  }
 
-	real_format = malloc(
-		sizeof("[sampgdk] ") - 1
-		+ strlen(prefix)
-		+ strlen(format)
-		+ sizeof("\n") - 1
-		+ 1
-	);
-	if (real_format == NULL)
-		return;
+  real_format = malloc(
+    sizeof("[sampgdk] ") - 1
+    + strlen(prefix)
+    + strlen(format)
+    + sizeof("\n") - 1
+    + 1
+  );
+  if (real_format == NULL) {
+    return;
+  }
 
-	strcpy(real_format, "[sampgdk] ");
-	strcat(real_format, prefix);
-	strcat(real_format, format);
-	strcat(real_format, "\n");
+  strcpy(real_format, "[sampgdk] ");
+  strcat(real_format, prefix);
+  strcat(real_format, format);
+  strcat(real_format, "\n");
 
-	vlogprintf(real_format, args);
+  vlogprintf(real_format, args);
 
-	free(real_format);
+  free(real_format);
 }
 
 void log_message(const char *format, ...) {
-	va_list args;
+  va_list args;
 
-	va_start(args, format);
-	do_log(LOG_MSG_NORMAL, format, args);
-	va_end(args);
+  va_start(args, format);
+  do_log(LOG_MSG_NORMAL, format, args);
+  va_end(args);
 }
 
 void log_trace(const char *format, ...) {
-	va_list args;
+  va_list args;
 
-	va_start(args, format);
-	do_log(LOG_MSG_TRACE, format, args);
-	va_end(args);
+  va_start(args, format);
+  do_log(LOG_MSG_TRACE, format, args);
+  va_end(args);
 }
 
 void log_warning(const char *format, ...) {
-	va_list args;
+  va_list args;
 
-	va_start(args, format);
-	do_log(LOG_MSG_WARNING, format, args);
-	va_end(args);
+  va_start(args, format);
+  do_log(LOG_MSG_WARNING, format, args);
+  va_end(args);
 }
 
 void log_error(const char *format, ...) {
-	va_list args;
+  va_list args;
 
-	va_start(args, format);
-	do_log(LOG_MSG_ERROR, format, args);
-	va_end(args);
+  va_start(args, format);
+  do_log(LOG_MSG_ERROR, format, args);
+  va_end(args);
 }
 
 void log_error_code(int error) {
-	do_log(LOG_MSG_ERROR, strerror(-error), NULL);
+  do_log(LOG_MSG_ERROR, strerror(-error), NULL);
 }

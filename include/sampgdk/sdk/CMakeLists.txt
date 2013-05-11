@@ -1,5 +1,5 @@
 sampgdk_add_headers(
-	"plugincommon.h"
+  "plugincommon.h"
 )
 
 add_subdirectory("amx")

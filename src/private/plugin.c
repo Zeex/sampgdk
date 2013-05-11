@@ -22,70 +22,76 @@
 static struct plugin_list *plugins;
 
 int plugin_register(void *plugin) {
-	struct plugin_list *ptr;
+  struct plugin_list *ptr;
 
-	assert(plugin != NULL);
+  assert(plugin != NULL);
 
-	if (plugin_is_registered(plugin))
-		return -EINVAL;
+  if (plugin_is_registered(plugin)) {
+    return -EINVAL;
+  }
 
-	ptr = malloc(sizeof(*ptr));
-	if (ptr == NULL)
-		return -errno;
+  ptr = malloc(sizeof(*ptr));
+  if (ptr == NULL) {
+    return -errno;
+  }
 
-	ptr->plugin = plugin;
-	ptr->next = plugins;
-	plugins = ptr;
+  ptr->plugin = plugin;
+  ptr->next = plugins;
+  plugins = ptr;
 
-	return 0;
+  return 0;
 }
 
 int plugin_unregister(void *plugin) {
-	struct plugin_list *prev;
-	struct plugin_list *cur;
+  struct plugin_list *prev;
+  struct plugin_list *cur;
 
-	assert(plugin != NULL);
+  assert(plugin != NULL);
 
-	cur = plugins;
-	prev = NULL;
+  cur = plugins;
+  prev = NULL;
 
-	while (cur != NULL) {
-		if (cur->plugin != plugin)
-			continue;
+  while (cur != NULL) {
+    if (cur->plugin != plugin) {
+      continue;
+    }
 
-		if (prev != NULL)
-			prev->next = cur->next;
+    if (prev != NULL) {
+      prev->next = cur->next;
+    }
 
-		if (plugins == cur)
-			plugins = NULL;
+    if (plugins == cur) {
+      plugins = NULL;
+    }
 
-		free(cur);
-		return 0;
-	}
+    free(cur);
+    return 0;
+  }
 
-	return -EINVAL;
+  return -EINVAL;
 }
 
 bool plugin_is_registered(void *plugin) {
-	struct plugin_list *cur;
+  struct plugin_list *cur;
 
-	assert(plugin != NULL);
+  assert(plugin != NULL);
 
-	cur = plugins;
+  cur = plugins;
 
-	while (cur != NULL) {
-		if (cur->plugin == plugin)
-			return true;
-		cur = cur->next;
-	}
+  while (cur != NULL) {
+    if (cur->plugin == plugin) {
+      return true;
+    }
+    cur = cur->next;
+  }
 
-	return false;
+  return false;
 }
 
 bool plugin_list_empty(void) {
-	return plugins == NULL;
+  return plugins == NULL;
 }
 
 struct plugin_list *plugin_get_list(void) {
-	return plugins;
+  return plugins;
 }

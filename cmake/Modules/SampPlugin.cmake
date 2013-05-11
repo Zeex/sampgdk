@@ -13,16 +13,16 @@
 #   Microsoft Visual C++
 
 function(add_samp_plugin name)
-	add_library(${name} MODULE ${ARGN})
+  add_library(${name} MODULE ${ARGN})
 
-	set_target_properties(${name} PROPERTIES PREFIX "")
+  set_target_properties(${name} PROPERTIES PREFIX "")
 
-	if(CMAKE_COMPILER_IS_GNUCC)
-		set_property(TARGET ${name} APPEND PROPERTY COMPILE_FLAGS "-m32")
-		set_property(TARGET ${name} APPEND PROPERTY LINK_FLAGS    "-m32")
-	endif()
+  if(CMAKE_COMPILER_IS_GNUCC)
+    set_property(TARGET ${name} APPEND PROPERTY COMPILE_FLAGS "-m32")
+    set_property(TARGET ${name} APPEND PROPERTY LINK_FLAGS    "-m32")
+  endif()
 
-	if(UNIX AND NOT WIN32)
-		set_property(TARGET ${name} APPEND PROPERTY COMPILE_DEFINITIONS "LINUX")
-	endif()
+  if(UNIX AND NOT WIN32)
+    set_property(TARGET ${name} APPEND PROPERTY COMPILE_DEFINITIONS "LINUX")
+  endif()
 endfunction()
