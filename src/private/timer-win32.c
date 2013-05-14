@@ -18,5 +18,15 @@
 #include <windows.h>
 
 time_t timer_clock(void) {
-  return GetTickCount();
+  LARGE_INTEGER freq, count;
+
+  if (!QueryPerformanceFrequency(&freq)) {
+    return 0;
+  }
+
+  if (!QueryPerformanceCounter(&count)) {
+    return 0;
+  }
+
+  return (time_t)(1000.0L / freq.QuadPart * count.QuadPart);;
 }
