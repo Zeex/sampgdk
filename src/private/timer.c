@@ -40,7 +40,7 @@ static int find_slot() {
   return -1;
 }
 
-static void fire_timer(int timerid, time_t elapsed) {
+static void fire_timer(int timerid, long elapsed) {
   struct timer_info *timer;
 
   assert(timerid > 0 && timerid <= timers.count);
@@ -81,7 +81,7 @@ DEFINE_CLEANUP_FUNC(timer_cleanup) {
   array_free(&timers);
 }
 
-int timer_set(time_t interval, bool repeat, timer_callback callback, void *param) {
+int timer_set(long interval, bool repeat, timer_callback callback, void *param) {
   struct timer_info timer;
   int slot;
   int error;
@@ -130,8 +130,8 @@ int timer_kill(int timerid) {
 }
 
 void timer_process_timers(void *plugin) {
-  time_t now;
-  time_t elapsed;
+  long now;
+  long elapsed;
   int i;
   struct timer_info *timer;
 
