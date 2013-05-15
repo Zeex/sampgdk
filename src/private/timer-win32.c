@@ -17,6 +17,16 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-time_t timer_clock(void) {
-  return GetTickCount();
+long timer_clock(void) {
+  LARGE_INTEGER freq, count;
+
+  if (!QueryPerformanceFrequency(&freq)) {
+    return 0;
+  }
+
+  if (!QueryPerformanceCounter(&count)) {
+    return 0;
+  }
+
+  return (long)(1000.0L / freq.QuadPart * count.QuadPart);;
 }

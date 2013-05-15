@@ -25,11 +25,11 @@ typedef void (SAMPGDK_CALL *timer_callback)(int timerid, void *param);
 
 struct timer_info {
   bool            is_set;
-  time_t          interval;
+  long            interval;
   bool            repeat;
   timer_callback  callback;
   void           *param;
-  time_t          started;
+  long            started;
   void           *plugin;
 };
 
@@ -39,7 +39,7 @@ struct timer_info {
  * expires. The function is passed the ID of the newly created timer and a
  * pointer to user data (the param argument).
  */
-int timer_set(time_t interval, bool repeat, timer_callback calback,
+int timer_set(long interval, bool repeat, timer_callback calback,
               void *param /* = NULL */);
 
 /* Kills the specified timer. Returns 0 on success and a negative value if
@@ -54,6 +54,6 @@ int timer_kill(int timerid);
 void timer_process_timers(void *plugin);
 
 /* Returns the number of milliseconds since some fixed point of time. */
-time_t timer_clock(void);
+long timer_clock(void);
 
 #endif /* !SAMPGDK_PRIVATE_TIMER_H_ */

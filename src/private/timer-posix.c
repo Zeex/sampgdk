@@ -15,9 +15,9 @@
 
 #include <time.h>
 
-time_t timer_clock(void) {
+long timer_clock(void) {
   struct timespec ts;
 
   clock_gettime(CLOCK_MONOTONIC, &ts);
-  return (time_t)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);
+  return (long)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);
 }
