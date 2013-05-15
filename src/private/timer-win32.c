@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-#include <time.h>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
