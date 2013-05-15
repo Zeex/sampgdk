@@ -23,15 +23,15 @@
 #include "plugin.h"
 #include "timer.h"
 
-static struct array timers;
+static struct sampgdk_array timers;
 
 static int find_slot() {
   int i;
 
   for (i = 0; i < timers.count; i++) {
-    struct timer_info *timer;
+    struct sampgdk_timer *timer;
 
-    timer = array_get(&timers, i);
+    timer = sampgdk_array_get(&timers, i);
     if (!timer->is_set) {
       return i;
     }
@@ -41,11 +41,11 @@ static int find_slot() {
 }
 
 static void fire_timer(int timerid, long elapsed) {
-  struct timer_info *timer;
+  struct sampgdk_timer *timer;
 
   assert(timerid > 0 && timerid <= timers.count);
 
-  timer = array_get(&timers, timerid - 1);
+  timer = sampgdk_array_get(&timers, timerid - 1);
   if (!timer->is_set) {
     return;
   }
@@ -57,32 +57,32 @@ static void fire_timer(int timerid, long elapsed) {
    */
   if (timer->is_set) {
     if (timer->repeat) {
-      timer->started = timer_clock() - (elapsed - timer->interval);
+      timer->started = sampgdk_timer_clock() - (elapsed - timer->interval);
     } else {
-      timer_kill(timerid);
+      sampgdk_timer_kill(timerid);
     }
   }
 }
 
-DEFINE_INIT_FUNC(timer_init) {
+DEFINE_INIT_FUNC(timer) {
   int error;
   
-  error = array_new(&timers, 10, sizeof(struct timer_info));
+  error = sampgdk_array_new(&timers, 10, sizeof(struct sampgdk_timer));
   if (error < 0) {
     return error;
   }
   
-  array_zero(&timers);
+  sampgdk_array_zero(&timers);
 
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(timer_cleanup) {
-  array_free(&timers);
+DEFINE_CLEANUP_FUNC(timer) {
+  sampgdk_array_free(&timers);
 }
 
-int timer_set(long interval, bool repeat, timer_callback callback, void *param) {
-  struct timer_info timer;
+int sampgdk_timer_set(long interval, bool repeat, sampgdk_timer_callback callback, void *param) {
+  struct sampgdk_timer timer;
   int slot;
   int error;
 
@@ -93,14 +93,14 @@ int timer_set(long interval, bool repeat, timer_callback callback, void *param) 
   timer.repeat   = repeat;
   timer.callback = callback;
   timer.param    = param;
-  timer.started  = timer_clock();
-  timer.plugin   = plugin_address_to_handle(callback);
+  timer.started  = sampgdk_timer_clock();
+  timer.plugin   = sampgdk_plugin_address_to_handle(callback);
 
   slot = find_slot();
   if (slot >= 0) {
-    array_set(&timers, slot, &timer);
+    sampgdk_array_set(&timers, slot, &timer);
   } else {
-    error = array_append(&timers, &timer);
+    error = sampgdk_array_append(&timers, &timer);
     if (error < 0) {
       return -error;
     }
@@ -113,14 +113,14 @@ int timer_set(long interval, bool repeat, timer_callback callback, void *param) 
   return slot + 1;
 }
 
-int timer_kill(int timerid) {
-  struct timer_info *timer;
+int sampgdk_timer_kill(int timerid) {
+  struct sampgdk_timer *timer;
 
   if (timerid <= 0 || timerid > timers.count) {
     return -EINVAL;
   }
 
-  timer = array_get(&timers, timerid - 1);
+  timer = sampgdk_array_get(&timers, timerid - 1);
   if (!timer->is_set) {
     return -EINVAL;
   }
@@ -129,18 +129,18 @@ int timer_kill(int timerid) {
   return 0;
 }
 
-void timer_process_timers(void *plugin) {
+void sampgdk_timer_process_timers(void *plugin) {
   long now;
   long elapsed;
   int i;
-  struct timer_info *timer;
+  struct sampgdk_timer *timer;
 
   assert(plugin != NULL);
 
-  now = timer_clock();
+  now = sampgdk_timer_clock();
 
   for (i = 0; i < timers.count; i++) {
-    timer = array_get(&timers, i);
+    timer = sampgdk_array_get(&timers, i);
 
     if (!timer->is_set) {
       continue;

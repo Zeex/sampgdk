@@ -60,12 +60,12 @@ static void do_log(enum log_msg_type type, const char *format, va_list args) {
   strcat(real_format, format);
   strcat(real_format, "\n");
 
-  vlogprintf(real_format, args);
+  sampgdk_do_vlogprintf(real_format, args);
 
   free(real_format);
 }
 
-void log_message(const char *format, ...) {
+void sampgdk_log_message(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
@@ -73,7 +73,7 @@ void log_message(const char *format, ...) {
   va_end(args);
 }
 
-void log_trace(const char *format, ...) {
+void sampgdk_log_trace(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
@@ -81,7 +81,7 @@ void log_trace(const char *format, ...) {
   va_end(args);
 }
 
-void log_warning(const char *format, ...) {
+void sampgdk_warning(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
@@ -89,7 +89,7 @@ void log_warning(const char *format, ...) {
   va_end(args);
 }
 
-void log_error(const char *format, ...) {
+void sampgdk_error(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
@@ -97,6 +97,6 @@ void log_error(const char *format, ...) {
   va_end(args);
 }
 
-void log_error_code(int error) {
+void sampgdk_error_code(int error) {
   do_log(LOG_MSG_ERROR, strerror(-error), NULL);
 }

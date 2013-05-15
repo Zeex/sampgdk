@@ -18,7 +18,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-void *plugin_address_to_handle(void *address) {
+void *sampgdk_plugin_address_to_handle(void *address) {
   MEMORY_BASIC_INFORMATION mbi;
 
   assert(address != NULL);
@@ -29,13 +29,15 @@ void *plugin_address_to_handle(void *address) {
   return (void*)mbi.AllocationBase;
 }
 
-void plugin_address_to_filename(void *address, char *filename, size_t size) {
+void sampgdk_plugin_address_to_filename(void *address, char *filename,
+                                        size_t size) {
   assert(address != NULL);
   assert(filename != NULL);
-  GetModuleFileName((HMODULE)plugin_address_to_handle(address), filename, size);
+  GetModuleFileName((HMODULE)sampgdk_plugin_address_to_handle(address),
+                    filename, size);
 }
 
-void *plugin_find_symbol(void *plugin, const char *name)  {
+void *sampgdk_plugin_find_symbol(void *plugin, const char *name)  {
   assert(plugin != NULL);
   assert(name != NULL);
   return (void*)GetProcAddress((HMODULE)plugin, name);

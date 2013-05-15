@@ -19,14 +19,14 @@
 
 #include "plugin.h"
 
-static struct plugin_list *plugins;
+static struct sampgdk_plugin_list *plugins;
 
-int plugin_register(void *plugin) {
-  struct plugin_list *ptr;
+int sampgdk_plugin_register(void *plugin) {
+  struct sampgdk_plugin_list *ptr;
 
   assert(plugin != NULL);
 
-  if (plugin_is_registered(plugin)) {
+  if (sampgdk_plugin_is_registered(plugin)) {
     return -EINVAL;
   }
 
@@ -42,9 +42,9 @@ int plugin_register(void *plugin) {
   return 0;
 }
 
-int plugin_unregister(void *plugin) {
-  struct plugin_list *prev;
-  struct plugin_list *cur;
+int sampgdk_plugin_unregister(void *plugin) {
+  struct sampgdk_plugin_list *prev;
+  struct sampgdk_plugin_list *cur;
 
   assert(plugin != NULL);
 
@@ -71,8 +71,8 @@ int plugin_unregister(void *plugin) {
   return -EINVAL;
 }
 
-bool plugin_is_registered(void *plugin) {
-  struct plugin_list *cur;
+bool sampgdk_plugin_is_registered(void *plugin) {
+  struct sampgdk_plugin_list *cur;
 
   assert(plugin != NULL);
 
@@ -88,10 +88,10 @@ bool plugin_is_registered(void *plugin) {
   return false;
 }
 
-bool plugin_list_empty(void) {
+bool sampgdk_plugin_list_empty(void) {
   return plugins == NULL;
 }
 
-struct plugin_list *plugin_get_list(void) {
+struct sampgdk_plugin_list *sampgdk_plugin_get_list(void) {
   return plugins;
 }

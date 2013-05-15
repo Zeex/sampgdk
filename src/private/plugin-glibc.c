@@ -19,7 +19,7 @@
 #include <stddef.h>
 #include <string.h>
 
-void *plugin_address_to_handle(void *address) {
+void *sampgdk_plugin_address_to_handle(void *address) {
   Dl_info info;
 
   assert(address != NULL);
@@ -30,7 +30,8 @@ void *plugin_address_to_handle(void *address) {
   return dlopen(info.dli_fname, RTLD_NOW);
 }
 
-void plugin_address_to_filename(void *address, char *filename, size_t size) {
+void sampgdk_plugin_address_to_filename(void *address, char *filename,
+                                        size_t size) {
   Dl_info info;
 
   assert(address != NULL);
@@ -43,7 +44,7 @@ void plugin_address_to_filename(void *address, char *filename, size_t size) {
   strncpy(filename, info.dli_fname, size);
 }
 
-void *plugin_find_symbol(void *plugin, const char *name)  {
+void *sampgdk_plugin_find_symbol(void *plugin, const char *name)  {
   assert(plugin != NULL);
   assert(name != NULL);
   return dlsym(plugin, name);

@@ -19,17 +19,17 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <sampgdk/core.h>
+
 #include "call.h"
 #include "logprintf.h"
 
-logprintf_t logprintf;
-
-void vlogprintf(const char *format, va_list va) {
+void sampgdk_do_vlogprintf(const char *format, va_list va) {
   int i;
   int nargs;
   const void **args;
 
-  assert(logprintf != NULL);
+  assert(sampgdk_logprintf != NULL);
 
   nargs = 1;
 
@@ -54,6 +54,6 @@ void vlogprintf(const char *format, va_list va) {
     }
   }
 
-  call_func_cdecl((void*)logprintf, args, nargs);
+  sampgdk_call_func_cdecl((void*)sampgdk_logprintf, args, nargs);
   free((void*)args);
 }

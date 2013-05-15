@@ -27,12 +27,12 @@
 /* The initial size of the heap. */
 #define INITIAL_HEAP_SIZE 1024
 
-static struct fakeamx global;
+static struct sampgdk_fakeamx global;
 
-DEFINE_INIT_FUNC(fakeamx_init) {
+DEFINE_INIT_FUNC(fakeamx) {
   int error;
 
-  error = fakeamx_new(&global);
+  error = sampgdk_fakeamx_new(&global);
   if (error < 0) {
     return error;
   }
@@ -40,22 +40,22 @@ DEFINE_INIT_FUNC(fakeamx_init) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(fakeamx_cleanup) {
-  fakeamx_free(&global);
+DEFINE_CLEANUP_FUNC(fakeamx) {
+  sampgdk_fakeamx_free(&global);
 }
 
 static bool is_cell_aligned(cell address) {
   return address % sizeof(cell) == 0;
 }
 
-int fakeamx_new(struct fakeamx *fa) {
+int sampgdk_fakeamx_new(struct sampgdk_fakeamx *fa) {
   int error;
 
   assert(fa != NULL);
 
   memset(fa, 0, sizeof(*fa));
 
-  error = array_new(&fa->heap, INITIAL_HEAP_SIZE + STACK_SIZE,
+  error = sampgdk_array_new(&fa->heap, INITIAL_HEAP_SIZE + STACK_SIZE,
                    sizeof(cell));
   if (error < 0) {
     return error;
@@ -74,21 +74,21 @@ int fakeamx_new(struct fakeamx *fa) {
   fa->amx.stp = fa->heap.size * sizeof(cell);
   fa->amx.stk = fa->amx.stp;
 
-  array_pad(&fa->heap);
+  sampgdk_array_pad(&fa->heap);
 
   return 0;
 }
 
-void fakeamx_free(struct fakeamx *fa) {
+void sampgdk_fakeamx_free(struct sampgdk_fakeamx *fa) {
   assert(fa != NULL);
-  array_free(&fa->heap);
+  sampgdk_array_free(&fa->heap);
 }
 
-struct fakeamx *fakeamx_global(void) {
+struct sampgdk_fakeamx *sampgdk_fakeamx_global(void) {
   return &global;
 }
 
-int fakeamx_heap_resize(struct fakeamx *fa, int cells) {
+int sampgdk_fakeamx_heap_resize(struct sampgdk_fakeamx *fa, int cells) {
   int error;
   cell old_size, new_size;
   cell old_stk, new_stk;
@@ -99,7 +99,7 @@ int fakeamx_heap_resize(struct fakeamx *fa, int cells) {
   old_size = fa->heap.size;
   new_size = cells;
 
-  error = array_resize(&fa->heap, new_size);
+  error = sampgdk_array_resize(&fa->heap, new_size);
   if (error < 0) {
     return error;
   }
@@ -125,7 +125,7 @@ int fakeamx_heap_resize(struct fakeamx *fa, int cells) {
   return 0;
 }
 
-int fakeamx_heap_push(struct fakeamx *fa, int cells, cell *address) {
+int sampgdk_fakeamx_heap_push(struct sampgdk_fakeamx *fa, int cells, cell *address) {
   cell old_hea, new_hea;
   cell old_heap_size, new_heap_size;
 
@@ -141,7 +141,7 @@ int fakeamx_heap_push(struct fakeamx *fa, int cells, cell *address) {
   if (new_hea >= (cell)(old_heap_size * sizeof(cell))) {
     int error;
 
-    error = fakeamx_heap_resize(fa, new_heap_size);
+    error = sampgdk_fakeamx_heap_resize(fa, new_heap_size);
     if (error < 0) {
       return error;
     }
@@ -156,12 +156,12 @@ int fakeamx_heap_push(struct fakeamx *fa, int cells, cell *address) {
   return 0;
 }
 
-int fakeamx_heap_push_cell(struct fakeamx *fa, cell value, cell *address) {
+int sampgdk_fakeamx_heap_push_cell(struct sampgdk_fakeamx *fa, cell value, cell *address) {
   int error;
 
   assert(address != NULL);
 
-  if ((error = fakeamx_heap_push(fa, 1, address)) < 0) {
+  if ((error = sampgdk_fakeamx_heap_push(fa, 1, address)) < 0) {
     return error;
   }
 
@@ -170,12 +170,12 @@ int fakeamx_heap_push_cell(struct fakeamx *fa, cell value, cell *address) {
   return 0;
 }
 
-int fakeamx_heap_push_float(struct fakeamx *fa, float value, cell *address) {
+int sampgdk_fakeamx_heap_push_float(struct sampgdk_fakeamx *fa, float value, cell *address) {
   assert(fa != NULL);
-  return fakeamx_heap_push_cell(fa, amx_ftoc(value), address);
+  return sampgdk_fakeamx_heap_push_cell(fa, amx_ftoc(value), address);
 }
 
-int fakeamx_heap_push_string(struct fakeamx *fa, const char *src, int *size, cell *address) {
+int sampgdk_fakeamx_heap_push_string(struct sampgdk_fakeamx *fa, const char *src, int *size, cell *address) {
   int src_size;
   int error;
 
@@ -184,11 +184,11 @@ int fakeamx_heap_push_string(struct fakeamx *fa, const char *src, int *size, cel
   assert(address != NULL);
 
   src_size = (int)strlen(src) + 1;
-  if ((error = fakeamx_heap_push(fa, src_size, address)) < 0) {
+  if ((error = sampgdk_fakeamx_heap_push(fa, src_size, address)) < 0) {
     return error;
   }
 
-  amx_SetString((cell *)array_get(&fa->heap, *address / sizeof(cell)),
+  amx_SetString((cell *)sampgdk_array_get(&fa->heap, *address / sizeof(cell)),
                 src, 0, 0, src_size);
 
   if (size != NULL) {
@@ -198,45 +198,45 @@ int fakeamx_heap_push_string(struct fakeamx *fa, const char *src, int *size, cel
   return 0;
 }
 
-void fakeamx_heap_get_cell(struct fakeamx *fa, cell address, cell *value) {
+void sampgdk_fakeamx_heap_get_cell(struct sampgdk_fakeamx *fa, cell address, cell *value) {
   assert(fa != NULL);
   assert(is_cell_aligned(address));
   assert(value != NULL);
 
-  *value = *(cell *)array_get(&fa->heap, address / sizeof(cell));
+  *value = *(cell *)sampgdk_array_get(&fa->heap, address / sizeof(cell));
 }
 
-void fakeamx_heap_get_bool(struct fakeamx *fa, cell address, bool *value) {
+void sampgdk_fakeamx_heap_get_bool(struct sampgdk_fakeamx *fa, cell address, bool *value) {
   cell tmp;
 
   assert(fa != NULL);
   assert(is_cell_aligned(address));
   assert(value != NULL);
 
-  fakeamx_heap_get_cell(fa, address, &tmp);
+  sampgdk_fakeamx_heap_get_cell(fa, address, &tmp);
   *value = (bool)tmp;
 }
 
-void fakeamx_heap_get_float(struct fakeamx *fa, cell address, float *value) {
+void sampgdk_fakeamx_heap_get_float(struct sampgdk_fakeamx *fa, cell address, float *value) {
   cell tmp;
 
   assert(fa != NULL);
   assert(is_cell_aligned(address));
   assert(value != NULL);
 
-  fakeamx_heap_get_cell(fa, address, &tmp);
+  sampgdk_fakeamx_heap_get_cell(fa, address, &tmp);
   *value = amx_ctof(tmp);
 }
 
-void fakeamx_heap_get_string(struct fakeamx *fa, cell address, char *dest, int size) {
+void sampgdk_fakeamx_heap_get_string(struct sampgdk_fakeamx *fa, cell address, char *dest, int size) {
   assert(fa != NULL);
   assert(is_cell_aligned(address));
   assert(dest != NULL);
 
-  amx_GetString(dest, (cell *)array_get(&fa->heap, address / sizeof(cell)), 0, size);
+  amx_GetString(dest, (cell *)sampgdk_array_get(&fa->heap, address / sizeof(cell)), 0, size);
 }
 
-void fakeamx_heap_pop(struct fakeamx *fa, cell address) {
+void sampgdk_fakeamx_heap_pop(struct sampgdk_fakeamx *fa, cell address) {
   assert(fa != NULL);
   assert(is_cell_aligned(address));
 

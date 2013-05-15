@@ -17,9 +17,9 @@
 #define SAMPGDK_PRIVATE_INIT_H_
 
 #define DEFINE_INIT_FUNC(f) \
-  int f(void)
+  int sampgdk_##f##_init(void)
 
 #define DEFINE_CLEANUP_FUNC(f) \
-  void f(void)
+  void sampgdk_##f##_cleanup(void)
 
 #endif /* !SAMPGDK_PRIVATE_INIT_H_ */

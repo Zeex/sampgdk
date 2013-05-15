@@ -22,12 +22,12 @@
 #include "native.h"
 #include "log.h"
 
-static struct array natives;
+static struct sampgdk_array natives;
 
-DEFINE_INIT_FUNC(native_init) {
+DEFINE_INIT_FUNC(native) {
   int error;
   
-  error = array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
+  error = sampgdk_array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
   if (error < 0) {
     return error;
   }
@@ -35,11 +35,11 @@ DEFINE_INIT_FUNC(native_init) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(native_cleanup) {
-  array_free(&natives);
+DEFINE_CLEANUP_FUNC(native) {
+  sampgdk_array_free(&natives);
 }
 
-int native_register(const char *name, AMX_NATIVE func) {
+int sampgdk_native_register(const char *name, AMX_NATIVE func) {
   AMX_NATIVE_INFO info;
   AMX_NATIVE_INFO *ptr;
   int index;
@@ -51,13 +51,13 @@ int native_register(const char *name, AMX_NATIVE func) {
 
   /* Maintain element order (by name). */
   for (index = 0; index < natives.count; index++) {
-    ptr = (AMX_NATIVE_INFO *)array_get(&natives, index);
+    ptr = (AMX_NATIVE_INFO *)sampgdk_array_get(&natives, index);
     if (strcmp(ptr->name, name) >= 0) {
-      return array_insert_single(&natives, index, &info);
+      return sampgdk_array_insert_single(&natives, index, &info);
     }
   }
 
-  return array_append(&natives, &info);
+  return sampgdk_array_append(&natives, &info);
 }
 
 static int compare(const void *key, const void *elem) {
@@ -67,7 +67,7 @@ static int compare(const void *key, const void *elem) {
                 ((const AMX_NATIVE_INFO *)elem)->name);
 }
 
-AMX_NATIVE native_lookup(const char *name) {
+AMX_NATIVE sampgdk_native_lookup(const char *name) {
   AMX_NATIVE_INFO *info;
 
   assert(name != NULL);
@@ -81,52 +81,52 @@ AMX_NATIVE native_lookup(const char *name) {
   return info->func;
 }
 
-AMX_NATIVE native_lookup_warn(const char *name) {
+AMX_NATIVE sampgdk_native_lookup_warn(const char *name) {
   AMX_NATIVE func;
 
   assert(name != NULL);
 
-  func = native_lookup(name);
+  func = sampgdk_native_lookup(name);
   if (func == NULL) {
-    log_warning("Native function not found: %s", name);
+    sampgdk_warning("Native function not found: %s", name);
   }
 
   return func;
 }
 
-cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
-  log_error("Native stub");
+cell AMX_NATIVE_CALL sampgdk_native_stub(AMX *amx, cell *params) {
+  sampgdk_error("Native stub");
   return 0;
 }
 
-AMX_NATIVE native_lookup_stub(const char *name) {
+AMX_NATIVE sampgdk_native_lookup_stub(const char *name) {
   AMX_NATIVE func;
 
   assert(name != NULL);
 
-  if ((func = native_lookup(name)) == NULL) {
-    return native_stub;
+  if ((func = sampgdk_native_lookup(name)) == NULL) {
+    return sampgdk_native_stub;
   }
 
   return func;
 }
 
-AMX_NATIVE native_lookup_warn_stub(const char *name) {
+AMX_NATIVE sampgdk_native_lookup_warn_stub(const char *name) {
   AMX_NATIVE func;
 
   assert(name != NULL);
 
-  if ((func = native_lookup_warn(name)) == NULL) {
-    return native_stub;
+  if ((func = sampgdk_native_lookup_warn(name)) == NULL) {
+    return sampgdk_native_stub;
   }
 
   return func;
 }
 
-const AMX_NATIVE_INFO *native_get_natives(void) {
+const AMX_NATIVE_INFO *sampgdk_native_get_natives(void) {
   return (const AMX_NATIVE_INFO*)natives.data;
 }
 
-int native_get_num_natives(void) {
+int sampgdk_native_get_num_natives(void) {
   return natives.count;
 }

@@ -20,7 +20,8 @@
 
 #include "array.h"
 
-int array_new(struct array *a, int size, int elem_size) {
+int sampgdk_array_new(struct sampgdk_array *a, int size,
+                      int elem_size) {
   assert(a != NULL);
   assert(size > 0);
   assert(elem_size > 0);
@@ -36,18 +37,18 @@ int array_new(struct array *a, int size, int elem_size) {
   return 0;
 }
 
-void array_free(struct array *a) {
+void sampgdk_array_free(struct sampgdk_array *a) {
   assert(a != NULL);
 
   free(a->data);
   memset(a, 0, sizeof(*a));
 }
 
-bool array_ok(struct array *a) {
+bool sampgdk_array_ok(struct sampgdk_array *a) {
   return a->data != NULL && a->elem_size > 0;
 }
 
-int array_zero(struct array *a) {
+int sampgdk_array_zero(struct sampgdk_array *a) {
   assert(a != NULL);
   assert(a->data != NULL);
 
@@ -60,7 +61,7 @@ int array_zero(struct array *a) {
   return 0;
 }
 
-int array_resize(struct array *a, int new_size) {
+int sampgdk_array_resize(struct sampgdk_array *a, int new_size) {
   void *new_data;
 
   assert(a != NULL);
@@ -87,39 +88,33 @@ int array_resize(struct array *a, int new_size) {
   return 0;
 }
 
-int array_grow(struct array *a) {
+int sampgdk_array_grow(struct sampgdk_array *a) {
   float factor;
 
   assert(a != NULL);
 
   if (a->size == 0) {
-    return array_resize(a, 1);
+    return sampgdk_array_resize(a, 1);
   }
 
-  /* Magic numbers below are just a guess... 
-   * You better use array_resize() if this code doesn't fit your needs.
-   */
   if (a->size < 10) {
-    /* very small arrays: [0, 10) */
     factor = 2.0f;
   } else if (a->size < 100) {
-    /* medium size arrays: [10, 100) */
     factor = 1.5f;
   } else {
-    /* large array: [100, infinity) */
     factor = 1.1f;
   }
 
-  return array_resize(a, (int)(a->size * factor));
+  return sampgdk_array_resize(a, (int)(a->size * factor));
 }
 
-int array_shrink(struct array *a) {
+int sampgdk_array_shrink(struct sampgdk_array *a) {
   assert(a != NULL);
 
-  return array_resize(a, a->count);
+  return sampgdk_array_resize(a, a->count);
 }
 
-int array_pad(struct array *a) {
+int sampgdk_array_pad(struct sampgdk_array *a) {
   int space;
 
   assert(a != NULL);
@@ -131,30 +126,31 @@ int array_pad(struct array *a) {
   return (a->count = a->size);
 }
 
-static void *array_get_ptr(struct array *a, int index) {
+static void *sampgdk_array_get_ptr(struct sampgdk_array *a, int index) {
   assert(a != NULL);
   assert(index >= 0);
   return (unsigned char*)a->data + (index * a->elem_size);
 }
 
-void *array_get(struct array *a, int index) {
+void *sampgdk_array_get(struct sampgdk_array *a, int index) {
   assert(a != NULL);
   assert(index >= 0);
   assert(index < a->count);
 
-  return array_get_ptr(a, index);
+  return sampgdk_array_get_ptr(a, index);
 }
 
-void array_set(struct array *a, int index, void *elem) {
+void sampgdk_array_set(struct sampgdk_array *a, int index, void *elem) {
   assert(a != NULL);
   assert(elem != NULL);
   assert(index >= 0);
   assert(index < a->count);
 
-  memcpy(array_get_ptr(a, index), elem, a->elem_size);
+  memcpy(sampgdk_array_get_ptr(a, index), elem, a->elem_size);
 }
 
-int array_insert(struct array *a, int index, int count, void *elems) {
+int sampgdk_array_insert(struct sampgdk_array *a, int index, int count,
+                         void *elems) {
   int need_count;
   int move_count;
 
@@ -173,30 +169,31 @@ int array_insert(struct array *a, int index, int count, void *elems) {
   if (need_count > 0) {
     int error;
 
-    if ((error = array_resize(a, a->size + need_count)) < 0) {
+    if ((error = sampgdk_array_resize(a, a->size + need_count)) < 0) {
       return error;
     }
   }
 
   if (move_count > 0) {
-    memmove(array_get_ptr(a, index + count),
-            array_get_ptr(a, index),
+    memmove(sampgdk_array_get_ptr(a, index + count),
+            sampgdk_array_get_ptr(a, index),
             move_count * a->elem_size);
   }
 
   a->count += count;
-  memcpy(array_get_ptr(a, index), elems, count * a->elem_size);
+  memcpy(sampgdk_array_get_ptr(a, index), elems, count * a->elem_size);
 
   return 0;
 }
 
-int array_insert_single(struct array *a, int index, void *elem) {
+int sampgdk_array_insert_single(struct sampgdk_array *a, int index,
+                                void *elem) {
   assert(a != NULL);
   assert(elem != NULL);
-  return array_insert(a, index, 1, elem);
+  return sampgdk_array_insert(a, index, 1, elem);
 }
 
-int array_remove(struct array *a, int index, int count) {
+int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
   int move_count;
 
   assert(a != NULL);
@@ -210,8 +207,8 @@ int array_remove(struct array *a, int index, int count) {
   move_count = a->count - index - count;
 
   if (move_count > 0) {
-    memmove(array_get_ptr(a, index),
-            array_get_ptr(a, index + count),
+    memmove(sampgdk_array_get_ptr(a, index),
+            sampgdk_array_get_ptr(a, index + count),
             move_count * a->elem_size);
    }
 
@@ -220,27 +217,27 @@ int array_remove(struct array *a, int index, int count) {
   return 0;
 }
 
-int array_remove_single(struct array *a, int index) {
+int sampgdk_array_remove_single(struct sampgdk_array *a, int index) {
   assert(a != NULL);
   assert(index >= 0);
   assert(index < a->count);
-  return array_remove(a, index, 1);
+  return sampgdk_array_remove(a, index, 1);
 }
 
-int array_append(struct array *a, void *elem) {
+int sampgdk_array_append(struct sampgdk_array *a, void *elem) {
   assert(a != NULL);
   assert(elem != NULL);
 
   if (a->count == a->size) {
     int error;
 
-    if ((error = array_grow(a)) < 0) {
+    if ((error = sampgdk_array_grow(a)) < 0) {
       return error;
     }
   }
 
   a->count++;
-  array_set(a, a->count - 1, elem);
+  sampgdk_array_set(a, a->count - 1, elem);
 
   return 0;
 }

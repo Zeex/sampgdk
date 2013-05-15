@@ -20,9 +20,9 @@
 
 #include <stddef.h>
 
-struct plugin_list {
-  void               *plugin;
-  struct plugin_list *next;
+struct sampgdk_plugin_list {
+  void                       *plugin;
+  struct sampgdk_plugin_list *next;
 };
 
 /* Registers a plugin (for notifying it about SA-MP events, etc). If the
@@ -31,36 +31,37 @@ struct plugin_list {
  * This functions walks through the list of registered plugins and compares
  * their handles with the given one so it's O(n).
  */
-int plugin_register(void *plugin);
+int sampgdk_plugin_register(void *plugin);
 
-/* Opposite of plugin_register(). 
+/* Opposite of sampgdk_plugin_register(). 
  */
-int plugin_unregister(void *plugin);
+int sampgdk_plugin_unregister(void *plugin);
 
-/* Checks if a plugin was registered with plugin_register().
+/* Checks if a plugin was registered with sampgdk_plugin_register().
  */
-bool plugin_is_registered(void *plugin);
+bool sampgdk_plugin_is_registered(void *plugin);
 
 /* Returns address of a symbol (variable or function) or NULL if not found.
  */
-void *plugin_find_symbol(void *plugin, const char *name);
+void *sampgdk_plugin_find_symbol(void *plugin, const char *name);
 
 /* Returns a handle of the module (plugin) to which the specified address
  * belongs to.
  */
-void *plugin_address_to_handle(void *address);
+void *sampgdk_plugin_address_to_handle(void *address);
 
 /* Returns a full path of the module (plugin) to which the specified address
  * belongs to.
  */ 
-void plugin_address_to_filename(void *address, char *filename, size_t size);
+void sampgdk_plugin_address_to_filename(void *address, char *filename,
+                                        size_t size);
 
 /* Returns true if there are currently no plugins registered.
  */
-bool plugin_list_empty(void);
+bool sampgdk_plugin_list_empty(void);
 
 /* Returns the list of currently registered plugins. 
  */
-struct plugin_list *plugin_get_list(void);
+struct sampgdk_plugin_list *sampgdk_plugin_get_list(void);
 
 #endif /* !SAMPGDK_PRIVATE_PLUGIN_H_ */

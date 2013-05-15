@@ -19,44 +19,49 @@
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 
-typedef bool (*callback_handler)(AMX *amx, void *callback, cell *retval);
+typedef bool (*sampgdk_callback_handler)(
+  AMX  *amx,
+  void *callback,
+  cell *retval);
 
-struct callback_info {
-  char             *name;
-  callback_handler  handler;
+struct sampgdk_callback {
+  char                     *name;
+  sampgdk_callback_handler  handler;
 };
 
 /* 
  * Finds a calback by name. Returns NULL if there is no callback with
  * such a name.
  */
-struct callback_info *callback_lookup(const char *name);
+struct sampgdk_callback *sampgdk_callback_lookup(const char *name);
 
 /*
  * Adds a new callback handler. Returns 0 on success and a negative
  * value on error.
  */
-int callback_register(const char *name, callback_handler handler);
+int sampgdk_callback_register(const char *name,
+                              sampgdk_callback_handler handler);
 
-/* Same as callback_register() but can register *multiple*
+/* Same as sampgdk_callback_register() but can register *multiple*
  * callbacks  at once.
  */
-int callback_register_table(const struct callback_info *table);
+int sampgdk_callback_register_table(const struct sampgdk_callback *table);
 
-/* Unregisters a callback previously registered with callback_register.
+/* Unregisters a callback previously registered with
+ * sampgdk_callback_register().
  */
-void callback_unregister(const char *name);
+void sampgdk_callback_unregister(const char *name);
 
-/* Same as callback_unregister() but can unregister *multiple*
+/* Same as sampgdk_callback_unregister() but can unregister *multiple*
  * callbacks at once.
  */
-void callback_unregister_table(const struct callback_info *table);
+void sampgdk_callback_unregister_table(const struct sampgdk_callback *table);
 
 /*
  * Invokes a callback by name and stores return value in retval
  * if retval is not NULL. Returns false if there is no callback
  * with such a name.
  */
-bool callback_invoke(AMX *amx, const char *name, cell *retval);
+bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval);
 
 #endif /* !SAMPGDK_PRIVATE_CALLBACK_H_ */

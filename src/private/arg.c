@@ -15,7 +15,7 @@
 
 #include <stdlib.h>
 
-#include "amx-stack.h"
+#include "arg.h"
 
 static unsigned char *get_arg_data_ptr(AMX *amx) {
   return amx->data != 0 
@@ -27,28 +27,28 @@ static cell *get_arg_stack_ptr(AMX *amx) {
   return (cell*)(get_arg_data_ptr(amx) + amx->stk);
 }
 
-cell amx_stack_get_arg_cell(AMX *amx, int index) {
+cell sampgdk_get_arg_cell(AMX *amx, int index) {
   return get_arg_stack_ptr(amx)[index];
 }
 
-bool amx_stack_get_arg_bool(AMX *amx, int index) {
-  return (bool)amx_stack_get_arg_cell(amx, index);
+bool sampgdk_get_arg_bool(AMX *amx, int index) {
+  return (bool)sampgdk_get_arg_cell(amx, index);
 }
 
-float amx_stack_get_arg_float(AMX *amx, int index) {
+float sampgdk_get_arg_float(AMX *amx, int index) {
   cell value;
 
-  value = amx_stack_get_arg_cell(amx, index);
+  value = sampgdk_get_arg_cell(amx, index);
   return amx_ctof(value);
 }
 
-char *amx_stack_get_arg_string(AMX *amx, int index) {
+char *sampgdk_get_arg_string(AMX *amx, int index) {
   cell amx_addr;
   cell *phys_addr;
   int length;
   char *string;
   
-  amx_addr = amx_stack_get_arg_cell(amx, index);
+  amx_addr = sampgdk_get_arg_cell(amx, index);
   if (amx_GetAddr(amx, amx_addr, &phys_addr) != AMX_ERR_NONE) {
     return NULL;
   }

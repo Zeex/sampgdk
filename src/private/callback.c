@@ -23,16 +23,16 @@
 #include "init.h"
 #include "plugin.h"
 
-static struct array callbacks;
+static struct sampgdk_array callbacks;
 
-DEFINE_INIT_FUNC(callback_init) {
+DEFINE_INIT_FUNC(callback) {
   int error;
 
   if (callbacks.data != NULL) {
     return 0; /* alrady initialized */
   }
 
-  error = array_new(&callbacks, 1, sizeof(struct callback_info));
+  error = sampgdk_array_new(&callbacks, 1, sizeof(struct sampgdk_callback));
   if (error < 0) {
     return error;
   }
@@ -40,44 +40,44 @@ DEFINE_INIT_FUNC(callback_init) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(callback_cleanup) {
+DEFINE_CLEANUP_FUNC(callback) {
   int index;
 
   for (index = 0; index < callbacks.count; index++) {
-    struct callback_info *info =
-      (struct callback_info *)array_get(&callbacks, index);
+    struct sampgdk_callback *info =
+      (struct sampgdk_callback *)sampgdk_array_get(&callbacks, index);
     free(info->name);
   }
 
-  array_free(&callbacks);
+  sampgdk_array_free(&callbacks);
 }
 
 static int compare(const void *key, const void *elem) {
   assert(key != NULL);
   assert(elem != NULL);
   return strcmp((const char *)key,
-                ((const struct callback_info *)elem)->name);
+                ((const struct sampgdk_callback *)elem)->name);
 }
 
-struct callback_info *callback_lookup(const char *name) {
+struct sampgdk_callback *sampgdk_callback_lookup(const char *name) {
   assert(name != NULL);
   return bsearch(name, callbacks.data, callbacks.count,
                  callbacks.elem_size, compare);
 }
 
-int callback_register(const char *name, callback_handler handler) {
+int sampgdk_callback_register(const char *name, sampgdk_callback_handler handler) {
   int error;
-  struct callback_info info;
-  struct callback_info *ptr;
+  struct sampgdk_callback info;
+  struct sampgdk_callback *ptr;
   int index;
   
   assert(name != NULL);
   assert(handler != NULL);
 
   /* This is rather an exception than a rule. */
-  callback_init();
+  sampgdk_callback_init();
 
-  ptr = callback_lookup(name);
+  ptr = sampgdk_callback_lookup(name);
   if (ptr != NULL) {
     ptr->handler = handler;
     return 0;
@@ -93,16 +93,16 @@ int callback_register(const char *name, callback_handler handler) {
 
   /* Maintain element order (by name). */
   for (index = 0; index < callbacks.count; index++) {
-    ptr = (struct callback_info *)array_get(&callbacks, index);
+    ptr = (struct sampgdk_callback *)sampgdk_array_get(&callbacks, index);
     if (strcmp(ptr->name, name) >= 0) {
-      error = array_insert_single(&callbacks, index, &info);
+      error = sampgdk_array_insert_single(&callbacks, index, &info);
       break;
     }
   }
 
   /* Append to the end. */
   if (index == callbacks.count) {
-    error = array_append(&callbacks, &info);
+    error = sampgdk_array_append(&callbacks, &info);
   }
 
   if (error < 0) {
@@ -113,12 +113,12 @@ int callback_register(const char *name, callback_handler handler) {
   return 0;
 }
 
-int callback_register_table(const struct callback_info *table) {
-  const struct callback_info *ptr;
+int sampgdk_callback_register_table(const struct sampgdk_callback *table) {
+  const struct sampgdk_callback *ptr;
   int error;
 
   for (ptr = table; ptr->name != NULL; ptr++) {
-    error = callback_register(ptr->name, ptr->handler);
+    error = sampgdk_callback_register(ptr->name, ptr->handler);
     if (error < 0) {
       return error;
     }
@@ -127,43 +127,44 @@ int callback_register_table(const struct callback_info *table) {
   return 0;
 }
 
-void callback_unregister(const char *name) {
-  const struct callback_info *ptr;
+void sampgdk_callback_unregister(const char *name) {
+  const struct sampgdk_callback *ptr;
   int index;
 
   for (index = 0; index < callbacks.count; index++) {
-    ptr = (const struct callback_info *)array_get(&callbacks, index);
+    ptr = (const struct sampgdk_callback *)sampgdk_array_get(&callbacks, index);
     if (strcmp(ptr->name, name) == 0) {
-      array_remove_single(&callbacks, index);
+      sampgdk_array_remove_single(&callbacks, index);
       break;
     }
   }
 }
 
-void callback_unregister_table(const struct callback_info *table) {
-  const struct callback_info *ptr;
+void sampgdk_callback_unregister_table(const struct sampgdk_callback *table) {
+  const struct sampgdk_callback *ptr;
 
   for (ptr = table; ptr->name != NULL; ptr++) {
-    callback_unregister(ptr->name);
+    sampgdk_callback_unregister(ptr->name);
   }
 }
 
-bool callback_invoke(AMX *amx, const char *name, cell *retval) {
-  struct plugin_list *plugin;
+bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
+  struct sampgdk_plugin_list *plugin;
 
   assert(name != NULL);
 
-  for (plugin = plugin_get_list(); plugin != NULL; plugin = plugin->next) {
+  for (plugin = sampgdk_plugin_get_list(); plugin != NULL;
+       plugin = plugin->next) {
     void *func;
-    struct callback_info *info;
-    callback_handler handler;
+    struct sampgdk_callback *info;
+    sampgdk_callback_handler handler;
 
-    func = plugin_find_symbol(plugin->plugin, name);
+    func = sampgdk_plugin_find_symbol(plugin->plugin, name);
     if (func == NULL) {
       continue;
     }
 
-    info = callback_lookup(name);
+    info = sampgdk_callback_lookup(name);
     if (info == NULL) {
       continue;
     }

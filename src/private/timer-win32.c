@@ -16,7 +16,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-long timer_clock(void) {
+long sampgdk_timer_clock(void) {
   LARGE_INTEGER freq, count;
 
   if (!QueryPerformanceFrequency(&freq)) {

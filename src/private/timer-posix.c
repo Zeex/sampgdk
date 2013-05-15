@@ -15,7 +15,7 @@
 
 #include <time.h>
 
-long timer_clock(void) {
+long sampgdk_timer_clock(void) {
   struct timespec ts;
 
   clock_gettime(CLOCK_MONOTONIC, &ts);

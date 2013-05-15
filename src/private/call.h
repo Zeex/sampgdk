@@ -16,8 +16,8 @@
 #ifndef SAMPGDK_PRIVATE_CALL_H_
 #define SAMPGDK_PRIVATE_CALL_H_
 
-void *get_ret_addr(void *frame, int depth);
-void *call_func_cdecl(void *func, const void *const *args, int nargs);
-void *call_func_stdcall(void *func, const void *const *args, int nargs);
+void *sampgdk_get_ret_addr(void *frame, int depth);
+void *sampgdk_call_func_cdecl(void *func, const void *const *args, int nargs);
+void *sampgdk_call_func_stdcall(void *func, const void *const *args, int nargs);
 
 #endif /* !SAMPGDK_PRIVATE_CALL_H_ */

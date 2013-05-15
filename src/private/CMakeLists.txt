@@ -1,8 +1,9 @@
 set(SAMPGDK_INIT_FILE "init.c")
 
 sampgdk_add_sources(
-  "amx-stack.c"
-  "amx-stack.h"
+  "amx.h"
+  "arg.c"
+  "arg.h"
   "array.c"
   "array.h"
   "call.asm"
@@ -43,12 +44,12 @@ file(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
 
 macro(sampgdk_write_module_init file)
   foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-    file(APPEND ${file} "extern int ${module}_init(void);\n")
+    file(APPEND ${file} "extern int sampgdk_${module}_init(void);\n")
   endforeach()
-  file(APPEND ${file} "\nint module_init(void) {\n"
+  file(APPEND ${file} "\nint sampgdk_module_init(void) {\n"
                       "  int error;\n")
   foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-    file(APPEND ${file} "  if ((error = ${module}_init()) < 0) {\n"
+    file(APPEND ${file} "  if ((error = sampgdk_${module}_init()) < 0) {\n"
                         "    return error;\n"
                         "  }\n")
   endforeach()
@@ -60,11 +61,11 @@ sampgdk_write_module_init("${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
 
 macro(sampgdk_write_module_cleanup file)
   foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-    file(APPEND ${file} "extern void ${module}_cleanup(void);\n")
+    file(APPEND ${file} "extern void sampgdk_${module}_cleanup(void);\n")
   endforeach()
-  file(APPEND ${file} "\nvoid module_cleanup(void) {\n")
+  file(APPEND ${file} "\nvoid sampgdk_module_cleanup(void) {\n")
   foreach(module IN LISTS SAMPGDK_INIT_MODULES)
-    file(APPEND ${file} "  ${module}_cleanup();\n")
+    file(APPEND ${file} "  sampgdk_${module}_cleanup();\n")
   endforeach()
   file(APPEND ${file} "}\n\n")
 endmacro()

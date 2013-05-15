@@ -12,13 +12,13 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-global get_ret_addr
-global call_func_cdecl
-global call_func_stdcall
+global sampgdk_get_ret_addr
+global sampgdk_call_func_cdecl
+global sampgdk_call_func_stdcall
 
 section .text
 
-get_ret_addr:
+sampgdk_get_ret_addr:
   mov eax, dword [esp + 4]
   cmp eax, 0
   jnz .init
@@ -37,7 +37,7 @@ get_ret_addr:
   mov eax, edx
   ret
 
-call_func_cdecl:
+sampgdk_call_func_cdecl:
   mov eax, dword [esp + 4]
   mov edx, dword [esp + 8]
   mov ecx, dword [esp + 12]
@@ -59,7 +59,7 @@ call_func_cdecl:
   pop edi
   ret
 
-call_func_stdcall:
+sampgdk_call_func_stdcall:
   mov eax, dword [esp + 4]
   mov edx, dword [esp + 8]
   mov ecx, dword [esp + 12]

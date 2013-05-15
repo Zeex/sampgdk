@@ -21,24 +21,68 @@
 
 #include "array.h"
 
-struct fakeamx {
-  AMX          amx;
-  AMX_HEADER   amxhdr;
-  struct array heap;
+struct sampgdk_fakeamx {
+  AMX                  amx;
+  AMX_HEADER           amxhdr;
+  struct sampgdk_array heap;
 };
 
-int fakeamx_new(struct fakeamx *fa);
-void fakeamx_free(struct fakeamx *fa);
-struct fakeamx *fakeamx_global(void);
-int fakeamx_heap_resize(struct fakeamx *fa, int cells);
-int fakeamx_heap_push(struct fakeamx *fa, int cells, cell *address);
-int fakeamx_heap_push_cell(struct fakeamx *fa, cell value, cell *address);
-int fakeamx_heap_push_float(struct fakeamx *fa, float value, cell *address);
-int fakeamx_heap_push_string(struct fakeamx *fa, const char *src, int *size, cell *address);
-void fakeamx_heap_get_cell(struct fakeamx *fa, cell address, cell *value);
-void fakeamx_heap_get_bool(struct fakeamx *fa, cell address, bool *value);
-void fakeamx_heap_get_float(struct fakeamx *fa, cell address, float *value);
-void fakeamx_heap_get_string(struct fakeamx *fa, cell address, char *dest, int size);
-void fakeamx_heap_pop(struct fakeamx *fa, cell address);
+int sampgdk_fakeamx_new(
+  struct sampgdk_fakeamx *fa);
+
+void sampgdk_fakeamx_free(
+  struct sampgdk_fakeamx *fa);
+
+struct sampgdk_fakeamx *sampgdk_fakeamx_global(void);
+
+int sampgdk_fakeamx_heap_resize(
+  struct sampgdk_fakeamx *fa,
+  int                     cells);
+
+int sampgdk_fakeamx_heap_push(
+  struct sampgdk_fakeamx *fa,
+  int                     cells,
+  cell                   *address);
+
+int sampgdk_fakeamx_heap_push_cell(
+  struct sampgdk_fakeamx *fa,
+  cell                    value,
+  cell                   *address);
+
+int sampgdk_fakeamx_heap_push_float(
+  struct sampgdk_fakeamx *fa,
+  float                   value,
+  cell                   *address);
+
+int sampgdk_fakeamx_heap_push_string(
+  struct sampgdk_fakeamx *fa,
+  const char             *src,
+  int                    *size,
+  cell                   *address);
+
+void sampgdk_fakeamx_heap_pop(
+  struct sampgdk_fakeamx *fa,
+  cell                    address);
+
+void sampgdk_fakeamx_heap_get_cell(
+  struct sampgdk_fakeamx *fa,
+  cell                    address,
+  cell                   *value);
+
+void sampgdk_fakeamx_heap_get_bool(
+  struct sampgdk_fakeamx *fa,
+  cell                    address,
+  bool                   *value);
+
+void sampgdk_fakeamx_heap_get_float(
+  struct sampgdk_fakeamx *fa,
+  cell                    address,
+  float                  *value);
+
+void sampgdk_fakeamx_heap_get_string(
+  struct sampgdk_fakeamx *fa,
+  cell                    address,
+  char                   *dest,
+  int                     size);
 
 #endif /* !SAMPGDK_PRIVATE_FAKEAMX_H_ */

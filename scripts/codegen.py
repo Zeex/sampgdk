@@ -154,7 +154,7 @@ def generate_source_file(module_name, idl, file):
   file.write(
     '#include <sampgdk/export.h>\n'
     '\n'
-    '#include "private/amx-stack.h"\n'
+    '#include "private/arg.h"\n'
     '#include "private/callback.h"\n'
     '#include "private/fakeamx.h"\n'
     '#include "private/init.h"\n'
@@ -175,7 +175,7 @@ def generate_source_file(module_name, idl, file):
     generate_callback_impl(file, func);
     file.write('\n')
 
-  file.write('static const struct callback_info callback_table[] = {\n')
+  file.write('static const struct sampgdk_callback callback_table[] = {\n')
 
   for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
     file.write('  "%s", %s_handler,\n' % (func.name, func.name))
@@ -183,12 +183,12 @@ def generate_source_file(module_name, idl, file):
   file.write('  NULL, NULL\n')
   file.write('};\n\n')
 
-  file.write('DEFINE_INIT_FUNC(%s_init) {\n' % module_name)
-  file.write('  return callback_register_table(callback_table);\n')
+  file.write('DEFINE_INIT_FUNC(%s) {\n' % module_name)
+  file.write('  return sampgdk_callback_register_table(callback_table);\n')
   file.write('}\n')
 
-  file.write('DEFINE_CLEANUP_FUNC(%s_cleanup) {\n' % module_name)
-  file.write('  callback_unregister_table(callback_table);\n')
+  file.write('DEFINE_CLEANUP_FUNC(%s) {\n' % module_name)
+  file.write('  sampgdk_callback_unregister_table(callback_table);\n')
   file.write('}\n')
 
 def generate_constant_c(file, const):
@@ -217,7 +217,7 @@ def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' %
              (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
   file.write('  static AMX_NATIVE native;\n')
-  file.write('  struct fakeamx *fa;\n')
+  file.write('  struct sampgdk_fakeamx *fa;\n')
   file.write('  cell retval;\n')
 
   if func.params:
@@ -227,10 +227,10 @@ def generate_native_impl(file, func):
       file.write('  cell %s_;\n' % p.name)
 
   file.write('  if (unlikely(native == NULL)) {\n')
-  file.write('    native = native_lookup_warn_stub("%s");\n' % func.name)
+  file.write('    native = sampgdk_native_lookup_warn_stub("%s");\n' % func.name)
   file.write('  }\n')
 
-  file.write('  fa = fakeamx_global();\n')
+  file.write('  fa = sampgdk_fakeamx_global();\n')
 
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):
@@ -240,11 +240,11 @@ def generate_native_impl(file, func):
         else:
           value = p.name
         if p.type == 'char':
-          file.write('  fakeamx_heap_push(fa, %s, &%s_);\n' % (pnext.name, p.name))
+          file.write('  sampgdk_fakeamx_heap_push(fa, %s, &%s_);\n' % (pnext.name, p.name))
         elif p.type == 'string':
-          file.write('  fakeamx_heap_push_string(fa, %s, NULL, &%s_);\n' % (value, p.name))
+          file.write('  sampgdk_fakeamx_heap_push_string(fa, %s, NULL, &%s_);\n' % (value, p.name))
         else:
-          file.write('  fakeamx_heap_push(fa, 1, &%s_);\n' % p.name)
+          file.write('  sampgdk_fakeamx_heap_push(fa, 1, &%s_);\n' % p.name)
 
     file.write('  params[0] = %d * sizeof(cell);\n' % len(func.params))
     for index, p in enumerate(func.params, 1):
@@ -274,10 +274,10 @@ def generate_native_impl(file, func):
         if p.type == 'string':
           pass
         elif p.type == 'char':
-          file.write('  fakeamx_heap_get_string(fa, %s_, %s, %s);\n' %
+          file.write('  sampgdk_fakeamx_heap_get_string(fa, %s_, %s, %s);\n' %
                      (p.name, p.name, pnext.name))
         else:
-          file.write('  fakeamx_heap_get_%s(fa, %s_, %s);\n' % (
+          file.write('  sampgdk_fakeamx_heap_get_%s(fa, %s_, %s);\n' % (
             {
               'int'   : 'cell',
               'bool'  : 'bool',
@@ -287,7 +287,7 @@ def generate_native_impl(file, func):
           p.name, p.name))
 
     for p in reversed(filter(lambda p: p.is_ref, func.params)):
-      file.write('  fakeamx_heap_pop(fa, %s_);\n' % p.name)
+      file.write('  sampgdk_fakeamx_heap_pop(fa, %s_);\n' % p.name)
 
   file.write('  return %s(retval);\n' % ({
       'int'   : '(int)',
@@ -316,7 +316,7 @@ def generate_callback_impl(file, func):
     file.write('  %s %s;\n' % (p.c_type, p.name))
 
   for index, p in enumerate(func.params):
-    file.write('  %s = amx_stack_get_arg_%s(amx, %d);\n' % (p.name,
+    file.write('  %s = sampgdk_get_arg_%s(amx, %d);\n' % (p.name,
       {
         'int'    : 'cell',
         'bool'   : 'bool',

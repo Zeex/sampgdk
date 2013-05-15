@@ -13,22 +13,22 @@
  * limitations under the License.
  */
 
-#include <sampgdk/amx.h>
-#include <sampgdk/bool.h>
-#include <sampgdk/plugin.h>
-
 #include <assert.h>
 #include <errno.h>
 #include <stddef.h>
 #include <string.h>
 #include <subhook.h>
 
+#include <sampgdk/amx.h>
+#include <sampgdk/bool.h>
+#include <sampgdk/plugin.h>
+
+#include "amx.h"
 #include "callback.h"
 #include "fakeamx.h"
 #include "init.h"
 #include "log.h"
 #include "native.h"
-#include "../sdk/amx/amx.h"
 
 /* The main AMX instance. */
 static AMX *main_amx = NULL;
@@ -94,7 +94,7 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist, int
   hook_native(amx, "funcidx", funcidx);
 
   for (i = 0; nativelist[i].name != 0 && (i < number || number == -1); i++) {
-    native_register(nativelist[i].name, nativelist[i].func);
+    sampgdk_native_register(nativelist[i].name, nativelist[i].func);
   }
 
   error = amx_Register(amx, nativelist, number);
@@ -119,7 +119,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
    * - the main AMX (the gamemode)
    * - the fake AMX
    */
-  proceed = (amx == main_amx || amx == &fakeamx_global()->amx);
+  proceed = (amx == main_amx || amx == &sampgdk_fakeamx_global()->amx);
 
   error = amx_FindPublic(amx, name, index);
   if (error != AMX_ERR_NONE && proceed) {
@@ -139,7 +139,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
     }
 
     if ((public_name = malloc(strlen(name) + 1)) == NULL) {
-      log_error(strerror(ENOMEM));
+      sampgdk_error(strerror(ENOMEM));
       return error;
     }
 
@@ -165,11 +165,11 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
    */
   if (index == AMX_EXEC_MAIN) {
     main_amx = amx;
-    callback_invoke(main_amx, "OnGameModeInit", retval);
+    sampgdk_callback_invoke(main_amx, "OnGameModeInit", retval);
   } else {
     if (index != AMX_EXEC_CONT && public_name != NULL
-        && (amx == main_amx || amx == &fakeamx_global()->amx)) {
-      proceed = callback_invoke(amx, public_name, retval);
+        && (amx == main_amx || amx == &sampgdk_fakeamx_global()->amx)) {
+      proceed = sampgdk_callback_invoke(amx, public_name, retval);
     }
   }
 
@@ -233,7 +233,7 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_ad
   /* If failing to allocate on the fake AMX heap, resize the heap
    * automatically.
    */
-  if (error == AMX_ERR_MEMORY && amx == &fakeamx_global()->amx) {
+  if (error == AMX_ERR_MEMORY && amx == &sampgdk_fakeamx_global()->amx) {
     cell new_size;
 
     /* STKMARGIN + 2 is here to stop amx_Push() from thinking that there's
@@ -241,7 +241,7 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_ad
      */
     new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
 
-    if (fakeamx_heap_resize(fakeamx_global(), new_size) >= 0) {
+    if (sampgdk_fakeamx_heap_resize(sampgdk_fakeamx_global(), new_size) >= 0) {
       error = amx_Allot(amx, cells, amx_addr, phys_addr);
     }
   }
@@ -301,7 +301,7 @@ static void remove_hooks(void) {
   REMOVE_HOOK(Allot);
 }
 
-DEFINE_INIT_FUNC(hooks_init) {
+DEFINE_INIT_FUNC(hooks) {
   int error;
 
   error = create_hooks();
@@ -315,7 +315,7 @@ DEFINE_INIT_FUNC(hooks_init) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(hooks_cleanup) {
+DEFINE_CLEANUP_FUNC(hooks) {
   remove_hooks();
   destroy_hooks();
 }

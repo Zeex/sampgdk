@@ -7,9 +7,9 @@ set(SAMPGDK_DEF_FILE "sampgdk.def")
 set(SAMPGDK_SYM_FILE "sampgdk.sym")
 
 sampgdk_add_sources(
+  "a_samp.c"
   "core.api"
   "core.c"
-  "a_samp.c"
   "version.api"
   "version.c"
 )

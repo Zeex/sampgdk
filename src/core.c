@@ -27,8 +27,8 @@
 #include "private/plugin.h"
 #include "private/timer.h"
 
-extern int module_init(void);
-extern void module_cleanup(void);
+extern int  sampgdk_module_init(void);
+extern void sampgdk_module_cleanup(void);
 
 static void **plugin_data;
 
@@ -41,9 +41,10 @@ static void init_amx_exports(void **ppData) {
 }
 
 static void init_logprintf(void **ppData) {
-  logprintf = ppData[PLUGIN_DATA_LOGPRINTF];
+  void *logprintf = ppData[PLUGIN_DATA_LOGPRINTF];
+
   sampgdk_logprintf  = logprintf;
-  sampgdk_vlogprintf = vlogprintf;
+  sampgdk_vlogprintf = sampgdk_do_vlogprintf;
 }
 
 static int init(void **ppData) {
@@ -53,7 +54,7 @@ static int init(void **ppData) {
   init_amx_exports(ppData);
   init_logprintf(ppData);
 
-  error = module_init();
+  error = sampgdk_module_init();
   if (error < 0) {
     return error;
   }
@@ -62,58 +63,58 @@ static int init(void **ppData) {
 }
 
 static void cleanup(void) {
-  module_cleanup();
+  sampgdk_module_cleanup();
 }
 
 /* deprecated */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
   void *plugin;
 
-  plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
   sampgdk_init_plugin(plugin, ppData);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **ppData) {
   void *plugin;
 
-  plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
   return sampgdk_init_plugin(plugin, ppData);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData) {
-  if (plugin_list_empty()) {
+  if (sampgdk_plugin_list_empty()) {
     int error;
 
     if ((error = init(ppData)) < 0) {
-      log_error_code(error);
+      sampgdk_error_code(error);
       return error;
     }
   }
 
-  return plugin_register(plugin);
+  return sampgdk_plugin_register(plugin);
 }
 
 /* deprecated */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void) {
   void *plugin;
 
-  plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
   sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void) {
   void *plugin;
 
-  plugin = plugin_address_to_handle(get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
   return sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
   int error;
 
-  error = plugin_unregister(plugin);
+  error = sampgdk_plugin_unregister(plugin);
 
-  if (plugin_list_empty()) {
+  if (sampgdk_plugin_list_empty()) {
     cleanup();
   }
 
@@ -125,35 +126,35 @@ SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data(void) {
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
-  return plugin_register(plugin);
+  return sampgdk_plugin_register(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin) {
-  return plugin_unregister(plugin);
+  return sampgdk_plugin_unregister(plugin);
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
-  return plugin_address_to_handle(symbol);
+  return sampgdk_plugin_address_to_handle(symbol);
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name) {
-  return plugin_find_symbol(plugin, name);
+  return sampgdk_plugin_find_symbol(plugin, name);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers(void) {
-  timer_process_timers(NULL);
+  sampgdk_timer_process_timers(NULL);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin) {
-  timer_process_timers(plugin);
+  sampgdk_timer_process_timers(plugin);
 }
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives(void) {
-  return native_get_natives();
+  return sampgdk_native_get_natives();
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void) {
-  return native_get_num_natives();
+  return sampgdk_native_get_num_natives();
 }
 
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;
