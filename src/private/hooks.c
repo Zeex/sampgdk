@@ -85,7 +85,8 @@ static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
   }
 }
 
-static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist, int number) {
+static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
+                                int number) {
   int i;
   int error;
 
@@ -189,7 +190,8 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
   return error;
 }
 
-static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params) {
+static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result,
+                                cell *params) {
   int error;
 
   subhook_remove(amx_Callback_hook);
@@ -208,7 +210,8 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result, cell *params
   return error;
 }
 
-static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_addr) {
+static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
+                             cell **phys_addr) {
   int error;
 
   subhook_remove(amx_Allot_hook);
@@ -259,11 +262,12 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr, cell **phys_ad
   subhook_free(amx_##name##_hook); \
 
 #define INSTALL_HOOK(name) \
-  subhook_set_src(amx_##name##_hook, ((void**)(amx_exports))[PLUGIN_AMX_EXPORT_##name]); \
+  subhook_set_src(amx_##name##_hook, \
+                  ((void**)(amx_exports))[PLUGIN_AMX_EXPORT_##name]); \
   subhook_set_dst(amx_##name##_hook, (void*)amx_##name##_); \
   subhook_install(amx_##name##_hook);
 
-#define REMOVE_HOOK(name)\
+#define REMOVE_HOOK(name) \
   subhook_remove(amx_##name##_hook); \
 
 static int create_hooks(void) {

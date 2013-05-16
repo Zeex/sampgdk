@@ -23,12 +23,12 @@
 #include <sampgdk/export.h>
 
 /* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
-SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData));
+SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data));
 /* Deprecated. Use sampgdk_cleanup() or sampgdk_cleanup_plugin() instead. */
 SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void));
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **ppData);
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin);
 

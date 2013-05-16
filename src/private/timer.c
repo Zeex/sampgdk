@@ -81,7 +81,8 @@ DEFINE_CLEANUP_FUNC(timer) {
   sampgdk_array_free(&timers);
 }
 
-int sampgdk_timer_set(long interval, bool repeat, sampgdk_timer_callback callback, void *param) {
+int sampgdk_timer_set(long interval, bool repeat,
+                      sampgdk_timer_callback callback, void *param) {
   struct sampgdk_timer timer;
   int slot;
   int error;

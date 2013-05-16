@@ -65,7 +65,8 @@ struct sampgdk_callback *sampgdk_callback_lookup(const char *name) {
                  callbacks.elem_size, compare);
 }
 
-int sampgdk_callback_register(const char *name, sampgdk_callback_handler handler) {
+int sampgdk_callback_register(const char *name,
+                              sampgdk_callback_handler handler) {
   int error;
   struct sampgdk_callback info;
   struct sampgdk_callback *ptr;

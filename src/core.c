@@ -30,27 +30,27 @@
 
 static void **plugin_data;
 
-static void init_plugin_data(void **ppData) {
-  plugin_data = ppData;
+static void init_plugin_data(void **data) {
+  plugin_data = data;
 }
 
-static void init_amx_exports(void **ppData) {
-  amx_exports = ppData[PLUGIN_DATA_AMX_EXPORTS];
+static void init_amx_exports(void **data) {
+  amx_exports = data[PLUGIN_DATA_AMX_EXPORTS];
 }
 
-static void init_logprintf(void **ppData) {
-  void *logprintf = ppData[PLUGIN_DATA_LOGPRINTF];
+static void init_logprintf(void **data) {
+  void *logprintf = data[PLUGIN_DATA_LOGPRINTF];
 
   sampgdk_logprintf  = logprintf;
   sampgdk_vlogprintf = sampgdk_do_vlogprintf;
 }
 
-static int init(void **ppData) {
+static int init(void **data) {
   int error;
 
-  init_plugin_data(ppData);
-  init_amx_exports(ppData);
-  init_logprintf(ppData);
+  init_plugin_data(data);
+  init_amx_exports(data);
+  init_logprintf(data);
 
   error = sampgdk_module_init();
   if (error < 0) {
@@ -65,25 +65,25 @@ static void cleanup(void) {
 }
 
 /* deprecated */
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **ppData) {
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data) {
   void *plugin;
 
   plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
-  sampgdk_init_plugin(plugin, ppData);
+  sampgdk_init_plugin(plugin, data);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **ppData) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data) {
   void *plugin;
 
   plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
-  return sampgdk_init_plugin(plugin, ppData);
+  return sampgdk_init_plugin(plugin, data);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **ppData) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data) {
   if (sampgdk_plugin_list_empty()) {
     int error;
 
-    if ((error = init(ppData)) < 0) {
+    if ((error = init(data)) < 0) {
       sampgdk_error_code(error);
       return error;
     }
@@ -135,7 +135,8 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
   return sampgdk_plugin_address_to_handle(symbol);
 }
 
-SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name) {
+SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin,
+                                                            const char *name) {
   return sampgdk_plugin_find_symbol(plugin, name);
 }
 
