@@ -42,8 +42,15 @@ endif()
 
 file(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
 
+macro(sampgdk_ensure_module_name_ok module)
+  if (module MATCHES "module")
+    message(FATAL_ERROR "Module name cannot be \"module\"")
+  endif()
+endmacro()
+
 macro(sampgdk_write_module_init file)
   foreach(module IN LISTS SAMPGDK_INIT_MODULES)
+    sampgdk_ensure_module_name_ok(${module})
     file(APPEND ${file} "extern int sampgdk_${module}_init(void);\n")
   endforeach()
   file(APPEND ${file} "\nint sampgdk_module_init(void) {\n"
@@ -61,6 +68,7 @@ sampgdk_write_module_init("${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_INIT_FILE}")
 
 macro(sampgdk_write_module_cleanup file)
   foreach(module IN LISTS SAMPGDK_INIT_MODULES)
+    sampgdk_ensure_module_name_ok(${module})
     file(APPEND ${file} "extern void sampgdk_${module}_cleanup(void);\n")
   endforeach()
   file(APPEND ${file} "\nvoid sampgdk_module_cleanup(void) {\n")
