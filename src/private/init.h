@@ -22,4 +22,7 @@
 #define DEFINE_CLEANUP_FUNC(f) \
   void sampgdk_##f##_cleanup(void)
 
+int  sampgdk_module_init(void);
+void sampgdk_module_cleanup(void);
+
 #endif /* !SAMPGDK_PRIVATE_INIT_H_ */

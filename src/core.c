@@ -21,14 +21,12 @@
 
 #include "sdk/amx/amx.h"
 #include "private/call.h"
+#include "private/init.h"
 #include "private/log.h"
 #include "private/logprintf.h"
 #include "private/native.h"
 #include "private/plugin.h"
 #include "private/timer.h"
-
-extern int  sampgdk_module_init(void);
-extern void sampgdk_module_cleanup(void);
 
 static void **plugin_data;
 
