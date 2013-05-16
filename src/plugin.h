@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PRIVATE_PLUGIN_H_
-#define SAMPGDK_PRIVATE_PLUGIN_H_
+#ifndef SAMPGDK_PLUGIN_H_
+#define SAMPGDK_PLUGIN_H_
 
 #include <sampgdk/bool.h>
 
@@ -64,4 +64,4 @@ bool sampgdk_plugin_list_empty(void);
  */
 struct sampgdk_plugin_list *sampgdk_plugin_get_list(void);
 
-#endif /* !SAMPGDK_PRIVATE_PLUGIN_H_ */
+#endif /* !SAMPGDK_PLUGIN_H_ */

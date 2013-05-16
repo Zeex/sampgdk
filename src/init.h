@@ -1,4 +1,4 @@
-/* Copyright (C) 2012-2013 Zeex
+/* Copyright (C) 2013 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,16 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PRIVATE_AMX_STACK_H_
-#define SAMPGDK_PRIVATE_AMX_STACK_H_
+#ifndef SAMPGDK_INIT_H_
+#define SAMPGDK_INIT_H_
 
-#include <sampgdk/amx.h>
-#include <sampgdk/bool.h>
+#define DEFINE_INIT_FUNC(f) \
+  int sampgdk_##f##_init(void)
 
-cell  sampgdk_get_arg_cell(AMX *amx, int index);
-bool  sampgdk_get_arg_bool(AMX *amx, int index);
-float sampgdk_get_arg_float(AMX *amx, int index);
-char *sampgdk_get_arg_string(AMX *amx, int index);
+#define DEFINE_CLEANUP_FUNC(f) \
+  void sampgdk_##f##_cleanup(void)
 
-#endif /* !SAMPGDK_PRIVATE_AMX_STACK_H_ */
+int  sampgdk_module_init(void);
+void sampgdk_module_cleanup(void);
+
+#endif /* !SAMPGDK_INIT_H_ */

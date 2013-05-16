@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PRIVATE_ARRAY_H_
-#define SAMPGDK_PRIVATE_ARRAY_H_
+#ifndef SAMPGDK_ARRAY_H_
+#define SAMPGDK_ARRAY_H_
 
 #include <sampgdk/bool.h>
 
@@ -85,4 +85,4 @@ int sampgdk_array_append(
   struct sampgdk_array *a,
   void                 *elem);
 
-#endif /* !SAMPGDK_PRIVATE_ARRAY_H_ */
+#endif /* !SAMPGDK_ARRAY_H_ */

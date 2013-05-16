@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PRIVATE_CALLBACK_H_
-#define SAMPGDK_PRIVATE_CALLBACK_H_
+#ifndef SAMPGDK_CALLBACK_H_
+#define SAMPGDK_CALLBACK_H_
 
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
@@ -64,4 +64,4 @@ void sampgdk_callback_unregister_table(const struct sampgdk_callback *table);
  */
 bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval);
 
-#endif /* !SAMPGDK_PRIVATE_CALLBACK_H_ */
+#endif /* !SAMPGDK_CALLBACK_H_ */

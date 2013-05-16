@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PRIVATE_FAKEAMX_H_
-#define SAMPGDK_PRIVATE_FAKEAMX_H_
+#ifndef SAMPGDK_FAKEAMX_H_
+#define SAMPGDK_FAKEAMX_H_
 
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
@@ -85,4 +85,4 @@ void sampgdk_fakeamx_heap_get_string(
   char                   *dest,
   int                     size);
 
-#endif /* !SAMPGDK_PRIVATE_FAKEAMX_H_ */
+#endif /* !SAMPGDK_FAKEAMX_H_ */

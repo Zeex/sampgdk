@@ -23,12 +23,13 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/plugin.h>
 
-#include "amx.h"
 #include "callback.h"
 #include "fakeamx.h"
 #include "init.h"
 #include "log.h"
 #include "native.h"
+
+#include "sdk/amx/amx.h"
 
 /* The main AMX instance. */
 static AMX *main_amx = NULL;

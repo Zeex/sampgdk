@@ -13,11 +13,11 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PRIVATE_CALL_H_
-#define SAMPGDK_PRIVATE_CALL_H_
+#ifndef SAMPGDK_LOGPRINTF_H_
+#define SAMPGDK_LOGPRINTF_H_
 
-void *sampgdk_get_ret_addr(void *frame, int depth);
-void *sampgdk_call_func_cdecl(void *func, const void *const *args, int nargs);
-void *sampgdk_call_func_stdcall(void *func, const void *const *args, int nargs);
+#include <stdarg.h>
 
-#endif /* !SAMPGDK_PRIVATE_CALL_H_ */
+void sampgdk_do_vlogprintf(const char *format, va_list va);
+
+#endif /* !SAMPGDK_LOGPRINTF_H_ */
