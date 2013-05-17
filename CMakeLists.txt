@@ -264,7 +264,6 @@ group_target_sources(sampgdk)
 set_target_properties(sampgdk PROPERTIES
   VERSION       "${SAMPGDK_VERSION_STRING}"
   SOVERSION     "${SAMPGDK_VERSION_MAJOR}"
-  DEBUG_POSTFIX "_d"
   DEFINE_SYMBOL "IN_SAMPGDK"
 )
 
