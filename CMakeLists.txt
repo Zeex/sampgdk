@@ -269,8 +269,11 @@ set_target_properties(sampgdk PROPERTIES
 )
 
 if(WIN32)
-  set_property(TARGET sampgdk PROPERTY
-               OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
+  set(OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
+  if(SAMPGDK_STATIC)
+    set(OUTPUT_NAME "${OUTPUT_NAME}_s")
+  endif()
+  set_property(TARGET sampgdk PROPERTY OUTPUT_NAME ${OUTPUT_NAME})
   if(MSVC)
     set_property(TARGET sampgdk APPEND PROPERTY
                  COMPILE_DEFINITIONS "_CRT_SECURE_NO_WARNINGS")
