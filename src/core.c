@@ -85,7 +85,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data) {
     int error;
 
     if ((error = init(data)) < 0) {
-      sampgdk_error_code(error);
+      sampgdk_log_error_code(error);
       return error;
     }
   }

@@ -18,8 +18,8 @@
 
 void sampgdk_log_message(const char *format, ...);
 void sampgdk_log_trace(const char *format, ...);
-void sampgdk_warning(const char *format, ...);
-void sampgdk_error(const char *format, ...);
-void sampgdk_error_code(int error);
+void sampgdk_log_warning(const char *format, ...);
+void sampgdk_log_error(const char *format, ...);
+void sampgdk_log_error_code(int error);
 
 #endif /* !SAMPGDK_LOG_H_ */

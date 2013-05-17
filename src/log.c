@@ -81,7 +81,7 @@ void sampgdk_log_trace(const char *format, ...) {
   va_end(args);
 }
 
-void sampgdk_warning(const char *format, ...) {
+void sampgdk_log_warning(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
@@ -89,7 +89,7 @@ void sampgdk_warning(const char *format, ...) {
   va_end(args);
 }
 
-void sampgdk_error(const char *format, ...) {
+void sampgdk_log_error(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
@@ -97,6 +97,6 @@ void sampgdk_error(const char *format, ...) {
   va_end(args);
 }
 
-void sampgdk_error_code(int error) {
+void sampgdk_log_error_code(int error) {
   do_log(LOG_MSG_ERROR, strerror(-error), NULL);
 }

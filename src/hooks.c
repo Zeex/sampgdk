@@ -141,7 +141,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
     }
 
     if ((public_name = malloc(strlen(name) + 1)) == NULL) {
-      sampgdk_error(strerror(ENOMEM));
+      sampgdk_log_error(strerror(ENOMEM));
       return error;
     }
 

@@ -88,14 +88,14 @@ AMX_NATIVE sampgdk_native_lookup_warn(const char *name) {
 
   func = sampgdk_native_lookup(name);
   if (func == NULL) {
-    sampgdk_warning("Native function not found: %s", name);
+    sampgdk_log_warning("Native function not found: %s", name);
   }
 
   return func;
 }
 
 cell AMX_NATIVE_CALL sampgdk_native_stub(AMX *amx, cell *params) {
-  sampgdk_error("Native stub");
+  sampgdk_log_error("Native stub");
   return 0;
 }
 
