@@ -1,3 +1,10 @@
+Changes in version 3.4.1
+========================
+
+o Impoved timer resolution on Windows
+o Removed CallNative()
+o Fixed a couple of tiny memory leaks
+
 Changes in version 3.4
 ======================
 
