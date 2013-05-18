@@ -796,7 +796,6 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
     const std::string &fs_name = *it;
     ServerLog::Printf("  Loading filter script: %s", fs_name.c_str());
 
-    unlimitedfs::FilterScript *fs = new unlimitedfs::FilterScript();
     if (LoadFilterScript(fs_name)) {
       ServerLog::Printf("   Loaded.");
     } else {

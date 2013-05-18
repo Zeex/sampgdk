@@ -15,8 +15,8 @@ Plugin::Plugin()
 }
 
 Plugin::Plugin(const std::string &filename)
- : loaded_(false),
-   filename_(filename)
+ : filename_(filename),
+   loaded_(false)
 {
 }
 

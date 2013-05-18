@@ -89,13 +89,6 @@ static void SendPlayerFormattedText(int playerid, const char str[], int define)
   SendClientMessage(playerid, 0xFF004040, tmpbuf);
 }
 
-static void SendAllFormattedText(int playerid, const char str[], int define)
-{
-  char tmpbuf[128];
-  sprintf(tmpbuf, str, define);
-  SendClientMessageToAll(0xFFFF00AA, tmpbuf);
-}
-
 static void SetPlayerRandomSpawn(int playerid)
 {
   if (iSpawnSet[playerid] == 1)
@@ -234,7 +227,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int rea
 
 static void SetupPlayerForClassSelection(int playerid)
 {
-   SetPlayerInterior(playerid,14);
+  SetPlayerInterior(playerid,14);
   SetPlayerPos(playerid,258.4893f,-41.4008f,1002.0234f);
   SetPlayerFacingAngle(playerid, 270.0f);
   SetPlayerCameraPos(playerid,256.0815f,-43.0475f,1004.0234f);

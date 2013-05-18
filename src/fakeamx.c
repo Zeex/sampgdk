@@ -90,9 +90,11 @@ struct sampgdk_fakeamx *sampgdk_fakeamx_global(void) {
 
 int sampgdk_fakeamx_heap_resize(struct sampgdk_fakeamx *fa, int cells) {
   int error;
-  cell old_size, new_size;
-  cell old_stk, new_stk;
-  cell old_stp, new_stp;
+  cell old_size;
+  cell new_size;
+  cell old_stk;
+  cell new_stk;
+  cell new_stp;
 
   assert(cells > 0);
 
@@ -110,8 +112,6 @@ int sampgdk_fakeamx_heap_resize(struct sampgdk_fakeamx *fa, int cells) {
 
   old_stk = fa->amx.stk;
   new_stk = fa->amx.stk + (new_size - old_size) * sizeof(cell);
-
-  old_stp = fa->amx.stp;
   new_stp = fa->amx.stp + (new_size - old_size) * sizeof(cell);
 
   /* Shift stack contents. */
