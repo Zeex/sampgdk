@@ -52,7 +52,7 @@
 #if defined __INTEL_COMPILER
   /* ... */
 #elif defined __clang__
-  #pragma clang push
+  #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wignored-attributes"
 #elif defined __GNUC__
   #pragma GCC diagnostic push
@@ -64,9 +64,9 @@
 #if defined __INTEL_COMPILER
   /* ... */
 #elif defined __clang_
-  #pragma clang pop
+  #pragma clang diagnostic pop
 #elif defined __GNUC__
-  #pragma GCC pop
+  #pragma GCC diagnostic pop
 #endif
 
 #define AMX_EXEC_GDK (-10)
