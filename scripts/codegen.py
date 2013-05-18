@@ -178,9 +178,9 @@ def generate_source_file(module_name, idl, file):
   file.write('static const struct sampgdk_callback callback_table[] = {\n')
 
   for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
-    file.write('  "%s", %s_handler,\n' % (func.name, func.name))
+    file.write('  {"%s", %s_handler},\n' % (func.name, func.name))
 
-  file.write('  NULL, NULL\n')
+  file.write('  {NULL, NULL}\n')
   file.write('};\n\n')
 
   file.write('DEFINE_INIT_FUNC(%s) {\n' % module_name)
