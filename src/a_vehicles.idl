@@ -32,6 +32,7 @@ const int VEHICLE_PARAMS_UNSET = -1;
 const int VEHICLE_PARAMS_OFF   =  0;
 const int VEHICLE_PARAMS_ON    =  1;
 
+[native] bool IsValidVehicle([in] int vehicleid);
 [native] float GetVehicleDistanceFromPoint([in] int vehicleid, [in] float x, [in] float y, [in] float z);
 [native] int CreateVehicle([in] int vehicletype, [in] float x, [in] float y, [in] float z, [in] float rotation, [in] int color1, [in] int color2, [in] int respawn_delay);
 [native] bool DestroyVehicle([in] int vehicleid);
