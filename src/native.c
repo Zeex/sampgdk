@@ -95,7 +95,7 @@ AMX_NATIVE sampgdk_native_lookup_warn(const char *name) {
 }
 
 cell AMX_NATIVE_CALL sampgdk_native_stub(AMX *amx, cell *params) {
-  sampgdk_log_error("Native stub");
+  sampgdk_log_warn("Native stub");
   return 0;
 }
 
