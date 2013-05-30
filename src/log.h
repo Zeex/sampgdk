@@ -18,7 +18,7 @@
 
 void sampgdk_log_message(const char *format, ...);
 void sampgdk_log_trace(const char *format, ...);
-void sampgdk_log_warning(const char *format, ...);
+void sampgdk_log_warn(const char *format, ...);
 void sampgdk_log_error(const char *format, ...);
 void sampgdk_log_error_code(int error);
 

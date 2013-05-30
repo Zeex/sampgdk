@@ -88,7 +88,7 @@ AMX_NATIVE sampgdk_native_lookup_warn(const char *name) {
 
   func = sampgdk_native_lookup(name);
   if (func == NULL) {
-    sampgdk_log_warning("Native function not found: %s", name);
+    sampgdk_log_warn("Native function not found: %s", name);
   }
 
   return func;
