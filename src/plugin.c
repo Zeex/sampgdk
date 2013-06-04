@@ -32,7 +32,7 @@ int sampgdk_plugin_register(void *plugin) {
 
   ptr = malloc(sizeof(*ptr));
   if (ptr == NULL) {
-    return -errno;
+    return -ENOMEM;
   }
 
   ptr->plugin = plugin;

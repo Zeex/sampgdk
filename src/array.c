@@ -27,7 +27,7 @@ int sampgdk_array_new(struct sampgdk_array *a, int size,
   assert(elem_size > 0);
 
   if ((a->data = malloc(elem_size * size)) == NULL) {
-    return -errno;
+    return -ENOMEM;
   }
 
   a->size = size;
