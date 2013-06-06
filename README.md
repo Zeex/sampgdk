@@ -30,13 +30,6 @@ package.
 
 ### Linux ###
 
-You have to choose whether you want a self-extracting archive or just a
-tarball. I'd recommend the former as it's a bit simpler (less typing)
-but if you want to extract a specific file use the tarball version.
-
-
-* Installing with self-extracting archive
-
   Download `sampgdk-x.y.z-Linux.sh where x.y.z` denotes the version number
   and run it as root like this:
 
@@ -50,39 +43,13 @@ but if you want to extract a specific file use the tarball version.
   don't recognize libraries stored in `/usr/local/lib` so you might need
   to edit `/etc/ld.so.conf`).
 
-
-* Installing from tarball
-
-  Just extract the contents (preserving directory structure) somewhere,
-  like `/usr` or `/usr/local`. You'll also likely need to run one more
-  command to update ld library cache.
-
-  ```shell
-  tar -zxvf sampgdk-x.y.z-Linux.tar.gz -C /usr/local
-  ldconfig
-  ```
-
 ### Windows ###
 
-The Windows package comes in two forms: an installer and a ZIP archive.
+  Download `sampgdk-x.y.z-win32.exe` (where x.y.z is the version number) and
+  follow installation instructions.
 
-* Using installer
-
-  This is the easy way. Just download `sampgdk-x.y.z-win32.exe` (where x.y.z
-  is the version number) and follow installation instructions, it will do
-  everything for you.
-
-  Don't forget to check *Add sampgdk to the system `PATH` for current
-  user* if you want your plugins to automatically find and use the
-  DLL and avoid copying it to the server root directory (the directory
-  containing `samp-sever.exe`).
-
-* Installing from ZIP archive
-
-  Download `sampgdk-x.y.z-win32.zip` and extract the contents. You may
-  need to add the bin directory to the system PATH in order for the
-  plugins to find the DLL. Otherwise you can just copy the DLL to the
-  server root.
+  Don't forget to check *Add sampgdk to the system PATH for current
+  user* if you want your plugins to automatically find and use the DLL.
 
 Basic Usage
 -----------
