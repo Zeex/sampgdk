@@ -21,7 +21,7 @@ endif()
 
 include(GroupTargetSources)
 
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   if(WIN32)
     set(CMAKE_ASM_NASM_OBJECT_FORMAT "win32")
   elseif(UNIX)
@@ -31,7 +31,7 @@ endif()
 
 enable_language(ASM_NASM)
 
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   if(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
   endif()
