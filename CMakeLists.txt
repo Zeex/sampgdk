@@ -314,6 +314,14 @@ install(TARGETS sampgdk
   LIBRARY DESTINATION "lib" COMPONENT "bin"
 )
 
+if(MSVC)
+  set(config_name "\${CMAKE_INSTALL_CONFIG_NAME}")
+  get_target_property(output_name sampgdk OUTPUT_NAME)
+  set(pdb_name "${output_name}.pdb")
+  set(pdb_path "${CMAKE_CURRENT_BINARY_DIR}/${config_name}/${pdb_name}")
+  install(FILES ${pdb_path} DESTINATION "bin" COMPONENT "bin")
+endif()
+
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 if(SAMPGDK_STATIC)
   set(CPACK_PACKAGE_NAME "${CPACK_PACKAGE_NAME}-static")
