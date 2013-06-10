@@ -46,6 +46,10 @@ endif()
 
 find_package(PythonInterp 2.7 REQUIRED)
 
+if(NOT PYTHON_VERSION_STRING VERSION_LESS 3.0)
+  message(FATAL_ERROR "Python 3.x will not work, use Python 2.7.x")
+endif()
+
 set(PYTHONPATH
   "${PROJECT_SOURCE_DIR}/scripts"
   "${PROJECT_SOURCE_DIR}/lib/python/ply"
