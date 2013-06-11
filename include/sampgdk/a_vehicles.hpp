@@ -34,6 +34,9 @@ class Vehicle {
     return CreateVehicle(type, x, y, z, rotation, color1, color2, respawn_delay);
   }
 
+  bool IsValid() const
+    { return IsValidVehicle(id_); }
+
   float GetDistanceFromPoint(float x, float y, float z) const
     { return GetVehicleDistanceFromPoint(id_, x, y, z); }
   bool Destroy() const 
