@@ -173,7 +173,7 @@ macro(sampgdk_add_init_module name)
   list(APPEND SAMPGDK_INIT_MODULES ${name})
 endmacro()
 
-file(GLOB_RECURSE list_files "init-modules.list")
+file(GLOB_RECURSE list_files "init.list")
 foreach(file IN LISTS list_files)
   file(STRINGS ${file} modules)
   foreach(module IN LISTS modules)
