@@ -5,3 +5,6 @@
 	path = lib/python/ply
 	url = git://github.com/dabeaz/ply.git
 	ignore = untracked
+[submodule "lib/python/cidl"]
+	path = lib/python/cidl
+	url = https://github.com/Zeex/cidl.git

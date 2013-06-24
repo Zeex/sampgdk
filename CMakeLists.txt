@@ -53,6 +53,7 @@ endif()
 set(PYTHONPATH
   "${PROJECT_SOURCE_DIR}/scripts"
   "${PROJECT_SOURCE_DIR}/lib/python/ply"
+  "${PROJECT_SOURCE_DIR}/lib/python/cidl"
 )
 
 macro(sampgdk_add_sources)
