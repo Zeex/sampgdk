@@ -59,7 +59,6 @@ class ServerLog {
     VPrintf(format, args);
     va_end(args);
   }
-
   static void VPrintf(const char *format, std::va_list args) {
     assert(sampgdk_logprintf != 0 && "sampgdk is not initialized");
     sampgdk_vlogprintf(format, args);

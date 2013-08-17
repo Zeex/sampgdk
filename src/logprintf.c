@@ -24,6 +24,11 @@
 #include "call.h"
 #include "logprintf.h"
 
+// This function calculates the number of variadic arguments passed to it
+// by simply finding all occurences of the '%' character. However, it doesn't
+// look at the argument type and treats all arguments as if they are one word
+// in size (4 bytes). Therefore, it doesn't work for arguments whose size
+// is greater than 4 bytes (e.g. for %f on Windows).
 void sampgdk_do_vlogprintf(const char *format, va_list va) {
   int i;
   int nargs;
@@ -49,11 +54,11 @@ void sampgdk_do_vlogprintf(const char *format, va_list va) {
   args[0] = format;
 
   if (va != NULL) {
-    for (i = 1; i <= nargs; i++) {
+    for (i = 1; i < nargs; i++) {
       args[i] = va_arg(va, const void *);
     }
   }
 
-  sampgdk_call_func_cdecl((void*)sampgdk_logprintf, args, nargs);
-  free((void*)args);
+  sampgdk_call_func_cdecl((void *)sampgdk_logprintf, args, nargs);
+  free((void *)args);
 }
