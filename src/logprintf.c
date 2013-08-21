@@ -16,49 +16,27 @@
 #include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdio.h>
 
 #include <sampgdk/core.h>
 
-#include "call.h"
 #include "logprintf.h"
 
-// This function calculates the number of variadic arguments passed to it
-// by simply finding all occurences of the '%' character. However, it doesn't
-// look at the argument type and treats all arguments as if they are one word
-// in size (4 bytes). Therefore, it doesn't work for arguments whose size
-// is greater than 4 bytes (e.g. for %f on Windows).
+/* Seems like a reasonable value (at least Y_Less used this in fixes2). */
+#define LOGPRINTF_BUFFER_SIZE 1024
+
+#ifdef _MSC_VER
+  #define vsnprintf vsprintf_s
+#endif
+
+/* By the way, it's a bad idea to use something like %%s in the format
+ * string because then logprintf will get %s and eventually crash the
+ * server. 
+ *
+ * TODO: Escape % characters (replace with %%).
+ */
 void sampgdk_do_vlogprintf(const char *format, va_list va) {
-  int i;
-  int nargs;
-  const void **args;
-
-  assert(sampgdk_logprintf != NULL);
-
-  nargs = 1;
-
-  if (va != NULL) {
-    for (i = 0; format[i] != '\0'; i++) {
-      if (format[i] == '%' && format[i + 1] != '%') {
-        nargs++;
-      }
-    }
-  }
-
-  args = malloc((nargs + 1) * sizeof(*args));
-  if (args == NULL) {
-    return;
-  }
-
-  args[0] = format;
-
-  if (va != NULL) {
-    for (i = 1; i < nargs; i++) {
-      args[i] = va_arg(va, const void *);
-    }
-  }
-
-  sampgdk_call_func_cdecl((void *)sampgdk_logprintf, args, nargs);
-  free((void *)args);
+  char buffer[LOGPRINTF_BUFFER_SIZE];
+  vsnprintf(buffer, sizeof(buffer), format, va);
+  sampgdk_logprintf(buffer);
 }
