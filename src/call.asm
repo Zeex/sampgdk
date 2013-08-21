@@ -38,40 +38,42 @@ sampgdk_get_ret_addr:
   ret
 
 sampgdk_call_func_cdecl:
-  mov eax, dword [esp + 4]
-  mov edx, dword [esp + 8]
-  mov ecx, dword [esp + 12]
+  push ebp
+  mov ebp, esp
+  push esi
   push edi
-  mov edi, ecx
-  sal edi, 2
-  push esi
-.loop:
-  cmp ecx, 0
-  jle .call
-  dec ecx
-  mov esi, dword [edx + ecx * 4]
-  push esi
-  jmp .loop
-.call:
+  push ebx
+  mov eax, dword [ebp + 8]
+  mov esi, dword [ebp + 12]
+  mov ebx, dword [ebp + 16]
+  mov ecx, ebx
+  sub esp, ecx
+  mov edi, esp
+  rep movsb
   call eax
-  add esp, edi
-  pop esi
+  add esp, ebx
+  pop ebx
   pop edi
+  pop esi
+  pop ebp
   ret
 
 sampgdk_call_func_stdcall:
-  mov eax, dword [esp + 4]
-  mov edx, dword [esp + 8]
-  mov ecx, dword [esp + 12]
+  push ebp
+  mov ebp, esp
   push esi
-.loop:
-  cmp ecx, 0
-  jle .call
-  dec ecx
-  mov esi, dword [edx + ecx * 4]
-  push esi
-  jmp .loop
-.call:
+  push edi
+  push ebx
+  mov eax, dword [ebp + 8]
+  mov esi, dword [ebp + 12]
+  mov ebx, dword [ebp + 16]
+  mov ecx, ebx
+  sub esp, ecx
+  mov edi, esp
+  rep movsb
   call eax
+  pop ebx
+  pop edi
   pop esi
+  pop ebp
   ret
