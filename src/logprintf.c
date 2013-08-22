@@ -13,30 +13,52 @@
  * limitations under the License.
  */
 
-#include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <sampgdk/core.h>
 
 #include "logprintf.h"
 
-/* Seems like a reasonable value (at least Y_Less used this in fixes2). */
 #define LOGPRINTF_BUFFER_SIZE 1024
 
 #ifdef _MSC_VER
   #define vsnprintf vsprintf_s
 #endif
 
-/* By the way, it's a bad idea to use something like %%s in the format
- * string because then logprintf will get %s and eventually crash the
- * server. 
- *
- * TODO: Escape % characters (replace with %%).
- */
+static char *escape_format_string(const char *format) {
+  int i, j;
+  int nr_percents;
+  char *new_format;
+
+  nr_percents = 0;
+  for (i = 0; format[i] != '\0'; i++) {
+    if (format[i] == '%') {
+      nr_percents++;
+    }
+  }
+
+  /* TODO: Handle the case when calloc() returns NULL. */
+  new_format = calloc(nr_percents + i + 1, sizeof(char));
+
+  for (i = 0, j = 0; format[i] != '\0'; i++, j++) {
+    new_format[j] = format[i];
+    if (format[i] == '%') {
+      new_format[++j] = '%';
+    }
+  }
+
+  return new_format;
+}
+
 void sampgdk_do_vlogprintf(const char *format, va_list va) {
   char buffer[LOGPRINTF_BUFFER_SIZE];
+  char *escaped;
+
   vsnprintf(buffer, sizeof(buffer), format, va);
-  sampgdk_logprintf(buffer);
+  escaped = escape_format_string(buffer);
+  sampgdk_logprintf(escaped);
+  free(escaped);
 }
