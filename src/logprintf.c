@@ -40,13 +40,13 @@ static char *escape_format_string(const char *format) {
     }
   }
 
-  /* TODO: Handle the case when calloc() returns NULL. */
   new_format = calloc(nr_percents + i + 1, sizeof(char));
-
-  for (i = 0, j = 0; format[i] != '\0'; i++, j++) {
-    new_format[j] = format[i];
-    if (format[i] == '%') {
-      new_format[++j] = '%';
+  if (new_format != NULL) {
+    for (i = 0, j = 0; format[i] != '\0'; i++, j++) {
+      new_format[j] = format[i];
+      if (format[i] == '%') {
+        new_format[++j] = '%';
+      }
     }
   }
 
@@ -59,6 +59,9 @@ void sampgdk_do_vlogprintf(const char *format, va_list va) {
 
   vsnprintf(buffer, sizeof(buffer), format, va);
   escaped = escape_format_string(buffer);
-  sampgdk_logprintf(escaped);
-  free(escaped);
+
+  if (escaped != NULL) {
+    sampgdk_logprintf(escaped);
+    free(escaped);
+  }
 }
