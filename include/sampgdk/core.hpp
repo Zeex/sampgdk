@@ -15,7 +15,6 @@
 #ifndef SAMPGDK_CORE_HPP
 #define SAMPGDK_CORE_HPP
 
-#include <cassert>
 #include <cstdarg>
 
 #include <sampgdk/compatibility.h>
@@ -65,7 +64,6 @@ class ServerLog {
     va_end(args);
   }
   static void VPrintf(const char *format, std::va_list args) {
-    assert(sampgdk_logprintf != 0 && "sampgdk is not initialized");
     sampgdk_vlogprintf(format, args);
   }
 };
