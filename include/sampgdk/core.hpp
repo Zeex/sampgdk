@@ -21,6 +21,11 @@
 #include <sampgdk/compatibility.h>
 #include <sampgdk/core.h>
 
+#if _MSC_VER <= 1600
+  #pragma warning(push)
+  #pragma warning(disable:4355) // 'this' : used in base member initializer list
+#endif
+
 SAMPGDK_BEGIN_NAMESPACE
 
 class Plugin {
@@ -66,5 +71,9 @@ class ServerLog {
 };
 
 SAMPGDK_END_NAMESPACE
+
+#if _MSC_VER <= 1600
+  #pragma warning(pop)
+#endif
 
 #endif // !SAMPGDK_CORE_HPP
