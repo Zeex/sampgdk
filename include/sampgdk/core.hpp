@@ -20,7 +20,7 @@
 #include <sampgdk/compatibility.h>
 #include <sampgdk/core.h>
 
-#if _MSC_VER <= 1600
+#ifdef _MSC_VER
   #pragma warning(push)
   #pragma warning(disable:4355) // 'this' : used in base member initializer list
 #endif
@@ -70,7 +70,7 @@ class ServerLog {
 
 SAMPGDK_END_NAMESPACE
 
-#if _MSC_VER <= 1600
+#ifdef _MSC_VER
   #pragma warning(pop)
 #endif
 
