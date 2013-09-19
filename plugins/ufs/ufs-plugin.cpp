@@ -7,6 +7,8 @@
 
 namespace {
 
+bool can_load_stuff = false;
+
 class UFSPlugin: public ThisPlugin {
  public:
   UFSPlugin(): loaded_stuff_(false) {}
@@ -33,18 +35,13 @@ UFSPlugin ufs_plugin;
 } // anonymous namespace
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
-  if (ufs_plugin.Load(ppData) >= 0) {
-    //ufs::UFS::Instance().LoadPlugins();
-    //ufs::UFS::Instance().LoadScripts();
-    return true;
-  }
-  return false;
+  return ufs_plugin.Load(ppData) >= 0;
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
-  ufs_plugin.LoadStuff();
   ufs::UFS::Instance().ForEachPlugin(
     std::bind2nd(std::mem_fun(&ufs::Plugin::AmxLoad), amx));
+  can_load_stuff = true;
   return AMX_ERR_NONE;
 }
 
@@ -61,6 +58,10 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload() {
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
+  if (can_load_stuff) {
+    ufs_plugin.LoadStuff();
+    can_load_stuff = false;
+  }
   ufs_plugin.ProcessTimers();
   ufs::UFS::Instance().ForEachPlugin(
     std::mem_fun(&ufs::Plugin::ProcessTick));
