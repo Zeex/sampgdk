@@ -1,10 +1,17 @@
-#ifndef UNLIMIITEDFS_PLUGIN_H
-#define UNLIMIITEDFS_PLUGIN_H
+#ifndef UFS_PLUGIN_H
+#define UFS_PLUGIN_H
 
 #include <string>
 #include <sampgdk/amx.h>
+#include <sampgdk/plugin.h>
 
-namespace unlimitedfs {
+namespace ufs {
+
+#ifdef _WIN32
+  const std::string PluginExtension = ".dll";
+#else
+  const std::string PluginExtension = ".so";
+#endif
 
 enum PluginError {
   PLUGIN_ERROR_OK,
@@ -55,4 +62,4 @@ class Plugin {
 
 } // namespace samp
 
-#endif // UNLIMIITEDFS_PLUGIN_H
+#endif // UFS_PLUGIN_H

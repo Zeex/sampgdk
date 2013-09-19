@@ -1,8 +1,11 @@
-#include "filterscript.h"
+#include "script.h"
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
+void amx_Align16_(void *v) {}
+void amx_Align32_(void *v) {}
 
 // Copied from amxaux.c
 static int AMXAPI aux_LoadProgram(AMX *amx, const char *filename, void *memblock)
@@ -15,9 +18,9 @@ static int AMXAPI aux_LoadProgram(AMX *amx, const char *filename, void *memblock
   if ((fp = fopen(filename, "rb")) == NULL)
     return AMX_ERR_NOTFOUND;
   fread(&hdr, sizeof hdr, 1, fp);
-  amx_Align16(&hdr.magic);
-  amx_Align32((uint32_t *)&hdr.size);
-  amx_Align32((uint32_t *)&hdr.stp);
+  amx_Align16_(&hdr.magic);
+  amx_Align32_((uint32_t *)&hdr.size);
+  amx_Align32_((uint32_t *)&hdr.stp);
   if (hdr.magic != AMX_MAGIC) {
     fclose(fp);
     return AMX_ERR_FORMAT;
@@ -63,24 +66,24 @@ static int AMXAPI aux_FreeProgram(AMX *amx)
   return AMX_ERR_NONE;
 }
 
-namespace unlimitedfs {
+namespace ufs {
 
-FilterScript::FilterScript()
+Script::Script()
  : loaded_(false)
 {
 }
 
-FilterScript::FilterScript(const std::string &filename)
+Script::Script(const std::string &filename)
  : loaded_(false)
 {
   Load(filename);
 }
 
-FilterScript::~FilterScript() {
+Script::~Script() {
   Unload();
 }
 
-bool FilterScript::Load(const std::string &filename) {
+bool Script::Load(const std::string &filename) {
   if (!loaded_) {
     int err = aux_LoadProgram(&amx_, filename.c_str(), NULL);
     if (err == AMX_ERR_NONE) {
@@ -91,7 +94,7 @@ bool FilterScript::Load(const std::string &filename) {
   return false;
 }
 
-int FilterScript::Init(cell *retval) {
+int Script::Init(cell *retval) {
   int error, index;
   error = amx_FindPublic(&amx_, "OnFilterScriptInit", &index) == AMX_ERR_NONE;
   if (error != AMX_ERR_NONE) {
@@ -100,7 +103,7 @@ int FilterScript::Init(cell *retval) {
   return error;
 }
 
-int FilterScript::Exit(cell *retval) {
+int Script::Exit(cell *retval) {
   int error, index;
   error = amx_FindPublic(&amx_, "OnFilterScriptExit", &index) == AMX_ERR_NONE;
   if (error != AMX_ERR_NONE) {
@@ -109,14 +112,14 @@ int FilterScript::Exit(cell *retval) {
   return error;
 }
 
-bool FilterScript::Unload() {
+bool Script::Unload() {
   if (loaded_) {
     return aux_FreeProgram(&amx_) == AMX_ERR_NONE;
   }
   return false;
 }
 
-bool FilterScript::Exec(const char *name, bool default_retval) {
+bool Script::Exec(const char *name, bool default_retval) {
   int index = 0;
   if (amx_FindPublic(&amx_, name, &index) == AMX_ERR_NONE) {
     cell retval;

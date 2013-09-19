@@ -7,7 +7,7 @@
   #include <dlfcn.h>
 #endif
 
-namespace unlimitedfs {
+namespace ufs {
 
 Plugin::Plugin()
  : loaded_(false)
