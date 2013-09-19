@@ -1,4 +1,3 @@
-LIBRARY unlimitedfs
 EXPORTS
 	Supports
 	Load
