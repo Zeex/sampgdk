@@ -10,8 +10,6 @@ endif()
 
 add_samp_plugin(ufs
   "callbacks.cpp"
-  "callbacks.h"
-  "callbacks-export.cpp"
   "plugin.cpp"
   "plugin.h"
   "script.cpp"

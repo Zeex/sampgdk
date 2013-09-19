@@ -1,346 +1,1058 @@
-#include <stack>
-#include "script.h"
-
-namespace {
-
-class ExecContext {
- public:
-  ExecContext(ufs::Script *s) : amx_(s->amx()) {}
-
-  ~ExecContext() {
-    while (!heap_args_.empty()) {
-      amx_Release(amx_, heap_args_.top());
-      heap_args_.pop();
-    }
-  }
-
-  void PushCell(cell c) {
-    amx_Push(amx_, c);
-  }
-
-  void PushFloat(float f) {
-    amx_Push(amx_, amx_ftoc(f));
-  }
-
-  void PushString(const char *s) {
-    cell amx_addr;
-    amx_PushString(amx_, &amx_addr, 0, s, 0, 0);
-    heap_args_.push(amx_addr);
-  }
-
- private:
-  AMX *amx_;
-  std::stack<cell> heap_args_;
-};
-
-} // anonymous namespace
+#include "ufs.h"
 
 namespace ufs {
-  namespace callbacks {
 
-bool OnGameModeInit(Script *s) {
-  return s->Exec("OnGameModeInit");
-}
+class OnGameModeInit {
+ public:
+  OnGameModeInit() {}
+  bool operator()(Script *s) const {
+    return s->Exec("OnGameModeInit", true);
+  }
+ private:
+};
 
-bool OnGameModeExit(Script *s) {
-  return s->Exec("OnGameModeExit");
-}
+class OnGameModeExit {
+ public:
+  OnGameModeExit() {}
+  bool operator()(Script *s) const {
+    return s->Exec("OnGameModeExit", true);
+  }
+ private:
+};
 
-bool OnPlayerConnect(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerConnect");
-}
+class OnPlayerConnect {
+ public:
+  OnPlayerConnect(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerConnect", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnPlayerDisconnect(Script *s, int playerid, int reason) {
-  ExecContext ctx(s);
-  ctx.PushCell(reason);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerDisconnect");
-}
+class OnPlayerDisconnect {
+ public:
+  OnPlayerDisconnect(int playerid, int reason): playerid(playerid), reason(reason) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), reason);
+    bool ret = s->Exec("OnPlayerDisconnect", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int reason;
+};
 
-bool OnPlayerSpawn(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerSpawn");
-}
+class OnPlayerSpawn {
+ public:
+  OnPlayerSpawn(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerSpawn", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnPlayerDeath(Script *s, int playerid, int killerid, int reason) {
-  ExecContext ctx(s);
-  ctx.PushCell(reason);
-  ctx.PushCell(killerid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerDeath");
-}
+class OnPlayerDeath {
+ public:
+  OnPlayerDeath(int playerid, int killerid, int reason): playerid(playerid), killerid(killerid), reason(reason) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), killerid);
+    amx_Push(s->amx(), reason);
+    bool ret = s->Exec("OnPlayerDeath", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int killerid;
+  int reason;
+};
 
-bool OnVehicleSpawn(Script *s, int vehicleid) {
-  ExecContext ctx(s);
-  ctx.PushCell(vehicleid);
-  return s->Exec("OnVehicleSpawn");
-}
+class OnVehicleSpawn {
+ public:
+  OnVehicleSpawn(int vehicleid): vehicleid(vehicleid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), vehicleid);
+    bool ret = s->Exec("OnVehicleSpawn", true);
+    return ret;
+  }
+ private:
+  int vehicleid;
+};
 
-bool OnVehicleDeath(Script *s, int vehicleid, int killerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(killerid);
-  ctx.PushCell(vehicleid);
-  return s->Exec("OnVehicleDeath");
-}
+class OnVehicleDeath {
+ public:
+  OnVehicleDeath(int vehicleid, int killerid): vehicleid(vehicleid), killerid(killerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), killerid);
+    bool ret = s->Exec("OnVehicleDeath", true);
+    return ret;
+  }
+ private:
+  int vehicleid;
+  int killerid;
+};
 
-bool OnPlayerText(Script *s, int playerid, const char text[]) {
-  ExecContext ctx(s);
-  ctx.PushString(text);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerText");
-}
+class OnPlayerText {
+ public:
+  OnPlayerText(int playerid, const char * text): playerid(playerid), text(text) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    cell text_;
+    amx_PushString(s->amx(), &text_, 0, text, 0, 0);
+    bool ret = s->Exec("OnPlayerText", true);
+    amx_Release(s->amx(), text_);
+    return ret;
+  }
+ private:
+  int playerid;
+  const char * text;
+};
 
-bool OnPlayerCommandText(Script *s, int playerid, const char cmdtext[]) {
-  ExecContext ctx(s);
-  ctx.PushString(cmdtext);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerCommandText", false);
-}
+class OnPlayerCommandText {
+ public:
+  OnPlayerCommandText(int playerid, const char * cmdtext): playerid(playerid), cmdtext(cmdtext) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    cell cmdtext_;
+    amx_PushString(s->amx(), &cmdtext_, 0, cmdtext, 0, 0);
+    bool ret = s->Exec("OnPlayerCommandText", false);
+    amx_Release(s->amx(), cmdtext_);
+    return ret;
+  }
+ private:
+  int playerid;
+  const char * cmdtext;
+};
 
-bool OnPlayerRequestClass(Script *s, int playerid, int classid) {
-  ExecContext ctx(s);
-  ctx.PushCell(classid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerRequestClass");
-}
+class OnPlayerRequestClass {
+ public:
+  OnPlayerRequestClass(int playerid, int classid): playerid(playerid), classid(classid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), classid);
+    bool ret = s->Exec("OnPlayerRequestClass", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int classid;
+};
 
-bool OnPlayerEnterVehicle(Script *s, int playerid, int vehicleid, int ispassenger) {
-  ExecContext ctx(s);
-  ctx.PushCell(ispassenger);
-  ctx.PushCell(vehicleid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerEnterVehicle");
-}
+class OnPlayerEnterVehicle {
+ public:
+  OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger): playerid(playerid), vehicleid(vehicleid), ispassenger(ispassenger) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), ispassenger);
+    bool ret = s->Exec("OnPlayerEnterVehicle", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int vehicleid;
+  bool ispassenger;
+};
 
-bool OnPlayerExitVehicle(Script *s, int playerid, int vehicleid) {
-  ExecContext ctx(s);
-  ctx.PushCell(vehicleid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerExitVehicle");
-}
+class OnPlayerExitVehicle {
+ public:
+  OnPlayerExitVehicle(int playerid, int vehicleid): playerid(playerid), vehicleid(vehicleid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), vehicleid);
+    bool ret = s->Exec("OnPlayerExitVehicle", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int vehicleid;
+};
 
-bool OnPlayerStateChange(Script *s, int playerid, int newstate, int oldstate) {
-  ExecContext ctx(s);
-  ctx.PushCell(oldstate);
-  ctx.PushCell(newstate);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerStateChange");
-}
+class OnPlayerStateChange {
+ public:
+  OnPlayerStateChange(int playerid, int newstate, int oldstate): playerid(playerid), newstate(newstate), oldstate(oldstate) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), newstate);
+    amx_Push(s->amx(), oldstate);
+    bool ret = s->Exec("OnPlayerStateChange", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int newstate;
+  int oldstate;
+};
 
-bool OnPlayerEnterCheckpoint(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerEnterCheckpoint");
-}
+class OnPlayerEnterCheckpoint {
+ public:
+  OnPlayerEnterCheckpoint(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerEnterCheckpoint", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnPlayerLeaveCheckpoint(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerLeaveCheckpoint");
-}
+class OnPlayerLeaveCheckpoint {
+ public:
+  OnPlayerLeaveCheckpoint(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerLeaveCheckpoint", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnPlayerEnterRaceCheckpoint(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerEnterRaceCheckpoint");
-}
+class OnPlayerEnterRaceCheckpoint {
+ public:
+  OnPlayerEnterRaceCheckpoint(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerEnterRaceCheckpoint", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnPlayerLeaveRaceCheckpoint(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerLeaveRaceCheckpoint");
-}
+class OnPlayerLeaveRaceCheckpoint {
+ public:
+  OnPlayerLeaveRaceCheckpoint(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerLeaveRaceCheckpoint", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnRconCommand(Script *s, const char cmd[]) {
-  ExecContext ctx(s);
-  ctx.PushString(cmd);
-  return s->Exec("OnRconCommand");
-}
+class OnRconCommand {
+ public:
+  OnRconCommand(const char * cmd): cmd(cmd) {}
+  bool operator()(Script *s) const {
+    cell cmd_;
+    amx_PushString(s->amx(), &cmd_, 0, cmd, 0, 0);
+    bool ret = s->Exec("OnRconCommand", false);
+    amx_Release(s->amx(), cmd_);
+    return ret;
+  }
+ private:
+  const char * cmd;
+};
 
-bool OnPlayerRequestSpawn(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerRequestSpawn");
-}
+class OnPlayerRequestSpawn {
+ public:
+  OnPlayerRequestSpawn(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerRequestSpawn", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnObjectMoved(Script *s, int objectid) {
-  ExecContext ctx(s);
-  ctx.PushCell(objectid);
-  return s->Exec("OnObjectMoved");
-}
+class OnObjectMoved {
+ public:
+  OnObjectMoved(int objectid): objectid(objectid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), objectid);
+    bool ret = s->Exec("OnObjectMoved", true);
+    return ret;
+  }
+ private:
+  int objectid;
+};
 
-bool OnPlayerObjectMoved(Script *s, int playerid, int objectid) {
-  ExecContext ctx(s);
-  ctx.PushCell(objectid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerObjectMoved");
-}
+class OnPlayerObjectMoved {
+ public:
+  OnPlayerObjectMoved(int playerid, int objectid): playerid(playerid), objectid(objectid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), objectid);
+    bool ret = s->Exec("OnPlayerObjectMoved", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int objectid;
+};
 
-bool OnPlayerPickUpPickup(Script *s, int playerid, int pickupid) {
-  ExecContext ctx(s);
-  ctx.PushCell(pickupid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerPickUpPickup");
-}
+class OnPlayerPickUpPickup {
+ public:
+  OnPlayerPickUpPickup(int playerid, int pickupid): playerid(playerid), pickupid(pickupid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), pickupid);
+    bool ret = s->Exec("OnPlayerPickUpPickup", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int pickupid;
+};
 
-bool OnVehicleMod(Script *s, int playerid, int vehicleid, int componentid) {
-  ExecContext ctx(s);
-  ctx.PushCell(componentid);
-  ctx.PushCell(vehicleid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnVehicleMod");
-}
+class OnVehicleMod {
+ public:
+  OnVehicleMod(int playerid, int vehicleid, int componentid): playerid(playerid), vehicleid(vehicleid), componentid(componentid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), componentid);
+    bool ret = s->Exec("OnVehicleMod", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int vehicleid;
+  int componentid;
+};
 
-bool OnEnterExitModShop(Script *s, int playerid, int enterexit, int interiorid) {
-  ExecContext ctx(s);
-  ctx.PushCell(interiorid);
-  ctx.PushCell(enterexit);
-  ctx.PushCell(playerid);
-  return s->Exec("OnEnterExitModShop");
-}
+class OnEnterExitModShop {
+ public:
+  OnEnterExitModShop(int playerid, int enterexit, int interiorid): playerid(playerid), enterexit(enterexit), interiorid(interiorid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), enterexit);
+    amx_Push(s->amx(), interiorid);
+    bool ret = s->Exec("OnEnterExitModShop", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int enterexit;
+  int interiorid;
+};
 
-bool OnVehiclePaintjob(Script *s, int playerid, int vehicleid, int paintjobid) {
-  ExecContext ctx(s);
-  ctx.PushCell(paintjobid);
-  ctx.PushCell(vehicleid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnVehiclePaintjob");
-}
+class OnVehiclePaintjob {
+ public:
+  OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid): playerid(playerid), vehicleid(vehicleid), paintjobid(paintjobid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), paintjobid);
+    bool ret = s->Exec("OnVehiclePaintjob", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int vehicleid;
+  int paintjobid;
+};
 
-bool OnVehicleRespray(Script *s, int playerid, int vehicleid, int color1, int color2) {
-  ExecContext ctx(s);
-  ctx.PushCell(color2);
-  ctx.PushCell(color1);
-  ctx.PushCell(vehicleid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnVehicleRespray");
-}
+class OnVehicleRespray {
+ public:
+  OnVehicleRespray(int playerid, int vehicleid, int color1, int color2): playerid(playerid), vehicleid(vehicleid), color1(color1), color2(color2) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), color1);
+    amx_Push(s->amx(), color2);
+    bool ret = s->Exec("OnVehicleRespray", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int vehicleid;
+  int color1;
+  int color2;
+};
 
-bool OnVehicleDamageStatusUpdate(Script *s, int vehicleid, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  ctx.PushCell(vehicleid);
-  return s->Exec("OnVehicleDamageStatusUpdate");
-}
+class OnVehicleDamageStatusUpdate {
+ public:
+  OnVehicleDamageStatusUpdate(int vehicleid, int playerid): vehicleid(vehicleid), playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnVehicleDamageStatusUpdate", true);
+    return ret;
+  }
+ private:
+  int vehicleid;
+  int playerid;
+};
 
-bool OnUnoccupiedVehicleUpdate(Script *s, int vehicleid, int playerid, int passenger_seat) {
-  ExecContext ctx(s);
-  ctx.PushCell(passenger_seat);
-  ctx.PushCell(playerid);
-  ctx.PushCell(vehicleid);
-  return s->Exec("OnUnoccupiedVehicleUpdate");
-}
+class OnUnoccupiedVehicleUpdate {
+ public:
+  OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat): vehicleid(vehicleid), playerid(playerid), passenger_seat(passenger_seat) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), passenger_seat);
+    bool ret = s->Exec("OnUnoccupiedVehicleUpdate", true);
+    return ret;
+  }
+ private:
+  int vehicleid;
+  int playerid;
+  int passenger_seat;
+};
 
-bool OnPlayerSelectedMenuRow(Script *s, int playerid, int row) {
-  ExecContext ctx(s);
-  ctx.PushCell(row);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerSelectedMenuRow");
-}
+class OnPlayerSelectedMenuRow {
+ public:
+  OnPlayerSelectedMenuRow(int playerid, int row): playerid(playerid), row(row) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), row);
+    bool ret = s->Exec("OnPlayerSelectedMenuRow", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int row;
+};
 
-bool OnPlayerExitedMenu(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerExitedMenu");
-}
+class OnPlayerExitedMenu {
+ public:
+  OnPlayerExitedMenu(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerExitedMenu", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnPlayerInteriorChange(Script *s, int playerid, int newinteriorid, int oldinteriorid) {
-  ExecContext ctx(s);
-  ctx.PushCell(oldinteriorid);
-  ctx.PushCell(newinteriorid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerInteriorChange");
-}
+class OnPlayerInteriorChange {
+ public:
+  OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid): playerid(playerid), newinteriorid(newinteriorid), oldinteriorid(oldinteriorid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), newinteriorid);
+    amx_Push(s->amx(), oldinteriorid);
+    bool ret = s->Exec("OnPlayerInteriorChange", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int newinteriorid;
+  int oldinteriorid;
+};
 
-bool OnPlayerKeyStateChange(Script *s, int playerid, int newkeys, int oldkeys) {
-  ExecContext ctx(s);
-  ctx.PushCell(oldkeys);
-  ctx.PushCell(newkeys);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerKeyStateChange");
-}
+class OnPlayerKeyStateChange {
+ public:
+  OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys): playerid(playerid), newkeys(newkeys), oldkeys(oldkeys) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), newkeys);
+    amx_Push(s->amx(), oldkeys);
+    bool ret = s->Exec("OnPlayerKeyStateChange", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int newkeys;
+  int oldkeys;
+};
 
-bool OnRconLoginAttempt(Script *s, const char ip[], const char password[], int success) {
-  ExecContext ctx(s);
-  ctx.PushCell(success);
-  ctx.PushString(password);
-  ctx.PushString(ip);
-  return s->Exec("OnRconLoginAttempt");
-}
+class OnRconLoginAttempt {
+ public:
+  OnRconLoginAttempt(const char * ip, const char * password, bool success): ip(ip), password(password), success(success) {}
+  bool operator()(Script *s) const {
+    cell ip_;
+    amx_PushString(s->amx(), &ip_, 0, ip, 0, 0);
+    cell password_;
+    amx_PushString(s->amx(), &password_, 0, password, 0, 0);
+    amx_Push(s->amx(), success);
+    bool ret = s->Exec("OnRconLoginAttempt", true);
+    amx_Release(s->amx(), password_);
+    amx_Release(s->amx(), ip_);
+    return ret;
+  }
+ private:
+  const char * ip;
+  const char * password;
+  bool success;
+};
 
-bool OnPlayerUpdate(Script *s, int playerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerUpdate");
-}
+class OnPlayerUpdate {
+ public:
+  OnPlayerUpdate(int playerid): playerid(playerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnPlayerUpdate", true);
+    return ret;
+  }
+ private:
+  int playerid;
+};
 
-bool OnPlayerStreamIn(Script *s, int playerid, int forplayerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(forplayerid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerStreamIn");
-}
+class OnPlayerStreamIn {
+ public:
+  OnPlayerStreamIn(int playerid, int forplayerid): playerid(playerid), forplayerid(forplayerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), forplayerid);
+    bool ret = s->Exec("OnPlayerStreamIn", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int forplayerid;
+};
 
-bool OnPlayerStreamOut(Script *s, int playerid, int forplayerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(forplayerid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerStreamOut");
-}
+class OnPlayerStreamOut {
+ public:
+  OnPlayerStreamOut(int playerid, int forplayerid): playerid(playerid), forplayerid(forplayerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), forplayerid);
+    bool ret = s->Exec("OnPlayerStreamOut", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int forplayerid;
+};
 
-bool OnVehicleStreamIn(Script *s, int vehicleid, int forplayerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(forplayerid);
-  ctx.PushCell(vehicleid);
-  return s->Exec("OnVehicleStreamIn");
-}
+class OnVehicleStreamIn {
+ public:
+  OnVehicleStreamIn(int vehicleid, int forplayerid): vehicleid(vehicleid), forplayerid(forplayerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), forplayerid);
+    bool ret = s->Exec("OnVehicleStreamIn", true);
+    return ret;
+  }
+ private:
+  int vehicleid;
+  int forplayerid;
+};
 
-bool OnVehicleStreamOut(Script *s, int vehicleid, int forplayerid) {
-  ExecContext ctx(s);
-  ctx.PushCell(forplayerid);
-  ctx.PushCell(vehicleid);
-  return s->Exec("OnVehicleStreamOut");
-}
+class OnVehicleStreamOut {
+ public:
+  OnVehicleStreamOut(int vehicleid, int forplayerid): vehicleid(vehicleid), forplayerid(forplayerid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), forplayerid);
+    bool ret = s->Exec("OnVehicleStreamOut", true);
+    return ret;
+  }
+ private:
+  int vehicleid;
+  int forplayerid;
+};
 
-bool OnDialogResponse(Script *s, int playerid, int dialogid, int response, int listitem, const char inputtext[]) {
-  ExecContext ctx(s);
-  ctx.PushString(inputtext);
-  ctx.PushCell(listitem);
-  ctx.PushCell(response);
-  ctx.PushCell(dialogid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnDialogResponse");
-}
+class OnDialogResponse {
+ public:
+  OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char * inputtext): playerid(playerid), dialogid(dialogid), response(response), listitem(listitem), inputtext(inputtext) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), dialogid);
+    amx_Push(s->amx(), response);
+    amx_Push(s->amx(), listitem);
+    cell inputtext_;
+    amx_PushString(s->amx(), &inputtext_, 0, inputtext, 0, 0);
+    bool ret = s->Exec("OnDialogResponse", false);
+    amx_Release(s->amx(), inputtext_);
+    return ret;
+  }
+ private:
+  int playerid;
+  int dialogid;
+  int response;
+  int listitem;
+  const char * inputtext;
+};
 
-bool OnPlayerTakeDamage(Script *s, int playerid, int issuerid, float amount, int weaponid) {
-  ExecContext ctx(s);
-  ctx.PushCell(weaponid);
-  ctx.PushFloat(amount);
-  ctx.PushCell(issuerid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerTakeDamage");
-}
+class OnPlayerTakeDamage {
+ public:
+  OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid): playerid(playerid), issuerid(issuerid), amount(amount), weaponid(weaponid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), issuerid);
+    amx_Push(s->amx(), amx_ftoc(amount));
+    amx_Push(s->amx(), weaponid);
+    bool ret = s->Exec("OnPlayerTakeDamage", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int issuerid;
+  float amount;
+  int weaponid;
+};
 
-bool OnPlayerGiveDamage(Script *s, int playerid, int damagedid, float amount, int weaponid) {
-  ExecContext ctx(s);
-  ctx.PushCell(weaponid);
-  ctx.PushFloat(amount);
-  ctx.PushCell(damagedid);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerGiveDamage");
-}
+class OnPlayerGiveDamage {
+ public:
+  OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid): playerid(playerid), damagedid(damagedid), amount(amount), weaponid(weaponid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), damagedid);
+    amx_Push(s->amx(), amx_ftoc(amount));
+    amx_Push(s->amx(), weaponid);
+    bool ret = s->Exec("OnPlayerGiveDamage", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int damagedid;
+  float amount;
+  int weaponid;
+};
 
-bool OnPlayerClickMap(Script *s, int playerid, float fX, float fY, float fZ) {
-  ExecContext ctx(s);
-  ctx.PushFloat(fZ);
-  ctx.PushFloat(fY);
-  ctx.PushFloat(fX);
-  ctx.PushCell(playerid);
-  return s->Exec("OnPlayerClickMap");
-}
+class OnPlayerClickMap {
+ public:
+  OnPlayerClickMap(int playerid, float fX, float fY, float fZ): playerid(playerid), fX(fX), fY(fY), fZ(fZ) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), amx_ftoc(fX));
+    amx_Push(s->amx(), amx_ftoc(fY));
+    amx_Push(s->amx(), amx_ftoc(fZ));
+    bool ret = s->Exec("OnPlayerClickMap", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  float fX;
+  float fY;
+  float fZ;
+};
 
-} // namespace callbacks
+class OnPlayerClickTextDraw {
+ public:
+  OnPlayerClickTextDraw(int playerid, int clickedid): playerid(playerid), clickedid(clickedid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), clickedid);
+    bool ret = s->Exec("OnPlayerClickTextDraw", false);
+    return ret;
+  }
+ private:
+  int playerid;
+  int clickedid;
+};
+
+class OnPlayerClickPlayerTextDraw {
+ public:
+  OnPlayerClickPlayerTextDraw(int playerid, int playertextid): playerid(playerid), playertextid(playertextid) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), playertextid);
+    bool ret = s->Exec("OnPlayerClickPlayerTextDraw", false);
+    return ret;
+  }
+ private:
+  int playerid;
+  int playertextid;
+};
+
+class OnPlayerClickPlayer {
+ public:
+  OnPlayerClickPlayer(int playerid, int clickedplayerid, int source): playerid(playerid), clickedplayerid(clickedplayerid), source(source) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), clickedplayerid);
+    amx_Push(s->amx(), source);
+    bool ret = s->Exec("OnPlayerClickPlayer", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int clickedplayerid;
+  int source;
+};
+
+class OnPlayerEditObject {
+ public:
+  OnPlayerEditObject(int playerid, bool playerobject, int objectid, int response, float fX, float fY, float fZ, float fRotX, float fRotY, float fRotZ): playerid(playerid), playerobject(playerobject), objectid(objectid), response(response), fX(fX), fY(fY), fZ(fZ), fRotX(fRotX), fRotY(fRotY), fRotZ(fRotZ) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), playerobject);
+    amx_Push(s->amx(), objectid);
+    amx_Push(s->amx(), response);
+    amx_Push(s->amx(), amx_ftoc(fX));
+    amx_Push(s->amx(), amx_ftoc(fY));
+    amx_Push(s->amx(), amx_ftoc(fZ));
+    amx_Push(s->amx(), amx_ftoc(fRotX));
+    amx_Push(s->amx(), amx_ftoc(fRotY));
+    amx_Push(s->amx(), amx_ftoc(fRotZ));
+    bool ret = s->Exec("OnPlayerEditObject", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  bool playerobject;
+  int objectid;
+  int response;
+  float fX;
+  float fY;
+  float fZ;
+  float fRotX;
+  float fRotY;
+  float fRotZ;
+};
+
+class OnPlayerEditAttachedObject {
+ public:
+  OnPlayerEditAttachedObject(int playerid, int response, int index, int modelid, int boneid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ): playerid(playerid), response(response), index(index), modelid(modelid), boneid(boneid), fOffsetX(fOffsetX), fOffsetY(fOffsetY), fOffsetZ(fOffsetZ), fRotX(fRotX), fRotY(fRotY), fRotZ(fRotZ), fScaleX(fScaleX), fScaleY(fScaleY), fScaleZ(fScaleZ) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), response);
+    amx_Push(s->amx(), index);
+    amx_Push(s->amx(), modelid);
+    amx_Push(s->amx(), boneid);
+    amx_Push(s->amx(), amx_ftoc(fOffsetX));
+    amx_Push(s->amx(), amx_ftoc(fOffsetY));
+    amx_Push(s->amx(), amx_ftoc(fOffsetZ));
+    amx_Push(s->amx(), amx_ftoc(fRotX));
+    amx_Push(s->amx(), amx_ftoc(fRotY));
+    amx_Push(s->amx(), amx_ftoc(fRotZ));
+    amx_Push(s->amx(), amx_ftoc(fScaleX));
+    amx_Push(s->amx(), amx_ftoc(fScaleY));
+    amx_Push(s->amx(), amx_ftoc(fScaleZ));
+    bool ret = s->Exec("OnPlayerEditAttachedObject", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int response;
+  int index;
+  int modelid;
+  int boneid;
+  float fOffsetX;
+  float fOffsetY;
+  float fOffsetZ;
+  float fRotX;
+  float fRotY;
+  float fRotZ;
+  float fScaleX;
+  float fScaleY;
+  float fScaleZ;
+};
+
+class OnPlayerSelectObject {
+ public:
+  OnPlayerSelectObject(int playerid, int type, int objectid, int modelid, float fX, float fY, float fZ): playerid(playerid), type(type), objectid(objectid), modelid(modelid), fX(fX), fY(fY), fZ(fZ) {}
+  bool operator()(Script *s) const {
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), type);
+    amx_Push(s->amx(), objectid);
+    amx_Push(s->amx(), modelid);
+    amx_Push(s->amx(), amx_ftoc(fX));
+    amx_Push(s->amx(), amx_ftoc(fY));
+    amx_Push(s->amx(), amx_ftoc(fZ));
+    bool ret = s->Exec("OnPlayerSelectObject", true);
+    return ret;
+  }
+ private:
+  int playerid;
+  int type;
+  int objectid;
+  int modelid;
+  float fX;
+  float fY;
+  float fZ;
+};
+
 } // namespace ufs
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnGameModeInit(), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeExit() {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnGameModeExit(), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerConnect(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerConnect(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDisconnect(int playerid, int reason) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerDisconnect(playerid, reason), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSpawn(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerSpawn(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerDeath(int playerid, int killerid, int reason) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerDeath(playerid, killerid, reason), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleSpawn(int vehicleid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnVehicleSpawn(vehicleid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDeath(int vehicleid, int killerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnVehicleDeath(vehicleid, killerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerText(int playerid, const char * text) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerText(playerid, text), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char * cmdtext) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerCommandText(playerid, cmdtext), false);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerRequestClass(playerid, classid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerEnterVehicle(playerid, vehicleid, ispassenger), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitVehicle(int playerid, int vehicleid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerExitVehicle(playerid, vehicleid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStateChange(int playerid, int newstate, int oldstate) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerStateChange(playerid, newstate, oldstate), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterCheckpoint(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerEnterCheckpoint(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveCheckpoint(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerLeaveCheckpoint(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEnterRaceCheckpoint(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerEnterRaceCheckpoint(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerLeaveRaceCheckpoint(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerLeaveRaceCheckpoint(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnRconCommand(const char * cmd) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnRconCommand(cmd), false);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestSpawn(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerRequestSpawn(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnObjectMoved(int objectid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnObjectMoved(objectid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerObjectMoved(int playerid, int objectid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerObjectMoved(playerid, objectid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerPickUpPickup(int playerid, int pickupid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerPickUpPickup(playerid, pickupid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleMod(int playerid, int vehicleid, int componentid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnVehicleMod(playerid, vehicleid, componentid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnEnterExitModShop(int playerid, int enterexit, int interiorid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnEnterExitModShop(playerid, enterexit, interiorid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnVehiclePaintjob(playerid, vehicleid, paintjobid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleRespray(int playerid, int vehicleid, int color1, int color2) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnVehicleRespray(playerid, vehicleid, color1, color2), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnVehicleDamageStatusUpdate(vehicleid, playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerSelectedMenuRow(playerid, row), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerExitedMenu(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerExitedMenu(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerKeyStateChange(playerid, newkeys, oldkeys), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnRconLoginAttempt(const char * ip, const char * password, bool success) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnRconLoginAttempt(ip, password, success), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerUpdate(int playerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerUpdate(playerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamIn(int playerid, int forplayerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerStreamIn(playerid, forplayerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerStreamOut(int playerid, int forplayerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerStreamOut(playerid, forplayerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamIn(int vehicleid, int forplayerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnVehicleStreamIn(vehicleid, forplayerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleStreamOut(int vehicleid, int forplayerid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnVehicleStreamOut(vehicleid, forplayerid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char * inputtext) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnDialogResponse(playerid, dialogid, response, listitem, inputtext), false);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerTakeDamage(playerid, issuerid, amount, weaponid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerGiveDamage(playerid, damagedid, amount, weaponid), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickMap(int playerid, float fX, float fY, float fZ) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerClickMap(playerid, fX, fY, fZ), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickTextDraw(int playerid, int clickedid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerClickTextDraw(playerid, clickedid), false);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(int playerid, int playertextid) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerClickPlayerTextDraw(playerid, playertextid), false);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayer(int playerid, int clickedplayerid, int source) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerClickPlayer(playerid, clickedplayerid, source), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEditObject(int playerid, bool playerobject, int objectid, int response, float fX, float fY, float fZ, float fRotX, float fRotY, float fRotZ) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerEditObject(playerid, playerobject, objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerEditAttachedObject(int playerid, int response, int index, int modelid, int boneid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerEditAttachedObject(playerid, response, index, modelid, boneid, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ), true);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectObject(int playerid, int type, int objectid, int modelid, float fX, float fY, float fZ) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnPlayerSelectObject(playerid, type, objectid, modelid, fX, fY, fZ), true);
+}
+
