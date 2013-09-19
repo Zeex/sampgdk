@@ -1,5 +1,4 @@
 #include <stack>
-#include "rcon.h"
 #include "script.h"
 
 namespace {
@@ -156,7 +155,6 @@ bool OnPlayerLeaveRaceCheckpoint(Script *s, int playerid) {
 }
 
 bool OnRconCommand(Script *s, const char cmd[]) {
-  ProcessRconCommand(cmd);
   ExecContext ctx(s);
   ctx.PushString(cmd);
   return s->Exec("OnRconCommand");

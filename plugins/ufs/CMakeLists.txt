@@ -14,8 +14,6 @@ add_samp_plugin(ufs
   "callbacks-export.cpp"
   "plugin.cpp"
   "plugin.h"
-  "rcon.cpp"
-  "rcon.h"
   "script.cpp"
   "script.h"
   "ufs.cpp"
