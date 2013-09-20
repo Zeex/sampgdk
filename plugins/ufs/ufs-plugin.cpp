@@ -34,6 +34,10 @@ UFSPlugin ufs_plugin;
 
 } // anonymous namespace
 
+PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
+  return SUPPORTS_VERSION | SUPPORTS_AMX_NATIVES;
+}
+
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
   return ufs_plugin.Load(ppData) >= 0;
 }
