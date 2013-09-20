@@ -309,7 +309,7 @@ def generate_callback_impl(file, func):
              ' {\n' % func.name)
 
   badret = func.get_attr('badret')
-  if badret is not None:
+  if badret.value is not None:
     file.write('  bool retval_;\n')
 
   for p in func.params:
@@ -326,7 +326,7 @@ def generate_callback_impl(file, func):
       }[p.type], index)
     )
 
-  if badret is not None:
+  if badret.value is not None:
     file.write('  retval_ = ((%s_type)callback)(%s);\n' % (func.name, ArgList(func.params)))
     file.write('  if (retval != NULL) {\n')
     file.write('    *retval = (cell)retval_;\n')
@@ -338,7 +338,7 @@ def generate_callback_impl(file, func):
   for p in filter(lambda p: p.type == 'string', func.params):
     file.write('  free((void*)%s);\n' % p.name)
 
-  if badret is not None:
+  if badret.value is not None:
     file.write('  return (retval_ != %s);\n' % badret.value)
   else:
     file.write('  return true;\n')
