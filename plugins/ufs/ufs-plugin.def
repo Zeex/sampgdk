@@ -48,4 +48,9 @@ EXPORTS
 	OnPlayerTakeDamage
 	OnPlayerGiveDamage
 	OnPlayerClickMap
-
+	OnPlayerClickTextDraw
+	OnPlayerClickPlayerTextDraw
+	OnPlayerClickPlayer
+	OnPlayerEditObject
+	OnPlayerEditAttachedObject
+	OnPlayerSelectObject
