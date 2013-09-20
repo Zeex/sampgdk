@@ -46,15 +46,15 @@ class UFS {
     }
   }
 
-  template<typename F, typename T>
-  bool ForEachScript(const F &f, T cond) {
+  template<typename F>
+  bool ForEachScript(const F &f, bool while_retval) {
     for (Scripts::iterator it = scripts_.begin();
          it != scripts_.end(); it++) {
-      if (f(it->second) != cond) {
-        return false;
+      if (f(it->second) != while_retval) {
+        return !while_retval;
       }
     }
-    return true;
+    return while_retval;
   }
 
  private:
