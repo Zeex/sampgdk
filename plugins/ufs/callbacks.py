@@ -1,11 +1,4 @@
 #!/usr/bin/env python
-#
-# This script generated callback outlementation code. It produces two output
-# files: callbacks.cpp and callbacks-export.cpp.
-#
-# Currently it's not integrated into the build so has to be run manually.
-# The cidl module can be found in <source>/lib/python/cidl, as well as PLY
-# which is required by cidl.
 
 import os
 import sys
