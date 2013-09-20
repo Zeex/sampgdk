@@ -39,7 +39,7 @@ for c in callbacks:
   else:
     out.write('  %s() {}\n' % c.name)
 
-  out.write('  bool operator()(Script *s) const {\n')
+  out.write('  bool operator()(Script *s) {\n')
 
   for p in reversed(c.params):
     if p.type == 'string':

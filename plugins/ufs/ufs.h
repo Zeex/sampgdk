@@ -30,24 +30,24 @@ class UFS {
   bool UnloadScript(const std::string &name);
   void UnloadScripts();
 
-  template<typename F>
-  void ForEachPlugin(const F &f) {
+  template<typename Func>
+  void ForEachPlugin(Func f) {
     for (Plugins::iterator it = plugins_.begin();
          it != plugins_.end(); it++) {
       f(it->second);
     }
   }
 
-  template<typename F>
-  void ForEachScript(const F &f) {
+  template<typename Func>
+  void ForEachScript(Func f) {
     for (Scripts::iterator it = scripts_.begin();
          it != scripts_.end(); it++) {
       f(it->second);
     }
   }
 
-  template<typename F>
-  bool ForEachScript(const F &f, bool while_retval) {
+  template<typename Func>
+  bool ForEachScript(Func f, bool while_retval) {
     for (Scripts::iterator it = scripts_.begin();
          it != scripts_.end(); it++) {
       if (f(it->second) != while_retval) {
