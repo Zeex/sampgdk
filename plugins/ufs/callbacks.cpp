@@ -1,3 +1,4 @@
+#include "script.h"
 #include "ufs.h"
 
 namespace ufs {
@@ -36,8 +37,8 @@ class OnPlayerDisconnect {
  public:
   OnPlayerDisconnect(int playerid, int reason): playerid(playerid), reason(reason) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), reason);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerDisconnect", true);
     return ret;
   }
@@ -62,9 +63,9 @@ class OnPlayerDeath {
  public:
   OnPlayerDeath(int playerid, int killerid, int reason): playerid(playerid), killerid(killerid), reason(reason) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), killerid);
     amx_Push(s->amx(), reason);
+    amx_Push(s->amx(), killerid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerDeath", true);
     return ret;
   }
@@ -90,8 +91,8 @@ class OnVehicleDeath {
  public:
   OnVehicleDeath(int vehicleid, int killerid): vehicleid(vehicleid), killerid(killerid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), vehicleid);
     amx_Push(s->amx(), killerid);
+    amx_Push(s->amx(), vehicleid);
     bool ret = s->Exec("OnVehicleDeath", true);
     return ret;
   }
@@ -104,9 +105,9 @@ class OnPlayerText {
  public:
   OnPlayerText(int playerid, const char * text): playerid(playerid), text(text) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     cell text_;
     amx_PushString(s->amx(), &text_, 0, text, 0, 0);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerText", true);
     amx_Release(s->amx(), text_);
     return ret;
@@ -120,9 +121,9 @@ class OnPlayerCommandText {
  public:
   OnPlayerCommandText(int playerid, const char * cmdtext): playerid(playerid), cmdtext(cmdtext) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     cell cmdtext_;
     amx_PushString(s->amx(), &cmdtext_, 0, cmdtext, 0, 0);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerCommandText", false);
     amx_Release(s->amx(), cmdtext_);
     return ret;
@@ -136,8 +137,8 @@ class OnPlayerRequestClass {
  public:
   OnPlayerRequestClass(int playerid, int classid): playerid(playerid), classid(classid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), classid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerRequestClass", true);
     return ret;
   }
@@ -150,9 +151,9 @@ class OnPlayerEnterVehicle {
  public:
   OnPlayerEnterVehicle(int playerid, int vehicleid, bool ispassenger): playerid(playerid), vehicleid(vehicleid), ispassenger(ispassenger) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), vehicleid);
     amx_Push(s->amx(), ispassenger);
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerEnterVehicle", true);
     return ret;
   }
@@ -166,8 +167,8 @@ class OnPlayerExitVehicle {
  public:
   OnPlayerExitVehicle(int playerid, int vehicleid): playerid(playerid), vehicleid(vehicleid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerExitVehicle", true);
     return ret;
   }
@@ -180,9 +181,9 @@ class OnPlayerStateChange {
  public:
   OnPlayerStateChange(int playerid, int newstate, int oldstate): playerid(playerid), newstate(newstate), oldstate(oldstate) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), newstate);
     amx_Push(s->amx(), oldstate);
+    amx_Push(s->amx(), newstate);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerStateChange", true);
     return ret;
   }
@@ -282,8 +283,8 @@ class OnPlayerObjectMoved {
  public:
   OnPlayerObjectMoved(int playerid, int objectid): playerid(playerid), objectid(objectid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), objectid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerObjectMoved", true);
     return ret;
   }
@@ -296,8 +297,8 @@ class OnPlayerPickUpPickup {
  public:
   OnPlayerPickUpPickup(int playerid, int pickupid): playerid(playerid), pickupid(pickupid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), pickupid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerPickUpPickup", true);
     return ret;
   }
@@ -310,9 +311,9 @@ class OnVehicleMod {
  public:
   OnVehicleMod(int playerid, int vehicleid, int componentid): playerid(playerid), vehicleid(vehicleid), componentid(componentid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), vehicleid);
     amx_Push(s->amx(), componentid);
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnVehicleMod", true);
     return ret;
   }
@@ -326,9 +327,9 @@ class OnEnterExitModShop {
  public:
   OnEnterExitModShop(int playerid, int enterexit, int interiorid): playerid(playerid), enterexit(enterexit), interiorid(interiorid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), enterexit);
     amx_Push(s->amx(), interiorid);
+    amx_Push(s->amx(), enterexit);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnEnterExitModShop", true);
     return ret;
   }
@@ -342,9 +343,9 @@ class OnVehiclePaintjob {
  public:
   OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid): playerid(playerid), vehicleid(vehicleid), paintjobid(paintjobid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), vehicleid);
     amx_Push(s->amx(), paintjobid);
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnVehiclePaintjob", true);
     return ret;
   }
@@ -358,10 +359,10 @@ class OnVehicleRespray {
  public:
   OnVehicleRespray(int playerid, int vehicleid, int color1, int color2): playerid(playerid), vehicleid(vehicleid), color1(color1), color2(color2) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), vehicleid);
-    amx_Push(s->amx(), color1);
     amx_Push(s->amx(), color2);
+    amx_Push(s->amx(), color1);
+    amx_Push(s->amx(), vehicleid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnVehicleRespray", true);
     return ret;
   }
@@ -376,8 +377,8 @@ class OnVehicleDamageStatusUpdate {
  public:
   OnVehicleDamageStatusUpdate(int vehicleid, int playerid): vehicleid(vehicleid), playerid(playerid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), vehicleid);
     amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), vehicleid);
     bool ret = s->Exec("OnVehicleDamageStatusUpdate", true);
     return ret;
   }
@@ -390,9 +391,9 @@ class OnUnoccupiedVehicleUpdate {
  public:
   OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat): vehicleid(vehicleid), playerid(playerid), passenger_seat(passenger_seat) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), vehicleid);
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), passenger_seat);
+    amx_Push(s->amx(), playerid);
+    amx_Push(s->amx(), vehicleid);
     bool ret = s->Exec("OnUnoccupiedVehicleUpdate", true);
     return ret;
   }
@@ -406,8 +407,8 @@ class OnPlayerSelectedMenuRow {
  public:
   OnPlayerSelectedMenuRow(int playerid, int row): playerid(playerid), row(row) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), row);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerSelectedMenuRow", true);
     return ret;
   }
@@ -432,9 +433,9 @@ class OnPlayerInteriorChange {
  public:
   OnPlayerInteriorChange(int playerid, int newinteriorid, int oldinteriorid): playerid(playerid), newinteriorid(newinteriorid), oldinteriorid(oldinteriorid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), newinteriorid);
     amx_Push(s->amx(), oldinteriorid);
+    amx_Push(s->amx(), newinteriorid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerInteriorChange", true);
     return ret;
   }
@@ -448,9 +449,9 @@ class OnPlayerKeyStateChange {
  public:
   OnPlayerKeyStateChange(int playerid, int newkeys, int oldkeys): playerid(playerid), newkeys(newkeys), oldkeys(oldkeys) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), newkeys);
     amx_Push(s->amx(), oldkeys);
+    amx_Push(s->amx(), newkeys);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerKeyStateChange", true);
     return ret;
   }
@@ -464,14 +465,14 @@ class OnRconLoginAttempt {
  public:
   OnRconLoginAttempt(const char * ip, const char * password, bool success): ip(ip), password(password), success(success) {}
   bool operator()(Script *s) const {
-    cell ip_;
-    amx_PushString(s->amx(), &ip_, 0, ip, 0, 0);
+    amx_Push(s->amx(), success);
     cell password_;
     amx_PushString(s->amx(), &password_, 0, password, 0, 0);
-    amx_Push(s->amx(), success);
+    cell ip_;
+    amx_PushString(s->amx(), &ip_, 0, ip, 0, 0);
     bool ret = s->Exec("OnRconLoginAttempt", true);
-    amx_Release(s->amx(), password_);
     amx_Release(s->amx(), ip_);
+    amx_Release(s->amx(), password_);
     return ret;
   }
  private:
@@ -496,8 +497,8 @@ class OnPlayerStreamIn {
  public:
   OnPlayerStreamIn(int playerid, int forplayerid): playerid(playerid), forplayerid(forplayerid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), forplayerid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerStreamIn", true);
     return ret;
   }
@@ -510,8 +511,8 @@ class OnPlayerStreamOut {
  public:
   OnPlayerStreamOut(int playerid, int forplayerid): playerid(playerid), forplayerid(forplayerid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), forplayerid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerStreamOut", true);
     return ret;
   }
@@ -524,8 +525,8 @@ class OnVehicleStreamIn {
  public:
   OnVehicleStreamIn(int vehicleid, int forplayerid): vehicleid(vehicleid), forplayerid(forplayerid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), vehicleid);
     amx_Push(s->amx(), forplayerid);
+    amx_Push(s->amx(), vehicleid);
     bool ret = s->Exec("OnVehicleStreamIn", true);
     return ret;
   }
@@ -538,8 +539,8 @@ class OnVehicleStreamOut {
  public:
   OnVehicleStreamOut(int vehicleid, int forplayerid): vehicleid(vehicleid), forplayerid(forplayerid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), vehicleid);
     amx_Push(s->amx(), forplayerid);
+    amx_Push(s->amx(), vehicleid);
     bool ret = s->Exec("OnVehicleStreamOut", true);
     return ret;
   }
@@ -552,12 +553,12 @@ class OnDialogResponse {
  public:
   OnDialogResponse(int playerid, int dialogid, int response, int listitem, const char * inputtext): playerid(playerid), dialogid(dialogid), response(response), listitem(listitem), inputtext(inputtext) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), dialogid);
-    amx_Push(s->amx(), response);
-    amx_Push(s->amx(), listitem);
     cell inputtext_;
     amx_PushString(s->amx(), &inputtext_, 0, inputtext, 0, 0);
+    amx_Push(s->amx(), listitem);
+    amx_Push(s->amx(), response);
+    amx_Push(s->amx(), dialogid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnDialogResponse", false);
     amx_Release(s->amx(), inputtext_);
     return ret;
@@ -574,10 +575,10 @@ class OnPlayerTakeDamage {
  public:
   OnPlayerTakeDamage(int playerid, int issuerid, float amount, int weaponid): playerid(playerid), issuerid(issuerid), amount(amount), weaponid(weaponid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), issuerid);
-    amx_Push(s->amx(), amx_ftoc(amount));
     amx_Push(s->amx(), weaponid);
+    amx_Push(s->amx(), amx_ftoc(amount));
+    amx_Push(s->amx(), issuerid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerTakeDamage", true);
     return ret;
   }
@@ -592,10 +593,10 @@ class OnPlayerGiveDamage {
  public:
   OnPlayerGiveDamage(int playerid, int damagedid, float amount, int weaponid): playerid(playerid), damagedid(damagedid), amount(amount), weaponid(weaponid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), damagedid);
-    amx_Push(s->amx(), amx_ftoc(amount));
     amx_Push(s->amx(), weaponid);
+    amx_Push(s->amx(), amx_ftoc(amount));
+    amx_Push(s->amx(), damagedid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerGiveDamage", true);
     return ret;
   }
@@ -610,10 +611,10 @@ class OnPlayerClickMap {
  public:
   OnPlayerClickMap(int playerid, float fX, float fY, float fZ): playerid(playerid), fX(fX), fY(fY), fZ(fZ) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), amx_ftoc(fX));
-    amx_Push(s->amx(), amx_ftoc(fY));
     amx_Push(s->amx(), amx_ftoc(fZ));
+    amx_Push(s->amx(), amx_ftoc(fY));
+    amx_Push(s->amx(), amx_ftoc(fX));
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerClickMap", true);
     return ret;
   }
@@ -628,8 +629,8 @@ class OnPlayerClickTextDraw {
  public:
   OnPlayerClickTextDraw(int playerid, int clickedid): playerid(playerid), clickedid(clickedid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), clickedid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerClickTextDraw", false);
     return ret;
   }
@@ -642,8 +643,8 @@ class OnPlayerClickPlayerTextDraw {
  public:
   OnPlayerClickPlayerTextDraw(int playerid, int playertextid): playerid(playerid), playertextid(playertextid) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), playertextid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerClickPlayerTextDraw", false);
     return ret;
   }
@@ -656,9 +657,9 @@ class OnPlayerClickPlayer {
  public:
   OnPlayerClickPlayer(int playerid, int clickedplayerid, int source): playerid(playerid), clickedplayerid(clickedplayerid), source(source) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), clickedplayerid);
     amx_Push(s->amx(), source);
+    amx_Push(s->amx(), clickedplayerid);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerClickPlayer", true);
     return ret;
   }
@@ -672,16 +673,16 @@ class OnPlayerEditObject {
  public:
   OnPlayerEditObject(int playerid, bool playerobject, int objectid, int response, float fX, float fY, float fZ, float fRotX, float fRotY, float fRotZ): playerid(playerid), playerobject(playerobject), objectid(objectid), response(response), fX(fX), fY(fY), fZ(fZ), fRotX(fRotX), fRotY(fRotY), fRotZ(fRotZ) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), playerobject);
-    amx_Push(s->amx(), objectid);
-    amx_Push(s->amx(), response);
-    amx_Push(s->amx(), amx_ftoc(fX));
-    amx_Push(s->amx(), amx_ftoc(fY));
-    amx_Push(s->amx(), amx_ftoc(fZ));
-    amx_Push(s->amx(), amx_ftoc(fRotX));
-    amx_Push(s->amx(), amx_ftoc(fRotY));
     amx_Push(s->amx(), amx_ftoc(fRotZ));
+    amx_Push(s->amx(), amx_ftoc(fRotY));
+    amx_Push(s->amx(), amx_ftoc(fRotX));
+    amx_Push(s->amx(), amx_ftoc(fZ));
+    amx_Push(s->amx(), amx_ftoc(fY));
+    amx_Push(s->amx(), amx_ftoc(fX));
+    amx_Push(s->amx(), response);
+    amx_Push(s->amx(), objectid);
+    amx_Push(s->amx(), playerobject);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerEditObject", true);
     return ret;
   }
@@ -702,20 +703,20 @@ class OnPlayerEditAttachedObject {
  public:
   OnPlayerEditAttachedObject(int playerid, int response, int index, int modelid, int boneid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, float fScaleX, float fScaleY, float fScaleZ): playerid(playerid), response(response), index(index), modelid(modelid), boneid(boneid), fOffsetX(fOffsetX), fOffsetY(fOffsetY), fOffsetZ(fOffsetZ), fRotX(fRotX), fRotY(fRotY), fRotZ(fRotZ), fScaleX(fScaleX), fScaleY(fScaleY), fScaleZ(fScaleZ) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), response);
-    amx_Push(s->amx(), index);
-    amx_Push(s->amx(), modelid);
-    amx_Push(s->amx(), boneid);
-    amx_Push(s->amx(), amx_ftoc(fOffsetX));
-    amx_Push(s->amx(), amx_ftoc(fOffsetY));
-    amx_Push(s->amx(), amx_ftoc(fOffsetZ));
-    amx_Push(s->amx(), amx_ftoc(fRotX));
-    amx_Push(s->amx(), amx_ftoc(fRotY));
-    amx_Push(s->amx(), amx_ftoc(fRotZ));
-    amx_Push(s->amx(), amx_ftoc(fScaleX));
-    amx_Push(s->amx(), amx_ftoc(fScaleY));
     amx_Push(s->amx(), amx_ftoc(fScaleZ));
+    amx_Push(s->amx(), amx_ftoc(fScaleY));
+    amx_Push(s->amx(), amx_ftoc(fScaleX));
+    amx_Push(s->amx(), amx_ftoc(fRotZ));
+    amx_Push(s->amx(), amx_ftoc(fRotY));
+    amx_Push(s->amx(), amx_ftoc(fRotX));
+    amx_Push(s->amx(), amx_ftoc(fOffsetZ));
+    amx_Push(s->amx(), amx_ftoc(fOffsetY));
+    amx_Push(s->amx(), amx_ftoc(fOffsetX));
+    amx_Push(s->amx(), boneid);
+    amx_Push(s->amx(), modelid);
+    amx_Push(s->amx(), index);
+    amx_Push(s->amx(), response);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerEditAttachedObject", true);
     return ret;
   }
@@ -740,13 +741,13 @@ class OnPlayerSelectObject {
  public:
   OnPlayerSelectObject(int playerid, int type, int objectid, int modelid, float fX, float fY, float fZ): playerid(playerid), type(type), objectid(objectid), modelid(modelid), fX(fX), fY(fY), fZ(fZ) {}
   bool operator()(Script *s) const {
-    amx_Push(s->amx(), playerid);
-    amx_Push(s->amx(), type);
-    amx_Push(s->amx(), objectid);
-    amx_Push(s->amx(), modelid);
-    amx_Push(s->amx(), amx_ftoc(fX));
-    amx_Push(s->amx(), amx_ftoc(fY));
     amx_Push(s->amx(), amx_ftoc(fZ));
+    amx_Push(s->amx(), amx_ftoc(fY));
+    amx_Push(s->amx(), amx_ftoc(fX));
+    amx_Push(s->amx(), modelid);
+    amx_Push(s->amx(), objectid);
+    amx_Push(s->amx(), type);
+    amx_Push(s->amx(), playerid);
     bool ret = s->Exec("OnPlayerSelectObject", true);
     return ret;
   }

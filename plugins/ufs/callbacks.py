@@ -41,7 +41,7 @@ for c in callbacks:
 
   out.write('  bool operator()(Script *s) const {\n')
 
-  for p in c.params:
+  for p in reversed(c.params):
     if p.type == 'string':
       out.write('    cell %s_;\n' % p.name)
       out.write('    amx_PushString(s->amx(), &%s_, 0, %s, 0, 0);\n' % (p.name,
@@ -56,7 +56,7 @@ for c in callbacks:
 
   if len(c.params) > 0:
     out.write('    bool ret = s->Exec("%s", %s);\n' % (c.name, defret))
-    for p in reversed(c.params):
+    for p in c.params:
       if p.type == 'string':
         out.write('    amx_Release(s->amx(), %s_);\n' % p.name)
     out.write('    return ret;\n')
