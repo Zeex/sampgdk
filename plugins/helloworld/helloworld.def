@@ -1,4 +1,3 @@
-LIBRARY helloworld
 EXPORTS
 	Supports
 	Load
