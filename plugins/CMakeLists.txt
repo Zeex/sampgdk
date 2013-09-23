@@ -5,6 +5,3 @@ set_property(TARGET helloworld PROPERTY FOLDER "${folder}")
 
 add_subdirectory("lvdm")
 set_property(TARGET lvdm PROPERTY FOLDER "${folder}")
-
-add_subdirectory("ufs")
-set_property(TARGET ufs PROPERTY FOLDER "${folder}")
