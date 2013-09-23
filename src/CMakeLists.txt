@@ -49,7 +49,7 @@ if(WIN32)
   )
 elseif(UNIX)
   sampgdk_add_sources(
-    "plugin-glibc.c"
+    "plugin-posix.c"
     "timer-posix.c"
     "${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_SYM_FILE}"
   )
