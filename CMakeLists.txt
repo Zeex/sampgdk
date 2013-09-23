@@ -315,11 +315,16 @@ install(TARGETS sampgdk
   LIBRARY DESTINATION "lib" COMPONENT "bin"
 )
 
-if(MSVC)
+function(sampgdk_get_pdb_path target result)
   set(config_name "\${CMAKE_INSTALL_CONFIG_NAME}")
-  get_target_property(output_name sampgdk OUTPUT_NAME)
+  get_target_property(output_name ${target} OUTPUT_NAME)
   set(pdb_name "${output_name}.pdb")
   set(pdb_path "${CMAKE_CURRENT_BINARY_DIR}/${config_name}/${pdb_name}")
+  set(${result} ${pdb_path} PARENT_SCOPE)
+endfunction()
+
+if(MSVC AND NOT SAMPGDK_STATIC)
+  sampgdk_get_pdb_path(sampgdk pdb_path)
   install(FILES ${pdb_path} DESTINATION "bin" COMPONENT "bin")
 endif()
 
