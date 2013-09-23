@@ -1,3 +1,11 @@
+Changes in version 3.5
+======================
+
+o Fixed a bug in sampgdk_vlogprintf() and other printf-like functions where
+  some specifiers didn't work as expected
+o Fixed typos in the names of some native functions
+o Added IsValidVehicle() and Vehicle::IsValid() functions
+
 Changes in version 3.4.1
 ========================
 
