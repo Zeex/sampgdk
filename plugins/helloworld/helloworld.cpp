@@ -8,7 +8,7 @@
 
 static ThisPlugin helloworld;
 
-static void SAMPGDK_CALL RepeatingTimer(int, void *) {
+static void SAMPGDK_TIMER_CALL RepeatingTimer(int, void *) {
   ServerLog::Printf("RepeatingTimer");
 }
 

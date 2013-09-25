@@ -21,7 +21,7 @@
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
 
-typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
+typedef void (SAMPGDK_TIMER_CALL *TimerCallback)(int timerid, void *param);
 
 #include <sampgdk/a_samp-decl.h>
 

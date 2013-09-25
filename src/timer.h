@@ -21,7 +21,7 @@
 
 #include <time.h>
 
-typedef void (SAMPGDK_CALL *sampgdk_timer_callback)(int timerid, void *param);
+typedef void (SAMPGDK_TIMER_CALL *sampgdk_timer_callback)(int id, void *param);
 
 struct sampgdk_timer {
   bool                    is_set;
