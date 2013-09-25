@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_COMPAT_H
-#define SAMPGDK_COMPAT_H
+#ifndef SAMPGDK_COMPATIBILITY_H
+#define SAMPGDK_COMPATIBILITY_H
 
 #if defined __cplusplus
   #if defined SAMPGDK_USE_NAMESPACE
@@ -28,4 +28,4 @@
   #endif
 #endif
 
-#endif /* !SAMPGDK_COMPAT_H */
+#endif /* !SAMPGDK_COMPATIBILITY_H */
