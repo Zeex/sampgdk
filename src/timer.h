@@ -33,30 +33,10 @@ struct sampgdk_timer {
   void                   *plugin;
 };
 
-/* Sets a new timer that is fired after interval milliseconds. If repeat is
- * true the timer is called repeatedly until it gets killed by
- * sampgdk_timer_kill(). The callback parameter specifies the function to be
- * called once the timer expires. The function is passed the ID of the newly
- * created timer and a pointer to user data (the param argument).
- */
-int sampgdk_timer_set(
-  long                    interval,
-  bool                    repeat,
-  sampgdk_timer_callback  calback,
-  void                   *param /* = NULL */);
-
-/* Kills the specified timer. Returns 0 on success and a negative value if
- * the timer is already killed or the timer ID is not within the valid range
- * of timer IDs.
- */
+int sampgdk_timer_set(long interval, bool repeat,
+                      sampgdk_timer_callback calback, void *param);
 int sampgdk_timer_kill(int timerid);
-
-/* Fires all timers that have expired since their creation or since the last
- * call to this function. If the plugin argument is not NULL only those timers
- * that belong to the specified plugin are processed by the function. */
 void sampgdk_timer_process_timers(void *plugin);
-
-/* Returns the number of milliseconds since some fixed point of time. */
 long sampgdk_timer_clock(void);
 
 #endif /* !SAMPGDK_TIMER_H_ */

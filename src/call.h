@@ -19,8 +19,6 @@
 #include <stddef.h>
 
 void *sampgdk_get_ret_addr(void *frame, int depth);
-
-/* Call a function passing the contents of args as the arguments. */
 void *sampgdk_call_func_cdecl(void *func, const void *args, size_t size);
 void *sampgdk_call_func_stdcall(void *func, const void *args, size_t size);
 

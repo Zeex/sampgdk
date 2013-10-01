@@ -17,15 +17,13 @@
 #include <windows.h>
 
 long sampgdk_timer_clock(void) {
-  LARGE_INTEGER freq, count;
+  LARGE_INTEGER freq;
+  LARGE_INTEGER counter;
 
-  if (!QueryPerformanceFrequency(&freq)) {
+  if (!QueryPerformanceFrequency(&freq) ||
+      !QueryPerformanceCounter(&counter)) {
     return 0;
   }
 
-  if (!QueryPerformanceCounter(&count)) {
-    return 0;
-  }
-
-  return (long)(1000.0L / freq.QuadPart * count.QuadPart);;
+  return (long)(1000.0L / freq.QuadPart * counter.QuadPart);;
 }
