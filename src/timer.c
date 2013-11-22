@@ -23,6 +23,16 @@
 #include "plugin.h"
 #include "timer.h"
 
+struct sampgdk_timer {
+  bool  is_set;
+  long  interval;
+  bool  repeat;
+  void *callback;
+  void *param;
+  long  started;
+  void *plugin;
+};
+
 static struct sampgdk_array timers;
 
 static int find_slot() {
@@ -50,14 +60,14 @@ static void fire_timer(int timerid, long elapsed) {
     return;
   }
 
-  (timer->callback)(timerid, timer->param);
+  ((sampgdk_timer_callback)(timer->callback))(timerid, timer->param);
 
   /* At this point the could be killed by the timer callback,
    * so the timer pointer may be no longer valid.
    */
   if (timer->is_set) {
     if (timer->repeat) {
-      timer->started = sampgdk_timer_clock() - (elapsed - timer->interval);
+      timer->started = sampgdk_timer_now() - (elapsed - timer->interval);
     } else {
       sampgdk_timer_kill(timerid);
     }
@@ -94,8 +104,8 @@ int sampgdk_timer_set(long interval, bool repeat,
   timer.repeat   = repeat;
   timer.callback = callback;
   timer.param    = param;
-  timer.started  = sampgdk_timer_clock();
-  timer.plugin   = sampgdk_plugin_address_to_handle(callback);
+  timer.started  = sampgdk_timer_now();
+  timer.plugin   = sampgdk_plugin_get_handle(callback);
 
   slot = find_slot();
   if (slot >= 0) {
@@ -138,7 +148,7 @@ void sampgdk_timer_process_timers(void *plugin) {
 
   assert(plugin != NULL);
 
-  now = sampgdk_timer_clock();
+  now = sampgdk_timer_now();
 
   for (i = 0; i < timers.count; i++) {
     timer = sampgdk_array_get(&timers, i);

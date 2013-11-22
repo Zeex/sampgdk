@@ -69,19 +69,19 @@ static void cleanup(void) {
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data) {
   void *plugin;
 
-  plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_get_handle(sampgdk_get_ret_addr(NULL, 0));
   sampgdk_init_plugin(plugin, data);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data) {
   void *plugin;
 
-  plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_get_handle(sampgdk_get_ret_addr(NULL, 0));
   return sampgdk_init_plugin(plugin, data);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data) {
-  if (sampgdk_plugin_list_empty()) {
+  if (sampgdk_plugin_get_list() == NULL) {
     int error;
 
     if ((error = init(data)) < 0) {
@@ -97,14 +97,14 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data) {
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void) {
   void *plugin;
 
-  plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_get_handle(sampgdk_get_ret_addr(NULL, 0));
   sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void) {
   void *plugin;
 
-  plugin = sampgdk_plugin_address_to_handle(sampgdk_get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_get_handle(sampgdk_get_ret_addr(NULL, 0));
   return sampgdk_cleanup_plugin(plugin);
 }
 
@@ -113,7 +113,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
 
   error = sampgdk_plugin_unregister(plugin);
 
-  if (sampgdk_plugin_list_empty()) {
+  if (sampgdk_plugin_get_list() == NULL) {
     cleanup();
   }
 
@@ -133,7 +133,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin) {
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
-  return sampgdk_plugin_address_to_handle(symbol);
+  return sampgdk_plugin_get_handle(symbol);
 }
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin,

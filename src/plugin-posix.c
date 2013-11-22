@@ -19,33 +19,26 @@
 #include <stddef.h>
 #include <string.h>
 
-void *sampgdk_plugin_address_to_handle(void *address) {
-  Dl_info info;
-
-  assert(address != NULL);
-  if (dladdr(address, &info) == 0) {
-    return NULL;
-  }
-
-  return dlopen(info.dli_fname, RTLD_NOW);
-}
-
-void sampgdk_plugin_address_to_filename(void *address, char *filename,
-                                        size_t size) {
-  Dl_info info;
-
-  assert(address != NULL);
-  assert(filename != NULL);
-
-  if (dladdr(address, &info) == 0) {
-    return;
-  }
-
-  strncpy(filename, info.dli_fname, size);
-}
-
 void *sampgdk_plugin_find_symbol(void *plugin, const char *name)  {
   assert(plugin != NULL);
   assert(name != NULL);
   return dlsym(plugin, name);
+}
+
+void *sampgdk_plugin_get_handle(void *address) {
+  Dl_info info;
+  assert(address != NULL);
+  if (dladdr(address, &info) != 0) {
+    return dlopen(info.dli_fname, RTLD_NOW);
+  }
+  return NULL;
+}
+
+void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
+  Dl_info info;
+  assert(address != NULL);
+  assert(filename != NULL);
+  if (dladdr(address, &info) != 0) {
+    strncpy(filename, info.dli_fname, size);
+  }
 }

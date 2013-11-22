@@ -15,9 +15,8 @@
 
 #include <time.h>
 
-long sampgdk_timer_clock(void) {
+long sampgdk_timer_now(void) {
   struct timespec ts;
-
   clock_gettime(CLOCK_MONOTONIC, &ts);
   return (long)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);
 }

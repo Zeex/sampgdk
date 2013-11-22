@@ -16,7 +16,7 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-long sampgdk_timer_clock(void) {
+long sampgdk_timer_now(void) {
   LARGE_INTEGER freq;
   LARGE_INTEGER counter;
 

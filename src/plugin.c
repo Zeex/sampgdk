@@ -88,10 +88,6 @@ bool sampgdk_plugin_is_registered(void *plugin) {
   return false;
 }
 
-bool sampgdk_plugin_list_empty(void) {
-  return plugins == NULL;
-}
-
 struct sampgdk_plugin_list *sampgdk_plugin_get_list(void) {
   return plugins;
 }

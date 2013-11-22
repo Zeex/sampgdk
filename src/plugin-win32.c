@@ -18,27 +18,24 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-void *sampgdk_plugin_address_to_handle(void *address) {
-  MEMORY_BASIC_INFORMATION mbi;
-
-  assert(address != NULL);
-  if (VirtualQuery(address, &mbi, sizeof(mbi)) == 0) {
-    return NULL;
-  }
-
-  return (void*)mbi.AllocationBase;
-}
-
-void sampgdk_plugin_address_to_filename(void *address, char *filename,
-                                        size_t size) {
-  assert(address != NULL);
-  assert(filename != NULL);
-  GetModuleFileName((HMODULE)sampgdk_plugin_address_to_handle(address),
-                    filename, size);
-}
-
 void *sampgdk_plugin_find_symbol(void *plugin, const char *name)  {
   assert(plugin != NULL);
   assert(name != NULL);
   return (void*)GetProcAddress((HMODULE)plugin, name);
+}
+
+void *sampgdk_plugin_get_handle(void *address) {
+  MEMORY_BASIC_INFORMATION mbi;
+  assert(address != NULL);
+  if (VirtualQuery(address, &mbi, sizeof(mbi)) == 0) {
+    return NULL;
+  }
+  return (void*)mbi.AllocationBase;
+}
+
+void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
+  HMODULE module = (HMODULE)sampgdk_plugin_get_handle(address);
+  assert(address != NULL);
+  assert(filename != NULL);
+  GetModuleFileName(module, filename, size);
 }
