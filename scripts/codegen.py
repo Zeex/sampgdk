@@ -110,15 +110,17 @@ def previous_and_next(iterable):
     prevs, items, nexts = itertools.tee(iterable, 3)
     prevs = itertools.chain([None], prevs)
     nexts = itertools.chain(itertools.islice(nexts, 1, None), [None])
-    return itertools.izip(prevs, items, nexts)
+    try:
+      return itertools.izip(prevs, items, nexts)
+    except AttributeError:
+      return zip(prevs, items, nexts)
 
 def generate_api_file(module_name, idl, file):
-  natives = filter(lambda x: x.has_attr('native'), idl.functions)
-  for f in natives:
+  for f in filter(lambda x: x.has_attr('native'), idl.functions):
     file.write('%s%s\n' % (EXPORT_PREFIX, f.name))
 
 def generate_header_file(module_name, idl, file):
-  natives = filter(lambda x: x.has_attr('native'), idl.functions)
+  natives = list(filter(lambda x: x.has_attr('native'), idl.functions))
 
   for func in natives:
     generate_native_decl(file, func)
@@ -146,8 +148,7 @@ def generate_header_file(module_name, idl, file):
   file.write('SAMPGDK_END_NAMESPACE\n\n')
   file.write('#endif /* __cplusplus */\n\n')
 
-  callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
-  for func in callbacks:
+  for func in filter(lambda x: x.has_attr('callback'), idl.functions):
     generate_callback_decl(file, func)
 
 def generate_source_file(module_name, idl, file):
@@ -164,13 +165,13 @@ def generate_source_file(module_name, idl, file):
 
   file.write('\n')
 
-  natives = filter(lambda x: x.has_attr('native') and not x.has_attr('noimpl'),
-                   idl.functions)
+  natives = list(filter(lambda x: x.has_attr('native') and
+                                  not x.has_attr('noimpl'), idl.functions))
   for func in natives:
     generate_native_impl(file, func)
     file.write('\n')
 
-  callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
+  callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
   for func in callbacks:
     generate_callback_impl(file, func);
     file.write('\n')
@@ -286,7 +287,7 @@ def generate_native_impl(file, func):
           ,  
           p.name, p.name))
 
-    for p in reversed(filter(lambda p: p.is_ref, func.params)):
+    for p in reversed(list(filter(lambda p: p.is_ref, func.params))):
       file.write('  sampgdk_fakeamx_heap_pop(fa, %s_);\n' % p.name)
 
   file.write('  return %s(retval);\n' % ({

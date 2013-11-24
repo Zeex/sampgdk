@@ -26,7 +26,7 @@ def filter_api_files(path):
 
 def main(argv):
   if len(argv) < 3:
-    print 'Usage: %s def-file dir1 dir2 ...' % os.path.basename(argv[0])
+    print('Usage: %s def-file dir1 dir2 ...' % os.path.basename(argv[0]))
   else:
     with open(argv[1], 'w') as outfile:
       outfile.write('EXPORTS\n')
