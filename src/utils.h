@@ -1,4 +1,4 @@
-/* Copyright (C) 2012-2013 Zeex
+/* Copyright (C) 2013 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,9 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_CALL_H_
-#define SAMPGDK_CALL_H_
+#ifndef SAMPGDK_UTILS_H_
+#define SAMPGDK_UTILS_H_
 
-#include <stddef.h>
+void *sampgdk_return_address();
 
-void *sampgdk_get_ret_addr(void *frame, int depth);
-
-#endif /* !SAMPGDK_CALL_H_ */
+#endif /* !SAMPGDK_UTILS_H_ */

@@ -19,13 +19,13 @@
 #include <sampgdk/export.h>
 #include <sampgdk/plugin.h>
 
-#include "call.h"
 #include "init.h"
 #include "log.h"
 #include "logprintf.h"
 #include "native.h"
 #include "plugin.h"
 #include "timer.h"
+#include "utils.h"
 
 #include "sdk/amx/amx.h"
 
@@ -69,14 +69,14 @@ static void cleanup(void) {
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data) {
   void *plugin;
 
-  plugin = sampgdk_plugin_get_handle(sampgdk_get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
   sampgdk_init_plugin(plugin, data);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data) {
   void *plugin;
 
-  plugin = sampgdk_plugin_get_handle(sampgdk_get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
   return sampgdk_init_plugin(plugin, data);
 }
 
@@ -97,14 +97,14 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data) {
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void) {
   void *plugin;
 
-  plugin = sampgdk_plugin_get_handle(sampgdk_get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
   sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void) {
   void *plugin;
 
-  plugin = sampgdk_plugin_get_handle(sampgdk_get_ret_addr(NULL, 0));
+  plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
   return sampgdk_cleanup_plugin(plugin);
 }
 

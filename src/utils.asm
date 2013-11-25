@@ -1,4 +1,4 @@
-; Copyright (C) 2012-2013 Zeex
+; Copyright (C) 2013 Zeex
 ;
 ; Licensed under the Apache License, Version 2.0 (the "License");
 ; you may not use this file except in compliance with the License.
@@ -12,27 +12,10 @@
 ; See the License for the specific language governing permissions and
 ; limitations under the License.
 
-global sampgdk_get_ret_addr
-global sampgdk_call_func_cdecl
-global sampgdk_call_func_stdcall
+global sampgdk_return_address
 
 section .text
 
-sampgdk_get_ret_addr:
-  mov eax, dword [esp + 4]
-  cmp eax, 0
-  jnz .init
-  mov eax, ebp
-.init:
-  mov ecx, dword [esp + 8]
-  mov edx, 0
-.loop:
-  cmp ecx, 0
-  jl .exit
-  mov edx, dword [eax + 4]
-  mov eax, dword [eax]
-  dec ecx
-  jmp .loop
-.exit:
-  mov eax, edx
+sampgdk_return_address:
+  mov eax, dword [ebp + 4]
   ret
