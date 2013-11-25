@@ -19,10 +19,7 @@
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 
-typedef bool (*sampgdk_callback_handler)(
-  AMX  *amx,
-  void *callback,
-  cell *retval);
+typedef bool (*sampgdk_callback_handler)(AMX *amx, void *callback, cell *retval);
 
 struct sampgdk_callback {
   char                     *name;
@@ -30,8 +27,7 @@ struct sampgdk_callback {
 };
 
 struct sampgdk_callback *sampgdk_callback_lookup(const char *name);
-int sampgdk_callback_register(const char *name,
-                              sampgdk_callback_handler handler);
+int sampgdk_callback_register(const char *name, sampgdk_callback_handler handler);
 int sampgdk_callback_register_table(const struct sampgdk_callback *table);
 void sampgdk_callback_unregister(const char *name);
 void sampgdk_callback_unregister_table(const struct sampgdk_callback *table);
