@@ -10,8 +10,6 @@ set(SAMPGDK_INIT_FILE "init.c")
 
 sampgdk_add_sources(
   "a_samp.c"
-  "arg.c"
-  "arg.h"
   "array.c"
   "array.h"
   "call.asm"

@@ -36,5 +36,9 @@ int sampgdk_callback_register_table(const struct sampgdk_callback *table);
 void sampgdk_callback_unregister(const char *name);
 void sampgdk_callback_unregister_table(const struct sampgdk_callback *table);
 bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval);
+cell sampgdk_callback_arg_cell(AMX *amx, int index);
+bool sampgdk_callback_arg_bool(AMX *amx, int index);
+float sampgdk_callback_arg_float(AMX *amx, int index);
+char *sampgdk_callback_arg_string(AMX *amx, int index);
 
 #endif /* !SAMPGDK_CALLBACK_H_ */

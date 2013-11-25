@@ -155,7 +155,6 @@ def generate_source_file(module_name, idl, file):
   file.write(
     '#include <sampgdk/export.h>\n'
     '\n'
-    '#include "arg.h"\n'
     '#include "callback.h"\n'
     '#include "fakeamx.h"\n'
     '#include "init.h"\n'
@@ -317,8 +316,7 @@ def generate_callback_impl(file, func):
     file.write('  %s %s;\n' % (p.c_type, p.name))
 
   for index, p in enumerate(func.params):
-    file.write('  %s = sampgdk_get_arg_%s(amx, %d);\n' % (p.name,
-      {
+    file.write('  %s = sampgdk_callback_arg_%s(amx, %d);\n' % (p.name, {
         'int'    : 'cell',
         'bool'   : 'bool',
         'float'  : 'float',
