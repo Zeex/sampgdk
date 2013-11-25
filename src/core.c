@@ -41,24 +41,15 @@ static void init_amx_exports(void **data) {
 
 static void init_logprintf(void **data) {
   void *logprintf = data[PLUGIN_DATA_LOGPRINTF];
-
   sampgdk_logprintf  = logprintf;
   sampgdk_vlogprintf = sampgdk_do_vlogprintf;
 }
 
 static int init(void **data) {
-  int error;
-
   init_plugin_data(data);
   init_amx_exports(data);
   init_logprintf(data);
-
-  error = sampgdk_module_init();
-  if (error < 0) {
-    return error;
-  }
-
-  return 0;
+  return sampgdk_module_init();
 }
 
 static void cleanup(void) {
@@ -67,56 +58,43 @@ static void cleanup(void) {
 
 /* deprecated */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data) {
-  void *plugin;
-
-  plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
+  void *plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
   sampgdk_init_plugin(plugin, data);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data) {
-  void *plugin;
-
-  plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
+  void *plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
   return sampgdk_init_plugin(plugin, data);
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin,
+                                                    void **data) {
   if (sampgdk_plugin_get_list() == NULL) {
-    int error;
-
-    if ((error = init(data)) < 0) {
+    int error = init(data);
+    if (error < 0) {
       sampgdk_log_error_code(error);
       return error;
     }
   }
-
   return sampgdk_plugin_register(plugin);
 }
 
 /* deprecated */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void) {
-  void *plugin;
-
-  plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
+  void *plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
   sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void) {
-  void *plugin;
-
-  plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
+  void *plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
   return sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
-  int error;
-
-  error = sampgdk_plugin_unregister(plugin);
-
+  int error = sampgdk_plugin_unregister(plugin);
   if (sampgdk_plugin_get_list() == NULL) {
     cleanup();
   }
-
   return error;
 }
 
