@@ -155,12 +155,12 @@ def generate_source_file(module_name, idl, file):
   file.write(
     '#include <sampgdk/export.h>\n'
     '\n'
-    '#include "arg.h"\n'
     '#include "callback.h"\n'
     '#include "fakeamx.h"\n'
     '#include "init.h"\n'
     '#include "likely.h"\n'
     '#include "native.h"\n'
+    '#include "param.h"\n'
   )
 
   file.write('\n')
@@ -317,14 +317,13 @@ def generate_callback_impl(file, func):
     file.write('  %s %s;\n' % (p.c_type, p.name))
 
   for index, p in enumerate(func.params):
-    file.write('  %s = sampgdk_get_arg_%s(amx, %d);\n' % (p.name,
-      {
+    file.write('  sampgdk_param_get_%s(amx, %d, (void*)&%s);\n' % ({
         'int'    : 'cell',
         'bool'   : 'bool',
         'float'  : 'float',
         'char'   : 'char',
         'string' : 'string',
-      }[p.type], index)
+      }[p.type], index, p.name)
     )
 
   if badret.value is not None:

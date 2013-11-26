@@ -10,8 +10,6 @@ set(SAMPGDK_INIT_FILE "init.c")
 
 sampgdk_add_sources(
   "a_samp.c"
-  "arg.c"
-  "arg.h"
   "array.c"
   "array.h"
   "callback.c"
@@ -29,6 +27,8 @@ sampgdk_add_sources(
   "logprintf.h"
   "native.c"
   "native.h"
+  "param.c"
+  "param.h"
   "plugin.c"
   "plugin.h"
   "timer.c"
