@@ -106,25 +106,35 @@ macro(sampgdk_add_nasm_source file)
   else()
     set(_file ${file})
   endif()
+  
+  if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
+    set(_obj_ext ".obj")
+  else()
+    set(_obj_ext ".o")
+  endif()
 
   set(_asm_file "${CMAKE_CURRENT_SOURCE_DIR}/${_file}")
-  set(_obj_file "${CMAKE_CURRENT_BINARY_DIR}/${_file}.obj")
-
+  set(_obj_file "${CMAKE_CURRENT_BINARY_DIR}/${_file}${_obj_ext}")
+  
   sampgdk_add_sources(${_obj_file})
 
-  if(CMAKE_ASM_NASM_COMPILER MATCHES "[yY][aA][sS][mM]")
-    set(SAMPGDK_NASM_OPTIONS "-f" "win32" "--prefix=_")
-  else()
-    set(SAMPGDK_NASM_OPTIONS "-fwin32" "--prefix" "_")
+  set(_options "-f${CMAKE_ASM_NASM_OBJECT_FORMAT}")
+  if(WIN32)
+    if(CMAKE_ASM_NASM_COMPILER MATCHES "[yY][aA][sS][mM]")
+      list(APPEND _options "--prefix=_")
+    else()
+      list(APPEND _options "--prefix" "_")
+    endif()
   endif()
 
   sampgdk_make_output_dir(${_obj_file})
-
+  get_filename_component(_work_dir ${file} PATH)
+  
   add_custom_command(OUTPUT ${_obj_file}
-    COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${SAMPGDK_NASM_OPTIONS} "-o"
+    COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${_options} "-o"
       "${_obj_file}"
       "${_asm_file}"
-    MAIN_DEPENDENCY ${_asm_file}
+    MAIN_DEPENDENCY ${_asm_file} WORKING_DIRECTORY ${_work_dir}
   )
 endmacro()
 
@@ -220,7 +230,7 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
   if(file MATCHES "\\.api")
     list(APPEND SAMPGDK_APIS ${file})
   endif()
-  if(WIN32 AND file MATCHES "\\.asm")
+  if(file MATCHES "\\.asm")
     sampgdk_add_nasm_source(${file})
   endif()
 endforeach()
