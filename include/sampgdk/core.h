@@ -48,10 +48,10 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin);
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives();
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void);
 
-typedef void (*sampgdk_logprintf_t)(const char *format, ...);
+typedef void (SAMPGDK_CALL *sampgdk_logprintf_t)(const char *format, ...);
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
 
-typedef void (*sampgdk_vlogprintf_t)(const char *format, va_list args);
+typedef void (SAMPGDK_CALL *sampgdk_vlogprintf_t)(const char *format, va_list args);
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
 #ifdef __cplusplus
