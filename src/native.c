@@ -26,7 +26,7 @@ static struct sampgdk_array natives;
 
 DEFINE_INIT_FUNC(native) {
   int error;
-  
+
   error = sampgdk_array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
   if (error < 0) {
     return error;
@@ -63,14 +63,18 @@ int sampgdk_native_register(const char *name, AMX_NATIVE func) {
 static int compare(const void *key, const void *elem) {
   assert(key != NULL);
   assert(elem != NULL);
-  return strcmp((const char *)key,
-                ((const AMX_NATIVE_INFO *)elem)->name);
+  return strcmp((const char *)key, ((const AMX_NATIVE_INFO *)elem)->name);
 }
 
 AMX_NATIVE sampgdk_native_lookup(const char *name) {
   AMX_NATIVE_INFO *info;
 
   assert(name != NULL);
+
+  if (natives.data == NULL) {
+    /* Perhaps they forgot to initialize? */
+    return NULL;
+  }
 
   info = bsearch(name, natives.data, natives.count,
                  natives.elem_size, compare);
