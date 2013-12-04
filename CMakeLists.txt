@@ -89,14 +89,14 @@ macro(sampgdk_make_output_dir file)
   else()
     set(_file ${file})
   endif()
-
+  
   get_filename_component(_path ${_file} PATH)
   if(_path MATCHES ${PROJECT_BINARY_DIR})
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_BINARY_DIR} ${_path})
   else()  
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
   endif()
-
+  
   file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_path}")
 endmacro()
 
@@ -107,17 +107,11 @@ macro(sampgdk_add_nasm_source file)
     set(_file ${file})
   endif()
   
-  if(WIN32 AND NOT CMAKE_COMPILER_IS_GNUCC)
-    set(_obj_ext ".obj")
-  else()
-    set(_obj_ext ".o")
-  endif()
-
   set(_asm_file "${CMAKE_CURRENT_SOURCE_DIR}/${_file}")
-  set(_obj_file "${CMAKE_CURRENT_BINARY_DIR}/${_file}${_obj_ext}")
+  set(_obj_file "${CMAKE_CURRENT_BINARY_DIR}/${_file}${CMAKE_ASM_NASM_OUTPUT_EXTENSION}")
   
   sampgdk_add_sources(${_obj_file})
-
+  
   set(_options "-f${CMAKE_ASM_NASM_OBJECT_FORMAT}")
   if(WIN32)
     if(CMAKE_ASM_NASM_COMPILER MATCHES "[yY][aA][sS][mM]")
@@ -126,7 +120,7 @@ macro(sampgdk_add_nasm_source file)
       list(APPEND _options "--prefix" "_")
     endif()
   endif()
-
+  
   sampgdk_make_output_dir(${_obj_file})
   get_filename_component(_work_dir ${file} PATH)
   
