@@ -89,14 +89,14 @@ macro(sampgdk_make_output_dir file)
   else()
     set(_file ${file})
   endif()
-  
+
   get_filename_component(_path ${_file} PATH)
   if(_path MATCHES ${PROJECT_BINARY_DIR})
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_BINARY_DIR} ${_path})
-  else()  
+  else()
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
   endif()
-  
+
   file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_path}")
 endmacro()
 
@@ -106,12 +106,12 @@ macro(sampgdk_add_nasm_source file)
   else()
     set(_file ${file})
   endif()
-  
+
   set(_asm_file "${CMAKE_CURRENT_SOURCE_DIR}/${_file}")
   set(_obj_file "${CMAKE_CURRENT_BINARY_DIR}/${_file}${CMAKE_ASM_NASM_OUTPUT_EXTENSION}")
-  
+
   sampgdk_add_sources(${_obj_file})
-  
+
   set(_options "-f${CMAKE_ASM_NASM_OBJECT_FORMAT}")
   if(WIN32)
     if(CMAKE_ASM_NASM_COMPILER MATCHES "[yY][aA][sS][mM]")
@@ -120,10 +120,10 @@ macro(sampgdk_add_nasm_source file)
       list(APPEND _options "--prefix" "_")
     endif()
   endif()
-  
+
   sampgdk_make_output_dir(${_obj_file})
   get_filename_component(_work_dir ${file} PATH)
-  
+
   add_custom_command(OUTPUT ${_obj_file}
     COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${_options} "-o"
       "${_obj_file}"
@@ -244,7 +244,7 @@ get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
 
 if(SAMPGDK_DEF_FILE)
   add_custom_command(OUTPUT ${SAMPGDK_DEF_FILE}
-    COMMAND "${CMAKE_COMMAND}" 
+    COMMAND "${CMAKE_COMMAND}"
       "-DDEFGEN_OUTPUT_FILE=${SAMPGDK_DEF_FILE}"
       "-DDEFGEN_SEARCH_DIRS=\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
       "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/defgen.py.cmake")
