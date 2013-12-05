@@ -38,11 +38,11 @@ static AMX *main_amx = NULL;
 /* The name of the currently executing public function. */
 static char *public_name = NULL;
 
-static struct subhook *amx_FindPublic_hook;
-static struct subhook *amx_Exec_hook;
-static struct subhook *amx_Register_hook;
-static struct subhook *amx_Callback_hook;
-static struct subhook *amx_Allot_hook;
+static subhook_t amx_FindPublic_hook;
+static subhook_t amx_Exec_hook;
+static subhook_t amx_Register_hook;
+static subhook_t amx_Callback_hook;
+static subhook_t amx_Allot_hook;
 
 /* The "funcidx" native uses amx_FindPublic() to get public function index
  * but our FindPublic always succeeds regardless of public existence, so
@@ -226,7 +226,7 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
    *
    * The expression on the right side of the comparison is converted
    * to an unsigned type (because result of sizeof is of type size_t).
-   * and in fact never results in a negative value. 
+   * and in fact never results in a negative value.
    */
   #define STKMARGIN (cell)(16 * sizeof(cell))
   if ((size_t)amx->stk < (size_t)(amx->hea + cells*sizeof(cell) + STKMARGIN)) {
