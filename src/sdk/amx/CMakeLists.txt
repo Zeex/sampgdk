@@ -1,5 +1,4 @@
 sampgdk_add_sources(
-  "amx.api"
-  "amx.asm"
+  "amx.c"
   "amx.h"
 )

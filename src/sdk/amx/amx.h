@@ -16,6 +16,6 @@
 #ifndef SAMPGDK_SDK_AMX_AMX_H_
 #define SAMPGDK_SDK_AMX_AMX_H_
 
-extern void *amx_exports;
+extern void **amx_exports;
 
 #endif /* !SAMPGDK_SDK_AMX_AMX_H_ */
