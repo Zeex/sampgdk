@@ -22,16 +22,6 @@ endif()
 include(GroupTargetSources)
 
 if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
-  if(WIN32)
-    set(CMAKE_ASM_NASM_OBJECT_FORMAT "win32")
-  elseif(UNIX)
-    set(CMAKE_ASM_NASM_OBJECT_FORMAT "elf32")
-  endif()
-endif()
-
-enable_language(ASM_NASM)
-
-if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   if(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
   endif()
@@ -98,38 +88,6 @@ macro(sampgdk_make_output_dir file)
   endif()
 
   file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_path}")
-endmacro()
-
-macro(sampgdk_add_nasm_source file)
-  if(file MATCHES "${CMAKE_CURRENT_SOURCE_DIR}")
-    file(RELATIVE_PATH _file ${CMAKE_CURRENT_SOURCE_DIR} ${file})
-  else()
-    set(_file ${file})
-  endif()
-
-  set(_asm_file "${CMAKE_CURRENT_SOURCE_DIR}/${_file}")
-  set(_obj_file "${CMAKE_CURRENT_BINARY_DIR}/${_file}${CMAKE_ASM_NASM_OUTPUT_EXTENSION}")
-
-  sampgdk_add_sources(${_obj_file})
-
-  set(_options "-f${CMAKE_ASM_NASM_OBJECT_FORMAT}")
-  if(WIN32)
-    if(CMAKE_ASM_NASM_COMPILER MATCHES "[yY][aA][sS][mM]")
-      list(APPEND _options "--prefix=_")
-    else()
-      list(APPEND _options "--prefix" "_")
-    endif()
-  endif()
-
-  sampgdk_make_output_dir(${_obj_file})
-  get_filename_component(_work_dir ${file} PATH)
-
-  add_custom_command(OUTPUT ${_obj_file}
-    COMMAND "${CMAKE_ASM_NASM_COMPILER}" ${_options} "-o"
-      "${_obj_file}"
-      "${_asm_file}"
-    MAIN_DEPENDENCY ${_asm_file} WORKING_DIRECTORY ${_work_dir}
-  )
 endmacro()
 
 macro(sampgdk_add_api_gen module_name idl_file api_file)
@@ -224,9 +182,6 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
   if(file MATCHES "\\.api")
     list(APPEND SAMPGDK_APIS ${file})
   endif()
-  if(file MATCHES "\\.asm")
-    sampgdk_add_nasm_source(${file})
-  endif()
 endforeach()
 
 if(SAMPGDK_STATIC)
@@ -237,10 +192,6 @@ if(SAMPGDK_STATIC)
     endforeach()
   endforeach()
 endif()
-
-# Have to do this one more time because of added .obj files.
-get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
-             PROPERTY SAMPGDK_SOURCES)
 
 if(SAMPGDK_DEF_FILE)
   add_custom_command(OUTPUT ${SAMPGDK_DEF_FILE}
