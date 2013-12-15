@@ -25,9 +25,14 @@
 #include "native.h"
 #include "plugin.h"
 #include "timer.h"
-#include "utils.h"
 
 #include "sdk/amx/amx.h"
+
+#ifdef _MSC_VER
+  #define RETURN_ADDRESS() _ReturnAddress()
+#else
+  #define RETURN_ADDRESS() __builtin_return_address(0)
+#endif
 
 static void **plugin_data;
 
@@ -58,12 +63,12 @@ static void cleanup(void) {
 
 /* deprecated */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data) {
-  void *plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
   sampgdk_init_plugin(plugin, data);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data) {
-  void *plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
   return sampgdk_init_plugin(plugin, data);
 }
 
@@ -81,12 +86,12 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin,
 
 /* deprecated */
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void) {
-  void *plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
   sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void) {
-  void *plugin = sampgdk_plugin_get_handle(sampgdk_return_address());
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
   return sampgdk_cleanup_plugin(plugin);
 }
 
