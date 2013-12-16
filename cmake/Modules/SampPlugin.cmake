@@ -22,6 +22,11 @@ function(add_samp_plugin name)
     set_property(TARGET ${name} APPEND_STRING PROPERTY LINK_FLAGS    " -m32")
   endif()
 
+  if(WIN32 AND CMAKE_COMPILER_IS_GNUCC)
+    set_property(TARGET ${name} APPEND_STRING PROPERTY
+                 LINK_FLAGS " -Wl,--enable-stdcall-fixup")
+  endif()
+
   if(UNIX AND NOT WIN32)
     set_property(TARGET ${name} APPEND PROPERTY COMPILE_DEFINITIONS "LINUX")
   endif()
