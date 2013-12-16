@@ -166,13 +166,11 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) 
       switch (type) {
         case 'i': /* integer */
         case 'd': /* integer */
+        case 'b': /* boolean */
           params[i] = (cell)va_arg(args, int);
           break;
-        case 'b': /* boolean */
-          params[i] = (cell)va_arg(args, bool);
-          break;
         case 'f': /* floating-point */ {
-          float value = va_arg(args, float);
+          float value = va_arg(args, double);
           params[i] = amx_ftoc(value);
           break;
         }
