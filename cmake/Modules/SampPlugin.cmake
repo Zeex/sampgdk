@@ -18,8 +18,8 @@ function(add_samp_plugin name)
   set_target_properties(${name} PROPERTIES PREFIX "")
 
   if(CMAKE_COMPILER_IS_GNUCC)
-    set_property(TARGET ${name} APPEND PROPERTY COMPILE_FLAGS "-m32")
-    set_property(TARGET ${name} APPEND PROPERTY LINK_FLAGS    "-m32")
+    set_property(TARGET ${name} APPEND_STRING PROPERTY COMPILE_FLAGS " -m32")
+    set_property(TARGET ${name} APPEND_STRING PROPERTY LINK_FLAGS    " -m32")
   endif()
 
   if(UNIX AND NOT WIN32)
