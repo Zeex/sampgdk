@@ -199,8 +199,8 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result,
   subhook_remove(amx_Callback_hook);
   subhook_install(amx_Exec_hook);
 
-  /* Prevent the default AMX callback from replacing SYSREQ.C
-   * instructions with SYSREQ.D.
+  /* Prevent the default AMX callback from replacing SYSREQ.C instructions
+   * with SYSREQ.D.
    */
   amx->sysreq_d = 0;
 
@@ -219,14 +219,13 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
   subhook_remove(amx_Allot_hook);
 
   /* There is a bug in amx_Allot() where it returns success even though
-   * there's not enough space on the heap:
+   * there's no enough space on the heap:
    *
    * if (amx->stk - amx->hea - cells*sizeof(cell) < STKMARGIN)
    *   return AMX_ERR_MEMORY;
    *
-   * The expression on the right side of the comparison is converted
-   * to an unsigned type (because result of sizeof is of type size_t).
-   * and in fact never results in a negative value.
+   * The expression on the right side of the comparison is converted to
+   * an unsigned type and in fact never results in a negative value.
    */
   #define STKMARGIN (cell)(16 * sizeof(cell))
   if ((size_t)amx->stk < (size_t)(amx->hea + cells*sizeof(cell) + STKMARGIN)) {
@@ -235,17 +234,10 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
     error = amx_Allot(amx, cells, amx_addr, phys_addr);
   }
 
-  /* If failing to allocate on the fake AMX heap, resize the heap
-   * automatically.
-   */
+  /* If called against the fake AMX and failed to allocate the requested
+   * amount of space, grow the heap and try again. */
   if (error == AMX_ERR_MEMORY && amx == sampgdk_fakeamx_amx()) {
-    cell new_size;
-
-    /* STKMARGIN + 2 is here to stop amx_Push() from thinking that there's
-     * no space left on the stack.
-     */
-    new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
-
+    cell new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
     if (sampgdk_fakeamx_resize_heap(new_size) >= 0) {
       error = amx_Allot(amx, cells, amx_addr, phys_addr);
     }
