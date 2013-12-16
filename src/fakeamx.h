@@ -19,26 +19,16 @@
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 
-#include "array.h"
-
-struct sampgdk_fakeamx {
-  AMX                  amx;
-  AMX_HEADER           amxhdr;
-  struct sampgdk_array heap;
-};
-
-int sampgdk_fakeamx_new(struct sampgdk_fakeamx *fa);
-void sampgdk_fakeamx_free(struct sampgdk_fakeamx *fa);
-struct sampgdk_fakeamx *sampgdk_fakeamx_global(void);
-int sampgdk_fakeamx_heap_resize(struct sampgdk_fakeamx *fa, int cells);
-int sampgdk_fakeamx_heap_push(struct sampgdk_fakeamx *fa, int cells, cell *address);
-int sampgdk_fakeamx_heap_push_cell(struct sampgdk_fakeamx *fa, cell value, cell *address);
-int sampgdk_fakeamx_heap_push_float(struct sampgdk_fakeamx *fa, float value, cell *address);
-int sampgdk_fakeamx_heap_push_string(struct sampgdk_fakeamx *fa, const char *src, int *size, cell *address);
-void sampgdk_fakeamx_heap_pop(struct sampgdk_fakeamx *fa, cell address);
-void sampgdk_fakeamx_heap_get_cell(struct sampgdk_fakeamx *fa, cell address, cell *value);
-void sampgdk_fakeamx_heap_get_bool(struct sampgdk_fakeamx *fa, cell address, bool *value);
-void sampgdk_fakeamx_heap_get_float(struct sampgdk_fakeamx *fa, cell address, float *value);
-void sampgdk_fakeamx_heap_get_string(struct sampgdk_fakeamx *fa, cell address, char *dest, int size);
+AMX *sampgdk_fakeamx_amx();
+int sampgdk_fakeamx_resize_heap(int cells);
+int sampgdk_fakeamx_push(int cells, cell *address);
+int sampgdk_fakeamx_push_cell(cell value, cell *address);
+int sampgdk_fakeamx_push_float(float value, cell *address);
+int sampgdk_fakeamx_push_string(const char *src, int *size, cell *address);
+void sampgdk_fakeamx_get_cell(cell address, cell *value);
+void sampgdk_fakeamx_get_bool(cell address, bool *value);
+void sampgdk_fakeamx_get_float(cell address, float *value);
+void sampgdk_fakeamx_get_string(cell address, char *dest, int size);
+void sampgdk_fakeamx_pop(cell address);
 
 #endif /* !SAMPGDK_FAKEAMX_H_ */

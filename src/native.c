@@ -143,12 +143,12 @@ int sampgdk_native_get_num_natives(void) {
 }
 
 cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
-  struct sampgdk_fakeamx *fa = sampgdk_fakeamx_global();
-  return native(&fa->amx, params);
+  AMX *amx = sampgdk_fakeamx_amx();
+  return native(amx, params);
 }
 
 cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) {
-  struct sampgdk_fakeamx *fa = sampgdk_fakeamx_global();
+  AMX *amx = sampgdk_fakeamx_amx();
   cell i;
   cell num_params = 0;
   cell params[MAX_NATIVE_PARAMS] = {0};
@@ -177,7 +177,7 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) 
         case 'r': /* const reference */
         case 'R': /* non-const reference (writeable) */ {
           cell *ptr = va_arg(args, cell *);
-          sampgdk_fakeamx_heap_push_cell(fa, *ptr, &params[i]);
+          sampgdk_fakeamx_push_cell(*ptr, &params[i]);
           ref_params[i].ptr = ptr;
           if (type == 'R') {
             ref_params[i].size = sizeof(cell);
@@ -187,7 +187,7 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) 
         case 's': /* const string */
         case 'S': /* non-const string (writeable) */ {
           char *str = va_arg(args, char *);
-          sampgdk_fakeamx_heap_push_string(fa, str, NULL, &params[i]);
+          sampgdk_fakeamx_push_string(str, NULL, &params[i]);
           ref_params[i].ptr = str;
           if (type == 'S') {
             size_t size = va_arg(args, size_t);
@@ -207,7 +207,7 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) 
   }
 
   params[0] = num_params * sizeof(cell);
-  retval = native(&fa->amx, params);
+  retval = native(amx, params);
   
   for (i = num_params; i >= 1; i--) {
     if (ref_params[i].size != 0) {
@@ -215,16 +215,16 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) 
       char type = format[i - 1];
       switch (type) {
         case 'R':
-          sampgdk_fakeamx_heap_get_cell(fa, params[i], ref_params[i].ptr);
+          sampgdk_fakeamx_get_cell(params[i], ref_params[i].ptr);
           break;
         case 'S':
-          sampgdk_fakeamx_heap_get_string(fa, params[i], ref_params[i].ptr,
-                                          ref_params[i].size);
+          sampgdk_fakeamx_get_string(params[i], ref_params[i].ptr,
+                                     ref_params[i].size);
           break;
       }
     }
     if (ref_params[i].ptr != NULL) {
-      sampgdk_fakeamx_heap_pop(fa, params[i]);
+      sampgdk_fakeamx_pop(params[i]);
     }
   }
 

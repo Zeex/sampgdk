@@ -218,7 +218,6 @@ def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' %
              (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
   file.write('  static AMX_NATIVE native;\n')
-  file.write('  struct sampgdk_fakeamx *fa;\n')
   file.write('  cell retval;\n')
 
   if func.params:
@@ -231,8 +230,6 @@ def generate_native_impl(file, func):
   file.write('    native = sampgdk_native_lookup_warn_stub("%s");\n' % func.name)
   file.write('  }\n')
 
-  file.write('  fa = sampgdk_fakeamx_global();\n')
-
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):
       if p.is_ref:
@@ -241,11 +238,11 @@ def generate_native_impl(file, func):
         else:
           value = p.name
         if p.type == 'char':
-          file.write('  sampgdk_fakeamx_heap_push(fa, %s, &%s_);\n' % (pnext.name, p.name))
+          file.write('  sampgdk_fakeamx_push(%s, &%s_);\n' % (pnext.name, p.name))
         elif p.type == 'string':
-          file.write('  sampgdk_fakeamx_heap_push_string(fa, %s, NULL, &%s_);\n' % (value, p.name))
+          file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' % (value, p.name))
         else:
-          file.write('  sampgdk_fakeamx_heap_push(fa, 1, &%s_);\n' % p.name)
+          file.write('  sampgdk_fakeamx_push(1, &%s_);\n' % p.name)
 
     file.write('  params[0] = %d * sizeof(cell);\n' % len(func.params))
     for index, p in enumerate(func.params, 1):
@@ -266,7 +263,7 @@ def generate_native_impl(file, func):
         file.write('  params[%d] = %s_;\n' % (index, p.name))
 
 
-  file.write('  retval = native(&fa->amx, %s);\n' %
+  file.write('  retval = native(sampgdk_fakeamx_amx(), %s);\n' %
              ('NULL', 'params')[bool(func.params)])
 
   if func.params:
@@ -275,10 +272,10 @@ def generate_native_impl(file, func):
         if p.type == 'string':
           pass
         elif p.type == 'char':
-          file.write('  sampgdk_fakeamx_heap_get_string(fa, %s_, %s, %s);\n' %
+          file.write('  sampgdk_fakeamx_get_string(%s_, %s, %s);\n' %
                      (p.name, p.name, pnext.name))
         else:
-          file.write('  sampgdk_fakeamx_heap_get_%s(fa, %s_, %s);\n' % (
+          file.write('  sampgdk_fakeamx_get_%s(%s_, %s);\n' % (
             {
               'int'   : 'cell',
               'bool'  : 'bool',
@@ -288,7 +285,7 @@ def generate_native_impl(file, func):
           p.name, p.name))
 
     for p in reversed(list(filter(lambda p: p.is_ref, func.params))):
-      file.write('  sampgdk_fakeamx_heap_pop(fa, %s_);\n' % p.name)
+      file.write('  sampgdk_fakeamx_pop(%s_);\n' % p.name)
 
   file.write('  return %s(retval);\n' % ({
       'int'   : '(int)',

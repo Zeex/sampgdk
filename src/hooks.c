@@ -122,7 +122,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
    * - the main AMX (the gamemode)
    * - the fake AMX
    */
-  proceed = (amx == main_amx || amx == &sampgdk_fakeamx_global()->amx);
+  proceed = (amx == main_amx || amx == sampgdk_fakeamx_amx());
 
   error = amx_FindPublic(amx, name, index);
   if (error != AMX_ERR_NONE && proceed) {
@@ -171,7 +171,7 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
     sampgdk_callback_invoke(main_amx, "OnGameModeInit", retval);
   } else {
     if (index != AMX_EXEC_CONT && public_name != NULL
-        && (amx == main_amx || amx == &sampgdk_fakeamx_global()->amx)) {
+        && (amx == main_amx || amx == sampgdk_fakeamx_amx())) {
       proceed = sampgdk_callback_invoke(amx, public_name, retval);
     }
   }
@@ -238,7 +238,7 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
   /* If failing to allocate on the fake AMX heap, resize the heap
    * automatically.
    */
-  if (error == AMX_ERR_MEMORY && amx == &sampgdk_fakeamx_global()->amx) {
+  if (error == AMX_ERR_MEMORY && amx == sampgdk_fakeamx_amx()) {
     cell new_size;
 
     /* STKMARGIN + 2 is here to stop amx_Push() from thinking that there's
@@ -246,7 +246,7 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
      */
     new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
 
-    if (sampgdk_fakeamx_heap_resize(sampgdk_fakeamx_global(), new_size) >= 0) {
+    if (sampgdk_fakeamx_resize_heap(new_size) >= 0) {
       error = amx_Allot(amx, cells, amx_addr, phys_addr);
     }
   }
