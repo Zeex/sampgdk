@@ -170,7 +170,7 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) 
           params[i] = (cell)va_arg(args, int);
           break;
         case 'f': /* floating-point */ {
-          float value = va_arg(args, double);
+          float value = (float)va_arg(args, double);
           params[i] = amx_ftoc(value);
           break;
         }
