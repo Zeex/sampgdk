@@ -248,55 +248,46 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
   return error;
 }
 
-#define CREATE_HOOK(name, failure_label) \
-  if ((amx_##name##_hook = subhook_new()) == NULL) \
-    goto failure_label;
-
-#define DESTROY_HOOK(name) \
-  subhook_free(amx_##name##_hook); \
-
-#define INSTALL_HOOK(name) \
-  subhook_set_src(amx_##name##_hook, \
-                  ((void**)(amx_exports))[PLUGIN_AMX_EXPORT_##name]); \
-  subhook_set_dst(amx_##name##_hook, (void*)amx_##name##_); \
-  subhook_install(amx_##name##_hook);
-
-#define REMOVE_HOOK(name) \
-  subhook_remove(amx_##name##_hook); \
+#define FOR_EACH_FUNC(C) \
+  C(Register) \
+  C(FindPublic) \
+  C(Exec) \
+  C(Callback) \
+  C(Allot)
 
 static int create_hooks(void) {
-  CREATE_HOOK(Register, no_memory);
-  CREATE_HOOK(FindPublic, no_memory);
-  CREATE_HOOK(Exec, no_memory);
-  CREATE_HOOK(Callback, no_memory);
-  CREATE_HOOK(Allot, no_memory);
+  #define CREATE_HOOK(name) \
+    if ((amx_##name##_hook = subhook_new()) == NULL) \
+      goto no_memory;
+  FOR_EACH_FUNC(CREATE_HOOK)
   return 0;
 no_memory:
   return -ENOMEM;
+  #undef CREATE_HOOK
 }
 
 static void destroy_hooks(void) {
-  DESTROY_HOOK(Register);
-  DESTROY_HOOK(FindPublic);
-  DESTROY_HOOK(Exec);
-  DESTROY_HOOK(Callback);
-  DESTROY_HOOK(Allot);
+  #define DESTROY_HOOK(name) \
+    subhook_free(amx_##name##_hook); \
+  FOR_EACH_FUNC(DESTROY_HOOK)
+  #undef DESTROY_HOOK
 }
 
 static void install_hooks(void) {
-  INSTALL_HOOK(Register);
-  INSTALL_HOOK(FindPublic);
-  INSTALL_HOOK(Exec);
-  INSTALL_HOOK(Callback);
-  INSTALL_HOOK(Allot);
+  #define INSTALL_HOOK(name) \
+    subhook_set_src(amx_##name##_hook, \
+                    ((void**)(amx_exports))[PLUGIN_AMX_EXPORT_##name]); \
+    subhook_set_dst(amx_##name##_hook, (void*)amx_##name##_); \
+    subhook_install(amx_##name##_hook);
+  FOR_EACH_FUNC(INSTALL_HOOK)
+  #undef INSTALL_HOOK
 }
 
 static void remove_hooks(void) {
-  REMOVE_HOOK(Register);
-  REMOVE_HOOK(FindPublic);
-  REMOVE_HOOK(Exec);
-  REMOVE_HOOK(Callback);
-  REMOVE_HOOK(Allot);
+  #define REMOVE_HOOK(name) \
+    subhook_remove(amx_##name##_hook);
+  FOR_EACH_FUNC(REMOVE_HOOK)
+  #undef REMOVE_HOOK
 }
 
 DEFINE_INIT_FUNC(hooks) {
