@@ -19,7 +19,7 @@
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 
-AMX *sampgdk_fakeamx_amx();
+AMX *sampgdk_fakeamx_amx(void);
 int sampgdk_fakeamx_resize_heap(int cells);
 int sampgdk_fakeamx_push(int cells, cell *address);
 int sampgdk_fakeamx_push_cell(cell value, cell *address);

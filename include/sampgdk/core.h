@@ -51,7 +51,7 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers(void);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin);
 
-SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives();
+SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives(void);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_get_num_natives(void);
 
 /* Deprecated. Use sampgdk_get_num_natives() instead. */

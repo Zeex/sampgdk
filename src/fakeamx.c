@@ -68,7 +68,7 @@ DEFINE_CLEANUP_FUNC(fakeamx) {
   sampgdk_array_free(&global.heap);
 }
 
-AMX *sampgdk_fakeamx_amx() {
+AMX *sampgdk_fakeamx_amx(void) {
   return &global.amx;
 }
 

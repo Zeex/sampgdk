@@ -35,7 +35,7 @@ struct sampgdk_timer {
 
 static struct sampgdk_array timers;
 
-static int find_slot() {
+static int find_slot(void) {
   int i;
 
   for (i = 0; i < timers.count; i++) {
