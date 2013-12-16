@@ -139,6 +139,11 @@ SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives(void) {
   return sampgdk_native_get_natives();
 }
 
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_get_num_natives(void) {
+  return sampgdk_native_get_num_natives();
+}
+
+/* deprecated */
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void) {
   return sampgdk_native_get_num_natives();
 }
