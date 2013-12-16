@@ -16,6 +16,8 @@
 #ifndef SAMPGDK_NATIVE_H_
 #define SAMPGDK_NATIVE_H_
 
+#include <stdarg.h>
+
 #include <sampgdk/amx.h>
 
 int sampgdk_native_register(const char *name, AMX_NATIVE func);
@@ -26,5 +28,7 @@ cell AMX_NATIVE_CALL sampgdk_native_stub(AMX *amx, cell *params);
 AMX_NATIVE sampgdk_native_lookup_warn_stub(const char *name);
 const AMX_NATIVE_INFO *sampgdk_native_get_natives(void);
 int sampgdk_native_get_num_natives(void);
+cell sampgdk_native_call(AMX_NATIVE native, cell *params);
+cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args);
 
 #endif /* !SAMPGDK_NATIVE_H_ */

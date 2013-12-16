@@ -22,6 +22,12 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
+typedef void (SAMPGDK_CALL *sampgdk_logprintf_t)(const char *format, ...);
+SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
+
+typedef void (SAMPGDK_CALL *sampgdk_vlogprintf_t)(const char *format, va_list args);
+SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
+
 /* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
 SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data));
 /* Deprecated. Use sampgdk_cleanup() or sampgdk_cleanup_plugin() instead. */
@@ -48,11 +54,8 @@ SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin);
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives();
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void);
 
-typedef void (SAMPGDK_CALL *sampgdk_logprintf_t)(const char *format, ...);
-SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
-
-typedef void (SAMPGDK_CALL *sampgdk_vlogprintf_t)(const char *format, va_list args);
-SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
+SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_call_native(AMX_NATIVE native, cell *params);
+SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_invoke_native(AMX_NATIVE native, const char *format, ...);
 
 #ifdef __cplusplus
   #include <sampgdk/core.hpp>

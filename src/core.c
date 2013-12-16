@@ -36,6 +36,9 @@
 
 static void **plugin_data;
 
+SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;
+SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf = NULL;
+
 static void init_plugin_data(void **data) {
   plugin_data = data;
 }
@@ -140,5 +143,19 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void) {
   return sampgdk_native_get_num_natives();
 }
 
-SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;
-SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf = NULL;
+SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_call_native(AMX_NATIVE native,
+                                                     cell *params) {
+  return sampgdk_native_call(native, params);
+}
+
+SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_invoke_native(AMX_NATIVE native,
+                                                       const char *format, ...) {
+  va_list args;
+  cell retval;
+
+  va_start(args, format);
+  retval = sampgdk_native_invoke(native, format, args);
+  va_end(args);
+
+  return retval;
+}
