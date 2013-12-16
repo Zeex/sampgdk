@@ -23,9 +23,9 @@
 #include <sampgdk/export.h>
 
 typedef void (SAMPGDK_CALL *sampgdk_logprintf_t)(const char *format, ...);
-SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
-
 typedef void (SAMPGDK_CALL *sampgdk_vlogprintf_t)(const char *format, va_list args);
+
+SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
 /* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
