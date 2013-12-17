@@ -57,6 +57,7 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_get_num_natives(void);
 /* Deprecated. Use sampgdk_get_num_natives() instead. */
 SAMPGDK_DEPRECATED(SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void));
 
+SAMPGDK_EXPORT AMX_NATIVE SAMPGDK_CALL sampgdk_find_native(const char *name);
 SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_call_native(AMX_NATIVE native, cell *params);
 SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_invoke_native(AMX_NATIVE native, const char *format, ...);
 

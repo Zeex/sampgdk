@@ -148,6 +148,10 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void) {
   return sampgdk_native_get_num_natives();
 }
 
+SAMPGDK_EXPORT AMX_NATIVE SAMPGDK_CALL sampgdk_find_native(const char *name) {
+  return sampgdk_native_find(name);
+}
+
 SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_call_native(AMX_NATIVE native,
                                                      cell *params) {
   return sampgdk_native_call(native, params);
