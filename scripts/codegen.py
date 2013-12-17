@@ -227,7 +227,7 @@ def generate_native_impl(file, func):
       file.write('  cell %s_;\n' % p.name)
 
   file.write('  if (unlikely(native == NULL)) {\n')
-  file.write('    native = sampgdk_native_lookup_warn_stub("%s");\n' % func.name)
+  file.write('    native = sampgdk_native_find_warn_stub("%s");\n' % func.name)
   file.write('  }\n')
 
   if func.params:

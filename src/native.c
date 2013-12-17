@@ -73,7 +73,7 @@ static int compare(const void *key, const void *elem) {
   return strcmp((const char *)key, ((const AMX_NATIVE_INFO *)elem)->name);
 }
 
-AMX_NATIVE sampgdk_native_lookup(const char *name) {
+AMX_NATIVE sampgdk_native_find(const char *name) {
   AMX_NATIVE_INFO *info;
 
   assert(name != NULL);
@@ -92,12 +92,12 @@ AMX_NATIVE sampgdk_native_lookup(const char *name) {
   return info->func;
 }
 
-AMX_NATIVE sampgdk_native_lookup_warn(const char *name) {
+AMX_NATIVE sampgdk_native_find_warn(const char *name) {
   AMX_NATIVE func;
 
   assert(name != NULL);
 
-  func = sampgdk_native_lookup(name);
+  func = sampgdk_native_find(name);
   if (func == NULL) {
     sampgdk_log_warn("Native function not found: %s", name);
   }
@@ -110,24 +110,24 @@ static cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
   return 0;
 }
 
-AMX_NATIVE sampgdk_native_lookup_stub(const char *name) {
+AMX_NATIVE sampgdk_native_find_stub(const char *name) {
   AMX_NATIVE func;
 
   assert(name != NULL);
 
-  if ((func = sampgdk_native_lookup(name)) == NULL) {
+  if ((func = sampgdk_native_find(name)) == NULL) {
     return native_stub;
   }
 
   return func;
 }
 
-AMX_NATIVE sampgdk_native_lookup_warn_stub(const char *name) {
+AMX_NATIVE sampgdk_native_find_warn_stub(const char *name) {
   AMX_NATIVE func;
 
   assert(name != NULL);
 
-  if ((func = sampgdk_native_lookup_warn(name)) == NULL) {
+  if ((func = sampgdk_native_find_warn(name)) == NULL) {
     return native_stub;
   }
 
