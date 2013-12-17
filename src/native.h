@@ -24,7 +24,6 @@ int sampgdk_native_register(const char *name, AMX_NATIVE func);
 AMX_NATIVE sampgdk_native_lookup(const char *name);
 AMX_NATIVE sampgdk_native_lookup_warn(const char *name);
 AMX_NATIVE sampgdk_native_lookup_stub(const char *name);
-cell AMX_NATIVE_CALL sampgdk_native_stub(AMX *amx, cell *params);
 AMX_NATIVE sampgdk_native_lookup_warn_stub(const char *name);
 const AMX_NATIVE_INFO *sampgdk_native_get_natives(void);
 int sampgdk_native_get_num_natives(void);

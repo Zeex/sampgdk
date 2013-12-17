@@ -105,7 +105,7 @@ AMX_NATIVE sampgdk_native_lookup_warn(const char *name) {
   return func;
 }
 
-cell AMX_NATIVE_CALL sampgdk_native_stub(AMX *amx, cell *params) {
+static cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
   sampgdk_log_warn("Native stub");
   return 0;
 }
@@ -116,7 +116,7 @@ AMX_NATIVE sampgdk_native_lookup_stub(const char *name) {
   assert(name != NULL);
 
   if ((func = sampgdk_native_lookup(name)) == NULL) {
-    return sampgdk_native_stub;
+    return native_stub;
   }
 
   return func;
@@ -128,7 +128,7 @@ AMX_NATIVE sampgdk_native_lookup_warn_stub(const char *name) {
   assert(name != NULL);
 
   if ((func = sampgdk_native_lookup_warn(name)) == NULL) {
-    return sampgdk_native_stub;
+    return native_stub;
   }
 
   return func;
