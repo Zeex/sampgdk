@@ -1,3 +1,15 @@
+Changes in version 3.6
+======================
+
+o Added SAMPGDK_TIMER_CALL macro for timer callbacks (expands to SAMPGDK_CALL)
+o Added new functions for calling natives dynamically:
+
+  - sampgdk_find_native(const char *name)
+  - sampgdk_call_native(AMX_NATIVE native, cell *params)
+  - sampgdk_invoke_native(AMX_NATIVE, const char *format, ...)
+
+o Minor code and build system improvements
+
 Changes in version 3.5
 ======================
 
