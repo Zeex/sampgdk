@@ -184,15 +184,6 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
   endif()
 endforeach()
 
-if(SAMPGDK_STATIC)
-  foreach(lib IN LISTS SAMPGDK_LIBRARIES)
-    get_target_property(sources ${lib} SOURCES)
-    foreach(file IN LISTS sources)
-      sampgdk_add_sources("${${lib}_SOURCE_DIR}/${file}")
-    endforeach()
-  endforeach()
-endif()
-
 if(SAMPGDK_DEF_FILE)
   add_custom_command(OUTPUT ${SAMPGDK_DEF_FILE}
     COMMAND "${CMAKE_COMMAND}"
