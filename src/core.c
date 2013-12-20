@@ -35,6 +35,7 @@
 #endif
 
 static void **plugin_data;
+static sampgdk_public_hook public_hook;
 
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf = NULL;
@@ -167,4 +168,12 @@ SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_invoke_native(AMX_NATIVE native,
   va_end(args);
 
   return retval;
+}
+
+SAMPGDK_EXPORT sampgdk_public_hook sampgdk_get_public_hook(void) {
+  return public_hook;
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_set_public_hook(sampgdk_public_hook hook) {
+  public_hook = hook;
 }

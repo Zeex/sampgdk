@@ -22,6 +22,7 @@
 
 #include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
+#include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
 #include "callback.h"
@@ -155,13 +156,18 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 }
 
 static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
-  int error;
   bool proceed;
+  sampgdk_public_hook hook;
+  int error;
 
   subhook_remove(amx_Exec_hook);
   subhook_install(amx_Callback_hook);
 
   proceed = true;
+
+  if ((hook = sampgdk_get_public_hook()) != NULL) {
+    proceed = hook(amx, public_name);
+  }
 
   /* Since filterscripts don't use main() we can assume that the AMX
    * that executes main() is indeed the main AMX i.e. the gamemode.
