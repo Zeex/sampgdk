@@ -33,6 +33,9 @@
 
 #include "sdk/amx/amx.h"
 
+/* Maximum length of a public function name. */
+#define MAX_PUBLIC_NAME 32
+
 #define FOR_EACH_FUNC(C) \
   C(Register) \
   C(FindPublic) \
@@ -44,7 +47,7 @@
 static AMX *main_amx = NULL;
 
 /* The name of the currently executing public function. */
-static char *public_name = NULL;
+static char public_name[MAX_PUBLIC_NAME];
 
 #define DEFINE_HOOK(name) \
   static subhook_t amx_##name##_hook;
@@ -91,6 +94,16 @@ static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
       break;
     }
     cur++;
+  }
+}
+
+static void safe_strcpy(char *dst, const char *src, size_t size) {
+  size_t i;
+  if (size > 0) {
+    for (i = 0; i < size && src[i] != '\0'; i++) {
+      dst[i] = src[i];
+    }
+    dst[size - 1] = '\0';
   }
 }
 
@@ -144,16 +157,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
     /* Store the function name in a global string to later access
      * it in amx_Exec_().
      */
-    if (public_name != NULL) {
-      free(public_name);
-    }
-
-    if ((public_name = malloc(strlen(name) + 1)) == NULL) {
-      sampgdk_log_error(strerror(ENOMEM));
-      return error;
-    }
-
-    strcpy(public_name, name);
+    safe_strcpy(public_name, name, MAX_PUBLIC_NAME);
   }
 
   subhook_install(amx_FindPublic_hook);
