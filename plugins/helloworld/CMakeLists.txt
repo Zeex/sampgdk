@@ -13,7 +13,8 @@ add_samp_plugin(helloworld
   "helloworld.def"
 )
 
-group_target_sources(unlimitedfs)
+group_target_sources(helloworld)
+
 target_link_libraries(helloworld "sampgdk")
 if(SAMPGDK_STATIC)
   target_link_libraries(helloworld "subhook")
