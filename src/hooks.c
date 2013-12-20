@@ -33,17 +33,23 @@
 
 #include "sdk/amx/amx.h"
 
+#define FOR_EACH_FUNC(C) \
+  C(Register) \
+  C(FindPublic) \
+  C(Exec) \
+  C(Callback) \
+  C(Allot)
+
 /* The main AMX instance. */
 static AMX *main_amx = NULL;
 
 /* The name of the currently executing public function. */
 static char *public_name = NULL;
 
-static subhook_t amx_FindPublic_hook;
-static subhook_t amx_Exec_hook;
-static subhook_t amx_Register_hook;
-static subhook_t amx_Callback_hook;
-static subhook_t amx_Allot_hook;
+#define DEFINE_HOOK(name) \
+  static subhook_t amx_##name##_hook;
+FOR_EACH_FUNC(DEFINE_HOOK)
+#undef DEFINE_HOOK
 
 /* The "funcidx" native uses amx_FindPublic() to get public function index
  * but our FindPublic always succeeds regardless of public existence, so
@@ -253,13 +259,6 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
 
   return error;
 }
-
-#define FOR_EACH_FUNC(C) \
-  C(Register) \
-  C(FindPublic) \
-  C(Exec) \
-  C(Callback) \
-  C(Allot)
 
 static int create_hooks(void) {
   #define CREATE_HOOK(name) \
