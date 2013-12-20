@@ -15,3 +15,6 @@ add_samp_plugin(helloworld
 
 group_target_sources(unlimitedfs)
 target_link_libraries(helloworld "sampgdk")
+if(SAMPGDK_STATIC)
+  target_link_libraries(helloworld "subhook")
+endif()
