@@ -56,11 +56,6 @@ elseif(UNIX)
   )
 endif()
 
-set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY INCLUDE_DIRECTORIES
-  ${CMAKE_CURRENT_SOURCE_DIR}
-  ${CMAKE_CURRENT_BINARY_DIR}
-)
-
 add_subdirectory("sdk")
 
 # Export theese two variables to the parent scope for add_custom_command().
