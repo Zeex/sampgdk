@@ -34,6 +34,8 @@ sampgdk_add_sources(
   "plugin.h"
   "timer.c"
   "timer.h"
+  "utils.c"
+  "utils.h"
   "version.api"
   "version.c"
   "${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_INIT_FILE}"

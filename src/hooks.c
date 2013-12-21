@@ -31,6 +31,7 @@
 #include "limits.h"
 #include "log.h"
 #include "native.h"
+#include "utils.h"
 
 #include "sdk/amx/amx.h"
 
@@ -104,16 +105,6 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
   subhook_install(amx_Register_hook);
 
   return error;
-}
-
-static void safe_strcpy(char *dst, const char *src, size_t size) {
-  if (size > 0) {
-    size_t i;
-    for (i = 0; i < size - 1 && src[i] != '\0'; i++) {
-      dst[i] = src[i];
-    }
-    dst[i] = '\0';
-  }
 }
 
 /* The SA-MP server always makes a call to amx_FindPublic() and depending on
