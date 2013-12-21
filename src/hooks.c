@@ -145,7 +145,6 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 
 static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
   bool proceed;
-  sampgdk_public_hook hook;
   int error;
 
   subhook_remove(amx_Exec_hook);
@@ -153,8 +152,11 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 
   proceed = true;
 
-  if ((hook = sampgdk_get_public_hook()) != NULL) {
-    proceed = hook(amx, public_name);
+  if (amx == main_amx) {
+    sampgdk_public_hook hook = sampgdk_get_public_hook();
+    if (hook != NULL) {
+      proceed = hook(amx, public_name);
+    }
   }
 
   /* Since filterscripts don't use main() we can assume that the AMX
