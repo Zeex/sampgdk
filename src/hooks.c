@@ -121,7 +121,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 
   /* We are interested in calling publics against two AMX instances:
    * - the main AMX (the gamemode)
-   * - the fake AMX
+   * - the fake AMX (this is needed for HTTP() to work)
    */
   proceed = (amx == main_amx || amx == sampgdk_fakeamx_amx());
 
