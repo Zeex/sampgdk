@@ -26,9 +26,9 @@
 #include <sampgdk/plugin.h>
 
 #include "callback.h"
+#include "constants.h"
 #include "fakeamx.h"
 #include "init.h"
-#include "limits.h"
 #include "log.h"
 #include "native.h"
 #include "utils.h"

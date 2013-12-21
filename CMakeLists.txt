@@ -140,6 +140,8 @@ foreach(file IN LISTS list_files)
 endforeach()
 
 macro(sampgdk_add_module name)
+  set_property(SOURCE "${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c"
+    APPEND PROPERTY INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/src")
   sampgdk_add_api_gen(${name}
     "${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl"
     "${CMAKE_CURRENT_BINARY_DIR}/src/${name}.api"
