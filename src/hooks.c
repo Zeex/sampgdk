@@ -80,20 +80,12 @@ static cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params) {
 }
 
 static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
-  AMX_HEADER *hdr;
-  AMX_FUNCSTUBNT *cur;
-  AMX_FUNCSTUBNT *end;
+  int index;
+  AMX_HEADER *hdr = (AMX_HEADER *)amx->base;
+  AMX_FUNCSTUBNT *natives = (AMX_FUNCSTUBNT *)(amx->base + hdr->natives);
 
-  hdr = (AMX_HEADER*)(amx->base);
-  cur = (AMX_FUNCSTUBNT*)(amx->base + hdr->natives);
-  end = (AMX_FUNCSTUBNT*)(amx->base + hdr->libraries);
-
-  while (cur < end) {
-    if (strcmp((char*)(cur->nameofs + amx->base), name) == 0) {
-      cur->address = (cell)address;
-      break;
-    }
-    cur++;
+  if (amx_FindNative(amx, name, &index) == AMX_ERR_NONE) {
+    natives[index].address = (ucell)address;
   }
 }
 
