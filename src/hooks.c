@@ -97,16 +97,6 @@ static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
   }
 }
 
-static void safe_strcpy(char *dst, const char *src, size_t size) {
-  size_t i;
-  if (size > 0) {
-    for (i = 0; i < size - 1 && src[i] != '\0'; i++) {
-      dst[i] = src[i];
-    }
-    dst[i] = '\0';
-  }
-}
-
 static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
                                 int number) {
   int i;
@@ -124,6 +114,16 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
   subhook_install(amx_Register_hook);
 
   return error;
+}
+
+static void safe_strcpy(char *dst, const char *src, size_t size) {
+  if (size > 0) {
+    size_t i;
+    for (i = 0; i < size - 1 && src[i] != '\0'; i++) {
+      dst[i] = src[i];
+    }
+    dst[i] = '\0';
+  }
 }
 
 /* The SA-MP server always makes a call to amx_FindPublic() and depending on
@@ -154,9 +154,6 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
   }
 
   if (proceed) {
-    /* Store the function name in a global string to later access
-     * it in amx_Exec_().
-     */
     safe_strcpy(public_name, name, MAX_PUBLIC_NAME);
   }
 
@@ -251,7 +248,8 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
   }
 
   /* If called against the fake AMX and failed to allocate the requested
-   * amount of space, grow the heap and try again. */
+   * amount of space, grow the heap and try again.
+   */
   if (error == AMX_ERR_MEMORY && amx == sampgdk_fakeamx_amx()) {
     cell new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
     if (sampgdk_fakeamx_resize_heap(new_size) >= 0) {
@@ -309,7 +307,6 @@ DEFINE_INIT_FUNC(hooks) {
   }
 
   install_hooks();
-
   return 0;
 }
 
