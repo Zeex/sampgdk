@@ -228,6 +228,8 @@ if(WIN32)
   endif()
 elseif(UNIX)
   set_property(TARGET sampgdk APPEND_STRING PROPERTY
+               COMPILE_FLAGS " -fvisibility=hidden")
+  set_property(TARGET sampgdk APPEND_STRING PROPERTY
                LINK_FLAGS " -Wl,--no-undefined")
   set_property(TARGET sampgdk APPEND_STRING PROPERTY
                LINK_FLAGS " -Wl,--retain-symbols-file=${SAMPGDK_SYM_FILE}")
