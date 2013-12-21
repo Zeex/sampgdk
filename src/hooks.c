@@ -100,10 +100,10 @@ static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
 static void safe_strcpy(char *dst, const char *src, size_t size) {
   size_t i;
   if (size > 0) {
-    for (i = 0; i < size && src[i] != '\0'; i++) {
+    for (i = 0; i < size - 1 && src[i] != '\0'; i++) {
       dst[i] = src[i];
     }
-    dst[size - 1] = '\0';
+    dst[i] = '\0';
   }
 }
 
