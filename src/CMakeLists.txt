@@ -21,6 +21,7 @@ sampgdk_add_sources(
   "hooks.c"
   "init.h"
   "likely.h"
+  "limits.h"
   "log.c"
   "log.h"
   "logprintf.c"

@@ -28,13 +28,17 @@
 #include "callback.h"
 #include "fakeamx.h"
 #include "init.h"
+#include "limits.h"
 #include "log.h"
 #include "native.h"
 
 #include "sdk/amx/amx.h"
 
-/* Maximum length of a public function name. */
-#define MAX_PUBLIC_NAME 32
+/* The main AMX instance. */
+static AMX *main_amx = NULL;
+
+/* The name of the currently executing public function. */
+static char public_name[MAX_PUBLIC_NAME];
 
 #define FOR_EACH_FUNC(C) \
   C(Register) \
@@ -42,12 +46,6 @@
   C(Exec) \
   C(Callback) \
   C(Allot)
-
-/* The main AMX instance. */
-static AMX *main_amx = NULL;
-
-/* The name of the currently executing public function. */
-static char public_name[MAX_PUBLIC_NAME];
 
 #define DEFINE_HOOK(name) \
   static subhook_t amx_##name##_hook;
@@ -146,7 +144,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
   }
 
   if (proceed) {
-    safe_strcpy(public_name, name, MAX_PUBLIC_NAME);
+    safe_strcpy(public_name, name, sizeof(public_name));
   }
 
   subhook_install(amx_FindPublic_hook);
