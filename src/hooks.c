@@ -123,15 +123,14 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
    * - the fake AMX (this is needed for HTTP() to work)
    */
   proceed = (amx == main_amx || amx == sampgdk_fakeamx_amx());
-
   error = amx_FindPublic(amx, name, index);
-  if (error != AMX_ERR_NONE && proceed) {
-    error = AMX_ERR_NONE;
-    *index = AMX_EXEC_GDK;
-  }
 
   if (proceed) {
     safe_strcpy(public_name, name, sizeof(public_name));
+    if (error != AMX_ERR_NONE) {
+      error = AMX_ERR_NONE;
+      *index = AMX_EXEC_GDK;
+    }
   }
 
   subhook_install(amx_FindPublic_hook);
