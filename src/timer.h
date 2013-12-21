@@ -19,8 +19,6 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-#include <time.h>
-
 typedef void (SAMPGDK_TIMER_CALL *sampgdk_timer_callback)(int id, void *param);
 
 int sampgdk_timer_set(long interval, bool repeat,
