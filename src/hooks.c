@@ -108,10 +108,9 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
 }
 
 /* The SA-MP server always makes a call to amx_FindPublic() and depending on
- * the value returned it may invoke amx_Exec() to call the public function.
- *
- * In order to make it always execute publics regardless of their existence
- * we have to make amx_FindPublic() always return OK.
+ * the value returned it may also call amx_Exec(). In order to have amx_Exec()
+ * called for any publics (regardless of their existence) we can simply return
+ * for all inputs.
  */
 static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
   int error;
@@ -127,9 +126,6 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
 
   error = amx_FindPublic(amx, name, index);
   if (error != AMX_ERR_NONE && proceed) {
-    /* Trick the server to make it call this public with amx_Exec()
-     * even though the public doesn't actually exist.
-     */
     error = AMX_ERR_NONE;
     *index = AMX_EXEC_GDK;
   }
