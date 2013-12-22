@@ -159,7 +159,7 @@ SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_call_native(AMX_NATIVE native,
 }
 
 SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_invoke_native(AMX_NATIVE native,
-                                                       const char *format, ...) {
+                                                      const char *format, ...) {
   va_list args;
   cell retval;
 
@@ -174,6 +174,7 @@ SAMPGDK_EXPORT sampgdk_public_hook sampgdk_get_public_hook(void) {
   return public_hook;
 }
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_set_public_hook(sampgdk_public_hook hook) {
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_set_public_hook(
+                                                     sampgdk_public_hook hook) {
   public_hook = hook;
 }
