@@ -139,7 +139,7 @@ foreach(file IN LISTS list_files)
   endforeach()
 endforeach()
 
-macro(sampgdk_add_module name)
+macro(sampgdk_add_a_module name)
   set_property(SOURCE "${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c"
     APPEND PROPERTY INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/src")
   sampgdk_add_api_gen(${name}
@@ -157,11 +157,11 @@ macro(sampgdk_add_module name)
   sampgdk_add_init_module(${name})
 endmacro()
 
-file(GLOB_RECURSE list_files "modules.list")
+file(GLOB_RECURSE list_files "a.list")
 foreach(file IN LISTS list_files)
   file(STRINGS ${file} modules)
   foreach(module IN LISTS modules)
-    sampgdk_add_module(${module})
+    sampgdk_add_a_module(${module})
   endforeach()
 endforeach()
 
