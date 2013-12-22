@@ -97,7 +97,7 @@ macro(sampgdk_add_api_gen module_name idl_file api_file)
       "-DCODEGEN_MODULE_NAME=${module_name}"
       "-DCODEGEN_IDL_FILE=${idl_file}"
       "-DCODEGEN_API_FILE=${api_file}"
-      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/codegen.py.cmake"
+      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/codegen.cmake"
     DEPENDS ${idl_file} "scripts/codegen.py")
   sampgdk_add_sources(${api_file})
 endmacro()
@@ -109,7 +109,7 @@ macro(sampgdk_add_header_gen module_name idl_file header_file)
       "-DCODEGEN_MODULE_NAME=${module_name}"
       "-DCODEGEN_IDL_FILE=${idl_file}"
       "-DCODEGEN_HEADER_FILE=${header_file}"
-      "-P" "${PROJECT_BINARY_DIR}/scripts/codegen.py.cmake"
+      "-P" "${PROJECT_BINARY_DIR}/scripts/codegen.cmake"
     DEPENDS ${idl_file} "scripts/codegen.py"
   )
   sampgdk_add_headers(${header_file})
@@ -122,7 +122,7 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
       "-DCODEGEN_MODULE_NAME=${module_name}"
       "-DCODEGEN_IDL_FILE=${idl_file}"
       "-DCODEGEN_SOURCE_FILE=${source_file}"
-      "-P" "${PROJECT_BINARY_DIR}/scripts/codegen.py.cmake"
+      "-P" "${PROJECT_BINARY_DIR}/scripts/codegen.cmake"
     DEPENDS ${idl_file} "scripts/codegen.py")
   sampgdk_add_sources(${source_file})
 endmacro()
@@ -191,7 +191,7 @@ if(SAMPGDK_DEF_FILE)
     COMMAND "${CMAKE_COMMAND}"
       "-DDEFGEN_OUTPUT_FILE=${SAMPGDK_DEF_FILE}"
       "-DDEFGEN_SEARCH_DIRS=\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
-      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/defgen.py.cmake"
+      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/defgen.cmake"
     DEPENDS ${SAMPGDK_APIS})
 endif()
 
@@ -200,7 +200,7 @@ if(SAMPGDK_SYM_FILE)
     COMMAND "${CMAKE_COMMAND}"
       "-DSYMGEN_OUTPUT_FILE=${SAMPGDK_SYM_FILE}"
       "-DSYMGEN_SEARCH_DIRS=\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
-      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/symgen.py.cmake"
+      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/symgen.cmake"
     DEPENDS ${SAMPGDK_APIS})
 endif()
 
