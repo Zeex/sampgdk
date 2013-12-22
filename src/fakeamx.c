@@ -35,7 +35,7 @@ struct sampgdk_fakeamx {
 
 static struct sampgdk_fakeamx global;
 
-DEFINE_INIT_FUNC(fakeamx) {
+SAMPGDK_MODULE_INIT(fakeamx) {
   int error;
 
   memset(&global, 0, sizeof(global));
@@ -64,7 +64,7 @@ DEFINE_INIT_FUNC(fakeamx) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(fakeamx) {
+SAMPGDK_MODULE_CLEANUP(fakeamx) {
   sampgdk_array_free(&global.heap);
 }
 

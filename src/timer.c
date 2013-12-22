@@ -74,7 +74,7 @@ static void fire_timer(int timerid, long elapsed) {
   }
 }
 
-DEFINE_INIT_FUNC(timer) {
+SAMPGDK_MODULE_INIT(timer) {
   int error;
   
   error = sampgdk_array_new(&timers, 10, sizeof(struct sampgdk_timer));
@@ -87,7 +87,7 @@ DEFINE_INIT_FUNC(timer) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(timer) {
+SAMPGDK_MODULE_CLEANUP(timer) {
   sampgdk_array_free(&timers);
 }
 

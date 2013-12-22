@@ -19,6 +19,6 @@
 /* Maximum length of a public function's name. Publics' names are truncated 
  * to 31 characters by the Pawn compiler.
  */
-#define MAX_PUBLIC_NAME 32
+#define SAMPGDK_MAX_PUBLIC_NAME 32
 
 #endif /* !SAMPGDK_CONSTANTS_H_ */

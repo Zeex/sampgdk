@@ -31,7 +31,7 @@
 
 static struct sampgdk_array natives;
 
-DEFINE_INIT_FUNC(native) {
+SAMPGDK_MODULE_INIT(native) {
   int error;
 
   error = sampgdk_array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
@@ -42,7 +42,7 @@ DEFINE_INIT_FUNC(native) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(native) {
+SAMPGDK_MODULE_CLEANUP(native) {
   sampgdk_array_free(&natives);
 }
 

@@ -184,11 +184,11 @@ def generate_source_file(module_name, idl, file):
   file.write('  {NULL, NULL}\n')
   file.write('};\n\n')
 
-  file.write('DEFINE_INIT_FUNC(%s) {\n' % module_name)
+  file.write('SAMPGDK_MODULE_INIT(%s) {\n' % module_name)
   file.write('  return sampgdk_callback_register_table(callback_table);\n')
   file.write('}\n')
 
-  file.write('DEFINE_CLEANUP_FUNC(%s) {\n' % module_name)
+  file.write('SAMPGDK_MODULE_CLEANUP(%s) {\n' % module_name)
   file.write('  sampgdk_callback_unregister_table(callback_table);\n')
   file.write('}\n')
 

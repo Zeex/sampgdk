@@ -18,6 +18,6 @@
 
 #include <stddef.h>
 
-void safe_strcpy(char *dst, const char *src, size_t size);
+void sampgdk_strcpy(char *dst, const char *src, size_t size);
 
 #endif /* !SAMPGDK_UTILS_H_ */

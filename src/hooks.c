@@ -39,7 +39,7 @@
 static AMX *main_amx = NULL;
 
 /* The name of the currently executing public function. */
-static char public_name[MAX_PUBLIC_NAME];
+static char public_name[SAMPGDK_MAX_PUBLIC_NAME];
 
 #define FOR_EACH_FUNC(C) \
   C(Register) \
@@ -127,7 +127,7 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
   error = amx_FindPublic(amx, name, index);
 
   if (proceed) {
-    safe_strcpy(public_name, name, sizeof(public_name));
+    sampgdk_strcpy(public_name, name, sizeof(public_name));
     if (error != AMX_ERR_NONE) {
       error = AMX_ERR_NONE;
       *index = AMX_EXEC_GDK;
@@ -276,7 +276,7 @@ static void remove_hooks(void) {
   #undef REMOVE_HOOK
 }
 
-DEFINE_INIT_FUNC(hooks) {
+SAMPGDK_MODULE_INIT(hooks) {
   int error;
 
   error = create_hooks();
@@ -289,7 +289,7 @@ DEFINE_INIT_FUNC(hooks) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(hooks) {
+SAMPGDK_MODULE_CLEANUP(hooks) {
   remove_hooks();
   destroy_hooks();
 }

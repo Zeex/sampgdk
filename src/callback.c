@@ -25,7 +25,7 @@
 
 static struct sampgdk_array callbacks;
 
-DEFINE_INIT_FUNC(callback) {
+SAMPGDK_MODULE_INIT(callback) {
   int error;
 
   if (callbacks.data != NULL) {
@@ -40,7 +40,7 @@ DEFINE_INIT_FUNC(callback) {
   return 0;
 }
 
-DEFINE_CLEANUP_FUNC(callback) {
+SAMPGDK_MODULE_CLEANUP(callback) {
   int index;
 
   for (index = 0; index < callbacks.count; index++) {

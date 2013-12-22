@@ -16,11 +16,11 @@
 #ifndef SAMPGDK_INIT_H_
 #define SAMPGDK_INIT_H_
 
-#define DEFINE_INIT_FUNC(f) \
-  int sampgdk_##f##_init(void)
+#define SAMPGDK_MODULE_INIT(module) \
+  int sampgdk_##module##_init(void)
 
-#define DEFINE_CLEANUP_FUNC(f) \
-  void sampgdk_##f##_cleanup(void)
+#define SAMPGDK_MODULE_CLEANUP(module) \
+  void sampgdk_##module##_cleanup(void)
 
 int  sampgdk_module_init(void);
 void sampgdk_module_cleanup(void);
