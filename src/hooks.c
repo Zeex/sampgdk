@@ -113,8 +113,8 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
  * for all inputs.
  */
 static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
+  bool proceed;
   int error;
-  bool proceed = false;
 
   subhook_remove(amx_FindPublic_hook);
 
@@ -122,7 +122,8 @@ static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
    * - the main AMX (the gamemode)
    * - the fake AMX (this is needed for HTTP() to work)
    */
-  proceed = (amx == main_amx || amx == sampgdk_fakeamx_amx());
+  proceed = (amx == main_amx ||
+             amx == sampgdk_fakeamx_amx());
   error = amx_FindPublic(amx, name, index);
 
   if (proceed) {
