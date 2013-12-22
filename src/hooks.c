@@ -151,7 +151,7 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
   if (amx == main_amx) {
     sampgdk_public_hook hook = sampgdk_get_public_hook();
     if (hook != NULL) {
-      proceed = hook(amx, public_name);
+      proceed = hook(amx, public_name, (cell *)(amx->base + amx->stk));
     }
   }
 
