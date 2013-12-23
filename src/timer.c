@@ -76,12 +76,12 @@ static void fire_timer(int timerid, long elapsed) {
 
 SAMPGDK_MODULE_INIT(timer) {
   int error;
-  
+ 
   error = sampgdk_array_new(&timers, 10, sizeof(struct sampgdk_timer));
   if (error < 0) {
     return error;
   }
-  
+ 
   sampgdk_array_zero(&timers);
 
   return 0;

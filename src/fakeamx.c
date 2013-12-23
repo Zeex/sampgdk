@@ -114,7 +114,7 @@ int sampgdk_fakeamx_push(int cells, cell *address) {
   cell old_heap_size, new_heap_size;
 
   assert(cells > 0);
-  
+ 
   old_hea = global.amx.hea;
   new_hea = global.amx.hea + cells * sizeof(cell);
 

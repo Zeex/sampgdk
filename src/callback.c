@@ -71,7 +71,7 @@ int sampgdk_callback_register(const char *name,
   struct sampgdk_callback info;
   struct sampgdk_callback *ptr;
   int index;
-  
+ 
   assert(name != NULL);
   assert(handler != NULL);
 

@@ -208,7 +208,7 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) 
 
   params[0] = num_params * sizeof(cell);
   retval = native(amx, params);
-  
+ 
   for (i = num_params; i >= 1; i--) {
     if (ref_params[i].size != 0) {
       /* If this is an output parameter, write back its new value. */
