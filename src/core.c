@@ -125,7 +125,7 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol) {
 
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin,
                                                             const char *name) {
-  return sampgdk_plugin_find_symbol(plugin, name);
+  return sampgdk_plugin_get_symbol(plugin, name);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers(void) {

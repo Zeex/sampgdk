@@ -19,7 +19,7 @@
 #include <stddef.h>
 #include <string.h>
 
-void *sampgdk_plugin_find_symbol(void *plugin, const char *name)  {
+void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
   assert(plugin != NULL);
   assert(name != NULL);
   return dlsym(plugin, name);

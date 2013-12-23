@@ -160,7 +160,7 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
     struct sampgdk_callback *info;
     sampgdk_callback_handler handler;
 
-    func = sampgdk_plugin_find_symbol(plugin->plugin, name);
+    func = sampgdk_plugin_get_symbol(plugin->plugin, name);
     if (func == NULL) {
       continue;
     }
