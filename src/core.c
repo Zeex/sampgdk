@@ -65,12 +65,6 @@ static void cleanup(void) {
   sampgdk_module_cleanup();
 }
 
-/* deprecated */
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  sampgdk_init_plugin(plugin, data);
-}
-
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data) {
   void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
   return sampgdk_init_plugin(plugin, data);
@@ -86,12 +80,6 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin,
     }
   }
   return sampgdk_plugin_register(plugin);
-}
-
-/* deprecated */
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void) {
@@ -141,11 +129,6 @@ SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives(void) {
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_get_num_natives(void) {
-  return sampgdk_native_get_num_natives();
-}
-
-/* deprecated */
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void) {
   return sampgdk_native_get_num_natives();
 }
 

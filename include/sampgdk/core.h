@@ -28,11 +28,6 @@ typedef void (SAMPGDK_CALL *sampgdk_vlogprintf_t)(const char *format, va_list ar
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
-/* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
-SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_initialize(void **data));
-/* Deprecated. Use sampgdk_cleanup() or sampgdk_cleanup_plugin() instead. */
-SAMPGDK_DEPRECATED(SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_finalize(void));
-
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void);
@@ -45,17 +40,11 @@ SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data(void);
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol);
 SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name);
 
-/* Deprecated. Use sampgdk_init() or sampgdk_init_plugin() instead. */
-#define sampgdk_initialize_plugin sampgdk_initialize
-
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers(void);
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin);
 
 SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives(void);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_get_num_natives(void);
-
-/* Deprecated. Use sampgdk_get_num_natives() instead. */
-SAMPGDK_DEPRECATED(SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_num_natives(void));
 
 SAMPGDK_EXPORT AMX_NATIVE SAMPGDK_CALL sampgdk_find_native(const char *name);
 SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_call_native(AMX_NATIVE native, cell *params);
