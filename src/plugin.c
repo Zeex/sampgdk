@@ -58,10 +58,9 @@ int sampgdk_plugin_unregister(void *plugin) {
 
     if (prev != NULL) {
       prev->next = cur->next;
-    }
-
-    if (plugins == cur) {
-      plugins = NULL;
+    } else {
+      assert(plugins == cur);
+      plugins = cur->next;
     }
 
     free(cur);
