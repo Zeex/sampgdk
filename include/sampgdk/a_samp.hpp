@@ -20,7 +20,7 @@
 
 #include <sampgdk/a_samp.h>
 
-SAMPGDK_BEGIN_NAMESPACE
+namespace sampgdk {
 
 template<std::size_t N>
 bool GetNetworkStats(char (&retstr)[N]) {
@@ -173,6 +173,6 @@ class GangZone {
   const int id_;
 };
 
-SAMPGDK_END_NAMESPACE
+} // namespace sampgdk
 
 #endif // !SAMPGDK_A_SAMP_HPP

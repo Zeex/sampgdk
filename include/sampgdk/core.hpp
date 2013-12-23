@@ -17,7 +17,6 @@
 
 #include <cstdarg>
 
-#include <sampgdk/compatibility.h>
 #include <sampgdk/core.h>
 
 #ifdef _MSC_VER
@@ -25,7 +24,7 @@
   #pragma warning(disable:4355) // 'this' : used in base member initializer list
 #endif
 
-SAMPGDK_BEGIN_NAMESPACE
+namespace sampgdk {
 
 class Plugin {
  public:
@@ -68,7 +67,7 @@ class ServerLog {
   }
 };
 
-SAMPGDK_END_NAMESPACE
+} // namespace sampgdk
 
 #ifdef _MSC_VER
   #pragma warning(pop)

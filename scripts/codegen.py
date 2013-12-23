@@ -136,7 +136,7 @@ def generate_header_file(module_name, idl, file):
   file.write('\n')
 
   file.write('#else /* __cplusplus */\n\n')
-  file.write('SAMPGDK_BEGIN_NAMESPACE\n\n')
+  file.write('namespace sampgdk {\n\n')
 
   for const in idl.constants:
     generate_constant_cxx(file, const)
@@ -145,7 +145,7 @@ def generate_header_file(module_name, idl, file):
     generate_native_alias_cxx(file, func)
   file.write('\n')
 
-  file.write('SAMPGDK_END_NAMESPACE\n\n')
+  file.write('} // namespace sampgdk\n\n')
   file.write('#endif /* __cplusplus */\n\n')
 
   for func in filter(lambda x: x.has_attr('callback'), idl.functions):

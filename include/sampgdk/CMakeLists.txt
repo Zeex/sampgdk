@@ -15,7 +15,6 @@ sampgdk_add_headers(
   "a_vehicles.hpp"
   "amx.h"
   "bool.h"
-  "compatibility.h"
   "core.h"
   "core.hpp"
   "export.h"

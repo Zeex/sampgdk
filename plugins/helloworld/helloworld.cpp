@@ -5,6 +5,8 @@
 #include <sampgdk/core.h>
 #include <sampgdk/plugin.h>
 
+using namespace sampgdk;
+
 static ThisPlugin helloworld;
 
 static void SAMPGDK_TIMER_CALL RepeatingTimer(int, void *) {

@@ -22,7 +22,7 @@
 
 #include <sampgdk/a_players.h>
 
-SAMPGDK_BEGIN_NAMESPACE
+namespace sampgdk {
 
 template<std::size_t N>
 bool GetPlayerName(int playerid, char (&name)[N]) {
@@ -174,7 +174,7 @@ class Player {
   bool SetWeather(int weather) const
     { return SetPlayerWeather(id_, weather); }
   bool ForceClassSelection() const
-    { return SAMPGDK_NAMESPACE::ForceClassSelection(id_); }
+    { return sampgdk::ForceClassSelection(id_); }
   bool SetWantedLevel(int level) const
     { return SetPlayerWantedLevel(id_, level); }
   int GetWantedLevel() const 
@@ -245,9 +245,9 @@ class Player {
   bool PlaySound(int soundid, float x, float y, float z) const
     { return PlayerPlaySound(id_, soundid, x, y, z); }
   bool ApplyAnimation(const char *animlib, const char *animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time, bool forcesync = false) const
-    { return SAMPGDK_NAMESPACE::ApplyAnimation(id_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
+    { return sampgdk::ApplyAnimation(id_, animlib, animname, fDelta, loop, lockx, locky, freeze, time, forcesync); }
   bool ClearAnimations(bool forcesync = false) const
-    { return SAMPGDK_NAMESPACE::ClearAnimations(id_, forcesync); }
+    { return sampgdk::ClearAnimations(id_, forcesync); }
   int GetAnimationIndex() const
     { return GetPlayerAnimationIndex(id_); }
   int GetSpecialAction() const
@@ -295,15 +295,15 @@ class Player {
   int GetCameraMode() const
     { return GetPlayerCameraMode(id_); }
   bool AttachCameraToObject(int objectid) const
-    { return SAMPGDK_NAMESPACE::AttachCameraToObject(id_, objectid); }
+    { return sampgdk::AttachCameraToObject(id_, objectid); }
   bool AttachCameraToPlayerObject(int playerobjectid) const
-    { return SAMPGDK_NAMESPACE::AttachCameraToPlayerObject(id_, playerobjectid); }
+    { return sampgdk::AttachCameraToPlayerObject(id_, playerobjectid); }
   bool InterpolateCameraPos(float FromX, float FromY, float FromZ, 
       float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT) const
-    { return SAMPGDK_NAMESPACE::InterpolateCameraPos(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
+    { return sampgdk::InterpolateCameraPos(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
   bool InterpolateCameraLookAt(float FromX, float FromY, float FromZ, 
       float ToX, float ToY, float ToZ, int time, int cut = CAMERA_CUT) const
-    { return SAMPGDK_NAMESPACE::InterpolateCameraLookAt(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
+    { return sampgdk::InterpolateCameraLookAt(id_, FromX, FromY, FromZ, ToX, ToY, ToZ, time, cut); }
 
   bool IsConnected() const
     { return IsPlayerConnected(id_); }
@@ -344,13 +344,13 @@ class Player {
   bool IsAdmin() const
     { return IsPlayerAdmin(id_); }
   bool Kick() const
-    { return SAMPGDK_NAMESPACE::Kick(id_); }
+    { return sampgdk::Kick(id_); }
   bool Ban() const
-    { return SAMPGDK_NAMESPACE::Ban(id_); }
+    { return sampgdk::Ban(id_); }
   bool BanEx(const char *reason) const
-    { return SAMPGDK_NAMESPACE::BanEx(id_, reason); }
+    { return sampgdk::BanEx(id_, reason); }
   bool BanEx(const std::string &reason) const
-    { return SAMPGDK_NAMESPACE::BanEx(id_, reason.c_str()); }
+    { return sampgdk::BanEx(id_, reason.c_str()); }
   bool GetNetworkStats(char *retstr, int size) const
     { return GetPlayerNetworkStats(id_, retstr, size); }
   int GetMenu() const
@@ -366,9 +366,9 @@ class Player {
   bool GetVersion(char *version, int len) const
     { return GetPlayerVersion(id_, version, len); }
   bool SelectTextDraw(int hovercolor) const
-    { return SAMPGDK_NAMESPACE::SelectTextDraw(id_, hovercolor); }
+    { return sampgdk::SelectTextDraw(id_, hovercolor); }
   bool CancelSelectTextDraw() const
-    { return SAMPGDK_NAMESPACE::CancelSelectTextDraw(id_); }
+    { return sampgdk::CancelSelectTextDraw(id_); }
 
 private:
   const int id_;
@@ -435,6 +435,6 @@ class PlayerTextDraw {
   const int playerid_;  
 };
 
-SAMPGDK_END_NAMESPACE
+} // namespace sampgdk
 
 #endif // !SAMPGDK_A_PLAYERS_HPP

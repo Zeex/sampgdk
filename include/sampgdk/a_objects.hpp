@@ -20,7 +20,7 @@
 
 #include <sampgdk/a_objects.h>
 
-SAMPGDK_BEGIN_NAMESPACE
+namespace sampgdk {
 
 class Object {
  public:
@@ -125,6 +125,6 @@ class PlayerObject {
   const int objectid_;
 };
 
-SAMPGDK_END_NAMESPACE
+} // namespace sampgdk
 
 #endif // !SAMPGDK_A_OBJECTS_HPP

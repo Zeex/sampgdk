@@ -20,7 +20,7 @@
 
 #include <sampgdk/a_vehicles.h>
 
-SAMPGDK_BEGIN_NAMESPACE
+namespace sampgdk {
 
 class Vehicle {
  public:
@@ -139,6 +139,6 @@ class Vehicle {
   const int id_;
 };
 
-SAMPGDK_END_NAMESPACE
+} // namespace sampgdk
 
 #endif // !SAMPGDK_A_VEHICLES_HPP
