@@ -1,9 +1,12 @@
 #include <cstdio>
 #include <cstring>
+
+#include <plugincommon.h>
+#include <amx/amx.h>
+
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_samp.h>
 #include <sampgdk/core.h>
-#include <sampgdk/plugin.h>
 
 using namespace sampgdk;
 

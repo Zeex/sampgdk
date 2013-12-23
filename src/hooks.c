@@ -20,10 +20,10 @@
 #include <string.h>
 #include <subhook.h>
 
-#include <sampgdk/amx.h>
+#include <amx/amx.h>
+
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
-#include <sampgdk/plugin.h>
 
 #include "callback.h"
 #include "constants.h"
@@ -33,8 +33,6 @@
 #include "native.h"
 #include "param.h"
 #include "utils.h"
-
-#include "sdk/amx/amx.h"
 
 /* The main AMX instance. */
 static AMX *main_amx = NULL;

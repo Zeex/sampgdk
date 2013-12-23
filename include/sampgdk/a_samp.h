@@ -18,7 +18,6 @@
 
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
-#include <sampgdk/plugin.h>
 
 typedef void (SAMPGDK_TIMER_CALL *TimerCallback)(int timerid, void *param);
 

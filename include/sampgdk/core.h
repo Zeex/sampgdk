@@ -18,7 +18,8 @@
 
 #include <stdarg.h>
 
-#include <sampgdk/amx.h>
+#include <amx/amx.h>
+
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 

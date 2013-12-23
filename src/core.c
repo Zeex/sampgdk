@@ -13,11 +13,9 @@
  * limitations under the License.
  */
 
-#include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
 #include <sampgdk/export.h>
-#include <sampgdk/plugin.h>
 
 #include "init.h"
 #include "log.h"
@@ -25,8 +23,6 @@
 #include "native.h"
 #include "plugin.h"
 #include "timer.h"
-
-#include "sdk/amx/amx.h"
 
 #ifdef _MSC_VER
   #define RETURN_ADDRESS() _ReturnAddress()
@@ -44,10 +40,6 @@ static void init_plugin_data(void **data) {
   plugin_data = data;
 }
 
-static void init_amx_exports(void **data) {
-  amx_exports = data[PLUGIN_DATA_AMX_EXPORTS];
-}
-
 static void init_logprintf(void **data) {
   void *logprintf = data[PLUGIN_DATA_LOGPRINTF];
   sampgdk_logprintf  = logprintf;
@@ -56,7 +48,6 @@ static void init_logprintf(void **data) {
 
 static int init(void **data) {
   init_plugin_data(data);
-  init_amx_exports(data);
   init_logprintf(data);
   return sampgdk_module_init();
 }
