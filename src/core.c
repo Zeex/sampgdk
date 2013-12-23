@@ -30,15 +30,10 @@
   #define RETURN_ADDRESS() __builtin_return_address(0)
 #endif
 
-static void **plugin_data;
 static sampgdk_public_hook public_hook;
 
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf = NULL;
-
-static void init_plugin_data(void **data) {
-  plugin_data = data;
-}
 
 static void init_logprintf(void **data) {
   void *logprintf = data[PLUGIN_DATA_LOGPRINTF];
@@ -47,7 +42,6 @@ static void init_logprintf(void **data) {
 }
 
 static int init(void **data) {
-  init_plugin_data(data);
   init_logprintf(data);
   return sampgdk_module_init();
 }
@@ -84,10 +78,6 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
     cleanup();
   }
   return error;
-}
-
-SAMPGDK_EXPORT void **SAMPGDK_CALL sampgdk_get_plugin_data(void) {
-  return plugin_data;
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
