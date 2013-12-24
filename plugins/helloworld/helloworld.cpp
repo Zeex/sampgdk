@@ -1,8 +1,7 @@
 #include <cstdio>
 #include <cstring>
 
-#include <plugincommon.h>
-#include <amx/amx.h>
+#include <plugin.h>
 
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_samp.h>

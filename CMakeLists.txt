@@ -34,13 +34,10 @@ if(SAMPGDK_STATIC)
   add_definitions(-DSAMPGDK_STATIC)
 endif()
 
+find_package(SDK REQUIRED)
 find_package(PythonInterp 2.7 REQUIRED)
 
-set(PYTHONPATH
-  "${PROJECT_SOURCE_DIR}/scripts"
-  "${PROJECT_SOURCE_DIR}/lib/python/ply"
-  "${PROJECT_SOURCE_DIR}/lib/python/cidl"
-)
+include_directories(${SDK_INCLUDE_DIR})
 
 macro(sampgdk_add_sources)
   foreach(file ${ARGN})
@@ -164,6 +161,12 @@ foreach(file IN LISTS list_files)
     sampgdk_add_a_module(${module})
   endforeach()
 endforeach()
+
+set(PYTHONPATH
+  "${PROJECT_SOURCE_DIR}/scripts"
+  "${PROJECT_SOURCE_DIR}/lib/python/ply"
+  "${PROJECT_SOURCE_DIR}/lib/python/cidl"
+)
 
 add_subdirectory("include")
 add_subdirectory("lib")
