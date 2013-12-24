@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <sampgdk/core.h>
+#include <sampgdk/platform.h>
 
 #include "logprintf.h"
 
@@ -28,8 +28,12 @@
   #define vsnprintf vsprintf_s
 #endif
 
+typedef void (SAMPGDK_CDECL *logprintf_t)(const char *format, ...);
+
+void *sampgdk_logprintf_impl = NULL;
+
 void sampgdk_do_vlogprintf(const char *format, va_list va) {
   char buffer[LOGPRINTF_BUFFER_SIZE];
   vsnprintf(buffer, sizeof(buffer), format, va);
-  sampgdk_logprintf("%s", buffer);
+  ((logprintf_t)sampgdk_logprintf_impl)("%s", buffer);
 }

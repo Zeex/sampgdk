@@ -22,16 +22,14 @@
 #include <sampgdk/export.h>
 #include <sampgdk/sdk.h>
 
-typedef void (SAMPGDK_CALL *sampgdk_logprintf_t)(const char *format, ...);
-typedef void (SAMPGDK_CALL *sampgdk_vlogprintf_t)(const char *format, va_list args);
-
-SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
-SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
-
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **plugin_data);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **plugin_data);
+
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin);
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_logprintf(const char *format, ...);
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_vlogprintf(const char *format, va_list args);
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin);

@@ -33,22 +33,9 @@
 
 static sampgdk_public_hook public_hook;
 
-SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;
-SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf = NULL;
-
-static void init_logprintf(void **plugin_data) {
-  void *logprintf = plugin_data[PLUGIN_DATA_LOGPRINTF];
-  sampgdk_logprintf  = logprintf;
-  sampgdk_vlogprintf = sampgdk_do_vlogprintf;
-}
-
-static void init_amx_exports(void **plugin_data) {
-  sampgdk_amx_exports = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
-}
-
 static int init(void **plugin_data) {
-  init_logprintf(plugin_data);
-  init_amx_exports(plugin_data);
+  sampgdk_logprintf_impl = plugin_data[PLUGIN_DATA_LOGPRINTF];
+  sampgdk_amx_exports = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
   return sampgdk_module_init();
 }
 
@@ -84,6 +71,18 @@ SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin) {
     cleanup();
   }
   return error;
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_logprintf(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  sampgdk_do_vlogprintf(format, args);
+  va_end(args);
+}
+
+SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_vlogprintf(const char *format,
+                                                    va_list args) {
+  sampgdk_do_vlogprintf(format, args);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin) {
