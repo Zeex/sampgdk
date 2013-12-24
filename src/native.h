@@ -18,7 +18,7 @@
 
 #include <stdarg.h>
 
-#include <amx/amx.h>
+#include <sampgdk/amx.h>
 
 int sampgdk_native_register(const char *name, AMX_NATIVE func);
 AMX_NATIVE sampgdk_native_find(const char *name);

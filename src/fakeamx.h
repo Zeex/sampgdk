@@ -16,8 +16,7 @@
 #ifndef SAMPGDK_FAKEAMX_H_
 #define SAMPGDK_FAKEAMX_H_
 
-#include <amx/amx.h>
-
+#include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 
 AMX *sampgdk_fakeamx_amx(void);

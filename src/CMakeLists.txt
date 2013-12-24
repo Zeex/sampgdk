@@ -10,6 +10,8 @@ set(SAMPGDK_INIT_FILE "init.c")
 
 sampgdk_add_sources(
   "a_samp.c"
+  "amx.c"
+  "amx.h"
   "array.c"
   "array.h"
   "callback.c"

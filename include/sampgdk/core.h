@@ -18,8 +18,7 @@
 
 #include <stdarg.h>
 
-#include <amx/amx.h>
-
+#include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
@@ -29,8 +28,8 @@ typedef void (SAMPGDK_CALL *sampgdk_vlogprintf_t)(const char *format, va_list ar
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf;
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf;
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data);
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **data);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **plugin_data);
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **plugin_data);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void);
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin);
 

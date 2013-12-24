@@ -15,8 +15,9 @@
 
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
-#include <sampgdk/export.h>
+#include <sampgdk/plugin.h>
 
+#include "amx.h"
 #include "init.h"
 #include "log.h"
 #include "logprintf.h"
@@ -35,14 +36,19 @@ static sampgdk_public_hook public_hook;
 SAMPGDK_EXPORT sampgdk_logprintf_t sampgdk_logprintf = NULL;
 SAMPGDK_EXPORT sampgdk_vlogprintf_t sampgdk_vlogprintf = NULL;
 
-static void init_logprintf(void **data) {
-  void *logprintf = data[PLUGIN_DATA_LOGPRINTF];
+static void init_logprintf(void **plugin_data) {
+  void *logprintf = plugin_data[PLUGIN_DATA_LOGPRINTF];
   sampgdk_logprintf  = logprintf;
   sampgdk_vlogprintf = sampgdk_do_vlogprintf;
 }
 
-static int init(void **data) {
-  init_logprintf(data);
+static void init_amx_exports(void **plugin_data) {
+  sampgdk_amx_exports = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
+}
+
+static int init(void **plugin_data) {
+  init_logprintf(plugin_data);
+  init_amx_exports(plugin_data);
   return sampgdk_module_init();
 }
 
@@ -50,15 +56,15 @@ static void cleanup(void) {
   sampgdk_module_cleanup();
 }
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **data) {
+SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **plugin_data) {
   void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  return sampgdk_init_plugin(plugin, data);
+  return sampgdk_init_plugin(plugin, plugin_data);
 }
 
 SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin,
-                                                    void **data) {
+                                                    void **plugin_data) {
   if (sampgdk_plugin_get_list() == NULL) {
-    int error = init(data);
+    int error = init(plugin_data);
     if (error < 0) {
       sampgdk_log_error_code(error);
       return error;

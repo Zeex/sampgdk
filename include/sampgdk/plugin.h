@@ -13,16 +13,10 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_STACK_H_
-#define SAMPGDK_AMX_STACK_H_
+#ifndef SAMPGDK_PLUGIN_H
+#define SAMPGDK_PLUGIN_H
 
 #include <sampgdk/amx.h>
-#include <sampgdk/bool.h>
+#include <plugincommon.h>
 
-void sampgdk_param_get_all(AMX *amx, cell **params);
-void sampgdk_param_get_cell(AMX *amx, int index, cell *param);
-void sampgdk_param_get_bool(AMX *amx, int index, bool *param);
-void sampgdk_param_get_float(AMX *amx, int index, float *param);
-void sampgdk_param_get_string(AMX *amx, int index, char **param);
-
-#endif /* !SAMPGDK_AMX_STACK_H_ */
+#endif /* !SAMPGDK_PLUGIN_H */

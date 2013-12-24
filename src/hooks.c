@@ -20,11 +20,12 @@
 #include <string.h>
 #include <subhook.h>
 
-#include <amx/amx.h>
-
+#include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
+#include <sampgdk/plugin.h>
 
+#include "amx.h"
 #include "callback.h"
 #include "constants.h"
 #include "fakeamx.h"
@@ -263,7 +264,7 @@ static void destroy_hooks(void) {
 static void install_hooks(void) {
   #define INSTALL_HOOK(name) \
     subhook_set_src(amx_##name##_hook, \
-                    ((void**)(amx_exports))[PLUGIN_AMX_EXPORT_##name]); \
+                    ((void**)(sampgdk_amx_exports))[PLUGIN_AMX_EXPORT_##name]); \
     subhook_set_dst(amx_##name##_hook, (void*)amx_##name##_); \
     subhook_install(amx_##name##_hook);
   FOR_EACH_FUNC(INSTALL_HOOK)
