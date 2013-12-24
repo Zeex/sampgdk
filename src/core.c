@@ -103,7 +103,8 @@ SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin,
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers(void) {
-  sampgdk_timer_process_timers(NULL);
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  sampgdk_timer_process_timers(plugin);
 }
 
 SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin) {
