@@ -13,12 +13,11 @@ sampgdk_add_headers(
   "a_samp.hpp"
   "a_vehicles.h"
   "a_vehicles.hpp"
-  "amx.h"
   "bool.h"
   "core.h"
   "core.hpp"
   "export.h"
   "platform.h"
-  "plugin.h"
+  "sdk.h"
   "${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_VERSION_FILE}"
 )

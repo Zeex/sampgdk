@@ -18,9 +18,9 @@
 
 #include <stdarg.h>
 
-#include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
+#include <sampgdk/sdk.h>
 
 typedef void (SAMPGDK_CALL *sampgdk_logprintf_t)(const char *format, ...);
 typedef void (SAMPGDK_CALL *sampgdk_vlogprintf_t)(const char *format, va_list args);

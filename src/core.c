@@ -15,7 +15,7 @@
 
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
-#include <sampgdk/plugin.h>
+#include <sampgdk/sdk.h>
 
 #include "amx.h"
 #include "init.h"

@@ -68,4 +68,6 @@
 
 #define AMX_EXEC_GDK (-10)
 
+#include <plugincommon.h>
+
 #endif /* !SAMPGDK_AMX_H */

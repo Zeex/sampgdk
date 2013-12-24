@@ -20,10 +20,9 @@
 #include <string.h>
 #include <subhook.h>
 
-#include <sampgdk/amx.h>
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
-#include <sampgdk/plugin.h>
+#include <sampgdk/sdk.h>
 
 #include "amx.h"
 #include "callback.h"
