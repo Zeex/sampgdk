@@ -22,35 +22,35 @@
 #include <sampgdk/export.h>
 #include <sampgdk/sdk.h>
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init(void **plugin_data);
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_init_plugin(void *plugin, void **plugin_data);
+SAMPGDK_API(int, sampgdk_init(void **plugin_data));
+SAMPGDK_API(int, sampgdk_init_plugin(void *plugin, void **plugin_data));
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup(void);
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_cleanup_plugin(void *plugin);
+SAMPGDK_API(int, sampgdk_cleanup(void));
+SAMPGDK_API(int, sampgdk_cleanup_plugin(void *plugin));
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_logprintf(const char *format, ...);
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_vlogprintf(const char *format, va_list args);
+SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...));
+SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_register_plugin(void *plugin);
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_unregister_plugin(void *plugin);
+SAMPGDK_API(int, sampgdk_register_plugin(void *plugin));
+SAMPGDK_API(int, sampgdk_unregister_plugin(void *plugin));
 
-SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_handle(void *symbol);
-SAMPGDK_EXPORT void *SAMPGDK_CALL sampgdk_get_plugin_symbol(void *plugin, const char *name);
+SAMPGDK_API(void *, sampgdk_get_plugin_handle(void *symbol));
+SAMPGDK_API(void *, sampgdk_get_plugin_symbol(void *plugin, const char *name));
 
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_timers(void);
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_process_plugin_timers(void *plugin);
+SAMPGDK_API(void, sampgdk_process_timers(void));
+SAMPGDK_API(void, sampgdk_process_plugin_timers(void *plugin));
 
-SAMPGDK_EXPORT const AMX_NATIVE_INFO *SAMPGDK_CALL sampgdk_get_natives(void);
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_get_num_natives(void);
+SAMPGDK_API(const AMX_NATIVE_INFO *, sampgdk_get_natives(void));
+SAMPGDK_API(int, sampgdk_get_num_natives(void));
 
-SAMPGDK_EXPORT AMX_NATIVE SAMPGDK_CALL sampgdk_find_native(const char *name);
-SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_call_native(AMX_NATIVE native, cell *params);
-SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_invoke_native(AMX_NATIVE native, const char *format, ...);
+SAMPGDK_API(AMX_NATIVE, sampgdk_find_native(const char *name));
+SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params));
+SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native, const char *format, ...));
 
 typedef bool (SAMPGDK_CALL *sampgdk_public_hook)(AMX *amx, const char *name, cell *params);
 
-SAMPGDK_EXPORT sampgdk_public_hook SAMPGDK_CALL sampgdk_get_public_hook(void);
-SAMPGDK_EXPORT void SAMPGDK_CALL sampgdk_set_public_hook(sampgdk_public_hook hook);
+SAMPGDK_API(sampgdk_public_hook, sampgdk_get_public_hook(void));
+SAMPGDK_API(void, sampgdk_set_public_hook(sampgdk_public_hook hook));
 
 #ifdef __cplusplus
 

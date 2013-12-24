@@ -16,10 +16,10 @@
 #include <sampgdk/export.h>
 #include <sampgdk/version.h>
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version_id(void) {
+SAMPGDK_API(int, sampgdk_version_id(void)) {
   return SAMPGDK_VERSION_ID;
 }
 
-SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string(void) {
+SAMPGDK_API(const char *, sampgdk_version_string(void)) {
   return SAMPGDK_VERSION_STRING;
 }

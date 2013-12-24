@@ -53,6 +53,9 @@
   #endif
 #endif
 
+#define SAMPGDK_API(return_type, rest) \
+  SAMPGDK_EXPORT return_type SAMPGDK_CALL rest
+
 #ifndef SAMPGDK_NATIVE_EXPORT
   #define SAMPGDK_NATIVE_EXPORT SAMPGDK_EXPORT
 #endif

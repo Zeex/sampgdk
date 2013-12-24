@@ -16,6 +16,8 @@
 #ifndef SAMPGDK_VERSION_H
 #define SAMPGDK_VERSION_H
 
+#include <sampgdk/export.h>
+
 #define SAMPGDK_VERSION_MAJOR  @SAMPGDK_VERSION_MAJOR@
 #define SAMPGDK_VERSION_MINOR  @SAMPGDK_VERSION_MINOR@
 #define SAMPGDK_VERSION_PATCH  @SAMPGDK_VERSION_PATCH@
@@ -26,7 +28,7 @@
                                 (SAMPGDK_VERSION_TWEAK))
 #define SAMPGDK_VERSION_STRING "@SAMPGDK_VERSION_STRING@"
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version_id(void);
-SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string(void);
+SAMPGDK_API(int, sampgdk_version_id(void));
+SAMPGDK_API(const char *, sampgdk_version_string(void));
 
 #endif /* !SAMPGDK_VERSION_H */
