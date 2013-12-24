@@ -170,7 +170,7 @@ SAMPGDK_EXPORT cell SAMPGDK_CALL sampgdk_invoke_native(AMX_NATIVE native,
   return retval;
 }
 
-SAMPGDK_EXPORT sampgdk_public_hook sampgdk_get_public_hook(void) {
+SAMPGDK_EXPORT sampgdk_public_hook SAMPGDK_CALL sampgdk_get_public_hook(void) {
   return public_hook;
 }
 
