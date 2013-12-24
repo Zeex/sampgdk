@@ -1,5 +1,5 @@
-#include <cstdio>
-#include <cstring>
+#include <stdio.h>
+#include <string.h>
 
 #include <sampgdk/a_players.h>
 #include <sampgdk/a_samp.h>
@@ -8,10 +8,8 @@
 
 using namespace sampgdk;
 
-static ThisPlugin helloworld;
-
 static void SAMPGDK_TIMER_CALL RepeatingTimer(int, void *) {
-  ServerLog::Printf("RepeatingTimer");
+  sampgdk_logprintf("RepeatingTimer");
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
@@ -34,11 +32,11 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid, int classid) {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmdtext) {
-  if (std::strcmp(cmdtext, "/hello") == 0) {
+  if (strcmp(cmdtext, "/hello") == 0) {
     char name[MAX_PLAYER_NAME];
-    GetPlayerName(playerid, name);
+    GetPlayerName(playerid, name, sizeof(name));
     char message[128];
-    std::sprintf(message, "Hello, %s!", name);
+    sprintf(message, "Hello, %s!", name);
     SendClientMessage(playerid, 0x00FF00FF, message);
     return true;
   }
@@ -50,13 +48,13 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
-  return helloworld.Load(ppData) >= 0;
+  return sampgdk_init(ppData) >= 0;
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-  helloworld.Unload();
+  sampgdk_cleanup();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
-  helloworld.ProcessTimers();
+  sampgdk_process_timers();
 }
