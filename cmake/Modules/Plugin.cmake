@@ -1,18 +1,6 @@
-# SampPlugin.cmake
-#
-# Functions:
-#   add_samp_plugin(name [sources...])
-#
-# Supported platforms:
-#   Windows
-#   Linux
-#
-# Supported compilers:
-#   GCC
-#   MinGW
-#   Microsoft Visual C++
+cmake_minimum_required(VERSION 2.8.6)
 
-function(add_samp_plugin name)
+function(add_plugin name)
   add_library(${name} MODULE ${ARGN})
 
   set_target_properties(${name} PROPERTIES PREFIX "")
