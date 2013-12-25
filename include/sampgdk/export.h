@@ -20,6 +20,7 @@
 #undef SAMPGDK_CALL
 
 #include <sampgdk/platform.h>
+#include <sampgdk/sdk.h>
 
 #ifdef __cplusplus
   #define SAMPGDK_EXTERN_C extern "C"
@@ -68,10 +69,10 @@
 #endif
 
 #ifndef SAMPGDK_CALLBACK_EXPORT
-  #define SAMPGDK_CALLBACK_EXPORT SAMPGDK_EXPORT
+  #define SAMPGDK_CALLBACK_EXPORT PLUGIN_EXPORT
 #endif
 #ifndef SAMPGDK_CALLBACK_CALL
-  #define SAMPGDK_CALLBACK_CALL SAMPGDK_STDCALL
+  #define SAMPGDK_CALLBACK_CALL PLUGIN_CALL
 #endif
 #ifndef SAMPGDK_CALLBACK
   #define SAMPGDK_CALLBACK(type, func) \
