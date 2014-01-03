@@ -164,7 +164,6 @@ int sampgdk_fakeamx_push_string(const char *src, int *size, cell *address) {
 
   assert(address != NULL);
   assert(src != NULL);
-  assert(address != NULL);
 
   src_size = (int)strlen(src) + 1;
   if ((error = sampgdk_fakeamx_push(src_size, address)) < 0) {
