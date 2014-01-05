@@ -20,6 +20,10 @@
 
 #include "array.h"
 
+static void *get_element_ptr(struct sampgdk_array *a, int index) {
+  return (unsigned char*)a->data + (index * a->elem_size);
+}
+
 int sampgdk_array_new(struct sampgdk_array *a, int size,
                       int elem_size) {
   assert(a != NULL);
@@ -126,18 +130,11 @@ int sampgdk_array_pad(struct sampgdk_array *a) {
   return (a->count = a->size);
 }
 
-static void *sampgdk_array_get_ptr(struct sampgdk_array *a, int index) {
-  assert(a != NULL);
-  assert(index >= 0);
-  return (unsigned char*)a->data + (index * a->elem_size);
-}
-
 void *sampgdk_array_get(struct sampgdk_array *a, int index) {
   assert(a != NULL);
   assert(index >= 0);
   assert(index < a->count);
-
-  return sampgdk_array_get_ptr(a, index);
+  return get_element_ptr(a, index);
 }
 
 void sampgdk_array_set(struct sampgdk_array *a, int index, void *elem) {
@@ -145,8 +142,7 @@ void sampgdk_array_set(struct sampgdk_array *a, int index, void *elem) {
   assert(elem != NULL);
   assert(index >= 0);
   assert(index < a->count);
-
-  memcpy(sampgdk_array_get_ptr(a, index), elem, a->elem_size);
+  memcpy(get_element_ptr(a, index), elem, a->elem_size);
 }
 
 int sampgdk_array_insert(struct sampgdk_array *a, int index, int count,
@@ -175,13 +171,13 @@ int sampgdk_array_insert(struct sampgdk_array *a, int index, int count,
   }
 
   if (move_count > 0) {
-    memmove(sampgdk_array_get_ptr(a, index + count),
-            sampgdk_array_get_ptr(a, index),
+    memmove(get_element_ptr(a, index + count),
+            get_element_ptr(a, index),
             move_count * a->elem_size);
   }
 
   a->count += count;
-  memcpy(sampgdk_array_get_ptr(a, index), elems, count * a->elem_size);
+  memcpy(get_element_ptr(a, index), elems, count * a->elem_size);
 
   return 0;
 }
@@ -207,8 +203,8 @@ int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
   move_count = a->count - index - count;
 
   if (move_count > 0) {
-    memmove(sampgdk_array_get_ptr(a, index),
-            sampgdk_array_get_ptr(a, index + count),
+    memmove(get_element_ptr(a, index),
+            get_element_ptr(a, index + count),
             move_count * a->elem_size);
    }
 
