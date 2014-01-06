@@ -1,5 +1,5 @@
-# group_target_sources(target) - group target's source files on based on
-# their directory.
+# group_target_sources(target) - group target's source files based on
+# their path.
 
 function(group_target_sources target)
   get_target_property(sources ${target} SOURCES)
