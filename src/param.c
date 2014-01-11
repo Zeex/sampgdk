@@ -16,6 +16,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include "amx.h"
 #include "param.h"
 
 static unsigned char *get_amx_data_ptr(AMX *amx) {

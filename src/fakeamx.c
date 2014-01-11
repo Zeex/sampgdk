@@ -17,6 +17,7 @@
 #include <limits.h>
 #include <string.h>
 
+#include "amx.h"
 #include "array.h"
 #include "fakeamx.h"
 #include "init.h"
