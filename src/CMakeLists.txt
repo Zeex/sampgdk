@@ -18,7 +18,6 @@ sampgdk_add_sources(
   "callback.h"
   "core.api"
   "core.c"
-  "constants.h"
   "fakeamx.c"
   "fakeamx.h"
   "hooks.c"

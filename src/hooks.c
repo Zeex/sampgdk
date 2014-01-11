@@ -26,7 +26,6 @@
 
 #include "amx.h"
 #include "callback.h"
-#include "constants.h"
 #include "fakeamx.h"
 #include "init.h"
 #include "log.h"
@@ -34,11 +33,10 @@
 #include "param.h"
 #include "utils.h"
 
-/* The main AMX instance. */
-static AMX *main_amx = NULL;
+#define MAX_PUBLIC_NAME 32
 
-/* The name of the currently executing public function. */
-static char public_name[SAMPGDK_MAX_PUBLIC_NAME];
+static AMX *main_amx;
+static char public_name[MAX_PUBLIC_NAME];
 
 #define FOR_EACH_FUNC(C) \
   C(Register) \
