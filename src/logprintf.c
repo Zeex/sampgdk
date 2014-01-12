@@ -31,5 +31,6 @@
 void sampgdk_do_vlogprintf(const char *format, va_list va) {
   char buffer[LOGPRINTF_BUFFER_SIZE];
   vsnprintf(buffer, sizeof(buffer), format, va);
+  buffer[sizeof(buffer) - 1] = '\0';
   sampgdk_logprintf("%s", buffer);
 }
