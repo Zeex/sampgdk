@@ -78,34 +78,21 @@ mark_as_advanced(
   GDK4_INCLUDE_DIRS
 )
 
-function(get_version name text)
-  string(REGEX MATCH "#define[   ]+SAMPGDK_VERSION_${name}[   ]+[0-9]+" match "${text}")
+function(get_version_string var text)
+  string(REGEX MATCH "#define[\\t ]+SAMPGDK_VERSION_STRING[\\t ]+\".*\""
+         match "${text}")
   if(match)
-    string(REGEX REPLACE ".* ([0-9]+)" "\\1" number "${match}")
-    set(GDK4_VERSION_${name} ${number} PARENT_SCOPE)
+    string(REGEX REPLACE ".*\"(.*)\"" "\\1" version_string "${match}")
+    set(${var} ${version_string} PARENT_SCOPE)
   endif()
 endfunction()
 
 if(GDK4_INCLUDE_DIR)
   file(READ "${GDK4_INCLUDE_DIR}/sampgdk/version.h" text)
-
-  get_version(MAJOR "${text}")
-  get_version(MINOR "${text}")
-  get_version(PATCH "${text}")
-  get_version(TWEAK "${text}")
-
-  if(NOT GDK4_VERSION_TWEAK OR GDK4_VERSION_TWEAK EQUAL 0)
-    if(NOT GDK4_VERSION_PATCH OR GDK4_VERSION_PATCH EQUAL 0)
-      set(GDK4_VERSION "${GDK4_VERSION_MAJOR}.${GDK4_VERSION_MINOR}")
-    else()
-      set(GDK4_VERSION "${GDK4_VERSION_MAJOR}.${GDK4_VERSION_MINOR}.${GDK4_VERSION_PATCH}")
-    endif()
-  else()
-    set(GDK4_VERSION "${GDK4_VERSION_MAJOR}.${GDK4_VERSION_MINOR}.${GDK4_VERSION_PATCH}.${GDK4_VERSION_TWEAK}")
-  endif()
+  get_version_string(GDK4_VERSION_STRING "${text}")
 endif()
 
 find_package_handle_standard_args(GDK4 REQUIRED_VARS GDK4_INCLUDE_DIRS
                                                      GDK4_LIBRARY_DIRS
                                                      GDK4_LIBRARIES
-                                  VERSION_VAR GDK4_VERSION)
+                                  VERSION_VAR GDK4_VERSION_STRING)
