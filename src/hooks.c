@@ -260,8 +260,7 @@ static void destroy_hooks(void) {
 
 static void install_hooks(void) {
   #define INSTALL_HOOK(name) \
-    subhook_set_src(amx_##name##_hook, \
-                    ((void**)(sampgdk_amx_exports))[PLUGIN_AMX_EXPORT_##name]); \
+    subhook_set_src(amx_##name##_hook, sampgdk_amx_api_ptr->name); \
     subhook_set_dst(amx_##name##_hook, (void*)amx_##name##_); \
     subhook_install(amx_##name##_hook);
   FOR_EACH_FUNC(INSTALL_HOOK)

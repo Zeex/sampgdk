@@ -13,4 +13,6 @@
  * limitations under the License.
  */
 
-void **sampgdk_amx_exports;
+#include "amx.h"
+
+struct sampgdk_amx_api *sampgdk_amx_api_ptr;

@@ -35,7 +35,7 @@ static sampgdk_public_hook public_hook;
 
 static int init(void **plugin_data) {
   sampgdk_logprintf_impl = plugin_data[PLUGIN_DATA_LOGPRINTF];
-  sampgdk_amx_exports = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
+  sampgdk_amx_api_ptr = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
   return sampgdk_module_init();
 }
 
