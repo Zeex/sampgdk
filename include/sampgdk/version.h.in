@@ -28,7 +28,7 @@
                                 (SAMPGDK_VERSION_TWEAK))
 #define SAMPGDK_VERSION_STRING "@SAMPGDK_VERSION_STRING@"
 
-SAMPGDK_API(int, sampgdk_version_id(void));
-SAMPGDK_API(const char *, sampgdk_version_string(void));
+SAMPGDK_API(int, sampgdk_get_version(void));
+SAMPGDK_API(const char *, sampgdk_get_version_string(void));
 
 #endif /* !SAMPGDK_VERSION_H */
