@@ -126,27 +126,12 @@ def generate_header_file(module_name, idl, file):
     generate_native_decl(file, func)
   file.write('\n')
 
-  file.write('#ifndef __cplusplus\n\n')
-
   for const in idl.constants:
-    generate_constant_c(file, const)
+    generate_constant(file, const)
   file.write('\n')
   for func in natives:
-    generate_native_alias_c(file, func)
+    generate_native_alias(file, func)
   file.write('\n')
-
-  file.write('#else /* __cplusplus */\n\n')
-  file.write('namespace sampgdk {\n\n')
-
-  for const in idl.constants:
-    generate_constant_cxx(file, const)
-  file.write('\n')
-  for func in natives:
-    generate_native_alias_cxx(file, func)
-  file.write('\n')
-
-  file.write('} // namespace sampgdk\n\n')
-  file.write('#endif /* __cplusplus */\n\n')
 
   for func in filter(lambda x: x.has_attr('callback'), idl.functions):
     generate_callback_decl(file, func)
@@ -192,27 +177,16 @@ def generate_source_file(module_name, idl, file):
   file.write('  sampgdk_callback_unregister_table(callback_table);\n')
   file.write('}\n')
 
-def generate_constant_c(file, const):
+def generate_constant(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
-
-def generate_constant_cxx(file, const):
-  file.write('const %s %s = %s;\n' % (const.type, const.name, const.value))
 
 def generate_native_decl(file, func):
   file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s);\n'
              % (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
 
-def generate_native_alias_c(file, func):
+def generate_native_alias(file, func):
   file.write('#undef  %s\n' % func.name)
   file.write('#define %s %s%s\n' % (func.name, EXPORT_PREFIX, func.name))
-
-def generate_native_alias_cxx(file, func):
-  file.write('static inline %s %s(%s) {\n' % (func.type, func.name, ParamList(func.params)))
-  if func.type != 'void':
-    file.write('  return ::%s%s(%s);\n' % (EXPORT_PREFIX, func.name, ArgList(func.params)))
-  else:
-    file.write('  ::%s%s(%s);\n' % (EXPORT_PREFIX, func.name, ArgList(func.params)))
-  file.write('}\n')
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' %

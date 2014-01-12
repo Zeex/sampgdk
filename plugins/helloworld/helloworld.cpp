@@ -6,8 +6,6 @@
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
 
-using namespace sampgdk;
-
 static void SAMPGDK_TIMER_CALL RepeatingTimer(int, void *) {
   sampgdk_logprintf("RepeatingTimer");
 }
