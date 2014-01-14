@@ -1,15 +1,18 @@
 add_subdirectory(internal)
 
 set(SAMPGDK_RC_FILE sampgdk.rc)
+configure_file(${SAMPGDK_RC_FILE}.in ${SAMPGDK_RC_FILE} @ONLY)
 
-configure_file(${SAMPGDK_RC_FILE}.in
-               ${SAMPGDK_RC_FILE} @ONLY)
-
-set(SAMPGDK_DEF_FILE sampgdk.def)
-set(SAMPGDK_SYM_FILE sampgdk.sym)
+set(SAMPGDK_DEF_FILE ${SAMPGDK_CURRENT_BINARY_DIR}/sampgdk.def)
+set(SAMPGDK_SYM_FILE ${SAMPGDK_CURRENT_BINARY_DIR}/sampgdk.sym)
 
 sampgdk_add_sources(
+  a_http.idl
+  a_objects.idl
+  a_players.idl
+  a_samp.idl
   a_samp.c
+  a_vehicles.idl
   core.api
   core.c
   version.api

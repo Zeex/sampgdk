@@ -39,6 +39,8 @@ find_package(PythonInterp 2.7 REQUIRED)
 
 include_directories(${SDK_INCLUDE_DIR})
 include_directories(${SDK_INCLUDE_DIR}/amx)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
 macro(sampgdk_add_sources)
   foreach(file ${ARGN})
@@ -77,14 +79,12 @@ macro(sampgdk_make_output_dir file)
   else()
     set(_file ${file})
   endif()
-
   get_filename_component(_path ${_file} PATH)
   if(_path MATCHES ${PROJECT_BINARY_DIR})
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_BINARY_DIR} ${_path})
   else()
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
   endif()
-
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_path})
 endmacro()
 
@@ -100,19 +100,6 @@ macro(sampgdk_add_api_gen module_name idl_file api_file)
   sampgdk_add_sources(${api_file})
 endmacro()
 
-macro(sampgdk_add_header_gen module_name idl_file header_file)
-  sampgdk_make_output_dir(${header_file})
-  add_custom_command(OUTPUT ${header_file}
-    COMMAND ${CMAKE_COMMAND}
-      -DCODEGEN_MODULE_NAME=${module_name}
-      -DCODEGEN_IDL_FILE=${idl_file}
-      -DCODEGEN_HEADER_FILE=${header_file}
-      -P ${PROJECT_BINARY_DIR}/scripts/codegen.cmake
-    DEPENDS ${idl_file} scripts/codegen.py
-  )
-  sampgdk_add_headers(${header_file})
-endmacro()
-
 macro(sampgdk_add_source_gen module_name idl_file source_file)
   sampgdk_make_output_dir(${source_file})
   add_custom_command(OUTPUT ${source_file}
@@ -121,47 +108,32 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
       -DCODEGEN_IDL_FILE=${idl_file}
       -DCODEGEN_SOURCE_FILE=${source_file}
       -P ${PROJECT_BINARY_DIR}/scripts/codegen.cmake
-    DEPENDS ${idl_file} scripts/codegen.py)
+    DEPENDS ${idl_file} ${PROJECT_SOURCE_DIR}/scripts/codegen.py)
   sampgdk_add_sources(${source_file})
 endmacro()
 
-macro(sampgdk_add_init_module name)
-  list(APPEND SAMPGDK_INIT_MODULES ${name})
+macro(sampgdk_add_header_gen module_name idl_file header_file)
+  sampgdk_make_output_dir(${header_file})
+  add_custom_command(OUTPUT ${header_file}
+    COMMAND ${CMAKE_COMMAND}
+      -DCODEGEN_MODULE_NAME=${module_name}
+      -DCODEGEN_IDL_FILE=${idl_file}
+      -DCODEGEN_HEADER_FILE=${header_file}
+      -P ${PROJECT_BINARY_DIR}/scripts/codegen.cmake
+    DEPENDS ${idl_file} ${PROJECT_SOURCE_DIR}/scripts/codegen.py)
+  sampgdk_add_headers(${header_file})
 endmacro()
 
-file(GLOB_RECURSE list_files init.list)
-foreach(file IN LISTS list_files)
-  file(STRINGS ${file} modules)
-  foreach(module IN LISTS modules)
-    sampgdk_add_init_module(${module})
-  endforeach()
-endforeach()
-
-macro(sampgdk_add_a_module name)
-  set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c
-    APPEND PROPERTY INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/src)
-  sampgdk_add_api_gen(${name}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl
-    ${CMAKE_CURRENT_BINARY_DIR}/src/${name}.api
-  )
-  sampgdk_add_source_gen(${name}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl
-    ${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c
-  )
-  sampgdk_add_header_gen(${name}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl
-    ${CMAKE_CURRENT_BINARY_DIR}/include/sampgdk/${name}-decl.h
-  )
-  sampgdk_add_init_module(${name})
+macro(sampgdk_add_init_gen target list_file source_file)
+  sampgdk_make_output_dir(${source_file})
+  add_custom_target(${target} 
+    COMMAND ${CMAKE_COMMAND}
+      -DINITGEN_LIST_FILE=${list_file}
+      -DINITGEN_SOURCE_FILE=${source_file}
+      -P ${PROJECT_BINARY_DIR}/scripts/initgen.cmake
+    DEPENDS ${list_file} ${PROJECT_SOURCE_DIR}/scripts/initgen.py)
+  sampgdk_add_sources(${source_file})
 endmacro()
-
-file(GLOB_RECURSE list_files a.list)
-foreach(file IN LISTS list_files)
-  file(STRINGS ${file} modules)
-  foreach(module IN LISTS modules)
-    sampgdk_add_a_module(${module})
-  endforeach()
-endforeach()
 
 set(PYTHONPATH
   ${PROJECT_SOURCE_DIR}/scripts
@@ -179,13 +151,26 @@ endif()
 
 get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
              PROPERTY SAMPGDK_SOURCES)
-get_property(SAMPGDK_HEADERS DIRECTORY ${PROJECT_SOURCE_DIR}
-             PROPERTY SAMPGDK_HEADERS)
-get_property(SAMPGDK_LIBRARIES DIRECTORY ${PROJECT_SOURCE_DIR}
-             PROPERTY SAMPGDK_LIBRARIES)
 
 foreach(file IN LISTS SAMPGDK_SOURCES)
-  if(file MATCHES "\\.api")
+  get_filename_component(extension ${file} EXT)
+  if(extension STREQUAL ".idl")
+    file(RELATIVE_PATH path ${PROJECT_SOURCE_DIR}/src ${file})
+    get_filename_component(dir ${path} PATH)
+    get_filename_component(name ${file} NAME_WE)
+    sampgdk_add_api_gen(${name} ${file}
+      ${PROJECT_BINARY_DIR}/src/${dir}/${name}.api)
+    sampgdk_add_source_gen(${name} ${file}
+      ${PROJECT_BINARY_DIR}/src/${dir}/${name}-impl.c)
+    sampgdk_add_header_gen(${name} ${file}
+      ${PROJECT_BINARY_DIR}/include/sampgdk/${dir}/${name}-decl.h)
+    list(APPEND SAMPGDK_IDLS ${file})
+  endif()
+endforeach()
+
+foreach(file IN LISTS SAMPGDK_SOURCES)
+  get_filename_component(extension ${file} EXT)
+  if(extension STREQUAL ".api")
     list(APPEND SAMPGDK_APIS ${file})
   endif()
 endforeach()
@@ -207,6 +192,13 @@ if(SAMPGDK_SYM_FILE)
       -P ${CMAKE_CURRENT_BINARY_DIR}/scripts/symgen.cmake
     DEPENDS ${SAMPGDK_APIS})
 endif()
+
+get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
+             PROPERTY SAMPGDK_SOURCES)
+get_property(SAMPGDK_HEADERS DIRECTORY ${PROJECT_SOURCE_DIR}
+             PROPERTY SAMPGDK_HEADERS)
+
+list(REMOVE_ITEM SAMPGDK_SOURCES ${SAMPGDK_IDLS})
 
 if(SAMPGDK_STATIC)
   add_library(sampgdk STATIC ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
@@ -241,6 +233,9 @@ elseif(UNIX)
                LINK_FLAGS " -Wl,--retain-symbols-file=${SAMPGDK_SYM_FILE}")
 endif()
 
+get_property(SAMPGDK_LIBRARIES DIRECTORY ${PROJECT_SOURCE_DIR}
+             PROPERTY SAMPGDK_LIBRARIES)
+
 if(NOT SAMPGDK_STATIC)
   target_link_libraries(sampgdk ${SAMPGDK_LIBRARIES})
   if(UNIX)
@@ -248,16 +243,16 @@ if(NOT SAMPGDK_STATIC)
   endif()
 endif()
 
+add_dependencies(sampgdk sampgdk_init)
+
 foreach(header IN LISTS SAMPGDK_HEADERS)
   get_filename_component(path ${header} PATH)
   get_filename_component(abs_path ${path} ABSOLUTE)
-
   if(header MATCHES ${CMAKE_CURRENT_BINARY_DIR})
     file(RELATIVE_PATH dir ${CMAKE_CURRENT_BINARY_DIR} ${abs_path})
   else()
     file(RELATIVE_PATH dir ${CMAKE_CURRENT_SOURCE_DIR} ${abs_path})
   endif()
-
   install(FILES ${header} DESTINATION ${dir} COMPONENT dev)
 endforeach()
 
