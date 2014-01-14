@@ -32,10 +32,9 @@ set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
              INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Export theese two variables to the parent scope for add_custom_command().
-#
-# I would define the custom command in this directory but targets recognize
-# custom command's output files only for those commands that are defined
-# in the current directory (the CMake devs said it's not a bug...).
+# I would rather prefer to define the custom command in this directory but
+# don't recognize the output files of targets defined in subdirectories (and
+# CMake devs said it's actually not a bug).
 if(WIN32)
   set(SAMPGDK_DEF_FILE ${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_DEF_FILE} PARENT_SCOPE)
 elseif(UNIX)

@@ -22,6 +22,9 @@
 #include <sampgdk/export.h>
 #include <sampgdk/sdk.h>
 
+typedef bool (SAMPGDK_CALL *sampgdk_public_hook)(AMX *amx, const char *name,
+                                                 cell *params);
+
 SAMPGDK_API(int, sampgdk_init(void **plugin_data));
 SAMPGDK_API(int, sampgdk_init_plugin(void *plugin, void **plugin_data));
 
@@ -45,9 +48,8 @@ SAMPGDK_API(int, sampgdk_get_num_natives(void));
 
 SAMPGDK_API(AMX_NATIVE, sampgdk_find_native(const char *name));
 SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params));
-SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native, const char *format, ...));
-
-typedef bool (SAMPGDK_CALL *sampgdk_public_hook)(AMX *amx, const char *name, cell *params);
+SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native,
+                                        const char *format, ...));
 
 SAMPGDK_API(sampgdk_public_hook, sampgdk_get_public_hook(void));
 SAMPGDK_API(void, sampgdk_set_public_hook(sampgdk_public_hook hook));
