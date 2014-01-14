@@ -13,15 +13,13 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_LIKELY_H_
-#define SAMPGDK_LIKELY_H_
+#ifndef SAMPGDK_INTERNAL_LOGPRINTF_H
+#define SAMPGDK_INTERNAL_LOGPRINTF_H
 
-#if defined __GNUC__
-  #define likely(x)   __builtin_expect((x), 1)
-  #define unlikely(x) __builtin_expect((x), 0)
-#else
-  #define likely(x)   (x)
-  #define unlikely(x) (x)
-#endif
+#include <stdarg.h>
 
-#endif /* !SAMPGDK_LIKELY_H_ */
+extern void *sampgdk_logprintf_impl;
+
+void sampgdk_do_vlogprintf(const char *format, va_list va);
+
+#endif /* !SAMPGDK_INTERNAL_LOGPRINTF_H */

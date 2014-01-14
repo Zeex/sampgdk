@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2014 Zeex
+/* Copyright (C) 2012-2014 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +13,16 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_UTILS_H_
-#define SAMPGDK_UTILS_H_
+#ifndef SAMPGDK_INTERNAL_PARAM_H
+#define SAMPGDK_INTERNAL_PARAM_H
 
-#include <stddef.h>
+#include <sampgdk/bool.h>
+#include <sampgdk/sdk.h>
 
-void sampgdk_strcpy(char *dst, const char *src, size_t size);
+void sampgdk_param_get_all(AMX *amx, cell **params);
+void sampgdk_param_get_cell(AMX *amx, int index, cell *param);
+void sampgdk_param_get_bool(AMX *amx, int index, bool *param);
+void sampgdk_param_get_float(AMX *amx, int index, float *param);
+void sampgdk_param_get_string(AMX *amx, int index, char **param);
 
-#endif /* !SAMPGDK_UTILS_H_ */
+#endif /* !SAMPGDK_INTERNAL_PARAM_H */

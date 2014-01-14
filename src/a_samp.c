@@ -14,7 +14,8 @@
  */
 
 #include <sampgdk/a_samp.h>
-#include "timer.h"
+
+#include "internal/timer.h"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback,
                              void *param)) {

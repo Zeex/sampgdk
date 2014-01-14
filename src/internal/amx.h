@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H_
-#define SAMPGDK_AMX_H_
+#ifndef SAMPGDK_INTERNAL_AMX_H
+#define SAMPGDK_INTERNAL_AMX_H
 
 #include <sampgdk/sdk.h>
 
@@ -118,4 +118,4 @@ extern struct sampgdk_amx_api *sampgdk_amx_api_ptr;
 #define amx_UTF8Len      sampgdk_amx_api_ptr->UTF8Len
 #define amx_UTF8Put      sampgdk_amx_api_ptr->UTF8Put
 
-#endif /* !SAMPGDK_AMX_H_ */
+#endif /* !SAMPGDK_INTERNAL_AMX_H */

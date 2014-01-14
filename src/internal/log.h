@@ -1,4 +1,4 @@
-/* Copyright (C) 2013-2014 Zeex
+/* Copyright (C) 2012-2014 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,13 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_INIT_H_
-#define SAMPGDK_INIT_H_
+#ifndef SAMPGDK_INTERNAL_LOG_H
+#define SAMPGDK_INTERNAL_LOG_H
 
-#define SAMPGDK_MODULE_INIT(module) \
-  int sampgdk_##module##_init(void)
+void sampgdk_log_message(const char *format, ...);
+void sampgdk_log_trace(const char *format, ...);
+void sampgdk_log_warn(const char *format, ...);
+void sampgdk_log_error(const char *format, ...);
+void sampgdk_log_error_code(int error);
 
-#define SAMPGDK_MODULE_CLEANUP(module) \
-  void sampgdk_##module##_cleanup(void)
-
-int  sampgdk_module_init(void);
-void sampgdk_module_cleanup(void);
-
-#endif /* !SAMPGDK_INIT_H_ */
+#endif /* !SAMPGDK_INTERNAL_LOG_H */

@@ -1,4 +1,4 @@
-/* Copyright (C) 2012-2014 Zeex
+/* Copyright (C) 2013-2014 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,11 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_TIMER_H_
-#define SAMPGDK_TIMER_H_
+#ifndef SAMPGDK_INTERNAL_UTILS_H
+#define SAMPGDK_INTERNAL_UTILS_H
 
-#include <sampgdk/bool.h>
-#include <sampgdk/export.h>
+#include <stddef.h>
 
-typedef void (SAMPGDK_TIMER_CALL *sampgdk_timer_callback)(int id, void *param);
+void sampgdk_strcpy(char *dst, const char *src, size_t size);
 
-int sampgdk_timer_set(long interval, bool repeat,
-                      sampgdk_timer_callback calback, void *param);
-int sampgdk_timer_kill(int timerid);
-void sampgdk_timer_process_timers(void *plugin);
-long sampgdk_timer_now(void);
-
-#endif /* !SAMPGDK_TIMER_H_ */
+#endif /* !SAMPGDK_INTERNAL_UTILS_H */

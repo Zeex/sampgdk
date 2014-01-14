@@ -17,13 +17,13 @@
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
 
-#include "amx.h"
-#include "init.h"
-#include "log.h"
-#include "logprintf.h"
-#include "native.h"
-#include "plugin.h"
-#include "timer.h"
+#include "internal/amx.h"
+#include "internal/init.h"
+#include "internal/log.h"
+#include "internal/logprintf.h"
+#include "internal/native.h"
+#include "internal/plugin.h"
+#include "internal/timer.h"
 
 #ifdef _MSC_VER
   #define RETURN_ADDRESS() _ReturnAddress()

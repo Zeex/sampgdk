@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_NATIVE_H_
-#define SAMPGDK_NATIVE_H_
+#ifndef SAMPGDK_INTERNAL_NATIVE_H
+#define SAMPGDK_INTERNAL_NATIVE_H
 
 #include <stdarg.h>
 

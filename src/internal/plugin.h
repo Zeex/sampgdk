@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_PLUGIN_H_
-#define SAMPGDK_PLUGIN_H_
+#ifndef SAMPGDK_INTERNAL_PLUGIN_H
+#define SAMPGDK_INTERNAL_PLUGIN_H
 
 #include <stddef.h>
 
@@ -33,4 +33,4 @@ void *sampgdk_plugin_get_handle(void *address);
 void sampgdk_plugin_get_filename(void *address, char *filename, size_t size);
 struct sampgdk_plugin_list *sampgdk_plugin_get_list(void);
 
-#endif /* !SAMPGDK_PLUGIN_H_ */
+#endif /* !SAMPGDK_INTERNAL_PLUGIN_H */
