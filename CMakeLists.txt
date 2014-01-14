@@ -38,6 +38,7 @@ find_package(SDK REQUIRED)
 find_package(PythonInterp 2.7 REQUIRED)
 
 include_directories(${SDK_INCLUDE_DIR})
+include_directories(${SDK_INCLUDE_DIR}/amx)
 
 macro(sampgdk_add_sources)
   foreach(file ${ARGN})
