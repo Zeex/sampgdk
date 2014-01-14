@@ -4,15 +4,15 @@ cmake_minimum_required(VERSION 2.8.6)
 option(SAMPGDK_STATIC "Build static library instead" OFF)
 option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
 
-set(SAMPGDK_VERSION_MAJOR "4")
-set(SAMPGDK_VERSION_MINOR "0")
-set(SAMPGDK_VERSION_PATCH "0")
-set(SAMPGDK_VERSION_TWEAK "0")
-set(SAMPGDK_VERSION_STRING "4.0-pre")
+set(SAMPGDK_VERSION_MAJOR 4)
+set(SAMPGDK_VERSION_MINOR 0)
+set(SAMPGDK_VERSION_PATCH 0)
+set(SAMPGDK_VERSION_TWEAK 0)
+set(SAMPGDK_VERSION_STRING 4.0-pre)
 
 list(APPEND CMAKE_MODULE_PATH
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake"
-  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules"
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules
 )
 
 if(NOT (MSVC_IDE AND MSVC_VERSION LESS 1600))
@@ -42,24 +42,24 @@ include_directories(${SDK_INCLUDE_DIR}/amx)
 
 macro(sampgdk_add_sources)
   foreach(file ${ARGN})
-    if(NOT IS_ABSOLUTE "${file}")
+    if(NOT IS_ABSOLUTE ${file})
       set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                   SAMPGDK_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/${file}")
+                   SAMPGDK_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/${file})
     else()
       set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                   SAMPGDK_SOURCES "${file}")
+                   SAMPGDK_SOURCES ${file})
     endif()
   endforeach()
 endmacro()
 
 macro(sampgdk_add_headers)
   foreach(file ${ARGN})
-    if(NOT IS_ABSOLUTE "${file}")
+    if(NOT IS_ABSOLUTE ${file})
       set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                   SAMPGDK_HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/${file}")
+                   SAMPGDK_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/${file})
     else()
       set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                   SAMPGDK_HEADERS "${file}")
+                   SAMPGDK_HEADERS ${file})
     endif()
   endforeach()
 endmacro()
@@ -67,7 +67,7 @@ endmacro()
 macro(sampgdk_add_libraries)
   foreach(library ${ARGN})
     set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                 SAMPGDK_LIBRARIES "${library}")
+                 SAMPGDK_LIBRARIES ${library})
   endforeach()
 endmacro()
 
@@ -85,18 +85,18 @@ macro(sampgdk_make_output_dir file)
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
   endif()
 
-  file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${_path}")
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_path})
 endmacro()
 
 macro(sampgdk_add_api_gen module_name idl_file api_file)
   sampgdk_make_output_dir(${api_file})
   add_custom_command(OUTPUT ${api_file}
     COMMAND ${CMAKE_COMMAND}
-      "-DCODEGEN_MODULE_NAME=${module_name}"
-      "-DCODEGEN_IDL_FILE=${idl_file}"
-      "-DCODEGEN_API_FILE=${api_file}"
-      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/codegen.cmake"
-    DEPENDS ${idl_file} "scripts/codegen.py")
+      -DCODEGEN_MODULE_NAME=${module_name}
+      -DCODEGEN_IDL_FILE=${idl_file}
+      -DCODEGEN_API_FILE=${api_file}
+      -P ${CMAKE_CURRENT_BINARY_DIR}/scripts/codegen.cmake
+    DEPENDS ${idl_file} scripts/codegen.py)
   sampgdk_add_sources(${api_file})
 endmacro()
 
@@ -104,11 +104,11 @@ macro(sampgdk_add_header_gen module_name idl_file header_file)
   sampgdk_make_output_dir(${header_file})
   add_custom_command(OUTPUT ${header_file}
     COMMAND ${CMAKE_COMMAND}
-      "-DCODEGEN_MODULE_NAME=${module_name}"
-      "-DCODEGEN_IDL_FILE=${idl_file}"
-      "-DCODEGEN_HEADER_FILE=${header_file}"
-      "-P" "${PROJECT_BINARY_DIR}/scripts/codegen.cmake"
-    DEPENDS ${idl_file} "scripts/codegen.py"
+      -DCODEGEN_MODULE_NAME=${module_name}
+      -DCODEGEN_IDL_FILE=${idl_file}
+      -DCODEGEN_HEADER_FILE=${header_file}
+      -P ${PROJECT_BINARY_DIR}/scripts/codegen.cmake
+    DEPENDS ${idl_file} scripts/codegen.py
   )
   sampgdk_add_headers(${header_file})
 endmacro()
@@ -117,11 +117,11 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
   sampgdk_make_output_dir(${source_file})
   add_custom_command(OUTPUT ${source_file}
     COMMAND ${CMAKE_COMMAND}
-      "-DCODEGEN_MODULE_NAME=${module_name}"
-      "-DCODEGEN_IDL_FILE=${idl_file}"
-      "-DCODEGEN_SOURCE_FILE=${source_file}"
-      "-P" "${PROJECT_BINARY_DIR}/scripts/codegen.cmake"
-    DEPENDS ${idl_file} "scripts/codegen.py")
+      -DCODEGEN_MODULE_NAME=${module_name}
+      -DCODEGEN_IDL_FILE=${idl_file}
+      -DCODEGEN_SOURCE_FILE=${source_file}
+      -P ${PROJECT_BINARY_DIR}/scripts/codegen.cmake
+    DEPENDS ${idl_file} scripts/codegen.py)
   sampgdk_add_sources(${source_file})
 endmacro()
 
@@ -129,7 +129,7 @@ macro(sampgdk_add_init_module name)
   list(APPEND SAMPGDK_INIT_MODULES ${name})
 endmacro()
 
-file(GLOB_RECURSE list_files "init.list")
+file(GLOB_RECURSE list_files init.list)
 foreach(file IN LISTS list_files)
   file(STRINGS ${file} modules)
   foreach(module IN LISTS modules)
@@ -138,24 +138,24 @@ foreach(file IN LISTS list_files)
 endforeach()
 
 macro(sampgdk_add_a_module name)
-  set_property(SOURCE "${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c"
-    APPEND PROPERTY INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/src")
+  set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c
+    APPEND PROPERTY INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/src)
   sampgdk_add_api_gen(${name}
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl"
-    "${CMAKE_CURRENT_BINARY_DIR}/src/${name}.api"
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl
+    ${CMAKE_CURRENT_BINARY_DIR}/src/${name}.api
   )
   sampgdk_add_source_gen(${name}
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl"
-    "${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c"
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl
+    ${CMAKE_CURRENT_BINARY_DIR}/src/${name}-impl.c
   )
   sampgdk_add_header_gen(${name}
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl"
-    "${CMAKE_CURRENT_BINARY_DIR}/include/sampgdk/${name}-decl.h"
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/${name}.idl
+    ${CMAKE_CURRENT_BINARY_DIR}/include/sampgdk/${name}-decl.h
   )
   sampgdk_add_init_module(${name})
 endmacro()
 
-file(GLOB_RECURSE list_files "a.list")
+file(GLOB_RECURSE list_files a.list)
 foreach(file IN LISTS list_files)
   file(STRINGS ${file} modules)
   foreach(module IN LISTS modules)
@@ -164,17 +164,17 @@ foreach(file IN LISTS list_files)
 endforeach()
 
 set(PYTHONPATH
-  "${PROJECT_SOURCE_DIR}/scripts"
-  "${PROJECT_SOURCE_DIR}/lib/python/ply"
-  "${PROJECT_SOURCE_DIR}/lib/python/cidl"
+  ${PROJECT_SOURCE_DIR}/scripts
+  ${PROJECT_SOURCE_DIR}/lib/python/ply
+  ${PROJECT_SOURCE_DIR}/lib/python/cidl
 )
 
-add_subdirectory("include")
-add_subdirectory("lib")
-add_subdirectory("scripts")
-add_subdirectory("src")
+add_subdirectory(include)
+add_subdirectory(lib)
+add_subdirectory(scripts)
+add_subdirectory(src)
 if(SAMPGDK_BUILD_PLUGINS)
-  add_subdirectory("plugins")
+  add_subdirectory(plugins)
 endif()
 
 get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
@@ -192,19 +192,19 @@ endforeach()
 
 if(SAMPGDK_DEF_FILE)
   add_custom_command(OUTPUT ${SAMPGDK_DEF_FILE}
-    COMMAND "${CMAKE_COMMAND}"
-      "-DDEFGEN_OUTPUT_FILE=${SAMPGDK_DEF_FILE}"
-      "-DDEFGEN_SEARCH_DIRS=\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
-      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/defgen.cmake"
+    COMMAND ${CMAKE_COMMAND}
+      -DDEFGEN_OUTPUT_FILE=${SAMPGDK_DEF_FILE}
+      -DDEFGEN_SEARCH_DIRS="\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
+      -P ${CMAKE_CURRENT_BINARY_DIR}/scripts/defgen.cmake
     DEPENDS ${SAMPGDK_APIS})
 endif()
 
 if(SAMPGDK_SYM_FILE)
   add_custom_command(OUTPUT ${SAMPGDK_SYM_FILE}
-    COMMAND "${CMAKE_COMMAND}"
-      "-DSYMGEN_OUTPUT_FILE=${SAMPGDK_SYM_FILE}"
-      "-DSYMGEN_SEARCH_DIRS=\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
-      "-P" "${CMAKE_CURRENT_BINARY_DIR}/scripts/symgen.cmake"
+    COMMAND ${CMAKE_COMMAND}
+      -DSYMGEN_OUTPUT_FILE=${SAMPGDK_SYM_FILE}
+      -DSYMGEN_SEARCH_DIRS="\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
+      -P ${CMAKE_CURRENT_BINARY_DIR}/scripts/symgen.cmake
     DEPENDS ${SAMPGDK_APIS})
 endif()
 
@@ -217,20 +217,20 @@ endif()
 group_target_sources(sampgdk)
 
 set_target_properties(sampgdk PROPERTIES
-  VERSION       "${SAMPGDK_VERSION_STRING}"
-  SOVERSION     "${SAMPGDK_VERSION_MAJOR}"
-  DEFINE_SYMBOL "IN_SAMPGDK"
+  VERSION       ${SAMPGDK_VERSION_STRING}
+  SOVERSION     ${SAMPGDK_VERSION_MAJOR}
+  DEFINE_SYMBOL IN_SAMPGDK
 )
 
 if(WIN32)
-  set(OUTPUT_NAME "sampgdk${SAMPGDK_VERSION_MAJOR}")
+  set(OUTPUT_NAME sampgdk${SAMPGDK_VERSION_MAJOR})
   if(SAMPGDK_STATIC)
-    set(OUTPUT_NAME "${OUTPUT_NAME}_s")
+    set(OUTPUT_NAME ${OUTPUT_NAME}_s)
   endif()
   set_property(TARGET sampgdk PROPERTY OUTPUT_NAME ${OUTPUT_NAME})
   if(MSVC)
     set_property(TARGET sampgdk APPEND PROPERTY
-                 COMPILE_DEFINITIONS "_CRT_SECURE_NO_WARNINGS")
+                 COMPILE_DEFINITIONS _CRT_SECURE_NO_WARNINGS)
   endif()
 elseif(UNIX)
   set_property(TARGET sampgdk APPEND_STRING PROPERTY
@@ -244,7 +244,7 @@ endif()
 if(NOT SAMPGDK_STATIC)
   target_link_libraries(sampgdk ${SAMPGDK_LIBRARIES})
   if(UNIX)
-    target_link_libraries(sampgdk ${CMAKE_DL_LIBS} "rt")
+    target_link_libraries(sampgdk ${CMAKE_DL_LIBS} rt)
   endif()
 endif()
 
@@ -258,31 +258,31 @@ foreach(header IN LISTS SAMPGDK_HEADERS)
     file(RELATIVE_PATH dir ${CMAKE_CURRENT_SOURCE_DIR} ${abs_path})
   endif()
 
-  install(FILES ${header} DESTINATION ${dir} COMPONENT "dev")
+  install(FILES ${header} DESTINATION ${dir} COMPONENT dev)
 endforeach()
 
 install(TARGETS sampgdk
-  RUNTIME DESTINATION "bin" COMPONENT "bin"
-  ARCHIVE DESTINATION "lib" COMPONENT "dev"
-  LIBRARY DESTINATION "lib" COMPONENT "bin"
+  RUNTIME DESTINATION bin COMPONENT bin
+  ARCHIVE DESTINATION lib COMPONENT dev
+  LIBRARY DESTINATION lib COMPONENT bin
 )
 
 function(sampgdk_get_pdb_path target result)
-  set(config_name "\${CMAKE_INSTALL_CONFIG_NAME}")
+  set(config_name \${CMAKE_INSTALL_CONFIG_NAME})
   get_target_property(output_name ${target} OUTPUT_NAME)
-  set(pdb_name "${output_name}.pdb")
-  set(pdb_path "${CMAKE_CURRENT_BINARY_DIR}/${config_name}/${pdb_name}")
+  set(pdb_name ${output_name}.pdb)
+  set(pdb_path ${CMAKE_CURRENT_BINARY_DIR}/${config_name}/${pdb_name})
   set(${result} ${pdb_path} PARENT_SCOPE)
 endfunction()
 
 if(MSVC AND NOT SAMPGDK_STATIC)
   sampgdk_get_pdb_path(sampgdk pdb_path)
-  install(FILES ${pdb_path} DESTINATION "bin" COMPONENT "bin")
+  install(FILES ${pdb_path} DESTINATION bin COMPONENT bin)
 endif()
 
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
 if(SAMPGDK_STATIC)
-  set(CPACK_PACKAGE_NAME "${CPACK_PACKAGE_NAME}-static")
+  set(CPACK_PACKAGE_NAME ${CPACK_PACKAGE_NAME}-static)
 endif()
 
 set(CPACK_PACKAGE_VERSION ${SAMPGDK_VERSION_STRING})
@@ -295,14 +295,14 @@ if(WIN32)
       "${CPACK_PACKAGE_NAME} ${SAMPGDK_VERSION_MAJOR}.${SAMPGDK_VERSION_MINOR}")
 endif()
 
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt)
 set(CPACK_COMPONENT_BIN_DISPLAY_NAME "Runtime")
 set(CPACK_COMPONENT_BIN_DESCRIPTION "Runtime library needed to run plugins")
 set(CPACK_COMPONENT_BIN_INSTALL_TYPES "Full" "Minimal")
 set(CPACK_COMPONENT_DEV_DISPLAY_NAME "Development files")
 set(CPACK_COMPONENT_DEV_DESCRIPTION "Import library and C/C++ headers")
 set(CPACK_COMPONENT_DEV_INSTALL_TYPES "Full")
-set(CPACK_COMPONENT_DEV_DEPENDS "bin")
+set(CPACK_COMPONENT_DEV_DEPENDS bin)
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
 set(CPACK_NSIS_MODIFY_PATH ON)
 
