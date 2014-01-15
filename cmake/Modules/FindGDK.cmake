@@ -22,10 +22,10 @@
 
 include(FindPackageHandleStandardArgs)
 
-find_path(GDK_INCLUDE_DIR NAMES "sampgdk/version.h")
+find_path(GDK_INCLUDE_DIR NAMES sampgdk/version.h)
 
-find_library(GDK_LIBRARY_DEBUG   NAMES "sampgdk4_d" "sampgdk_d")
-find_library(GDK_LIBRARY_RELEASE NAMES "sampgdk4"   "sampgdk")
+find_library(GDK_LIBRARY_RELEASE NAMES sampgdk  sampgdk4  sampgdk4s)
+find_library(GDK_LIBRARY_DEBUG   NAMES sampgdkd sampgdk4d sampgdk4sd)
 
 if(GDK_LIBRARY_DEBUG AND GDK_LIBRARY_RELEASE)
   if(CMAKE_CONFIGURATIONS OR CMAKE_BUILD_TYPE)
