@@ -10,9 +10,9 @@ set(SAMPGDK_VERSION_PATCH 0)
 set(SAMPGDK_VERSION_TWEAK 0)
 set(SAMPGDK_VERSION_STRING 4.0-pre)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules)
-list(APPEND CMAKE_LIBRARY_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
-list(APPEND CMAKE_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+list(APPEND CMAKE_LIBRARY_PATH ${PROJECT_SOURCE_DIR}/lib)
+list(APPEND CMAKE_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 if(NOT (MSVC_IDE AND MSVC_VERSION LESS 1600))
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -33,8 +33,8 @@ find_package(PythonInterp 2.7 REQUIRED)
 
 include_directories(${SDK_INCLUDE_DIR})
 include_directories(${SDK_INCLUDE_DIR}/amx)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_BINARY_DIR}/include)
 
 macro(sampgdk_add_sources)
   foreach(file ${ARGN})
@@ -173,8 +173,8 @@ if(SAMPGDK_DEF_FILE)
   add_custom_command(OUTPUT ${SAMPGDK_DEF_FILE}
     COMMAND ${CMAKE_COMMAND}
       -DDEFGEN_OUTPUT_FILE=${SAMPGDK_DEF_FILE}
-      -DDEFGEN_SEARCH_DIRS="\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
-      -P ${CMAKE_CURRENT_BINARY_DIR}/scripts/defgen.cmake
+      -DDEFGEN_SEARCH_DIRS="\"${PROJECT_BINARY_DIR};${PROJECT_SOURCE_DIR}\""
+      -P ${PROJECT_BINARY_DIR}/scripts/defgen.cmake
     DEPENDS ${SAMPGDK_APIS})
 endif()
 
@@ -182,8 +182,8 @@ if(SAMPGDK_SYM_FILE)
   add_custom_command(OUTPUT ${SAMPGDK_SYM_FILE}
     COMMAND ${CMAKE_COMMAND}
       -DSYMGEN_OUTPUT_FILE=${SAMPGDK_SYM_FILE}
-      -DSYMGEN_SEARCH_DIRS="\"${CMAKE_CURRENT_BINARY_DIR};${CMAKE_CURRENT_SOURCE_DIR}\""
-      -P ${CMAKE_CURRENT_BINARY_DIR}/scripts/symgen.cmake
+      -DSYMGEN_SEARCH_DIRS="\"${PROJECT_BINARY_DIR};${PROJECT_SOURCE_DIR}\""
+      -P ${PROJECT_BINARY_DIR}/scripts/symgen.cmake
     DEPENDS ${SAMPGDK_APIS})
 endif()
 
@@ -241,10 +241,10 @@ add_dependencies(sampgdk sampgdk_init)
 foreach(header IN LISTS SAMPGDK_HEADERS)
   get_filename_component(path ${header} PATH)
   get_filename_component(abs_path ${path} ABSOLUTE)
-  if(header MATCHES ${CMAKE_CURRENT_BINARY_DIR})
-    file(RELATIVE_PATH dir ${CMAKE_CURRENT_BINARY_DIR} ${abs_path})
+  if(header MATCHES ${PROJECT_BINARY_DIR})
+    file(RELATIVE_PATH dir ${PROJECT_BINARY_DIR} ${abs_path})
   else()
-    file(RELATIVE_PATH dir ${CMAKE_CURRENT_SOURCE_DIR} ${abs_path})
+    file(RELATIVE_PATH dir ${PROJECT_SOURCE_DIR} ${abs_path})
   endif()
   install(FILES ${header} DESTINATION ${dir} COMPONENT dev)
 endforeach()
@@ -259,7 +259,7 @@ function(sampgdk_get_pdb_path target result)
   set(config_name \${CMAKE_INSTALL_CONFIG_NAME})
   get_target_property(output_name ${target} OUTPUT_NAME)
   set(pdb_name ${output_name}.pdb)
-  set(pdb_path ${CMAKE_CURRENT_BINARY_DIR}/${config_name}/${pdb_name})
+  set(pdb_path ${PROJECT_BINARY_DIR}/${config_name}/${pdb_name})
   set(${result} ${pdb_path} PARENT_SCOPE)
 endfunction()
 
@@ -283,7 +283,7 @@ if(WIN32)
       "${CPACK_PACKAGE_NAME} ${SAMPGDK_VERSION_MAJOR}.${SAMPGDK_VERSION_MINOR}")
 endif()
 
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt)
+set(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/LICENSE.txt)
 set(CPACK_COMPONENT_BIN_DISPLAY_NAME "Runtime")
 set(CPACK_COMPONENT_BIN_DESCRIPTION "Runtime library needed to run plugins")
 set(CPACK_COMPONENT_BIN_INSTALL_TYPES "Full" "Minimal")
