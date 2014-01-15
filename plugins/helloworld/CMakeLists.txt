@@ -1,7 +1,6 @@
 project(helloworld)
 cmake_minimum_required(VERSION 2.8)
 
-include(GroupTargetSources)
 include(Plugin)
 
 find_package(SDK REQUIRED)
@@ -17,8 +16,6 @@ add_plugin(helloworld
   helloworld.def
   ${SDK_INCLUDE_DIR}/amxplugin.cpp
 )
-
-group_target_sources(helloworld)
 
 target_link_libraries(helloworld sampgdk)
 if(SAMPGDK_STATIC)

@@ -18,8 +18,6 @@ if(NOT (MSVC_IDE AND MSVC_VERSION LESS 1600))
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 endif()
 
-include(GroupTargetSources)
-
 if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   if(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
@@ -201,8 +199,6 @@ if(SAMPGDK_STATIC)
 else()
   add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 endif()
-
-group_target_sources(sampgdk)
 
 set_target_properties(sampgdk PROPERTIES
   VERSION       ${SAMPGDK_VERSION_STRING}
