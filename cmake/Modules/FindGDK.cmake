@@ -11,10 +11,6 @@
 #   GDK_INCLUDE_DIR (cached)
 #   GDK_INCLUDE_DIRS
 #   GDK_VERSION
-#   GDK_VERSION_MAJOR
-#   GDK_VERSION_MINOR
-#   GDK_VERSION_PATCH
-#   GDK_VERSION_TWEAK
 # 
 # Using this module:
 # 
