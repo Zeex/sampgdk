@@ -10,4 +10,5 @@ find_path(SDK_INCLUDE_DIR NAMES plugin.h plugincommon.h
           NO_SYSTEM_ENVIRONMENT_PATH
           NO_CMAKE_SYSTEM_PATH)
 
+mark_as_advanced(SDK_INCLUDE_DIR)
 find_package_handle_standard_args(SDK REQUIRED_VARS SDK_INCLUDE_DIR)
