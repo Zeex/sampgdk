@@ -308,9 +308,10 @@ const int SELECT_OBJECT_PLAYER_OBJECT = 2;
 
 [callback] bool OnPlayerSelectObject([in] int playerid, [in] int type, [in] int objectid, [in] int modelid, [in] float fX, [in] float fY, [in] float fZ);
 
-const int BULLET_HIT_TYPE_NONE    = 0;
-const int BULLET_HIT_TYPE_PLAYER  = 1;
-const int BULLET_HIT_TYPE_VEHICLE = 2;
-const int BULLET_HIT_TYPE_OBJECT  = 3;
+const int BULLET_HIT_TYPE_NONE          = 0;
+const int BULLET_HIT_TYPE_PLAYER        = 1;
+const int BULLET_HIT_TYPE_VEHICLE       = 2;
+const int BULLET_HIT_TYPE_OBJECT        = 3;
+const int BULLET_HIT_TYPE_PLAYER_OBJECT = 4;
 
 [callback, badret(false)] bool OnPlayerWeaponShot([in] int playerid, [in] int weaponid, [in] int hittype, [in] int hitid, [in] float fX, [in] float fY, [in] float fZ);
