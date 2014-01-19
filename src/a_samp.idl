@@ -286,8 +286,8 @@ const int KEY_RIGHT            = 128;
 [callback] bool OnVehicleStreamIn([in] int vehicleid, [in] int forplayerid);
 [callback] bool OnVehicleStreamOut([in] int vehicleid, [in] int forplayerid);
 [callback, badret(true)] bool OnDialogResponse([in] int playerid, [in] int dialogid, [in] int response, [in] int listitem, [in] string inputtext);
-[callback] bool OnPlayerTakeDamage([in] int playerid, [in] int issuerid, [in] float amount, [in] int weaponid);
-[callback] bool OnPlayerGiveDamage([in] int playerid, [in] int damagedid, [in] float amount, [in] int weaponid);
+[callback, badret(false)] bool OnPlayerTakeDamage([in] int playerid, [in] int issuerid, [in] float amount, [in] int weaponid, [in] int bodypart);
+[callback] bool OnPlayerGiveDamage([in] int playerid, [in] int damagedid, [in] float amount, [in] int weaponid, [in] int bodypart);
 [callback] bool OnPlayerClickMap([in] int playerid, [in] float fX, [in] float fY, [in] float fZ);
 [callback, badret(true)] bool OnPlayerClickTextDraw([in] int playerid, [in] int clickedid);
 [callback, badret(true)] bool OnPlayerClickPlayerTextDraw([in] int playerid, [in] int playertextid);
@@ -309,3 +309,10 @@ const int SELECT_OBJECT_PLAYER_OBJECT = 2;
 
 [callback] bool OnPlayerSelectObject([in] int playerid, [in] int type, [in] int objectid, [in] int modelid, [in] float fX, [in] float fY, [in] float fZ);
 
+const int BULLET_HIT_TYPE_NONE          = 0;
+const int BULLET_HIT_TYPE_PLAYER        = 1;
+const int BULLET_HIT_TYPE_VEHICLE       = 2;
+const int BULLET_HIT_TYPE_OBJECT        = 3;
+const int BULLET_HIT_TYPE_PLAYER_OBJECT = 4;
+
+[callback, badret(false)] bool OnPlayerWeaponShot([in] int playerid, [in] int weaponid, [in] int hittype, [in] int hitid, [in] float fX, [in] float fY, [in] float fZ);
