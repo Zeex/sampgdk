@@ -7,7 +7,7 @@
 #include <sampgdk/sdk.h>
 
 static void SAMPGDK_TIMER_CALL RepeatingTimer(int, void *) {
-  sampgdk_logprintf("RepeatingTimer");
+  sampgdk_logprintf("Timer called: %d", GetTickCount());
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
