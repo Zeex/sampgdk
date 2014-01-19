@@ -25,7 +25,7 @@
 SAMPGDK_BEGIN_NAMESPACE
 
 template<std::size_t N>
-bool GetPlayerName(int playerid, char (&name)[N]) {
+int GetPlayerName(int playerid, char (&name)[N]) {
   return GetPlayerName(playerid, name, N);
 }
 
@@ -156,7 +156,7 @@ class Player {
     { return GetPlayerKeys(id_, keys, updown, leftright); }
   bool GetKeys(int &keys, int &updown, int &leftright) const
     { return GetPlayerKeys(id_, &keys, &updown, &leftright); }
-  bool GetName(char *name, int size) const
+  int GetName(char *name, int size) const
     { return GetPlayerName(id_, name, size); }
   std::string GetName() const {
     std::vector<char> name(MAX_PLAYER_NAME);
