@@ -102,7 +102,7 @@ const int WEAPONSTATE_RELOADING    =  3;
 [native] int GetPlayerPing([in] int playerid);
 [native] int GetPlayerWeapon([in] int playerid);
 [native] bool GetPlayerKeys([in] int playerid, [out] int keys, [out] int updown, [out] int leftright);
-[native] bool GetPlayerName([in] int playerid, [out] char name, [in] int size);
+[native] int GetPlayerName([in] int playerid, [out] char name, [in] int size);
 [native] bool SetPlayerTime([in] int playerid, [in] int hour, [in] int minute);
 [native] bool GetPlayerTime([in] int playerid, [out] int hour, [out] int minute);
 [native] bool TogglePlayerClock([in] int playerid, [in] bool toggle);
