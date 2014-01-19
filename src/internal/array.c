@@ -194,7 +194,7 @@ int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
 
   assert(a != NULL);
   assert(index >= 0);
-  assert(index < count);
+  assert(index < a->count);
 
   if (count <= 0 || count > a->count - index) {
     return -EINVAL;
