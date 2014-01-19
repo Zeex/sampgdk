@@ -33,7 +33,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmd
   if (strcmp(cmdtext, "/hello") == 0) {
     char name[MAX_PLAYER_NAME];
     GetPlayerName(playerid, name, sizeof(name));
-    char message[128];
+    char message[MAX_CLIENT_MESSAGE];
     sprintf(message, "Hello, %s!", name);
     SendClientMessage(playerid, 0x00FF00FF, message);
     return true;
