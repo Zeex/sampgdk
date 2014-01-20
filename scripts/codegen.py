@@ -137,19 +137,6 @@ def generate_header_file(module_name, idl, file):
     generate_callback_decl(file, func)
 
 def generate_source_file(module_name, idl, file):
-  file.write(
-    '#include <sampgdk/export.h>\n'
-    '\n'
-    '#include "internal/callback.h"\n'
-    '#include "internal/fakeamx.h"\n'
-    '#include "internal/init.h"\n'
-    '#include "internal/likely.h"\n'
-    '#include "internal/native.h"\n'
-    '#include "internal/param.h"\n'
-  )
-
-  file.write('\n')
-
   natives = list(filter(lambda x: x.has_attr('native') and
                                   not x.has_attr('noimpl'), idl.functions))
   for func in natives:

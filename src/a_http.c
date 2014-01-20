@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include <sampgdk/a_samp.h>
+#include <sampgdk/a_http.h>
 #include <sampgdk/export.h>
 
 #include "internal/callback.h"
@@ -22,15 +22,5 @@
 #include "internal/likely.h"
 #include "internal/native.h"
 #include "internal/param.h"
-#include "internal/timer.h"
 
-#include "a_samp-impl.h"
-
-SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback,
-                             void *param)) {
-  return sampgdk_timer_set(interval, repeat, callback, param);
-}
-
-SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
-  return sampgdk_timer_kill(timerid) >= 0;
-}
+#include "a_http-impl.h"

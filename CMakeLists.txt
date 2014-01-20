@@ -35,6 +35,7 @@ include_directories(${SDK_INCLUDE_DIR})
 include_directories(${SDK_INCLUDE_DIR}/amx)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_BINARY_DIR}/include)
+include_directories(${PROJECT_BINARY_DIR}/src)
 
 macro(sampgdk_add_sources)
   foreach(file ${ARGN})
@@ -166,7 +167,7 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
     sampgdk_add_api_gen(${name} ${file}
       ${PROJECT_BINARY_DIR}/src/${dir}/${name}.api)
     sampgdk_add_source_gen(${name} ${file}
-      ${PROJECT_BINARY_DIR}/src/${dir}/${name}-impl.c)
+      ${PROJECT_BINARY_DIR}/src/${dir}/${name}-impl.h)
     sampgdk_add_header_gen(${name} ${file}
       ${PROJECT_BINARY_DIR}/include/sampgdk/${dir}/${name}-decl.h)
     list(APPEND SAMPGDK_IDLS ${file})
