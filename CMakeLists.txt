@@ -48,6 +48,10 @@ macro(sampgdk_add_sources)
   endforeach()
 endmacro()
 
+macro(sampgdk_get_sources var)
+  get_property(${var} DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY SAMPGDK_SOURCES)
+endmacro()
+
 macro(sampgdk_add_headers)
   foreach(file ${ARGN})
     if(NOT IS_ABSOLUTE ${file})
@@ -60,11 +64,19 @@ macro(sampgdk_add_headers)
   endforeach()
 endmacro()
 
+macro(sampgdk_get_headers var)
+  get_property(${var} DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY SAMPGDK_HEADERS)
+endmacro()
+
 macro(sampgdk_add_libraries)
   foreach(library ${ARGN})
     set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
                  SAMPGDK_LIBRARIES ${library})
   endforeach()
+endmacro()
+
+macro(sampgdk_get_libraries var)
+  get_property(${var} DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY SAMPGDK_LIBRARIES)
 endmacro()
 
 macro(sampgdk_make_output_dir file)
@@ -143,8 +155,7 @@ if(SAMPGDK_BUILD_PLUGINS)
   add_subdirectory(plugins)
 endif()
 
-get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
-             PROPERTY SAMPGDK_SOURCES)
+sampgdk_get_sources(SAMPGDK_SOURCES)
 
 foreach(file IN LISTS SAMPGDK_SOURCES)
   get_filename_component(extension ${file} EXT)
@@ -162,8 +173,7 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
   endif()
 endforeach()
 
-get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
-             PROPERTY SAMPGDK_SOURCES)
+sampgdk_get_sources(SAMPGDK_SOURCES)
 
 foreach(file IN LISTS SAMPGDK_SOURCES)
   get_filename_component(extension ${file} EXT)
@@ -190,10 +200,8 @@ if(SAMPGDK_SYM_FILE)
     DEPENDS ${SAMPGDK_APIS})
 endif()
 
-get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
-             PROPERTY SAMPGDK_SOURCES)
-get_property(SAMPGDK_HEADERS DIRECTORY ${PROJECT_SOURCE_DIR}
-             PROPERTY SAMPGDK_HEADERS)
+sampgdk_get_sources(SAMPGDK_SOURCES)
+sampgdk_get_headers(SAMPGDK_HEADERS)
 
 list(REMOVE_ITEM SAMPGDK_SOURCES ${SAMPGDK_IDLS})
 
@@ -229,10 +237,8 @@ elseif(UNIX)
                LINK_FLAGS " -Wl,--retain-symbols-file=${SAMPGDK_SYM_FILE}")
 endif()
 
-get_property(SAMPGDK_LIBRARIES DIRECTORY ${PROJECT_SOURCE_DIR}
-             PROPERTY SAMPGDK_LIBRARIES)
-
 if(NOT SAMPGDK_STATIC)
+  sampgdk_get_libraries(SAMPGDK_LIBRARIES)
   target_link_libraries(sampgdk ${SAMPGDK_LIBRARIES})
   if(UNIX)
     target_link_libraries(sampgdk ${CMAKE_DL_LIBS} rt)
