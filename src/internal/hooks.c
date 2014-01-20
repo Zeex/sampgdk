@@ -215,8 +215,8 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
    * if (amx->stk - amx->hea - cells*sizeof(cell) < STKMARGIN)
    *   return AMX_ERR_MEMORY;
    *
-   * The expression on the right side of the comparison is converted to
-   * an unsigned type and in fact never results in a negative value.
+   * The expression on the left is always positive because of the conversion
+   * to size_t, which is unsigned.
    */
   #define STKMARGIN (cell)(16 * sizeof(cell))
   if ((size_t)amx->stk < (size_t)(amx->hea + cells*sizeof(cell) + STKMARGIN)) {
