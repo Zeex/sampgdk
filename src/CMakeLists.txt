@@ -1,8 +1,5 @@
 add_subdirectory(internal)
 
-set(SAMPGDK_RC_FILE sampgdk.rc)
-configure_file(${SAMPGDK_RC_FILE}.in ${SAMPGDK_RC_FILE} @ONLY)
-
 set(SAMPGDK_DEF_FILE ${SAMPGDK_CURRENT_BINARY_DIR}/sampgdk.def)
 set(SAMPGDK_SYM_FILE ${SAMPGDK_CURRENT_BINARY_DIR}/sampgdk.sym)
 
@@ -15,13 +12,13 @@ sampgdk_add_sources(
   a_vehicles.idl
   core.api
   core.c
+  sampgdk.rc
   version.api
   version.c
 )
 
 if(WIN32)
-  sampgdk_add_sources(${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_RC_FILE}
-                      ${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_DEF_FILE})
+  sampgdk_add_sources(${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_DEF_FILE})
 elseif(UNIX)
   sampgdk_add_sources(${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_SYM_FILE})
 endif()

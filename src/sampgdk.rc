@@ -1,7 +1,8 @@
 #include <windows.h>
+#include <sampgdk/version.h>
 
-#define SAMPGDK_VERSION @SAMPGDK_VERSION_MAJOR@, @SAMPGDK_VERSION_MINOR@, \
-                        @SAMPGDK_VERSION_PATCH@, @SAMPGDK_VERSION_TWEAK@
+#define SAMPGDK_VERSION SAMPGDK_VERSION_MAJOR, SAMPGDK_VERSION_MINOR, \
+                        SAMPGDK_VERSION_PATCH, SAMPGDK_VERSION_TWEAK
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
@@ -17,8 +18,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 		{
 			VALUE "ProductName",     "SA-MP GDK"
 			VALUE "FileDescription", "SA-MP GDK Runtime Library"
-			VALUE "FileVersion",     "@SAMPGDK_VERSION_STRING@"
-			VALUE "ProductVersion",  "@SAMPGDK_VERSION_STRING@"
+			VALUE "FileVersion",     SAMPGDK_VERSION_STRING
+			VALUE "ProductVersion",  SAMPGDK_VERSION_STRING
 		}
 	}
 	BLOCK "VarFileInfo"
