@@ -1,3 +1,13 @@
+Changes in version 3.7
+======================
+
+o Updated for SA-MP 0.3z
+o Added ability to intercept public calls with sampgdk_set_public_hook()
+o Fixed a bug in sampgdk_vlogprintf() where it didn't null-terminate the
+  resulting string (Windows only)
+o Fixed a bug in sampgdk_cleanup() / sampgdk_unregister_plugin()
+o Fixed the return type and value of GetPlayerName()
+
 Changes in version 3.6
 ======================
 
