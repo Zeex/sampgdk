@@ -162,6 +162,9 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
   endif()
 endforeach()
 
+get_property(SAMPGDK_SOURCES DIRECTORY ${PROJECT_SOURCE_DIR}
+             PROPERTY SAMPGDK_SOURCES)
+
 foreach(file IN LISTS SAMPGDK_SOURCES)
   get_filename_component(extension ${file} EXT)
   if(extension STREQUAL ".api")
