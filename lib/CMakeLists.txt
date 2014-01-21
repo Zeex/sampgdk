@@ -1,10 +1,8 @@
 sampgdk_add_libraries(subhook)
 
-if(SAMPGDK_STATIC)
-  set_property(DIRECTORY ${CMAKE_SOURCE_DIR} APPEND PROPERTY
-               COMPILE_DEFINITIONS SUBHOOK_STATIC)
-else()
-  set(SUBHOOK_STATIC TRUE)
-endif()
-
+set(SUBHOOK_STATIC TRUE)
 smapgdk_add_subproject(subhook)
+
+# This should rather be set by subhook itself.
+target_compile_definitions(subhook INTERFACE SUBHOOK_STATIC)
+target_include_directories(subhook INTERFACE subhook)

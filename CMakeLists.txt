@@ -1,5 +1,7 @@
 project(sampgdk)
-cmake_minimum_required(VERSION 2.8.6)
+
+cmake_minimum_required(VERSION 2.8.12)
+cmake_policy(SET CMP0022 NEW)
 
 option(SAMPGDK_STATIC "Build static library instead" OFF)
 option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
@@ -16,16 +18,6 @@ list(APPEND CMAKE_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 if(NOT (MSVC_IDE AND MSVC_VERSION LESS 1600))
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-endif()
-
-if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
-  if(CMAKE_COMPILER_IS_GNUCC)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
-  endif()
-endif()
-
-if(SAMPGDK_STATIC)
-  add_definitions(-DSAMPGDK_STATIC)
 endif()
 
 find_package(SDK REQUIRED)
@@ -92,12 +84,14 @@ macro(sampgdk_make_output_dir file)
   else()
     set(_file ${file})
   endif()
+
   get_filename_component(_path ${_file} PATH)
   if(_path MATCHES ${PROJECT_BINARY_DIR})
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_BINARY_DIR} ${_path})
   else()
     file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
   endif()
+
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_path})
 endmacro()
 
@@ -166,16 +160,20 @@ sampgdk_get_sources(SAMPGDK_SOURCES)
 
 foreach(file IN LISTS SAMPGDK_SOURCES)
   get_filename_component(extension ${file} EXT)
+
   if(extension STREQUAL ".idl")
     file(RELATIVE_PATH path ${PROJECT_SOURCE_DIR}/src ${file})
+
     get_filename_component(dir ${path} PATH)
     get_filename_component(name ${file} NAME_WE)
+
     sampgdk_add_api_gen(${name} ${file}
       ${PROJECT_BINARY_DIR}/src/${dir}/${name}.api)
     sampgdk_add_source_gen(${name} ${file}
       ${PROJECT_BINARY_DIR}/src/${dir}/${name}-impl.h)
     sampgdk_add_header_gen(${name} ${file}
       ${PROJECT_BINARY_DIR}/include/sampgdk/${dir}/${name}-decl.h)
+
     list(APPEND SAMPGDK_IDLS ${file})
   endif()
 endforeach()
@@ -218,43 +216,68 @@ else()
   add_library(sampgdk SHARED ${SAMPGDK_HEADERS} ${SAMPGDK_SOURCES})
 endif()
 
+get_target_property(SAMPGDK_OUTPUT_NAME sampgdk OUTPUT_NAME)
+
+if(NOT SAMPGDK_OUTPUT_NAME)
+  set(SAMPGDK_OUTPUT_NAME sampgdk)
+endif()
+
+if(WIN32)
+  set(SAMPGDK_OUTPUT_NAME ${SAMPGDK_OUTPUT_NAME}${SAMPGDK_VERSION_MAJOR})
+  if(SAMPGDK_STATIC)
+    set(SAMPGDK_OUTPUT_NAME ${SAMPGDK_OUTPUT_NAME}s)
+  endif()
+endif()
+
 set_target_properties(sampgdk PROPERTIES
   VERSION       ${SAMPGDK_VERSION_STRING}
   SOVERSION     ${SAMPGDK_VERSION_MAJOR}
   DEFINE_SYMBOL IN_SAMPGDK
+  OUTPUT_NAME   ${SAMPGDK_OUTPUT_NAME}
   DEBUG_POSTFIX d
 )
 
-if(WIN32)
-  set(OUTPUT_NAME sampgdk${SAMPGDK_VERSION_MAJOR})
-  if(SAMPGDK_STATIC)
-    set(OUTPUT_NAME ${OUTPUT_NAME}s)
+if(SAMPGDK_STATIC)
+  target_compile_definitions(sampgdk PUBLIC SAMPGDK_STATIC)
+endif()
+
+if(MSVC)
+  target_compile_definitions(sampgdk PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
+
+if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
+  if(CMAKE_COMPILER_IS_GNUCC)
+    target_compile_options(sampgdk PUBLIC -m32)
   endif()
-  set_property(TARGET sampgdk PROPERTY OUTPUT_NAME ${OUTPUT_NAME})
-  if(MSVC)
-    set_property(TARGET sampgdk APPEND PROPERTY
-                 COMPILE_DEFINITIONS _CRT_SECURE_NO_WARNINGS)
-  endif()
-elseif(UNIX)
-  set_property(TARGET sampgdk APPEND_STRING PROPERTY
-               COMPILE_FLAGS " -fvisibility=hidden")
-  set_property(TARGET sampgdk APPEND_STRING PROPERTY
-               LINK_FLAGS " -Wl,--no-undefined")
-  set_property(TARGET sampgdk APPEND_STRING PROPERTY
-               LINK_FLAGS " -Wl,--retain-symbols-file=${SAMPGDK_SYM_FILE}")
 endif()
 
 if(UNIX)
-  find_library(RT_LIB rt)
-  if(RT_LIB)
-    target_link_libraries(sampgdk ${RT_LIB})
-  endif()
-  target_link_libraries(sampgdk ${CMAKE_DL_LIBS})
+  target_compile_options(sampgdk PRIVATE -fvisibility=hidden)
 endif()
 
-if(NOT SAMPGDK_STATIC)
-  sampgdk_get_libraries(SAMPGDK_LIBRARIES)
-  target_link_libraries(sampgdk ${SAMPGDK_LIBRARIES})
+if(UNIX)
+  if(NOT SAMPGDK_STATIC)
+    target_link_libraries(sampgdk PRIVATE
+      -Wl,--no-undefined
+      -Wl,--retain-symbols-file=${SAMPGDK_SYM_FILE}
+    )
+  endif()
+endif()
+
+if(UNIX)
+  sampgdk_add_libraries(${CMAKE_DL_LIBS})
+  find_library(RT_LIB rt)
+  if(RT_LIB)
+    sampgdk_add_libraries(${RT_LIB})
+  endif()
+endif()
+
+sampgdk_get_libraries(SAMPGDK_LIBRARIES)
+
+if(SAMPGDK_STATIC)
+  target_link_libraries(sampgdk INTERFACE ${SAMPGDK_LIBRARIES})
+else()
+  target_link_libraries(sampgdk PRIVATE ${SAMPGDK_LIBRARIES})
 endif()
 
 add_dependencies(sampgdk sampgdk_init)
@@ -262,11 +285,13 @@ add_dependencies(sampgdk sampgdk_init)
 foreach(header IN LISTS SAMPGDK_HEADERS)
   get_filename_component(path ${header} PATH)
   get_filename_component(abs_path ${path} ABSOLUTE)
+
   if(header MATCHES ${PROJECT_BINARY_DIR})
     file(RELATIVE_PATH dir ${PROJECT_BINARY_DIR} ${abs_path})
   else()
     file(RELATIVE_PATH dir ${PROJECT_SOURCE_DIR} ${abs_path})
   endif()
+
   install(FILES ${header} DESTINATION ${dir} COMPONENT dev)
 endforeach()
 

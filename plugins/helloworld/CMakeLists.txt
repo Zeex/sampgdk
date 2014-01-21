@@ -1,4 +1,5 @@
 project(helloworld)
+
 cmake_minimum_required(VERSION 2.8)
 
 include(Plugin)
@@ -18,6 +19,3 @@ add_plugin(helloworld
 )
 
 target_link_libraries(helloworld sampgdk)
-if(SAMPGDK_STATIC)
-  target_link_libraries(helloworld subhook)
-endif()
