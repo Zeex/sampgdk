@@ -248,22 +248,11 @@ if(MSVC)
   target_compile_definitions(sampgdk PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()
 
-if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
-  if(CMAKE_COMPILER_IS_GNUCC)
-    target_compile_options(sampgdk PUBLIC -m32)
-  endif()
-endif()
-
 if(UNIX)
   target_compile_options(sampgdk PRIVATE -fvisibility=hidden)
-endif()
-
-if(UNIX)
   if(NOT SAMPGDK_STATIC)
     target_link_libraries(sampgdk PRIVATE
-      -Wl,--no-undefined
-      -Wl,--retain-symbols-file=${SAMPGDK_SYM_FILE}
-    )
+                  -Wl,--no-undefined,--retain-symbols-file=${SAMPGDK_SYM_FILE})
   endif()
 endif()
 
