@@ -7,7 +7,4 @@ else()
   set(SUBHOOK_STATIC TRUE)
 endif()
 
-add_subdirectory(subhook)
-
-file(RELATIVE_PATH folder ${PROJECT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-set_property(TARGET subhook PROPERTY FOLDER ${folder})
+smapgdk_add_subproject(subhook)

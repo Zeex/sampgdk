@@ -37,6 +37,12 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_BINARY_DIR}/include)
 include_directories(${PROJECT_BINARY_DIR}/src)
 
+macro(smapgdk_add_subproject name)
+  add_subdirectory(${name})
+  file(RELATIVE_PATH folder ${PROJECT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+  set_property(TARGET ${name} PROPERTY FOLDER ${folder})
+endmacro()
+
 macro(sampgdk_add_sources)
   foreach(file ${ARGN})
     if(NOT IS_ABSOLUTE ${file})
