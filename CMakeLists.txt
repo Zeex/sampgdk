@@ -287,24 +287,9 @@ foreach(header IN LISTS SAMPGDK_HEADERS)
   install(FILES ${header} DESTINATION ${dir} COMPONENT dev)
 endforeach()
 
-install(TARGETS sampgdk
-  RUNTIME DESTINATION bin COMPONENT bin
-  ARCHIVE DESTINATION lib COMPONENT dev
-  LIBRARY DESTINATION lib COMPONENT bin
-)
-
-function(sampgdk_get_pdb_path target result)
-  set(config_name \${CMAKE_INSTALL_CONFIG_NAME})
-  get_target_property(output_name ${target} OUTPUT_NAME)
-  set(pdb_name ${output_name}.pdb)
-  set(pdb_path ${PROJECT_BINARY_DIR}/${config_name}/${pdb_name})
-  set(${result} ${pdb_path} PARENT_SCOPE)
-endfunction()
-
-if(MSVC AND NOT SAMPGDK_STATIC)
-  sampgdk_get_pdb_path(sampgdk pdb_path)
-  install(FILES ${pdb_path} DESTINATION bin COMPONENT bin)
-endif()
+install(TARGETS sampgdk RUNTIME DESTINATION bin COMPONENT bin
+                        ARCHIVE DESTINATION lib COMPONENT dev
+                        LIBRARY DESTINATION lib COMPONENT bin)
 
 if(WIN32)
   set(CPACK_PACKAGE_FILE_NAME sampgdk-${SAMPGDK_VERSION}-win32)
