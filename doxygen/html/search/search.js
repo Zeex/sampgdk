@@ -7,10 +7,20 @@
 
 var indexSectionsWithContent =
 {
+  0: "cs",
+  1: "c",
+  2: "s",
+  3: "s",
+  4: "c"
 };
 
 var indexSectionNames =
 {
+  0: "all",
+  1: "files",
+  2: "functions",
+  3: "typedefs",
+  4: "groups"
 };
 
 function convertToId(search)

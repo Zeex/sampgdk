@@ -38,6 +38,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -62,7 +64,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-</div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -81,14 +83,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>The GDK (Gamemode Development Kit) is a library that allows you to write SA-MP gamemodes in C/C++. It is built on top of the SA-MP plugin SDK, so gamemodes written with it are basically just ordinary plugins.</p>
 <p>The library provides most the functions you would find in Pawn, except thos that overlap with the C standard library, like file I/O or string utiluties, or could be easily implemented on top of it. It also lets you handle various SA-MP events (known as "callbacks" in Pawn).</p>
 <p>Visit the official SA-MP forums topic for more information and support: <a href="http://forum.sa-mp.com/showthread.php?t=421090">http://forum.sa-mp.com/showthread.php?t=421090</a></p>
+<h2>Source code </h2>
+<p>The source code is hosted at <a href="https://github.com/Zeex/sampgdk">GitHub</a>.</p>
 <h2>Downloads </h2>
 <p>Binary packages for Windows and Linux can be downloaded <a href="http://zeex.github.com/sampgdk">here</a>.</p>
-<h2>Source code </h2>
-<p>The source code is hosted at <a href="https://github.com/Zeex/sampgdk">GitHub</a>. </p>
+<h2>Getting started </h2>
+<p>You can begin with downloading the source code and playing a bit with the helloworld plugin in plugins/helloworld/.</p>
+<p>If you know Git the simplest way to get started is probably to clone this repo and create a new branch for your personal project like <code>my-project</code>, and then just start developing your own plugin right inside the GDK's source tree. Later if you decide to update the library you would simply switch to <code>master</code>, pull in the changes and merge them into <code>my-project</code>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 23 2014 04:35:11 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 23 2014 05:19:03 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
