@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['sampgdk_5fcall_5fnative',['sampgdk_call_native',['../group__core.html#ga972309ada90a8652c4a39416154c7c25',1,'core.h']]],
+  ['sampgdk_5fcleanup',['sampgdk_cleanup',['../group__core.html#ga632a64a63ddf5ac43dd4f9dcf8b4b9bf',1,'core.h']]],
+  ['sampgdk_5fcleanup_5fplugin',['sampgdk_cleanup_plugin',['../group__core.html#ga74a1eecf1ff3b55792f2e18939645cd1',1,'core.h']]],
+  ['sampgdk_5ffind_5fnative',['sampgdk_find_native',['../group__core.html#ga51ddc0661c2448fed702737a9964e5fd',1,'core.h']]],
+  ['sampgdk_5fget_5fnatives',['sampgdk_get_natives',['../group__core.html#gaf62ce038b07f2541370e1ff666f0d34e',1,'core.h']]],
+  ['sampgdk_5fget_5fnum_5fnatives',['sampgdk_get_num_natives',['../group__core.html#gaaab71d7fc4a8538948ed3616f2877694',1,'core.h']]],
+  ['sampgdk_5fget_5fplugin_5fhandle',['sampgdk_get_plugin_handle',['../group__core.html#ga77c64c1e12342cc450bc0d528495cd7b',1,'core.h']]],
+  ['sampgdk_5fget_5fplugin_5fsymbol',['sampgdk_get_plugin_symbol',['../group__core.html#gab50ac5d9af63ba31de16bba858cf05dd',1,'core.h']]],
+  ['sampgdk_5fget_5fpublic_5fhook',['sampgdk_get_public_hook',['../group__core.html#gac9404076a13fd2f3dc30b223c3dfc7e7',1,'core.h']]],
+  ['sampgdk_5finit',['sampgdk_init',['../group__core.html#ga65055e164e70f9519513d31503cc358f',1,'core.h']]],
+  ['sampgdk_5finit_5fplugin',['sampgdk_init_plugin',['../group__core.html#ga656ea3813b44ccfc2f2e531a03abc1d5',1,'core.h']]],
+  ['sampgdk_5finvoke_5fnative',['sampgdk_invoke_native',['../group__core.html#ga303112813d455a258fac9e0bcd3aa77d',1,'core.h']]],
+  ['sampgdk_5flogprintf',['sampgdk_logprintf',['../group__core.html#gaa1b2069ce494cbad4e800655c81bb866',1,'core.h']]],
+  ['sampgdk_5fprocess_5fplugin_5ftimers',['sampgdk_process_plugin_timers',['../group__core.html#gab4eebbfdc9c1e9aec8704931f82fe446',1,'core.h']]],
+  ['sampgdk_5fprocess_5ftimers',['sampgdk_process_timers',['../group__core.html#gac57f485208ad8b1c56ff0484789906ba',1,'core.h']]],
+  ['sampgdk_5fregister_5fplugin',['sampgdk_register_plugin',['../group__core.html#gae7a781ebb14da36f39618d2fde0d54aa',1,'core.h']]],
+  ['sampgdk_5fset_5fpublic_5fhook',['sampgdk_set_public_hook',['../group__core.html#ga374ad791e7b865ed8b8f7410dab205b0',1,'core.h']]],
+  ['sampgdk_5funregister_5fplugin',['sampgdk_unregister_plugin',['../group__core.html#gabe5808fc00e9b8c74ac5d2a058c1137a',1,'core.h']]],
+  ['sampgdk_5fvlogprintf',['sampgdk_vlogprintf',['../group__core.html#gad1f8d0fee986b3005927ca3f39485589',1,'core.h']]]
+];
