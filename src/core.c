@@ -91,8 +91,8 @@ SAMPGDK_API(int, sampgdk_unregister_plugin(void *plugin)) {
   return sampgdk_plugin_unregister(plugin);
 }
 
-SAMPGDK_API(void *, sampgdk_get_plugin_handle(void *symbol)) {
-  return sampgdk_plugin_get_handle(symbol);
+SAMPGDK_API(void *, sampgdk_get_plugin_handle(void *address)) {
+  return sampgdk_plugin_get_handle(address);
 }
 
 SAMPGDK_API(void *, sampgdk_get_plugin_symbol(void *plugin, const char *name)) {
