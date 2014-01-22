@@ -13,6 +13,11 @@
  * limitations under the License.
  */
 
+/**
+ * \file core.h
+ * The core sampgdk types and functions.
+ */
+
 #ifndef SAMPGDK_CORE_H
 #define SAMPGDK_CORE_H
 
@@ -23,164 +28,288 @@
 #include <sampgdk/sdk.h>
 
 /**
- * Registers the calling plugin for events and, if called for the
- * first time, initializes the library.
+ * \addtogroup core
+ * @{
+ */
+
+/**
+ * \brief Initializes the library and the calling plugin.
+ * 
+ * When called for the first time, this function sets up the internal global
+ * structures and registers the calling plugin for receiving certain events
+ * e.g. SA-MP callbacks. All suebsequent calls are ignored.
+ *
+ * If for some reason this function fails it additionally may output an error
+ * message to the serrver log describing the error.
+ *
+ * \param plugin_data the plugin data array passed to Load()
+ *
+ * \returns A non-negative value on success or an error code on failure.
+ * The error code can be converted to a string using strerror().
+ *
+ * \see sampgdk_cleanup()
  */
 SAMPGDK_API(int, sampgdk_init(void **plugin_data));
 
 /**
- * Same as sampgdk_init() but explicitly specifies the plugin.
+ * \brief Same as sampgdk_init() but explicitly specifies the plugin.
+ *
+ * \param plugin the plugin handle
+ * \param plugin_data the plugin data array passed to Load()
+ 
+ * \returns A non-negative value on success or an error code on failure.
+ * The error code can be converted to a string using strerror().
+ *
+ * \see sampgdk_cleanup_plugin()
  */
 SAMPGDK_API(int, sampgdk_init_plugin(void *plugin, void **plugin_data));
 
 /**
- * Unregisters the calling plugin and, if this is the last remaining
+ * \brief Unregisters the calling plugin and, if this is the last remaining
  * plugin, it performs the final cleanup.
+ *
+ * \return A non-negative value on success or an error code on failure.
+ * The error code can be converted to a string using strerror().
+ *
+ * \see sampgdk_init()
  */
 SAMPGDK_API(int, sampgdk_cleanup(void));
 
 /**
- * Same as sampgdk_cleanup() but explicitly specifies the plugin.
+ * \brief Same as sampgdk_cleanup() but explicitly specifies the plugin.
+ *
+ * \param plugin the plugin handle
+ *
+ * \return A non-negative value on success or an error code on failure.
+ * The error code can be converted to a string using strerror().
+ * 
+ * \see sampgdk_init_plugin()
  */
 SAMPGDK_API(int, sampgdk_cleanup_plugin(void *plugin));
 
 /**
- * Prints a message to the server log. The format string is of the
+ * \brief Prints a message to the server log. The format string is of the
  * space format as in printf().
  *
- * The resulting message cannot be longer than 1024 characters.
+ * \note The resulting message cannot be longer than 1024 characters.
+ *
+ * \param format a printf-like format string
+ * \param ... further arguments to logprintf()
+ *
+ * \see sampgdk_vlogprintf()
  */
 SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...));
 
 /**
- * This is a va_list version of sampgdk_logprintf().
+ * \brief This is a va_list version of sampgdk_logprintf().
+ *
+ * \param format a printf-like format string
+ * \param args further arguments to logprintf()
+ *
+ * \see sampgdk_logprintf()
  */
 SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
 /**
- * Registers a plugin for receiving events (e.g. SA-MP callbacks).
- * All subsequent calls to this function will be ignored.
+ * \brief Registers a plugin for receiving events (e.g. SA-MP callbacks).
+ *
+ * Subsequent calls to are ignored.
  *
  * This function is implicitly called by sampgdk_init() and
  * sampgdk_init_plugin().
+ *
+ * \param plugin the plugin handle
+ *
+ * \return A non-negative value on success or an error code on failure.
+ * The error code can be converted to a string using strerror().
+ *
+ * \see sampgdk_unregister_plugin()
  */
 SAMPGDK_API(int, sampgdk_register_plugin(void *plugin));
 
 /**
- * The reverse of sampgdk_register_plugin(). Unsubscribes a plugin
+ * \brief The reverse of sampgdk_register_plugin(). Unsubscribes a plugin
  * from all events.
  *
  * This function is implicitly called by sampgdk_cleanup() and
  * sampgdk_cleanup_plugin().
+ *
+ * \param plugin the plugin handle
+ *
+ * \return A non-negative value on success or an error code on failure.
+ * The error code can be converted to a string using strerror().
+ *
+ * \see sampgdk_register_plugin()
  */
 SAMPGDK_API(int, sampgdk_unregister_plugin(void *plugin));
 
 /**
- * Returns the handle for a plugin that owns the specified address.
+ * \brief Returns the handle for a plugin that owns the specified address.
+ *
+ * \param address any address within te plugin's address space
+ *
+ * \returns The plugin handle.
+ *
+ * \see sampgdk_get_plugin_symbol()
  */
 SAMPGDK_API(void *, sampgdk_get_plugin_handle(void *address));
 
 /**
- * Finds a symbol defined in plugin by its name. Returns NULL if the
- * symbol is not found.
+ * \brief Finds a symbol defined in plugin by its name.
+ *
+ * \param plugin the plugin handle
+ * \param name the name of the symbol
+ *
+ * \returns The address of the symbol or \c NULL if not found.
+ *
+ * \see sampgdk_get_plugin_handle()
  */
 SAMPGDK_API(void *, sampgdk_get_plugin_symbol(void *plugin, const char *name));
 
 /**
- * Processes timers created by the calling plugin.
+ * \brief Processes timers created by the calling plugin.
+ *
+ * \see sampgdk_process_plugin_timers()
  */
 SAMPGDK_API(void, sampgdk_process_timers(void));
 
 /**
- * Processes timers created by the specified plugin. If plugin
- * is NULL it processes ALL timers.
+ * \brief Processes timers created by the specified plugin.
+ *
+ * If \p plugin is \c NULL this function processes *all* created timers (i.e.
+ * for all registered plugins).
+ *
+ * \param plugin the plugin handle
+ *
+ * \see sampgdk_process_timers()
  */
 SAMPGDK_API(void, sampgdk_process_plugin_timers(void *plugin));
 
 /**
- * Returns a pointer the array of currently registered native
- * functions. You can use sampgdk_get_num_natives() to get the
- * size of the returned array.
+ * \brief Gets all currently registered native functions.
+ *
+ * The return array is not null-terminated. Use sampgdk_get_num_natives()
+ * to retreive the size of the array.
+ *
+ * \returns A pointer to the internal array of native functions.
+ *
+ * \see sampgdk_get_num_natives()
  */
 SAMPGDK_API(const AMX_NATIVE_INFO *, sampgdk_get_natives(void));
 
 /**
- * Returns the number of currently registered native functions. It
- * can be used to retrieve the the number of elements in the array
- * returned by sampgdk_get_natives().
+ * \brief Gets the total number of native functions.
+ *
+ * \returns The number of natives currently registered.
+ *
+ * \see sampgdk_get_natives()
  */
 SAMPGDK_API(int, sampgdk_get_num_natives(void));
 
 /**
- * Finds a native function by name and returns its address or NULL
- * if the function is not found. The native function must be already
- * registered with amx_Register() prior to the call.
+ * \brief Finds a native function by name.
  *
- * It works for all SA-MP functions as well as for those provided by
- * third-party plugins.
+ * The function must be already registered with amx_Register() prior
+ * to the call.
+ *
+ * \warning It is not recommended to call this function before OnGameModeInit().
+ *
+ * \param name the name of the native function
+ *
+ * \returns The function's address or \c NULL if not found.
+ *
+ * \see sampgdk_get_natives()
+ * \see sampgdk_call_native()
+ * \see sampgdk_invoke_native()
  */
 SAMPGDK_API(AMX_NATIVE, sampgdk_find_native(const char *name));
 
 /**
- * Calls a native function with arguments specified in params and
- * returns the result.
+ * \brief Calls a native function.
  *
- * The first element of params should contain the number of arguments
- * multiplied by sizeof(cell). If the are no arguments, params may be
- * NULL.
+ * \note The first element of \p params should contain the number of arguments
+ * multiplied by \c sizeof(cell). If the function takes no arguments, \p params
+ * may be \c NULL.
  *
+ * \param native the native function
+ * \param params the \c params array passsed to the function
+ *
+ * \returns The value returned by the function.
+ *
+ * \see sampgdk_find_native()
+ * \see sampgdk_invoke_native()
  */
 SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params));
 
 /**
- * Calls a native function with the specified arguments and returns
- * the result.
+ * \brief Invokes a native function with the specified arguments.
  *
- * The argument types are specified by the format string. Each
- * character of the format string, or "specifier", corresponds to
- * a single argument.
+ * The argument types are specified via \p format where each character,
+ * or specifier, corresponds to a single argument.
  *
  * The following format specifiers are supported:
  *
- * +------+---------------+-----------------------------------------+
- * | Spec | C/C++ type    | Description                             |
- * +------+---------------+-----------------------------------------+
- * | 'i'  | int           | an integer value                        |
- * | 'd'  | int           | an integer value (same as 'i')          |
- * | 'b'  | bool          | a boolean value                         |
- * | 'f'  | float, double | a floating-point value                  |
- * | 'r'  | const cell *  | a const reference                       |
- * | 'R'  | cell *        | a non-const reference (output)          |
- * | 's'  | const char *  | a string of character                   |
- * | 'S'  | char *        | a string of character (output)          |
- * |      |               | size must be passed in next argument    |
- * +------+---------------+-----------------------------------------+
+ * Specifier | C/C++ type    | Description
+ * :-------- | :------------ | :-----------------------------
+ * i         | int           | an integer value
+ * d         | int           | an integer value (same as 'i')
+ * b         | bool          | a boolean value
+ * f         | float, double | a floating-point value
+ * r         | const cell *  | a const reference
+ * R         | cell *        | a non-const reference (output)
+ * s         | const char *  | a string of character
+ * S         | char *        | a string of character (output)
+ *
+ * \note For the 'S' specifier the argument next to it specifies the maximum
+ * length of the string. This convention is followed by all SA-MP functions.
+ *
+ * \param native the native function
+ * \param format the format string specifying the argument types
+ * \param ... the arguments themselves
+ *
+ * \returns The value returned by the function.
+ *
+ * \see sampgdk_find_native()
+ * \see sampgdk_call_native()
  */
 SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native,
                                         const char *format, ...));
 
 /**
- * Defines the signature of the public hook function.
+ * \brief Defines the signature of the public hook function.
  *
- * See sampgdk_set_public_hook() and sampgdk_get_public_hook() below.
+ * \param amx a pointer to the AMX instance on the public function is called
+ * \param name the name of the function
+ * \param params a pointer to the function's arguments on the stack
+ *
+ * \see sampgdk_set_public_hook()
+ * \see sampgdk_get_public_hook()
  */
 typedef bool (SAMPGDK_CALL *sampgdk_public_hook)(AMX *amx, const char *name,
                                                  cell *params);
 
 /**
- * Sets the public hook. If the hook is already set it will be
- * overridden.
+ * \brief Sets or overrides the public hook.
  *
- * The public hook is shared by all plugins, which means
- * you should save the previous value before calling this function
- * and call it manually (unless you're sure there are no other
- * plugins running).
+ * The public hook is shared by all plugins, which means you should save the
+ * previous value before calling this function and call it manually (unless
+ * you're sure that there are no other plugins running).
+ *
+ * \param hook the hook function
+ *
+ * \see sampgdk_get_public_hook()
  */
 SAMPGDK_API(void, sampgdk_set_public_hook(sampgdk_public_hook hook));
 
 /**
- * Returns the current public hook if it's set or NULL if not.
+ * \brief Gets current public hook.
+ *
+ * \returns Current public hook or \c NULL if not set.
+ *
+ * \see sampgdk_set_plugin_hook()
  */
 SAMPGDK_API(sampgdk_public_hook, sampgdk_get_public_hook(void));
+
+/** @} */
 
 #endif /* !SAMPGDK_CORE_H */
