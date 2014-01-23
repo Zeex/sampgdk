@@ -54,7 +54,7 @@ SAMPGDK_API(int, sampgdk_init(void **plugin_data));
 /**
  * \brief Same as sampgdk_init() but explicitly specifies the plugin.
  *
- * \param plugin A handle to the plugin.
+ * \param handle A handle to the plugin.
  * \param plugin_data A pointer to the SA-MP plugin data passed to Load().
  
  * \returns A non-negative value on success or an error code on failure.
@@ -62,7 +62,7 @@ SAMPGDK_API(int, sampgdk_init(void **plugin_data));
  *
  * \see sampgdk_cleanup_plugin()
  */
-SAMPGDK_API(int, sampgdk_init_plugin(void *plugin, void **plugin_data));
+SAMPGDK_API(int, sampgdk_init_plugin(void *handle, void **plugin_data));
 
 /**
  * \brief Unregisters the calling plugin and, if this is the last remaining
@@ -78,14 +78,14 @@ SAMPGDK_API(int, sampgdk_cleanup(void));
 /**
  * \brief Same as sampgdk_cleanup() but explicitly specifies the plugin.
  *
- * \param plugin A handle to the plugin.
+ * \param handle A handle to the plugin.
  *
  * \return A non-negative value on success or an error code on failure.
  * The error code can be converted to a string using strerror().
  * 
  * \see sampgdk_init_plugin()
  */
-SAMPGDK_API(int, sampgdk_cleanup_plugin(void *plugin));
+SAMPGDK_API(int, sampgdk_cleanup_plugin(void *handle));
 
 /**
  * \brief Prints a message to the server log. The format string is of the
@@ -118,14 +118,14 @@ SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
  * This function is implicitly called by sampgdk_init() and
  * sampgdk_init_plugin().
  *
- * \param plugin A handle to the plugin.
+ * \param handle A handle to the plugin.
  *
  * \return A non-negative value on success or an error code on failure.
  * The error code can be converted to a string using strerror().
  *
  * \see sampgdk_unregister_plugin()
  */
-SAMPGDK_API(int, sampgdk_register_plugin(void *plugin));
+SAMPGDK_API(int, sampgdk_register_plugin(void *handle));
 
 /**
  * \brief The reverse of sampgdk_register_plugin(). Unsubscribes a plugin
@@ -134,21 +134,22 @@ SAMPGDK_API(int, sampgdk_register_plugin(void *plugin));
  * This function is implicitly called by sampgdk_cleanup() and
  * sampgdk_cleanup_plugin().
  *
- * \param plugin A handle to the plugin.
+ * \param handle A handle to the plugin.
  *
  * \return A non-negative value on success or an error code on failure.
  * The error code can be converted to a string using strerror().
  *
  * \see sampgdk_register_plugin()
  */
-SAMPGDK_API(int, sampgdk_unregister_plugin(void *plugin));
+SAMPGDK_API(int, sampgdk_unregister_plugin(void *handle));
 
 /**
  * \brief Gets plugin handle by address.
  *
  * \param address any address within te plugin's address space
  *
- * \returns A handle to the plugin.
+ * \returns A handle to the plugin that the specified address belongs to
+ * or NULL if there's no such plugin loaded.
  *
  * \see sampgdk_get_plugin_symbol()
  */
@@ -157,14 +158,14 @@ SAMPGDK_API(void *, sampgdk_get_plugin_handle(void *address));
 /**
  * \brief Finds a symbol defined in a plugin by name.
  *
- * \param plugin A handle to the plugin.
+ * \param handle A handle to the plugin.
  * \param name The symbol's name.
  *
  * \returns The address of the symbol or \c NULL if not found.
  *
  * \see sampgdk_get_plugin_handle()
  */
-SAMPGDK_API(void *, sampgdk_get_plugin_symbol(void *plugin, const char *name));
+SAMPGDK_API(void *, sampgdk_get_plugin_symbol(void *handle, const char *name));
 
 /**
  * \brief Processes timers created by the calling plugin.
@@ -179,11 +180,11 @@ SAMPGDK_API(void, sampgdk_process_timers(void));
  * If \p plugin is \c NULL this function processes *all* created timers (i.e.
  * for all registered plugins).
  *
- * \param plugin A handle to the plugin.
+ * \param handle A handle to the plugin.
  *
  * \see sampgdk_process_timers()
  */
-SAMPGDK_API(void, sampgdk_process_plugin_timers(void *plugin));
+SAMPGDK_API(void, sampgdk_process_plugin_timers(void *handle));
 
 /**
  * \brief Gets all currently registered native functions.
@@ -292,8 +293,8 @@ typedef bool (SAMPGDK_CALL *sampgdk_public_hook)(AMX *amx, const char *name,
  * \brief Sets or overrides the public hook.
  *
  * The public hook is shared by all plugins, which means you should save the
- * previous value before calling this function and call it manually (unless
- * you're sure that there are no other plugins running).
+ * previously set hook using sampgdk_get_public_hook() value before calling
+ * this function (unless you're sure that there are no other plugins running).
  *
  * \param hook The hook callback.
  *
@@ -304,7 +305,7 @@ SAMPGDK_API(void, sampgdk_set_public_hook(sampgdk_public_hook hook));
 /**
  * \brief Gets current public hook.
  *
- * \returns Current public hook or \c NULL if not set.
+ * \returns The current public hook or \c NULL if it's not set.
  *
  * \see sampgdk_set_plugin_hook()
  */

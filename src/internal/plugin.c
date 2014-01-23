@@ -21,12 +21,12 @@
 
 static struct sampgdk_plugin_list *plugins;
 
-int sampgdk_plugin_register(void *plugin) {
+int sampgdk_plugin_register(void *handle) {
   struct sampgdk_plugin_list *ptr;
 
-  assert(plugin != NULL);
+  assert(handle != NULL);
 
-  if (sampgdk_plugin_is_registered(plugin)) {
+  if (sampgdk_plugin_is_registered(handle)) {
     return -EINVAL;
   }
 
@@ -35,24 +35,24 @@ int sampgdk_plugin_register(void *plugin) {
     return -ENOMEM;
   }
 
-  ptr->plugin = plugin;
+  ptr->handle = handle;
   ptr->next = plugins;
   plugins = ptr;
 
   return 0;
 }
 
-int sampgdk_plugin_unregister(void *plugin) {
+int sampgdk_plugin_unregister(void *handle) {
   struct sampgdk_plugin_list *prev;
   struct sampgdk_plugin_list *cur;
 
-  assert(plugin != NULL);
+  assert(handle != NULL);
 
   cur = plugins;
   prev = NULL;
 
   while (cur != NULL) {
-    if (cur->plugin != plugin) {
+    if (cur->handle != handle) {
       continue;
     }
 
@@ -70,15 +70,15 @@ int sampgdk_plugin_unregister(void *plugin) {
   return -EINVAL;
 }
 
-bool sampgdk_plugin_is_registered(void *plugin) {
+bool sampgdk_plugin_is_registered(void *handle) {
   struct sampgdk_plugin_list *cur;
 
-  assert(plugin != NULL);
+  assert(handle != NULL);
 
   cur = plugins;
 
   while (cur != NULL) {
-    if (cur->plugin == plugin) {
+    if (cur->handle == handle) {
       return true;
     }
     cur = cur->next;

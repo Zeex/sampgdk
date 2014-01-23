@@ -151,33 +151,27 @@ void sampgdk_callback_unregister_table(const struct sampgdk_callback *table) {
 
 bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   struct sampgdk_plugin_list *plugin;
+  struct sampgdk_callback *info;
+  sampgdk_callback_handler handler;
+  void *func;
 
+  assert(amx != NULL);
   assert(name != NULL);
 
   for (plugin = sampgdk_plugin_get_list(); plugin != NULL;
        plugin = plugin->next) {
-    void *func;
-    struct sampgdk_callback *info;
-    sampgdk_callback_handler handler;
-
-    func = sampgdk_plugin_get_symbol(plugin->plugin, name);
+    func = sampgdk_plugin_get_symbol(plugin->handle, name);
     if (func == NULL) {
       continue;
     }
-
     info = sampgdk_callback_lookup(name);
     if (info == NULL) {
       continue;
     }
-
     handler = info->handler;
     if (handler == NULL) {
       continue;
     }
-
-    /* If the callback handler returns false, the call chain
-     * should be interrupted.
-     */
     if (!handler(amx, func, retval)) {
       return false;
     }
