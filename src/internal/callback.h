@@ -26,7 +26,7 @@ struct sampgdk_callback {
   sampgdk_callback_handler  handler;
 };
 
-struct sampgdk_callback *sampgdk_callback_lookup(const char *name);
+struct sampgdk_callback *sampgdk_callback_find(const char *name);
 int sampgdk_callback_register(const char *name, sampgdk_callback_handler handler);
 int sampgdk_callback_register_table(const struct sampgdk_callback *table);
 void sampgdk_callback_unregister(const char *name);

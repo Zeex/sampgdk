@@ -60,7 +60,7 @@ static int compare(const void *key, const void *elem) {
                 ((const struct sampgdk_callback *)elem)->name);
 }
 
-struct sampgdk_callback *sampgdk_callback_lookup(const char *name) {
+struct sampgdk_callback *sampgdk_callback_find(const char *name) {
   assert(name != NULL);
   return bsearch(name, callbacks.data, callbacks.count,
                  callbacks.elem_size, compare);
@@ -79,7 +79,7 @@ int sampgdk_callback_register(const char *name,
   /* This is rather an exception than a rule. */
   sampgdk_callback_init();
 
-  ptr = sampgdk_callback_lookup(name);
+  ptr = sampgdk_callback_find(name);
   if (ptr != NULL) {
     ptr->handler = handler;
     return 0;
@@ -173,7 +173,7 @@ static bool call_public_handler(void *plugin, AMX *amx, const char *name,
 
   func = sampgdk_plugin_get_symbol(plugin, name);
   if (func != NULL) {
-    callback = sampgdk_callback_lookup(name);
+    callback = sampgdk_callback_find(name);
     if (callback != NULL) {
       return callback->handler(amx, func, retval);
     }
