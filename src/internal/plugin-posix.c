@@ -19,10 +19,10 @@
 #include <stddef.h>
 #include <string.h>
 
-void *sampgdk_plugin_get_symbol(void *handle, const char *name)  {
-  assert(handle != NULL);
+void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
+  assert(plugin != NULL);
   assert(name != NULL);
-  return dlsym(handle, name);
+  return dlsym(plugin, name);
 }
 
 void *sampgdk_plugin_get_handle(void *address) {

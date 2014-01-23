@@ -42,11 +42,11 @@ static void cleanup(void) {
 }
 
 SAMPGDK_API(int, sampgdk_init(void **plugin_data)) {
-  void *handle = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  return sampgdk_init_plugin(handle, plugin_data);
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  return sampgdk_init_plugin(plugin, plugin_data);
 }
 
-SAMPGDK_API(int, sampgdk_init_plugin(void *handle, void **plugin_data)) {
+SAMPGDK_API(int, sampgdk_init_plugin(void *plugin, void **plugin_data)) {
   if (sampgdk_plugin_get_list() == NULL) {
     int error = init(plugin_data);
     if (error < 0) {
@@ -54,16 +54,16 @@ SAMPGDK_API(int, sampgdk_init_plugin(void *handle, void **plugin_data)) {
       return error;
     }
   }
-  return sampgdk_plugin_register(handle);
+  return sampgdk_plugin_register(plugin);
 }
 
 SAMPGDK_API(int, sampgdk_cleanup(void)) {
-  void *handle = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  return sampgdk_cleanup_plugin(handle);
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  return sampgdk_cleanup_plugin(plugin);
 }
 
-SAMPGDK_API(int, sampgdk_cleanup_plugin(void *handle)) {
-  int error = sampgdk_plugin_unregister(handle);
+SAMPGDK_API(int, sampgdk_cleanup_plugin(void *plugin)) {
+  int error = sampgdk_plugin_unregister(plugin);
   if (sampgdk_plugin_get_list() == NULL) {
     cleanup();
   }
@@ -81,30 +81,30 @@ SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args)) {
   sampgdk_do_vlogprintf(format, args);
 }
 
-SAMPGDK_API(int, sampgdk_register_plugin(void *handle)) {
-  return sampgdk_plugin_register(handle);
+SAMPGDK_API(int, sampgdk_register_plugin(void *plugin)) {
+  return sampgdk_plugin_register(plugin);
 }
 
-SAMPGDK_API(int, sampgdk_unregister_plugin(void *handle)) {
-  return sampgdk_plugin_unregister(handle);
+SAMPGDK_API(int, sampgdk_unregister_plugin(void *plugin)) {
+  return sampgdk_plugin_unregister(plugin);
 }
 
 SAMPGDK_API(void *, sampgdk_get_plugin_handle(void *address)) {
   return sampgdk_plugin_get_handle(address);
 }
 
-SAMPGDK_API(void *, sampgdk_get_plugin_symbol(void *handle,
+SAMPGDK_API(void *, sampgdk_get_plugin_symbol(void *plugin,
                                               const char *name)) {
-  return sampgdk_plugin_get_symbol(handle, name);
+  return sampgdk_plugin_get_symbol(plugin, name);
 }
 
 SAMPGDK_API(void, sampgdk_process_timers(void)) {
-  void *handle = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  sampgdk_timer_process_timers(handle);
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  sampgdk_timer_process_timers(plugin);
 }
 
-SAMPGDK_API(void, sampgdk_process_plugin_timers(void *handle)) {
-  sampgdk_timer_process_timers(handle);
+SAMPGDK_API(void, sampgdk_process_plugin_timers(void *plugin)) {
+  sampgdk_timer_process_timers(plugin);
 }
 
 SAMPGDK_API(const AMX_NATIVE_INFO *, sampgdk_get_natives(void)) {

@@ -21,14 +21,14 @@
 #include <sampgdk/bool.h>
 
 struct sampgdk_plugin_list {
-  void                       *handle;
+  void                       *plugin;
   struct sampgdk_plugin_list *next;
 };
 
-int sampgdk_plugin_register(void *handle);
-int sampgdk_plugin_unregister(void *handle);
-bool sampgdk_plugin_is_registered(void *handle);
-void *sampgdk_plugin_get_symbol(void *handle, const char *name);
+int sampgdk_plugin_register(void *plugin);
+int sampgdk_plugin_unregister(void *plugin);
+bool sampgdk_plugin_is_registered(void *plugin);
+void *sampgdk_plugin_get_symbol(void *plugin, const char *name);
 void *sampgdk_plugin_get_handle(void *address);
 void sampgdk_plugin_get_filename(void *address, char *filename, size_t size);
 struct sampgdk_plugin_list *sampgdk_plugin_get_list(void);
