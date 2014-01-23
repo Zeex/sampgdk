@@ -12,6 +12,6 @@ goto :exit
 :cmake_found:
 echo Found CMake: %CMAKE_HOME:"=%
 
-call "%CMAKE_HOME:"=%\bin\cmake.exe" ..\..\ -DSAMPGDK_BUILD_PLUGINS=ON
+call "%CMAKE_HOME:"=%\bin\cmake.exe" ..\..\
 
 :exit:
