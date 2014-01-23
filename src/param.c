@@ -34,9 +34,14 @@ static cell get_param_by_index(AMX *amx, int index) {
   return get_amx_stack_ptr(amx)[index];
 }
 
-void sampgdk_param_get_all(AMX *amx, cell **params) {
+void sampgdk_param_get_all(AMX *amx, bool exec, cell **params) {
   assert(params != NULL);
-  *params = get_amx_stack_ptr(amx);
+  if (exec) {
+    *params = get_amx_stack_ptr(amx) - 1;
+    *params[0] = amx->paramcount * sizeof(cell);
+  } else {
+    *params = get_amx_stack_ptr(amx);
+  }
 }
 
 void sampgdk_param_get_cell(AMX *amx, int index, cell *param) {

@@ -153,7 +153,7 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
     sampgdk_public_hook hook = sampgdk_get_public_hook();
     if (hook != NULL) {
       cell *params;
-      sampgdk_param_get_all(amx, &params);
+      sampgdk_param_get_all(amx, true, &params);
       proceed = hook(amx, public_name, params);
     }
   }
