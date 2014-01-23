@@ -254,7 +254,7 @@ SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params));
  * i         | int           | an integer value
  * d         | int           | an integer value (same as 'i')
  * b         | bool          | a boolean value
- * f         | float, double | a floating-point value
+ * f         | double        | a floating-point value
  * r         | const cell *  | a const reference
  * R         | cell *        | a non-const reference (output)
  * s         | const char *  | a string of character
