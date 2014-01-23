@@ -264,14 +264,7 @@ if(UNIX)
 endif()
 
 if(UNIX)
-  sampgdk_add_libraries(${CMAKE_DL_LIBS})
-endif()
-
-if(UNIX)
-  find_library(SAMPGDK_RT_LIB rt DOC "POSIX Realtime Extensions Library")
-  if(SAMPGDK_RT_LIB)
-    sampgdk_add_libraries(${SAMPGDK_RT_LIB})
-  endif()
+  sampgdk_add_libraries(${CMAKE_DL_LIBS} rt)
 endif()
 
 sampgdk_get_libraries(SAMPGDK_LIBRARIES)
