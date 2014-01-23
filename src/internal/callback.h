@@ -19,7 +19,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/sdk.h>
 
-typedef bool (*sampgdk_callback_handler)(AMX *amx, void *callback, cell *retval);
+typedef bool (*sampgdk_callback_handler)(AMX *amx, void *func, cell *retval);
 
 struct sampgdk_callback {
   char                     *name;

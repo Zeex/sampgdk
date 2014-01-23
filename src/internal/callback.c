@@ -21,6 +21,7 @@
 #include "array.h"
 #include "callback.h"
 #include "init.h"
+#include "param.h"
 #include "plugin.h"
 
 static struct sampgdk_array callbacks;
@@ -133,7 +134,8 @@ void sampgdk_callback_unregister(const char *name) {
   int index;
 
   for (index = 0; index < callbacks.count; index++) {
-    ptr = (const struct sampgdk_callback *)sampgdk_array_get(&callbacks, index);
+    ptr = (const struct sampgdk_callback *)sampgdk_array_get(&callbacks,
+                                                             index);
     if (strcmp(ptr->name, name) == 0) {
       sampgdk_array_remove_single(&callbacks, index);
       break;
@@ -149,38 +151,50 @@ void sampgdk_callback_unregister_table(const struct sampgdk_callback *table) {
   }
 }
 
-bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
-  struct sampgdk_plugin_list *plugin;
+static bool call_public_filter(void *plugin, AMX *amx, const char *name) {
+  void *func;
+  cell *params;
 
+  func = sampgdk_plugin_get_symbol(plugin, "OnPublicCall");
+  if (func != NULL) {
+    typedef bool (PLUGIN_CALL *public_filter)(AMX *amx, const char *name,
+                                              cell *params);
+    sampgdk_param_get_all(amx, true, &params);
+    return ((public_filter)func)(amx, name, params);
+  }
+
+  return true;
+}
+
+static bool call_public_handler(void *plugin, AMX *amx, const char *name,
+                                cell *retval) {
+  void *func;
+  struct sampgdk_callback *callback;
+
+  func = sampgdk_plugin_get_symbol(plugin, name);
+  if (func != NULL) {
+    callback = sampgdk_callback_lookup(name);
+    if (callback != NULL) {
+      return callback->handler(amx, func, retval);
+    }
+  }
+
+  return true;
+}
+
+bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
+  struct sampgdk_plugin_list *plugin_list;
+  
+  assert(amx != NULL);
   assert(name != NULL);
 
-  for (plugin = sampgdk_plugin_get_list(); plugin != NULL;
-       plugin = plugin->next) {
-    void *func;
-    struct sampgdk_callback *info;
-    sampgdk_callback_handler handler;
-
-    func = sampgdk_plugin_get_symbol(plugin->plugin, name);
-    if (func == NULL) {
-      continue;
-    }
-
-    info = sampgdk_callback_lookup(name);
-    if (info == NULL) {
-      continue;
-    }
-
-    handler = info->handler;
-    if (handler == NULL) {
-      continue;
-    }
-
-    /* If the callback handler returns false, the call chain
-     * should be interrupted.
-     */
-    if (!handler(amx, func, retval)) {
+  plugin_list = sampgdk_plugin_get_list();
+  while (plugin_list != NULL) {
+    if (call_public_filter(plugin_list->plugin, amx, name) &&
+        !call_public_handler(plugin_list->plugin, amx, name, retval)) {
       return false;
     }
+    plugin_list = plugin_list->next;
   }
 
   return true;
