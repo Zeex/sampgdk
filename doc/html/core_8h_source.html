@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>GDK: include/sampgdk/core.h Source File</title>
+<title>GDK: core.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -161,7 +161,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="group__core_html_ga3ec3205c4c2c6b899b0e812c5dbeb934"><div class="ttname"><a href="group__core.html#ga3ec3205c4c2c6b899b0e812c5dbeb934">sampgdk_cleanup_plugin</a></div><div class="ttdeci">int sampgdk_cleanup_plugin(void *plugin)</div><div class="ttdoc">Same as sampgdk_cleanup() but explicitly specifies the plugin. </div></div>
 <div class="ttc" id="group__core_html_gad41b7059e7684435d562b18bc6f8234d"><div class="ttname"><a href="group__core.html#gad41b7059e7684435d562b18bc6f8234d">sampgdk_find_native</a></div><div class="ttdeci">AMX_NATIVE sampgdk_find_native(const char *name)</div><div class="ttdoc">Finds a native function by name. </div></div>
 <div class="ttc" id="group__core_html_gace10f9bf238fc090c8b40c4ef0311d62"><div class="ttname"><a href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a></div><div class="ttdeci">void sampgdk_vlogprintf(const char *format, va_list args)</div><div class="ttdoc">This is a va_list version of sampgdk_logprintf(). </div></div>
-<div class="ttc" id="group__core_html_ga57675d996a02c2bddde58b8dc5f47d02"><div class="ttname"><a href="group__core.html#ga57675d996a02c2bddde58b8dc5f47d02">sampgdk_get_plugin_handle</a></div><div class="ttdeci">void * sampgdk_get_plugin_handle(void *address)</div><div class="ttdoc">Returns the handle for a plugin that owns the specified address. </div></div>
+<div class="ttc" id="group__core_html_ga57675d996a02c2bddde58b8dc5f47d02"><div class="ttname"><a href="group__core.html#ga57675d996a02c2bddde58b8dc5f47d02">sampgdk_get_plugin_handle</a></div><div class="ttdeci">void * sampgdk_get_plugin_handle(void *address)</div><div class="ttdoc">Gets plugin handle by address. </div></div>
 <div class="ttc" id="group__core_html_gaf8833c224045e23239ee4fffc12d7acb"><div class="ttname"><a href="group__core.html#gaf8833c224045e23239ee4fffc12d7acb">sampgdk_unregister_plugin</a></div><div class="ttdeci">int sampgdk_unregister_plugin(void *plugin)</div><div class="ttdoc">The reverse of sampgdk_register_plugin(). Unsubscribes a plugin from all events. </div></div>
 <div class="ttc" id="group__core_html_gac00e0d77ff10b600ecdbe566ed62c83e"><div class="ttname"><a href="group__core.html#gac00e0d77ff10b600ecdbe566ed62c83e">sampgdk_init_plugin</a></div><div class="ttdeci">int sampgdk_init_plugin(void *plugin, void **plugin_data)</div><div class="ttdoc">Same as sampgdk_init() but explicitly specifies the plugin. </div></div>
 <div class="ttc" id="group__core_html_gacf494439ecaa44d63dcb00d87b124bc2"><div class="ttname"><a href="group__core.html#gacf494439ecaa44d63dcb00d87b124bc2">sampgdk_process_timers</a></div><div class="ttdeci">void sampgdk_process_timers(void)</div><div class="ttdoc">Processes timers created by the calling plugin. </div></div>
@@ -169,7 +169,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="group__core_html_ga236b99d3be5e7432ca4027f2f4860c3a"><div class="ttname"><a href="group__core.html#ga236b99d3be5e7432ca4027f2f4860c3a">sampgdk_call_native</a></div><div class="ttdeci">cell sampgdk_call_native(AMX_NATIVE native, cell *params)</div><div class="ttdoc">Calls a native function. </div></div>
 <div class="ttc" id="group__core_html_ga82386678995229e44aa8d4879758b56e"><div class="ttname"><a href="group__core.html#ga82386678995229e44aa8d4879758b56e">sampgdk_process_plugin_timers</a></div><div class="ttdeci">void sampgdk_process_plugin_timers(void *plugin)</div><div class="ttdoc">Processes timers created by the specified plugin. </div></div>
 <div class="ttc" id="group__core_html_gaee497a377daa74d0171925e00536b49f"><div class="ttname"><a href="group__core.html#gaee497a377daa74d0171925e00536b49f">sampgdk_get_num_natives</a></div><div class="ttdeci">int sampgdk_get_num_natives(void)</div><div class="ttdoc">Gets the total number of native functions. </div></div>
-<div class="ttc" id="group__core_html_ga82cef46f3372effb8974d9af703dd6dd"><div class="ttname"><a href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd">sampgdk_get_plugin_symbol</a></div><div class="ttdeci">void * sampgdk_get_plugin_symbol(void *plugin, const char *name)</div><div class="ttdoc">Finds a symbol defined in plugin by its name. </div></div>
+<div class="ttc" id="group__core_html_ga82cef46f3372effb8974d9af703dd6dd"><div class="ttname"><a href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd">sampgdk_get_plugin_symbol</a></div><div class="ttdeci">void * sampgdk_get_plugin_symbol(void *plugin, const char *name)</div><div class="ttdoc">Finds a symbol defined in a plugin by name. </div></div>
 <div class="ttc" id="group__core_html_ga025ec5a8045acc004ddc04d8674bb81f"><div class="ttname"><a href="group__core.html#ga025ec5a8045acc004ddc04d8674bb81f">sampgdk_invoke_native</a></div><div class="ttdeci">cell sampgdk_invoke_native(AMX_NATIVE native, const char *format,...)</div><div class="ttdoc">Invokes a native function with the specified arguments. </div></div>
 <div class="ttc" id="group__core_html_gacdd1860c839462afe7ad57717af56ec0"><div class="ttname"><a href="group__core.html#gacdd1860c839462afe7ad57717af56ec0">sampgdk_logprintf</a></div><div class="ttdeci">void sampgdk_logprintf(const char *format,...)</div><div class="ttdoc">Prints a message to the server log. The format string is of the space format as in printf()...</div></div>
 <div class="ttc" id="group__core_html_gaede52250fa71ee71a056e10e14543b14"><div class="ttname"><a href="group__core.html#gaede52250fa71ee71a056e10e14543b14">sampgdk_public_hook</a></div><div class="ttdeci">bool(* sampgdk_public_hook)(AMX *amx, const char *name, cell *params)</div><div class="ttdoc">Defines the signature of the public hook function. </div><div class="ttdef"><b>Definition:</b> core.h:288</div></div>
@@ -179,7 +179,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 23 2014 12:05:41 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 23 2014 13:41:51 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

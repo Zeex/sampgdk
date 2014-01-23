@@ -134,10 +134,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:gaee497a377daa74d0171925e00536b49f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the total number of native functions.  <a href="#gaee497a377daa74d0171925e00536b49f">More...</a><br/></td></tr>
 <tr class="separator:gaee497a377daa74d0171925e00536b49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga57675d996a02c2bddde58b8dc5f47d02"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga57675d996a02c2bddde58b8dc5f47d02">sampgdk_get_plugin_handle</a> (void *address)</td></tr>
-<tr class="memdesc:ga57675d996a02c2bddde58b8dc5f47d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the handle for a plugin that owns the specified address.  <a href="#ga57675d996a02c2bddde58b8dc5f47d02">More...</a><br/></td></tr>
+<tr class="memdesc:ga57675d996a02c2bddde58b8dc5f47d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets plugin handle by address.  <a href="#ga57675d996a02c2bddde58b8dc5f47d02">More...</a><br/></td></tr>
 <tr class="separator:ga57675d996a02c2bddde58b8dc5f47d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga82cef46f3372effb8974d9af703dd6dd"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd">sampgdk_get_plugin_symbol</a> (void *plugin, const char *name)</td></tr>
-<tr class="memdesc:ga82cef46f3372effb8974d9af703dd6dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds a symbol defined in plugin by its name.  <a href="#ga82cef46f3372effb8974d9af703dd6dd">More...</a><br/></td></tr>
+<tr class="memdesc:ga82cef46f3372effb8974d9af703dd6dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds a symbol defined in a plugin by name.  <a href="#ga82cef46f3372effb8974d9af703dd6dd">More...</a><br/></td></tr>
 <tr class="separator:ga82cef46f3372effb8974d9af703dd6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafe1d178e4b5929f026f92f9e4f6337e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__core.html#gaede52250fa71ee71a056e10e14543b14">sampgdk_public_hook</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gafe1d178e4b5929f026f92f9e4f6337e8">sampgdk_get_public_hook</a> (void)</td></tr>
 <tr class="memdesc:gafe1d178e4b5929f026f92f9e4f6337e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current public hook.  <a href="#gafe1d178e4b5929f026f92f9e4f6337e8">More...</a><br/></td></tr>
@@ -194,9 +194,9 @@ Functions</h2></td></tr>
 <p>Defines the signature of the public hook function. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">amx</td><td>a pointer to the AMX instance on the public function is called </td></tr>
-    <tr><td class="paramname">name</td><td>the name of the function </td></tr>
-    <tr><td class="paramname">params</td><td>a pointer to the function's arguments on the stack</td></tr>
+    <tr><td class="paramname">amx</td><td>The MX instance on the which public function is called. </td></tr>
+    <tr><td class="paramname">name</td><td>The name of the function. </td></tr>
+    <tr><td class="paramname">params</td><td>A pointer to the function's arguments on the stack.</td></tr>
   </table>
   </dd>
 </dl>
@@ -235,8 +235,8 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>The first element of <code>params</code> should contain the number of arguments multiplied by <code>sizeof(cell)</code>. If the function takes no arguments, <code>params</code> may be <code>NULL</code>.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">native</td><td>the native function </td></tr>
-    <tr><td class="paramname">params</td><td>the <code>params</code> array passsed to the function</td></tr>
+    <tr><td class="paramname">native</td><td>A pointer to the native function. </td></tr>
+    <tr><td class="paramname">params</td><td>The <code>params</code> array passsed to the function.</td></tr>
   </table>
   </dd>
 </dl>
@@ -284,7 +284,7 @@ Functions</h2></td></tr>
 <p>Same as <a class="el" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18" title="Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final clean...">sampgdk_cleanup()</a> but explicitly specifies the plugin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plugin</td><td>the plugin handle</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin.</td></tr>
   </table>
   </dd>
 </dl>
@@ -312,7 +312,7 @@ Functions</h2></td></tr>
 <dl class="section warning"><dt>Warning</dt><dd>It is not recommended to call this function before OnGameModeInit().</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">name</td><td>the name of the native function</td></tr>
+    <tr><td class="paramname">name</td><td>The name of the native function.</td></tr>
   </table>
   </dd>
 </dl>
@@ -380,15 +380,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the handle for a plugin that owns the specified address. </p>
+<p>Gets plugin handle by address. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">address</td><td>any address within te plugin's address space</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The plugin handle.</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd" title="Finds a symbol defined in plugin by its name. ">sampgdk_get_plugin_symbol()</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A handle to the plugin.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd" title="Finds a symbol defined in a plugin by name. ">sampgdk_get_plugin_symbol()</a> </dd></dl>
 
 </div>
 </div>
@@ -416,16 +416,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Finds a symbol defined in plugin by its name. </p>
+<p>Finds a symbol defined in a plugin by name. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plugin</td><td>the plugin handle </td></tr>
-    <tr><td class="paramname">name</td><td>the name of the symbol</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin. </td></tr>
+    <tr><td class="paramname">name</td><td>The symbol's name.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The address of the symbol or <code>NULL</code> if not found.</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga57675d996a02c2bddde58b8dc5f47d02" title="Returns the handle for a plugin that owns the specified address. ">sampgdk_get_plugin_handle()</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga57675d996a02c2bddde58b8dc5f47d02" title="Gets plugin handle by address. ">sampgdk_get_plugin_handle()</a> </dd></dl>
 
 </div>
 </div>
@@ -512,7 +512,7 @@ Functions</h2></td></tr>
 <p>If for some reason this function fails it additionally may output an error message to the serrver log describing the error.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plugin_data</td><td>the plugin data array passed to Load()</td></tr>
+    <tr><td class="paramname">plugin_data</td><td>A pointer to the SA-MP plugin data passed to Load().</td></tr>
   </table>
   </dd>
 </dl>
@@ -548,8 +548,8 @@ Functions</h2></td></tr>
 <p>Same as <a class="el" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26" title="Initializes the library and the calling plugin. ">sampgdk_init()</a> but explicitly specifies the plugin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plugin</td><td>the plugin handle </td></tr>
-    <tr><td class="paramname">plugin_data</td><td>the plugin data array passed to Load()</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin. </td></tr>
+    <tr><td class="paramname">plugin_data</td><td>A pointer to the SA-MP plugin data passed to Load().</td></tr>
   </table>
   </dd>
 </dl>
@@ -614,9 +614,9 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>For the 'S' specifier the argument next to it specifies the maximum length of the string. This convention is followed by all SA-MP functions.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">native</td><td>the native function </td></tr>
-    <tr><td class="paramname">format</td><td>the format string specifying the argument types </td></tr>
-    <tr><td class="paramname">...</td><td>the arguments themselves</td></tr>
+    <tr><td class="paramname">native</td><td>A pointer to the native function. </td></tr>
+    <tr><td class="paramname">format</td><td>A format string specifying the types of the arguments. </td></tr>
+    <tr><td class="paramname">...</td><td>The arguments themselves.</td></tr>
   </table>
   </dd>
 </dl>
@@ -655,8 +655,8 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>The resulting message cannot be longer than 1024 characters.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">format</td><td>a printf-like format string </td></tr>
-    <tr><td class="paramname">...</td><td>further arguments to logprintf()</td></tr>
+    <tr><td class="paramname">format</td><td>A printf-like format string. </td></tr>
+    <tr><td class="paramname">...</td><td>Further arguments to logprintf().</td></tr>
   </table>
   </dd>
 </dl>
@@ -682,7 +682,7 @@ Functions</h2></td></tr>
 <p>If <code>plugin</code> is <code>NULL</code> this function processes <em>all</em> created timers (i.e. for all registered plugins).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plugin</td><td>the plugin handle</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin.</td></tr>
   </table>
   </dd>
 </dl>
@@ -728,7 +728,7 @@ Functions</h2></td></tr>
 <p>This function is implicitly called by <a class="el" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26" title="Initializes the library and the calling plugin. ">sampgdk_init()</a> and <a class="el" href="group__core.html#gac00e0d77ff10b600ecdbe566ed62c83e" title="Same as sampgdk_init() but explicitly specifies the plugin. ">sampgdk_init_plugin()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plugin</td><td>the plugin handle</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin.</td></tr>
   </table>
   </dd>
 </dl>
@@ -755,7 +755,7 @@ Functions</h2></td></tr>
 <p>The public hook is shared by all plugins, which means you should save the previous value before calling this function and call it manually (unless you're sure that there are no other plugins running).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">hook</td><td>the hook function</td></tr>
+    <tr><td class="paramname">hook</td><td>The hook callback.</td></tr>
   </table>
   </dd>
 </dl>
@@ -781,7 +781,7 @@ Functions</h2></td></tr>
 <p>This function is implicitly called by <a class="el" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18" title="Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final clean...">sampgdk_cleanup()</a> and <a class="el" href="group__core.html#ga3ec3205c4c2c6b899b0e812c5dbeb934" title="Same as sampgdk_cleanup() but explicitly specifies the plugin. ">sampgdk_cleanup_plugin()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plugin</td><td>the plugin handle</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin.</td></tr>
   </table>
   </dd>
 </dl>
@@ -817,8 +817,8 @@ Functions</h2></td></tr>
 <p>This is a va_list version of <a class="el" href="group__core.html#gacdd1860c839462afe7ad57717af56ec0" title="Prints a message to the server log. The format string is of the space format as in printf()...">sampgdk_logprintf()</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">format</td><td>a printf-like format string </td></tr>
-    <tr><td class="paramname">args</td><td>further arguments to logprintf()</td></tr>
+    <tr><td class="paramname">format</td><td>A printf-like format string. </td></tr>
+    <tr><td class="paramname">args</td><td>Further arguments to logprintf().</td></tr>
   </table>
   </dd>
 </dl>
@@ -829,7 +829,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 23 2014 12:05:41 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 23 2014 13:41:51 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
