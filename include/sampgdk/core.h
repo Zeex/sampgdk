@@ -275,6 +275,23 @@ SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params));
 SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native,
                                         const char *format, ...));
 
+/**
+ * \brief Called on every public function call.
+ *
+ * This is the so called "public filter". It is called whenever the  server
+ * calls to \c amx_Exec(). The return value controls whether the callback
+ * function corresponding to the public is executed in this plugin.
+ *
+ * \param amx The AMX instance on which the public function is called.
+ * \param name The name of the function.
+ * \param params The function's arguments as stored on the AMX stack, with the
+ * \c params[0] equal to the number of arguments multiplied by \c sizeof(cell).
+ *
+ * \returns If returns true the callback is executed, otherwise it is ignored.
+ */
+PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall(AMX *amx, const char *name,
+                                            cell *params);
+
 /** @} */
 
 #endif /* !SAMPGDK_CORE_H */
