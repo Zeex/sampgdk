@@ -13,20 +13,70 @@
  * limitations under the License.
  */
 
+/**
+ * \file version.h
+ * Library version information.
+ */
+
 #ifndef SAMPGDK_VERSION_H
 #define SAMPGDK_VERSION_H
 
 #include <sampgdk/export.h>
 
-#define SAMPGDK_VERSION_MAJOR  @SAMPGDK_VERSION_MAJOR@
-#define SAMPGDK_VERSION_MINOR  @SAMPGDK_VERSION_MINOR@
-#define SAMPGDK_VERSION_PATCH  @SAMPGDK_VERSION_PATCH@
-#define SAMPGDK_VERSION_ID     ((SAMPGDK_VERSION_MAJOR << 24) |\
-                                (SAMPGDK_VERSION_MINOR << 16) |\
-                                (SAMPGDK_VERSION_PATCH << 8))
+/**
+ * \addtogroup core
+ * @{
+ */
+
+/**
+ * \brief Major version.
+ */
+#define SAMPGDK_VERSION_MAJOR @SAMPGDK_VERSION_MAJOR@
+
+/**
+ * \brief Minor version.
+ */
+#define SAMPGDK_VERSION_MINOR @SAMPGDK_VERSION_MINOR@
+
+/**
+ * \brief Patch version.
+ */
+#define SAMPGDK_VERSION_PATCH @SAMPGDK_VERSION_PATCH@
+
+/**
+ * \brief Library version in the form of \c 0xAABBCC00 where \c AA, \c BB
+ * and \c CC are the major, minor and patch numbers.
+ */
+#define SAMPGDK_VERSION_ID ((SAMPGDK_VERSION_MAJOR << 24) |\
+                           (SAMPGDK_VERSION_MINOR << 16) |\
+                           (SAMPGDK_VERSION_PATCH << 8))
+
+/**
+ * \brief Library version string.
+ */
 #define SAMPGDK_VERSION_STRING "@SAMPGDK_VERSION_STRING@"
 
+/**
+ * \brief Gets library version number.
+ *
+ * \returns The version number in the form of \c 0xAABBCCDD where \c AA, 
+ * c BB and \c CC are the major, minor and patch numbers.
+ *
+ * \see SAMPGDK_VERSION_ID
+ * \see sampgdk_get_version_string()
+ */
 SAMPGDK_API(int, sampgdk_get_version(void));
+
+/**
+ * \brief Gets library version string.
+ *
+ * \returns The version string in the form of \c x.y.z
+ *
+ * \see SAMPGDK_VERSION_STRING
+ * \see sampgdk_get_version().
+ */
 SAMPGDK_API(const char *, sampgdk_get_version_string(void));
+
+/** @} */
 
 #endif /* !SAMPGDK_VERSION_H */
