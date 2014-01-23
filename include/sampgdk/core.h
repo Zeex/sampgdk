@@ -42,7 +42,7 @@
  * If for some reason this function fails it additionally may output an error
  * message to the serrver log describing the error.
  *
- * \param plugin_data the plugin data array passed to Load()
+ * \param plugin_data A pointer to the SA-MP plugin data passed to Load().
  *
  * \returns A non-negative value on success or an error code on failure.
  * The error code can be converted to a string using strerror().
@@ -54,8 +54,8 @@ SAMPGDK_API(int, sampgdk_init(void **plugin_data));
 /**
  * \brief Same as sampgdk_init() but explicitly specifies the plugin.
  *
- * \param plugin the plugin handle
- * \param plugin_data the plugin data array passed to Load()
+ * \param plugin A handle to the plugin.
+ * \param plugin_data A pointer to the SA-MP plugin data passed to Load().
  
  * \returns A non-negative value on success or an error code on failure.
  * The error code can be converted to a string using strerror().
@@ -78,7 +78,7 @@ SAMPGDK_API(int, sampgdk_cleanup(void));
 /**
  * \brief Same as sampgdk_cleanup() but explicitly specifies the plugin.
  *
- * \param plugin the plugin handle
+ * \param plugin A handle to the plugin.
  *
  * \return A non-negative value on success or an error code on failure.
  * The error code can be converted to a string using strerror().
@@ -93,8 +93,8 @@ SAMPGDK_API(int, sampgdk_cleanup_plugin(void *plugin));
  *
  * \note The resulting message cannot be longer than 1024 characters.
  *
- * \param format a printf-like format string
- * \param ... further arguments to logprintf()
+ * \param format A printf-like format string.
+ * \param ... Further arguments to logprintf().
  *
  * \see sampgdk_vlogprintf()
  */
@@ -103,8 +103,8 @@ SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...));
 /**
  * \brief This is a va_list version of sampgdk_logprintf().
  *
- * \param format a printf-like format string
- * \param args further arguments to logprintf()
+ * \param format A printf-like format string.
+ * \param args Further arguments to logprintf().
  *
  * \see sampgdk_logprintf()
  */
@@ -118,7 +118,7 @@ SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
  * This function is implicitly called by sampgdk_init() and
  * sampgdk_init_plugin().
  *
- * \param plugin the plugin handle
+ * \param plugin A handle to the plugin.
  *
  * \return A non-negative value on success or an error code on failure.
  * The error code can be converted to a string using strerror().
@@ -134,7 +134,7 @@ SAMPGDK_API(int, sampgdk_register_plugin(void *plugin));
  * This function is implicitly called by sampgdk_cleanup() and
  * sampgdk_cleanup_plugin().
  *
- * \param plugin the plugin handle
+ * \param plugin A handle to the plugin.
  *
  * \return A non-negative value on success or an error code on failure.
  * The error code can be converted to a string using strerror().
@@ -144,21 +144,21 @@ SAMPGDK_API(int, sampgdk_register_plugin(void *plugin));
 SAMPGDK_API(int, sampgdk_unregister_plugin(void *plugin));
 
 /**
- * \brief Returns the handle for a plugin that owns the specified address.
+ * \brief Gets plugin handle by address.
  *
  * \param address any address within te plugin's address space
  *
- * \returns The plugin handle.
+ * \returns A handle to the plugin.
  *
  * \see sampgdk_get_plugin_symbol()
  */
 SAMPGDK_API(void *, sampgdk_get_plugin_handle(void *address));
 
 /**
- * \brief Finds a symbol defined in plugin by its name.
+ * \brief Finds a symbol defined in a plugin by name.
  *
- * \param plugin the plugin handle
- * \param name the name of the symbol
+ * \param plugin A handle to the plugin.
+ * \param name The symbol's name.
  *
  * \returns The address of the symbol or \c NULL if not found.
  *
@@ -179,7 +179,7 @@ SAMPGDK_API(void, sampgdk_process_timers(void));
  * If \p plugin is \c NULL this function processes *all* created timers (i.e.
  * for all registered plugins).
  *
- * \param plugin the plugin handle
+ * \param plugin A handle to the plugin.
  *
  * \see sampgdk_process_timers()
  */
@@ -214,7 +214,7 @@ SAMPGDK_API(int, sampgdk_get_num_natives(void));
  *
  * \warning It is not recommended to call this function before OnGameModeInit().
  *
- * \param name the name of the native function
+ * \param name The name of the native function.
  *
  * \returns The function's address or \c NULL if not found.
  *
@@ -231,8 +231,8 @@ SAMPGDK_API(AMX_NATIVE, sampgdk_find_native(const char *name));
  * multiplied by \c sizeof(cell). If the function takes no arguments, \p params
  * may be \c NULL.
  *
- * \param native the native function
- * \param params the \c params array passsed to the function
+ * \param native A pointer to the native function.
+ * \param params The \c params array passsed to the function.
  *
  * \returns The value returned by the function.
  *
@@ -263,9 +263,9 @@ SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params));
  * \note For the 'S' specifier the argument next to it specifies the maximum
  * length of the string. This convention is followed by all SA-MP functions.
  *
- * \param native the native function
- * \param format the format string specifying the argument types
- * \param ... the arguments themselves
+ * \param native A pointer to the native function.
+ * \param format A format string specifying the types of the arguments.
+ * \param ... The arguments themselves.
  *
  * \returns The value returned by the function.
  *
@@ -278,9 +278,9 @@ SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native,
 /**
  * \brief Defines the signature of the public hook function.
  *
- * \param amx a pointer to the AMX instance on the public function is called
- * \param name the name of the function
- * \param params a pointer to the function's arguments on the stack
+ * \param amx The MX instance on the which public function is called.
+ * \param name The name of the function.
+ * \param params A pointer to the function's arguments on the stack.
  *
  * \see sampgdk_set_public_hook()
  * \see sampgdk_get_public_hook()
@@ -295,7 +295,7 @@ typedef bool (SAMPGDK_CALL *sampgdk_public_hook)(AMX *amx, const char *name,
  * previous value before calling this function and call it manually (unless
  * you're sure that there are no other plugins running).
  *
- * \param hook the hook function
+ * \param hook The hook callback.
  *
  * \see sampgdk_get_public_hook()
  */
