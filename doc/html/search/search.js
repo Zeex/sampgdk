@@ -7,9 +7,9 @@
 
 var indexSectionsWithContent =
 {
-  0: "csv",
+  0: "cosv",
   1: "cv",
-  2: "s",
+  2: "os",
   3: "c"
 };
 

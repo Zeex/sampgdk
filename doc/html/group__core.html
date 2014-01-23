@@ -108,15 +108,18 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga73622f10d045f94e47a0893f11b8a24b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a> (AMX *amx, const char *name, cell *params)</td></tr>
+<tr class="memdesc:ga73622f10d045f94e47a0893f11b8a24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called on every public function call.  <a href="#ga73622f10d045f94e47a0893f11b8a24b">More...</a><br/></td></tr>
+<tr class="separator:ga73622f10d045f94e47a0893f11b8a24b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga236b99d3be5e7432ca4027f2f4860c3a"><td class="memItemLeft" align="right" valign="top">cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga236b99d3be5e7432ca4027f2f4860c3a">sampgdk_call_native</a> (AMX_NATIVE native, cell *params)</td></tr>
 <tr class="memdesc:ga236b99d3be5e7432ca4027f2f4860c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a native function.  <a href="#ga236b99d3be5e7432ca4027f2f4860c3a">More...</a><br/></td></tr>
 <tr class="separator:ga236b99d3be5e7432ca4027f2f4860c3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga74b5b320ad2d0fb58cec4751792efb18"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18">sampgdk_cleanup</a> (void)</td></tr>
 <tr class="memdesc:ga74b5b320ad2d0fb58cec4751792efb18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final cleanup.  <a href="#ga74b5b320ad2d0fb58cec4751792efb18">More...</a><br/></td></tr>
 <tr class="separator:ga74b5b320ad2d0fb58cec4751792efb18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga721d6c88b2d562b91d2e25b8a971bd62"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga721d6c88b2d562b91d2e25b8a971bd62">sampgdk_cleanup_plugin</a> (void *handle)</td></tr>
-<tr class="memdesc:ga721d6c88b2d562b91d2e25b8a971bd62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18" title="Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final clean...">sampgdk_cleanup()</a> but explicitly specifies the plugin.  <a href="#ga721d6c88b2d562b91d2e25b8a971bd62">More...</a><br/></td></tr>
-<tr class="separator:ga721d6c88b2d562b91d2e25b8a971bd62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3ec3205c4c2c6b899b0e812c5dbeb934"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga3ec3205c4c2c6b899b0e812c5dbeb934">sampgdk_cleanup_plugin</a> (void *plugin)</td></tr>
+<tr class="memdesc:ga3ec3205c4c2c6b899b0e812c5dbeb934"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18" title="Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final clean...">sampgdk_cleanup()</a> but explicitly specifies the plugin.  <a href="#ga3ec3205c4c2c6b899b0e812c5dbeb934">More...</a><br/></td></tr>
+<tr class="separator:ga3ec3205c4c2c6b899b0e812c5dbeb934"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad41b7059e7684435d562b18bc6f8234d"><td class="memItemLeft" align="right" valign="top">AMX_NATIVE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gad41b7059e7684435d562b18bc6f8234d">sampgdk_find_native</a> (const char *name)</td></tr>
 <tr class="memdesc:gad41b7059e7684435d562b18bc6f8234d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds a native function by name.  <a href="#gad41b7059e7684435d562b18bc6f8234d">More...</a><br/></td></tr>
 <tr class="separator:gad41b7059e7684435d562b18bc6f8234d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,9 +132,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga57675d996a02c2bddde58b8dc5f47d02"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga57675d996a02c2bddde58b8dc5f47d02">sampgdk_get_plugin_handle</a> (void *address)</td></tr>
 <tr class="memdesc:ga57675d996a02c2bddde58b8dc5f47d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets plugin handle by address.  <a href="#ga57675d996a02c2bddde58b8dc5f47d02">More...</a><br/></td></tr>
 <tr class="separator:ga57675d996a02c2bddde58b8dc5f47d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga66b7e26500ab1891588cedc7093fbc62"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga66b7e26500ab1891588cedc7093fbc62">sampgdk_get_plugin_symbol</a> (void *handle, const char *name)</td></tr>
-<tr class="memdesc:ga66b7e26500ab1891588cedc7093fbc62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds a symbol defined in a plugin by name.  <a href="#ga66b7e26500ab1891588cedc7093fbc62">More...</a><br/></td></tr>
-<tr class="separator:ga66b7e26500ab1891588cedc7093fbc62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga82cef46f3372effb8974d9af703dd6dd"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd">sampgdk_get_plugin_symbol</a> (void *plugin, const char *name)</td></tr>
+<tr class="memdesc:ga82cef46f3372effb8974d9af703dd6dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds a symbol defined in a plugin by name.  <a href="#ga82cef46f3372effb8974d9af703dd6dd">More...</a><br/></td></tr>
+<tr class="separator:ga82cef46f3372effb8974d9af703dd6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0276f1646b9384f4922ce7a0c5a02380"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga0276f1646b9384f4922ce7a0c5a02380">sampgdk_get_version</a> (void)</td></tr>
 <tr class="memdesc:ga0276f1646b9384f4922ce7a0c5a02380"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets library version number.  <a href="#ga0276f1646b9384f4922ce7a0c5a02380">More...</a><br/></td></tr>
 <tr class="separator:ga0276f1646b9384f4922ce7a0c5a02380"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,33 +144,77 @@ Functions</h2></td></tr>
 <tr class="memitem:ga738edb602b0d477415f8e80e2406dd26"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26">sampgdk_init</a> (void **plugin_data)</td></tr>
 <tr class="memdesc:ga738edb602b0d477415f8e80e2406dd26"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the library and the calling plugin.  <a href="#ga738edb602b0d477415f8e80e2406dd26">More...</a><br/></td></tr>
 <tr class="separator:ga738edb602b0d477415f8e80e2406dd26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab28bc754d237973b88cfed9c5f9bbfaa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gab28bc754d237973b88cfed9c5f9bbfaa">sampgdk_init_plugin</a> (void *handle, void **plugin_data)</td></tr>
-<tr class="memdesc:gab28bc754d237973b88cfed9c5f9bbfaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26" title="Initializes the library and the calling plugin. ">sampgdk_init()</a> but explicitly specifies the plugin.  <a href="#gab28bc754d237973b88cfed9c5f9bbfaa">More...</a><br/></td></tr>
-<tr class="separator:gab28bc754d237973b88cfed9c5f9bbfaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac00e0d77ff10b600ecdbe566ed62c83e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gac00e0d77ff10b600ecdbe566ed62c83e">sampgdk_init_plugin</a> (void *plugin, void **plugin_data)</td></tr>
+<tr class="memdesc:gac00e0d77ff10b600ecdbe566ed62c83e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26" title="Initializes the library and the calling plugin. ">sampgdk_init()</a> but explicitly specifies the plugin.  <a href="#gac00e0d77ff10b600ecdbe566ed62c83e">More...</a><br/></td></tr>
+<tr class="separator:gac00e0d77ff10b600ecdbe566ed62c83e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga025ec5a8045acc004ddc04d8674bb81f"><td class="memItemLeft" align="right" valign="top">cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga025ec5a8045acc004ddc04d8674bb81f">sampgdk_invoke_native</a> (AMX_NATIVE native, const char *format,...)</td></tr>
 <tr class="memdesc:ga025ec5a8045acc004ddc04d8674bb81f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a native function with the specified arguments.  <a href="#ga025ec5a8045acc004ddc04d8674bb81f">More...</a><br/></td></tr>
 <tr class="separator:ga025ec5a8045acc004ddc04d8674bb81f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacdd1860c839462afe7ad57717af56ec0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gacdd1860c839462afe7ad57717af56ec0">sampgdk_logprintf</a> (const char *format,...)</td></tr>
 <tr class="memdesc:gacdd1860c839462afe7ad57717af56ec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a message to the server log. The format string is of the space format as in printf().  <a href="#gacdd1860c839462afe7ad57717af56ec0">More...</a><br/></td></tr>
 <tr class="separator:gacdd1860c839462afe7ad57717af56ec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaff7a354c240fdc604efb5cd67f0b40c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gaff7a354c240fdc604efb5cd67f0b40c0">sampgdk_process_plugin_timers</a> (void *handle)</td></tr>
-<tr class="memdesc:gaff7a354c240fdc604efb5cd67f0b40c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes timers created by the specified plugin.  <a href="#gaff7a354c240fdc604efb5cd67f0b40c0">More...</a><br/></td></tr>
-<tr class="separator:gaff7a354c240fdc604efb5cd67f0b40c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga82386678995229e44aa8d4879758b56e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga82386678995229e44aa8d4879758b56e">sampgdk_process_plugin_timers</a> (void *plugin)</td></tr>
+<tr class="memdesc:ga82386678995229e44aa8d4879758b56e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes timers created by the specified plugin.  <a href="#ga82386678995229e44aa8d4879758b56e">More...</a><br/></td></tr>
+<tr class="separator:ga82386678995229e44aa8d4879758b56e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacf494439ecaa44d63dcb00d87b124bc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gacf494439ecaa44d63dcb00d87b124bc2">sampgdk_process_timers</a> (void)</td></tr>
 <tr class="memdesc:gacf494439ecaa44d63dcb00d87b124bc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes timers created by the calling plugin.  <a href="#gacf494439ecaa44d63dcb00d87b124bc2">More...</a><br/></td></tr>
 <tr class="separator:gacf494439ecaa44d63dcb00d87b124bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf5cb68721c3596eb4e714fbf789d758f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gaf5cb68721c3596eb4e714fbf789d758f">sampgdk_register_plugin</a> (void *handle)</td></tr>
-<tr class="memdesc:gaf5cb68721c3596eb4e714fbf789d758f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a plugin for receiving events (e.g. SA-MP callbacks).  <a href="#gaf5cb68721c3596eb4e714fbf789d758f">More...</a><br/></td></tr>
-<tr class="separator:gaf5cb68721c3596eb4e714fbf789d758f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8fb8f18b0cb7b915b9970b2092565c77"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#ga8fb8f18b0cb7b915b9970b2092565c77">sampgdk_unregister_plugin</a> (void *handle)</td></tr>
-<tr class="memdesc:ga8fb8f18b0cb7b915b9970b2092565c77"><td class="mdescLeft">&#160;</td><td class="mdescRight">The reverse of <a class="el" href="group__core.html#gaf5cb68721c3596eb4e714fbf789d758f" title="Registers a plugin for receiving events (e.g. SA-MP callbacks). ">sampgdk_register_plugin()</a>. Unsubscribes a plugin from all events.  <a href="#ga8fb8f18b0cb7b915b9970b2092565c77">More...</a><br/></td></tr>
-<tr class="separator:ga8fb8f18b0cb7b915b9970b2092565c77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac01dd8a9c465370ca3c5431fc8378d51"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gac01dd8a9c465370ca3c5431fc8378d51">sampgdk_register_plugin</a> (void *plugin)</td></tr>
+<tr class="memdesc:gac01dd8a9c465370ca3c5431fc8378d51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers a plugin for receiving events (e.g. SA-MP callbacks).  <a href="#gac01dd8a9c465370ca3c5431fc8378d51">More...</a><br/></td></tr>
+<tr class="separator:gac01dd8a9c465370ca3c5431fc8378d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf8833c224045e23239ee4fffc12d7acb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gaf8833c224045e23239ee4fffc12d7acb">sampgdk_unregister_plugin</a> (void *plugin)</td></tr>
+<tr class="memdesc:gaf8833c224045e23239ee4fffc12d7acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The reverse of <a class="el" href="group__core.html#gac01dd8a9c465370ca3c5431fc8378d51" title="Registers a plugin for receiving events (e.g. SA-MP callbacks). ">sampgdk_register_plugin()</a>. Unsubscribes a plugin from all events.  <a href="#gaf8833c224045e23239ee4fffc12d7acb">More...</a><br/></td></tr>
+<tr class="separator:gaf8833c224045e23239ee4fffc12d7acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gace10f9bf238fc090c8b40c4ef0311d62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a> (const char *format, va_list args)</td></tr>
 <tr class="memdesc:gace10f9bf238fc090c8b40c4ef0311d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a va_list version of <a class="el" href="group__core.html#gacdd1860c839462afe7ad57717af56ec0" title="Prints a message to the server log. The format string is of the space format as in printf()...">sampgdk_logprintf()</a>.  <a href="#gace10f9bf238fc090c8b40c4ef0311d62">More...</a><br/></td></tr>
 <tr class="separator:gace10f9bf238fc090c8b40c4ef0311d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ga73622f10d045f94e47a0893f11b8a24b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OnPublicCall </td>
+          <td>(</td>
+          <td class="paramtype">AMX *&#160;</td>
+          <td class="paramname"><em>amx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cell *&#160;</td>
+          <td class="paramname"><em>params</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Called on every public function call. </p>
+<p>This is the so called "public filter". It is called whenever the server calls to <code>amx_Exec()</code>. The return value controls whether the callback function corresponding to the public is executed in this plugin.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">amx</td><td>The AMX instance on which the public function is called. </td></tr>
+    <tr><td class="paramname">name</td><td>The name of the function. </td></tr>
+    <tr><td class="paramname">params</td><td>The function's arguments as stored on the AMX stack, with the <code>params</code>[0] equal to the number of arguments multiplied by <code>sizeof(cell)</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>If returns true the callback is executed, otherwise it is ignored. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga236b99d3be5e7432ca4027f2f4860c3a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -228,7 +275,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga721d6c88b2d562b91d2e25b8a971bd62"></a>
+<a class="anchor" id="ga3ec3205c4c2c6b899b0e812c5dbeb934"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -236,7 +283,7 @@ Functions</h2></td></tr>
           <td class="memname">int sampgdk_cleanup_plugin </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td class="paramname"><em>plugin</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -245,12 +292,12 @@ Functions</h2></td></tr>
 <p>Same as <a class="el" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18" title="Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final clean...">sampgdk_cleanup()</a> but explicitly specifies the plugin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>A handle to the plugin.</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A non-negative value on success or an error code on failure. The error code can be converted to a string using strerror().</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#gab28bc754d237973b88cfed9c5f9bbfaa" title="Same as sampgdk_init() but explicitly specifies the plugin. ">sampgdk_init_plugin()</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#gac00e0d77ff10b600ecdbe566ed62c83e" title="Same as sampgdk_init() but explicitly specifies the plugin. ">sampgdk_init_plugin()</a> </dd></dl>
 
 </div>
 </div>
@@ -348,12 +395,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A handle to the plugin that the specified address belongs to or NULL if there's no such plugin loaded.</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga66b7e26500ab1891588cedc7093fbc62" title="Finds a symbol defined in a plugin by name. ">sampgdk_get_plugin_symbol()</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A handle to the plugin.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd" title="Finds a symbol defined in a plugin by name. ">sampgdk_get_plugin_symbol()</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga66b7e26500ab1891588cedc7093fbc62"></a>
+<a class="anchor" id="ga82cef46f3372effb8974d9af703dd6dd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -361,7 +408,7 @@ Functions</h2></td></tr>
           <td class="memname">void* sampgdk_get_plugin_symbol </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>handle</em>, </td>
+          <td class="paramname"><em>plugin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -380,7 +427,7 @@ Functions</h2></td></tr>
 <p>Finds a symbol defined in a plugin by name. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>A handle to the plugin. </td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin. </td></tr>
     <tr><td class="paramname">name</td><td>The symbol's name.</td></tr>
   </table>
   </dd>
@@ -462,7 +509,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gab28bc754d237973b88cfed9c5f9bbfaa"></a>
+<a class="anchor" id="gac00e0d77ff10b600ecdbe566ed62c83e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -470,7 +517,7 @@ Functions</h2></td></tr>
           <td class="memname">int sampgdk_init_plugin </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>handle</em>, </td>
+          <td class="paramname"><em>plugin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -489,13 +536,13 @@ Functions</h2></td></tr>
 <p>Same as <a class="el" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26" title="Initializes the library and the calling plugin. ">sampgdk_init()</a> but explicitly specifies the plugin. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>A handle to the plugin. </td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin. </td></tr>
     <tr><td class="paramname">plugin_data</td><td>A pointer to the SA-MP plugin data passed to Load().</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A non-negative value on success or an error code on failure. The error code can be converted to a string using strerror().</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga721d6c88b2d562b91d2e25b8a971bd62" title="Same as sampgdk_cleanup() but explicitly specifies the plugin. ">sampgdk_cleanup_plugin()</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga3ec3205c4c2c6b899b0e812c5dbeb934" title="Same as sampgdk_cleanup() but explicitly specifies the plugin. ">sampgdk_cleanup_plugin()</a> </dd></dl>
 
 </div>
 </div>
@@ -542,7 +589,7 @@ Functions</h2></td></tr>
 <tr>
 <td align="left">b </td><td align="left">bool </td><td align="left">a boolean value </td></tr>
 <tr>
-<td align="left">f </td><td align="left">float, double </td><td align="left">a floating-point value </td></tr>
+<td align="left">f </td><td align="left">double </td><td align="left">a floating-point value </td></tr>
 <tr>
 <td align="left">r </td><td align="left">const cell * </td><td align="left">a const reference </td></tr>
 <tr>
@@ -605,7 +652,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaff7a354c240fdc604efb5cd67f0b40c0"></a>
+<a class="anchor" id="ga82386678995229e44aa8d4879758b56e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -613,7 +660,7 @@ Functions</h2></td></tr>
           <td class="memname">void sampgdk_process_plugin_timers </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td class="paramname"><em>plugin</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -623,7 +670,7 @@ Functions</h2></td></tr>
 <p>If <code>plugin</code> is <code>NULL</code> this function processes <em>all</em> created timers (i.e. for all registered plugins).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>A handle to the plugin.</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin.</td></tr>
   </table>
   </dd>
 </dl>
@@ -646,11 +693,11 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Processes timers created by the calling plugin. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#gaff7a354c240fdc604efb5cd67f0b40c0" title="Processes timers created by the specified plugin. ">sampgdk_process_plugin_timers()</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga82386678995229e44aa8d4879758b56e" title="Processes timers created by the specified plugin. ">sampgdk_process_plugin_timers()</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="gaf5cb68721c3596eb4e714fbf789d758f"></a>
+<a class="anchor" id="gac01dd8a9c465370ca3c5431fc8378d51"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -658,7 +705,7 @@ Functions</h2></td></tr>
           <td class="memname">int sampgdk_register_plugin </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td class="paramname"><em>plugin</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -666,19 +713,19 @@ Functions</h2></td></tr>
 
 <p>Registers a plugin for receiving events (e.g. SA-MP callbacks). </p>
 <p>Subsequent calls to are ignored.</p>
-<p>This function is implicitly called by <a class="el" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26" title="Initializes the library and the calling plugin. ">sampgdk_init()</a> and <a class="el" href="group__core.html#gab28bc754d237973b88cfed9c5f9bbfaa" title="Same as sampgdk_init() but explicitly specifies the plugin. ">sampgdk_init_plugin()</a>.</p>
+<p>This function is implicitly called by <a class="el" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26" title="Initializes the library and the calling plugin. ">sampgdk_init()</a> and <a class="el" href="group__core.html#gac00e0d77ff10b600ecdbe566ed62c83e" title="Same as sampgdk_init() but explicitly specifies the plugin. ">sampgdk_init_plugin()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>A handle to the plugin.</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A non-negative value on success or an error code on failure. The error code can be converted to a string using strerror().</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#ga8fb8f18b0cb7b915b9970b2092565c77" title="The reverse of sampgdk_register_plugin(). Unsubscribes a plugin from all events. ">sampgdk_unregister_plugin()</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#gaf8833c224045e23239ee4fffc12d7acb" title="The reverse of sampgdk_register_plugin(). Unsubscribes a plugin from all events. ">sampgdk_unregister_plugin()</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="ga8fb8f18b0cb7b915b9970b2092565c77"></a>
+<a class="anchor" id="gaf8833c224045e23239ee4fffc12d7acb"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -686,22 +733,22 @@ Functions</h2></td></tr>
           <td class="memname">int sampgdk_unregister_plugin </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
-          <td class="paramname"><em>handle</em></td><td>)</td>
+          <td class="paramname"><em>plugin</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>The reverse of <a class="el" href="group__core.html#gaf5cb68721c3596eb4e714fbf789d758f" title="Registers a plugin for receiving events (e.g. SA-MP callbacks). ">sampgdk_register_plugin()</a>. Unsubscribes a plugin from all events. </p>
-<p>This function is implicitly called by <a class="el" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18" title="Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final clean...">sampgdk_cleanup()</a> and <a class="el" href="group__core.html#ga721d6c88b2d562b91d2e25b8a971bd62" title="Same as sampgdk_cleanup() but explicitly specifies the plugin. ">sampgdk_cleanup_plugin()</a>.</p>
+<p>The reverse of <a class="el" href="group__core.html#gac01dd8a9c465370ca3c5431fc8378d51" title="Registers a plugin for receiving events (e.g. SA-MP callbacks). ">sampgdk_register_plugin()</a>. Unsubscribes a plugin from all events. </p>
+<p>This function is implicitly called by <a class="el" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18" title="Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final clean...">sampgdk_cleanup()</a> and <a class="el" href="group__core.html#ga3ec3205c4c2c6b899b0e812c5dbeb934" title="Same as sampgdk_cleanup() but explicitly specifies the plugin. ">sampgdk_cleanup_plugin()</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">handle</td><td>A handle to the plugin.</td></tr>
+    <tr><td class="paramname">plugin</td><td>A handle to the plugin.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A non-negative value on success or an error code on failure. The error code can be converted to a string using strerror().</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#gaf5cb68721c3596eb4e714fbf789d758f" title="Registers a plugin for receiving events (e.g. SA-MP callbacks). ">sampgdk_register_plugin()</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__core.html#gac01dd8a9c465370ca3c5431fc8378d51" title="Registers a plugin for receiving events (e.g. SA-MP callbacks). ">sampgdk_register_plugin()</a> </dd></dl>
 
 </div>
 </div>
@@ -744,7 +791,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 23 2014 17:14:52 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 23 2014 22:09:26 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
