@@ -19,8 +19,6 @@ math(EXPR SAMPGDK_VERSION_ID "${SAMPGDK_VERSION_MAJOR} << 24 |
                               ${SAMPGDK_VERSION_MINOR} << 16 |
                               ${SAMPGDK_VERSION_PATCH} << 8")
 
-configure_file(Doxyfile.in Doxyfile @ONLY)
-
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_LIBRARY_PATH ${PROJECT_SOURCE_DIR}/lib)
 list(APPEND CMAKE_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib)
@@ -31,6 +29,7 @@ endif()
 
 find_package(SDK REQUIRED)
 find_package(PythonInterp 2.7 REQUIRED)
+find_package(Doxygen 1.8)
 
 include_directories(${SDK_INCLUDE_DIR})
 include_directories(${SDK_INCLUDE_DIR}/amx)
@@ -276,6 +275,11 @@ else()
 endif()
 
 add_dependencies(sampgdk sampgdk_init)
+
+if(DOXYGEN_FOUND)
+  configure_file(Doxyfile.in Doxyfile @ONLY)
+  add_custom_target(sampgdk_doxygen ${DOXYGEN_EXECUTABLE}) 
+endif()
 
 foreach(header IN LISTS SAMPGDK_HEADERS)
   get_filename_component(path ${header} PATH)
