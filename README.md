@@ -37,9 +37,9 @@ helloworld plugin in plugins/helloworld/.
 
 If you know Git the simplest way to get started is probably to clone this repo
 and create a new branch for your personal project like `my-project`, and then
-just start developing your own plugin right inside the GDK's source tree. Later
-if you decide to update the library you would simply switch to  `master`, pull
-in the changes and merge them into `my-project`.
+just start developing your own plugin right in the GDK's source tree. Later if
+you decide to update the library you would simply switch to  `master`, pull in
+the changes and merge them into `my-project`.
 
 [donate]: http://pledgie.com/campaigns/19068
 [donate_button]: http://pledgie.com/campaigns/19068.png
