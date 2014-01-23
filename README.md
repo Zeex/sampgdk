@@ -25,11 +25,15 @@ Getting Started
 You can begin with downloading the source code and playing a bit with the
 HelloWorld plugin in `plugins/helloworld`.
 
+### Using Git
+
 If you know Git the simplest way to get started is probably to clone this repo
 and create a new branch for your personal project like `my-project`, and then
 just start developing your own plugin right in the GDK's source tree. Later if
 you decide to update the library you would simply switch to  `master`, pull in
 the changes and merge them into `my-project`.
+
+### Visual Studio
 
 There are also some useful files provied for developing plugins in Visual Studio
 using the above method. They are located in `build/visual-studio`. Running the
@@ -42,8 +46,7 @@ The post-build events defined in the .user files copy both the library and
 helloworld.dll to `%SAMP_SERVER_ROOT%` and `%SAMP_SERVER_ROOT%/plugins`
 respectively (but only in Debug builds).
 
-Downloads
----------
+### Binaries
 
 Pre-compiled binaries for Windows and Linux along with the documentation and
 other development files can be downloaded [here][download].
@@ -55,4 +58,3 @@ other development files can be downloaded [here][download].
 [topic]: http://forum.sa-mp.com/showthread.php?t=421090
 [github]: https://github.com/Zeex/sampgdk
 [download]: https://github.com/Zeex/sampgdk/releases
-[helloworld]: https://github.com/Zeex/sampgdk/tree/master/plugins/helloworld
