@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>GDK: include/sampgdk/a_players.h Source File</title>
+<title>GDK: include/sampgdk/version.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -86,10 +86,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">a_players.h</div>  </div>
+<div class="title">version.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/* Copyright (C) 2011-2014 Zeex</span></div>
+<a href="version_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/* Copyright (C) 2011-2014 Zeex</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * you may not use this file except in compliance with the License.</span></div>
@@ -104,16 +104,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * limitations under the License.</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#ifndef SAMPGDK_A_PLAYERS_H</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SAMPGDK_A_PLAYERS_H</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;sampgdk/a_samp.h&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;sampgdk/bool.h&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;sampgdk/export.h&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;sampgdk/a_players-decl.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_A_PLAYERS_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#ifndef SAMPGDK_VERSION_H</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SAMPGDK_VERSION_H</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;sampgdk/export.h&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="group__core.html#ga38adbab56a5d6039d0179a7ed140088d">   34</a></span>&#160;<span class="preprocessor">#define SAMPGDK_VERSION_MAJOR 4</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="group__core.html#ga18cecc6f2e75c56f1a742caf56fafba9">   39</a></span>&#160;<span class="preprocessor">#define SAMPGDK_VERSION_MINOR 0</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="group__core.html#gab08365aea1a1588b22c211886945fae9">   44</a></span>&#160;<span class="preprocessor">#define SAMPGDK_VERSION_PATCH 0</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="group__core.html#ga722a5bf3d0717f698846d26e2e41a185">   50</a></span>&#160;<span class="preprocessor">#define SAMPGDK_VERSION_ID 67108864</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="group__core.html#ga7a6b041ff0d9c180cb4d28a2b2c3501b">   55</a></span>&#160;<span class="preprocessor">#define SAMPGDK_VERSION_STRING &quot;4.0-pre&quot;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#ga0276f1646b9384f4922ce7a0c5a02380">sampgdk_get_version</a>(<span class="keywordtype">void</span>));</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;SAMPGDK_API(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <a class="code" href="group__core.html#gacf2a056f789a62d76a91761e54eac2dc">sampgdk_get_version_string</a>(<span class="keywordtype">void</span>));</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_VERSION_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="group__core_html_ga0276f1646b9384f4922ce7a0c5a02380"><div class="ttname"><a href="group__core.html#ga0276f1646b9384f4922ce7a0c5a02380">sampgdk_get_version</a></div><div class="ttdeci">int sampgdk_get_version(void)</div><div class="ttdoc">Gets library version number. </div></div>
+<div class="ttc" id="group__core_html_gacf2a056f789a62d76a91761e54eac2dc"><div class="ttname"><a href="group__core.html#gacf2a056f789a62d76a91761e54eac2dc">sampgdk_get_version_string</a></div><div class="ttdeci">const char * sampgdk_get_version_string(void)</div><div class="ttdoc">Gets library version string. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
