@@ -2,6 +2,7 @@ SA-MP Gamemode Development Kit
 ==============================
 
 [![Donate][donate_button]][donate]
+[![Build Status][build_status]][build]
 
 Introduction
 -------------
@@ -42,5 +43,7 @@ in the changes and merge them into `my-project`.
 
 [donate]: http://pledgie.com/campaigns/19068
 [donate_button]: http://pledgie.com/campaigns/19068.png
+[build]: https://travis-ci.org/Zeex/sampgdk
+[build_status]: https://travis-ci.org/Zeex/sampgdk.png?branch=master
 [download]: http://zeex.github.com/sampgdk
 [github]: https://github.com/Zeex/sampgdk
