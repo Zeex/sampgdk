@@ -145,15 +145,6 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 
   proceed = true;
 
-  if (amx == main_amx) {
-    sampgdk_public_hook hook = sampgdk_get_public_hook();
-    if (hook != NULL) {
-      cell *params;
-      sampgdk_param_get_all(amx, &params);
-      proceed = hook(amx, public_name, params);
-    }
-  }
-
   /* Since filterscripts don't use main() we can assume that the AMX
    * that executes main() is indeed the main AMX i.e. the gamemode.
    */

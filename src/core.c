@@ -31,8 +31,6 @@
   #define RETURN_ADDRESS() __builtin_return_address(0)
 #endif
 
-static sampgdk_public_hook public_hook;
-
 static int init(void **plugin_data) {
   sampgdk_logprintf_impl = plugin_data[PLUGIN_DATA_LOGPRINTF];
   sampgdk_amx_api_ptr = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
@@ -135,12 +133,4 @@ SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native,
   va_end(args);
 
   return retval;
-}
-
-SAMPGDK_API(sampgdk_public_hook, sampgdk_get_public_hook(void)) {
-  return public_hook;
-}
-
-SAMPGDK_API(void, sampgdk_set_public_hook(sampgdk_public_hook hook)) {
-  public_hook = hook;
 }

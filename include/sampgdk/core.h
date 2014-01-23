@@ -276,41 +276,6 @@ SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params));
 SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native,
                                         const char *format, ...));
 
-/**
- * \brief Defines the signature of the public hook function.
- *
- * \param amx The MX instance on the which public function is called.
- * \param name The name of the function.
- * \param params A pointer to the function's arguments on the stack.
- *
- * \see sampgdk_set_public_hook()
- * \see sampgdk_get_public_hook()
- */
-typedef bool (SAMPGDK_CALL *sampgdk_public_hook)(AMX *amx, const char *name,
-                                                 cell *params);
-
-/**
- * \brief Sets or overrides the public hook.
- *
- * The public hook is shared by all plugins, which means you should save the
- * previously set hook using sampgdk_get_public_hook() value before calling
- * this function (unless you're sure that there are no other plugins running).
- *
- * \param hook The hook callback.
- *
- * \see sampgdk_get_public_hook()
- */
-SAMPGDK_API(void, sampgdk_set_public_hook(sampgdk_public_hook hook));
-
-/**
- * \brief Gets current public hook.
- *
- * \returns The current public hook or \c NULL if it's not set.
- *
- * \see sampgdk_set_plugin_hook()
- */
-SAMPGDK_API(sampgdk_public_hook, sampgdk_get_public_hook(void));
-
 /** @} */
 
 #endif /* !SAMPGDK_CORE_H */
