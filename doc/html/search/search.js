@@ -10,8 +10,7 @@ var indexSectionsWithContent =
   0: "csv",
   1: "cv",
   2: "s",
-  3: "s",
-  4: "c"
+  3: "c"
 };
 
 var indexSectionNames =
@@ -19,8 +18,7 @@ var indexSectionNames =
   0: "all",
   1: "files",
   2: "functions",
-  3: "typedefs",
-  4: "groups"
+  3: "groups"
 };
 
 function convertToId(search)
