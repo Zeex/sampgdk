@@ -265,9 +265,12 @@ endif()
 
 if(UNIX)
   sampgdk_add_libraries(${CMAKE_DL_LIBS})
-  find_library(RT_LIB rt)
-  if(RT_LIB)
-    sampgdk_add_libraries(${RT_LIB})
+endif()
+
+if(UNIX)
+  find_library(SAMPGDK_RT_LIB rt DOC "POSIX Realtime Extensions Library")
+  if(SAMPGDK_RT_LIB)
+    sampgdk_add_libraries(${SAMPGDK_RT_LIB})
   endif()
 endif()
 
