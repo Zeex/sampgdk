@@ -258,24 +258,24 @@ SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params));
 /**
  * \brief Invokes a native function with the specified arguments.
  *
- * The argument types are specified via \p format where each character,
- * or specifier, corresponds to a single argument.
- *
- * The following format specifiers are supported:
+ * Argument types are specified via \p format where each character, or
+ * *specifier*, corresponds to a single argument. The following format
+ * specifiers are supported:
  *
  * Specifier | C/C++ type    | Description
- * :-------- | :------------ | :-----------------------------
- * i         | int           | an integer value
- * d         | int           | an integer value (same as 'i')
- * b         | bool          | a boolean value
- * f         | double        | a floating-point value
- * r         | const cell *  | a const reference
- * R         | cell *        | a non-const reference (output)
- * s         | const char *  | a string of character
- * S         | char *        | a string of character (output)
+ * :-------- | :------------ | :-------------------------------------
+ * i         | int           | integer value
+ * d         | int           | integer value (same as 'i')
+ * b         | bool          | boolean value
+ * f         | double        | floating-point value
+ * r         | const cell *  | const reference (input-only)
+ * R         | cell *        | non-const reference (input and output)
+ * s         | const char *  | const string (input-only)
+ * S         | char *        | non-const string (input and output)
  *
- * \note For the 'S' specifier the argument next to it specifies the maximum
- * length of the string. This convention is followed by all SA-MP functions.
+ * \note For the 'S' specifier, the argument passed next to it specifies
+ * the size of the string buffer. Fortunately all current SA-MP natives
+ * follow this convention.
  *
  * \param native A pointer to the native function.
  * \param format A format string specifying the types of the arguments.
