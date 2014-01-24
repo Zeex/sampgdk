@@ -42,7 +42,7 @@ def main(argv):
     print('Usage: %s input-file output-file' % os.path.basename(argv[0]))
   else:
     modules = []
-    for line in file(sys.argv[1]).readlines():
+    for line in open(sys.argv[1], 'r').readlines():
       name = line.strip()
       if name == 'module':
         sys.exit('Module name cannot be "module"')
