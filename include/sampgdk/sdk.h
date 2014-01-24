@@ -21,8 +21,9 @@
 #include <sampgdk/platform.h>
 
 /**
- * \addtogroup sdk
- * @{
+ * \file sdk.h
+ * \brief Includes all SDK headers and provides some extra defintions.
+ * \defgroup sdk SDK
  */
 
 /* stdint.h */
@@ -64,6 +65,7 @@
 #endif
 
 #include <amx/amx.h>
+#include <plugincommon.h>
 
 #if defined __INTEL_COMPILER
   /* ... */
@@ -74,11 +76,14 @@
 #endif
 
 /**
+ * \addtogroup sdk
+ * @{
+ */
+
+/**
  * \brief Entry point index used for fake GDK publics.
  */
 #define AMX_EXEC_GDK (-10)
-
-#include <plugincommon.h>
 
 /**
  * \brief Called before Load() to check for compatibility.

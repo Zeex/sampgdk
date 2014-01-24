@@ -15,7 +15,8 @@
 
 /**
  * \file core.h
- * The core sampgdk types and functions.
+ * \brief Core types and functions.
+ * \defgroup core Core
  */
 
 #ifndef SAMPGDK_CORE_H

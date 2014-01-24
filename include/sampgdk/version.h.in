@@ -15,7 +15,7 @@
 
 /**
  * \file version.h
- * Library version information.
+ * \brief Library version information.
  */
 
 #ifndef SAMPGDK_VERSION_H
