@@ -44,8 +44,14 @@
 #define SAMPGDK_VERSION_PATCH @SAMPGDK_VERSION_PATCH@
 
 /**
- * \brief Library version in the form of \c 0xAABBCC00 where \c AA, \c BB
- * and \c CC are the major, minor and patch numbers.
+ * \brief Maximum supported version of the SA-MP server.
+ */
+#define SAMPGDK_VERSION_SERVER @SAMPGDK_VERSION_SERVER@
+
+/**
+ * \brief Library version in the form of \c 0xAABBCCD where \c AA, \c BB
+ * and \c CC are the major, minor and patch numbers and DD is the maximum
+ * supported version of the SA-MP server.
  */
 #define SAMPGDK_VERSION_ID @SAMPGDK_VERSION_ID@
 
@@ -57,8 +63,9 @@
 /**
  * \brief Gets library version number.
  *
- * \returns The version number in the form of \c 0xAABBCCDD where \c AA, 
- * c BB and \c CC are the major, minor and patch numbers.
+ * \returns The version number in the form of \c 0xAABBCCDD where \c AA,
+ * \c BB and \c CC are the major, minor and patch numbers and DD is the
+ * maximum supported version of the SA-MP server.
  *
  * \see SAMPGDK_VERSION_ID
  * \see sampgdk_get_version_string()
