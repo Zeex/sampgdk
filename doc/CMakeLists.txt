@@ -1,3 +1,12 @@
+find_package(Doxygen)
+
+if(DOXYGEN_FOUND)
+  configure_file(Doxyfile.in Doxyfile @ONLY)
+  add_custom_target(sampgdk_doxygen
+                    COMMAND ${DOXYGEN_EXECUTABLE}
+                    COMMENT "Building Doxygen documentation") 
+endif()
+
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         DESTINATION .
         COMPONENT doc

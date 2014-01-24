@@ -31,7 +31,6 @@ endif()
 
 find_package(SDK REQUIRED)
 find_package(PythonInterp 2.7 REQUIRED)
-find_package(Doxygen 1.8)
 
 include_directories(${SDK_INCLUDE_DIR})
 include_directories(${SDK_INCLUDE_DIR}/amx)
@@ -277,11 +276,6 @@ else()
 endif()
 
 add_dependencies(sampgdk sampgdk_init)
-
-if(DOXYGEN_FOUND)
-  configure_file(Doxyfile.in Doxyfile @ONLY)
-  add_custom_target(sampgdk_doxygen ${DOXYGEN_EXECUTABLE}) 
-endif()
 
 foreach(header IN LISTS SAMPGDK_HEADERS)
   get_filename_component(path ${header} PATH)
