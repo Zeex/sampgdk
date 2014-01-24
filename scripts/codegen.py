@@ -120,7 +120,12 @@ def generate_api_file(module_name, idl, file):
     file.write('%s%s\n' % (EXPORT_PREFIX, f.name))
 
 def generate_header_file(module_name, idl, file):
-  natives = list(filter(lambda x: x.has_attr('native'), idl.functions))
+  natives = list(filter(lambda x: x.has_attr('native'),
+                        idl.functions))
+  file.write('#ifndef DOXYGEN\n')
+  for func in natives:
+    generate_native_alias(file, func)
+  file.write('#endif\n\n')
 
   for func in natives:
     generate_native_decl(file, func)
@@ -129,16 +134,16 @@ def generate_header_file(module_name, idl, file):
   for const in idl.constants:
     generate_constant(file, const)
   file.write('\n')
-  for func in natives:
-    generate_native_alias(file, func)
-  file.write('\n')
 
-  for func in filter(lambda x: x.has_attr('callback'), idl.functions):
+  callbacks = list(filter(lambda x: x.has_attr('callback'),
+                          idl.functions))
+  for func in callbacks:
     generate_callback_decl(file, func)
 
 def generate_source_file(module_name, idl, file):
-  natives = list(filter(lambda x: x.has_attr('native') and
-                                  not x.has_attr('noimpl'), idl.functions))
+  natives = list(filter(lambda x: x.has_attr('native') and not
+                                  x.has_attr('noimpl'),
+                        idl.functions))
   for func in natives:
     generate_native_impl(file, func)
     file.write('\n')
@@ -168,16 +173,17 @@ def generate_constant(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
 
 def generate_native_decl(file, func):
-  file.write('SAMPGDK_NATIVE(%s, %s%s(%s));\n'
-             % (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
+  file.write('/** \ingroup natives */\n')
+  file.write('SAMPGDK_NATIVE(%s, %s(%s));\n'
+             % (func.type, func.name, ParamList(func.params)))
 
 def generate_native_alias(file, func):
   file.write('#undef  %s\n' % func.name)
   file.write('#define %s %s%s\n' % (func.name, EXPORT_PREFIX, func.name))
 
 def generate_native_impl(file, func):
-  file.write('SAMPGDK_NATIVE(%s, %s%s(%s)) {\n' %
-             (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
+  file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %
+             (func.type, func.name, ParamList(func.params)))
   file.write('  static AMX_NATIVE native;\n')
   file.write('  cell retval;\n')
 
@@ -258,7 +264,8 @@ def generate_native_impl(file, func):
   file.write('}\n')
 
 def generate_callback_decl(file, func):
-    file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
+  file.write('/** \ingroup callbacks */\n')
+  file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
                (func.type, func.name, ParamList(func.params)))
 
 def generate_callback_impl(file, func):

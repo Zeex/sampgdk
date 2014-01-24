@@ -16,7 +16,20 @@
 /**
  * \file core.h
  * \brief Core types and functions.
- * \defgroup Core
+ */
+
+/**
+ * \defgroup core Core
+ * \brief Core GDK API
+ *
+ * \defgroup sdk SA-MP SDK
+ * \brief SA-MP plugin SDK
+ *
+ * \defgroup natives SA-MP Natives
+ * \brief All SA-MP natives
+ *
+ * \defgroup callbacks SA-MP Callbacks
+ * \brief All SA-MP callbacks
  */
 
 #ifndef SAMPGDK_CORE_H
@@ -29,7 +42,7 @@
 #include <sampgdk/sdk.h>
 
 /**
- * \addtogroup Core
+ * \addtogroup core
  * @{
  */
 

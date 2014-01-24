@@ -15,7 +15,7 @@
 
 /**
  * \file a_http.h
- * \brief The HTTP() function.
+ * \brief A threaded HTTP client.
  */
 
 #ifndef SAMPGDK_A_HTTP_H

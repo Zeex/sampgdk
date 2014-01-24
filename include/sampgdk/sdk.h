@@ -23,7 +23,6 @@
 /**
  * \file sdk.h
  * \brief Includes all SDK headers and provides some extra defintions.
- * \defgroup SDK
  */
 
 /* stdint.h */
@@ -76,7 +75,7 @@
 #endif
 
 /**
- * \addtogroup SDK
+ * \addtogroup sdk
  * @{
  */
 
