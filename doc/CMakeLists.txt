@@ -2,7 +2,7 @@ find_package(Doxygen)
 
 if(DOXYGEN_FOUND)
   configure_file(Doxyfile.in Doxyfile @ONLY)
-  add_custom_target(sampgdk_doxygen
+  add_custom_target(sampgdk_doxygen ALL
                     COMMAND ${DOXYGEN_EXECUTABLE}
                     COMMENT "Building Doxygen documentation") 
 endif()
