@@ -1,4 +1,5 @@
 /* Copyright (C) 2011-2014 Zeex
+ * Portions Copyright 2004-2007 SA:MP Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +17,13 @@
 #ifndef SAMPGDK_AMX_H
 #define SAMPGDK_AMX_H
 
+#include <sampgdk/bool.h>
 #include <sampgdk/platform.h>
+
+/**
+ * \addtogroup sdk
+ * @{
+ */
 
 /* stdint.h */
 #if !defined HAVE_STDINT_H
@@ -66,8 +73,65 @@
   #pragma GCC diagnostic pop
 #endif
 
+/**
+ * \brief Entry point index used for fake GDK publics.
+ */
 #define AMX_EXEC_GDK (-10)
 
 #include <plugincommon.h>
+
+/**
+ * \brief Called before Load() to check for compatibility.
+ *
+ * The Support() function indicates what possibilities this
+ * plugin has. The SUPPORTS_VERSION flag is required to check
+ * for compatibility with the server. 
+ *
+ * \returns One or more of the SUPPORTS_* flags.
+ */
+PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports();
+
+/**
+ * \brief Called when the plugin is loaded.
+ *
+ * The Load() function gets passed on exported functions from
+ * the SA-MP Server, like the AMX Functions and logprintf().
+ * Should return true if loading the plugin has succeeded.
+ *
+ * \returns True of if the plugin has successfully loaded and
+ * false otherwise.
+ */
+PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData);
+
+/**
+ * \brief Called when the plugin is unloaded.
+ *
+ * The Unload() function is called when the server shuts down,
+ * meaning this plugin gets shut down with it.
+ */
+PLUGIN_EXPORT void PLUGIN_CALL Unload();
+
+/**
+ * \brief Called when a new script is loaded.
+ *
+ * The AmxLoad() function gets called when a new gamemode or
+ * filterscript gets loaded with the server. In here we register
+ * the native functions we like to add to the scripts.
+ *
+ * \returns One of the AMX error codes.
+ */
+PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx);
+
+/**
+ * \brief Called when a script is unloaded.
+ *
+ * When a gamemode is over or a filterscript gets unloaded, this
+ * function gets called. No special actions needed in here.
+ *
+ * \returns One of the AMX error codes.
+ */
+PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx);
+
+/** @} */
 
 #endif /* !SAMPGDK_AMX_H */
