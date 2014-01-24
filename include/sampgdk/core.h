@@ -290,8 +290,7 @@ SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native,
  *
  * \returns If returns true the callback is executed, otherwise it is ignored.
  */
-PLUGIN_EXPORT bool PLUGIN_CALL OnPublicCall(AMX *amx, const char *name,
-                                            cell *params);
+SAMPGDK_CALLBACK(bool, OnPublicCall(AMX *amx, const char *name, cell *params));
 
 /** @} */
 

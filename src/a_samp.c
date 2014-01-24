@@ -26,11 +26,11 @@
 
 #include "a_samp-impl.h"
 
-SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback,
-                             void *param)) {
+SAMPGDK_NATIVE(int, sampgdk_SetTimer(int interval, bool repeat,
+                                     TimerCallback callback, void *param)) {
   return sampgdk_timer_set(interval, repeat, callback, param);
 }
 
-SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
+SAMPGDK_NATIVE(bool, sampgdk_KillTimer(int timerid)) {
   return sampgdk_timer_kill(timerid) >= 0;
 }

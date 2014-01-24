@@ -168,7 +168,7 @@ def generate_constant(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
 
 def generate_native_decl(file, func):
-  file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s);\n'
+  file.write('SAMPGDK_NATIVE(%s, %s%s(%s));\n'
              % (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
 
 def generate_native_alias(file, func):
@@ -176,7 +176,7 @@ def generate_native_alias(file, func):
   file.write('#define %s %s%s\n' % (func.name, EXPORT_PREFIX, func.name))
 
 def generate_native_impl(file, func):
-  file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' %
+  file.write('SAMPGDK_NATIVE(%s, %s%s(%s)) {\n' %
              (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
   file.write('  static AMX_NATIVE native;\n')
   file.write('  cell retval;\n')
@@ -258,7 +258,7 @@ def generate_native_impl(file, func):
   file.write('}\n')
 
 def generate_callback_decl(file, func):
-    file.write('SAMPGDK_CALLBACK_EXPORT %s SAMPGDK_CALLBACK_CALL %s(%s);\n' %
+    file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
                (func.type, func.name, ParamList(func.params)))
 
 def generate_callback_impl(file, func):
