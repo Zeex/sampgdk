@@ -31,7 +31,7 @@
  * \param param A pointer to user-supplied data passed to SetTimer().
  * This parameter may be \c NULL.
  */
-typedef void (SAMPGDK_TIMER_CALL *TimerCallback)(int timerid, void *param);
+typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
 
 #include <sampgdk/a_samp-decl.h>
 

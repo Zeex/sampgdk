@@ -6,7 +6,7 @@
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
 
-static void SAMPGDK_TIMER_CALL RepeatingTimer(int, void *) {
+static void SAMPGDK_CALL RepeatingTimer(int, void *) {
   sampgdk_logprintf("Timer called: %d", GetTickCount());
 }
 

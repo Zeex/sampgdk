@@ -78,6 +78,4 @@
 #define SAMPGDK_CALLBACK(return_type, rest) \
   SAMPGDK_CALLBACK_EXPORT return_type SAMPGDK_CALLBACK_CALL rest
 
-#define SAMPGDK_TIMER_CALL SAMPGDK_CALL
-
 #endif /* !SAMPGDK_EXPORT_H */
