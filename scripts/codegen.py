@@ -20,8 +20,6 @@ import itertools
 import os
 import sys
 
-EXPORT_PREFIX = 'sampgdk_'
-
 idl_to_c_type_in = {
   'int'    : 'int',
   'bool'   : 'bool',
@@ -117,7 +115,7 @@ def previous_and_next(iterable):
 
 def generate_api_file(module_name, idl, file):
   for f in filter(lambda x: x.has_attr('native'), idl.functions):
-    file.write('%s%s\n' % (EXPORT_PREFIX, f.name))
+    file.write('sampgdk_%s\n' % f.name)
 
 def generate_header_file(module_name, idl, file):
   natives = list(filter(lambda x: x.has_attr('native'),
@@ -179,7 +177,7 @@ def generate_native_decl(file, func):
 
 def generate_native_alias(file, func):
   file.write('#undef  %s\n' % func.name)
-  file.write('#define %s %s%s\n' % (func.name, EXPORT_PREFIX, func.name))
+  file.write('#define %s sampgdk_%s\n' % (func.name, func.name))
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %
@@ -205,9 +203,11 @@ def generate_native_impl(file, func):
         else:
           value = p.name
         if p.type == 'char':
-          file.write('  sampgdk_fakeamx_push(%s, &%s_);\n' % (pnext.name, p.name))
+          file.write('  sampgdk_fakeamx_push(%s, &%s_);\n' %
+                     (pnext.name, p.name))
         elif p.type == 'string':
-          file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' % (value, p.name))
+          file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' %
+                     (value, p.name))
         else:
           file.write('  sampgdk_fakeamx_push(1, &%s_);\n' % p.name)
 
@@ -292,7 +292,8 @@ def generate_callback_impl(file, func):
     )
 
   if badret.value is not None:
-    file.write('  retval_ = ((%s_type)callback)(%s);\n' % (func.name, ArgList(func.params)))
+    file.write('  retval_ = ((%s_type)callback)(%s);\n' %
+               (func.name, ArgList(func.params)))
     file.write('  if (retval != NULL) {\n')
     file.write('    *retval = (cell)retval_;\n')
     file.write('  }\n')
@@ -312,13 +313,11 @@ def generate_callback_impl(file, func):
 
 def main(argv):
   argparser = argparse.ArgumentParser()
-
-  argparser.add_argument('--module-name', dest='module_name', metavar='name', required=True)
-  argparser.add_argument('--idl-file', dest='idl_file', metavar='path', required=True)
-  argparser.add_argument('--api-file', dest='api_file', metavar='path')
-  argparser.add_argument('--header-file', dest='header_file', metavar='path')
-  argparser.add_argument('--source-file', dest='source_file', metavar='path')
-
+  argparser.add_argument('--module', dest='module_name', required=True)
+  argparser.add_argument('--idl', dest='idl_file', required=True)
+  argparser.add_argument('--api', dest='api_file')
+  argparser.add_argument('--header', dest='header_file')
+  argparser.add_argument('--source', dest='source_file')
   args = argparser.parse_args(argv[1:])
 
   try:
