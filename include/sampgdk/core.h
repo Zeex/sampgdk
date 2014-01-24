@@ -16,7 +16,7 @@
 /**
  * \file core.h
  * \brief Core types and functions.
- * \defgroup core Core
+ * \defgroup Core
  */
 
 #ifndef SAMPGDK_CORE_H
@@ -29,7 +29,7 @@
 #include <sampgdk/sdk.h>
 
 /**
- * \addtogroup core
+ * \addtogroup Core
  * @{
  */
 

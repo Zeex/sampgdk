@@ -24,7 +24,7 @@
 #include <sampgdk/export.h>
 
 /**
- * \addtogroup core
+ * \addtogroup Core
  * @{
  */
 

@@ -42,10 +42,10 @@
   #define SAMPGDK_DEPRECATED_API(type, rest) \
     SAMPGDK_API(type, rest) __attribute__((deprecated))
 #elif defined _MSC_VER
-  #define SAMPGDK_DEPRECATED_API(type, rest) \
-    __declspec(deprecated) SAMPGDK_API(type, rest)
+  #define SAMPGDK_DEPRECATED_API(return_type, rest) \
+    __declspec(deprecated) SAMPGDK_API(return_type, rest)
 #else
-  #define SAMPGDK_DEPRECATED_API(type, rest)
+  #define SAMPGDK_DEPRECATED_API(return_type, rest)
 #endif
 
 #if SAMPGDK_WINDOWS

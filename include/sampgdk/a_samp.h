@@ -13,12 +13,24 @@
  * limitations under the License.
  */
 
+/**
+ * \file a_samp.h
+ * \brief General SA-MP functions, constants and callback declarations.
+ */
+
 #ifndef SAMPGDK_A_SAMP_H
 #define SAMPGDK_A_SAMP_H
 
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
+/**
+ * \brief Defines the signature of a timer callback function.
+ *
+ * \param timerid The unique ID for the timer returned by SetTimer().
+ * \param param A pointer to user-supplied data passed to SetTimer().
+ * This parameter may be \c NULL.
+ */
 typedef void (SAMPGDK_TIMER_CALL *TimerCallback)(int timerid, void *param);
 
 #include <sampgdk/a_samp-decl.h>

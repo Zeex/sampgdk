@@ -16,6 +16,11 @@
 #ifndef SAMPGDK_EXPORT_H
 #define SAMPGDK_EXPORT_H
 
+/**
+ * \file export.h
+ * \brief Macros for DLL export/import.
+ */
+
 #include <sampgdk/platform.h>
 #include <sampgdk/sdk.h>
 

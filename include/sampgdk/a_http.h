@@ -13,6 +13,11 @@
  * limitations under the License.
  */
 
+/**
+ * \file a_http.h
+ * \brief The HTTP() function.
+ */
+
 #ifndef SAMPGDK_A_HTTP_H
 #define SAMPGDK_A_HTTP_H
 
