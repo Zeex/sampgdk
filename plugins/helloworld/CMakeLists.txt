@@ -2,6 +2,7 @@ project(helloworld)
 
 cmake_minimum_required(VERSION 2.8)
 
+include(AmxConfig)
 include(Plugin)
 
 if(MSVC)
