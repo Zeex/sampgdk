@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,26 +89,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">a_http-decl.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;SAMPGDK_NATIVE_EXPORT <span class="keywordtype">bool</span> SAMPGDK_NATIVE_CALL sampgdk_HTTP(<span class="keywordtype">int</span> index, <span class="keywordtype">int</span> type, <span class="keyword">const</span> <span class="keywordtype">char</span> * url, <span class="keyword">const</span> <span class="keywordtype">char</span> * data);</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#define HTTP_GET (1)</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_POST (2)</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_HEAD (3)</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_BAD_HOST (1)</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_NO_SOCKET (2)</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CANT_CONNECT (3)</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CANT_WRITE (4)</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CONTENT_TOO_BIG (5)</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_MALFORMED_RESPONSE (6)</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#undef  HTTP</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP sampgdk_HTTP</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;SAMPGDK_CALLBACK_EXPORT <span class="keywordtype">void</span> SAMPGDK_CALLBACK_CALL OnHTTPResponse(<span class="keywordtype">int</span> index, <span class="keywordtype">int</span> response_code, <span class="keyword">const</span> <span class="keywordtype">char</span> * data);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef DOXYGEN</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#undef  HTTP</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP sampgdk_HTTP</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;SAMPGDK_NATIVE(<span class="keywordtype">bool</span>, <a class="code" href="group__natives.html#gabd139869f060a2096b696d09df4952e8">HTTP</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">int</span> type, <span class="keyword">const</span> <span class="keywordtype">char</span> * url, <span class="keyword">const</span> <span class="keywordtype">char</span> * data));</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#define HTTP_GET (1)</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_POST (2)</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_HEAD (3)</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_BAD_HOST (1)</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_NO_SOCKET (2)</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CANT_CONNECT (3)</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CANT_WRITE (4)</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CONTENT_TOO_BIG (5)</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_MALFORMED_RESPONSE (6)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;SAMPGDK_CALLBACK(<span class="keywordtype">void</span>, <a class="code" href="group__callbacks.html#ga33abb6684c01ff551939debf35a20bde">OnHTTPResponse</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">int</span> response_code, <span class="keyword">const</span> <span class="keywordtype">char</span> * data));</div>
+<div class="ttc" id="group__natives_html_gabd139869f060a2096b696d09df4952e8"><div class="ttname"><a href="group__natives.html#gabd139869f060a2096b696d09df4952e8">HTTP</a></div><div class="ttdeci">bool HTTP(int index, int type, const char *url, const char *data)</div></div>
+<div class="ttc" id="group__callbacks_html_ga33abb6684c01ff551939debf35a20bde"><div class="ttname"><a href="group__callbacks.html#ga33abb6684c01ff551939debf35a20bde">OnHTTPResponse</a></div><div class="ttdeci">void OnHTTPResponse(int index, int response_code, const char *data)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 24 2014 15:52:12 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 24 2014 20:23:31 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

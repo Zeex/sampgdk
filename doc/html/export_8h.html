@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -91,6 +91,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">export.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Macros for DLL export/import.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;<a class="el" href="platform_8h_source.html">sampgdk/platform.h</a>&gt;</code><br/>
 <code>#include &lt;<a class="el" href="sdk_8h_source.html">sampgdk/sdk.h</a>&gt;</code><br/>
 </div>
@@ -117,7 +120,7 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>SAMPGDK_EXTERN_C</b></td></tr>
 <tr class="separator:a543bdd293057c9689b3ed6df14673205"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb201fb3f9d79cf97a757446e270ed1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abb201fb3f9d79cf97a757446e270ed1d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SAMPGDK_NATIVE</b>(return_type, rest)&#160;&#160;&#160;SAMPGDK_NATIVE_EXPORT return_type SAMPGDK_NATIVE_CALL sampgdk_##rest</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>SAMPGDK_NATIVE</b>(return_type, rest)&#160;&#160;&#160;SAMPGDK_NATIVE_EXPORT return_type SAMPGDK_NATIVE_CALL rest</td></tr>
 <tr class="separator:abb201fb3f9d79cf97a757446e270ed1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade2ca3425e2e530bf51c79f0c8ad7c5d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade2ca3425e2e530bf51c79f0c8ad7c5d"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>SAMPGDK_NATIVE_CALL</b>&#160;&#160;&#160;SAMPGDK_CALL</td></tr>
@@ -125,14 +128,13 @@ Macros</h2></td></tr>
 <tr class="memitem:a1ad10ec2a32b98467f9f886c10c7c680"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ad10ec2a32b98467f9f886c10c7c680"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>SAMPGDK_NATIVE_EXPORT</b>&#160;&#160;&#160;SAMPGDK_EXPORT</td></tr>
 <tr class="separator:a1ad10ec2a32b98467f9f886c10c7c680"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a74d32778fd212c8b942cc3bddc048e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a74d32778fd212c8b942cc3bddc048e"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>SAMPGDK_TIMER_CALL</b>&#160;&#160;&#160;SAMPGDK_CALL</td></tr>
-<tr class="separator:a6a74d32778fd212c8b942cc3bddc048e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Macros for DLL export/import. </p>
+</div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 24 2014 15:45:25 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 24 2014 20:23:32 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['load',['Load',['../group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777',1,'sdk.h']]]
+  ['ban',['Ban',['../group__natives.html#gaeb93d01663dbf9de8ee6fedfa6d6976f',1,'a_samp-decl.h']]],
+  ['banex',['BanEx',['../group__natives.html#gaf59c5e66782fac7e87e900522d68bc2b',1,'a_samp-decl.h']]]
 ];
