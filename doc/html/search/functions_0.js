@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['onpubliccall',['OnPublicCall',['../group__core.html#ga73622f10d045f94e47a0893f11b8a24b',1,'core.h']]]
+  ['amxload',['AmxLoad',['../group__sdk.html#gab9ab1d3557a62c43781147172136d619',1,'sdk.h']]],
+  ['amxunload',['AmxUnload',['../group__sdk.html#gac4a882c4ebe4f232e6c12671c265e694',1,'sdk.h']]]
 ];

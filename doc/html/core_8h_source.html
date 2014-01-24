@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">GDK
-   &#160;<span id="projectnumber">4.0.0</span>
+   &#160;<span id="projectnumber">4.0.0.353</span>
    </div>
    <div id="projectbrief">Writing SA-MP gamemodes in C/C++</div>
   </td>
@@ -104,54 +104,54 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * limitations under the License.</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#ifndef SAMPGDK_CORE_H</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SAMPGDK_CORE_H</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;stdarg.h&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;sampgdk/bool.h&gt;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;sampgdk/export.h&gt;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;sampgdk/sdk.h&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26">sampgdk_init</a>(<span class="keywordtype">void</span> **plugin_data));</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#gac00e0d77ff10b600ecdbe566ed62c83e">sampgdk_init_plugin</a>(<span class="keywordtype">void</span> *plugin, <span class="keywordtype">void</span> **plugin_data));</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18">sampgdk_cleanup</a>(<span class="keywordtype">void</span>));</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#ga3ec3205c4c2c6b899b0e812c5dbeb934">sampgdk_cleanup_plugin</a>(<span class="keywordtype">void</span> *plugin));</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gacdd1860c839462afe7ad57717af56ec0">sampgdk_logprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...));</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args));</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#gac01dd8a9c465370ca3c5431fc8378d51">sampgdk_register_plugin</a>(<span class="keywordtype">void</span> *plugin));</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#gaf8833c224045e23239ee4fffc12d7acb">sampgdk_unregister_plugin</a>(<span class="keywordtype">void</span> *plugin));</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span> *, <a class="code" href="group__core.html#ga57675d996a02c2bddde58b8dc5f47d02">sampgdk_get_plugin_handle</a>(<span class="keywordtype">void</span> *address));</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span> *, <a class="code" href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd">sampgdk_get_plugin_symbol</a>(<span class="keywordtype">void</span> *plugin, <span class="keyword">const</span> <span class="keywordtype">char</span> *name));</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gacf494439ecaa44d63dcb00d87b124bc2">sampgdk_process_timers</a>(<span class="keywordtype">void</span>));</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#ga82386678995229e44aa8d4879758b56e">sampgdk_process_plugin_timers</a>(<span class="keywordtype">void</span> *plugin));</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;SAMPGDK_API(<span class="keyword">const</span> AMX_NATIVE_INFO *, <a class="code" href="group__core.html#gabf77216a73ff220b635d1f7e60f674c8">sampgdk_get_natives</a>(<span class="keywordtype">void</span>));</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#gaee497a377daa74d0171925e00536b49f">sampgdk_get_num_natives</a>(<span class="keywordtype">void</span>));</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;SAMPGDK_API(AMX_NATIVE, <a class="code" href="group__core.html#gad41b7059e7684435d562b18bc6f8234d">sampgdk_find_native</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name));</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__core.html#ga236b99d3be5e7432ca4027f2f4860c3a">sampgdk_call_native</a>(AMX_NATIVE native, cell *params));</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__core.html#ga025ec5a8045acc004ddc04d8674bb81f">sampgdk_invoke_native</a>(AMX_NATIVE native,</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                                        <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...));</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;PLUGIN_EXPORT <span class="keywordtype">bool</span> PLUGIN_CALL <a class="code" href="group__core.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a>(AMX *amx, <span class="keyword">const</span> <span class="keywordtype">char</span> *name,</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                                            cell *params);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_CORE_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#ifndef SAMPGDK_CORE_H</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SAMPGDK_CORE_H</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;stdarg.h&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="bool_8h.html">sampgdk/bool.h</a>&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;sampgdk/export.h&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="sdk_8h.html">sampgdk/sdk.h</a>&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#ga738edb602b0d477415f8e80e2406dd26">sampgdk_init</a>(<span class="keywordtype">void</span> **plugin_data));</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#gac00e0d77ff10b600ecdbe566ed62c83e">sampgdk_init_plugin</a>(<span class="keywordtype">void</span> *plugin, <span class="keywordtype">void</span> **plugin_data));</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18">sampgdk_cleanup</a>(<span class="keywordtype">void</span>));</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#ga3ec3205c4c2c6b899b0e812c5dbeb934">sampgdk_cleanup_plugin</a>(<span class="keywordtype">void</span> *plugin));</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gacdd1860c839462afe7ad57717af56ec0">sampgdk_logprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...));</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args));</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#gac01dd8a9c465370ca3c5431fc8378d51">sampgdk_register_plugin</a>(<span class="keywordtype">void</span> *plugin));</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#gaf8833c224045e23239ee4fffc12d7acb">sampgdk_unregister_plugin</a>(<span class="keywordtype">void</span> *plugin));</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span> *, <a class="code" href="group__core.html#ga57675d996a02c2bddde58b8dc5f47d02">sampgdk_get_plugin_handle</a>(<span class="keywordtype">void</span> *address));</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span> *, <a class="code" href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd">sampgdk_get_plugin_symbol</a>(<span class="keywordtype">void</span> *plugin, <span class="keyword">const</span> <span class="keywordtype">char</span> *name));</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gacf494439ecaa44d63dcb00d87b124bc2">sampgdk_process_timers</a>(<span class="keywordtype">void</span>));</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#ga82386678995229e44aa8d4879758b56e">sampgdk_process_plugin_timers</a>(<span class="keywordtype">void</span> *plugin));</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;SAMPGDK_API(<span class="keyword">const</span> AMX_NATIVE_INFO *, <a class="code" href="group__core.html#gabf77216a73ff220b635d1f7e60f674c8">sampgdk_get_natives</a>(<span class="keywordtype">void</span>));</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;SAMPGDK_API(<span class="keywordtype">int</span>, <a class="code" href="group__core.html#gaee497a377daa74d0171925e00536b49f">sampgdk_get_num_natives</a>(<span class="keywordtype">void</span>));</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;SAMPGDK_API(AMX_NATIVE, <a class="code" href="group__core.html#gad41b7059e7684435d562b18bc6f8234d">sampgdk_find_native</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name));</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__core.html#ga236b99d3be5e7432ca4027f2f4860c3a">sampgdk_call_native</a>(AMX_NATIVE native, cell *params));</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__core.html#ga025ec5a8045acc004ddc04d8674bb81f">sampgdk_invoke_native</a>(AMX_NATIVE native,</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                                        <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...));</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;PLUGIN_EXPORT <span class="keywordtype">bool</span> PLUGIN_CALL <a class="code" href="group__core.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a>(AMX *amx, <span class="keyword">const</span> <span class="keywordtype">char</span> *name,</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                                            cell *params);</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_CORE_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="group__core_html_gac01dd8a9c465370ca3c5431fc8378d51"><div class="ttname"><a href="group__core.html#gac01dd8a9c465370ca3c5431fc8378d51">sampgdk_register_plugin</a></div><div class="ttdeci">int sampgdk_register_plugin(void *plugin)</div><div class="ttdoc">Registers a plugin for receiving events (e.g. SA-MP callbacks). </div></div>
 <div class="ttc" id="group__core_html_ga3ec3205c4c2c6b899b0e812c5dbeb934"><div class="ttname"><a href="group__core.html#ga3ec3205c4c2c6b899b0e812c5dbeb934">sampgdk_cleanup_plugin</a></div><div class="ttdeci">int sampgdk_cleanup_plugin(void *plugin)</div><div class="ttdoc">Same as sampgdk_cleanup() but explicitly specifies the plugin. </div></div>
 <div class="ttc" id="group__core_html_gad41b7059e7684435d562b18bc6f8234d"><div class="ttname"><a href="group__core.html#gad41b7059e7684435d562b18bc6f8234d">sampgdk_find_native</a></div><div class="ttdeci">AMX_NATIVE sampgdk_find_native(const char *name)</div><div class="ttdoc">Finds a native function by name. </div></div>
@@ -167,13 +167,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="group__core_html_ga82cef46f3372effb8974d9af703dd6dd"><div class="ttname"><a href="group__core.html#ga82cef46f3372effb8974d9af703dd6dd">sampgdk_get_plugin_symbol</a></div><div class="ttdeci">void * sampgdk_get_plugin_symbol(void *plugin, const char *name)</div><div class="ttdoc">Finds a symbol defined in a plugin by name. </div></div>
 <div class="ttc" id="group__core_html_ga025ec5a8045acc004ddc04d8674bb81f"><div class="ttname"><a href="group__core.html#ga025ec5a8045acc004ddc04d8674bb81f">sampgdk_invoke_native</a></div><div class="ttdeci">cell sampgdk_invoke_native(AMX_NATIVE native, const char *format,...)</div><div class="ttdoc">Invokes a native function with the specified arguments. </div></div>
 <div class="ttc" id="group__core_html_gacdd1860c839462afe7ad57717af56ec0"><div class="ttname"><a href="group__core.html#gacdd1860c839462afe7ad57717af56ec0">sampgdk_logprintf</a></div><div class="ttdeci">void sampgdk_logprintf(const char *format,...)</div><div class="ttdoc">Prints a message to the server log. The format string is of the space format as in printf()...</div></div>
+<div class="ttc" id="sdk_8h_html"><div class="ttname"><a href="sdk_8h.html">sdk.h</a></div><div class="ttdoc">Includes all SDK headers and provides some extra defintions. </div></div>
+<div class="ttc" id="bool_8h_html"><div class="ttname"><a href="bool_8h.html">bool.h</a></div><div class="ttdoc">Support for bool in pre-C99 compilers. </div></div>
 <div class="ttc" id="group__core_html_ga74b5b320ad2d0fb58cec4751792efb18"><div class="ttname"><a href="group__core.html#ga74b5b320ad2d0fb58cec4751792efb18">sampgdk_cleanup</a></div><div class="ttdeci">int sampgdk_cleanup(void)</div><div class="ttdoc">Unregisters the calling plugin and, if this is the last remaining plugin, it performs the final clean...</div></div>
 <div class="ttc" id="group__core_html_gabf77216a73ff220b635d1f7e60f674c8"><div class="ttname"><a href="group__core.html#gabf77216a73ff220b635d1f7e60f674c8">sampgdk_get_natives</a></div><div class="ttdeci">const AMX_NATIVE_INFO * sampgdk_get_natives(void)</div><div class="ttdoc">Gets all currently registered native functions. </div></div>
 <div class="ttc" id="group__core_html_ga73622f10d045f94e47a0893f11b8a24b"><div class="ttname"><a href="group__core.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a></div><div class="ttdeci">bool OnPublicCall(AMX *amx, const char *name, cell *params)</div><div class="ttdoc">Called on every public function call. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 24 2014 01:10:41 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 24 2014 15:52:12 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

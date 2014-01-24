@@ -7,10 +7,10 @@
 
 var indexSectionsWithContent =
 {
-  0: "cosv",
-  1: "cv",
-  2: "os",
-  3: "c"
+  0: "abclopsuv",
+  1: "bcpsv",
+  2: "alosu",
+  3: "cs"
 };
 
 var indexSectionNames =
