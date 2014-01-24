@@ -88,7 +88,7 @@
 /**
  * \brief Called before Load() to check for compatibility.
  *
- * The Support() function indicates what possibilities this
+ * The Supports() function indicates what possibilities this
  * plugin has. The SUPPORTS_VERSION flag is required to check
  * for compatibility with the server. 
  *
