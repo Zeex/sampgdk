@@ -39,12 +39,14 @@ There are also some useful files provied for developing plugins in Visual Studio
 using the above method. They are located in `build/visual-studio`. Running the
 `configure.bat` script is the first thing you would do after downloading the
 source code and installing the necessary development tools (like CMake and the
-Visual Studio itself). Next you have to set the `SAMP_SERVER_ROOT` environment
-variable to the full path of the server folder - this makes the post-build
-events work and allows you to run the server easily from within Visual Studio.
-The post-build events defined in the .user files copy both the library and
-helloworld.dll to `%SAMP_SERVER_ROOT%` and `%SAMP_SERVER_ROOT%/plugins`
-respectively (but only in Debug builds).
+Visual Studio itself).
+
+Next you have to set the `SAMP_SERVER_ROOT` environment variable to the full
+path of the server folder - this makes the post-build events work and allows
+you to run the server easily from within Visual Studio. The post-build events
+defined in the .user files copy both the library and helloworld.dll to
+`%SAMP_SERVER_ROOT%` and `%SAMP_SERVER_ROOT%/plugins` respectively (but only
+in Debug builds).
 
 ### Binaries
 
