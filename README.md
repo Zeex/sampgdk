@@ -1,4 +1,4 @@
-[SA-MP Gamemode Development Kit][github]
+[GDK - Gamemode SDK for C/C++][github]
 ========================================
 
 [![Donate][donate_button]][donate]
