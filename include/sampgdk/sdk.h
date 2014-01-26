@@ -85,7 +85,7 @@
 #define AMX_EXEC_GDK (-10)
 
 /**
- * \brief Called before Load() to check for compatibility.
+ * \brief Gets called before Load() to check for compatibility.
  *
  * The Supports() function indicates what possibilities this
  * plugin has. The SUPPORTS_VERSION flag is required to check
@@ -96,7 +96,7 @@
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports();
 
 /**
- * \brief Called when the plugin is loaded.
+ * \brief Gets called when the plugin is loaded.
  *
  * The Load() function gets passed on exported functions from
  * the SA-MP Server, like the AMX Functions and logprintf().
@@ -108,7 +108,7 @@ PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports();
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData);
 
 /**
- * \brief Called when the plugin is unloaded.
+ * \brief Gets called when the plugin is unloaded.
  *
  * The Unload() function is called when the server shuts down,
  * meaning this plugin gets shut down with it.
@@ -116,7 +116,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData);
 PLUGIN_EXPORT void PLUGIN_CALL Unload();
 
 /**
- * \brief Called when a new script is loaded.
+ * \brief Gets called when a new script is loaded.
  *
  * The AmxLoad() function gets called when a new gamemode or
  * filterscript gets loaded with the server. In here we register
@@ -127,7 +127,7 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload();
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx);
 
 /**
- * \brief Called when a script is unloaded.
+ * \brief Gets called when a script is unloaded.
  *
  * When a gamemode is over or a filterscript gets unloaded, this
  * function gets called. No special actions needed in here.
@@ -135,6 +135,16 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx);
  * \returns One of the AMX error codes.
  */
 PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx);
+
+/**
+ * \brief Gets called on every server tick.
+ *
+ * The ticks correspond to one iteration of the server's event loop.
+ * The interval between two server ticks depends on many factors,
+ * however it's possible to set the minimum tick rate in server.cfg
+ * (the default value is 5ms).
+ */
+PLUGIN_EXPORT void PLUGIN_CALL ProcessTick();
 
 /** @} */
 
