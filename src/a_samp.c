@@ -1,4 +1,4 @@
-/* Copyright (C) 2012-2013 Zeex
+/* Copyright (C) 2012-2014 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,17 @@
  */
 
 #include <sampgdk/a_samp.h>
-#include "timer.h"
+#include <sampgdk/export.h>
+
+#include "internal/callback.h"
+#include "internal/fakeamx.h"
+#include "internal/init.h"
+#include "internal/likely.h"
+#include "internal/native.h"
+#include "internal/param.h"
+#include "internal/timer.h"
+
+#include "a_samp-impl.h"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback,
                              void *param)) {

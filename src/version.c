@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2013 Zeex
+/* Copyright (C) 2011-2014 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 #include <sampgdk/export.h>
 #include <sampgdk/version.h>
 
-SAMPGDK_EXPORT int SAMPGDK_CALL sampgdk_version_id(void) {
+SAMPGDK_API(int, sampgdk_get_version(void)) {
   return SAMPGDK_VERSION_ID;
 }
 
-SAMPGDK_EXPORT const char *SAMPGDK_CALL sampgdk_version_string(void) {
+SAMPGDK_API(const char *, sampgdk_get_version_string(void)) {
   return SAMPGDK_VERSION_STRING;
 }

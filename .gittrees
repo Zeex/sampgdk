@@ -1,0 +1,16 @@
+[subtree "lib/python/ply"]
+	url = https://github.com/dabeaz/ply.git
+	path = lib/python/ply
+	branch = master
+[subtree "lib/python/cidl"]
+	url = https://github.com/Zeex/cidl.git
+	path = lib/python/cidl
+	branch = master
+[subtree "lib/subhook"]
+	url = https://github.com/Zeex/subhook.git
+	path = lib/subhook
+	branch = master
+[subtree "lib/sdk"]
+	url = https://github.com/Zeex/samp-plugin-sdk.git
+	path = lib/sdk
+	branch = original

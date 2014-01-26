@@ -1,2 +1,2 @@
-sampgdk_version_id
-sampgdk_version_string
+sampgdk_get_version
+sampgdk_get_version_string

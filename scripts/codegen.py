@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright (C) 2012-2013 Zeex
+# Copyright (C) 2012-2014 Zeex
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ import cidl
 import itertools
 import os
 import sys
-
-EXPORT_PREFIX = 'sampgdk_'
 
 idl_to_c_type_in = {
   'int'    : 'int',
@@ -117,56 +115,33 @@ def previous_and_next(iterable):
 
 def generate_api_file(module_name, idl, file):
   for f in filter(lambda x: x.has_attr('native'), idl.functions):
-    file.write('%s%s\n' % (EXPORT_PREFIX, f.name))
+    file.write('sampgdk_%s\n' % f.name)
 
 def generate_header_file(module_name, idl, file):
-  natives = list(filter(lambda x: x.has_attr('native'), idl.functions))
+  natives = list(filter(lambda x: x.has_attr('native'),
+                        idl.functions))
+  file.write('#ifndef DOXYGEN\n')
+  for func in natives:
+    generate_native_alias(file, func)
+  file.write('#endif\n\n')
 
   for func in natives:
     generate_native_decl(file, func)
   file.write('\n')
 
-  file.write('#ifndef __cplusplus\n\n')
-
   for const in idl.constants:
-    generate_constant_c(file, const)
-  file.write('\n')
-  for func in natives:
-    generate_native_alias_c(file, func)
+    generate_constant(file, const)
   file.write('\n')
 
-  file.write('#else /* __cplusplus */\n\n')
-  file.write('SAMPGDK_BEGIN_NAMESPACE\n\n')
-
-  for const in idl.constants:
-    generate_constant_cxx(file, const)
-  file.write('\n')
-  for func in natives:
-    generate_native_alias_cxx(file, func)
-  file.write('\n')
-
-  file.write('SAMPGDK_END_NAMESPACE\n\n')
-  file.write('#endif /* __cplusplus */\n\n')
-
-  for func in filter(lambda x: x.has_attr('callback'), idl.functions):
+  callbacks = list(filter(lambda x: x.has_attr('callback'),
+                          idl.functions))
+  for func in callbacks:
     generate_callback_decl(file, func)
 
 def generate_source_file(module_name, idl, file):
-  file.write(
-    '#include <sampgdk/export.h>\n'
-    '\n'
-    '#include "callback.h"\n'
-    '#include "fakeamx.h"\n'
-    '#include "init.h"\n'
-    '#include "likely.h"\n'
-    '#include "native.h"\n'
-    '#include "param.h"\n'
-  )
-
-  file.write('\n')
-
-  natives = list(filter(lambda x: x.has_attr('native') and
-                                  not x.has_attr('noimpl'), idl.functions))
+  natives = list(filter(lambda x: x.has_attr('native') and not
+                                  x.has_attr('noimpl'),
+                        idl.functions))
   for func in natives:
     generate_native_impl(file, func)
     file.write('\n')
@@ -192,31 +167,26 @@ def generate_source_file(module_name, idl, file):
   file.write('  sampgdk_callback_unregister_table(callback_table);\n')
   file.write('}\n')
 
-def generate_constant_c(file, const):
+def generate_constant(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
 
-def generate_constant_cxx(file, const):
-  file.write('const %s %s = %s;\n' % (const.type, const.name, const.value))
-
 def generate_native_decl(file, func):
-  file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s);\n'
-             % (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
+  file.write('\n')
+  file.write('/**\n')
+  file.write(' * \\ingroup natives\n')
+  file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
+             '%s on SA-MP Wiki</a>' % (func.name, func.name))
+  file.write(' */\n')
+  file.write('SAMPGDK_NATIVE(%s, %s(%s));\n'
+             % (func.type, func.name, ParamList(func.params)))
 
-def generate_native_alias_c(file, func):
+def generate_native_alias(file, func):
   file.write('#undef  %s\n' % func.name)
-  file.write('#define %s %s%s\n' % (func.name, EXPORT_PREFIX, func.name))
-
-def generate_native_alias_cxx(file, func):
-  file.write('static inline %s %s(%s) {\n' % (func.type, func.name, ParamList(func.params)))
-  if func.type != 'void':
-    file.write('  return ::%s%s(%s);\n' % (EXPORT_PREFIX, func.name, ArgList(func.params)))
-  else:
-    file.write('  ::%s%s(%s);\n' % (EXPORT_PREFIX, func.name, ArgList(func.params)))
-  file.write('}\n')
+  file.write('#define %s sampgdk_%s\n' % (func.name, func.name))
 
 def generate_native_impl(file, func):
-  file.write('SAMPGDK_NATIVE_EXPORT %s SAMPGDK_NATIVE_CALL %s%s(%s) {\n' %
-             (func.type, EXPORT_PREFIX, func.name, ParamList(func.params)))
+  file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %
+             (func.type, func.name, ParamList(func.params)))
   file.write('  static AMX_NATIVE native;\n')
   file.write('  cell retval;\n')
 
@@ -238,9 +208,11 @@ def generate_native_impl(file, func):
         else:
           value = p.name
         if p.type == 'char':
-          file.write('  sampgdk_fakeamx_push(%s, &%s_);\n' % (pnext.name, p.name))
+          file.write('  sampgdk_fakeamx_push(%s, &%s_);\n' %
+                     (pnext.name, p.name))
         elif p.type == 'string':
-          file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' % (value, p.name))
+          file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' %
+                     (value, p.name))
         else:
           file.write('  sampgdk_fakeamx_push(1, &%s_);\n' % p.name)
 
@@ -297,7 +269,13 @@ def generate_native_impl(file, func):
   file.write('}\n')
 
 def generate_callback_decl(file, func):
-    file.write('SAMPGDK_CALLBACK_EXPORT %s SAMPGDK_CALLBACK_CALL %s(%s);\n' %
+  file.write('\n')
+  file.write('/**\n')
+  file.write(' * \\ingroup callbacks\n')
+  file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
+             '%s on SA-MP Wiki</a>' % (func.name, func.name))
+  file.write(' */\n')
+  file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
                (func.type, func.name, ParamList(func.params)))
 
 def generate_callback_impl(file, func):
@@ -324,7 +302,8 @@ def generate_callback_impl(file, func):
     )
 
   if badret.value is not None:
-    file.write('  retval_ = ((%s_type)callback)(%s);\n' % (func.name, ArgList(func.params)))
+    file.write('  retval_ = ((%s_type)callback)(%s);\n' %
+               (func.name, ArgList(func.params)))
     file.write('  if (retval != NULL) {\n')
     file.write('    *retval = (cell)retval_;\n')
     file.write('  }\n')
@@ -344,13 +323,11 @@ def generate_callback_impl(file, func):
 
 def main(argv):
   argparser = argparse.ArgumentParser()
-
-  argparser.add_argument('--module-name', dest='module_name', metavar='name', required=True)
-  argparser.add_argument('--idl-file', dest='idl_file', metavar='path', required=True)
-  argparser.add_argument('--api-file', dest='api_file', metavar='path')
-  argparser.add_argument('--header-file', dest='header_file', metavar='path')
-  argparser.add_argument('--source-file', dest='source_file', metavar='path')
-
+  argparser.add_argument('--module', dest='module_name', required=True)
+  argparser.add_argument('--idl', dest='idl_file', required=True)
+  argparser.add_argument('--api', dest='api_file')
+  argparser.add_argument('--header', dest='header_file')
+  argparser.add_argument('--source', dest='source_file')
   args = argparser.parse_args(argv[1:])
 
   try:

@@ -3,11 +3,9 @@ compiler:
   - gcc
 install:
   - sudo apt-get install gcc-multilib g++-multilib
+  - wget http://www.cmake.org/files/v2.8/cmake-2.8.12.1-Linux-i386.sh
+  - sudo sh cmake-2.8.12.1-Linux-i386.sh --exclude-subdir --prefix=/usr
 before_script:
   - cmake . -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32
 script:
   - make
-branches:
-  only:
-    - master
-    - next

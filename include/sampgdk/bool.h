@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2013 Zeex
+/* Copyright (C) 2011-2014 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,11 @@
 
 #ifndef SAMPGDK_BOOL_H
 #define SAMPGDK_BOOL_H
+
+/**
+ * \file bool.h
+ * \brief Support for \c bool in pre-C99 compilers.
+ */
 
 /* bool */
 #if !defined __cplusplus && !defined HAVE_BOOL

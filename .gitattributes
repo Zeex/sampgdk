@@ -1,7 +1,6 @@
-* text=auto
-
-*.c   text eol=lf whitespace=trailing-space, tabwidth=2, tab-in-indent
-*.h   text eol=lf whitespace=trailing-space, tabwidth=2, tab-in-indent
-*.cpp text eol=lf whitespace=trailing-space, tabwidth=2, tab-in-indent
-*.hpp text eol=lf whitespace=trailing-space, tabwidth=2, tab-in-indent
-*.py  text eol=lf whitespace=trailing-space, tabwidth=2, tab-in-indent
+*     text=auto
+*.c   whitespace=trailing-space, tabwidth=2, tab-in-indent
+*.cpp whitespace=trailing-space, tabwidth=2, tab-in-indent
+*.h   whitespace=trailing-space, tabwidth=2, tab-in-indent
+*.hpp whitespace=trailing-space, tabwidth=2, tab-in-indent
+*.py  whitespace=trailing-space, tabwidth=2, tab-in-indent

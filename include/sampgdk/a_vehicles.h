@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2013 Zeex
+/* Copyright (C) 2011-2014 Zeex
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,18 @@
  * limitations under the License.
  */
 
+/**
+ * \file a_vehicles.h
+ * \brief Vehicle manipulation functions.
+ */
+
 #ifndef SAMPGDK_A_VEHICLES_H
 #define SAMPGDK_A_VEHICLES_H
 
 #include <sampgdk/a_samp.h>
 #include <sampgdk/bool.h>
-#include <sampgdk/compatibility.h>
 #include <sampgdk/export.h>
 
 #include <sampgdk/a_vehicles-decl.h>
-
-#ifdef __cplusplus
-  #include <sampgdk/a_vehicles.hpp>
-#endif
 
 #endif /* !SAMPGDK_A_VEHICLES_H */
