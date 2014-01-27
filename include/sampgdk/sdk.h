@@ -20,11 +20,6 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/platform.h>
 
-/**
- * \file sdk.h
- * \brief Includes all SDK headers and provides some extra defintions.
- */
-
 /* stdint.h */
 #if !defined HAVE_STDINT_H
   #if (!defined __STDC__ && __STDC_VERSION__ >= 199901L /* C99 or newer */)\
@@ -139,10 +134,10 @@ PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx);
 /**
  * \brief Gets called on every server tick.
  *
- * The ticks correspond to one iteration of the server's event loop.
- * The interval between two server ticks depends on many factors,
- * however it's possible to set the minimum tick rate in server.cfg
- * (the default value is 5ms).
+ * Each tick corresponds to one iteration of the server's internal
+ * event loop. The interval between ticks depends on many factors,
+ * but it's possible to set the minimum tick rate via server.cfg
+ * (default is 5ms).
  */
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick();
 

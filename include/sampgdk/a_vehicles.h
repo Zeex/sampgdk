@@ -13,11 +13,6 @@
  * limitations under the License.
  */
 
-/**
- * \file a_vehicles.h
- * \brief Vehicle manipulation functions.
- */
-
 #ifndef SAMPGDK_A_VEHICLES_H
 #define SAMPGDK_A_VEHICLES_H
 

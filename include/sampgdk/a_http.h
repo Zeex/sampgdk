@@ -13,11 +13,6 @@
  * limitations under the License.
  */
 
-/**
- * \file a_http.h
- * \brief A threaded HTTP client.
- */
-
 #ifndef SAMPGDK_A_HTTP_H
 #define SAMPGDK_A_HTTP_H
 

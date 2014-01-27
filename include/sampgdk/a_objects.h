@@ -13,11 +13,6 @@
  * limitations under the License.
  */
 
-/**
- * \file a_objects.h
- * \brief Object manipulation functions.
- */
-
 #ifndef SAMPGDK_A_OBJECTS_H
 #define SAMPGDK_A_OBJECTS_H
 

@@ -25,8 +25,7 @@ AMX_NATIVE sampgdk_native_find(const char *name);
 AMX_NATIVE sampgdk_native_find_warn(const char *name);
 AMX_NATIVE sampgdk_native_find_stub(const char *name);
 AMX_NATIVE sampgdk_native_find_warn_stub(const char *name);
-const AMX_NATIVE_INFO *sampgdk_native_get_natives(void);
-int sampgdk_native_get_num_natives(void);
+const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number);
 cell sampgdk_native_call(AMX_NATIVE native, cell *params);
 cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args);
 

@@ -42,17 +42,17 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmd
 }
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
-  return SUPPORTS_VERSION | SUPPORTS_PROCESS_TICK;
+  return sampgdk_Supports() | SUPPORTS_PROCESS_TICK;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
-  return sampgdk_init(ppData) >= 0;
+  return sampgdk_Load(ppData);
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-  sampgdk_cleanup();
+  sampgdk_Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
-  sampgdk_process_timers();
+  sampgdk_ProcessTick();
 }

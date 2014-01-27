@@ -13,11 +13,6 @@
  * limitations under the License.
  */
 
-/**
- * \file a_players.h
- * \brief Player manipulation functions.
- */
-
 #ifndef SAMPGDK_A_PLAYERS_H
 #define SAMPGDK_A_PLAYERS_H
 

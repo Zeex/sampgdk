@@ -16,11 +16,6 @@
 #ifndef SAMPGDK_BOOL_H
 #define SAMPGDK_BOOL_H
 
-/**
- * \file bool.h
- * \brief Support for \c bool in pre-C99 compilers.
- */
-
 /* bool */
 #if !defined __cplusplus && !defined HAVE_BOOL
   /* If HAVE_BOOL is not defined we attempt to detect stdbool.h first,

@@ -13,18 +13,13 @@
  * limitations under the License.
  */
 
-/**
- * \file version.h
- * \brief Library version information.
- */
-
 #ifndef SAMPGDK_VERSION_H
 #define SAMPGDK_VERSION_H
 
 #include <sampgdk/export.h>
 
 /**
- * \addtogroup core
+ * \addtogroup version
  * @{
  */
 
@@ -70,7 +65,7 @@
  * \see SAMPGDK_VERSION_ID
  * \see sampgdk_get_version_string()
  */
-SAMPGDK_API(int, sampgdk_get_version(void));
+SAMPGDK_API(int, sampgdk_GetVersion(void));
 
 /**
  * \brief Gets library version string.
@@ -80,7 +75,7 @@ SAMPGDK_API(int, sampgdk_get_version(void));
  * \see SAMPGDK_VERSION_STRING
  * \see sampgdk_get_version().
  */
-SAMPGDK_API(const char *, sampgdk_get_version_string(void));
+SAMPGDK_API(const char *, sampgdk_GetVersionString(void));
 
 /** @} */
 

@@ -12,6 +12,7 @@ sampgdk_add_headers(
   bool.h
   core.h
   export.h
+  interop.h
   platform.h
   sdk.h
   ${CMAKE_CURRENT_BINARY_DIR}/${SAMPGDK_VERSION_FILE}

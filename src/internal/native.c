@@ -134,12 +134,9 @@ AMX_NATIVE sampgdk_native_find_warn_stub(const char *name) {
   return func;
 }
 
-const AMX_NATIVE_INFO *sampgdk_native_get_natives(void) {
+const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number) {
+  *number = natives.count;
   return (const AMX_NATIVE_INFO*)natives.data;
-}
-
-int sampgdk_native_get_num_natives(void) {
-  return natives.count;
 }
 
 cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
@@ -147,10 +144,10 @@ cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
   return native(amx, params);
 }
 
-cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) {
+cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
+                           va_list args) {
   AMX *amx = sampgdk_fakeamx_amx();
   cell i;
-  cell num_params = 0;
   cell params[MAX_NATIVE_PARAMS] = {0};
   struct ref_param {
     void  *ptr;
@@ -159,57 +156,55 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args) 
   cell retval;
 
   assert(native != NULL);
+  assert(format != NULL);
 
-  if (format != NULL) {
-    for (i = 1; format[i - 1] != '\0'; i++) {
-      char type = format[i - 1];
-      switch (type) {
-        case 'i': /* integer */
-        case 'd': /* integer */
-        case 'b': /* boolean */
-          params[i] = (cell)va_arg(args, int);
-          break;
-        case 'f': /* floating-point */ {
-          float value = (float)va_arg(args, double);
-          params[i] = amx_ftoc(value);
-          break;
-        }
-        case 'r': /* const reference */
-        case 'R': /* non-const reference (writeable) */ {
-          cell *ptr = va_arg(args, cell *);
-          sampgdk_fakeamx_push_cell(*ptr, &params[i]);
-          ref_params[i].ptr = ptr;
-          if (type == 'R') {
-            ref_params[i].size = sizeof(cell);
-          }
-          break;
-        }
-        case 's': /* const string */
-        case 'S': /* non-const string (writeable) */ {
-          char *str = va_arg(args, char *);
-          sampgdk_fakeamx_push_string(str, NULL, &params[i]);
-          ref_params[i].ptr = str;
-          if (type == 'S') {
-            size_t size = va_arg(args, size_t);
-            ref_params[i].size = size;
-            /* Next parameter must be an integer argument containing the size
-             * of the string. All SA-MP natives follow this convention.
-             */
-            params[++i] = size;
-          }
-          break;
-        }
-        default:
-          assert(0 && "Invalid type specifier");
+  for (i = 1; format[i - 1] != '\0'; i++) {
+    char type = format[i - 1];
+    switch (type) {
+      case 'i': /* integer */
+      case 'd': /* integer */
+      case 'b': /* boolean */
+        params[i] = (cell)va_arg(args, int);
+        break;
+      case 'f': /* floating-point */ {
+        float value = (float)va_arg(args, double);
+        params[i] = amx_ftoc(value);
+        break;
       }
+      case 'r': /* const reference */
+      case 'R': /* non-const reference (writeable) */ {
+        cell *ptr = va_arg(args, cell *);
+        sampgdk_fakeamx_push_cell(*ptr, &params[i]);
+        ref_params[i].ptr = ptr;
+        if (type == 'R') {
+          ref_params[i].size = sizeof(cell);
+        }
+        break;
+      }
+      case 's': /* const string */
+      case 'S': /* non-const string (writeable) */ {
+        char *str = va_arg(args, char *);
+        sampgdk_fakeamx_push_string(str, NULL, &params[i]);
+        ref_params[i].ptr = str;
+        if (type == 'S') {
+          size_t size = va_arg(args, size_t);
+          ref_params[i].size = size;
+          /* Next parameter must be an integer argument containing the size
+           * of the string. All SA-MP natives follow this convention.
+           */
+          params[++i] = size;
+        }
+        break;
+      }
+      default:
+        assert(0 && "Invalid type specifier");
     }
-    num_params = i - 1;
   }
 
-  params[0] = num_params * sizeof(cell);
+  params[0] = (i - 1) * sizeof(cell);
   retval = native(amx, params);
  
-  for (i = num_params; i >= 1; i--) {
+  while (--i >= 1) {
     if (ref_params[i].size != 0) {
       /* If this is an output parameter, write back its new value. */
       char type = format[i - 1];

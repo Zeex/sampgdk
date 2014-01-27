@@ -16,6 +16,8 @@ sampgdk_add_sources(
   a_vehicles.idl
   core.api
   core.c
+  interop.api
+  interop.c
   sampgdk.rc
   version.api
   version.c

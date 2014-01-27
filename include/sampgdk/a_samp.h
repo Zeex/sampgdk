@@ -13,11 +13,6 @@
  * limitations under the License.
  */
 
-/**
- * \file a_samp.h
- * \brief General SA-MP functions, constants and callback declarations.
- */
-
 #ifndef SAMPGDK_A_SAMP_H
 #define SAMPGDK_A_SAMP_H
 
@@ -26,6 +21,7 @@
 
 /**
  * \brief Defines the signature of a timer callback function.
+ * \ingroup natives
  *
  * \param timerid The unique ID for the timer returned by SetTimer().
  * \param param A pointer to user-supplied data passed to SetTimer().

@@ -21,7 +21,6 @@
 #include "internal/init.h"
 #include "internal/log.h"
 #include "internal/logprintf.h"
-#include "internal/native.h"
 #include "internal/plugin.h"
 #include "internal/timer.h"
 
@@ -31,47 +30,72 @@
   #define RETURN_ADDRESS() __builtin_return_address(0)
 #endif
 
-static int init(void **plugin_data) {
+static void init(void **plugin_data) {
+  int error;
+
   sampgdk_logprintf_impl = plugin_data[PLUGIN_DATA_LOGPRINTF];
   sampgdk_amx_api_ptr = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
-  return sampgdk_module_init();
+
+  error = sampgdk_module_init();
+  if (error  < 0) {
+    sampgdk_log_error_code(error);
+  }
+}
+
+static int init_plugin(void *plugin, void **plugin_data) {
+  int error;
+
+  if (sampgdk_plugin_get_list() == NULL) {
+    init(plugin_data);
+  }
+
+  error = sampgdk_plugin_register(plugin);
+  if (error < 0) {
+    sampgdk_log_error_code(error);
+  }
+
+  return error;
 }
 
 static void cleanup(void) {
   sampgdk_module_cleanup();
 }
 
-SAMPGDK_API(int, sampgdk_init(void **plugin_data)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  return sampgdk_init_plugin(plugin, plugin_data);
-}
+static void cleanup_plugin(void *plugin) {
+  int error;
 
-SAMPGDK_API(int, sampgdk_init_plugin(void *plugin, void **plugin_data)) {
-  if (sampgdk_plugin_get_list() == NULL) {
-    int error = init(plugin_data);
-    if (error < 0) {
-      sampgdk_log_error_code(error);
-      return error;
-    }
+  error = sampgdk_plugin_unregister(plugin);
+  if (error < 0) {
+    sampgdk_log_error_code(error);
   }
-  return sampgdk_plugin_register(plugin);
-}
 
-SAMPGDK_API(int, sampgdk_cleanup(void)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  return sampgdk_cleanup_plugin(plugin);
-}
-
-SAMPGDK_API(int, sampgdk_cleanup_plugin(void *plugin)) {
-  int error = sampgdk_plugin_unregister(plugin);
   if (sampgdk_plugin_get_list() == NULL) {
     cleanup();
   }
-  return error;
+}
+
+SAMPGDK_API(unsigned int, sampgdk_Supports(void)) {
+  return SUPPORTS_VERSION;
+}
+
+SAMPGDK_API(bool, sampgdk_Load(void **ppData)) {
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  return init_plugin(plugin, ppData) >= 0;
+}
+
+SAMPGDK_API(void, sampgdk_Unload(void)) {
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  cleanup_plugin(plugin);
+}
+
+SAMPGDK_API(void, sampgdk_ProcessTimers(void)) {
+  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  sampgdk_timer_process_timers(plugin);
 }
 
 SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...)) {
   va_list args;
+
   va_start(args, format);
   sampgdk_do_vlogprintf(format, args);
   va_end(args);
@@ -79,58 +103,4 @@ SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...)) {
 
 SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args)) {
   sampgdk_do_vlogprintf(format, args);
-}
-
-SAMPGDK_API(int, sampgdk_register_plugin(void *plugin)) {
-  return sampgdk_plugin_register(plugin);
-}
-
-SAMPGDK_API(int, sampgdk_unregister_plugin(void *plugin)) {
-  return sampgdk_plugin_unregister(plugin);
-}
-
-SAMPGDK_API(void *, sampgdk_get_plugin_handle(void *address)) {
-  return sampgdk_plugin_get_handle(address);
-}
-
-SAMPGDK_API(void *, sampgdk_get_plugin_symbol(void *plugin,
-                                              const char *name)) {
-  return sampgdk_plugin_get_symbol(plugin, name);
-}
-
-SAMPGDK_API(void, sampgdk_process_timers(void)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
-  sampgdk_timer_process_timers(plugin);
-}
-
-SAMPGDK_API(void, sampgdk_process_plugin_timers(void *plugin)) {
-  sampgdk_timer_process_timers(plugin);
-}
-
-SAMPGDK_API(const AMX_NATIVE_INFO *, sampgdk_get_natives(void)) {
-  return sampgdk_native_get_natives();
-}
-
-SAMPGDK_API(int, sampgdk_get_num_natives(void)) {
-  return sampgdk_native_get_num_natives();
-}
-
-SAMPGDK_API(AMX_NATIVE, sampgdk_find_native(const char *name)) {
-  return sampgdk_native_find(name);
-}
-
-SAMPGDK_API(cell, sampgdk_call_native(AMX_NATIVE native, cell *params)) {
-  return sampgdk_native_call(native, params);
-}
-
-SAMPGDK_API(cell, sampgdk_invoke_native(AMX_NATIVE native,
-                                        const char *format, ...)) {
-  va_list args;
-  cell retval;
-
-  va_start(args, format);
-  retval = sampgdk_native_invoke(native, format, args);
-  va_end(args);
-
-  return retval;
 }
