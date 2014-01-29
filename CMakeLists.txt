@@ -157,6 +157,7 @@ set(PYTHONPATH
   ${PROJECT_SOURCE_DIR}/lib/python/cidl
 )
 
+add_subdirectory(cmake)
 add_subdirectory(doc)
 add_subdirectory(include)
 add_subdirectory(lib)
