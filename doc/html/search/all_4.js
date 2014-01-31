@@ -7,6 +7,5 @@ var searchData=
   ['enablestuntbonusforplayer',['EnableStuntBonusForPlayer',['../group__natives.html#ga22d40a8616e92a8358bfe47c63e98572',1,'a_players-decl.h']]],
   ['enabletirepopping',['EnableTirePopping',['../group__natives.html#ga1498107b317b8defd478c439cffffba2',1,'a_samp-decl.h']]],
   ['enablevehiclefriendlyfire',['EnableVehicleFriendlyFire',['../group__natives.html#ga8c9bf32a9789b7354c920ce4178a5716',1,'a_samp-decl.h']]],
-  ['enablezonenames',['EnableZoneNames',['../group__natives.html#ga640b2b550cd1c700c8e9317ba0581d9b',1,'a_samp-decl.h']]],
-  ['export_2eh',['export.h',['../export_8h.html',1,'']]]
+  ['enablezonenames',['EnableZoneNames',['../group__natives.html#ga640b2b550cd1c700c8e9317ba0581d9b',1,'a_samp-decl.h']]]
 ];

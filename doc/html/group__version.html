@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,21 +112,21 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga0276f1646b9384f4922ce7a0c5a02380"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#ga0276f1646b9384f4922ce7a0c5a02380">sampgdk_get_version</a> (void)</td></tr>
-<tr class="memdesc:ga0276f1646b9384f4922ce7a0c5a02380"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets library version number.  <a href="#ga0276f1646b9384f4922ce7a0c5a02380">More...</a><br/></td></tr>
-<tr class="separator:ga0276f1646b9384f4922ce7a0c5a02380"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacf2a056f789a62d76a91761e54eac2dc"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#gacf2a056f789a62d76a91761e54eac2dc">sampgdk_get_version_string</a> (void)</td></tr>
-<tr class="memdesc:gacf2a056f789a62d76a91761e54eac2dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets library version string.  <a href="#gacf2a056f789a62d76a91761e54eac2dc">More...</a><br/></td></tr>
-<tr class="separator:gacf2a056f789a62d76a91761e54eac2dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9c0399ab76d6e645375fd1a2018704f1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#ga9c0399ab76d6e645375fd1a2018704f1">sampgdk_GetVersion</a> (void)</td></tr>
+<tr class="memdesc:ga9c0399ab76d6e645375fd1a2018704f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets library version number.  <a href="#ga9c0399ab76d6e645375fd1a2018704f1">More...</a><br/></td></tr>
+<tr class="separator:ga9c0399ab76d6e645375fd1a2018704f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacbd09fd6c1e090158f59eb09554635a6"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#gacbd09fd6c1e090158f59eb09554635a6">sampgdk_GetVersionString</a> (void)</td></tr>
+<tr class="memdesc:gacbd09fd6c1e090158f59eb09554635a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets library version string.  <a href="#gacbd09fd6c1e090158f59eb09554635a6">More...</a><br/></td></tr>
+<tr class="separator:gacbd09fd6c1e090158f59eb09554635a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ga0276f1646b9384f4922ce7a0c5a02380"></a>
+<a class="anchor" id="ga9c0399ab76d6e645375fd1a2018704f1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int sampgdk_get_version </td>
+          <td class="memname">int sampgdk_GetVersion </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -139,16 +139,16 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The version number in the form of <code>0xAABBCCDD</code> where <code>AA</code>, <code>BB</code> and <code>CC</code> are the major, minor and patch numbers and DD is the maximum supported version of the SA-MP server.</dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__version.html#ga722a5bf3d0717f698846d26e2e41a185" title="Library version in the form of 0xAABBCCD where AA, BB and CC are the major, minor and patch numbers a...">SAMPGDK_VERSION_ID</a> </dd>
 <dd>
-<a class="el" href="group__version.html#gacf2a056f789a62d76a91761e54eac2dc" title="Gets library version string. ">sampgdk_get_version_string()</a> </dd></dl>
+sampgdk_get_version_string() </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="gacf2a056f789a62d76a91761e54eac2dc"></a>
+<a class="anchor" id="gacbd09fd6c1e090158f59eb09554635a6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const char* sampgdk_get_version_string </td>
+          <td class="memname">const char* sampgdk_GetVersionString </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -161,14 +161,14 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The version string in the form of <code>x.y.z</code> </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__version.html#ga7a6b041ff0d9c180cb4d28a2b2c3501b" title="Library version string. ">SAMPGDK_VERSION_STRING</a> </dd>
 <dd>
-<a class="el" href="group__version.html#ga0276f1646b9384f4922ce7a0c5a02380" title="Gets library version number. ">sampgdk_get_version()</a>. </dd></dl>
+sampgdk_get_version(). </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 24 2014 14:52:57 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2014 23:10:24 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

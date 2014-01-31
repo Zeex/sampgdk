@@ -22,7 +22,7 @@ var searchData=
   ['textdrawshowforplayer',['TextDrawShowForPlayer',['../group__natives.html#ga7416dfda23188ce5907a2ba3aa2b9513',1,'a_samp-decl.h']]],
   ['textdrawtextsize',['TextDrawTextSize',['../group__natives.html#gad5bd2abc05214d3c64c27785773c1476',1,'a_samp-decl.h']]],
   ['textdrawusebox',['TextDrawUseBox',['../group__natives.html#gad19d0f2bb4cac0b0485e58f6ed857df0',1,'a_samp-decl.h']]],
-  ['timercallback',['TimerCallback',['../a__samp_8h.html#a6a7d774ae4cb48a90d731f23d7f8e648',1,'a_samp.h']]],
+  ['timercallback',['TimerCallback',['../group__natives.html#ga6a7d774ae4cb48a90d731f23d7f8e648',1,'a_samp.h']]],
   ['toggleplayerclock',['TogglePlayerClock',['../group__natives.html#gacb74a086efcdb3041b0e7fe356de4198',1,'a_players-decl.h']]],
   ['toggleplayercontrollable',['TogglePlayerControllable',['../group__natives.html#ga00eef691810b4cdb0216d622b0a7ef76',1,'a_players-decl.h']]],
   ['toggleplayerspectating',['TogglePlayerSpectating',['../group__natives.html#ga44ab613290dfa390dc31bcdd8749e79c',1,'a_players-decl.h']]]

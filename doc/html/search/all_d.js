@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['platform_2eh',['platform.h',['../platform_8h.html',1,'']]],
   ['playaudiostreamforplayer',['PlayAudioStreamForPlayer',['../group__natives.html#ga22bc0410b63d3dbf3033040a81353940',1,'a_players-decl.h']]],
   ['playcrimereportforplayer',['PlayCrimeReportForPlayer',['../group__natives.html#ga42529291d23d578987deac8310dae0e0',1,'a_players-decl.h']]],
   ['playerplaysound',['PlayerPlaySound',['../group__natives.html#ga0ff6f6397ff0cdcc6df92dfddd1360ea',1,'a_players-decl.h']]],
@@ -25,5 +24,6 @@ var searchData=
   ['playertextdrawshow',['PlayerTextDrawShow',['../group__natives.html#gad7b8803345064ed0dce7c53a412e3865',1,'a_players-decl.h']]],
   ['playertextdrawtextsize',['PlayerTextDrawTextSize',['../group__natives.html#gaf339f6069615c333fa770b3276c5e07a',1,'a_players-decl.h']]],
   ['playertextdrawusebox',['PlayerTextDrawUseBox',['../group__natives.html#ga81ad7f4ba0532325c39ad6ca8d4b04ae',1,'a_players-decl.h']]],
+  ['processtick',['ProcessTick',['../group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6',1,'sdk.h']]],
   ['putplayerinvehicle',['PutPlayerInVehicle',['../group__natives.html#ga2d4f9145bb5e148e6b3723d61ff7e13e',1,'a_players-decl.h']]]
 ];

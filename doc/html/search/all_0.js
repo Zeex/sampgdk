@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['a_5fhttp_2eh',['a_http.h',['../a__http_8h.html',1,'']]],
-  ['a_5fobjects_2eh',['a_objects.h',['../a__objects_8h.html',1,'']]],
-  ['a_5fplayers_2eh',['a_players.h',['../a__players_8h.html',1,'']]],
-  ['a_5fsamp_2eh',['a_samp.h',['../a__samp_8h.html',1,'']]],
-  ['a_5fvehicles_2eh',['a_vehicles.h',['../a__vehicles_8h.html',1,'']]],
   ['addmenuitem',['AddMenuItem',['../group__natives.html#ga9e62955707da11aaa187e86dc2a89659',1,'a_samp-decl.h']]],
   ['addplayerclass',['AddPlayerClass',['../group__natives.html#ga6d4b4ed6b76cb8f27387a9825384dbf6',1,'a_samp-decl.h']]],
   ['addplayerclassex',['AddPlayerClassEx',['../group__natives.html#gab9c2d55b794d242a77765ca00496a512',1,'a_samp-decl.h']]],

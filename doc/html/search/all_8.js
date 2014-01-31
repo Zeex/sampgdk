@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['interop',['Interop',['../group__interop.html',1,'']]],
   ['interpolatecameralookat',['InterpolateCameraLookAt',['../group__natives.html#gadd60082a75ebadcdb0c3f229b3708da7',1,'a_players-decl.h']]],
   ['interpolatecamerapos',['InterpolateCameraPos',['../group__natives.html#ga3413e6d1b6e4d2586b9852a71ca664e0',1,'a_players-decl.h']]],
   ['isobjectmoving',['IsObjectMoving',['../group__natives.html#ga23dc54778a7f3b3bcd26dc11c6dbbd96',1,'a_objects-decl.h']]],

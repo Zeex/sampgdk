@@ -7,7 +7,6 @@ var searchData=
   ['clearanimations',['ClearAnimations',['../group__natives.html#ga8a13addd4e110eec0e903a0146edfc35',1,'a_players-decl.h']]],
   ['connectnpc',['ConnectNPC',['../group__natives.html#ga7f2e9fcd95fad0c292972c72606672be',1,'a_samp-decl.h']]],
   ['core',['Core',['../group__core.html',1,'']]],
-  ['core_2eh',['core.h',['../core_8h.html',1,'']]],
   ['create3dtextlabel',['Create3DTextLabel',['../group__natives.html#ga9d60b5e7802328edc7f512ed4bcb7e81',1,'a_samp-decl.h']]],
   ['createexplosion',['CreateExplosion',['../group__natives.html#gabfc48a8fe9f8539dfdc3d821318bcfa3',1,'a_samp-decl.h']]],
   ['createmenu',['CreateMenu',['../group__natives.html#gacb410aea06a259c932450003ad2619a7',1,'a_samp-decl.h']]],
