@@ -1,1 +1,2 @@
 smapgdk_add_subproject(helloworld)
+smapgdk_add_subproject(ufs)
