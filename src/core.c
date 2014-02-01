@@ -88,7 +88,7 @@ SAMPGDK_API(void, sampgdk_Unload(void)) {
   cleanup_plugin(plugin);
 }
 
-SAMPGDK_API(void, sampgdk_ProcessTimers(void)) {
+SAMPGDK_API(void, sampgdk_ProcessTick(void)) {
   void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
   sampgdk_timer_process_timers(plugin);
 }
