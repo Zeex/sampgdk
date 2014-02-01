@@ -30,7 +30,7 @@
 
 typedef void (SAMPGDK_CDECL *logprintf_t)(const char *format, ...);
 
-void *sampgdk_logprintf_impl = NULL;
+void *sampgdk_logprintf_impl = printf;
 
 void sampgdk_do_vlogprintf(const char *format, va_list va) {
   char buffer[LOGPRINTF_BUFFER_SIZE];
