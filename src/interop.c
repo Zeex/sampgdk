@@ -41,3 +41,8 @@ SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native,
 
   return retval;
 }
+
+SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
+                                        const char *format, va_list args)) {
+  return sampgdk_native_invoke(native, format, args);
+}

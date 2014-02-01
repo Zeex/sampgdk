@@ -113,7 +113,8 @@ SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...));
 /**
  * \brief Prints a message to the server log.
  *
- * This is a \c va_list version of sampgdk_logprintf().
+ * This function is identical to sampgdk_logprintf() but takes a
+ * \c va_list instead of a variable number of arguments.
  *
  * \param format A printf-like format string.
  * \param args Further arguments to logprintf().
@@ -123,5 +124,54 @@ SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...));
 SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
 /** @} */
+
+#ifdef __cplusplus
+
+/// \brief Main namespace.
+namespace sampgdk {
+
+/**
+ * \addtogroup core
+ * @{
+ */
+
+/// \brief C++ wrapper around sampgdk_Supports().
+inline unsigned int Supports() {
+  return sampgdk_Supports();
+}
+
+/// \brief C++ wrapper around sampgdk_Load().
+inline bool Load(void **ppData) {
+  return sampgdk_Load(ppData);
+}
+
+/// \brief C++ wrapper around sampgdk_Unload().
+inline void Unload() {
+  return sampgdk_Unload();
+}
+
+/// \brief C++ wrapper around sampgdk_ProcessTick().
+inline void ProcessTick() {
+  return sampgdk_ProcessTick();
+}
+
+/// \brief C++ wrapper around sampgdk_logprintf().
+inline void logprintf(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  sampgdk_vlogprintf(format, args);
+  va_end(args);
+}
+
+/// \brief C++ wrapper around sampgdk_vlogprintf().
+inline void vlogprintf(const char *format, va_list args) {
+  sampgdk_vlogprintf(format, args);
+}
+
+/** @} */
+
+} // namespace sampgdk
+
+#endif /* __cplusplus */
 
 #endif /* !SAMPGDK_CORE_H */

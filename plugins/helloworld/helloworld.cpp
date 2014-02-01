@@ -7,7 +7,7 @@
 #include <sampgdk/sdk.h>
 
 static void SAMPGDK_CALL RepeatingTimer(int, void *) {
-  sampgdk_logprintf("Timer called: %d", GetTickCount());
+  sampgdk::logprintf("Timer called: %d", GetTickCount());
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
@@ -42,17 +42,17 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmd
 }
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
-  return sampgdk_Supports() | SUPPORTS_PROCESS_TICK;
+  return sampgdk::Supports() | SUPPORTS_PROCESS_TICK;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
-  return sampgdk_Load(ppData);
+  return sampgdk::Load(ppData);
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
-  sampgdk_Unload();
+  sampgdk::Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
-  sampgdk_ProcessTick();
+  sampgdk::ProcessTick();
 }

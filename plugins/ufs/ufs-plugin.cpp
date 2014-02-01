@@ -20,14 +20,14 @@ static LoadState load_state = WaitLoad;
 static std::vector<AMX*> normal_scripts;
 
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
-  return sampgdk_Supports() | SUPPORTS_PROCESS_TICK | SUPPORTS_AMX_NATIVES;
+  return sampgdk::Supports() | SUPPORTS_PROCESS_TICK | SUPPORTS_AMX_NATIVES;
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
   pAMXFunctions = ppData[PLUGIN_DATA_AMX_EXPORTS];
   ufs::UFS::Instance().SetPluginData(ppData);
   load_state = BeginLoad;
-  return sampgdk_Load(ppData);
+  return sampgdk::Load(ppData);
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL Unload() {
@@ -35,7 +35,7 @@ PLUGIN_EXPORT void PLUGIN_CALL Unload() {
   ufs::UFS::Instance().UnloadScripts();
   ufs::UFS::Instance().UnloadPlugins();
   load_state = Unloaded;
-  sampgdk_Unload();
+  sampgdk::Unload();
 }
 
 PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
@@ -51,7 +51,7 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
   }
   ufs::UFS::Instance().ForEachPlugin(
     std::mem_fun(&ufs::Plugin::ProcessTick));
-  sampgdk_ProcessTick();
+  sampgdk::ProcessTick();
 }
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {

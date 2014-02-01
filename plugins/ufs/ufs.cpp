@@ -109,9 +109,9 @@ bool UFS::LoadPlugin(const std::string &name, PluginError &error) {
 }
 
 void UFS::LoadPlugins() {
-  sampgdk_logprintf("");
-  sampgdk_logprintf("Server Plugins");
-  sampgdk_logprintf("--------------");
+  sampgdk::logprintf("");
+  sampgdk::logprintf("Server Plugins");
+  sampgdk::logprintf("--------------");
 
   std::vector<std::string> names;
   GetPluginNames(names);
@@ -119,22 +119,22 @@ void UFS::LoadPlugins() {
   for (std::vector<std::string>::const_iterator it = names.begin();
        it != names.end(); it++) {
     const std::string &name = *it;
-    sampgdk_logprintf(" Loading plugin: %s", name.c_str());
+    sampgdk::logprintf(" Loading plugin: %s", name.c_str());
 
     PluginError error;
     if (LoadPlugin(name, error)) {
-      sampgdk_logprintf("  Loaded.");
+      sampgdk::logprintf("  Loaded.");
     } else {
       switch (error) {
         case PLUGIN_ERROR_LOAD: {
-          sampgdk_logprintf("  Failed.");
+          sampgdk::logprintf("  Failed.");
           break;
         }
         case PLUGIN_ERROR_VERSION:
-          sampgdk_logprintf("  Unsupported version.");
+          sampgdk::logprintf("  Unsupported version.");
           break;
         case PLUGIN_ERROR_API:
-          sampgdk_logprintf("  Plugin does not conform to acrhitecture.");
+          sampgdk::logprintf("  Plugin does not conform to acrhitecture.");
           break;
         default:
           break;
@@ -142,8 +142,8 @@ void UFS::LoadPlugins() {
     }
   }
 
-  sampgdk_logprintf(" Loaded %d plugins.\n", plugins_.size());
-  sampgdk_logprintf("");
+  sampgdk::logprintf(" Loaded %d plugins.\n", plugins_.size());
+  sampgdk::logprintf("");
 }
 
 void UFS::UnloadPlugin(Plugin *plugin) {
@@ -170,7 +170,7 @@ bool UFS::LoadScript(const std::string &name) {
   scripts_.insert(std::make_pair(name, fs));
 
   int num_natives;
-  const AMX_NATIVE_INFO *natives = sampgdk_GetNatives(&num_natives);
+  const AMX_NATIVE_INFO *natives = sampgdk::GetNatives(num_natives);
   amx_Register(fs->amx(), natives, num_natives);
 
   for (Plugins::iterator it = plugins_.begin();
@@ -193,18 +193,18 @@ void UFS::LoadScripts() {
   std::vector<std::string> names;
   GetScriptNames(names);
 
-  sampgdk_logprintf("Filterscripts");
-  sampgdk_logprintf("---------------");
+  sampgdk::logprintf("Filterscripts");
+  sampgdk::logprintf("---------------");
 
   for (std::vector<std::string>::const_iterator it = names.begin();
        it != names.end(); it++) {
     const std::string &name = *it;
-    sampgdk_logprintf("  Loading filterscript '%s.amx'", name.c_str());
+    sampgdk::logprintf("  Loading filterscript '%s.amx'", name.c_str());
     LoadScript(name);
   }
 
-  sampgdk_logprintf("  Loaded %d filterscripts.\n", scripts_.size());
-  sampgdk_logprintf("");
+  sampgdk::logprintf("  Loaded %d filterscripts.\n", scripts_.size());
+  sampgdk::logprintf("");
 }
 
 bool UFS::UnloadScript(const std::string &name) {

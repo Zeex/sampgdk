@@ -113,13 +113,26 @@ SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
  *
  * \see sampgdk_GetNatives()
  * \see sampgdk_FindNative()
- * \see sampgdk_InvokeNative()
+ * \see sampgdk_InvokeNativeV()
  */
 SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native,
                                        const char *format, ...));
 
 /**
- * \brief Gets called on every public call.
+ * \brief Invokes a native function with the specified arguments.
+ *
+ * This function is identical to sampgdk_InvokeNative() but takes a
+ * \c va_list instead of a variable number of arguments.
+ *
+ * \see sampgdk_GetNatives()
+ * \see sampgdk_FindNative()
+ * \see sampgdk_InvokeNative()
+ */
+SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
+                                        const char *format, va_list args));
+
+/**
+ * \brief Gets called on every public function call.
  *
  * This is the public filter callback. It is called whenever the server
  * calls \c amx_Exec(), which practiacally means that you can use it to
@@ -133,6 +146,38 @@ SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native,
  * \returns If returns \c true the callback is executed, otherwise it's ignored.
  */
 SAMPGDK_CALLBACK(bool, OnPublicCall(AMX *amx, const char *name, cell *params));
+
+#ifdef __cplusplus
+
+namespace sampgdk {
+
+/// \brief C++ wrapper around sampgdk_GetNatives().
+inline const AMX_NATIVE_INFO *GetNatives(int &number) {
+  return sampgdk_GetNatives(&number);
+}
+
+/// \brief C++ wrapper around sampgdk_FindNative().
+inline AMX_NATIVE FindNative(const char *name) {
+  return sampgdk_FindNative(name);
+}
+
+/// \brief C++ wrapper around sampgdk_CallNative().
+inline cell CallNative(AMX_NATIVE native, cell *params) {
+  return sampgdk_CallNative(native, params);
+}
+
+/// \brief C++ wrapper around sampgdk_InvokeNative().
+inline cell InvokeNative(AMX_NATIVE native, const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  cell retval = sampgdk_InvokeNativeV(native, format, args);
+  va_end(args);
+  return retval;
+}
+
+} // namespace sampgdk
+
+#endif /* __cplusplus */
 
 /** @} */
 
