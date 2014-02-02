@@ -54,3 +54,4 @@ EXPORTS
 	OnPlayerEditObject
 	OnPlayerEditAttachedObject
 	OnPlayerSelectObject
+	OnPlayerWeaponShot
