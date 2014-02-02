@@ -4,7 +4,7 @@
 #define SAMPGDK_VERSION_RC SAMPGDK_VERSION_MAJOR, \
                            SAMPGDK_VERSION_MINOR, \
                            SAMPGDK_VERSION_PATCH, \
-                           SAMPGDK_VERSION_SERVER
+                           0
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
