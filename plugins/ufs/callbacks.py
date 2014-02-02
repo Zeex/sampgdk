@@ -12,15 +12,15 @@ type_map = {
 }
 
 if len(sys.argv) < 2:
-  print 'Usage: %s <idl>' % os.path.basename(sys.argv[0])
+  print('Usage: %s <idl>' % os.path.basename(sys.argv[0]))
   sys.exit()
 
 parser = cidl.Parser()
 idl = parser.parse(open(sys.argv[1], 'r').read())
 
-callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
+callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
 
-out = file('callbacks.cpp', 'w')
+out = open('callbacks.cpp', 'w')
 
 out.write('#include "script.h"\n')
 out.write('#include "ufs.h"\n\n')
