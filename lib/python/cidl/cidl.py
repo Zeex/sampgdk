@@ -278,7 +278,9 @@ class LexError(Error):
     return self._location
 
   def __str__(self):
-    return "Illegal character '%s' at line %d:\n%s" % (self.char_, self._location.lineno, self._location)
+    return "Illegal character '%s' at line %d:\n%s" %  (self._char,
+                                                        self._location.lineno,
+                                                        self._location)
 
 class SyntaxError(Error):
   def __init__(self, token, location):
@@ -295,7 +297,9 @@ class SyntaxError(Error):
     return self._location
 
   def __str__(self):
-    return "Syntax error in '%s' at line %d:\n%s" % (self._token, self._location.lineno, self._location)
+    return "Syntax error in '%s' at line %d:\n%s" % (self._token,
+                                                     self._location.lineno,
+                                                     self._location)
 
 class UndeclaredConstError(Error):
   def __init__(self, constname, location):
