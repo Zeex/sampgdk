@@ -965,10 +965,10 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnVehicleDamageStatusUpdate(int vehicleid, int pl
     ufs::OnVehicleDamageStatusUpdate(vehicleid, playerid), true);
 }
 
-PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat) {
+PLUGIN_EXPORT bool PLUGIN_CALL OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat, float new_x, float new_y, float new_z) {
   using namespace ufs;
   return UFS::Instance().ForEachScript(
-    ufs::OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat), true);
+    ufs::OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, new_x, new_y, new_z), true);
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerSelectedMenuRow(int playerid, int row) {
