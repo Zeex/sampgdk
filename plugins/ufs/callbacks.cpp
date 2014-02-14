@@ -389,8 +389,11 @@ class OnVehicleDamageStatusUpdate {
 
 class OnUnoccupiedVehicleUpdate {
  public:
-  OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat): vehicleid(vehicleid), playerid(playerid), passenger_seat(passenger_seat) {}
+  OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat, float new_x, float new_y, float new_z): vehicleid(vehicleid), playerid(playerid), passenger_seat(passenger_seat), new_x(new_x), new_y(new_y), new_z(new_z) {}
   bool operator()(Script *s) {
+    amx_Push(amx_ftoc(new_z));
+    amx_Push(amx_ftoc(new_y));
+    amx_Push(amx_ftoc(new_x));
     amx_Push(s->amx(), passenger_seat);
     amx_Push(s->amx(), playerid);
     amx_Push(s->amx(), vehicleid);
@@ -401,6 +404,9 @@ class OnUnoccupiedVehicleUpdate {
   int vehicleid;
   int playerid;
   int passenger_seat;
+  float new_x;
+  float new_y;
+  float new_z;
 };
 
 class OnPlayerSelectedMenuRow {
