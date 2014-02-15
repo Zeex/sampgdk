@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">GDK
-   &#160;<span id="projectnumber">4.0.0.353</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Writing SA-MP gamemodes in C/C++</div>
   </td>
@@ -168,8 +168,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga01fe9e73803c7e19411d7a4873ef6766"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaccac5d7b66bbcf1a6dcda5c0ba1e8bc9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#gaccac5d7b66bbcf1a6dcda5c0ba1e8bc9">OnRconLoginAttempt</a> (const char *ip, const char *password, bool success)</td></tr>
 <tr class="separator:gaccac5d7b66bbcf1a6dcda5c0ba1e8bc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaece68e6dd1869a78ae8bb1c24c767f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#gaaece68e6dd1869a78ae8bb1c24c767f6">OnUnoccupiedVehicleUpdate</a> (int vehicleid, int playerid, int passenger_seat)</td></tr>
-<tr class="separator:gaaece68e6dd1869a78ae8bb1c24c767f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf055634337ca11f3f17089d8ec8c1b5e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#gaf055634337ca11f3f17089d8ec8c1b5e">OnUnoccupiedVehicleUpdate</a> (int vehicleid, int playerid, int passenger_seat, float new_x, float new_y, float new_z)</td></tr>
+<tr class="separator:gaf055634337ca11f3f17089d8ec8c1b5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa66f2c4f2e56e8727676abf2ed8844a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#gaa66f2c4f2e56e8727676abf2ed8844a7">OnVehicleDamageStatusUpdate</a> (int vehicleid, int playerid)</td></tr>
 <tr class="separator:gaa66f2c4f2e56e8727676abf2ed8844a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2c6b8b3b1e32a8f2701a50b2f5aba824"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#ga2c6b8b3b1e32a8f2701a50b2f5aba824">OnVehicleDeath</a> (int vehicleid, int killerid)</td></tr>
@@ -1491,7 +1491,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="gaaece68e6dd1869a78ae8bb1c24c767f6"></a>
+<a class="anchor" id="gaf055634337ca11f3f17089d8ec8c1b5e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -1511,7 +1511,25 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>passenger_seat</em>&#160;</td>
+          <td class="paramname"><em>passenger_seat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>new_x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>new_y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>new_z</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1757,7 +1775,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2014 23:10:24 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Feb 16 2014 00:21:16 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

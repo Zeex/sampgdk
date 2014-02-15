@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">GDK
-   &#160;<span id="projectnumber">4.0.0.353</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Writing SA-MP gamemodes in C/C++</div>
   </td>
@@ -86,8 +86,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ga722a5bf3d0717f698846d26e2e41a185"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga722a5bf3d0717f698846d26e2e41a185"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#ga722a5bf3d0717f698846d26e2e41a185">SAMPGDK_VERSION_ID</a>&#160;&#160;&#160;67109217</td></tr>
-<tr class="memdesc:ga722a5bf3d0717f698846d26e2e41a185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Library version in the form of <code>0xAABBCCD</code> where <code>AA</code>, <code>BB</code> and <code>CC</code> are the major, minor and patch numbers and DD is the maximum supported version of the SA-MP server. <br/></td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#ga722a5bf3d0717f698846d26e2e41a185">SAMPGDK_VERSION_ID</a>&#160;&#160;&#160;67108864</td></tr>
+<tr class="memdesc:ga722a5bf3d0717f698846d26e2e41a185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Library version in the form of <code>0xAABBCC00</code> where <code>AA</code>, <code>BB</code> and <code>CC</code> are the major, minor and patch numbers. <br/></td></tr>
 <tr class="separator:ga722a5bf3d0717f698846d26e2e41a185"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga38adbab56a5d6039d0179a7ed140088d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga38adbab56a5d6039d0179a7ed140088d"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#ga38adbab56a5d6039d0179a7ed140088d">SAMPGDK_VERSION_MAJOR</a>&#160;&#160;&#160;4</td></tr>
@@ -101,12 +101,8 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#gab08365aea1a1588b22c211886945fae9">SAMPGDK_VERSION_PATCH</a>&#160;&#160;&#160;0</td></tr>
 <tr class="memdesc:gab08365aea1a1588b22c211886945fae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Patch version. <br/></td></tr>
 <tr class="separator:gab08365aea1a1588b22c211886945fae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5291ad6abf755beae17dfc95af72cf39"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga5291ad6abf755beae17dfc95af72cf39"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#ga5291ad6abf755beae17dfc95af72cf39">SAMPGDK_VERSION_SERVER</a>&#160;&#160;&#160;353</td></tr>
-<tr class="memdesc:ga5291ad6abf755beae17dfc95af72cf39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum supported version of the SA-MP server. <br/></td></tr>
-<tr class="separator:ga5291ad6abf755beae17dfc95af72cf39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7a6b041ff0d9c180cb4d28a2b2c3501b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga7a6b041ff0d9c180cb4d28a2b2c3501b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#ga7a6b041ff0d9c180cb4d28a2b2c3501b">SAMPGDK_VERSION_STRING</a>&#160;&#160;&#160;&quot;4.0.0.353&quot;</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__version.html#ga7a6b041ff0d9c180cb4d28a2b2c3501b">SAMPGDK_VERSION_STRING</a>&#160;&#160;&#160;&quot;4.0.0&quot;</td></tr>
 <tr class="memdesc:ga7a6b041ff0d9c180cb4d28a2b2c3501b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Library version string. <br/></td></tr>
 <tr class="separator:ga7a6b041ff0d9c180cb4d28a2b2c3501b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -136,8 +132,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Gets library version number. </p>
-<dl class="section return"><dt>Returns</dt><dd>The version number in the form of <code>0xAABBCCDD</code> where <code>AA</code>, <code>BB</code> and <code>CC</code> are the major, minor and patch numbers and DD is the maximum supported version of the SA-MP server.</dd></dl>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__version.html#ga722a5bf3d0717f698846d26e2e41a185" title="Library version in the form of 0xAABBCCD where AA, BB and CC are the major, minor and patch numbers a...">SAMPGDK_VERSION_ID</a> </dd>
+<dl class="section return"><dt>Returns</dt><dd>The version number in the form of <code>0xAABBCCDD</code> where <code>AA</code>, c BB and <code>CC</code> are the major, minor and patch numbers.</dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__version.html#ga722a5bf3d0717f698846d26e2e41a185" title="Library version in the form of 0xAABBCC00 where AA, BB and CC are the major, minor and patch numbers...">SAMPGDK_VERSION_ID</a> </dd>
 <dd>
 sampgdk_get_version_string() </dd></dl>
 
@@ -168,7 +164,7 @@ sampgdk_get_version(). </dd></dl>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2014 23:10:24 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Feb 16 2014 00:21:16 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
