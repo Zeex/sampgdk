@@ -89,6 +89,17 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool GetNetworkStats([out] char retstr, [in] int size);
 [native] bool GetPlayerVersion([in] int playerid, [out] char version, [in] int len);
 
+[native] int GetServerTickRate();
+[native] int NetStats_GetConnectedTime([in] int playerid);
+[native] int NetStats_MessagesReceived([in] int playerid);
+[native] int NetStats_BytesReceived([in] int playerid);
+[native] int NetStats_MessagesSent([in] int playerid);
+[native] int NetStats_BytesSent([in] int playerid);
+[native] int NetStats_MessagesRecvPerSecond([in] int playerid);
+[native] float NetStats_PacketLossPercent([in] int playerid);
+[native] int NetStats_ConnectionStatus([in] int playerid);
+[native] bool NetStats_GetIpPort([in] int playerid, [out] char ip_port, [in] int ip_port_len);
+
 [native] int CreateMenu([in] string title, [in] int columns, [in] float x, [in] float y, [in] float col1width, [in] float col2width);
 [native] bool DestroyMenu([in] int menuid);
 [native] int AddMenuItem([in] int menuid, [in] int column, [in] string menutext);

@@ -122,6 +122,7 @@ const int WEAPONSTATE_RELOADING    =  3;
 [native] int GetPlayerSurfingVehicleID([in] int playerid);
 [native] int GetPlayerSurfingObjectID([in] int playerid);
 [native] bool RemoveBuildingForPlayer([in] int playerid, [in] int modelid, [in] float fX, [in] float fY, [in] float fZ, [in] float fRadius);
+[native] bool GetPlayerLastShotVectors([in] int playerid, [out] float fOriginX, [out] float fOriginY, [out] float fOriginZ, [out] float fHitPosX, [out] float fHitPosY, [out] float fHitPosZ);
 
 const int MAX_PLAYER_ATTACHED_OBJECTS = 10;
 
@@ -212,6 +213,8 @@ const int CAMERA_MOVE = 1;
 [native] bool GetPlayerCameraPos([in] int playerid, [out] float x, [out] float y, [out] float z);
 [native] bool GetPlayerCameraFrontVector([in] int playerid, [out] float x, [out] float y, [out] float z);
 [native] int GetPlayerCameraMode([in] int playerid);
+[native] float GetPlayerCameraAspectRatio([in] int playerid);
+[native] float GetPlayerCameraZoom([in] int playerid);
 [native] bool AttachCameraToObject([in] int playerid, [in] int objectid);
 [native] bool AttachCameraToPlayerObject([in] int playerid, [in] int playerobjectid);
 [native] bool InterpolateCameraPos([in] int playerid, [in] float FromX, [in] float FromY, [in] float FromZ, [in] float ToX, [in] float ToY, [in] float ToZ, [in] int time, [in] int cut);
