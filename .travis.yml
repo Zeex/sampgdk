@@ -8,6 +8,8 @@ install:
   - sudo apt-get install gcc-multilib g++-multilib
   - wget http://www.cmake.org/files/v2.8/cmake-2.8.12.1-Linux-i386.sh
   - sudo sh cmake-2.8.12.1-Linux-i386.sh --exclude-subdir --prefix=/usr
+  - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
+  - export SAMP_SDK_DIR=$PWD/sdk
 before_script:
   - cmake . -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 -DSAMPGDK_STATIC=${STATIC}
 script:

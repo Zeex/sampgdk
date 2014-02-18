@@ -3,6 +3,8 @@ project(sampgdk)
 cmake_minimum_required(VERSION 2.8.12)
 cmake_policy(SET CMP0022 NEW)
 
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
+
 option(SAMPGDK_STATIC "Build static library instead" OFF)
 option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
 
@@ -17,10 +19,6 @@ set(SAMPGDK_VERSION ${SAMPGDK_VERSION}.${SAMPGDK_VERSION_PATCH})
 math(EXPR SAMPGDK_VERSION_ID "${SAMPGDK_VERSION_MAJOR} << 24 |
                               ${SAMPGDK_VERSION_MINOR} << 16 |
                               ${SAMPGDK_VERSION_PATCH} << 8")
-
-list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
-list(APPEND CMAKE_LIBRARY_PATH ${PROJECT_SOURCE_DIR}/lib)
-list(APPEND CMAKE_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 if(NOT (MSVC_IDE AND MSVC_VERSION LESS 1600))
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
