@@ -43,6 +43,7 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool GameTextForPlayer([in] int playerid, [in] string text, [in] int time, [in] int style);
 [native] int GetTickCount();
 [native] int GetMaxPlayers();
+[native] float VectorSize([in] float x, [in] float y, [in] float z);
 
 [native] bool SetGameModeText([in] string text);
 [native] bool SetTeamCount([in] int count);
