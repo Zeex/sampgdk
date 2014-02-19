@@ -14,3 +14,4 @@ before_script:
   - cmake . -DCMAKE_C_FLAGS=-m32 -DCMAKE_CXX_FLAGS=-m32 -DSAMPGDK_STATIC=${STATIC}
 script:
   - make
+  - make package
