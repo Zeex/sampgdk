@@ -98,11 +98,11 @@ const int WEAPONSTATE_RELOADING    =  3;
 [native] int SetPlayerName([in] int playerid, [in] string name);
 [native] int GetPlayerMoney([in] int playerid);
 [native] int GetPlayerState([in] int playerid);
-[native] bool GetPlayerIp([in] int playerid, [out] char ip, [in] int size);
+[native] bool GetPlayerIp([in] int playerid, [out] string ip, [in] int size);
 [native] int GetPlayerPing([in] int playerid);
 [native] int GetPlayerWeapon([in] int playerid);
 [native] bool GetPlayerKeys([in] int playerid, [out] int keys, [out] int updown, [out] int leftright);
-[native] int GetPlayerName([in] int playerid, [out] char name, [in] int size);
+[native] int GetPlayerName([in] int playerid, [out] string name, [in] int size);
 [native] bool SetPlayerTime([in] int playerid, [in] int hour, [in] int minute);
 [native] bool GetPlayerTime([in] int playerid, [out] int hour, [out] int minute);
 [native] bool TogglePlayerClock([in] int playerid, [in] bool toggle);
@@ -160,13 +160,13 @@ const int PLAYER_VARTYPE_FLOAT  = 3;
 [native] bool SetPVarInt([in] int playerid, [in] string varname, [in] int value);
 [native] int GetPVarInt([in] int playerid, [in] string varname);
 [native] bool SetPVarString([in] int playerid, [in] string varname, [in] string value);
-[native] bool GetPVarString([in] int playerid, [in] string varname, [out] char value, [in] int size);
+[native] bool GetPVarString([in] int playerid, [in] string varname, [out] string value, [in] int size);
 [native] bool SetPVarFloat([in] int playerid, [in] string varname, [in] float value);
 [native] float GetPVarFloat([in] int playerid, [in] string varname);
 [native] bool DeletePVar([in] int playerid, [in] string varname);
 
 [native] int GetPVarsUpperIndex([in] int playerid);
-[native] bool GetPVarNameAtIndex([in] int playerid, [in] int index, [out] char varname, [in] int size);
+[native] bool GetPVarNameAtIndex([in] int playerid, [in] int index, [out] string varname, [in] int size);
 [native] int GetPVarType([in] int playerid, [in] string varname);
 
 const int MAX_CHATBUBBLE_LENGTH = 144;
@@ -182,7 +182,7 @@ const int MAX_CHATBUBBLE_LENGTH = 144;
 [native] bool ApplyAnimation([in] int playerid, [in] string animlib, [in] string animname, [in] float fDelta, [in] bool loop, [in] bool lockx, [in] bool locky, [in] bool freeze, [in] int time, [in] bool forcesync);
 [native] bool ClearAnimations([in] int playerid, [in] bool forcesync);
 [native] int GetPlayerAnimationIndex([in] int playerid);
-[native] bool GetAnimationName([in] int index, [out] char animlib, [in] int animlib_size, [out] char animname, [in] int animname_size);
+[native] bool GetAnimationName([in] int index, [out] string animlib, [in] int animlib_size, [out] string animname, [in] int animname_size);
 [native] int GetPlayerSpecialAction([in] int playerid);
 [native] bool SetPlayerSpecialAction([in] int playerid, [in] int actionid);
 

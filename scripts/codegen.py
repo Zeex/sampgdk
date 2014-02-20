@@ -24,16 +24,14 @@ idl_to_c_type_in = {
   'int'    : 'int',
   'bool'   : 'bool',
   'float'  : 'float',
-  'char'   : 'char',
-  'string' : 'const char *'
+  'string' : 'const char *',
 }
 
 idl_to_c_type_out = {
   'int'    : 'int *',
   'bool'   : 'bool *',
   'float'  : 'float *',
-  'char'   : 'char *',
-  'string' : 'char **'
+  'string' : 'char *',
 }
 
 class Parameter(cidl.Parameter):
@@ -77,8 +75,6 @@ class Value(cidl.Value):
       return '%s' % int(self.data)
     elif self.is_float():
       return '%s' % self.data
-    elif self.is_char():
-      return '\'%s\'' % self.data
     elif self.is_string():
       return '"%s"' % self.data
     return None
@@ -207,12 +203,13 @@ def generate_native_impl(file, func):
           value = p.default
         else:
           value = p.name
-        if p.type == 'char':
-          file.write('  sampgdk_fakeamx_push(%s, &%s_);\n' %
-                     (pnext.name, p.name))
-        elif p.type == 'string':
-          file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' %
-                     (value, p.name))
+        if p.type == 'string':
+          if p.is_out:
+            file.write('  sampgdk_fakeamx_push(%s, &%s_);\n' %
+                       (pnext.name, p.name))
+          else:
+            file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' %
+                       (value, p.name))
         else:
           file.write('  sampgdk_fakeamx_push(1, &%s_);\n' % p.name)
 
@@ -227,7 +224,6 @@ def generate_native_impl(file, func):
           {
             'int'   : '(cell)%s' % value,
             'bool'  : '(cell)%s' % value,
-            'char'  : '(cell)%s' % value,
             'float' : 'amx_ftoc(%s)' % value,
           }[p.type]
         ))
@@ -240,18 +236,17 @@ def generate_native_impl(file, func):
 
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):
-      if p.is_ref:
-        if p.type == 'string':
-          pass
-        elif p.type == 'char':
+      if p.is_out:
+        if p.type == 'string': 
           file.write('  sampgdk_fakeamx_get_string(%s_, %s, %s);\n' %
                      (p.name, p.name, pnext.name))
         else:
           file.write('  sampgdk_fakeamx_get_%s(%s_, %s);\n' % (
             {
-              'int'   : 'cell',
-              'bool'  : 'bool',
-              'float' : 'float',
+              'int'    : 'cell',
+              'bool'   : 'bool',
+              'float'  : 'float',
+              'string' : 'string',
             }[p.type]
           ,  
           p.name, p.name))
@@ -296,7 +291,6 @@ def generate_callback_impl(file, func):
         'int'    : 'cell',
         'bool'   : 'bool',
         'float'  : 'float',
-        'char'   : 'char',
         'string' : 'string',
       }[p.type], index, p.name)
     )
