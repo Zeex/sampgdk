@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">GDK
-   &#160;<span id="projectnumber">4.0.0</span>
+   &#160;<span id="projectnumber">3.99.0</span>
    </div>
    <div id="projectbrief">Writing SA-MP gamemodes in C/C++</div>
   </td>
@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga73622f10d045f94e47a0893f11b8a24b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a> (AMX *amx, const char *name, cell *params)</td></tr>
-<tr class="memdesc:ga73622f10d045f94e47a0893f11b8a24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called on every public function call.  <a href="#ga73622f10d045f94e47a0893f11b8a24b">More...</a><br/></td></tr>
+<tr class="memdesc:ga73622f10d045f94e47a0893f11b8a24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called on every public call.  <a href="#ga73622f10d045f94e47a0893f11b8a24b">More...</a><br/></td></tr>
 <tr class="separator:ga73622f10d045f94e47a0893f11b8a24b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga97e217266eda5e61d4e9b62c8fff86c3"><td class="memItemLeft" align="right" valign="top">cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga97e217266eda5e61d4e9b62c8fff86c3">sampgdk_CallNative</a> (AMX_NATIVE native, cell *params)</td></tr>
 <tr class="memdesc:ga97e217266eda5e61d4e9b62c8fff86c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a native function.  <a href="#ga97e217266eda5e61d4e9b62c8fff86c3">More...</a><br/></td></tr>
@@ -132,8 +132,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Gets called on every public function call. </p>
-<p>This is the so called "public filter". It is called whenever the server calls <code>amx_Exec()</code>. The return value indicates whether corresponding callback function to the public will be executed in this plugin.</p>
+<p>Gets called on every public call. </p>
+<p>This is the public filter callback. It is called whenever the server calls <code>amx_Exec()</code>, which practiacally means that you can use it to hook <em>any</em> callback, even those that are called by other plugins.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">amx</td><td>The AMX instance on which the public function is called. </td></tr>
@@ -325,7 +325,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Feb 16 2014 00:21:16 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 15 2014 13:31:54 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
