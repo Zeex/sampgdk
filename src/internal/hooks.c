@@ -144,8 +144,13 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
    * that executes main() is indeed the main AMX i.e. the gamemode.
    */
   if (index == AMX_EXEC_MAIN) {
-    main_amx = amx;
-    sampgdk_callback_invoke(main_amx, "OnGameModeInit", retval);
+    /* This extra check is needed in order to stop OnGameModeInit()
+     * from being called twice in a row after a gmx.
+     */
+    if (main_amx != amx && amx != NULL) {
+      sampgdk_callback_invoke(amx, "OnGameModeInit", retval);
+      main_amx = amx;
+    }
   } else {
     if (index != AMX_EXEC_CONT && public_name != NULL
         && (amx == main_amx || amx == sampgdk_fakeamx_amx())) {
