@@ -116,23 +116,48 @@ def generate_api_file(module_name, idl, file):
 def generate_header_file(module_name, idl, file):
   natives = list(filter(lambda x: x.has_attr('native'),
                         idl.functions))
-  file.write('#ifndef DOXYGEN\n')
+  file.write('#if !defined DOXYGEN\n\n')
+  file.write('#if !defined __cplusplus\n\n')
+
+  for const in idl.constants:
+    generate_constant_c(file, const)
+  file.write('\n')
+
+  file.write('#else /* __cplusplus */\n\n')
+  file.write('namespace sampgdk {\n\n')
+
+  for const in idl.constants:
+    generate_constant_cxx(file, const)
+  file.write('\n')
+
+  file.write('} // namespace sampgdk\n\n')
+  file.write('#endif /* !__cplusplus */\n\n')
+
   for func in natives:
-    generate_native_alias(file, func)
-  file.write('#endif\n\n')
+    generate_native_alias_c(file, func)
+  file.write('\n')
+
+  file.write('#endif /* !DOXYGEN */\n\n')
 
   for func in natives:
     generate_native_decl(file, func)
   file.write('\n')
 
-  for const in idl.constants:
-    generate_constant(file, const)
+  file.write('#if defined __cplusplus && !defined DOXYGEN\n\n')
+  file.write('namespace sampgdk {\n\n')
+
+  for func in natives:
+    generate_native_alias_cxx(file, func)
   file.write('\n')
+
+  file.write('} // namespace sampgdk\n\n')
+  file.write('#endif /* __cplusplus && !DOXYGEN */\n\n')
 
   callbacks = list(filter(lambda x: x.has_attr('callback'),
                           idl.functions))
   for func in callbacks:
     generate_callback_decl(file, func)
+
 
 def generate_source_file(module_name, idl, file):
   natives = list(filter(lambda x: x.has_attr('native') and not
@@ -163,22 +188,33 @@ def generate_source_file(module_name, idl, file):
   file.write('  sampgdk_callback_unregister_table(callback_table);\n')
   file.write('}\n')
 
-def generate_constant(file, const):
+def generate_constant_c(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
 
+def generate_constant_cxx(file, const):
+  file.write('const %s %s = %s;\n' % (const.type, const.name, const.value))
+
 def generate_native_decl(file, func):
-  file.write('\n')
   file.write('/**\n')
   file.write(' * \\ingroup natives\n')
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
              '%s on SA-MP Wiki</a>' % (func.name, func.name))
   file.write(' */\n')
-  file.write('SAMPGDK_NATIVE(%s, %s(%s));\n'
+  file.write('SAMPGDK_NATIVE(%s, %s(%s));\n\n'
              % (func.type, func.name, ParamList(func.params)))
 
-def generate_native_alias(file, func):
+def generate_native_alias_c(file, func):
   file.write('#undef  %s\n' % func.name)
   file.write('#define %s sampgdk_%s\n' % (func.name, func.name))
+
+def generate_native_alias_cxx(file, func):
+  file.write('inline %s %s(%s) {\n' % (func.type, func.name,
+                                       ParamList(func.params)))
+  if func.type != 'void':
+    file.write('  return sampgdk_%s(%s);\n' % (func.name, ArgList(func.params)))
+  else:
+    file.write('  sampgdk_%s(%s);\n' % (func.name, ArgList(func.params)))
+  file.write('}\n\n')
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %
@@ -230,7 +266,6 @@ def generate_native_impl(file, func):
       else:
         file.write('  params[%d] = %s_;\n' % (index, p.name))
 
-
   file.write('  retval = native(sampgdk_fakeamx_amx(), %s);\n' %
              ('NULL', 'params')[bool(func.params)])
 
@@ -268,7 +303,7 @@ def generate_callback_decl(file, func):
   file.write('/**\n')
   file.write(' * \\ingroup callbacks\n')
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
-             '%s on SA-MP Wiki</a>' % (func.name, func.name))
+             '%s on SA-MP Wiki</a>\n' % (func.name, func.name))
   file.write(' */\n')
   file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
                (func.type, func.name, ParamList(func.params)))
