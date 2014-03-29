@@ -6,14 +6,16 @@
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
 
-static void SAMPGDK_CALL RepeatingTimer(int, void *) {
-  sampgdk::logprintf("Timer called: %d", GetTickCount());
+using sampgdk::logprintf;
+
+void SAMPGDK_CALL PrintTickCountTimer(int timerid, void *params) {
+  logprintf("Tick count: %d", GetTickCount());
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
   SetGameModeText("Hello, World!");
   AddPlayerClass(0, 1958.3783f, 1343.1572f, 15.3746f, 269.1425f, 0, 0, 0, 0, 0, 0);
-  SetTimer(1000, true, RepeatingTimer, 0);
+  SetTimer(1000, true, PrintTickCountTimer, 0);
   return true;
 }
 
