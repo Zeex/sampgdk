@@ -19,44 +19,72 @@ SA-MP events (known as "callbacks" in Pawn).
 Visit the [official SA-MP forums topic][topic] for more information and
 support.
 
+Building GDK
+------------
+
+Prerequisites:
+
+* [SA-MP plugin SDK](https://github.com/Zeex/samp-plugin-sdk)
+* [CMake](http://cmake.org) 2.8.12+
+* [Python](http://python.org) 2.7+
+* Working C89 compiler
+* Working C++ compiler (for plugins)
+
+Building the source code is as simple as running the following commands:
+
+```sh
+cd path/to/sampgdk
+mkdir build && cd build
+cmake ../../ -DSDK_DIR=path/to/sdk
+make
+make install # optional
+```
+
+Supported options:
+
+* SAMPGDK_BUILD_PLUGINS - build example plugins (default is OFF)
+* SAMPGDK_STATIC        - build as static library (default is OFF)
+
 Getting Started
 ---------------
 
-You can begin with downloading the source code and playing a bit with the
-HelloWorld plugin in `plugins/helloworld`.
+You can start with downloading the source code and playing a bit with the
+[HelloWorld][helloworld] plugin.
 
 ### Using Git
 
-If you know Git the simplest way to get started is probably to clone this repo
-and create a new branch for your personal project like `my-project`, and then
-just start developing your own plugin right in the GDK's source tree. Later if
-you decide to update the library you would simply switch to  `master`, pull in
-the changes and merge them into `my-project`.
+If know Git the simplest way to get started is probably to clone this repo
+and create a new branch for your personal project:
 
-### Visual Studio
+```
+git clone git://github.com/Zeex/sampgdk.git
+git checkout -b my-project
+```
 
-There are also some useful files provied for developing plugins in Visual Studio
-using the above method. They are located in `build/visual-studio`. Running the
-`configure.bat` script is the first thing you would do after downloading the
-source code and installing the necessary development tools (like CMake and the
-Visual Studio itself).
+and begin working on it right inside the GDK source tree.
 
-Next you have to set the `SAMP_SERVER_ROOT` environment variable to the full
-path of the server folder - this makes the post-build events work and allows
-you to run the server easily from within Visual Studio. The post-build events
-defined in the .user files copy both the library and helloworld.dll to
-`%SAMP_SERVER_ROOT%` and `%SAMP_SERVER_ROOT%/plugins` respectively (but only
-in Debug builds).
+Later if you decide that it's time to update the library, say to version
+v1.2.3, you would simply switch to master, pull the change in and merge
+them into your local branch:
 
-### Binaries
+```
+<commit your changes>
+git checkout master
+git pull origin master
+git checkout my-project
+git merge v1.2.3
+```
 
-Pre-compiled binaries for Windows and Linux along with the documentation and
-other development files can be downloaded [here][download].
+Documentation
+-------------
 
+Doxygen documentation is available online [here][doc].
+
+[github]: https://github.com/Zeex/sampgdk
 [donate]: http://pledgie.com/campaigns/19068
 [donate_button]: http://pledgie.com/campaigns/19068.png
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.png?branch=master
 [topic]: http://forum.sa-mp.com/showthread.php?t=421090
-[github]: https://github.com/Zeex/sampgdk
-[download]: https://github.com/Zeex/sampgdk/releases
+[helloworld]: https://github.com/Zeex/sampgdk/tree/master/plugins/helloworld
+[doc]: http://zeex.github.io/sampgdk/doc/html/index.html
