@@ -53,8 +53,8 @@ You can start with downloading the source code and playing a bit with the
 
 ### Using Git
 
-If know Git the simplest way to get started is probably to clone this repo
-and create a new branch for your personal project:
+If you know Git the simplest way to get started is probably to clone this
+repo and create a new local branch for your personal project:
 
 ```
 git clone git://github.com/Zeex/sampgdk.git
@@ -64,7 +64,7 @@ git checkout -b my-project
 and begin working on it right inside the GDK source tree.
 
 Later if you decide that it's time to update the library, say to version
-v1.2.3, you would simply switch to master, pull the change in and merge
+v1.2.3, you would simply switch to master, pull the changes in and merge
 them into your local branch:
 
 ```
