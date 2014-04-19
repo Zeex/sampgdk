@@ -246,3 +246,5 @@ const int PLAYER_RECORDING_TYPE_ONFOOT = 2;
 
 [native] bool StartRecordingPlayerData([in] int playerid, [in] int recordtype, [in] string recordname);
 [native] bool StopRecordingPlayerData([in] int playerid);
+
+[native] bool CreateExplosionForPlayer([in] int playerid, [in] float X, [in] float Y, [in] float Z, [in] int type, [in] float Radius);

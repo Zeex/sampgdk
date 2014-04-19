@@ -39,6 +39,7 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool SendPlayerMessageToPlayer([in] int playerid, [in] int senderid, [in] string message);
 [native] bool SendPlayerMessageToAll([in] int senderid, [in] string message);
 [native] bool SendDeathMessage([in] int killer, [in] int killee, [in] int weapon);
+[native] bool SendDeathMessageToPlayer([in] int playerid, [in] int killer, [in] int killee, [in] int weapon);
 [native] bool GameTextForAll([in] string text, [in] int time, [in] int style);
 [native] bool GameTextForPlayer([in] int playerid, [in] string text, [in] int time, [in] int style);
 [native] int GetTickCount();
@@ -89,6 +90,8 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool GetPlayerNetworkStats([in] int playerid, [out] string retstr, [in] int size);
 [native] bool GetNetworkStats([out] string retstr, [in] int size);
 [native] bool GetPlayerVersion([in] int playerid, [out] string version, [in] int len);
+[native] bool BlockIpAddress([in] string ip_address, [in] int timems);
+[native] bool UnBlockIpAddress([in] string ip_address);
 
 [native] int GetServerTickRate();
 [native] int NetStats_GetConnectedTime([in] int playerid);
@@ -303,6 +306,7 @@ const int KEY_RIGHT            = 128;
 [callback] bool OnPlayerClickMap([in] int playerid, [in] float fX, [in] float fY, [in] float fZ);
 [callback, badret(true)] bool OnPlayerClickTextDraw([in] int playerid, [in] int clickedid);
 [callback, badret(true)] bool OnPlayerClickPlayerTextDraw([in] int playerid, [in] int playertextid);
+[callback] bool OnIncomingConnection([in] int playerid, [in] string ip_address, [in] int port);
 
 const int CLICK_SOURCE_SCOREBOARD = 0;
 
