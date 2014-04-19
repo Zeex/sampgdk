@@ -78,7 +78,7 @@ SAMPGDK_API(bool, sampgdk_Load(void **ppData));
 /**
  * \brief Performs the final cleanup.
  *
- * This function is intended to be using in Unload(). For example:
+ * This function is intended to be used in Unload(). For example:
  *
  * \code
  * PLUGIN_EXPORT void PLUGIN_CALL Unload() {
@@ -93,8 +93,6 @@ SAMPGDK_API(void, sampgdk_Unload(void));
 
 /**
  * \brief Processes timers created by the calling plugin.
- *
- * \see sampgdk_process_plugin_timers()
  */
 SAMPGDK_API(void, sampgdk_ProcessTick(void));
 
