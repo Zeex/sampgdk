@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -65,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -156,6 +157,9 @@ Functions</h2></td></tr>
 <a class="anchor" id="gace19ceec3ad2e2626fa4fd15d27ad777"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool Load </td>
@@ -165,17 +169,26 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gets called when the plugin is loaded. </p>
-<p>The <a class="el" href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777" title="Gets called when the plugin is loaded. ">Load()</a> function gets passed on exported functions from the SA-MP Server, like the AMX Functions and logprintf(). Should return true if loading the plugin has succeeded.</p>
-<dl class="section return"><dt>Returns</dt><dd>True of if the plugin has successfully loaded and false otherwise. </dd></dl>
+<p>The <a class="el" href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777" title="Gets called when the plugin is loaded. ">Load()</a> function gets passed on exported functions from the SA-MP Server, like the AMX Functions and <a class="el" href="group__core.html#ga804326a916d217df0dafca821eafc791" title="C++ wrapper around sampgdk_logprintf(). ">logprintf()</a>. Should return true if loading the plugin has succeeded.</p>
+<dl class="section return"><dt>Returns</dt><dd>True of if the plugin has successfully loaded and false otherwise.</dd></dl>
+<p>Gets called when the plugin is loaded. </p>
 
 </div>
 </div>
 <a class="anchor" id="gae02f4b046d3e72de81e9b7154d6b40a6"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void ProcessTick </td>
@@ -184,16 +197,25 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gets called on every server tick. </p>
-<p>Each tick corresponds to one iteration of the server's internal event loop. The interval between ticks depends on many factors, but it's possible to set the minimum tick rate via server.cfg (default is 5ms). </p>
+<p>Each tick corresponds to one iteration of the server's internal event loop. The interval between ticks depends on many factors, but it's possible to set the minimum tick rate via server.cfg (default is 5ms).</p>
+<p>Gets called on every server tick. </p>
 
 </div>
 </div>
 <a class="anchor" id="ga32b6ea06d66d8ccd985eb29989f3dfe8"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">unsigned int Supports </td>
@@ -202,17 +224,26 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gets called before <a class="el" href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777" title="Gets called when the plugin is loaded. ">Load()</a> to check for compatibility. </p>
 <p>The <a class="el" href="group__sdk.html#ga32b6ea06d66d8ccd985eb29989f3dfe8" title="Gets called before Load() to check for compatibility. ">Supports()</a> function indicates what possibilities this plugin has. The SUPPORTS_VERSION flag is required to check for compatibility with the server.</p>
-<dl class="section return"><dt>Returns</dt><dd>One or more of the SUPPORTS_* flags. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>One or more of the SUPPORTS_* flags.</dd></dl>
+<p>Gets called before <a class="el" href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777" title="Gets called when the plugin is loaded. ">Load()</a> to check for compatibility. </p>
 
 </div>
 </div>
 <a class="anchor" id="ga3b6de0309d755948fc19f38c1cda9524"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Unload </td>
@@ -221,17 +252,23 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gets called when the plugin is unloaded. </p>
-<p>The <a class="el" href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524" title="Gets called when the plugin is unloaded. ">Unload()</a> function is called when the server shuts down, meaning this plugin gets shut down with it. </p>
+<p>The <a class="el" href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524" title="Gets called when the plugin is unloaded. ">Unload()</a> function is called when the server shuts down, meaning this plugin gets shut down with it.</p>
+<p>Gets called when the plugin is unloaded. </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 13:31:54 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 21 2014 23:21:09 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

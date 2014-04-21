@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -65,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -137,6 +138,8 @@ Functions</h2></td></tr>
 <tr class="separator:gaeb93d01663dbf9de8ee6fedfa6d6976f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf59c5e66782fac7e87e900522d68bc2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gaf59c5e66782fac7e87e900522d68bc2b">BanEx</a> (int playerid, const char *reason)</td></tr>
 <tr class="separator:gaf59c5e66782fac7e87e900522d68bc2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadd4f2e598b3ce7789b2786125afd3d2b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gadd4f2e598b3ce7789b2786125afd3d2b">BlockIpAddress</a> (const char *ip_address, int timems)</td></tr>
+<tr class="separator:gadd4f2e598b3ce7789b2786125afd3d2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga64a1c70fc70d21ee52db8ea821e479c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga64a1c70fc70d21ee52db8ea821e479c2">CancelEdit</a> (int playerid)</td></tr>
 <tr class="separator:ga64a1c70fc70d21ee52db8ea821e479c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga69296953490e0c170f9b181e02d724cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga69296953490e0c170f9b181e02d724cd">CancelSelectTextDraw</a> (int playerid)</td></tr>
@@ -153,6 +156,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga9d60b5e7802328edc7f512ed4bcb7e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabfc48a8fe9f8539dfdc3d821318bcfa3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gabfc48a8fe9f8539dfdc3d821318bcfa3">CreateExplosion</a> (float x, float y, float z, int type, float radius)</td></tr>
 <tr class="separator:gabfc48a8fe9f8539dfdc3d821318bcfa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga08e50617ca83ecfe9c7ebab36f601eb2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga08e50617ca83ecfe9c7ebab36f601eb2">CreateExplosionForPlayer</a> (int playerid, float X, float Y, float Z, int type, float Radius)</td></tr>
+<tr class="separator:ga08e50617ca83ecfe9c7ebab36f601eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacb410aea06a259c932450003ad2619a7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gacb410aea06a259c932450003ad2619a7">CreateMenu</a> (const char *title, int columns, float x, float y, float col1width, float col2width)</td></tr>
 <tr class="separator:gacb410aea06a259c932450003ad2619a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1469cf65a46c5f78ea849ff4fb84f724"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga1469cf65a46c5f78ea849ff4fb84f724">CreateObject</a> (int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance)</td></tr>
@@ -551,6 +556,8 @@ Functions</h2></td></tr>
 <tr class="separator:gaa4b427b5b42d922af3610f1c569cc266"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga90bb0a4f2752bbdf58f21f82ca6caa24"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga90bb0a4f2752bbdf58f21f82ca6caa24">SendDeathMessage</a> (int killer, int killee, int weapon)</td></tr>
 <tr class="separator:ga90bb0a4f2752bbdf58f21f82ca6caa24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0fc5b1867e4019f129c600b9a0e984b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga0fc5b1867e4019f129c600b9a0e984b5">SendDeathMessageToPlayer</a> (int playerid, int killer, int killee, int weapon)</td></tr>
+<tr class="separator:ga0fc5b1867e4019f129c600b9a0e984b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5226b62aa94dd302b6294202237e9525"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga5226b62aa94dd302b6294202237e9525">SendPlayerMessageToAll</a> (int senderid, const char *message)</td></tr>
 <tr class="separator:ga5226b62aa94dd302b6294202237e9525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga369b1b8a5c1314dae380a7638d00bce0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga369b1b8a5c1314dae380a7638d00bce0">SendPlayerMessageToPlayer</a> (int playerid, int senderid, const char *message)</td></tr>
@@ -757,6 +764,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga00eef691810b4cdb0216d622b0a7ef76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga44ab613290dfa390dc31bcdd8749e79c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga44ab613290dfa390dc31bcdd8749e79c">TogglePlayerSpectating</a> (int playerid, bool toggle)</td></tr>
 <tr class="separator:ga44ab613290dfa390dc31bcdd8749e79c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga148c2547cd53c8b7bfebec075d3c0aeb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga148c2547cd53c8b7bfebec075d3c0aeb">UnBlockIpAddress</a> (const char *ip_address)</td></tr>
+<tr class="separator:ga148c2547cd53c8b7bfebec075d3c0aeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaceff8e0eaf9cf80b48d89f949e80d165"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gaceff8e0eaf9cf80b48d89f949e80d165">Update3DTextLabelText</a> (int id, int color, const char *text)</td></tr>
 <tr class="separator:gaceff8e0eaf9cf80b48d89f949e80d165"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabaa4edc3587741f2e0a26887c3607bf2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gabaa4edc3587741f2e0a26887c3607bf2">UpdatePlayer3DTextLabelText</a> (int playerid, int id, int color, const char *text)</td></tr>
@@ -1875,6 +1884,33 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gadd4f2e598b3ce7789b2786125afd3d2b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BlockIpAddress </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ip_address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timems</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/BlockIpAddress">BlockIpAddress on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga64a1c70fc70d21ee52db8ea821e479c2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -2128,6 +2164,57 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/CreateExplosion">CreateExplosion on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga08e50617ca83ecfe9c7ebab36f601eb2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool CreateExplosionForPlayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>playerid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>X</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Z</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Radius</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/CreateExplosionForPlayer">CreateExplosionForPlayer on SA-MP Wiki</a> </dd></dl>
 
 </div>
 </div>
@@ -7744,6 +7831,45 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga0fc5b1867e4019f129c600b9a0e984b5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool SendDeathMessageToPlayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>playerid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>killer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>killee</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>weapon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/SendDeathMessageToPlayer">SendDeathMessageToPlayer on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga5226b62aa94dd302b6294202237e9525"></a>
 <div class="memitem">
 <div class="memproto">
@@ -11127,6 +11253,23 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga148c2547cd53c8b7bfebec075d3c0aeb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool UnBlockIpAddress </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ip_address</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/UnBlockIpAddress">UnBlockIpAddress on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gaceff8e0eaf9cf80b48d89f949e80d165"></a>
 <div class="memitem">
 <div class="memproto">
@@ -11296,7 +11439,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 13:31:54 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 21 2014 23:21:09 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

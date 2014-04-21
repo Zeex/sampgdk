@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -65,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -94,6 +95,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga9779df70f4562bb368cdd9ce910b6e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga33abb6684c01ff551939debf35a20bde"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#ga33abb6684c01ff551939debf35a20bde">OnHTTPResponse</a> (int index, int response_code, const char *data)</td></tr>
 <tr class="separator:ga33abb6684c01ff551939debf35a20bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga86435ec0028111379679d463efe1c1b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#ga86435ec0028111379679d463efe1c1b1">OnIncomingConnection</a> (int playerid, const char *ip_address, int port)</td></tr>
+<tr class="separator:ga86435ec0028111379679d463efe1c1b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga18d0468f141f7817425c908fa5e405b4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#ga18d0468f141f7817425c908fa5e405b4">OnObjectMoved</a> (int objectid)</td></tr>
 <tr class="separator:ga18d0468f141f7817425c908fa5e405b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga94e954d8814a47e4d717ca773ad7a9d7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__callbacks.html#ga94e954d8814a47e4d717ca773ad7a9d7">OnPlayerClickMap</a> (int playerid, float fX, float fY, float fZ)</td></tr>
@@ -329,6 +332,39 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/OnHTTPResponse">OnHTTPResponse on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga86435ec0028111379679d463efe1c1b1"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool OnIncomingConnection </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>playerid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>ip_address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>port</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/OnIncomingConnection">OnIncomingConnection on SA-MP Wiki</a> </dd></dl>
 
 </div>
 </div>
@@ -1775,7 +1811,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 13:31:54 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 21 2014 23:21:10 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

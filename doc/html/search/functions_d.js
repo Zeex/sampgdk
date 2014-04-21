@@ -5,6 +5,7 @@ var searchData=
   ['ongamemodeexit',['OnGameModeExit',['../group__callbacks.html#ga42917672dd99fa8bb364136f5c4195b1',1,'a_samp-decl.h']]],
   ['ongamemodeinit',['OnGameModeInit',['../group__callbacks.html#ga9779df70f4562bb368cdd9ce910b6e91',1,'a_samp-decl.h']]],
   ['onhttpresponse',['OnHTTPResponse',['../group__callbacks.html#ga33abb6684c01ff551939debf35a20bde',1,'a_http-decl.h']]],
+  ['onincomingconnection',['OnIncomingConnection',['../group__callbacks.html#ga86435ec0028111379679d463efe1c1b1',1,'a_samp-decl.h']]],
   ['onobjectmoved',['OnObjectMoved',['../group__callbacks.html#ga18d0468f141f7817425c908fa5e405b4',1,'a_samp-decl.h']]],
   ['onplayerclickmap',['OnPlayerClickMap',['../group__callbacks.html#ga94e954d8814a47e4d717ca773ad7a9d7',1,'a_samp-decl.h']]],
   ['onplayerclickplayer',['OnPlayerClickPlayer',['../group__callbacks.html#gaef3d87c9417e8a062a213cdbe5e3b2de',1,'a_samp-decl.h']]],

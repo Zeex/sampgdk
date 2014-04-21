@@ -24,6 +24,6 @@ var searchData=
   ['playertextdrawshow',['PlayerTextDrawShow',['../group__natives.html#gad7b8803345064ed0dce7c53a412e3865',1,'a_players-decl.h']]],
   ['playertextdrawtextsize',['PlayerTextDrawTextSize',['../group__natives.html#gaf339f6069615c333fa770b3276c5e07a',1,'a_players-decl.h']]],
   ['playertextdrawusebox',['PlayerTextDrawUseBox',['../group__natives.html#ga81ad7f4ba0532325c39ad6ca8d4b04ae',1,'a_players-decl.h']]],
-  ['processtick',['ProcessTick',['../group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6',1,'sdk.h']]],
+  ['processtick',['ProcessTick',['../group__core.html#gacb1eed6337825f988a0c76dadbcb8933',1,'sampgdk::ProcessTick(void *plugin)'],['../group__core.html#ga369c328d0aa083b647fedf111388844e',1,'sampgdk::ProcessTick()'],['../group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6',1,'ProcessTick():&#160;core.h']]],
   ['putplayerinvehicle',['PutPlayerInVehicle',['../group__natives.html#ga2d4f9145bb5e148e6b3723d61ff7e13e',1,'a_players-decl.h']]]
 ];

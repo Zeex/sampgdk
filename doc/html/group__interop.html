@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -65,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -76,16 +77,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Interop</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespacesampgdk"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacesampgdk.html">sampgdk</a></td></tr>
+<tr class="memdesc:namespacesampgdk"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main namespace. <br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga73622f10d045f94e47a0893f11b8a24b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a> (AMX *amx, const char *name, cell *params)</td></tr>
-<tr class="memdesc:ga73622f10d045f94e47a0893f11b8a24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called on every public call.  <a href="#ga73622f10d045f94e47a0893f11b8a24b">More...</a><br/></td></tr>
+<tr class="memdesc:ga73622f10d045f94e47a0893f11b8a24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called on every public function call.  <a href="#ga73622f10d045f94e47a0893f11b8a24b">More...</a><br/></td></tr>
 <tr class="separator:ga73622f10d045f94e47a0893f11b8a24b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga97e217266eda5e61d4e9b62c8fff86c3"><td class="memItemLeft" align="right" valign="top">cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga97e217266eda5e61d4e9b62c8fff86c3">sampgdk_CallNative</a> (AMX_NATIVE native, cell *params)</td></tr>
 <tr class="memdesc:ga97e217266eda5e61d4e9b62c8fff86c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a native function.  <a href="#ga97e217266eda5e61d4e9b62c8fff86c3">More...</a><br/></td></tr>
@@ -99,6 +107,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gad16aaeea61851d7f73e56cae618a97ef"><td class="memItemLeft" align="right" valign="top">cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#gad16aaeea61851d7f73e56cae618a97ef">sampgdk_InvokeNative</a> (AMX_NATIVE native, const char *format,...)</td></tr>
 <tr class="memdesc:gad16aaeea61851d7f73e56cae618a97ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a native function with the specified arguments.  <a href="#gad16aaeea61851d7f73e56cae618a97ef">More...</a><br/></td></tr>
 <tr class="separator:gad16aaeea61851d7f73e56cae618a97ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8f3ad104d7a4d0a551077ed580719f32"><td class="memItemLeft" align="right" valign="top">cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32">sampgdk_InvokeNativeV</a> (AMX_NATIVE native, const char *format, va_list args)</td></tr>
+<tr class="memdesc:ga8f3ad104d7a4d0a551077ed580719f32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a native function with the specified arguments.  <a href="#ga8f3ad104d7a4d0a551077ed580719f32">More...</a><br/></td></tr>
+<tr class="separator:ga8f3ad104d7a4d0a551077ed580719f32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
@@ -132,7 +143,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Gets called on every public call. </p>
+<p>Gets called on every public function call. </p>
 <p>This is the public filter callback. It is called whenever the server calls <code>amx_Exec()</code>, which practiacally means that you can use it to hook <em>any</em> callback, even those that are called by other plugins.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -318,6 +329,46 @@ Functions</h2></td></tr>
 <dd>
 <a class="el" href="group__interop.html#gafe729abf2b1147c292e747919d0f7615" title="Finds a native function by name. ">sampgdk_FindNative()</a> </dd>
 <dd>
+<a class="el" href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32" title="Invokes a native function with the specified arguments. ">sampgdk_InvokeNativeV()</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga8f3ad104d7a4d0a551077ed580719f32"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">cell sampgdk_InvokeNativeV </td>
+          <td>(</td>
+          <td class="paramtype">AMX_NATIVE&#160;</td>
+          <td class="paramname"><em>native</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">va_list&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Invokes a native function with the specified arguments. </p>
+<p>This function is identical to <a class="el" href="group__interop.html#gad16aaeea61851d7f73e56cae618a97ef" title="Invokes a native function with the specified arguments. ">sampgdk_InvokeNative()</a> but takes a <code>va_list</code> instead of a variable number of arguments.</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="group__interop.html#ga607ba55228a3fbea76cb376717aaf080" title="Returns all currently registered native functions. ">sampgdk_GetNatives()</a> </dd>
+<dd>
+<a class="el" href="group__interop.html#gafe729abf2b1147c292e747919d0f7615" title="Finds a native function by name. ">sampgdk_FindNative()</a> </dd>
+<dd>
 <a class="el" href="group__interop.html#gad16aaeea61851d7f73e56cae618a97ef" title="Invokes a native function with the specified arguments. ">sampgdk_InvokeNative()</a> </dd></dl>
 
 </div>
@@ -325,7 +376,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 13:31:54 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 21 2014 23:21:09 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

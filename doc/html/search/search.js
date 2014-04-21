@@ -8,17 +8,19 @@
 var indexSectionsWithContent =
 {
   0: "abcdefghiklmnoprstuv",
-  1: "abcdefghiklmnoprstuv",
-  2: "t",
-  3: "cisv"
+  1: "s",
+  2: "abcdefghiklmnoprstuv",
+  3: "t",
+  4: "cisv"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "functions",
-  2: "typedefs",
-  3: "groups"
+  1: "namespaces",
+  2: "functions",
+  3: "typedefs",
+  4: "groups"
 };
 
 function convertToId(search)

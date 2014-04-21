@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -69,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_6407c638327716996178405f524c87dd.html">include</a></li><li class="navelem"><a class="el" href="dir_a4cec75c05e0ea910b61ff8214e710a8.html">sampgdk</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_30c91e9f4ce73ad0dc2a6f77338dd693.html">include</a></li><li class="navelem"><a class="el" href="dir_bcebc5c725f39b43c9c4bb2ef48537fc.html">sampgdk</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -122,13 +123,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;SAMPGDK_API(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <a class="code" href="group__version.html#gacbd09fd6c1e090158f59eb09554635a6">sampgdk_GetVersionString</a>(<span class="keywordtype">void</span>));</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_VERSION_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">namespace </span>sampgdk {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="namespacesampgdk.html#ac02bbc0c8d8469e1757c918f3b176a16">   78</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code" href="namespacesampgdk.html#ac02bbc0c8d8469e1757c918f3b176a16">GetVersion</a>() {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__version.html#ga9c0399ab76d6e645375fd1a2018704f1">sampgdk_GetVersion</a>();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="namespacesampgdk.html#a840d3f618ed579a442cdb2ffd8c02cda">   83</a></span>&#160;<span class="keyword">inline</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="namespacesampgdk.html#a840d3f618ed579a442cdb2ffd8c02cda">GetVersionString</a>() {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__version.html#gacbd09fd6c1e090158f59eb09554635a6">sampgdk_GetVersionString</a>();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;} <span class="comment">// namespace sampgdk</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* __cplusplus */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_VERSION_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="group__version_html_gacbd09fd6c1e090158f59eb09554635a6"><div class="ttname"><a href="group__version.html#gacbd09fd6c1e090158f59eb09554635a6">sampgdk_GetVersionString</a></div><div class="ttdeci">const char * sampgdk_GetVersionString(void)</div><div class="ttdoc">Gets library version string. </div></div>
 <div class="ttc" id="group__version_html_ga9c0399ab76d6e645375fd1a2018704f1"><div class="ttname"><a href="group__version.html#ga9c0399ab76d6e645375fd1a2018704f1">sampgdk_GetVersion</a></div><div class="ttdeci">int sampgdk_GetVersion(void)</div><div class="ttdoc">Gets library version number. </div></div>
+<div class="ttc" id="namespacesampgdk_html_ac02bbc0c8d8469e1757c918f3b176a16"><div class="ttname"><a href="namespacesampgdk.html#ac02bbc0c8d8469e1757c918f3b176a16">sampgdk::GetVersion</a></div><div class="ttdeci">int GetVersion()</div><div class="ttdoc">C++ wrapper around sampgdk_GetVersion(). </div><div class="ttdef"><b>Definition:</b> version.h:78</div></div>
+<div class="ttc" id="namespacesampgdk_html_a840d3f618ed579a442cdb2ffd8c02cda"><div class="ttname"><a href="namespacesampgdk.html#a840d3f618ed579a442cdb2ffd8c02cda">sampgdk::GetVersionString</a></div><div class="ttdeci">const char * GetVersionString()</div><div class="ttdoc">C++ wrapper around sampgdk_GetVersionString(). </div><div class="ttdef"><b>Definition:</b> version.h:83</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 13:31:54 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 21 2014 23:21:09 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

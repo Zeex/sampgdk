@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -69,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -174,16 +175,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;PLUGIN_EXPORT <span class="keywordtype">void</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6">ProcessTick</a>();</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_AMX_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="group__sdk_html_ga3b6de0309d755948fc19f38c1cda9524"><div class="ttname"><a href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524">Unload</a></div><div class="ttdeci">void Unload()</div><div class="ttdoc">Gets called when the plugin is unloaded. </div></div>
-<div class="ttc" id="group__sdk_html_gace19ceec3ad2e2626fa4fd15d27ad777"><div class="ttname"><a href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777">Load</a></div><div class="ttdeci">bool Load(void **ppData)</div><div class="ttdoc">Gets called when the plugin is loaded. </div></div>
-<div class="ttc" id="group__sdk_html_ga32b6ea06d66d8ccd985eb29989f3dfe8"><div class="ttname"><a href="group__sdk.html#ga32b6ea06d66d8ccd985eb29989f3dfe8">Supports</a></div><div class="ttdeci">unsigned int Supports()</div><div class="ttdoc">Gets called before Load() to check for compatibility. </div></div>
-<div class="ttc" id="group__sdk_html_gae02f4b046d3e72de81e9b7154d6b40a6"><div class="ttname"><a href="group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6">ProcessTick</a></div><div class="ttdeci">void ProcessTick()</div><div class="ttdoc">Gets called on every server tick. </div></div>
+<div class="ttc" id="group__sdk_html_ga3b6de0309d755948fc19f38c1cda9524"><div class="ttname"><a href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524">Unload</a></div><div class="ttdeci">void Unload()</div><div class="ttdoc">Gets called when the plugin is unloaded. </div><div class="ttdef"><b>Definition:</b> core.h:190</div></div>
+<div class="ttc" id="group__sdk_html_gace19ceec3ad2e2626fa4fd15d27ad777"><div class="ttname"><a href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777">Load</a></div><div class="ttdeci">bool Load(void **ppData)</div><div class="ttdoc">Gets called when the plugin is loaded. </div><div class="ttdef"><b>Definition:</b> core.h:180</div></div>
+<div class="ttc" id="group__sdk_html_ga32b6ea06d66d8ccd985eb29989f3dfe8"><div class="ttname"><a href="group__sdk.html#ga32b6ea06d66d8ccd985eb29989f3dfe8">Supports</a></div><div class="ttdeci">unsigned int Supports()</div><div class="ttdoc">Gets called before Load() to check for compatibility. </div><div class="ttdef"><b>Definition:</b> core.h:159</div></div>
+<div class="ttc" id="group__sdk_html_gae02f4b046d3e72de81e9b7154d6b40a6"><div class="ttname"><a href="group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6">ProcessTick</a></div><div class="ttdeci">void ProcessTick()</div><div class="ttdoc">Gets called on every server tick. </div><div class="ttdef"><b>Definition:</b> core.h:200</div></div>
 <div class="ttc" id="group__sdk_html_gab9ab1d3557a62c43781147172136d619"><div class="ttname"><a href="group__sdk.html#gab9ab1d3557a62c43781147172136d619">AmxLoad</a></div><div class="ttdeci">int AmxLoad(AMX *amx)</div><div class="ttdoc">Gets called when a new script is loaded. </div></div>
 <div class="ttc" id="group__sdk_html_gac4a882c4ebe4f232e6c12671c265e694"><div class="ttname"><a href="group__sdk.html#gac4a882c4ebe4f232e6c12671c265e694">AmxUnload</a></div><div class="ttdeci">int AmxUnload(AMX *amx)</div><div class="ttdoc">Gets called when a script is unloaded. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 13:31:54 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 21 2014 23:21:09 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

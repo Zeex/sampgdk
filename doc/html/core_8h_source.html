@@ -40,6 +40,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -69,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Groups</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -114,27 +115,94 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;SAMPGDK_API(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span>, <a class="code" href="group__core.html#gadcc7b9211c8cfefff0afaff0cc9e1c05">sampgdk_Supports</a>(<span class="keywordtype">void</span>));</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;SAMPGDK_API(<span class="keywordtype">bool</span>, <a class="code" href="group__core.html#gaa83c8664fc31ffbb4a18dd523bed396e">sampgdk_Load</a>(<span class="keywordtype">void</span> **ppData));</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#ga95b659385386f4d27990deb40a4f3184">sampgdk_Unload</a>(<span class="keywordtype">void</span>));</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#ga8ba3ee1bead4259c4dc521d2a7671c41">sampgdk_ProcessTick</a>(<span class="keywordtype">void</span>));</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gacdd1860c839462afe7ad57717af56ec0">sampgdk_logprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...));</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args));</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_CORE_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="group__core_html_gaa83c8664fc31ffbb4a18dd523bed396e"><div class="ttname"><a href="group__core.html#gaa83c8664fc31ffbb4a18dd523bed396e">sampgdk_Load</a></div><div class="ttdeci">bool sampgdk_Load(void **ppData)</div><div class="ttdoc">Initializes the library. </div></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span> *, <a class="code" href="group__core.html#ga8c024aec31ed0a19d9d8e59fa55ec880">sampgdk_GetPluginHandle</a>(<span class="keywordtype">void</span> *address));</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;SAMPGDK_API(<span class="keywordtype">bool</span>, <a class="code" href="group__core.html#gab353b9fb572874a104fff8fecace8f7b">sampgdk_Load</a>(<span class="keywordtype">void</span> *plugin, <span class="keywordtype">void</span> **ppData));</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#ga3036086e07b249581f2d2df6ea4380c9">sampgdk_Unload</a>(<span class="keywordtype">void</span> *plugin));</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#ga79e5d306c5d2b00d2f0f1c321c392a69">sampgdk_ProcessTick</a>(<span class="keywordtype">void</span> *plugin));</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gacdd1860c839462afe7ad57717af56ec0">sampgdk_logprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...));</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;SAMPGDK_API(<span class="keywordtype">void</span>, <a class="code" href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args));</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="namespacesampgdk.html">  151</a></span>&#160;<span class="keyword">namespace </span>sampgdk {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="keyword">inline</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="group__core.html#ga18329a456e8dceeb38d7067ced06c97b">Supports</a>() {</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__core.html#gadcc7b9211c8cfefff0afaff0cc9e1c05">sampgdk_Supports</a>();</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;}</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="group__core.html#gab5c68abf43835add7eda9e6872133d09">  164</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> *<a class="code" href="group__core.html#gab5c68abf43835add7eda9e6872133d09">GetPluginHandle</a>(<span class="keywordtype">void</span> *address) {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__core.html#ga8c024aec31ed0a19d9d8e59fa55ec880">sampgdk_GetPluginHandle</a>(address);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;}</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="group__core.html#gac9d4745b496bda414d30f7caf911da3a">  169</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> *<a class="code" href="group__core.html#gac9d4745b496bda414d30f7caf911da3a">GetCurrentPluginHandle</a>() {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  <span class="keyword">static</span> <span class="keywordtype">void</span> *handle = <a class="code" href="group__core.html#ga8c024aec31ed0a19d9d8e59fa55ec880">sampgdk_GetPluginHandle</a>((<span class="keywordtype">void</span> *)&amp;::<a class="code" href="group__core.html#ga568994d7e1133cbb0f2e89c886f0ab5b">Load</a>);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <span class="keywordflow">return</span> handle;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;}</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno"><a class="line" href="group__core.html#ga568994d7e1133cbb0f2e89c886f0ab5b">  175</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="group__core.html#ga568994d7e1133cbb0f2e89c886f0ab5b">Load</a>(<span class="keywordtype">void</span> *plugin, <span class="keywordtype">void</span> **ppData) {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__core.html#gab353b9fb572874a104fff8fecace8f7b">sampgdk_Load</a>(plugin, ppData);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;}</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777">  180</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code" href="group__core.html#ga568994d7e1133cbb0f2e89c886f0ab5b">Load</a>(<span class="keywordtype">void</span> **ppData) {</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__core.html#gab353b9fb572874a104fff8fecace8f7b">sampgdk_Load</a>(<a class="code" href="group__core.html#gac9d4745b496bda414d30f7caf911da3a">GetCurrentPluginHandle</a>(), ppData);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;}</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
+<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="group__core.html#ga645228b6ab66b839ce07767ceb892f64">  185</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="group__core.html#ga645228b6ab66b839ce07767ceb892f64">Unload</a>(<span class="keywordtype">void</span> *plugin) {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <a class="code" href="group__core.html#ga3036086e07b249581f2d2df6ea4380c9">sampgdk_Unload</a>(plugin);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno"><a class="line" href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524">  190</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="group__core.html#ga645228b6ab66b839ce07767ceb892f64">Unload</a>() {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  <a class="code" href="group__core.html#ga3036086e07b249581f2d2df6ea4380c9">sampgdk_Unload</a>(<a class="code" href="group__core.html#gac9d4745b496bda414d30f7caf911da3a">GetCurrentPluginHandle</a>());</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;}</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="group__core.html#gacb1eed6337825f988a0c76dadbcb8933">  195</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="group__core.html#gacb1eed6337825f988a0c76dadbcb8933">ProcessTick</a>(<span class="keywordtype">void</span> *plugin) {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <a class="code" href="group__core.html#ga79e5d306c5d2b00d2f0f1c321c392a69">sampgdk_ProcessTick</a>(plugin);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;}</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6">  200</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="group__core.html#gacb1eed6337825f988a0c76dadbcb8933">ProcessTick</a>() {</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  <a class="code" href="group__core.html#ga79e5d306c5d2b00d2f0f1c321c392a69">sampgdk_ProcessTick</a>(<a class="code" href="group__core.html#gac9d4745b496bda414d30f7caf911da3a">GetCurrentPluginHandle</a>());</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;}</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00205"></a><span class="lineno"><a class="line" href="group__core.html#ga804326a916d217df0dafca821eafc791">  205</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="group__core.html#ga804326a916d217df0dafca821eafc791">logprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...) {</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  va_list args;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  va_start(args, format);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <a class="code" href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a>(format, args);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  va_end(args);</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;}</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
+<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="group__core.html#ga0da876f148b725713a5cb81b26ffc2c3">  213</a></span>&#160;<span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="group__core.html#ga0da876f148b725713a5cb81b26ffc2c3">vlogprintf</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args) {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <a class="code" href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a>(format, args);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;} <span class="comment">// namespace sampgdk</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* __cplusplus */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_CORE_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="group__core_html_ga79e5d306c5d2b00d2f0f1c321c392a69"><div class="ttname"><a href="group__core.html#ga79e5d306c5d2b00d2f0f1c321c392a69">sampgdk_ProcessTick</a></div><div class="ttdeci">void sampgdk_ProcessTick(void *plugin)</div><div class="ttdoc">Processes timers created by the specified plugin. </div></div>
+<div class="ttc" id="group__core_html_ga804326a916d217df0dafca821eafc791"><div class="ttname"><a href="group__core.html#ga804326a916d217df0dafca821eafc791">sampgdk::logprintf</a></div><div class="ttdeci">void logprintf(const char *format,...)</div><div class="ttdoc">C++ wrapper around sampgdk_logprintf(). </div><div class="ttdef"><b>Definition:</b> core.h:205</div></div>
 <div class="ttc" id="group__core_html_gace10f9bf238fc090c8b40c4ef0311d62"><div class="ttname"><a href="group__core.html#gace10f9bf238fc090c8b40c4ef0311d62">sampgdk_vlogprintf</a></div><div class="ttdeci">void sampgdk_vlogprintf(const char *format, va_list args)</div><div class="ttdoc">Prints a message to the server log. </div></div>
-<div class="ttc" id="group__core_html_ga8ba3ee1bead4259c4dc521d2a7671c41"><div class="ttname"><a href="group__core.html#ga8ba3ee1bead4259c4dc521d2a7671c41">sampgdk_ProcessTick</a></div><div class="ttdeci">void sampgdk_ProcessTick(void)</div><div class="ttdoc">Processes timers created by the calling plugin. </div></div>
+<div class="ttc" id="group__core_html_gab353b9fb572874a104fff8fecace8f7b"><div class="ttname"><a href="group__core.html#gab353b9fb572874a104fff8fecace8f7b">sampgdk_Load</a></div><div class="ttdeci">bool sampgdk_Load(void *plugin, void **ppData)</div><div class="ttdoc">Initializes the library. </div></div>
+<div class="ttc" id="group__core_html_gacb1eed6337825f988a0c76dadbcb8933"><div class="ttname"><a href="group__core.html#gacb1eed6337825f988a0c76dadbcb8933">sampgdk::ProcessTick</a></div><div class="ttdeci">void ProcessTick(void *plugin)</div><div class="ttdoc">C++ wrapper around sampgdk_ProcessTick(). </div><div class="ttdef"><b>Definition:</b> core.h:195</div></div>
+<div class="ttc" id="group__core_html_ga568994d7e1133cbb0f2e89c886f0ab5b"><div class="ttname"><a href="group__core.html#ga568994d7e1133cbb0f2e89c886f0ab5b">sampgdk::Load</a></div><div class="ttdeci">bool Load(void *plugin, void **ppData)</div><div class="ttdoc">C++ wrapper around sampgdk_Load(). </div><div class="ttdef"><b>Definition:</b> core.h:175</div></div>
+<div class="ttc" id="group__core_html_gac9d4745b496bda414d30f7caf911da3a"><div class="ttname"><a href="group__core.html#gac9d4745b496bda414d30f7caf911da3a">sampgdk::GetCurrentPluginHandle</a></div><div class="ttdeci">void * GetCurrentPluginHandle()</div><div class="ttdoc">Gets current plugin handle. </div><div class="ttdef"><b>Definition:</b> core.h:169</div></div>
+<div class="ttc" id="group__core_html_ga0da876f148b725713a5cb81b26ffc2c3"><div class="ttname"><a href="group__core.html#ga0da876f148b725713a5cb81b26ffc2c3">sampgdk::vlogprintf</a></div><div class="ttdeci">void vlogprintf(const char *format, va_list args)</div><div class="ttdoc">C++ wrapper around sampgdk_vlogprintf(). </div><div class="ttdef"><b>Definition:</b> core.h:213</div></div>
+<div class="ttc" id="group__core_html_ga8c024aec31ed0a19d9d8e59fa55ec880"><div class="ttname"><a href="group__core.html#ga8c024aec31ed0a19d9d8e59fa55ec880">sampgdk_GetPluginHandle</a></div><div class="ttdeci">void * sampgdk_GetPluginHandle(void *address)</div><div class="ttdoc">Gets plugin handle by address. </div></div>
 <div class="ttc" id="group__core_html_gadcc7b9211c8cfefff0afaff0cc9e1c05"><div class="ttname"><a href="group__core.html#gadcc7b9211c8cfefff0afaff0cc9e1c05">sampgdk_Supports</a></div><div class="ttdeci">unsigned int sampgdk_Supports(void)</div><div class="ttdoc">Returns supported SDK version. </div></div>
-<div class="ttc" id="group__core_html_ga95b659385386f4d27990deb40a4f3184"><div class="ttname"><a href="group__core.html#ga95b659385386f4d27990deb40a4f3184">sampgdk_Unload</a></div><div class="ttdeci">void sampgdk_Unload(void)</div><div class="ttdoc">Performs the final cleanup. </div></div>
+<div class="ttc" id="group__core_html_gab5c68abf43835add7eda9e6872133d09"><div class="ttname"><a href="group__core.html#gab5c68abf43835add7eda9e6872133d09">sampgdk::GetPluginHandle</a></div><div class="ttdeci">void * GetPluginHandle(void *address)</div><div class="ttdoc">C++ wrapper around sampgdk_GetPluginHandle(). </div><div class="ttdef"><b>Definition:</b> core.h:164</div></div>
+<div class="ttc" id="group__core_html_ga18329a456e8dceeb38d7067ced06c97b"><div class="ttname"><a href="group__core.html#ga18329a456e8dceeb38d7067ced06c97b">sampgdk::Supports</a></div><div class="ttdeci">unsigned int Supports()</div><div class="ttdoc">C++ wrapper around sampgdk_Supports(). </div><div class="ttdef"><b>Definition:</b> core.h:159</div></div>
+<div class="ttc" id="group__core_html_ga3036086e07b249581f2d2df6ea4380c9"><div class="ttname"><a href="group__core.html#ga3036086e07b249581f2d2df6ea4380c9">sampgdk_Unload</a></div><div class="ttdeci">void sampgdk_Unload(void *plugin)</div><div class="ttdoc">Performs the final cleanup. </div></div>
 <div class="ttc" id="group__core_html_gacdd1860c839462afe7ad57717af56ec0"><div class="ttname"><a href="group__core.html#gacdd1860c839462afe7ad57717af56ec0">sampgdk_logprintf</a></div><div class="ttdeci">void sampgdk_logprintf(const char *format,...)</div><div class="ttdoc">Prints a message to the server log. </div></div>
+<div class="ttc" id="group__core_html_ga645228b6ab66b839ce07767ceb892f64"><div class="ttname"><a href="group__core.html#ga645228b6ab66b839ce07767ceb892f64">sampgdk::Unload</a></div><div class="ttdeci">void Unload(void *plugin)</div><div class="ttdoc">C++ wrapper around sampgdk_Unload(). </div><div class="ttdef"><b>Definition:</b> core.h:185</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 15 2014 13:31:54 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Apr 21 2014 23:21:09 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
