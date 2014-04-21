@@ -24,12 +24,6 @@
 #include "internal/plugin.h"
 #include "internal/timer.h"
 
-#ifdef _MSC_VER
-  #define RETURN_ADDRESS() _ReturnAddress()
-#else
-  #define RETURN_ADDRESS() __builtin_return_address(0)
-#endif
-
 static void init(void **plugin_data) {
   int error;
 
@@ -78,24 +72,24 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void)) {
   return SUPPORTS_VERSION;
 }
 
-SAMPGDK_API(bool, sampgdk_Load(void **ppData)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+SAMPGDK_API(void *, sampgdk_GetPluginHandle(void *address)) {
+  return sampgdk_plugin_get_handle(address);
+}
+
+SAMPGDK_API(bool, sampgdk_Load(void *plugin, void **ppData)) {
   return init_plugin(plugin, ppData) >= 0;
 }
 
-SAMPGDK_API(void, sampgdk_Unload(void)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+SAMPGDK_API(void, sampgdk_Unload(void *plugin)) {
   cleanup_plugin(plugin);
 }
 
-SAMPGDK_API(void, sampgdk_ProcessTick(void)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+SAMPGDK_API(void, sampgdk_ProcessTick(void *plugin)) {
   sampgdk_timer_process_timers(plugin);
 }
 
 SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...)) {
   va_list args;
-
   va_start(args, format);
   sampgdk_do_vlogprintf(format, args);
   va_end(args);
