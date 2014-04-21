@@ -1,3 +1,4 @@
+sampgdk_GetPluginHandle
 sampgdk_Load
 sampgdk_logprintf
 sampgdk_ProcessTick
