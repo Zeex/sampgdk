@@ -663,6 +663,24 @@ class OnPlayerClickPlayerTextDraw {
   int playertextid;
 };
 
+class OnIncomingConnection {
+ public:
+  OnIncomingConnection(int playerid, const char * ip_address, int port): playerid(playerid), ip_address(ip_address), port(port) {}
+  bool operator()(Script *s) {
+    amx_Push(s->amx(), port);
+    cell ip_address_;
+    amx_PushString(s->amx(), &ip_address_, 0, ip_address, 0, 0);
+    amx_Push(s->amx(), playerid);
+    bool ret = s->Exec("OnIncomingConnection", true);
+    amx_Release(s->amx(), ip_address_);
+    return ret;
+  }
+ private:
+  int playerid;
+  const char * ip_address;
+  int port;
+};
+
 class OnPlayerClickPlayer {
  public:
   OnPlayerClickPlayer(int playerid, int clickedplayerid, int source): playerid(playerid), clickedplayerid(clickedplayerid), source(source) {}
@@ -1065,6 +1083,12 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayerTextDraw(int playerid, int pla
   using namespace ufs;
   return UFS::Instance().ForEachScript(
     ufs::OnPlayerClickPlayerTextDraw(playerid, playertextid), false);
+}
+
+PLUGIN_EXPORT bool PLUGIN_CALL OnIncomingConnection(int playerid, const char * ip_address, int port) {
+  using namespace ufs;
+  return UFS::Instance().ForEachScript(
+    ufs::OnIncomingConnection(playerid, ip_address, port), true);
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerClickPlayer(int playerid, int clickedplayerid, int source) {
