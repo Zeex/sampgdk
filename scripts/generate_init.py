@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import os
 import sys
 
@@ -37,19 +38,25 @@ def generate_cleanup_func(outfile, modules):
     outfile.write('  sampgdk_%s_cleanup();\n' % name)
   outfile.write('}\n\n')
 
+def parse_args(argv):
+  parser = argparse.ArgumentParser()
+  parser.add_argument('-l', '--list', metavar='filename', required=True,
+                      help='list file name')
+  parser.add_argument('-s', '--source', metavar='filename', required=True,
+                      help='source file name')
+  return parser.parse_args()
+
 def main(argv):
-  if len(argv) != 3:
-    print('Usage: %s input-file output-file' % os.path.basename(argv[0]))
-  else:
-    modules = []
-    for line in open(sys.argv[1], 'r').readlines():
-      name = line.strip()
-      if name == 'module':
-        sys.exit('Module name cannot be "module"')
-      modules.append(name)
-    with open(argv[2], 'w') as outfile:
-      generate_init_func(outfile, modules)
-      generate_cleanup_func(outfile, modules)
+  args = parse_args(argv[1:])
+  modules = []
+  for line in open(args.list, 'r').readlines():
+    module = line.strip()
+    if module == 'module':
+      sys.exit('Module name cannot be "module"')
+    modules.append(module)
+  with open(args.source, 'w') as outfile:
+    generate_init_func(outfile, modules)
+    generate_cleanup_func(outfile, modules)
 
 if __name__ == '__main__':
   main(sys.argv)

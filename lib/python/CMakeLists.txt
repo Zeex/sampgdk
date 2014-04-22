@@ -1,0 +1,10 @@
+set(PYTHONPATH
+  ${CMAKE_CURRENT_SOURCE_DIR}/cidl
+  ${CMAKE_CURRENT_SOURCE_DIR}/ply
+)
+
+if(UNIX)
+  string(REPLACE ";" ":" PYTHONPATH "${PYTHONPATH}")
+endif()
+
+sampgdk_set_property(SAMPGDK_PYTHONPATH "${PYTHONPATH}")

@@ -39,47 +39,56 @@ macro(smapgdk_add_subproject name)
   set_property(TARGET ${name} PROPERTY FOLDER ${folder})
 endmacro()
 
+macro(sampgdk_get_property name var)
+  get_property(${var} DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY ${name})
+endmacro()
+
+macro(sampgdk_set_property name value)
+  set_property(DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY ${name} ${value})
+endmacro()
+
+macro(sampgdk_append_property name value)
+  set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY ${name} ${value})
+endmacro()
+
 macro(sampgdk_add_sources)
   foreach(file ${ARGN})
     if(NOT IS_ABSOLUTE ${file})
-      set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                   SAMPGDK_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/${file})
+      sampgdk_append_property(SAMPGDK_SOURCES
+                              ${CMAKE_CURRENT_SOURCE_DIR}/${file})
     else()
-      set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                   SAMPGDK_SOURCES ${file})
+      sampgdk_append_property(SAMPGDK_SOURCES ${file})
     endif()
   endforeach()
 endmacro()
 
 macro(sampgdk_get_sources var)
-  get_property(${var} DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY SAMPGDK_SOURCES)
+  sampgdk_get_property(SAMPGDK_SOURCES ${var})
 endmacro()
 
 macro(sampgdk_add_headers)
   foreach(file ${ARGN})
     if(NOT IS_ABSOLUTE ${file})
-      set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                   SAMPGDK_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/${file})
+      sampgdk_append_property(SAMPGDK_HEADERS
+                              ${CMAKE_CURRENT_SOURCE_DIR}/${file})
     else()
-      set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                   SAMPGDK_HEADERS ${file})
+      sampgdk_append_property(SAMPGDK_HEADERS ${file})
     endif()
   endforeach()
 endmacro()
 
 macro(sampgdk_get_headers var)
-  get_property(${var} DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY SAMPGDK_HEADERS)
+  sampgdk_get_property(SAMPGDK_HEADERS ${var})
 endmacro()
 
 macro(sampgdk_add_libraries)
   foreach(library ${ARGN})
-    set_property(DIRECTORY ${PROJECT_SOURCE_DIR} APPEND PROPERTY
-                 SAMPGDK_LIBRARIES ${library})
+    sampgdk_append_property(SAMPGDK_LIBRARIES ${library})
   endforeach()
 endmacro()
 
 macro(sampgdk_get_libraries var)
-  get_property(${var} DIRECTORY ${PROJECT_SOURCE_DIR} PROPERTY SAMPGDK_LIBRARIES)
+  sampgdk_get_property(SAMPGDK_LIBRARIES ${var})
 endmacro()
 
 macro(sampgdk_make_output_dir file)
@@ -101,56 +110,70 @@ endmacro()
 
 macro(sampgdk_add_api_gen module_name idl_file api_file)
   sampgdk_make_output_dir(${api_file})
-  add_custom_command(OUTPUT ${api_file}
-    COMMAND ${CMAKE_COMMAND}
-      -DCODEGEN_MODULE_NAME=${module_name}
-      -DCODEGEN_IDL_FILE=${idl_file}
-      -DCODEGEN_API_FILE=${api_file}
-      -P ${CMAKE_CURRENT_BINARY_DIR}/scripts/codegen.cmake
-    DEPENDS ${idl_file} scripts/codegen.py)
+  add_custom_command(
+    OUTPUT ${api_file}
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${PROJECT_BINARY_DIR}/scripts/python.py
+      ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
+      --module=${module_name}
+      --idl=${idl_file}
+      --api=${api_file}
+    DEPENDS ${idl_file} ${PROJECT_SOURCE_DIR}/scripts/generate_code.py)
   sampgdk_add_sources(${api_file})
 endmacro()
 
 macro(sampgdk_add_source_gen module_name idl_file source_file)
   sampgdk_make_output_dir(${source_file})
-  add_custom_command(OUTPUT ${source_file}
-    COMMAND ${CMAKE_COMMAND}
-      -DCODEGEN_MODULE_NAME=${module_name}
-      -DCODEGEN_IDL_FILE=${idl_file}
-      -DCODEGEN_SOURCE_FILE=${source_file}
-      -P ${PROJECT_BINARY_DIR}/scripts/codegen.cmake
-    DEPENDS ${idl_file} ${PROJECT_SOURCE_DIR}/scripts/codegen.py)
+  add_custom_command(
+    OUTPUT ${source_file}
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${PROJECT_BINARY_DIR}/scripts/python.py
+      ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
+      --module=${module_name}
+      --idl=${idl_file}
+      --source=${source_file}
+    DEPENDS ${idl_file} ${PROJECT_SOURCE_DIR}/scripts/generate_code.py)
   sampgdk_add_sources(${source_file})
 endmacro()
 
 macro(sampgdk_add_header_gen module_name idl_file header_file)
   sampgdk_make_output_dir(${header_file})
-  add_custom_command(OUTPUT ${header_file}
-    COMMAND ${CMAKE_COMMAND}
-      -DCODEGEN_MODULE_NAME=${module_name}
-      -DCODEGEN_IDL_FILE=${idl_file}
-      -DCODEGEN_HEADER_FILE=${header_file}
-      -P ${PROJECT_BINARY_DIR}/scripts/codegen.cmake
-    DEPENDS ${idl_file} ${PROJECT_SOURCE_DIR}/scripts/codegen.py)
+  add_custom_command(
+    OUTPUT ${header_file}
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${PROJECT_BINARY_DIR}/scripts/python.py
+      ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
+      --module=${module_name}
+      --idl=${idl_file}
+      --header=${header_file}
+    DEPENDS ${idl_file} ${PROJECT_SOURCE_DIR}/scripts/generate_code.py)
   sampgdk_add_headers(${header_file})
 endmacro()
 
 macro(sampgdk_add_init_gen target list_file source_file)
   sampgdk_make_output_dir(${source_file})
-  add_custom_target(${target} 
-    COMMAND ${CMAKE_COMMAND}
-      -DINITGEN_LIST_FILE=${list_file}
-      -DINITGEN_SOURCE_FILE=${source_file}
-      -P ${PROJECT_BINARY_DIR}/scripts/initgen.cmake
-    DEPENDS ${list_file} ${PROJECT_SOURCE_DIR}/scripts/initgen.py)
+  add_custom_target(
+    ${target}
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${PROJECT_BINARY_DIR}/scripts/python.py
+      ${PROJECT_SOURCE_DIR}/scripts/generate_init.py
+      --list=${list_file}
+      --source=${source_file}
+    DEPENDS ${list_file} ${PROJECT_SOURCE_DIR}/scripts/generate_init.py)
   sampgdk_add_sources(${source_file})
 endmacro()
 
-set(PYTHONPATH
-  ${PROJECT_SOURCE_DIR}/scripts
-  ${PROJECT_SOURCE_DIR}/lib/python/ply
-  ${PROJECT_SOURCE_DIR}/lib/python/cidl
-)
+macro(sampgdk_add_exports_gen format output_file)
+  add_custom_command(
+    OUTPUT ${output_file}
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${PROJECT_BINARY_DIR}/scripts/python.py
+      ${PROJECT_SOURCE_DIR}/scripts/generate_exports.py
+      --format=${format}
+      --output=${output_file}
+      ${ARGN}
+    DEPENDS ${ARGN} ${PROJECT_SOURCE_DIR}/scripts/generate_exports.py)
+endmacro()
 
 add_subdirectory(cmake)
 add_subdirectory(doc)
@@ -194,21 +217,11 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
 endforeach()
 
 if(SAMPGDK_DEF_FILE)
-  add_custom_command(OUTPUT ${SAMPGDK_DEF_FILE}
-    COMMAND ${CMAKE_COMMAND}
-      -DDEFGEN_OUTPUT_FILE=${SAMPGDK_DEF_FILE}
-      -DDEFGEN_SEARCH_DIRS="\"${PROJECT_BINARY_DIR};${PROJECT_SOURCE_DIR}\""
-      -P ${PROJECT_BINARY_DIR}/scripts/defgen.cmake
-    DEPENDS ${SAMPGDK_APIS})
+  sampgdk_add_exports_gen("def" ${SAMPGDK_DEF_FILE} ${SAMPGDK_APIS})
 endif()
 
 if(SAMPGDK_SYM_FILE)
-  add_custom_command(OUTPUT ${SAMPGDK_SYM_FILE}
-    COMMAND ${CMAKE_COMMAND}
-      -DSYMGEN_OUTPUT_FILE=${SAMPGDK_SYM_FILE}
-      -DSYMGEN_SEARCH_DIRS="\"${PROJECT_BINARY_DIR};${PROJECT_SOURCE_DIR}\""
-      -P ${PROJECT_BINARY_DIR}/scripts/symgen.cmake
-    DEPENDS ${SAMPGDK_APIS})
+  sampgdk_add_exports_gen("list" ${SAMPGDK_SYM_FILE} ${SAMPGDK_APIS})
 endif()
 
 sampgdk_get_sources(SAMPGDK_SOURCES)

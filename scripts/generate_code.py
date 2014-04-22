@@ -315,14 +315,17 @@ def generate_callback_impl(file, func):
 
   file.write('}\n')
 
-def main(argv):
+def parse_args(argv):
   argparser = argparse.ArgumentParser()
   argparser.add_argument('--module', dest='module_name', required=True)
   argparser.add_argument('--idl', dest='idl_file', required=True)
   argparser.add_argument('--api', dest='api_file')
   argparser.add_argument('--header', dest='header_file')
   argparser.add_argument('--source', dest='source_file')
-  args = argparser.parse_args(argv[1:])
+  return argparser.parse_args(argv)
+
+def main(argv):
+  args = parse_args(argv[1:])
 
   try:
     idlparser = cidl.Parser(value_class=Value, param_class=Parameter)
