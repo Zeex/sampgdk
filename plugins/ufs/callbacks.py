@@ -34,7 +34,7 @@ for c in callbacks:
   if len(c.params) > 0:
     out.write('  %s(%s): %s {}\n' % (c.name, 
       ', '.join(['%s %s' % (type_map[p.type], p.name) for p in c.params]),
-      ', '.join(['%s(%s)' % (p.name, p.name) for p in c.params]),
+      ', '.join(['%s_(%s)' % (p.name, p.name) for p in c.params]),
     ))
   else:
     out.write('  %s() {}\n' % c.name)
@@ -43,13 +43,13 @@ for c in callbacks:
 
   for p in reversed(c.params):
     if p.type == 'string':
-      out.write('    cell %s_;\n' % p.name)
-      out.write('    amx_PushString(s->amx(), &%s_, 0, %s, 0, 0);\n' % (p.name,
+      out.write('    cell %s_addr;\n' % p.name)
+      out.write('    amx_PushString(s->amx(), &%s_addr, 0, %s_, 0, 0);\n' % (p.name,
                                                                         p.name))
     elif p.type == 'float':
-      out.write('    amx_Push(s->amx(), amx_ftoc(%s));\n' % p.name)
+      out.write('    amx_Push(s->amx(), amx_ftoc(%s_));\n' % p.name)
     else:
-      out.write('    amx_Push(s->amx(), %s);\n' % p.name)
+      out.write('    amx_Push(s->amx(), %s_);\n' % p.name)
 
   badret = c.get_attr('badret', cidl.Value('bool', False))
   defret = ('false', 'true')[not badret.value.data]
@@ -58,7 +58,7 @@ for c in callbacks:
     out.write('    bool ret = s->Exec("%s", %s);\n' % (c.name, defret))
     for p in c.params:
       if p.type == 'string':
-        out.write('    amx_Release(s->amx(), %s_);\n' % p.name)
+        out.write('    amx_Release(s->amx(), %s_addr);\n' % p.name)
     out.write('    return ret;\n')
   else:
     out.write('    return s->Exec("%s", %s);\n' % (c.name, defret))
@@ -67,7 +67,7 @@ for c in callbacks:
 
   out.write(' private:\n')
   for p in c.params:
-    out.write('  %s %s;\n'  % (type_map[p.type], p.name));
+    out.write('  %s %s_;\n'  % (type_map[p.type], p.name));
   out.write('};\n\n')
 
 out.write('} // namespace ufs\n\n')
@@ -76,13 +76,12 @@ for c in callbacks:
   params = ', '.join(['%s %s' % (type_map[x.type], x.name) for x in c.params])
 
   out.write('PLUGIN_EXPORT bool PLUGIN_CALL %s(%s) {\n' % (c.name, params))
-  out.write('  using namespace ufs;\n')
-  out.write('  return UFS::Instance().ForEachScript(\n')
+  out.write('  return ufs::UFS::Instance().ForEachScript(')
 
   badret = c.get_attr('badret', cidl.Value('bool', False))
   defret = ('false', 'true')[not badret.value.data]
 
   args = ', '.join([p.name for p in c.params])
-  out.write('    ufs::%s(%s), %s);\n' % (c.name, args, defret))
+  out.write('ufs::%s(%s), %s);\n' % (c.name, args, defret))
 
   out.write('}\n\n')
