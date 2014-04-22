@@ -9,8 +9,10 @@ if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 add_plugin(ufs
-  callbacks.cpp
+  ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
   plugin.cpp
   plugin.h
   script.cpp
@@ -21,5 +23,12 @@ add_plugin(ufs
   ufs-plugin.cpp
   ${SDK_INCLUDE_DIR}/amxplugin.cpp
 )
+
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
+                   COMMAND ${PYTHON_EXECUTABLE}
+                           ${CMAKE_BINARY_DIR}/scripts/python.py
+                           ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.py
+                           ${CMAKE_SOURCE_DIR}/src/a_samp.idl
+                   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/callbacks.py)
 
 target_link_libraries(ufs sampgdk)
