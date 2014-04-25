@@ -177,6 +177,11 @@ inline cell InvokeNative(AMX_NATIVE native, const char *format, ...) {
   return retval;
 }
 
+/// \brief C++ wrapper around sampgdk_InvokeNativeV().
+inline cell InvokeNative(AMX_NATIVE native, const char *format, va_list args) {
+  return sampgdk_InvokeNativeV(native, format, args);
+}
+
 } // namespace sampgdk
 
 #endif /* __cplusplus */
