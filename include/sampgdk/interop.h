@@ -16,6 +16,8 @@
 #ifndef SAMPGDK_INTEROP_H
 #define SAMPGDK_INTEROP_H
 
+#include <stdarg.h>
+
 #include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
