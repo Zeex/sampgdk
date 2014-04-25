@@ -149,9 +149,16 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
  */
 SAMPGDK_CALLBACK(bool, OnPublicCall(AMX *amx, const char *name, cell *params));
 
+/** @} */
+
 #ifdef __cplusplus
 
 namespace sampgdk {
+
+/**
+  * \addtogroup interop
+  * @{
+  */
 
 /// \brief C++ wrapper around sampgdk_GetNatives().
 inline const AMX_NATIVE_INFO *GetNatives(int &number) {
@@ -182,10 +189,10 @@ inline cell InvokeNative(AMX_NATIVE native, const char *format, va_list args) {
   return sampgdk_InvokeNativeV(native, format, args);
 }
 
+/** @} */
+
 } // namespace sampgdk
 
 #endif /* __cplusplus */
-
-/** @} */
 
 #endif /* !SAMPGDK_INTEROP_H */
