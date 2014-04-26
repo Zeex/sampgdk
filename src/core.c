@@ -68,12 +68,19 @@ static void cleanup_plugin(void *plugin) {
   }
 }
 
-SAMPGDK_API(unsigned int, sampgdk_Supports(void)) {
-  return SUPPORTS_VERSION;
+SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...)) {
+  va_list args;
+  va_start(args, format);
+  sampgdk_do_vlogprintf(format, args);
+  va_end(args);
 }
 
-SAMPGDK_API(void *, sampgdk_GetPluginHandle(void *address)) {
-  return sampgdk_plugin_get_handle(address);
+SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args)) {
+  sampgdk_do_vlogprintf(format, args);
+}
+
+SAMPGDK_API(unsigned int, sampgdk_Supports(void)) {
+  return SUPPORTS_VERSION;
 }
 
 SAMPGDK_API(bool, sampgdk_Load(void *plugin, void **ppData)) {
@@ -88,13 +95,6 @@ SAMPGDK_API(void, sampgdk_ProcessTick(void *plugin)) {
   sampgdk_timer_process_timers(plugin);
 }
 
-SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...)) {
-  va_list args;
-  va_start(args, format);
-  sampgdk_do_vlogprintf(format, args);
-  va_end(args);
-}
-
-SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args)) {
-  sampgdk_do_vlogprintf(format, args);
+SAMPGDK_API(void *, sampgdk_GetPluginHandle(void *address)) {
+  return sampgdk_plugin_get_handle(address);
 }
