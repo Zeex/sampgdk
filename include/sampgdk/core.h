@@ -52,6 +52,13 @@
 SAMPGDK_API(unsigned int, sampgdk_Supports(void));
 
 /**
+ * \brief Gets plugin handle by address.
+ *
+ * \returns The plugin handle or NULL if failed.
+ */
+SAMPGDK_API(void *, sampgdk_GetPluginHandle(void *address));
+
+/**
  * \brief Initializes the library.
  *
  * This function should be called when the plugin is loaded,
@@ -136,13 +143,6 @@ SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...));
  */
 SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
-/**
- * \brief Gets plugin handle by address.
- *
- * \returns The plugin handle or NULL if failed.
- */
-SAMPGDK_API(void *, sampgdk_GetPluginHandle(void *address));
-
 /** @} */
 
 #ifdef __cplusplus
@@ -155,19 +155,6 @@ namespace sampgdk {
  * @{
  */
 
-/// \brief C++ wrapper around sampgdk_logprintf().
-inline void logprintf(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  sampgdk_vlogprintf(format, args);
-  va_end(args);
-}
-
-/// \brief C++ wrapper around sampgdk_vlogprintf().
-inline void vlogprintf(const char *format, va_list args) {
-  sampgdk_vlogprintf(format, args);
-}
-
 /// \brief C++ wrapper around sampgdk_Supports().
 inline unsigned int Supports() {
   return sampgdk_Supports();
@@ -178,7 +165,7 @@ inline void *GetPluginHandle(void *address) {
   return sampgdk_GetPluginHandle(address);
 }
 
-/// \brief Returns the handle of the current plugin.
+/// \brief Gets current plugin handle.
 inline void *GetCurrentPluginHandle() {
   static void *handle = sampgdk_GetPluginHandle((void *)&::Load);
   return handle;
@@ -212,6 +199,19 @@ inline void ProcessTick(void *plugin) {
 /// \brief C++ wrapper around sampgdk_ProcessTick().
 inline void ProcessTick() {
   sampgdk_ProcessTick(GetCurrentPluginHandle());
+}
+
+/// \brief C++ wrapper around sampgdk_logprintf().
+inline void logprintf(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  sampgdk_vlogprintf(format, args);
+  va_end(args);
+}
+
+/// \brief C++ wrapper around sampgdk_vlogprintf().
+inline void vlogprintf(const char *format, va_list args) {
+  sampgdk_vlogprintf(format, args);
 }
 
 /** @} */
