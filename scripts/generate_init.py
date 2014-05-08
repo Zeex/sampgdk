@@ -55,9 +55,8 @@ def main(argv):
       sys.exit('Module name cannot be "module"')
     modules.append((level, name))
   with open(args.source, 'w') as outfile:
-    modules.sort() # sorts by level first, then by name
-    generate_init_func(outfile, modules)
-    generate_cleanup_func(outfile, modules)
+    generate_init_func(outfile, sorted(modules))
+    generate_cleanup_func(outfile, sorted(modules, reverse=True))
 
 if __name__ == '__main__':
   main(sys.argv)
