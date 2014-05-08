@@ -80,9 +80,6 @@ int sampgdk_callback_register(const char *name,
   assert(name != NULL);
   assert(handler != NULL);
 
-  /* HACK HACK HACK */
-  sampgdk_callback_init();
-
   ptr = sampgdk_callback_find(name);
   if (ptr != NULL) {
     ptr->handler = handler;
