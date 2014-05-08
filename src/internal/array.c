@@ -189,6 +189,20 @@ int sampgdk_array_insert_single(struct sampgdk_array *a, int index,
   return sampgdk_array_insert(a, index, 1, elem);
 }
 
+int sampgdk_array_insert_ordered(struct sampgdk_array *a, void *elem,
+                                 int (*comp)(const void *x, const void *y))
+{
+  int index;
+
+  for (index = 0; index < a->count; index++) {
+    if (comp(sampgdk_array_get(a, index), elem) >= 0) {
+      return sampgdk_array_insert_single(a, index, elem);
+    }
+  }
+
+  return sampgdk_array_append(a, elem);
+}
+
 int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
   int move_count;
 

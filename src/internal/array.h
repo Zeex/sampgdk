@@ -37,6 +37,8 @@ void *sampgdk_array_get(struct sampgdk_array *a, int index);
 void sampgdk_array_set(struct sampgdk_array *a,int index, void *elem);
 int sampgdk_array_insert(struct sampgdk_array *a, int index, int count, void *elems);
 int sampgdk_array_insert_single(struct sampgdk_array *a, int index, void *elem);
+int sampgdk_array_insert_ordered(struct sampgdk_array *a, void *elem,
+                                 int (*comp)(const void *x, const void *y));
 int sampgdk_array_remove(struct sampgdk_array *a, int index, int count);
 int sampgdk_array_remove_single(struct sampgdk_array *a, int index);
 int sampgdk_array_append(struct sampgdk_array *a, void *elem);

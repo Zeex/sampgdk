@@ -30,7 +30,7 @@ SAMPGDK_MODULE_INIT(callback) {
   int error;
 
   if (callbacks.data != NULL) {
-    return 0; /* alrady initialized */
+    return 0; /* already initialized */
   }
 
   error = sampgdk_array_new(&callbacks, 1, sizeof(struct sampgdk_callback));
@@ -60,6 +60,11 @@ static int compare(const void *key, const void *elem) {
                 ((const struct sampgdk_callback *)elem)->name);
 }
 
+static int compare_callbacks(const void *c1, const void *c2) {
+  return strcmp(((const struct sampgdk_callback*)c1)->name,
+                ((const struct sampgdk_callback*)c2)->name);
+}
+
 struct sampgdk_callback *sampgdk_callback_find(const char *name) {
   assert(name != NULL);
   return bsearch(name, callbacks.data, callbacks.count,
@@ -71,12 +76,11 @@ int sampgdk_callback_register(const char *name,
   int error;
   struct sampgdk_callback info;
   struct sampgdk_callback *ptr;
-  int index;
  
   assert(name != NULL);
   assert(handler != NULL);
 
-  /* This is rather an exception than a rule. */
+  /* HACK HACK HACK */
   sampgdk_callback_init();
 
   ptr = sampgdk_callback_find(name);
@@ -90,22 +94,10 @@ int sampgdk_callback_register(const char *name,
     return -ENOMEM;
   }
 
-  strcpy(info.name, name);
   info.handler = handler;
+  strcpy(info.name, name);
 
-  /* Maintain element order (by name). */
-  for (index = 0; index < callbacks.count; index++) {
-    ptr = (struct sampgdk_callback *)sampgdk_array_get(&callbacks, index);
-    if (strcmp(ptr->name, name) >= 0) {
-      error = sampgdk_array_insert_single(&callbacks, index, &info);
-      break;
-    }
-  }
-
-  /* Append to the end. */
-  if (index == callbacks.count) {
-    error = sampgdk_array_append(&callbacks, &info);
-  }
+  error = sampgdk_array_insert_ordered(&callbacks, &info, compare_callbacks);
 
   if (error < 0) {
     free(info.name);
