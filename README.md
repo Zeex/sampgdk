@@ -35,7 +35,7 @@ Building the source code is as simple as running the following commands:
 ```sh
 cd path/to/sampgdk
 mkdir build && cd build
-cmake ../../ -DSDK_DIR=path/to/sdk
+cmake ../ -DSDK_DIR=path/to/sdk
 make
 make install # optional
 ```
