@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['callnative',['CallNative',['../namespacesampgdk.html#afcac344a809a3cc76c34ee54497ee87c',1,'sampgdk']]],
+  ['callnative',['CallNative',['../group__interop.html#gafcac344a809a3cc76c34ee54497ee87c',1,'sampgdk']]],
   ['canceledit',['CancelEdit',['../group__natives.html#ga64a1c70fc70d21ee52db8ea821e479c2',1,'a_objects-decl.h']]],
   ['cancelselecttextdraw',['CancelSelectTextDraw',['../group__natives.html#ga69296953490e0c170f9b181e02d724cd',1,'a_samp-decl.h']]],
   ['changevehiclecolor',['ChangeVehicleColor',['../group__natives.html#gab0fca24b628cbb26ab17973dd9bc8452',1,'a_vehicles-decl.h']]],

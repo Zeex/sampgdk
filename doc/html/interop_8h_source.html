@@ -81,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_8cb38671846de89444f63c0e68bc97cb.html">sampgdk</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_75b82e7e4a5feb05200b9ad7adf06257.html">home</a></li><li class="navelem"><a class="el" href="dir_1bd108f84c07d181651a095f6a642d7b.html">szx</a></li><li class="navelem"><a class="el" href="dir_1e1fc12d8b6cd44f1833b417c2ef34bd.html">Programming</a></li><li class="navelem"><a class="el" href="dir_334b1a894c0b6d885b689e67e65cd735.html">SAMP</a></li><li class="navelem"><a class="el" href="dir_41130a5b341d3d50b2997da2e8721ce5.html">server</a></li><li class="navelem"><a class="el" href="dir_71c6b96841723c4960338f3be913375f.html">plugins</a></li><li class="navelem"><a class="el" href="dir_8a8f28ed9f8063097507d4423dbd9f77.html">sampgdk</a></li><li class="navelem"><a class="el" href="dir_531c3c81867a9676f46ab1ff7ec36cce.html">include</a></li><li class="navelem"><a class="el" href="dir_09d272b2fc1578cda0993d1448cc0b3b.html">sampgdk</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -107,66 +107,72 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#ifndef SAMPGDK_INTEROP_H</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SAMPGDK_INTEROP_H</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;sampgdk/bool.h&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;sampgdk/export.h&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;SAMPGDK_API(<span class="keyword">const</span> AMX_NATIVE_INFO *, <a class="code" href="group__interop.html#ga607ba55228a3fbea76cb376717aaf080">sampgdk_GetNatives</a>(<span class="keywordtype">int</span> *number));</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;SAMPGDK_API(AMX_NATIVE, <a class="code" href="group__interop.html#gafe729abf2b1147c292e747919d0f7615">sampgdk_FindNative</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name));</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__interop.html#ga97e217266eda5e61d4e9b62c8fff86c3">sampgdk_CallNative</a>(AMX_NATIVE native, cell *params));</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__interop.html#gad16aaeea61851d7f73e56cae618a97ef">sampgdk_InvokeNative</a>(AMX_NATIVE native,</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                                       <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...));</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32">sampgdk_InvokeNativeV</a>(AMX_NATIVE native,</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                                        <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args));</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;SAMPGDK_CALLBACK(<span class="keywordtype">bool</span>, <a class="code" href="group__interop.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a>(AMX *amx, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, cell *params));</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="keyword">namespace </span>sampgdk {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno"><a class="line" href="namespacesampgdk.html#a3b047e2bbe9a41b41c06f78e4d61a4cc">  155</a></span>&#160;<span class="keyword">inline</span> <span class="keyword">const</span> AMX_NATIVE_INFO *<a class="code" href="namespacesampgdk.html#a3b047e2bbe9a41b41c06f78e4d61a4cc">GetNatives</a>(<span class="keywordtype">int</span> &amp;number) {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__interop.html#ga607ba55228a3fbea76cb376717aaf080">sampgdk_GetNatives</a>(&amp;number);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;}</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="namespacesampgdk.html#ae59535616ba1b982b5fba460922514a2">  160</a></span>&#160;<span class="keyword">inline</span> AMX_NATIVE <a class="code" href="namespacesampgdk.html#ae59535616ba1b982b5fba460922514a2">FindNative</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name) {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__interop.html#gafe729abf2b1147c292e747919d0f7615">sampgdk_FindNative</a>(name);</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;}</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="namespacesampgdk.html#afcac344a809a3cc76c34ee54497ee87c">  165</a></span>&#160;<span class="keyword">inline</span> cell <a class="code" href="namespacesampgdk.html#afcac344a809a3cc76c34ee54497ee87c">CallNative</a>(AMX_NATIVE native, cell *params) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__interop.html#ga97e217266eda5e61d4e9b62c8fff86c3">sampgdk_CallNative</a>(native, params);</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;}</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="namespacesampgdk.html#af35e5e914ea47aa558ab0d1b7aec67b2">  170</a></span>&#160;<span class="keyword">inline</span> cell <a class="code" href="namespacesampgdk.html#af35e5e914ea47aa558ab0d1b7aec67b2">InvokeNative</a>(AMX_NATIVE native, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...) {</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  va_list args;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  va_start(args, format);</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  cell retval = <a class="code" href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32">sampgdk_InvokeNativeV</a>(native, format, args);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  va_end(args);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <span class="keywordflow">return</span> retval;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;stdarg.h&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;sampgdk/bool.h&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;sampgdk/export.h&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;SAMPGDK_API(<span class="keyword">const</span> AMX_NATIVE_INFO *, <a class="code" href="group__interop.html#ga607ba55228a3fbea76cb376717aaf080">sampgdk_GetNatives</a>(<span class="keywordtype">int</span> *number));</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;SAMPGDK_API(AMX_NATIVE, <a class="code" href="group__interop.html#gafe729abf2b1147c292e747919d0f7615">sampgdk_FindNative</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name));</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__interop.html#ga97e217266eda5e61d4e9b62c8fff86c3">sampgdk_CallNative</a>(AMX_NATIVE native, cell *params));</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__interop.html#gad16aaeea61851d7f73e56cae618a97ef">sampgdk_InvokeNative</a>(AMX_NATIVE native,</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                                       <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...));</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;SAMPGDK_API(cell, <a class="code" href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32">sampgdk_InvokeNativeV</a>(AMX_NATIVE native,</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                        <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args));</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;SAMPGDK_CALLBACK(<span class="keywordtype">bool</span>, <a class="code" href="group__interop.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a>(AMX *amx, <span class="keyword">const</span> <span class="keywordtype">char</span> *name, cell *params));</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="keyword">namespace </span>sampgdk {</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="keyword">inline</span> <span class="keyword">const</span> AMX_NATIVE_INFO *<a class="code" href="group__interop.html#ga3b047e2bbe9a41b41c06f78e4d61a4cc">GetNatives</a>(<span class="keywordtype">int</span> &amp;number) {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__interop.html#ga607ba55228a3fbea76cb376717aaf080">sampgdk_GetNatives</a>(&amp;number);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;}</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="group__interop.html#gae59535616ba1b982b5fba460922514a2">  169</a></span>&#160;<span class="keyword">inline</span> AMX_NATIVE <a class="code" href="group__interop.html#gae59535616ba1b982b5fba460922514a2">FindNative</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *name) {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__interop.html#gafe729abf2b1147c292e747919d0f7615">sampgdk_FindNative</a>(name);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;}</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="group__interop.html#gafcac344a809a3cc76c34ee54497ee87c">  174</a></span>&#160;<span class="keyword">inline</span> cell <a class="code" href="group__interop.html#gafcac344a809a3cc76c34ee54497ee87c">CallNative</a>(AMX_NATIVE native, cell *params) {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__interop.html#ga97e217266eda5e61d4e9b62c8fff86c3">sampgdk_CallNative</a>(native, params);</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;}</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;} <span class="comment">// namespace sampgdk</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* __cplusplus */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_INTEROP_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="group__interop.html#gaf35e5e914ea47aa558ab0d1b7aec67b2">  179</a></span>&#160;<span class="keyword">inline</span> cell <a class="code" href="group__interop.html#gaf35e5e914ea47aa558ab0d1b7aec67b2">InvokeNative</a>(AMX_NATIVE native, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, ...) {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  va_list args;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  va_start(args, format);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  cell retval = <a class="code" href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32">sampgdk_InvokeNativeV</a>(native, format, args);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  va_end(args);</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="keywordflow">return</span> retval;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;}</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno"><a class="line" href="group__interop.html#ga09eed020e990b51e9e3adcbe82b3c386">  188</a></span>&#160;<span class="keyword">inline</span> cell <a class="code" href="group__interop.html#gaf35e5e914ea47aa558ab0d1b7aec67b2">InvokeNative</a>(AMX_NATIVE native, <span class="keyword">const</span> <span class="keywordtype">char</span> *format, va_list args) {</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32">sampgdk_InvokeNativeV</a>(native, format, args);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;}</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;} <span class="comment">// namespace sampgdk</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* __cplusplus */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_INTEROP_H */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="group__interop_html_ga97e217266eda5e61d4e9b62c8fff86c3"><div class="ttname"><a href="group__interop.html#ga97e217266eda5e61d4e9b62c8fff86c3">sampgdk_CallNative</a></div><div class="ttdeci">cell sampgdk_CallNative(AMX_NATIVE native, cell *params)</div><div class="ttdoc">Calls a native function. </div></div>
 <div class="ttc" id="group__interop_html_ga8f3ad104d7a4d0a551077ed580719f32"><div class="ttname"><a href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32">sampgdk_InvokeNativeV</a></div><div class="ttdeci">cell sampgdk_InvokeNativeV(AMX_NATIVE native, const char *format, va_list args)</div><div class="ttdoc">Invokes a native function with the specified arguments. </div></div>
 <div class="ttc" id="group__interop_html_gafe729abf2b1147c292e747919d0f7615"><div class="ttname"><a href="group__interop.html#gafe729abf2b1147c292e747919d0f7615">sampgdk_FindNative</a></div><div class="ttdeci">AMX_NATIVE sampgdk_FindNative(const char *name)</div><div class="ttdoc">Finds a native function by name. </div></div>
-<div class="ttc" id="namespacesampgdk_html_a3b047e2bbe9a41b41c06f78e4d61a4cc"><div class="ttname"><a href="namespacesampgdk.html#a3b047e2bbe9a41b41c06f78e4d61a4cc">sampgdk::GetNatives</a></div><div class="ttdeci">const AMX_NATIVE_INFO * GetNatives(int &amp;number)</div><div class="ttdoc">C++ wrapper around sampgdk_GetNatives(). </div><div class="ttdef"><b>Definition:</b> interop.h:155</div></div>
-<div class="ttc" id="namespacesampgdk_html_ae59535616ba1b982b5fba460922514a2"><div class="ttname"><a href="namespacesampgdk.html#ae59535616ba1b982b5fba460922514a2">sampgdk::FindNative</a></div><div class="ttdeci">AMX_NATIVE FindNative(const char *name)</div><div class="ttdoc">C++ wrapper around sampgdk_FindNative(). </div><div class="ttdef"><b>Definition:</b> interop.h:160</div></div>
+<div class="ttc" id="group__interop_html_gafcac344a809a3cc76c34ee54497ee87c"><div class="ttname"><a href="group__interop.html#gafcac344a809a3cc76c34ee54497ee87c">sampgdk::CallNative</a></div><div class="ttdeci">cell CallNative(AMX_NATIVE native, cell *params)</div><div class="ttdoc">C++ wrapper around sampgdk_CallNative(). </div><div class="ttdef"><b>Definition:</b> interop.h:174</div></div>
+<div class="ttc" id="group__interop_html_ga3b047e2bbe9a41b41c06f78e4d61a4cc"><div class="ttname"><a href="group__interop.html#ga3b047e2bbe9a41b41c06f78e4d61a4cc">sampgdk::GetNatives</a></div><div class="ttdeci">const AMX_NATIVE_INFO * GetNatives(int &amp;number)</div><div class="ttdoc">C++ wrapper around sampgdk_GetNatives(). </div><div class="ttdef"><b>Definition:</b> interop.h:164</div></div>
+<div class="ttc" id="group__interop_html_gaf35e5e914ea47aa558ab0d1b7aec67b2"><div class="ttname"><a href="group__interop.html#gaf35e5e914ea47aa558ab0d1b7aec67b2">sampgdk::InvokeNative</a></div><div class="ttdeci">cell InvokeNative(AMX_NATIVE native, const char *format,...)</div><div class="ttdoc">C++ wrapper around sampgdk_InvokeNative(). </div><div class="ttdef"><b>Definition:</b> interop.h:179</div></div>
 <div class="ttc" id="group__interop_html_ga73622f10d045f94e47a0893f11b8a24b"><div class="ttname"><a href="group__interop.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a></div><div class="ttdeci">bool OnPublicCall(AMX *amx, const char *name, cell *params)</div><div class="ttdoc">Gets called on every public function call. </div></div>
 <div class="ttc" id="group__interop_html_gad16aaeea61851d7f73e56cae618a97ef"><div class="ttname"><a href="group__interop.html#gad16aaeea61851d7f73e56cae618a97ef">sampgdk_InvokeNative</a></div><div class="ttdeci">cell sampgdk_InvokeNative(AMX_NATIVE native, const char *format,...)</div><div class="ttdoc">Invokes a native function with the specified arguments. </div></div>
 <div class="ttc" id="group__interop_html_ga607ba55228a3fbea76cb376717aaf080"><div class="ttname"><a href="group__interop.html#ga607ba55228a3fbea76cb376717aaf080">sampgdk_GetNatives</a></div><div class="ttdeci">const AMX_NATIVE_INFO * sampgdk_GetNatives(int *number)</div><div class="ttdoc">Returns all currently registered native functions. </div></div>
-<div class="ttc" id="namespacesampgdk_html_afcac344a809a3cc76c34ee54497ee87c"><div class="ttname"><a href="namespacesampgdk.html#afcac344a809a3cc76c34ee54497ee87c">sampgdk::CallNative</a></div><div class="ttdeci">cell CallNative(AMX_NATIVE native, cell *params)</div><div class="ttdoc">C++ wrapper around sampgdk_CallNative(). </div><div class="ttdef"><b>Definition:</b> interop.h:165</div></div>
-<div class="ttc" id="namespacesampgdk_html_af35e5e914ea47aa558ab0d1b7aec67b2"><div class="ttname"><a href="namespacesampgdk.html#af35e5e914ea47aa558ab0d1b7aec67b2">sampgdk::InvokeNative</a></div><div class="ttdeci">cell InvokeNative(AMX_NATIVE native, const char *format,...)</div><div class="ttdoc">C++ wrapper around sampgdk_InvokeNative(). </div><div class="ttdef"><b>Definition:</b> interop.h:170</div></div>
+<div class="ttc" id="group__interop_html_gae59535616ba1b982b5fba460922514a2"><div class="ttname"><a href="group__interop.html#gae59535616ba1b982b5fba460922514a2">sampgdk::FindNative</a></div><div class="ttdeci">AMX_NATIVE FindNative(const char *name)</div><div class="ttdoc">C++ wrapper around sampgdk_FindNative(). </div><div class="ttdef"><b>Definition:</b> interop.h:169</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 21 2014 23:21:09 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri May 23 2014 22:36:21 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
