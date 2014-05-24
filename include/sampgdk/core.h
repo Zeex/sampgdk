@@ -65,7 +65,7 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void));
  * \code
  * PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
  *   ...
- *   return sampgdk_Load(plugin, ppData);
+ *   return sampgdk_Load(ppData);
  * }
  * \endcode
  *
@@ -86,7 +86,7 @@ SAMPGDK_API(bool, sampgdk_Load(void **ppData));
  * \code
  * PLUGIN_EXPORT void PLUGIN_CALL Unload() {
  *   ...
- *   sampgdk_Unload(plugin);
+ *   sampgdk_Unload();
  * }
  * \endcode
  *
@@ -101,7 +101,7 @@ SAMPGDK_API(void, sampgdk_Unload(sampgdk_unused_t));
  *
  * \code
  * PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
- *   sampgdk_ProcessTick(plugin);
+ *   sampgdk_ProcessTick();
  * }
  * \endcode
  */
