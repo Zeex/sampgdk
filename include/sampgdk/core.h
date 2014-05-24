@@ -134,6 +134,9 @@ SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
 /** @} */
 
+#define sampgdk_Unload()      sampgdk_Unload(0)
+#define sampgdk_ProcessTick() sampgdk_ProcessTick(0)
+
 #ifdef __cplusplus
 
 /// \brief Main namespace.
@@ -156,12 +159,12 @@ inline bool Load(void **ppData) {
 
 /// \brief C++ wrapper around sampgdk_Unload().
 inline void Unload() {
-  sampgdk_Unload(sampgdk_unused_t());
+  sampgdk_Unload();
 }
 
 /// \brief C++ wrapper around sampgdk_ProcessTick().
 inline void ProcessTick() {
-  sampgdk_ProcessTick(sampgdk_unused_t());
+  sampgdk_ProcessTick();
 }
 
 /// \brief C++ wrapper around sampgdk_logprintf().

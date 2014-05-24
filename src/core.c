@@ -30,6 +30,9 @@
   #define RETURN_ADDRESS() __builtin_return_address(0)
 #endif
 
+#undef sampgdk_Unload
+#undef sampgdk_ProcessTick
+
 static void init(void **plugin_data) {
   int error;
 
