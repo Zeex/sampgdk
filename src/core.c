@@ -30,6 +30,7 @@
   #define RETURN_ADDRESS() __builtin_return_address(0)
 #endif
 
+#undef sampgdk_Load
 #undef sampgdk_Unload
 #undef sampgdk_ProcessTick
 
@@ -81,7 +82,7 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void)) {
   return SUPPORTS_VERSION;
 }
 
-SAMPGDK_API(bool, sampgdk_Load(void **ppData)) {
+SAMPGDK_API(bool, sampgdk_Load(void **ppData, sampgdk_unused_t unused)) {
   void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
   return init_plugin(plugin, ppData) >= 0;
 }

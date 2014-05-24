@@ -75,7 +75,7 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void));
  *
  * \see sampgdk_Unload()
  */
-SAMPGDK_API(bool, sampgdk_Load(void **ppData));
+SAMPGDK_API(bool, sampgdk_Load(void **ppData, sampgdk_unused_t));
 
 /**
  * \brief Performs the final cleanup.
@@ -134,6 +134,7 @@ SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
 /** @} */
 
+#define sampgdk_Load(ppData)  sampgdk_Load(ppData, 0)
 #define sampgdk_Unload()      sampgdk_Unload(0)
 #define sampgdk_ProcessTick() sampgdk_ProcessTick(0)
 
