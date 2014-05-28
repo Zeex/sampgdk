@@ -27,8 +27,8 @@ Prerequisites:
 * [SA-MP plugin SDK](https://github.com/Zeex/samp-plugin-sdk)
 * [CMake](http://cmake.org) 2.8.12+
 * [Python](http://python.org) 2.7+
-* Working C89 compiler
-* Working C++ compiler (for plugins)
+* C89 compiler
+* C++ compiler (for plugins)
 
 Building the source code is as simple as running the following commands:
 
