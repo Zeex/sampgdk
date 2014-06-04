@@ -105,9 +105,9 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga09eed020e990b51e9e3adcbe82b3c386">sampgdk::InvokeNative</a> (AMX_NATIVE native, const char *format, va_list args)</td></tr>
 <tr class="memdesc:ga09eed020e990b51e9e3adcbe82b3c386"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++ wrapper around <a class="el" href="group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32" title="Invokes a native function with the specified arguments. ">sampgdk_InvokeNativeV()</a>. <br /></td></tr>
 <tr class="separator:ga09eed020e990b51e9e3adcbe82b3c386"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga73622f10d045f94e47a0893f11b8a24b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga73622f10d045f94e47a0893f11b8a24b">OnPublicCall</a> (AMX *amx, const char *name, cell *params)</td></tr>
-<tr class="memdesc:ga73622f10d045f94e47a0893f11b8a24b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called on every public function call.  <a href="#ga73622f10d045f94e47a0893f11b8a24b">More...</a><br /></td></tr>
-<tr class="separator:ga73622f10d045f94e47a0893f11b8a24b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9957c2761fb2016db71c9d8a3b42cb75"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga9957c2761fb2016db71c9d8a3b42cb75">OnPublicCall</a> (AMX *amx, const char *name, cell *params, cell *retval)</td></tr>
+<tr class="memdesc:ga9957c2761fb2016db71c9d8a3b42cb75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called on every public function call.  <a href="#ga9957c2761fb2016db71c9d8a3b42cb75">More...</a><br /></td></tr>
+<tr class="separator:ga9957c2761fb2016db71c9d8a3b42cb75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga97e217266eda5e61d4e9b62c8fff86c3"><td class="memItemLeft" align="right" valign="top">cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga97e217266eda5e61d4e9b62c8fff86c3">sampgdk_CallNative</a> (AMX_NATIVE native, cell *params)</td></tr>
 <tr class="memdesc:ga97e217266eda5e61d4e9b62c8fff86c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls a native function.  <a href="#ga97e217266eda5e61d4e9b62c8fff86c3">More...</a><br /></td></tr>
 <tr class="separator:ga97e217266eda5e61d4e9b62c8fff86c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,7 +126,7 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ga73622f10d045f94e47a0893f11b8a24b"></a>
+<a class="anchor" id="ga9957c2761fb2016db71c9d8a3b42cb75"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -146,7 +146,13 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">cell *&#160;</td>
-          <td class="paramname"><em>params</em>&#160;</td>
+          <td class="paramname"><em>params</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cell *&#160;</td>
+          <td class="paramname"><em>retval</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -162,7 +168,8 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
   <table class="params">
     <tr><td class="paramname">amx</td><td>The AMX instance on which the public function is called. </td></tr>
     <tr><td class="paramname">name</td><td>The name of the function. </td></tr>
-    <tr><td class="paramname">params</td><td>The function's arguments as stored on the AMX stack, with the <code>params</code>[0] equal to the number of arguments multiplied by <code>sizeof(cell)</code>.</td></tr>
+    <tr><td class="paramname">params</td><td>The function's arguments as stored on the AMX stack, with <code>params</code>[0] set to the number of arguments multiplied by <code>sizeof(cell)</code>. </td></tr>
+    <tr><td class="paramname">retval</td><td>The function's return value. This parameter can be <code>NULL</code>.</td></tr>
   </table>
   </dd>
 </dl>
@@ -389,7 +396,7 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 24 2014 08:31:29 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 4 2014 20:19:36 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>

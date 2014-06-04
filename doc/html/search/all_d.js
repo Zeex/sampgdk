@@ -41,7 +41,7 @@ var searchData=
   ['onplayertext',['OnPlayerText',['../group__callbacks.html#ga56739c5ab3ddb8e8266545502eb0ad4c',1,'a_samp-decl.h']]],
   ['onplayerupdate',['OnPlayerUpdate',['../group__callbacks.html#ga3f4a0425d5da42065d932b6f9ba07575',1,'a_samp-decl.h']]],
   ['onplayerweaponshot',['OnPlayerWeaponShot',['../group__callbacks.html#ga09ef4cd16e80aa4ae8b0f3ab99ec3dc8',1,'a_samp-decl.h']]],
-  ['onpubliccall',['OnPublicCall',['../group__interop.html#ga73622f10d045f94e47a0893f11b8a24b',1,'interop.h']]],
+  ['onpubliccall',['OnPublicCall',['../group__interop.html#ga9957c2761fb2016db71c9d8a3b42cb75',1,'interop.h']]],
   ['onrconcommand',['OnRconCommand',['../group__callbacks.html#ga01fe9e73803c7e19411d7a4873ef6766',1,'a_samp-decl.h']]],
   ['onrconloginattempt',['OnRconLoginAttempt',['../group__callbacks.html#gaccac5d7b66bbcf1a6dcda5c0ba1e8bc9',1,'a_samp-decl.h']]],
   ['onunoccupiedvehicleupdate',['OnUnoccupiedVehicleUpdate',['../group__callbacks.html#gaf055634337ca11f3f17089d8ec8c1b5e',1,'a_samp-decl.h']]],

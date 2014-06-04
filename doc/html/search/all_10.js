@@ -10,7 +10,7 @@ var searchData=
   ['sampgdk_5fgetversionstring',['sampgdk_GetVersionString',['../group__version.html#gacbd09fd6c1e090158f59eb09554635a6',1,'version.h']]],
   ['sampgdk_5finvokenative',['sampgdk_InvokeNative',['../group__interop.html#gad16aaeea61851d7f73e56cae618a97ef',1,'interop.h']]],
   ['sampgdk_5finvokenativev',['sampgdk_InvokeNativeV',['../group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32',1,'interop.h']]],
-  ['sampgdk_5fload',['sampgdk_Load',['../group__core.html#gaa83c8664fc31ffbb4a18dd523bed396e',1,'core.h']]],
+  ['sampgdk_5fload',['sampgdk_Load',['../group__core.html#gab34c0b7b5ffe700b0e227d8bc0d7755a',1,'core.h']]],
   ['sampgdk_5flogprintf',['sampgdk_logprintf',['../group__core.html#gacdd1860c839462afe7ad57717af56ec0',1,'core.h']]],
   ['sampgdk_5fprocesstick',['sampgdk_ProcessTick',['../group__core.html#ga9596d47f0fae287ee0ed3c6c145d48c5',1,'core.h']]],
   ['sampgdk_5fsupports',['sampgdk_Supports',['../group__core.html#gadcc7b9211c8cfefff0afaff0cc9e1c05',1,'core.h']]],
