@@ -140,16 +140,17 @@ void sampgdk_callback_unregister_table(const struct sampgdk_callback *table) {
   }
 }
 
-static bool call_public_filter(void *plugin, AMX *amx, const char *name) {
+static bool call_public_filter(void *plugin, AMX *amx, const char *name,
+                               cell *retval) {
   void *func;
   cell *params;
 
   func = sampgdk_plugin_get_symbol(plugin, "OnPublicCall");
   if (func != NULL) {
     typedef bool (PLUGIN_CALL *public_filter)(AMX *amx, const char *name,
-                                              cell *params);
+                                              cell *params, cell *retval);
     sampgdk_param_get_all(amx, true, &params);
-    return ((public_filter)func)(amx, name, params);
+    return ((public_filter)func)(amx, name, params, retval);
   }
 
   return true;
@@ -179,7 +180,7 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
 
   plugin_list = sampgdk_plugin_get_list();
   while (plugin_list != NULL) {
-    if (call_public_filter(plugin_list->plugin, amx, name) &&
+    if (call_public_filter(plugin_list->plugin, amx, name, retval) &&
         !call_public_handler(plugin_list->plugin, amx, name, retval)) {
       return false;
     }
