@@ -104,10 +104,18 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
   return error;
 }
 
-/* The SA-MP server always makes a call to amx_FindPublic() and depending on
- * the value returned it may also call amx_Exec(). In order to have amx_Exec()
- * called for any publics (regardless of their existence) we can simply return
- * for all inputs.
+/* The SA-MP server always makes a call to amx_FindPublic() before executing
+ * a callback and depending the return value it may or may not run amx_Exec().
+ *
+ * In order to have amx_Exec() called for *all* publics i.e. regardless of
+ * whether they actually exist in the gamemode, we can simply always return
+ * success.
+ *
+ * Now you might be thinking "OK, that sounds like it should work", but there
+ * is one fundamental flaw in this "algorithm": if the caller didn't bother
+ * to initialize the retval variable prior to the call to amx_Exec(), which
+ * makes perfect sense, it will end up with random garbage and you might get
+ * unexpected results.
  */
 static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
   bool proceed;
