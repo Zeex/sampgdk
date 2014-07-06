@@ -27,9 +27,6 @@
 #define MAX_NATIVE_ARGS     32
 #define MAX_NATIVE_ARG_SIZE 8  /* in bytes */
 
-#define COPY_VA_ARG(dest, args, type, va_type) \
-  *(type*)dest = va_arg(args, va_type);
-
 static struct sampgdk_array natives;
 
 SAMPGDK_MODULE_INIT(native) {
