@@ -24,10 +24,11 @@
 #include "native.h"
 #include "log.h"
 
-/* MAX_NATIVE_PARAMS is the maximum number of parameters that
- * sampgdk_native_invoke() can pass to native functions.
- */
-#define MAX_NATIVE_PARAMS 32
+#define MAX_NATIVE_ARGS     32
+#define MAX_NATIVE_ARG_SIZE 8  /* in bytes */
+
+#define COPY_VA_ARG(dest, args, type, va_type) \
+  *(type*)dest = va_arg(args, va_type);
 
 static struct sampgdk_array natives;
 
@@ -146,137 +147,92 @@ cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
 
 cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
                            va_list args) {
-  AMX *amx = sampgdk_fakeamx_amx();
   cell i;
-  cell params[MAX_NATIVE_PARAMS] = {0};
-  struct ref_param {
-    void  *ptr;
-    size_t size;
-  } ref_params[MAX_NATIVE_PARAMS] = {{NULL, 0}};
   cell retval;
+  unsigned char args_copy[MAX_NATIVE_ARGS * MAX_NATIVE_ARG_SIZE];
+  unsigned char *args_ptr = args_copy;
+  void *args_array[MAX_NATIVE_ARGS];
 
-  assert(native != NULL);
-  assert(format != NULL);
-
-  for (i = 1; format[i - 1] != '\0'; i++) {
-    char type = format[i - 1];
-    switch (type) {
+  for (i = 0; format[i] != '\0' && i < MAX_NATIVE_ARGS; i++) {
+    switch (format[i]) {
       case 'i': /* integer */
       case 'd': /* integer */
+        *(int *)args_ptr = va_arg(args, int);
+        args_array[i] = args_ptr;
+        args_ptr += MAX_NATIVE_ARG_SIZE;
+        break;
       case 'b': /* boolean */
-        params[i] = (cell)va_arg(args, int);
+        *(bool *)args_ptr = !!va_arg(args, int);
+        args_array[i] = args_ptr;
+        args_ptr += MAX_NATIVE_ARG_SIZE;
         break;
-      case 'f': /* floating-point */ {
-        float value = (float)va_arg(args, double);
-        params[i] = amx_ftoc(value);
+      case 'f': /* floating-point */
+        *(float *)args_ptr = va_arg(args, double);
+        args_array[i] = args_ptr;
+        args_ptr += MAX_NATIVE_ARG_SIZE;
         break;
-      }
       case 'r': /* const reference */
-      case 'R': /* non-const reference (writeable) */ {
-        cell *ptr = va_arg(args, cell *);
-        sampgdk_fakeamx_push_cell(*ptr, &params[i]);
-        ref_params[i].ptr = ptr;
-        if (type == 'R') {
-          ref_params[i].size = sizeof(cell);
-        }
-        break;
-      }
+      case 'R': /* non-const reference (writeable) */
       case 's': /* const string */
-      case 'S': /* non-const string (writeable) */ {
-        char *str = va_arg(args, char *);
-        sampgdk_fakeamx_push_string(str, NULL, &params[i]);
-        ref_params[i].ptr = str;
-        if (type == 'S') {
-          size_t size = va_arg(args, size_t);
-          ref_params[i].size = size;
-          /* Next parameter must be an integer argument containing the size
-           * of the string. All SA-MP natives follow this convention.
-           */
-          params[++i] = size;
-        }
+      case 'S': /* non-const string (writeable) */
+        args_array[i] = va_arg(args, void *);
         break;
-      }
       default:
         assert(0 && "Invalid type specifier");
     }
   }
 
-  params[0] = (i - 1) * sizeof(cell);
-  retval = native(amx, params);
-
-  while (--i >= 1) {
-    if (ref_params[i].size != 0) {
-      /* If this is an output parameter, write back its new value. */
-      char type = format[i - 1];
-      switch (type) {
-        case 'R':
-          sampgdk_fakeamx_get_cell(params[i], ref_params[i].ptr);
-          break;
-        case 'S':
-          sampgdk_fakeamx_get_string(params[i], ref_params[i].ptr,
-                                     ref_params[i].size);
-          break;
-      }
-    }
-    if (ref_params[i].ptr != NULL) {
-      sampgdk_fakeamx_pop(params[i]);
-    }
-  }
-
-  return retval;
+  return sampgdk_native_invoke_array(native, format, args_array);
 }
 
 cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
                                  void **args) {
   AMX *amx = sampgdk_fakeamx_amx();
   cell i;
-  cell params[MAX_NATIVE_PARAMS] = {0};
-  struct ref_param {
-    void  *ptr;
-    size_t size;
-  } ref_params[MAX_NATIVE_PARAMS] = {{NULL, 0}};
+  cell params[MAX_NATIVE_ARGS + 1];
+  cell size[MAX_NATIVE_ARGS] = {0};
+  bool need_size = false;
   cell retval;
 
   assert(native != NULL);
   assert(format != NULL);
 
-  for (i = 1; format[i - 1] != '\0'; i++) {
-    void *arg = args[i - 1];
-    char type = format[i - 1];
-    switch (type) {
+  for (i = 0; format[i] != '\0' && i < MAX_NATIVE_ARGS; i++) {
+    switch (format[i]) {
       case 'i': /* integer */
       case 'd': /* integer */
+        params[i + 1] = *(int *)args[i];
+        if (need_size) {
+          size[i - 1] = params[i + 1];
+          need_size = false;
+        }
+        break;
       case 'b': /* boolean */
-        params[i] = *(cell *)arg;
+        params[i + 1] = *(bool *)args[i];
         break;
       case 'f': /* floating-point */ {
-        float value = *(float *)arg;
-        params[i] = amx_ftoc(value);
+        float value = *(float *)args[i];
+        params[i + 1] = amx_ftoc(value);
         break;
       }
       case 'r': /* const reference */
       case 'R': /* non-const reference (writeable) */ {
-        cell *ptr = arg;
-        sampgdk_fakeamx_push_cell(*ptr, &params[i]);
-        ref_params[i].ptr = ptr;
-        if (type == 'R') {
-          ref_params[i].size = sizeof(cell);
-        }
+        cell *ptr = args[i];
+        sampgdk_fakeamx_push_cell(*ptr, &params[i + 1]);
+        size[i] = sizeof(cell);
         break;
       }
-      case 's': /* const string */
+      case 's': /* const string */ {
+        char *str = (char *)args[i];
+        int str_size;
+        sampgdk_fakeamx_push_string(str, &str_size, &params[i + 1]);
+        size[i] = str_size;
+        break;
+      }
       case 'S': /* non-const string (writeable) */ {
-        char *str = (char *)(arg);
-        sampgdk_fakeamx_push_string(str, NULL, &params[i]);
-        ref_params[i].ptr = str;
-        if (type == 'S') {
-          size_t size = *(size_t *)(args[i]);
-          ref_params[i].size = size;
-          /* Next parameter must be an integer argument containing the size
-           * of the string. All SA-MP natives follow this convention.
-           */
-          params[++i] = size;
-        }
+        char *str = (char *)args[i];
+        sampgdk_fakeamx_push_string(str, NULL, &params[i + 1]);
+        need_size = true; /* size must follow */
         break;
       }
       default:
@@ -284,25 +240,25 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
     }
   }
 
-  params[0] = (i - 1) * sizeof(cell);
+  assert(!need_size && "Missing string buffer size");
+
+  params[0] = i * sizeof(cell);
   retval = native(amx, params);
 
-  while (--i >= 1) {
-    if (ref_params[i].size != 0) {
-      /* If this is an output parameter, write back its new value. */
-      char type = format[i - 1];
-      switch (type) {
+  while (--i >= 0) {
+    if (size[i] > 0) {
+      /* If this is an output parameter we have to write the updated value
+       * back to the argument.
+       */
+      switch (format[i]) {
         case 'R':
-          sampgdk_fakeamx_get_cell(params[i], ref_params[i].ptr);
+          sampgdk_fakeamx_get_cell(params[i + 1], args[i]);
           break;
         case 'S':
-          sampgdk_fakeamx_get_string(params[i], ref_params[i].ptr,
-                                     ref_params[i].size);
+          sampgdk_fakeamx_get_string(params[i + 1], args[i], size[i]);
           break;
       }
-    }
-    if (ref_params[i].ptr != NULL) {
-      sampgdk_fakeamx_pop(params[i]);
+      sampgdk_fakeamx_pop(params[i + 1]);
     }
   }
 
