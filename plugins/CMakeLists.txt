@@ -1,2 +1,2 @@
-smapgdk_add_subproject(helloworld)
-smapgdk_add_subproject(ufs)
+sampgdk_add_subproject(helloworld)
+sampgdk_add_subproject(ufs)
