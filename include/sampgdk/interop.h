@@ -138,24 +138,13 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
 /**
 * \brief Invokes a native function with the specified arguments.
 *
+* This function is similar to sampgdk_InvokeNative() but the arguments
+* are passed as an array where each element is a pointer pointing to
+* the actual value.
+*
 * Argument types are specified via \p format where each character, or
-* *specifier*, corresponds to a single argument. The following format
-* specifiers are supported:
-*
-* Specifier | C/C++ type    | Description
-* :-------- | :------------ | :-------------------------------------
-* i         | int           | integer value
-* d         | int           | integer value (same as 'i')
-* b         | bool          | boolean value
-* f         | double        | floating-point value
-* r         | const cell *  | const reference (input-only)
-* R         | cell *        | non-const reference (input and output)
-* s         | const char *  | const string (input-only)
-* S         | char *        | non-const string (input and output)
-*
-* \note For the 'S' specifier, the argument passed next to it specifies
-* the size of the string buffer. Fortunately all current SA-MP natives
-* follow this convention.
+* *specifier*, corresponds to a single argument. See sampgdk_InvokeNative()
+* for the list of supported format specifiers.
 *
 * \param native A pointer to the native function.
 * \param format A format string specifying the types of the arguments.
@@ -166,7 +155,6 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
 * \see sampgdk_GetNatives()
 * \see sampgdk_FindNative()
 * \see sampgdk_InvokeNative()
-* \see sampgdk_InvokeNativeV()
 */
 SAMPGDK_API(cell, sampgdk_InvokeNativeArray(AMX_NATIVE native,
                                             const char *format, void **args));
