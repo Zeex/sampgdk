@@ -118,7 +118,7 @@ SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
  * \see sampgdk_InvokeNativeV()
  * \see sampgdk_InvokeNativeArray()
  */
-SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native, 
+SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native,
                                        const char *format, ...));
 
 /**
@@ -213,13 +213,14 @@ inline cell InvokeNative(AMX_NATIVE native, const char *format, ...) {
 }
 
 /// \brief C++ wrapper around sampgdk_InvokeNativeV().
-inline cell InvokeNative(AMX_NATIVE native, const char *format, va_list args) {
+inline cell InvokeNativeV(AMX_NATIVE native, const char *format, va_list args) {
   return sampgdk_InvokeNativeV(native, format, args);
 }
 
 /// \brief C++ wrapper around sampgdk_InvokeNativeArray().
-inline cell InvokeNativeArray(AMX_NATIVE native, const char *format, void **args) {
-	return sampgdk_InvokeNativeArray(native, format, args);
+inline cell InvokeNativeArray(AMX_NATIVE native, const char *format,
+                              void **args) {
+  return sampgdk_InvokeNativeArray(native, format, args);
 }
 
 /** @} */
