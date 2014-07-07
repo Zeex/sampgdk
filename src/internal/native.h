@@ -29,4 +29,5 @@ const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number);
 cell sampgdk_native_call(AMX_NATIVE native, cell *params);
 cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args);
 cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format, void **args);
+
 #endif /* !SAMPGDK_NATIVE_H_ */

@@ -145,7 +145,6 @@ cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
 cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
                            va_list args) {
   cell i;
-  cell retval;
   unsigned char args_copy[MAX_NATIVE_ARGS * MAX_NATIVE_ARG_SIZE];
   unsigned char *args_ptr = args_copy;
   void *args_array[MAX_NATIVE_ARGS];
