@@ -159,6 +159,24 @@ int sampgdk_fakeamx_push_float(float value, cell *address) {
   return sampgdk_fakeamx_push_cell(amx_ftoc(value), address);
 }
 
+int sampgdk_fakeamx_push_array(const cell *src, int size, cell *address) {
+  int error;
+  cell *dest;
+
+  assert(address != NULL);
+  assert(src != NULL);
+  assert(size > 0);
+
+  if ((error = sampgdk_fakeamx_push(size, address)) < 0) {
+    return error;
+  }
+
+  dest = sampgdk_array_get(&global.heap, *address / sizeof(cell));
+  memcpy(dest, src, size * sizeof(cell));
+
+  return 0;
+}
+
 int sampgdk_fakeamx_push_string(const char *src, int *size, cell *address) {
   int src_size;
   int error;
@@ -171,8 +189,8 @@ int sampgdk_fakeamx_push_string(const char *src, int *size, cell *address) {
     return error;
   }
 
-  amx_SetString((cell *)sampgdk_array_get(&global.heap,
-                *address / sizeof(cell)), src, 0, 0, src_size);
+  amx_SetString(sampgdk_array_get(&global.heap, *address / sizeof(cell)),
+                src, 0, 0, src_size);
 
   if (size != NULL) {
     *size = src_size;
@@ -210,6 +228,17 @@ void sampgdk_fakeamx_get_float(cell address, float *value) {
 
   sampgdk_fakeamx_get_cell(address, &tmp);
   *value = amx_ctof(tmp);
+}
+
+void sampgdk_fakeamx_get_array(cell address, cell *dest, int size) {
+  cell *src;
+
+  assert(is_cell_aligned(address));
+  assert(dest != NULL);
+  assert(size > 0);
+
+  src = sampgdk_array_get(&global.heap, address / sizeof(cell));
+  memcpy(dest, src, size * sizeof(cell));
 }
 
 void sampgdk_fakeamx_get_string(cell address, char *dest, int size) {

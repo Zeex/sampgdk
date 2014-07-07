@@ -168,9 +168,11 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
         args_ptr += MAX_NATIVE_ARG_SIZE;
         break;
       case 'r': /* const reference */
-      case 'R': /* non-const reference (writeable) */
+      case 'R': /* non-const reference */
       case 's': /* const string */
-      case 'S': /* non-const string (writeable) */
+      case 'S': /* non-const string */
+      case 'a': /* const array */
+      case 'A': /* non-const array */
         args_array[i] = va_arg(args, void *);
         break;
       default:
@@ -187,7 +189,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
   cell i;
   cell params[MAX_NATIVE_ARGS + 1];
   cell size[MAX_NATIVE_ARGS] = {0};
-  bool need_size = false;
+  int need_size = -1;
   cell retval;
 
   assert(native != NULL);
@@ -198,9 +200,19 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
       case 'i': /* integer */
       case 'd': /* integer */
         params[i + 1] = *(int *)args[i];
-        if (need_size) {
-          size[i - 1] = params[i + 1];
-          need_size = false;
+        if (need_size >= 0) {
+          switch (format[need_size]) {
+            case 'a':
+            case 'A':
+            case 'S':
+              sampgdk_fakeamx_push_array(args[need_size], params[i + 1],
+                                         &params[need_size]);
+              break;
+            default:
+              assert(0);
+          }
+          size[need_size] = params[i + 1];
+          need_size = -1;
         }
         break;
       case 'b': /* boolean */
@@ -212,31 +224,30 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
         break;
       }
       case 'r': /* const reference */
-      case 'R': /* non-const reference (writeable) */ {
+      case 'R': /* non-const reference */ {
         cell *ptr = args[i];
         sampgdk_fakeamx_push_cell(*ptr, &params[i + 1]);
         size[i] = sizeof(cell);
         break;
       }
       case 's': /* const string */ {
-        char *str = (char *)args[i];
+        char *str = args[i];
         int str_size;
         sampgdk_fakeamx_push_string(str, &str_size, &params[i + 1]);
         size[i] = str_size;
         break;
       }
-      case 'S': /* non-const string (writeable) */ {
-        char *str = (char *)args[i];
-        sampgdk_fakeamx_push_string(str, NULL, &params[i + 1]);
-        need_size = true; /* size must follow */
+      case 'S': /* non-const string */
+      case 'a': /* const array */
+      case 'A': /* non-const array */
+        need_size = i;
         break;
-      }
       default:
         assert(0 && "Invalid type specifier");
     }
   }
 
-  assert(!need_size && "Missing string buffer size");
+  assert(need_size == -1 && "Missing string buffer size");
 
   params[0] = i * sizeof(cell);
   retval = native(amx, params);
@@ -252,6 +263,9 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
           break;
         case 'S':
           sampgdk_fakeamx_get_string(params[i + 1], args[i], size[i]);
+          break;
+        case 'A':
+          sampgdk_fakeamx_get_array(params[i + 1], args[i], size[i]);
           break;
       }
       sampgdk_fakeamx_pop(params[i + 1]);

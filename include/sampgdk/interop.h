@@ -98,14 +98,15 @@ SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
  * d         | int           | integer value (same as 'i')
  * b         | bool          | boolean value
  * f         | double        | floating-point value
- * r         | const cell *  | const reference (input-only)
- * R         | cell *        | non-const reference (input and output)
- * s         | const char *  | const string (input-only)
- * S         | char *        | non-const string (input and output)
+ * r         | const cell *  | const reference (input only)
+ * R         | cell *        | non-const reference (both input and output)
+ * s         | const char *  | const string (input only)
+ * S         | char *        | non-const string (both input and output)
+ * a         | const cell *  | const string (input only)
+ * A         | cell *        | non-const string (both input and output)
  *
- * \note For the 'S' specifier, the argument passed next to it specifies
- * the size of the string buffer. Fortunately all current SA-MP natives
- * follow this convention.
+ * \note For the 'S', 'a' and 'A' specifiers, the size of the string/array
+ * is passed via immediately following argument.
  *
  * \param native A pointer to the native function.
  * \param format A format string specifying the types of the arguments.
