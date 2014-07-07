@@ -9,6 +9,7 @@ var searchData=
   ['sampgdk_5fgetversion',['sampgdk_GetVersion',['../group__version.html#ga9c0399ab76d6e645375fd1a2018704f1',1,'version.h']]],
   ['sampgdk_5fgetversionstring',['sampgdk_GetVersionString',['../group__version.html#gacbd09fd6c1e090158f59eb09554635a6',1,'version.h']]],
   ['sampgdk_5finvokenative',['sampgdk_InvokeNative',['../group__interop.html#gad16aaeea61851d7f73e56cae618a97ef',1,'interop.h']]],
+  ['sampgdk_5finvokenativearray',['sampgdk_InvokeNativeArray',['../group__interop.html#ga8147218b0be854ab5cc0d570b81bd008',1,'interop.h']]],
   ['sampgdk_5finvokenativev',['sampgdk_InvokeNativeV',['../group__interop.html#ga8f3ad104d7a4d0a551077ed580719f32',1,'interop.h']]],
   ['sampgdk_5fload',['sampgdk_Load',['../group__core.html#gab34c0b7b5ffe700b0e227d8bc0d7755a',1,'core.h']]],
   ['sampgdk_5flogprintf',['sampgdk_logprintf',['../group__core.html#gacdd1860c839462afe7ad57717af56ec0',1,'core.h']]],

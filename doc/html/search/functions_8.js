@@ -2,7 +2,9 @@ var searchData=
 [
   ['interpolatecameralookat',['InterpolateCameraLookAt',['../group__natives.html#gadd60082a75ebadcdb0c3f229b3708da7',1,'a_players-decl.h']]],
   ['interpolatecamerapos',['InterpolateCameraPos',['../group__natives.html#ga3413e6d1b6e4d2586b9852a71ca664e0',1,'a_players-decl.h']]],
-  ['invokenative',['InvokeNative',['../group__interop.html#gaf35e5e914ea47aa558ab0d1b7aec67b2',1,'sampgdk::InvokeNative(AMX_NATIVE native, const char *format,...)'],['../group__interop.html#ga09eed020e990b51e9e3adcbe82b3c386',1,'sampgdk::InvokeNative(AMX_NATIVE native, const char *format, va_list args)']]],
+  ['invokenative',['InvokeNative',['../group__interop.html#gaf35e5e914ea47aa558ab0d1b7aec67b2',1,'sampgdk']]],
+  ['invokenativearray',['InvokeNativeArray',['../group__interop.html#gae9b127caad4d62c98fd752b771da47c6',1,'sampgdk']]],
+  ['invokenativev',['InvokeNativeV',['../group__interop.html#ga151e55872940484cfe812f7153166d45',1,'sampgdk']]],
   ['isobjectmoving',['IsObjectMoving',['../group__natives.html#ga23dc54778a7f3b3bcd26dc11c6dbbd96',1,'a_objects-decl.h']]],
   ['isplayeradmin',['IsPlayerAdmin',['../group__natives.html#gaa35002cd576e28e8b95df62b5cd1428c',1,'a_samp-decl.h']]],
   ['isplayerattachedobjectslotused',['IsPlayerAttachedObjectSlotUsed',['../group__natives.html#gabebd22c15464a75b60af5025e24b6497',1,'a_players-decl.h']]],
