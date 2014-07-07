@@ -144,27 +144,28 @@ cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
 
 cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
                            va_list args) {
-  cell i;
+  cell i = 0;
+  const char *format_ptr = format;
   unsigned char args_copy[MAX_NATIVE_ARGS * MAX_NATIVE_ARG_SIZE];
   unsigned char *args_ptr = args_copy;
   void *args_array[MAX_NATIVE_ARGS];
 
-  for (i = 0; format[i] != '\0' && i < MAX_NATIVE_ARGS; i++) {
-    switch (format[i]) {
+  while (*format_ptr != '\0' && i < MAX_NATIVE_ARGS) {
+    switch (*format_ptr) {
       case 'i': /* integer */
       case 'd': /* integer */
         *(int *)args_ptr = va_arg(args, int);
-        args_array[i] = args_ptr;
+        args_array[i++] = args_ptr;
         args_ptr += MAX_NATIVE_ARG_SIZE;
         break;
       case 'b': /* boolean */
         *(bool *)args_ptr = !!va_arg(args, int);
-        args_array[i] = args_ptr;
+        args_array[i++] = args_ptr;
         args_ptr += MAX_NATIVE_ARG_SIZE;
         break;
       case 'f': /* floating-point */
         *(float *)args_ptr = va_arg(args, double);
-        args_array[i] = args_ptr;
+        args_array[i++] = args_ptr;
         args_ptr += MAX_NATIVE_ARG_SIZE;
         break;
       case 'r': /* const reference */
@@ -173,11 +174,10 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
       case 'S': /* non-const string */
       case 'a': /* const array */
       case 'A': /* non-const array */
-        args_array[i] = va_arg(args, void *);
+        args_array[i++] = va_arg(args, void *);
         break;
-      default:
-        assert(0 && "Invalid type specifier");
     }
+    format_ptr++;
   }
 
   return sampgdk_native_invoke_array(native, format, args_array);
@@ -186,68 +186,106 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
 cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
                                  void **args) {
   AMX *amx = sampgdk_fakeamx_amx();
-  cell i;
+  char *format_ptr = (char *)format; /* cast away const for strtol() */
+  cell i = 0;
   cell params[MAX_NATIVE_ARGS + 1];
   cell size[MAX_NATIVE_ARGS] = {0};
-  int need_size = -1;
+  char type[MAX_NATIVE_ARGS];
+  int needs_size = -1;
+  enum {
+    ST_READ_SPEC,
+    ST_NEED_SIZE,
+    ST_READING_SIZE,
+    ST_READING_SIZE_ARG,
+    ST_READ_SIZE
+  } state = ST_READ_SPEC;
   cell retval;
 
   assert(native != NULL);
   assert(format != NULL);
 
-  for (i = 0; format[i] != '\0' && i < MAX_NATIVE_ARGS; i++) {
-    switch (format[i]) {
-      case 'i': /* integer */
-      case 'd': /* integer */
-        params[i + 1] = *(int *)args[i];
-        if (need_size >= 0) {
-          switch (format[need_size]) {
-            case 'a':
-            case 'A':
-            case 'S':
-              sampgdk_fakeamx_push_array(args[need_size], params[i + 1],
-                                         &params[need_size]);
-              break;
-            default:
-              assert(0);
+  while (*format_ptr != '\0' && i < MAX_NATIVE_ARGS) {
+    switch (state) {
+      case ST_READ_SPEC:
+        switch (*format_ptr) {
+          case 'i': /* integer */
+          case 'd': /* integer */
+            params[i + 1] = *(int *)args[i];
+            break;
+          case 'b': /* boolean */
+            params[i + 1] = *(bool *)args[i];
+            break;
+          case 'f': /* floating-point */ {
+            float value = *(float *)args[i];
+            params[i + 1] = amx_ftoc(value);
+            break;
           }
-          size[need_size] = params[i + 1];
-          need_size = -1;
+          case 'r': /* const reference */
+          case 'R': /* non-const reference */ {
+            cell *ptr = args[i];
+            sampgdk_fakeamx_push_cell(*ptr, &params[i + 1]);
+            size[i] = sizeof(cell);
+            break;
+          }
+          case 's': /* const string */ {
+            char *str = args[i];
+            int str_size;
+            sampgdk_fakeamx_push_string(str, &str_size, &params[i + 1]);
+            size[i] = str_size;
+            break;
+          }
+          case 'S': /* non-const string */
+          case 'a': /* const array */
+          case 'A': /* non-const array */
+            needs_size = i;
+            state = ST_NEED_SIZE;
+            break;
+          default:
+            assert(0 && "Unrecognized type specifier");
+        }
+        type[i++] = *format_ptr++;
+        break;
+      case ST_NEED_SIZE:
+        assert(*format_ptr == '[' && "Bad format string (expected '[')");
+        format_ptr++;
+        state = ST_READING_SIZE;
+        break;
+      case ST_READING_SIZE:
+        if (*format_ptr == '*') {
+          format_ptr++;
+          state = ST_READING_SIZE_ARG;
+        } else {
+          size[needs_size] = (int)strtol(format_ptr, &format_ptr, 10);
+          assert(size[needs_size] >= 0 && "Invalid buffer size");
+          state = ST_READ_SIZE;
         }
         break;
-      case 'b': /* boolean */
-        params[i + 1] = *(bool *)args[i];
-        break;
-      case 'f': /* floating-point */ {
-        float value = *(float *)args[i];
-        params[i + 1] = amx_ftoc(value);
-        break;
-      }
-      case 'r': /* const reference */
-      case 'R': /* non-const reference */ {
-        cell *ptr = args[i];
-        sampgdk_fakeamx_push_cell(*ptr, &params[i + 1]);
-        size[i] = sizeof(cell);
+      case ST_READING_SIZE_ARG: {
+        int index = (int)strtol(format_ptr, &format_ptr, 10);
+        assert(index >= 0 && "Invalid argument index");
+        size[needs_size] = *(int *)args[index];
+        state = ST_READ_SIZE;
         break;
       }
-      case 's': /* const string */ {
-        char *str = args[i];
-        int str_size;
-        sampgdk_fakeamx_push_string(str, &str_size, &params[i + 1]);
-        size[i] = str_size;
+      case ST_READ_SIZE: {
+        assert(*format_ptr == ']' && "Bad format string (expected ']')");
+        switch (type[needs_size]) {
+          case 'a':
+          case 'A':
+          case 'S':
+            sampgdk_fakeamx_push_array(args[needs_size], size[needs_size],
+                                       &params[needs_size + 1]);
+            break;
+        }
+        needs_size = -1;
+        format_ptr++;
+        state = ST_READ_SPEC;
         break;
       }
-      case 'S': /* non-const string */
-      case 'a': /* const array */
-      case 'A': /* non-const array */
-        need_size = i;
-        break;
-      default:
-        assert(0 && "Invalid type specifier");
     }
   }
 
-  assert(need_size == -1 && "Missing string buffer size");
+  assert(state == ST_READ_SPEC && "Bad format string");
 
   params[0] = i * sizeof(cell);
   retval = native(amx, params);
@@ -257,7 +295,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
       /* If this is an output parameter we have to write the updated value
        * back to the argument.
        */
-      switch (format[i]) {
+      switch (type[i]) {
         case 'R':
           sampgdk_fakeamx_get_cell(params[i + 1], args[i]);
           break;
