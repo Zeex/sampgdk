@@ -19,11 +19,17 @@
 #include "internal/native.h"
 
 SAMPGDK_API(const AMX_NATIVE_INFO *, sampgdk_GetNatives(int *number)) {
-  return sampgdk_native_get_table(number);
+  if (number != NULL) {
+    return sampgdk_native_get_table(number);
+  }
+  return NULL;
 }
 
 SAMPGDK_API(AMX_NATIVE, sampgdk_FindNative(const char *name)) {
-  return sampgdk_native_find(name);
+  if (name != NULL) {
+    return sampgdk_native_find(name);
+  }
+  return NULL;
 }
 
 SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params)) {
