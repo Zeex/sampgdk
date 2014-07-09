@@ -32,13 +32,13 @@ static void do_log(enum log_msg_type type, const char *format, va_list args) {
 
   switch (type) {
     case LOG_MSG_TRACE:
-      prefix = "TRACE: ";
+      prefix = "trace: ";
       break;
     case LOG_MSG_WARNING:
-      prefix = "WARNING: ";
+      prefix = "warning: ";
       break;
     case LOG_MSG_ERROR:
-      prefix = "ERROR: ";
+      prefix = "error: ";
       break;
     default:
       prefix = "";
