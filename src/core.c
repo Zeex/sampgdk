@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+#include <assert.h>
+
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
@@ -49,6 +51,8 @@ static void init(void **plugin_data) {
 static int init_plugin(void *plugin, void **plugin_data) {
   int error;
 
+  assert(plugin != NULL);
+
   if (sampgdk_plugin_get_list() == NULL) {
     init(plugin_data);
   }
@@ -67,6 +71,8 @@ static void cleanup(void) {
 
 static void cleanup_plugin(void *plugin) {
   int error;
+
+  assert(plugin != NULL);
 
   error = sampgdk_plugin_unregister(plugin);
   if (error < 0) {

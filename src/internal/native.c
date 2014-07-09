@@ -201,9 +201,6 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
   } state = ST_READ_SPEC;
   cell retval;
 
-  assert(native != NULL);
-  assert(format != NULL);
-
   while (*format_ptr != '\0' && i < MAX_NATIVE_ARGS) {
     switch (state) {
       case ST_READ_SPEC:
@@ -241,14 +238,18 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
             state = ST_NEED_SIZE;
             break;
           default:
-            assert(0 && "Unrecognized type specifier");
+            sampgdk_log_warn("Unrecognized type specifier '%c'", *format_ptr);
         }
         type[i++] = *format_ptr++;
         break;
       case ST_NEED_SIZE:
-        assert(*format_ptr == '[' && "Bad format string (expected '[')");
+        if (*format_ptr == '[') {
+          state = ST_READING_SIZE;
+        } else {
+          sampgdk_log_warn("Bad format string: expected '[' but got '%c'",
+                           *format_ptr);
+        }
         format_ptr++;
-        state = ST_READING_SIZE;
         break;
       case ST_READING_SIZE:
         if (*format_ptr == '*') {
@@ -256,36 +257,45 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
           state = ST_READING_SIZE_ARG;
         } else {
           size[needs_size] = (int)strtol(format_ptr, &format_ptr, 10);
-          assert(size[needs_size] >= 0 && "Invalid buffer size");
           state = ST_READ_SIZE;
         }
         break;
       case ST_READING_SIZE_ARG: {
         int index = (int)strtol(format_ptr, &format_ptr, 10);
-        assert(index >= 0 && "Invalid argument index");
         size[needs_size] = *(int *)args[index];
         state = ST_READ_SIZE;
         break;
       }
       case ST_READ_SIZE: {
-        assert(*format_ptr == ']' && "Bad format string (expected ']')");
-        switch (type[needs_size]) {
-          case 'a':
-          case 'A':
-          case 'S':
-            sampgdk_fakeamx_push_array(args[needs_size], size[needs_size],
-                                       &params[needs_size + 1]);
-            break;
+        if (*format_ptr == ']') {
+          switch (type[needs_size]) {
+            case 'a':
+            case 'A':
+            case 'S':
+              if (size[needs_size] > 0) {
+                sampgdk_fakeamx_push_array(args[needs_size], size[needs_size],
+                                           &params[needs_size + 1]);
+              } else {
+                sampgdk_log_warn("Invalid buffer size");
+              }
+              break;
+          }
+          needs_size = -1;
+          state = ST_READ_SPEC;
+        } else {
+          sampgdk_log_warn("Bad format string (expected ']' but got '%c')",
+                           *format_ptr);
         }
-        needs_size = -1;
         format_ptr++;
-        state = ST_READ_SPEC;
         break;
       }
     }
   }
 
-  assert(state == ST_READ_SPEC && "Bad format string");
+  if (*format_ptr != '\0') {
+    sampgdk_log_warn("Too many native arguments (at most %d allowed)",
+                     MAX_NATIVE_ARGS);
+  }
 
   params[0] = i * sizeof(cell);
   retval = native(amx, params);
