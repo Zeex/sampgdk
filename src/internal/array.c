@@ -69,17 +69,22 @@ int sampgdk_array_resize(struct sampgdk_array *a, int new_size) {
   void *new_data;
 
   assert(a != NULL);
-  assert(new_size > 0);
+  assert(new_size >= 0);
   assert(a->elem_size > 0);
 
   if (new_size == a->size) {
     return 0;
   }
 
-  new_data = realloc(a->data, a->elem_size * new_size);
+  if (new_size > 0) {
+    new_data = realloc(a->data, a->elem_size * new_size);
 
-  if (new_data == NULL) {
-    return -errno;
+    if (new_data == NULL) {
+      return -errno;
+    }
+  } else {
+    free(a->data);
+    new_data = NULL;
   }
 
   a->data = new_data;
@@ -93,23 +98,13 @@ int sampgdk_array_resize(struct sampgdk_array *a, int new_size) {
 }
 
 int sampgdk_array_grow(struct sampgdk_array *a) {
-  float factor;
-
   assert(a != NULL);
 
   if (a->size == 0) {
     return sampgdk_array_resize(a, 1);
   }
 
-  if (a->size < 10) {
-    factor = 2.0f;
-  } else if (a->size < 100) {
-    factor = 1.5f;
-  } else {
-    factor = 1.1f;
-  }
-
-  return sampgdk_array_resize(a, (int)(a->size * factor));
+  return sampgdk_array_resize(a, (int)(a->size * 2));
 }
 
 int sampgdk_array_shrink(struct sampgdk_array *a) {
@@ -223,6 +218,10 @@ int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
    }
 
   a->count -= count;
+
+  if (a->count <= a->size / 4) {
+    return sampgdk_array_resize(a, a->size / 2);
+  }
 
   return 0;
 }
