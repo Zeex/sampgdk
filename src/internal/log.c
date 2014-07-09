@@ -48,7 +48,6 @@ static void do_log(enum log_msg_type type, const char *format, va_list args) {
     sizeof("[sampgdk] ") - 1
     + strlen(prefix)
     + strlen(format)
-    + sizeof("\n") - 1
     + 1
   );
   if (real_format == NULL) {
@@ -58,7 +57,6 @@ static void do_log(enum log_msg_type type, const char *format, va_list args) {
   strcpy(real_format, "[sampgdk] ");
   strcat(real_format, prefix);
   strcat(real_format, format);
-  strcat(real_format, "\n");
 
   sampgdk_do_vlogprintf(real_format, args);
 
