@@ -29,12 +29,14 @@
 /**
  * \brief Returns all currently registered native functions.
  *
- * This function can be used to retrieve the names and addresses of all native
- * functions that were registered with amx_Register() by the server and plugins
- * loaded prior to the call. The \p number parameter is filled with the total
- * number of functions.
+ * This function can be used to get the names and addresses of all native
+ * functions that have been registered with amx_Register(), by both the
+ * server and plugins.
  *
- * \param number The number of elements in the returned array.
+ * \note The returned array is NULL-terminated.
+ *
+ * \param number A pointer to the variable that will store the number of
+ *               elements in the returned array (may be \c NULL).
  *
  * \returns A pointer to the internal array of native functions.
  *
@@ -71,8 +73,8 @@ SAMPGDK_API(AMX_NATIVE, sampgdk_FindNative(const char *name));
  * a reference or a string use sampgdk_InvokeNative() instead.
  *
  * \note The first element of \p params should contain the number of arguments
- * multiplied by \c sizeof(cell). If the function takes no arguments, \p params
- * may be \c NULL.
+ * multiplied by \c sizeof(cell). If the function takes no arguments \p params
+ * may be \c NULL (but that really depends on the function).
  *
  * \param native A pointer to the native function.
  * \param params The \c params array passsed to the function.
