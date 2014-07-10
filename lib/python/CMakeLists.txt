@@ -3,7 +3,7 @@ set(PYTHONPATH
   ${CMAKE_CURRENT_SOURCE_DIR}/ply
 )
 
-if(UNIX)
+if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL Windows)
   string(REPLACE ";" ":" PYTHONPATH "${PYTHONPATH}")
 endif()
 
