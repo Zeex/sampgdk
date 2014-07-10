@@ -195,6 +195,11 @@ inline const AMX_NATIVE_INFO *GetNatives(int &number) {
   return sampgdk_GetNatives(&number);
 }
 
+/// \brief C++ wrapper around sampgdk_GetNatives().
+inline const AMX_NATIVE_INFO *GetNatives() {
+  return sampgdk_GetNatives(NULL);
+}
+
 /// \brief C++ wrapper around sampgdk_FindNative().
 inline AMX_NATIVE FindNative(const char *name) {
   return sampgdk_FindNative(name);

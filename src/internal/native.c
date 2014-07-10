@@ -31,13 +31,14 @@ static struct sampgdk_array natives;
 
 SAMPGDK_MODULE_INIT(native) {
   int error;
+  AMX_NATIVE_INFO null = {NULL, NULL};
 
   error = sampgdk_array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
   if (error < 0) {
     return error;
   }
 
-  return 0;
+  return sampgdk_array_append(&natives, &null);
 }
 
 SAMPGDK_MODULE_CLEANUP(native) {
@@ -54,15 +55,17 @@ int sampgdk_native_register(const char *name, AMX_NATIVE func) {
 
   assert(name != 0);
 
-  /* Maintain element order (by name). */
-  for (index = 0; index < natives.count; index++) {
+  /* Always keep natives ordered by name. This allows us to use
+   * binary search in sampgdk_native_find().
+   */
+  for (index = 0; index < natives.count - 1; index++) {
     ptr = (AMX_NATIVE_INFO *)sampgdk_array_get(&natives, index);
-    if (strcmp(ptr->name, name) >= 0) {
-      return sampgdk_array_insert_single(&natives, index, &info);
+    if (strcmp(name, ptr->name) <= 0) {
+      break;
     }
   }
 
-  return sampgdk_array_append(&natives, &info);
+  return sampgdk_array_insert_single(&natives, index, &info);
 }
 
 static int compare(const void *key, const void *elem) {
@@ -133,7 +136,9 @@ AMX_NATIVE sampgdk_native_find_warn_stub(const char *name) {
 }
 
 const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number) {
-  *number = natives.count;
+  if (number != NULL) {
+    *number = natives.count;
+  }
   return (const AMX_NATIVE_INFO*)natives.data;
 }
 
