@@ -40,7 +40,7 @@ def main(argv):
         if args.format == 'list':
           outfile.write('%s\n' % symbol)
         elif args.format == 'def':
-          outfile.write('\t%s\n' % symbol)          
+          outfile.write('\t%s\n' % symbol)
 
 if __name__ == '__main__':
   main(sys.argv)
