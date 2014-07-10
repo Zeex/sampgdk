@@ -2,4 +2,5 @@ sampgdk_CallNative
 sampgdk_FindNative
 sampgdk_GetNatives
 sampgdk_InvokeNative
+sampgdk_InvokeNativeArray
 sampgdk_InvokeNativeV
