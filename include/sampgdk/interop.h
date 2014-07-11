@@ -107,9 +107,14 @@ SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
  * a         | const cell *  | const string (input only)
  * A         | cell *        | non-const string (both input and output)
  *
- * \note For the 'S', 'a' and 'A' specifiers you have to specify the size
+ * \remarks For the 'S', 'a' and 'A' specifiers you have to specify the size
  * of the string/array in square brackets, e.g. "a[100]" (fixed size)
  * or s[*2] (size passed via 2nd argument).
+ *
+ * \note In Pawn, variadic functions always take their variable arguments
+ * (those represented by "...") by reference. This means that for such
+ * functions you have to use the 'r' specifier where you would normally
+ * use 'b', 'i' 'd' or 'f'.
  *
  * \param native A pointer to the native function.
  * \param format A format string specifying the types of the arguments.
