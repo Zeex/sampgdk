@@ -78,7 +78,7 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void));
 SAMPGDK_API(bool, sampgdk_Load(void **ppData, sampgdk_unused_t));
 
 /**
- * \brief Performs the final cleanup.
+ * \brief Shuts everything down (opposite of sampgdk_Load()).
  *
  * This function should be called when the plugin is unloaded,
  * e.g. from Unload():
