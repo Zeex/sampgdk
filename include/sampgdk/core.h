@@ -37,11 +37,6 @@
  */
 
 /**
- * \brief Used to suppress tail call optimization.
- */
-typedef int sampgdk_unused_t;
-
-/**
  * \brief Returns supported SDK version.
  *
  * This function should be called from Supports():
@@ -70,15 +65,16 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void));
  * \endcode
  *
  * \param ppData A pointer to the SA-MP plugin data passed to Load().
+ * \param plugin The plugin handle (optional).
  *
  * \returns Returns \c true on success and \c false otherwise.
  *
  * \see sampgdk_Unload()
  */
-SAMPGDK_API(bool, sampgdk_Load(void **ppData, sampgdk_unused_t));
+SAMPGDK_API(bool, sampgdk_Load(void **ppData, void *plugin));
 
 /**
- * \brief Performs the final cleanup.
+ * \brief Shuts everything down (opposite of sampgdk_Load()).
  *
  * This function should be called when the plugin is unloaded,
  * e.g. from Unload():
@@ -90,12 +86,14 @@ SAMPGDK_API(bool, sampgdk_Load(void **ppData, sampgdk_unused_t));
  * }
  * \endcode
  *
+ * \param plugin The plugin handle (optional).
+ *
  * \see sampgdk_Load()
  */
-SAMPGDK_API(void, sampgdk_Unload(sampgdk_unused_t));
+SAMPGDK_API(void, sampgdk_Unload(void *plugin));
 
 /**
- * \brief Processes timers created by the calling plugin.
+ * \brief Processes timers created by the specified plugin.
  *
  * This function should be called from ProcessTick():
  *
@@ -104,8 +102,10 @@ SAMPGDK_API(void, sampgdk_Unload(sampgdk_unused_t));
  *   sampgdk_ProcessTick();
  * }
  * \endcode
+ *
+ * \param plugin The plugin handle (optional).
  */
-SAMPGDK_API(void, sampgdk_ProcessTick(sampgdk_unused_t));
+SAMPGDK_API(void, sampgdk_ProcessTick(void *plugin));
 
 /**
  * \brief Prints a message to the server log.
@@ -134,10 +134,6 @@ SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
 /** @} */
 
-#define sampgdk_Load(ppData)  sampgdk_Load(ppData, 0)
-#define sampgdk_Unload()      sampgdk_Unload(0)
-#define sampgdk_ProcessTick() sampgdk_ProcessTick(0)
-
 #ifdef __cplusplus
 
 /// \brief Main namespace.
@@ -154,18 +150,18 @@ inline unsigned int Supports() {
 }
 
 /// \brief C++ wrapper around sampgdk_Load().
-inline bool Load(void **ppData) {
-  return sampgdk_Load(ppData);
+inline bool Load(void **ppData, void *plugin = 0) {
+  return sampgdk_Load(ppData, plugin);
 }
 
 /// \brief C++ wrapper around sampgdk_Unload().
-inline void Unload() {
-  sampgdk_Unload();
+inline void Unload(void *plugin = 0) {
+  sampgdk_Unload(plugin);
 }
 
 /// \brief C++ wrapper around sampgdk_ProcessTick().
-inline void ProcessTick() {
-  sampgdk_ProcessTick();
+inline void ProcessTick(void *plugin = 0) {
+  sampgdk_ProcessTick(plugin);
 }
 
 /// \brief C++ wrapper around sampgdk_logprintf().

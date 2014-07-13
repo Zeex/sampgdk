@@ -32,10 +32,6 @@
   #define RETURN_ADDRESS() __builtin_return_address(0)
 #endif
 
-#undef sampgdk_Load
-#undef sampgdk_Unload
-#undef sampgdk_ProcessTick
-
 static void init(void **plugin_data) {
   int error;
 
@@ -88,18 +84,24 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void)) {
   return SUPPORTS_VERSION;
 }
 
-SAMPGDK_API(bool, sampgdk_Load(void **ppData, sampgdk_unused_t unused)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+SAMPGDK_API(bool, sampgdk_Load(void **ppData, void *plugin)) {
+  if (plugin == NULL) {
+    plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  }
   return init_plugin(plugin, ppData) >= 0;
 }
 
-SAMPGDK_API(void, sampgdk_Unload(sampgdk_unused_t unused)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+SAMPGDK_API(void, sampgdk_Unload(void *plugin)) {
+  if (plugin == NULL) {
+    plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  }
   cleanup_plugin(plugin);
 }
 
-SAMPGDK_API(void, sampgdk_ProcessTick(sampgdk_unused_t unused)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+SAMPGDK_API(void, sampgdk_ProcessTick(void *plugin)) {
+  if (plugin == NULL) {
+    plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  }
   sampgdk_timer_process_timers(plugin);
 }
 
