@@ -128,7 +128,7 @@ SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
  * \see sampgdk_InvokeNativeArray()
  */
 SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native,
-                                       const char *format, ...));
+    const char *format, ...));
 
 /**
 * \brief Invokes a native function with the specified arguments.
@@ -142,7 +142,7 @@ SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native,
 * \see sampgdk_InvokeNativeArray()
 */
 SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
-                                        const char *format, va_list args));
+    const char *format, va_list args));
 
 /**
 * \brief Invokes a native function with the specified arguments.
@@ -166,7 +166,7 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
 * \see sampgdk_InvokeNative()
 */
 SAMPGDK_API(cell, sampgdk_InvokeNativeArray(AMX_NATIVE native,
-                                            const char *format, void **args));
+    const char *format, void **args));
 
 /**
  * \brief Gets called on every public function call.
@@ -181,10 +181,11 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeArray(AMX_NATIVE native,
  * \c params[0] set to the number of arguments multiplied by \c sizeof(cell).
  * \param retval The function's return value. This parameter can be \c NULL.
  *
- * \returns If returns \c true the callback is executed, otherwise it's ignored.
+ * \returns If returns \c true the callback is executed,
+ *          otherwise it's ignored.
  */
-SAMPGDK_CALLBACK(bool, OnPublicCall(AMX *amx, const char *name, cell *params,
-                                    cell *retval));
+SAMPGDK_CALLBACK(bool, OnPublicCall(AMX *amx, const char *name,
+    cell *params, cell *retval));
 
 /** @} */
 
@@ -227,13 +228,14 @@ inline cell InvokeNative(AMX_NATIVE native, const char *format, ...) {
 }
 
 /// \brief C++ wrapper around sampgdk_InvokeNativeV().
-inline cell InvokeNativeV(AMX_NATIVE native, const char *format, va_list args) {
+inline cell InvokeNativeV(AMX_NATIVE native, const char *format,
+    va_list args) {
   return sampgdk_InvokeNativeV(native, format, args);
 }
 
 /// \brief C++ wrapper around sampgdk_InvokeNativeArray().
 inline cell InvokeNativeArray(AMX_NATIVE native, const char *format,
-                              void **args) {
+    void **args) {
   return sampgdk_InvokeNativeArray(native, format, args);
 }
 
