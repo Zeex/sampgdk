@@ -36,7 +36,7 @@
  * \note The returned array is NULL-terminated.
  *
  * \param number A pointer to the variable that will store the number of
- *               elements in the returned array (optional).
+ *               elements in the returned array (may be \c NULL).
  *
  * \returns A pointer to the internal array of native functions.
  *
@@ -72,8 +72,9 @@ SAMPGDK_API(AMX_NATIVE, sampgdk_FindNative(const char *name));
  * value parameters or don't have any parameters at all. If you have to pass
  * a reference or a string use sampgdk_InvokeNative() instead.
  *
- * \note The first element of \p params must contain the number of arguments
- * multiplied by \c sizeof(cell).
+ * \note The first element of \p params should contain the number of arguments
+ * multiplied by \c sizeof(cell). If the function takes no arguments \p params
+ * may be \c NULL (but that really depends on the function).
  *
  * \param native A pointer to the native function.
  * \param params The \c params array passsed to the function.
@@ -203,7 +204,7 @@ inline const AMX_NATIVE_INFO *GetNatives(int &number) {
 
 /// \brief C++ wrapper around sampgdk_GetNatives().
 inline const AMX_NATIVE_INFO *GetNatives() {
-  return sampgdk_GetNatives(0);
+  return sampgdk_GetNatives(NULL);
 }
 
 /// \brief C++ wrapper around sampgdk_FindNative().
