@@ -204,7 +204,7 @@ inline const AMX_NATIVE_INFO *GetNatives(int &number) {
 
 /// \brief C++ wrapper around sampgdk_GetNatives().
 inline const AMX_NATIVE_INFO *GetNatives() {
-  return sampgdk_GetNatives(NULL);
+  return sampgdk_GetNatives(0);
 }
 
 /// \brief C++ wrapper around sampgdk_FindNative().
