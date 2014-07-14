@@ -169,7 +169,7 @@ cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
         args_ptr += MAX_NATIVE_ARG_SIZE;
         break;
       case 'f': /* floating-point */
-        *(float *)args_ptr = va_arg(args, double);
+        *(float *)args_ptr = (float)va_arg(args, double);
         args_array[i++] = args_ptr;
         args_ptr += MAX_NATIVE_ARG_SIZE;
         break;
