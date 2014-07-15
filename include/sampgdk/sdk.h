@@ -69,6 +69,12 @@
   #pragma GCC diagnostic pop
 #endif
 
+#if defined _MSC_VER
+  #pragma optimize("", off)
+#elif defined __GNUC__
+  #pragma GCC optimize("-fno-optimize-sibling-calls")
+#endif
+
 /**
  * \addtogroup sdk
  * @{
@@ -84,7 +90,7 @@
  *
  * The Supports() function indicates what possibilities this
  * plugin has. The SUPPORTS_VERSION flag is required to check
- * for compatibility with the server. 
+ * for compatibility with the server.
  *
  * \returns One or more of the SUPPORTS_* flags.
  */
