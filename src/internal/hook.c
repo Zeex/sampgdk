@@ -100,6 +100,22 @@ void sampgdk_hook_free(sampgdk_hook_t hook) {
   free(hook);
 }
 
+void *sampgdk_hook_get_src(sampgdk_hook_t hook) {
+  return hook->src;
+}
+
+void *sampgdk_hook_get_dst(sampgdk_hook_t hook) {
+  return hook->dst;
+}
+
+void sampgdk_hook_set_src(sampgdk_hook_t hook, void *src) {
+  hook->src = src;
+}
+
+void sampgdk_hook_set_dst(sampgdk_hook_t hook, void *dst) {
+  hook->dst = dst;
+}
+
 int sampgdk_hook_install(sampgdk_hook_t hook) {
   void *src;
   void *dst;
@@ -130,37 +146,4 @@ int sampgdk_hook_remove(sampgdk_hook_t hook) {
   memcpy(hook->src, hook->code, sizeof(jmp_instr));
   hook->installed = 0;
   return 0;
-}
-
-void *sampgdk_hook_read_dst(void *src) {
-  unsigned char opcode;
-  int32_t offset;
-
-  memcpy(&opcode, src, sizeof(opcode));
-  if (opcode != jmp_opcode)
-    return NULL;
-
-  memcpy(&offset, (void *)((intptr_t)src + sizeof(jmp_opcode)),
-        sizeof(offset));
-  return (void *)(offset + (intptr_t)src + sizeof(jmp_instr));
-}
-
-void *sampgdk_hook_get_src(sampgdk_hook_t hook) {
-  return hook->src;
-}
-
-void *sampgdk_hook_get_dst(sampgdk_hook_t hook) {
-  return hook->dst;
-}
-
-void sampgdk_hook_set_src(sampgdk_hook_t hook, void *src) {
-  hook->src = src;
-}
-
-void sampgdk_hook_set_dst(sampgdk_hook_t hook, void *dst) {
-  hook->dst = dst;
-}
-
-int sampgdk_hook_is_installed(sampgdk_hook_t hook) {
-  return hook->installed;
 }

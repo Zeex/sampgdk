@@ -28,18 +28,7 @@ void *sampgdk_hook_get_src(sampgdk_hook_t hook);
 void sampgdk_hook_set_dst(sampgdk_hook_t hook, void *dst);
 void *sampgdk_hook_get_dst(sampgdk_hook_t hook);
 
-/* These return 0 on failure and 1 on success. */
 int sampgdk_hook_install(sampgdk_hook_t hook);
 int sampgdk_hook_remove(sampgdk_hook_t hook);
-
-/* Checks whether the hook is installed. */
-int sampgdk_hook_is_installed(sampgdk_hook_t hook);
-
-/* Reads hook destination address from code.
- *
- * This is useful when you don't know the address or want to check
- * whether src has been hooked with hook.
- */
-void *sampgdk_hook_read_dst(void *src);
 
 #endif /* !SAMPGDK_INTERNAL_HOOK_H */
