@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_INTERNAL_SUBHOOK_H
-#define SAMPGDK_INTERNAL_SUBHOOK_H
+#ifndef SAMPGDK_INTERNAL_HOOK_H
+#define SAMPGDK_INTERNAL_HOOK_H
 
 struct _sampgdk_hook;
 typedef struct _sampgdk_hook *sampgdk_hook_t;
@@ -42,4 +42,4 @@ int sampgdk_hook_is_installed(sampgdk_hook_t hook);
  */
 void *sampgdk_hook_read_dst(void *src);
 
-#endif /* !SAMPGDK_INTERNAL_SUBHOOK_H */
+#endif /* !SAMPGDK_INTERNAL_HOOK_H */
