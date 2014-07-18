@@ -312,8 +312,8 @@ if(SAMPGDK_BUILD_AMALGAMATION)
       -I ${PROJECT_SOURCE_DIR}/include
       -I ${PROJECT_BINARY_DIR}/include
       -I ${PROJECT_SOURCE_DIR}/src
-      -oc ${PROJECT_BINARY_DIR}/sampgdk.c
-      -oi ${PROJECT_BINARY_DIR}/sampgdk.h
+      -oc ${PROJECT_BINARY_DIR}/src/sampgdk.c
+      -oi ${PROJECT_BINARY_DIR}/src/sampgdk.h
       ${SAMPGDK_AMALGAMATE_FLAGS}
     COMMENT "Generating amalgamation")
   add_dependencies(sampgdk_amalgam sampgdk)
