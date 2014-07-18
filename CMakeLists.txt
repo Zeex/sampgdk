@@ -29,11 +29,13 @@ endif()
 find_package(SDK REQUIRED)
 find_package(PythonInterp 2.7 REQUIRED)
 
-include_directories(${SDK_INCLUDE_DIR})
-include_directories(${SDK_INCLUDE_DIR}/amx)
-include_directories(${PROJECT_SOURCE_DIR}/include)
-include_directories(${PROJECT_BINARY_DIR}/include)
-include_directories(${PROJECT_BINARY_DIR}/src)
+include_directories(
+  ${SDK_INCLUDE_DIR}
+  ${SDK_INCLUDE_DIR}/amx
+  ${PROJECT_SOURCE_DIR}/include
+  ${PROJECT_BINARY_DIR}/include
+  ${PROJECT_SOURCE_DIR}/src
+)
 
 macro(sampgdk_add_subproject name)
   add_subdirectory(${name})
@@ -201,9 +203,9 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
     sampgdk_add_api_gen(${name} ${file}
       ${PROJECT_BINARY_DIR}/src/${dir}/${name}.api)
     sampgdk_add_source_gen(${name} ${file}
-      ${PROJECT_BINARY_DIR}/src/${dir}/${name}-impl.h)
+    ${PROJECT_BINARY_DIR}/src/${dir}/${name}.c)
     sampgdk_add_header_gen(${name} ${file}
-      ${PROJECT_BINARY_DIR}/include/sampgdk/${dir}/${name}-decl.h)
+      ${PROJECT_BINARY_DIR}/include/sampgdk/${dir}/${name}.h)
 
     list(APPEND SAMPGDK_IDLS ${file})
   endif()
@@ -286,7 +288,30 @@ else()
   target_link_libraries(sampgdk PRIVATE ${SAMPGDK_LIBRARIES})
 endif()
 
+foreach(file IN LISTS SAMPGDK_SOURCES)
+  if (file MATCHES ".*\\.c" OR file MATCHES ".*\\.h")
+    list(APPEND SAMPGDK_AMALGAMATE_FLAGS -c "${file}")
+  endif()
+endforeach()
+foreach(file IN LISTS SAMPGDK_HEADERS)
+  if (file MATCHES ".*\\.h")
+    list(APPEND SAMPGDK_AMALGAMATE_FLAGS -i "${file}")
+  endif()
+endforeach()
+
+add_custom_target(sampgdk_amalgam ALL
+  COMMAND ${PYTHON_EXECUTABLE}
+    ${PROJECT_SOURCE_DIR}/scripts/amalgamate.py
+    -I ${PROJECT_SOURCE_DIR}/include
+    -I ${PROJECT_BINARY_DIR}/include
+    -I ${PROJECT_SOURCE_DIR}/src
+    -oc ${PROJECT_BINARY_DIR}/sampgdk.c
+    -oi ${PROJECT_BINARY_DIR}/sampgdk.h
+    ${SAMPGDK_AMALGAMATE_FLAGS}
+  COMMENT "Generating amalgamation")
+
 add_dependencies(sampgdk sampgdk_init)
+add_dependencies(sampgdk_amalgam sampgdk)
 
 foreach(header IN LISTS SAMPGDK_HEADERS)
   get_filename_component(path ${header} PATH)

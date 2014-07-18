@@ -19,25 +19,25 @@
 
 #include "logprintf.h"
 
-enum log_msg_type {
-  LOG_MSG_NORMAL,
-  LOG_MSG_TRACE,
-  LOG_MSG_WARNING,
-  LOG_MSG_ERROR
+enum _sampgdk_log_level {
+  _SAMPGDK_LOG_NORMAL,
+  _SAMPGDK_LOG_TRACE,
+  _SAMPGDK_LOG_WARNING,
+  _SAMPGDK_LOG_ERROR
 };
 
-static void do_log(enum log_msg_type type, const char *format, va_list args) {
+static void _sampgdk_do_log(int level, const char *format, va_list args) {
   const char *prefix;
   char *real_format;
 
-  switch (type) {
-    case LOG_MSG_TRACE:
+  switch (level) {
+    case _SAMPGDK_LOG_TRACE:
       prefix = "trace: ";
       break;
-    case LOG_MSG_WARNING:
+    case _SAMPGDK_LOG_WARNING:
       prefix = "warning: ";
       break;
-    case LOG_MSG_ERROR:
+    case _SAMPGDK_LOG_ERROR:
       prefix = "error: ";
       break;
     default:
@@ -67,7 +67,7 @@ void sampgdk_log_message(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
-  do_log(LOG_MSG_NORMAL, format, args);
+  _sampgdk_do_log(_SAMPGDK_LOG_NORMAL, format, args);
   va_end(args);
 }
 
@@ -75,7 +75,7 @@ void sampgdk_log_trace(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
-  do_log(LOG_MSG_TRACE, format, args);
+  _sampgdk_do_log(_SAMPGDK_LOG_TRACE, format, args);
   va_end(args);
 }
 
@@ -83,7 +83,7 @@ void sampgdk_log_warn(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
-  do_log(LOG_MSG_WARNING, format, args);
+  _sampgdk_do_log(_SAMPGDK_LOG_WARNING, format, args);
   va_end(args);
 }
 
@@ -91,10 +91,10 @@ void sampgdk_log_error(const char *format, ...) {
   va_list args;
 
   va_start(args, format);
-  do_log(LOG_MSG_ERROR, format, args);
+  _sampgdk_do_log(_SAMPGDK_LOG_ERROR, format, args);
   va_end(args);
 }
 
 void sampgdk_log_error_code(int error) {
-  do_log(LOG_MSG_ERROR, strerror(-error), NULL);
+  _sampgdk_do_log(_SAMPGDK_LOG_ERROR, strerror(-error), NULL);
 }

@@ -20,11 +20,13 @@
 
 #include "array.h"
 
-static void *get_element_ptr(struct sampgdk_array *a, int index) {
+static void *_sampgdk_array_get_elem_ptr(struct sampgdk_array *a,
+                                         int index) {
   return (unsigned char*)a->data + (index * a->elem_size);
 }
 
-int sampgdk_array_new(struct sampgdk_array *a, int size,
+int sampgdk_array_new(struct sampgdk_array *a,
+                      int size,
                       int elem_size) {
   assert(a != NULL);
   assert(size > 0);
@@ -129,7 +131,7 @@ void *sampgdk_array_get(struct sampgdk_array *a, int index) {
   assert(a != NULL);
   assert(index >= 0);
   assert(index < a->count);
-  return get_element_ptr(a, index);
+  return _sampgdk_array_get_elem_ptr(a, index);
 }
 
 void sampgdk_array_set(struct sampgdk_array *a, int index, void *elem) {
@@ -137,10 +139,12 @@ void sampgdk_array_set(struct sampgdk_array *a, int index, void *elem) {
   assert(elem != NULL);
   assert(index >= 0);
   assert(index < a->count);
-  memcpy(get_element_ptr(a, index), elem, a->elem_size);
+  memcpy(_sampgdk_array_get_elem_ptr(a, index), elem, a->elem_size);
 }
 
-int sampgdk_array_insert(struct sampgdk_array *a, int index, int count,
+int sampgdk_array_insert(struct sampgdk_array *a,
+                         int index,
+                         int count,
                          void *elems) {
   int need_count;
   int move_count;
@@ -166,25 +170,27 @@ int sampgdk_array_insert(struct sampgdk_array *a, int index, int count,
   }
 
   if (move_count > 0) {
-    memmove(get_element_ptr(a, index + count),
-            get_element_ptr(a, index),
+    memmove(_sampgdk_array_get_elem_ptr(a, index + count),
+            _sampgdk_array_get_elem_ptr(a, index),
             move_count * a->elem_size);
   }
 
   a->count += count;
-  memcpy(get_element_ptr(a, index), elems, count * a->elem_size);
+  memcpy(_sampgdk_array_get_elem_ptr(a, index), elems, count * a->elem_size);
 
   return 0;
 }
 
-int sampgdk_array_insert_single(struct sampgdk_array *a, int index,
+int sampgdk_array_insert_single(struct sampgdk_array *a,
+                                int index,
                                 void *elem) {
   assert(a != NULL);
   assert(elem != NULL);
   return sampgdk_array_insert(a, index, 1, elem);
 }
 
-int sampgdk_array_insert_ordered(struct sampgdk_array *a, void *elem,
+int sampgdk_array_insert_ordered(struct sampgdk_array *a,
+                                 void *elem,
                                  int (*comp)(const void *x, const void *y))
 {
   int index;
@@ -212,8 +218,8 @@ int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
   move_count = a->count - index - count;
 
   if (move_count > 0) {
-    memmove(get_element_ptr(a, index),
-            get_element_ptr(a, index + count),
+    memmove(_sampgdk_array_get_elem_ptr(a, index),
+            _sampgdk_array_get_elem_ptr(a, index + count),
             move_count * a->elem_size);
    }
 

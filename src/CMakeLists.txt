@@ -4,15 +4,11 @@ set(SAMPGDK_DEF_FILE ${CMAKE_CURRENT_BINARY_DIR}/sampgdk.def)
 set(SAMPGDK_SYM_FILE ${CMAKE_CURRENT_BINARY_DIR}/sampgdk.sym)
 
 sampgdk_add_sources(
-  a_http.c
   a_http.idl
-  a_objects.c
   a_objects.idl
-  a_players.c
   a_players.idl
-  a_samp.c
   a_samp.idl
-  a_vehicles.c
+  a_samp.idl.c
   a_vehicles.idl
   core.api
   core.c

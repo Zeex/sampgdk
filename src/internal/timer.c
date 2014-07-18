@@ -18,12 +18,28 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <sampgdk/platform.h>
+
+#ifdef SAMPGDK_AMALGAMATION
+  #undef CreateMenu
+  #undef DestroyMenu
+  #undef GetTickCount
+  #undef KillTimer
+  #undef SelectObject
+  #undef SetTimer
+#endif
+
+#ifdef SAMPGDK_WINDOWS
+  #define WIN32_LEAN_AND_MEAN
+  #include <windows.h>
+#endif
+
 #include "array.h"
 #include "init.h"
 #include "plugin.h"
 #include "timer.h"
 
-struct sampgdk_timer {
+struct _sampgdk_timer_info {
   bool  is_set;
   long  interval;
   bool  repeat;
@@ -33,15 +49,15 @@ struct sampgdk_timer {
   void *plugin;
 };
 
-static struct sampgdk_array timers;
+static struct sampgdk_array _sampgdk_timers;
 
-static int find_slot(void) {
+static int _sampgdk_timer_find_slot(void) {
   int i;
 
-  for (i = 0; i < timers.count; i++) {
-    struct sampgdk_timer *timer;
+  for (i = 0; i < _sampgdk_timers.count; i++) {
+    struct _sampgdk_timer_info *timer;
 
-    timer = sampgdk_array_get(&timers, i);
+    timer = sampgdk_array_get(&_sampgdk_timers, i);
     if (!timer->is_set) {
       return i;
     }
@@ -50,12 +66,12 @@ static int find_slot(void) {
   return -1;
 }
 
-static void fire_timer(int timerid, long elapsed) {
-  struct sampgdk_timer *timer;
+static void _sampgdk_timer_fire(int timerid, long elapsed) {
+  struct _sampgdk_timer_info *timer;
 
-  assert(timerid > 0 && timerid <= timers.count);
+  assert(timerid > 0 && timerid <= _sampgdk_timers.count);
 
-  timer = sampgdk_array_get(&timers, timerid - 1);
+  timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
   if (!timer->is_set) {
     return;
   }
@@ -76,24 +92,28 @@ static void fire_timer(int timerid, long elapsed) {
 
 SAMPGDK_MODULE_INIT(timer) {
   int error;
- 
-  error = sampgdk_array_new(&timers, 10, sizeof(struct sampgdk_timer));
+
+  error = sampgdk_array_new(&_sampgdk_timers,
+                            10,
+                            sizeof(struct _sampgdk_timer_info));
   if (error < 0) {
     return error;
   }
- 
-  sampgdk_array_zero(&timers);
+
+  sampgdk_array_zero(&_sampgdk_timers);
 
   return 0;
 }
 
 SAMPGDK_MODULE_CLEANUP(timer) {
-  sampgdk_array_free(&timers);
+  sampgdk_array_free(&_sampgdk_timers);
 }
 
-int sampgdk_timer_set(long interval, bool repeat,
-                      sampgdk_timer_callback callback, void *param) {
-  struct sampgdk_timer timer;
+int sampgdk_timer_set(long interval,
+                      bool repeat,
+                      sampgdk_timer_callback callback,
+                      void *param) {
+  struct _sampgdk_timer_info timer;
   int slot;
   int error;
 
@@ -107,15 +127,15 @@ int sampgdk_timer_set(long interval, bool repeat,
   timer.started  = sampgdk_timer_now();
   timer.plugin   = sampgdk_plugin_get_handle(callback);
 
-  slot = find_slot();
+  slot = _sampgdk_timer_find_slot();
   if (slot >= 0) {
-    sampgdk_array_set(&timers, slot, &timer);
+    sampgdk_array_set(&_sampgdk_timers, slot, &timer);
   } else {
-    error = sampgdk_array_append(&timers, &timer);
+    error = sampgdk_array_append(&_sampgdk_timers, &timer);
     if (error < 0) {
       return -error;
     }
-    slot = timers.count - 1;
+    slot = _sampgdk_timers.count - 1;
   }
 
   /* Timer IDs returned by the SA:MP's SetTimer() API begin
@@ -125,13 +145,13 @@ int sampgdk_timer_set(long interval, bool repeat,
 }
 
 int sampgdk_timer_kill(int timerid) {
-  struct sampgdk_timer *timer;
+  struct _sampgdk_timer_info *timer;
 
-  if (timerid <= 0 || timerid > timers.count) {
+  if (timerid <= 0 || timerid > _sampgdk_timers.count) {
     return -EINVAL;
   }
 
-  timer = sampgdk_array_get(&timers, timerid - 1);
+  timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
   if (!timer->is_set) {
     return -EINVAL;
   }
@@ -144,14 +164,14 @@ void sampgdk_timer_process_timers(void *plugin) {
   long now;
   long elapsed;
   int i;
-  struct sampgdk_timer *timer;
+  struct _sampgdk_timer_info *timer;
 
   assert(plugin != NULL);
 
   now = sampgdk_timer_now();
 
-  for (i = 0; i < timers.count; i++) {
-    timer = sampgdk_array_get(&timers, i);
+  for (i = 0; i < _sampgdk_timers.count; i++) {
+    timer = sampgdk_array_get(&_sampgdk_timers, i);
 
     if (!timer->is_set) {
       continue;
@@ -164,7 +184,31 @@ void sampgdk_timer_process_timers(void *plugin) {
     elapsed = now - timer->started;
 
     if (elapsed >= timer->interval) {
-      fire_timer(i + 1, elapsed);
+      _sampgdk_timer_fire(i + 1, elapsed);
     }
   }
 }
+
+#ifdef SAMPGDK_WINDOWS
+
+long sampgdk_timer_now(void) {
+  LARGE_INTEGER freq;
+  LARGE_INTEGER counter;
+
+  if (!QueryPerformanceFrequency(&freq) ||
+      !QueryPerformanceCounter(&counter)) {
+    return 0;
+  }
+
+  return (long)(1000.0L / freq.QuadPart * counter.QuadPart);;
+}
+
+#else /* SAMPGDK_WINDOWS */
+
+long sampgdk_timer_now(void) {
+  struct timespec ts;
+  clock_gettime(CLOCK_MONOTONIC, &ts);
+  return (long)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);
+}
+
+#endif /* !SAMPGDK_WINDOWS */

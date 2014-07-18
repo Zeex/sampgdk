@@ -24,16 +24,18 @@
 #include "param.h"
 #include "plugin.h"
 
-static struct sampgdk_array callbacks;
+static struct sampgdk_array _sampgdk_callbacks;
 
 SAMPGDK_MODULE_INIT(callback) {
   int error;
 
-  if (callbacks.data != NULL) {
+  if (_sampgdk_callbacks.data != NULL) {
     return 0; /* already initialized */
   }
 
-  error = sampgdk_array_new(&callbacks, 1, sizeof(struct sampgdk_callback));
+  error = sampgdk_array_new(&_sampgdk_callbacks,
+                            1,
+                            sizeof(struct sampgdk_callback));
   if (error < 0) {
     return error;
   }
@@ -44,31 +46,35 @@ SAMPGDK_MODULE_INIT(callback) {
 SAMPGDK_MODULE_CLEANUP(callback) {
   int index;
 
-  for (index = 0; index < callbacks.count; index++) {
+  for (index = 0; index < _sampgdk_callbacks.count; index++) {
     struct sampgdk_callback *info =
-      (struct sampgdk_callback *)sampgdk_array_get(&callbacks, index);
+      (struct sampgdk_callback *)sampgdk_array_get(&_sampgdk_callbacks,
+                                                   index);
     free(info->name);
   }
 
-  sampgdk_array_free(&callbacks);
+  sampgdk_array_free(&_sampgdk_callbacks);
 }
 
-static int compare(const void *key, const void *elem) {
+static int _sampgdk_callback_compare(const void *c1, const void *c2) {
+  return strcmp(((const struct sampgdk_callback*)c1)->name,
+                ((const struct sampgdk_callback*)c2)->name);
+}
+
+static int _sampgdk_callback_compare_bsearch(const void *key,
+                                             const void *elem) {
   assert(key != NULL);
   assert(elem != NULL);
   return strcmp((const char *)key,
                 ((const struct sampgdk_callback *)elem)->name);
 }
 
-static int compare_callbacks(const void *c1, const void *c2) {
-  return strcmp(((const struct sampgdk_callback*)c1)->name,
-                ((const struct sampgdk_callback*)c2)->name);
-}
-
 struct sampgdk_callback *sampgdk_callback_find(const char *name) {
   assert(name != NULL);
-  return bsearch(name, callbacks.data, callbacks.count,
-                 callbacks.elem_size, compare);
+  return bsearch(name, _sampgdk_callbacks.data,
+                       _sampgdk_callbacks.count,
+                       _sampgdk_callbacks.elem_size,
+                       _sampgdk_callback_compare_bsearch);
 }
 
 int sampgdk_callback_register(const char *name,
@@ -94,7 +100,9 @@ int sampgdk_callback_register(const char *name,
   info.handler = handler;
   strcpy(info.name, name);
 
-  error = sampgdk_array_insert_ordered(&callbacks, &info, compare_callbacks);
+  error = sampgdk_array_insert_ordered(&_sampgdk_callbacks,
+                                       &info,
+                                       _sampgdk_callback_compare);
 
   if (error < 0) {
     free(info.name);
@@ -122,11 +130,11 @@ void sampgdk_callback_unregister(const char *name) {
   const struct sampgdk_callback *ptr;
   int index;
 
-  for (index = 0; index < callbacks.count; index++) {
-    ptr = (const struct sampgdk_callback *)sampgdk_array_get(&callbacks,
-                                                             index);
+  for (index = 0; index < _sampgdk_callbacks.count; index++) {
+    ptr = (const struct sampgdk_callback *)
+      sampgdk_array_get(&_sampgdk_callbacks, index);
     if (strcmp(ptr->name, name) == 0) {
-      sampgdk_array_remove_single(&callbacks, index);
+      sampgdk_array_remove_single(&_sampgdk_callbacks, index);
       break;
     }
   }

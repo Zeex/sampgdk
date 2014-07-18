@@ -58,8 +58,8 @@
   #pragma GCC diagnostic ignored "-Wattributes"
 #endif
 
-#include <amx/amx.h>
-#include <plugincommon.h>
+#include "amx/amx.h"
+#include "plugincommon.h"
 
 #if defined __INTEL_COMPILER
   /* ... */

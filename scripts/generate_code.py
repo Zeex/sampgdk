@@ -96,7 +96,7 @@ class ParamList:
 class ArgList:
   def __init__(self, params):
     self._params = params
-  
+
   def __str__(self):
     return ', '.join(['%s' % p.name for p in self._params])
 
@@ -114,6 +114,11 @@ def generate_api_file(module_name, idl, file):
     file.write('sampgdk_%s\n' % f.name)
 
 def generate_header_file(module_name, idl, file):
+  file.write('#include <sampgdk/bool.h>\n')
+  file.write('#include <sampgdk/export.h>\n')
+  file.write('#include <sampgdk/types.h>\n')
+  file.write('\n')
+
   natives = list(filter(lambda x: x.has_attr('native'),
                         idl.functions))
   file.write('#ifndef DOXYGEN\n')
@@ -135,6 +140,16 @@ def generate_header_file(module_name, idl, file):
     generate_callback_decl(file, func)
 
 def generate_source_file(module_name, idl, file):
+  file.write('#include <sampgdk/%s.h>\n' % module_name)
+  file.write('\n')
+  file.write('#include "internal/callback.h"\n')
+  file.write('#include "internal/fakeamx.h"\n')
+  file.write('#include "internal/init.h"\n')
+  file.write('#include "internal/likely.h"\n')
+  file.write('#include "internal/native.h"\n')
+  file.write('#include "internal/param.h"\n')
+  file.write('\n')
+
   natives = list(filter(lambda x: x.has_attr('native') and not
                                   x.has_attr('noimpl'),
                         idl.functions))
@@ -147,20 +162,23 @@ def generate_source_file(module_name, idl, file):
     generate_callback_impl(file, func);
     file.write('\n')
 
-  file.write('static const struct sampgdk_callback callback_table[] = {\n')
+  file.write('static const struct sampgdk_callback _%s_callback_table[] = {\n' %
+             module_name)
 
   for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
-    file.write('  {"%s", %s_handler},\n' % (func.name, func.name))
+    file.write('  {"%s", _%s_handler},\n' % (func.name, func.name))
 
   file.write('  {NULL, NULL}\n')
   file.write('};\n\n')
 
   file.write('SAMPGDK_MODULE_INIT(%s) {\n' % module_name)
-  file.write('  return sampgdk_callback_register_table(callback_table);\n')
+  file.write('  return sampgdk_callback_register_table(_%s_callback_table);\n' %
+             module_name)
   file.write('}\n')
 
   file.write('SAMPGDK_MODULE_CLEANUP(%s) {\n' % module_name)
-  file.write('  sampgdk_callback_unregister_table(callback_table);\n')
+  file.write('  sampgdk_callback_unregister_table(_%s_callback_table);\n' %
+             module_name)
   file.write('}\n')
 
 def generate_constant(file, const):
@@ -220,7 +238,7 @@ def generate_native_impl(file, func):
           value = p.default
         else:
           value = p.name
-        file.write('  params[%d] = %s;\n' % (index, 
+        file.write('  params[%d] = %s;\n' % (index,
           {
             'int'   : '(cell)%s' % value,
             'bool'  : '(cell)%s' % value,
@@ -237,7 +255,7 @@ def generate_native_impl(file, func):
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):
       if p.is_out:
-        if p.type == 'string': 
+        if p.type == 'string':
           file.write('  sampgdk_fakeamx_get_string(%s_, %s, %s);\n' %
                      (p.name, p.name, pnext.name))
         else:
@@ -248,7 +266,7 @@ def generate_native_impl(file, func):
               'float'  : 'float',
               'string' : 'string',
             }[p.type]
-          ,  
+          ,
           p.name, p.name))
 
     for p in reversed(list(filter(lambda p: p.is_ref, func.params))):
@@ -276,7 +294,7 @@ def generate_callback_decl(file, func):
 def generate_callback_impl(file, func):
   file.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_type)(%s);\n' %
              (func.type, func.name, ParamList(func.params)))
-  file.write('static bool %s_handler(AMX *amx, void *callback, cell *retval)'
+  file.write('static bool _%s_handler(AMX *amx, void *callback, cell *retval)'
              ' {\n' % func.name)
 
   badret = func.get_attr('badret')

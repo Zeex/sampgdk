@@ -24,25 +24,27 @@
 #include "native.h"
 #include "log.h"
 
-#define MAX_NATIVE_ARGS     32
-#define MAX_NATIVE_ARG_SIZE 8  /* in bytes */
+#define _SAMPGDK_MAX_NATIVE_ARGS     32
+#define _SAMPGDK_MAX_NATIVE_ARG_SIZE 8  /* in bytes */
 
-static struct sampgdk_array natives;
+static struct sampgdk_array _sampgdk_natives;
 
 SAMPGDK_MODULE_INIT(native) {
   int error;
   AMX_NATIVE_INFO null = {NULL, NULL};
 
-  error = sampgdk_array_new(&natives, 100, sizeof(AMX_NATIVE_INFO));
+  error = sampgdk_array_new(&_sampgdk_natives,
+                            100,
+                            sizeof(AMX_NATIVE_INFO));
   if (error < 0) {
     return error;
   }
 
-  return sampgdk_array_append(&natives, &null);
+  return sampgdk_array_append(&_sampgdk_natives, &null);
 }
 
 SAMPGDK_MODULE_CLEANUP(native) {
-  sampgdk_array_free(&natives);
+  sampgdk_array_free(&_sampgdk_natives);
 }
 
 int sampgdk_native_register(const char *name, AMX_NATIVE func) {
@@ -55,20 +57,21 @@ int sampgdk_native_register(const char *name, AMX_NATIVE func) {
 
   assert(name != 0);
 
-  /* Always keep natives ordered by name. This allows us to use
-   * binary search in sampgdk_native_find().
+  /* Always keep _sampgdk_natives ordered by name.
+   * This allows us to use binary search in sampgdk_native_find().
    */
-  for (index = 0; index < natives.count - 1; index++) {
-    ptr = (AMX_NATIVE_INFO *)sampgdk_array_get(&natives, index);
+  for (index = 0; index < _sampgdk_natives.count - 1; index++) {
+    ptr = (AMX_NATIVE_INFO *)sampgdk_array_get(&_sampgdk_natives, index);
     if (strcmp(name, ptr->name) <= 0) {
       break;
     }
   }
 
-  return sampgdk_array_insert_single(&natives, index, &info);
+  return sampgdk_array_insert_single(&_sampgdk_natives, index, &info);
 }
 
-static int compare(const void *key, const void *elem) {
+static int _sampgdk_native_compare_bsearch(const void *key,
+                                           const void *elem) {
   assert(key != NULL);
   assert(elem != NULL);
   return strcmp((const char *)key, ((const AMX_NATIVE_INFO *)elem)->name);
@@ -79,13 +82,15 @@ AMX_NATIVE sampgdk_native_find(const char *name) {
 
   assert(name != NULL);
 
-  if (natives.data == NULL) {
+  if (_sampgdk_natives.data == NULL) {
     /* Perhaps they forgot to initialize? */
     return NULL;
   }
 
-  info = bsearch(name, natives.data, natives.count,
-                 natives.elem_size, compare);
+  info = bsearch(name, _sampgdk_natives.data,
+                       _sampgdk_natives.count,
+                       _sampgdk_natives.elem_size,
+                       _sampgdk_native_compare_bsearch);
   if (info == NULL) {
     return NULL;
   }
@@ -137,9 +142,9 @@ AMX_NATIVE sampgdk_native_find_warn_stub(const char *name) {
 
 const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number) {
   if (number != NULL) {
-    *number = natives.count;
+    *number = _sampgdk_natives.count;
   }
-  return (const AMX_NATIVE_INFO*)natives.data;
+  return (const AMX_NATIVE_INFO*)_sampgdk_natives.data;
 }
 
 cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
@@ -147,31 +152,33 @@ cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
   return native(amx, params);
 }
 
-cell sampgdk_native_invoke(AMX_NATIVE native, const char *format,
+cell sampgdk_native_invoke(AMX_NATIVE native,
+                           const char *format,
                            va_list args) {
   cell i = 0;
   const char *format_ptr = format;
-  unsigned char args_copy[MAX_NATIVE_ARGS * MAX_NATIVE_ARG_SIZE];
+  unsigned char args_copy[_SAMPGDK_MAX_NATIVE_ARGS *
+                          _SAMPGDK_MAX_NATIVE_ARG_SIZE];
   unsigned char *args_ptr = args_copy;
-  void *args_array[MAX_NATIVE_ARGS];
+  void *args_array[_SAMPGDK_MAX_NATIVE_ARGS];
 
-  while (*format_ptr != '\0' && i < MAX_NATIVE_ARGS) {
+  while (*format_ptr != '\0' && i < _SAMPGDK_MAX_NATIVE_ARGS) {
     switch (*format_ptr) {
       case 'i': /* integer */
       case 'd': /* integer */
         *(int *)args_ptr = va_arg(args, int);
         args_array[i++] = args_ptr;
-        args_ptr += MAX_NATIVE_ARG_SIZE;
+        args_ptr += _SAMPGDK_MAX_NATIVE_ARG_SIZE;
         break;
       case 'b': /* boolean */
         *(bool *)args_ptr = !!va_arg(args, int);
         args_array[i++] = args_ptr;
-        args_ptr += MAX_NATIVE_ARG_SIZE;
+        args_ptr += _SAMPGDK_MAX_NATIVE_ARG_SIZE;
         break;
       case 'f': /* floating-point */
         *(float *)args_ptr = (float)va_arg(args, double);
         args_array[i++] = args_ptr;
-        args_ptr += MAX_NATIVE_ARG_SIZE;
+        args_ptr += _SAMPGDK_MAX_NATIVE_ARG_SIZE;
         break;
       case 'r': /* const reference */
       case 'R': /* non-const reference */
@@ -193,9 +200,9 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
   AMX *amx = sampgdk_fakeamx_amx();
   char *format_ptr = (char *)format; /* cast away const for strtol() */
   cell i = 0;
-  cell params[MAX_NATIVE_ARGS + 1];
-  cell size[MAX_NATIVE_ARGS] = {0};
-  char type[MAX_NATIVE_ARGS];
+  cell params[_SAMPGDK_MAX_NATIVE_ARGS + 1];
+  cell size[_SAMPGDK_MAX_NATIVE_ARGS] = {0};
+  char type[_SAMPGDK_MAX_NATIVE_ARGS];
   int needs_size = -1;
   enum {
     ST_READ_SPEC,
@@ -206,7 +213,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
   } state = ST_READ_SPEC;
   cell retval;
 
-  while (*format_ptr != '\0' && i < MAX_NATIVE_ARGS) {
+  while (*format_ptr != '\0' && i < _SAMPGDK_MAX_NATIVE_ARGS) {
     switch (state) {
       case ST_READ_SPEC:
         switch (*format_ptr) {
@@ -299,7 +306,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
 
   if (*format_ptr != '\0') {
     sampgdk_log_warn("Too many native arguments (at most %d allowed)",
-                     MAX_NATIVE_ARGS);
+                     _SAMPGDK_MAX_NATIVE_ARGS);
   }
 
   params[0] = i * sizeof(cell);

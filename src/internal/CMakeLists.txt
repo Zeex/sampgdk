@@ -28,17 +28,5 @@ sampgdk_add_sources(
   utils.h
 )
 
-if(WIN32)
-  sampgdk_add_sources(
-    plugin-win32.c
-    timer-win32.c
-  )
-elseif(UNIX)
-  sampgdk_add_sources(
-    plugin-posix.c
-    timer-posix.c
-  )
-endif()
-
 sampgdk_add_init_gen(sampgdk_init ${CMAKE_CURRENT_SOURCE_DIR}/init.list
                                   ${CMAKE_CURRENT_BINARY_DIR}/init.c)

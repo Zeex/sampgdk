@@ -13,13 +13,19 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_A_PLAYERS_H
-#define SAMPGDK_A_PLAYERS_H
+#ifndef SAMPGDK_TYPES_H
+#define SAMPGDK_TYPES_H
 
-#include <sampgdk/a_samp.h>
-#include <sampgdk/bool.h>
 #include <sampgdk/export.h>
 
-#include <sampgdk/a_players-decl.h>
+/**
+ * \brief Defines the signature of a timer callback function.
+ * \ingroup natives
+ *
+ * \param timerid The unique ID for the timer returned by SetTimer().
+ * \param param A pointer to user-supplied data passed to SetTimer().
+ * This parameter may be \c NULL.
+ */
+typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
 
-#endif /* !SAMPGDK_A_PLAYERS_H */
+#endif /* !SAMPGDK_TYPES_H */

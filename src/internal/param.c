@@ -19,7 +19,7 @@
 #include "amx.h"
 #include "param.h"
 
-static unsigned char *get_amx_data_ptr(AMX *amx) {
+static unsigned char *_sampgdk_param_get_data(AMX *amx) {
   if (amx->data != 0) {
     return amx->data;
   } else {
@@ -27,36 +27,36 @@ static unsigned char *get_amx_data_ptr(AMX *amx) {
   }
 }
 
-static cell *get_amx_stack_ptr(AMX *amx) {
-  return (cell*)(get_amx_data_ptr(amx) + amx->stk);
+static cell *_sampgdk_param_get_stack(AMX *amx) {
+  return (cell*)(_sampgdk_param_get_data(amx) + amx->stk);
 }
 
-static cell get_param_by_index(AMX *amx, int index) {
-  return get_amx_stack_ptr(amx)[index];
+static cell _sampgdk_param_get_by_index(AMX *amx, int index) {
+  return _sampgdk_param_get_stack(amx)[index];
 }
 
 void sampgdk_param_get_all(AMX *amx, bool exec, cell **params) {
   assert(params != NULL);
   if (exec) {
-    *params = get_amx_stack_ptr(amx) - 1;
+    *params = _sampgdk_param_get_stack(amx) - 1;
     *params[0] = amx->paramcount * sizeof(cell);
   } else {
-    *params = get_amx_stack_ptr(amx);
+    *params = _sampgdk_param_get_stack(amx);
   }
 }
 
 void sampgdk_param_get_cell(AMX *amx, int index, cell *param) {
   assert(param != NULL);
-  *param = get_param_by_index(amx, index);
+  *param = _sampgdk_param_get_by_index(amx, index);
 }
 
 void sampgdk_param_get_bool(AMX *amx, int index, bool *param) {
   assert(param != NULL);
-  *param = !!get_param_by_index(amx, index);
+  *param = !!_sampgdk_param_get_by_index(amx, index);
 }
 
 void sampgdk_param_get_float(AMX *amx, int index, float *param) {
-  cell p = get_param_by_index(amx, index);
+  cell p = _sampgdk_param_get_by_index(amx, index);
   assert(param != NULL);
   *param = amx_ctof(p);
 }
@@ -67,7 +67,7 @@ void sampgdk_param_get_string(AMX *amx, int index, char **param) {
   int length;
   char *string;
  
-  amx_addr = get_param_by_index(amx, index);
+  amx_addr = _sampgdk_param_get_by_index(amx, index);
   if (amx_GetAddr(amx, amx_addr, &phys_addr) != AMX_ERR_NONE) {
     return;
   }

@@ -23,54 +23,55 @@
 #include "init.h"
 
 /* Space reserved for the stack. */
-#define STACK_SIZE 64
+#define _SAMPGDK_FAKEAMX_STACK_SIZE 64
 
 /* The initial size of the heap. */
-#define INITIAL_HEAP_SIZE 1024
+#define _SAMPGDK_FAKEAMX_HEAP_SIZE 1024
 
-struct sampgdk_fakeamx {
+static struct sampgdk_fakeamx {
   AMX                  amx;
   AMX_HEADER           amxhdr;
   struct sampgdk_array heap;
-};
-
-static struct sampgdk_fakeamx global;
+} _sampgdk_fakeamx;
 
 SAMPGDK_MODULE_INIT(fakeamx) {
   int error;
 
-  memset(&global, 0, sizeof(global));
+  memset(&_sampgdk_fakeamx, 0, sizeof(_sampgdk_fakeamx));
 
-  error = sampgdk_array_new(&global.heap, INITIAL_HEAP_SIZE + STACK_SIZE,
+  error = sampgdk_array_new(&_sampgdk_fakeamx.heap,
+                            _SAMPGDK_FAKEAMX_HEAP_SIZE +
+                            _SAMPGDK_FAKEAMX_STACK_SIZE,
                             sizeof(cell));
   if (error < 0) {
     return error;
   }
 
-  global.amxhdr.magic = AMX_MAGIC;
-  global.amxhdr.file_version = MIN_FILE_VERSION;
-  global.amxhdr.amx_version = MIN_AMX_VERSION;
-  global.amxhdr.dat = (cell)global.heap.data - (cell)&global.amxhdr;
-  global.amxhdr.defsize = sizeof(AMX_FUNCSTUBNT);
+  _sampgdk_fakeamx.amxhdr.magic = AMX_MAGIC;
+  _sampgdk_fakeamx.amxhdr.file_version = MIN_FILE_VERSION;
+  _sampgdk_fakeamx.amxhdr.amx_version = MIN_AMX_VERSION;
+  _sampgdk_fakeamx.amxhdr.dat =
+    (cell)_sampgdk_fakeamx.heap.data - (cell)&_sampgdk_fakeamx.amxhdr;
+  _sampgdk_fakeamx.amxhdr.defsize = sizeof(AMX_FUNCSTUBNT);
 
-  global.amx.base = (unsigned char *)&global.amxhdr;
-  global.amx.data = (unsigned char *)global.heap.data;
-  global.amx.callback = amx_Callback;
+  _sampgdk_fakeamx.amx.base = (unsigned char *)&_sampgdk_fakeamx.amxhdr;
+  _sampgdk_fakeamx.amx.data = (unsigned char *)_sampgdk_fakeamx.heap.data;
+  _sampgdk_fakeamx.amx.callback = amx_Callback;
 
-  global.amx.stp = global.heap.size * sizeof(cell);
-  global.amx.stk = global.amx.stp;
+  _sampgdk_fakeamx.amx.stp = _sampgdk_fakeamx.heap.size * sizeof(cell);
+  _sampgdk_fakeamx.amx.stk = _sampgdk_fakeamx.amx.stp;
 
-  sampgdk_array_pad(&global.heap);
+  sampgdk_array_pad(&_sampgdk_fakeamx.heap);
 
   return 0;
 }
 
 SAMPGDK_MODULE_CLEANUP(fakeamx) {
-  sampgdk_array_free(&global.heap);
+  sampgdk_array_free(&_sampgdk_fakeamx.heap);
 }
 
 AMX *sampgdk_fakeamx_amx(void) {
-  return &global.amx;
+  return &_sampgdk_fakeamx.amx;
 }
 
 int sampgdk_fakeamx_resize_heap(int cells) {
@@ -83,30 +84,32 @@ int sampgdk_fakeamx_resize_heap(int cells) {
 
   assert(cells > 0);
 
-  old_size = global.heap.size;
+  old_size = _sampgdk_fakeamx.heap.size;
   new_size = cells;
 
-  error = sampgdk_array_resize(&global.heap, new_size);
-  sampgdk_array_pad(&global.heap);
+  error = sampgdk_array_resize(&_sampgdk_fakeamx.heap, new_size);
+  sampgdk_array_pad(&_sampgdk_fakeamx.heap);
   if (error < 0) {
     return error;
   }
 
   /* Update data pointers to point at the newly allocated heap. */
-  global.amxhdr.dat = (cell)global.heap.data - (cell)&global.amxhdr;
-  global.amx.data = (unsigned char *)global.heap.data;
+  _sampgdk_fakeamx.amxhdr.dat = (cell)_sampgdk_fakeamx.heap.data - (cell)&_sampgdk_fakeamx.amxhdr;
+  _sampgdk_fakeamx.amx.data = (unsigned char *)_sampgdk_fakeamx.heap.data;
 
-  old_stk = global.amx.stk;
-  new_stk = global.amx.stk + (new_size - old_size) * sizeof(cell);
-  new_stp = global.amx.stp + (new_size - old_size) * sizeof(cell);
+  old_stk = _sampgdk_fakeamx.amx.stk;
+  new_stk = _sampgdk_fakeamx.amx.stk + (new_size - old_size) * sizeof(cell);
+  new_stp = _sampgdk_fakeamx.amx.stp + (new_size - old_size) * sizeof(cell);
 
   /* Shift stack contents. */
-  memmove((unsigned char *)global.heap.data + new_stk - STACK_SIZE,
-          (unsigned char *)global.heap.data + old_stk - STACK_SIZE,
-          STACK_SIZE);
+  memmove((unsigned char *)_sampgdk_fakeamx.heap.data
+                           + new_stk - _SAMPGDK_FAKEAMX_STACK_SIZE,
+          (unsigned char *)_sampgdk_fakeamx.heap.data
+                           + old_stk - _SAMPGDK_FAKEAMX_STACK_SIZE,
+          _SAMPGDK_FAKEAMX_STACK_SIZE);
 
-  global.amx.stk = new_stk;
-  global.amx.stp = new_stp;
+  _sampgdk_fakeamx.amx.stk = new_stk;
+  _sampgdk_fakeamx.amx.stp = new_stp;
 
   return 0;
 }
@@ -117,11 +120,11 @@ int sampgdk_fakeamx_push(int cells, cell *address) {
 
   assert(cells > 0);
 
-  old_hea = global.amx.hea;
-  new_hea = global.amx.hea + cells * sizeof(cell);
+  old_hea = _sampgdk_fakeamx.amx.hea;
+  new_hea = _sampgdk_fakeamx.amx.hea + cells * sizeof(cell);
 
-  old_heap_size = global.heap.size;
-  new_heap_size = (new_hea + STACK_SIZE) / sizeof(cell);
+  old_heap_size = _sampgdk_fakeamx.heap.size;
+  new_heap_size = (new_hea + _SAMPGDK_FAKEAMX_STACK_SIZE) / sizeof(cell);
 
   if (new_hea >= (cell)(old_heap_size * sizeof(cell))) {
     int error;
@@ -132,7 +135,7 @@ int sampgdk_fakeamx_push(int cells, cell *address) {
     }
   }
 
-  global.amx.hea = new_hea;
+  _sampgdk_fakeamx.amx.hea = new_hea;
 
   if (address != NULL) {
     *address = old_hea;
@@ -150,7 +153,7 @@ int sampgdk_fakeamx_push_cell(cell value, cell *address) {
     return error;
   }
 
-  ((cell *)(global.heap.data))[*address / sizeof(cell)] = value;
+  ((cell *)(_sampgdk_fakeamx.heap.data))[*address / sizeof(cell)] = value;
 
   return 0;
 }
@@ -171,7 +174,7 @@ int sampgdk_fakeamx_push_array(const cell *src, int size, cell *address) {
     return error;
   }
 
-  dest = sampgdk_array_get(&global.heap, *address / sizeof(cell));
+  dest = sampgdk_array_get(&_sampgdk_fakeamx.heap, *address / sizeof(cell));
   memcpy(dest, src, size * sizeof(cell));
 
   return 0;
@@ -189,7 +192,8 @@ int sampgdk_fakeamx_push_string(const char *src, int *size, cell *address) {
     return error;
   }
 
-  amx_SetString(sampgdk_array_get(&global.heap, *address / sizeof(cell)),
+  amx_SetString(sampgdk_array_get(&_sampgdk_fakeamx.heap,
+                                 *address / sizeof(cell)),
                 src, 0, 0, src_size);
 
   if (size != NULL) {
@@ -207,7 +211,8 @@ void sampgdk_fakeamx_get_cell(cell address, cell *value) {
   assert(is_cell_aligned(address));
   assert(value != NULL);
 
-  *value = *(cell *)sampgdk_array_get(&global.heap, address / sizeof(cell));
+  *value = *(cell *)sampgdk_array_get(&_sampgdk_fakeamx.heap,
+                                      address / sizeof(cell));
 }
 
 void sampgdk_fakeamx_get_bool(cell address, bool *value) {
@@ -237,7 +242,7 @@ void sampgdk_fakeamx_get_array(cell address, cell *dest, int size) {
   assert(dest != NULL);
   assert(size > 0);
 
-  src = sampgdk_array_get(&global.heap, address / sizeof(cell));
+  src = sampgdk_array_get(&_sampgdk_fakeamx.heap, address / sizeof(cell));
   memcpy(dest, src, size * sizeof(cell));
 }
 
@@ -245,7 +250,7 @@ void sampgdk_fakeamx_get_string(cell address, char *dest, int size) {
   assert(is_cell_aligned(address));
   assert(dest != NULL);
 
-  amx_GetString(dest, (cell *)sampgdk_array_get(&global.heap,
+  amx_GetString(dest, (cell *)sampgdk_array_get(&_sampgdk_fakeamx.heap,
                                                 address / sizeof(cell)),
                                                 0, size);
 }
@@ -253,7 +258,7 @@ void sampgdk_fakeamx_get_string(cell address, char *dest, int size) {
 void sampgdk_fakeamx_pop(cell address) {
   assert(is_cell_aligned(address));
 
-  if (global.amx.hea > address) {
-    global.amx.hea = address;
+  if (_sampgdk_fakeamx.amx.hea > address) {
+    _sampgdk_fakeamx.amx.hea = address;
   }
 }

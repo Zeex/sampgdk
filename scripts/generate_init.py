@@ -20,7 +20,7 @@ import sys
 
 def generate_init_func(outfile, modules):
   for level, name in modules:
-    outfile.write('extern int sampgdk_%s_init(void);\n' % name)
+    outfile.write('int sampgdk_%s_init(void);\n' % name)
   outfile.write('\nint sampgdk_module_init(void) {\n')
   outfile.write('  int error;\n')
   for level, name in modules:
@@ -32,7 +32,7 @@ def generate_init_func(outfile, modules):
 
 def generate_cleanup_func(outfile, modules):
   for level, name in modules:
-    outfile.write('extern int sampgdk_%s_cleanup(void);\n' % name)
+    outfile.write('void sampgdk_%s_cleanup(void);\n' % name)
   outfile.write('\nvoid sampgdk_module_cleanup(void) {\n')
   for level, name in modules:
     outfile.write('  sampgdk_%s_cleanup();\n' % name)
@@ -47,8 +47,8 @@ def parse_args(argv):
   return parser.parse_args()
 
 def main(argv):
-  args = parse_args(argv[1:]) 
-  modules = []  
+  args = parse_args(argv[1:])
+  modules = []
   for line in open(args.list, 'r').readlines():
     level, name = line.strip().split()
     if name == 'module':

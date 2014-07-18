@@ -33,22 +33,22 @@
 #include "param.h"
 #include "utils.h"
 
-#define MAX_PUBLIC_NAME 32
+#define _SAMPGDK_HOOKS_MAX_PUBLIC_NAME 32
 
-static AMX *main_amx;
-static char public_name[MAX_PUBLIC_NAME];
+static AMX *_sampgdk_hooks_main_amx;
+static char _sampgdk_hooks_public_name[_SAMPGDK_HOOKS_MAX_PUBLIC_NAME];
 
-#define FOR_EACH_FUNC(C) \
+#define _SAMPGDK_HOOKS_LIST(C) \
   C(Register) \
   C(FindPublic) \
   C(Exec) \
   C(Callback) \
   C(Allot)
 
-#define DEFINE_HOOK(name) \
-  static subhook_t amx_##name##_hook;
-FOR_EACH_FUNC(DEFINE_HOOK)
-#undef DEFINE_HOOK
+#define _SAMPGDK_HOOKS_DEFINE_HOOK(name) \
+  static subhook_t _sampgdk_hooks_##name##_hook;
+_SAMPGDK_HOOKS_LIST(_SAMPGDK_HOOKS_DEFINE_HOOK)
+#undef _SAMPGDK_HOOKS_DEFINE_HOOK
 
 /* The "funcidx" native uses amx_FindPublic() to get public function index
  * but our FindPublic always succeeds regardless of public existence, so
@@ -56,7 +56,7 @@ FOR_EACH_FUNC(DEFINE_HOOK)
  *
  * Thanks to Incognito for finding this bug!
  */
-static cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params) {
+static cell AMX_NATIVE_CALL _sampgdk_hooks_funcidx(AMX *amx, cell *params) {
   char *funcname;
   int index;
   int error;
@@ -75,7 +75,9 @@ static cell AMX_NATIVE_CALL funcidx(AMX *amx, cell *params) {
   return index;
 }
 
-static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
+static void _sampgdk_hooks_hook_native(AMX *amx,
+                                       const char *name,
+                                       AMX_NATIVE address) {
   int index;
   AMX_HEADER *hdr = (AMX_HEADER *)amx->base;
   AMX_FUNCSTUBNT *natives = (AMX_FUNCSTUBNT *)(amx->base + hdr->natives);
@@ -85,21 +87,22 @@ static void hook_native(AMX *amx, const char *name, AMX_NATIVE address) {
   }
 }
 
-static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
-                                int number) {
+static int AMXAPI _sampgdk_hooks_Register(AMX *amx,
+                                          const AMX_NATIVE_INFO *nativelist,
+                                          int number) {
   int i;
   int error;
 
-  subhook_remove(amx_Register_hook);
+  subhook_remove(_sampgdk_hooks_Register_hook);
 
-  hook_native(amx, "funcidx", funcidx);
+  _sampgdk_hooks_hook_native(amx, "funcidx", _sampgdk_hooks_funcidx);
 
   for (i = 0; nativelist[i].name != 0 && (i < number || number == -1); i++) {
     sampgdk_native_register(nativelist[i].name, nativelist[i].func);
   }
 
   error = amx_Register(amx, nativelist, number);
-  subhook_install(amx_Register_hook);
+  subhook_install(_sampgdk_hooks_Register_hook);
 
   return error;
 }
@@ -117,34 +120,38 @@ static int AMXAPI amx_Register_(AMX *amx, const AMX_NATIVE_INFO *nativelist,
  * makes perfect sense, it will end up with random garbage and you might get
  * unexpected results.
  */
-static int AMXAPI amx_FindPublic_(AMX *amx, const char *name, int *index) {
+static int AMXAPI _sampgdk_hooks_FindPublic(AMX *amx,
+                                            const char *name,
+                                            int *index) {
   bool proceed;
   int error;
 
-  subhook_remove(amx_FindPublic_hook);
+  subhook_remove(_sampgdk_hooks_FindPublic_hook);
 
   /* We are interested in calling publics against two AMX instances:
    * - the main AMX (the gamemode)
    * - the fake AMX (this is needed for HTTP() to work)
    */
-  proceed = (amx == main_amx ||
+  proceed = (amx == _sampgdk_hooks_main_amx ||
              amx == sampgdk_fakeamx_amx());
   error = amx_FindPublic(amx, name, index);
 
   if (proceed) {
-    sampgdk_strcpy(public_name, name, sizeof(public_name));
+    sampgdk_strcpy(_sampgdk_hooks_public_name,
+                   name,
+                   sizeof(_sampgdk_hooks_public_name));
     if (error != AMX_ERR_NONE) {
       error = AMX_ERR_NONE;
       *index = AMX_EXEC_GDK;
     }
   }
 
-  subhook_install(amx_FindPublic_hook);
+  subhook_install(_sampgdk_hooks_FindPublic_hook);
 
   return error;
 }
 
-static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
+static int AMXAPI _sampgdk_hooks_Exec(AMX *amx, cell *retval, int index) {
   bool proceed = true;
   int error = AMX_ERR_NONE;
 
@@ -155,19 +162,21 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
     /* This extra check is needed in order to stop OnGameModeInit()
      * from being called twice in a row after a gmx.
      */
-    if (main_amx != amx && amx != NULL) {
+    if (_sampgdk_hooks_main_amx != amx && amx != NULL) {
       sampgdk_callback_invoke(amx, "OnGameModeInit", retval);
-      main_amx = amx;
+      _sampgdk_hooks_main_amx = amx;
     }
   } else {
-    if (index != AMX_EXEC_CONT && public_name != NULL
-        && (amx == main_amx || amx == sampgdk_fakeamx_amx())) {
-      proceed = sampgdk_callback_invoke(amx, public_name, retval);
+    if (index != AMX_EXEC_CONT && _sampgdk_hooks_public_name != NULL
+        && (amx == _sampgdk_hooks_main_amx || amx == sampgdk_fakeamx_amx())) {
+      proceed = sampgdk_callback_invoke(amx,
+                                        _sampgdk_hooks_public_name,
+                                        retval);
     }
   }
 
-  subhook_remove(amx_Exec_hook);
-  subhook_install(amx_Callback_hook);
+  subhook_remove(_sampgdk_hooks_Exec_hook);
+  subhook_install(_sampgdk_hooks_Callback_hook);
 
   if (proceed && index != AMX_EXEC_GDK) {
     error = amx_Exec(amx, retval, index);
@@ -177,18 +186,20 @@ static int AMXAPI amx_Exec_(AMX *amx, cell *retval, int index) {
 
   amx->paramcount = 0;
 
-  subhook_remove(amx_Callback_hook);
-  subhook_install(amx_Exec_hook);
+  subhook_remove(_sampgdk_hooks_Callback_hook);
+  subhook_install(_sampgdk_hooks_Exec_hook);
 
   return error;
 }
 
-static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result,
-                                cell *params) {
+static int AMXAPI _sampgdk_hooks_Callback(AMX *amx,
+                                          cell index,
+                                          cell *result,
+                                          cell *params) {
   int error;
 
-  subhook_remove(amx_Callback_hook);
-  subhook_install(amx_Exec_hook);
+  subhook_remove(_sampgdk_hooks_Callback_hook);
+  subhook_install(_sampgdk_hooks_Exec_hook);
 
   /* Prevent the default AMX callback from replacing SYSREQ.C instructions
    * with SYSREQ.D.
@@ -197,17 +208,19 @@ static int AMXAPI amx_Callback_(AMX *amx, cell index, cell *result,
 
   error = amx_Callback(amx, index, result, params);
 
-  subhook_remove(amx_Exec_hook);
-  subhook_install(amx_Callback_hook);
+  subhook_remove(_sampgdk_hooks_Exec_hook);
+  subhook_install(_sampgdk_hooks_Callback_hook);
 
   return error;
 }
 
-static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
-                             cell **phys_addr) {
+static int AMXAPI _sampgdk_hooks_Allot(AMX *amx,
+                                       int cells,
+                                       cell *amx_addr,
+                                       cell **phys_addr) {
   int error;
 
-  subhook_remove(amx_Allot_hook);
+  subhook_remove(_sampgdk_hooks_Allot_hook);
 
   /* There is a bug in amx_Allot() where it returns success even though
    * there's no enough space on the heap:
@@ -235,59 +248,59 @@ static int AMXAPI amx_Allot_(AMX *amx, int cells, cell *amx_addr,
     }
   }
 
-  subhook_install(amx_Allot_hook);
+  subhook_install(_sampgdk_hooks_Allot_hook);
 
   return error;
 }
 
-static int create_hooks(void) {
-  #define CREATE_HOOK(name) \
-    if ((amx_##name##_hook = subhook_new()) == NULL) \
+static int _sampgdk_hooks_create(void) {
+  #define _SAMPGDK_HOOKS_CREATE_HOOK(name) \
+    if ((_sampgdk_hooks_##name##_hook = subhook_new()) == NULL) \
       goto no_memory;
-  FOR_EACH_FUNC(CREATE_HOOK)
+  _SAMPGDK_HOOKS_LIST(_SAMPGDK_HOOKS_CREATE_HOOK)
   return 0;
 no_memory:
   return -ENOMEM;
-  #undef CREATE_HOOK
+  #undef _SAMPGDK_HOOKS_CREATE_HOOK
 }
 
-static void destroy_hooks(void) {
-  #define DESTROY_HOOK(name) \
-    subhook_free(amx_##name##_hook); \
-  FOR_EACH_FUNC(DESTROY_HOOK)
-  #undef DESTROY_HOOK
+static void _sampgdk_hooks_destroy(void) {
+  #define _SAMPGDK_HOOKS_DESTROY_HOOK(name) \
+    subhook_free(_sampgdk_hooks_##name##_hook);
+  _SAMPGDK_HOOKS_LIST(_SAMPGDK_HOOKS_DESTROY_HOOK)
+  #undef _SAMPGDK_HOOKS_DESTROY_HOOK
 }
 
-static void install_hooks(void) {
-  #define INSTALL_HOOK(name) \
-    subhook_set_src(amx_##name##_hook, sampgdk_amx_api_ptr->name); \
-    subhook_set_dst(amx_##name##_hook, (void*)amx_##name##_); \
-    subhook_install(amx_##name##_hook);
-  FOR_EACH_FUNC(INSTALL_HOOK)
-  #undef INSTALL_HOOK
+static void _sampgdk_hooks_install(void) {
+  #define _SAMPGDK_HOOKS_INSTALL_HOOK(name) \
+    subhook_set_src(_sampgdk_hooks_##name##_hook, sampgdk_amx_api_ptr->name); \
+    subhook_set_dst(_sampgdk_hooks_##name##_hook, (void*)_sampgdk_hooks_##name); \
+    subhook_install(_sampgdk_hooks_##name##_hook);
+  _SAMPGDK_HOOKS_LIST(_SAMPGDK_HOOKS_INSTALL_HOOK)
+  #undef _SAMPGDK_HOOKS_INSTALL_HOOK
 }
 
-static void remove_hooks(void) {
-  #define REMOVE_HOOK(name) \
-    subhook_remove(amx_##name##_hook);
-  FOR_EACH_FUNC(REMOVE_HOOK)
-  #undef REMOVE_HOOK
+static void _sampgdk_hooks_remove(void) {
+  #define _SAMPGDK_HOOKS_REMOVE_HOOK(name) \
+    subhook_remove(_sampgdk_hooks_##name##_hook);
+  _SAMPGDK_HOOKS_LIST(_SAMPGDK_HOOKS_REMOVE_HOOK)
+  #undef _SAMPGDK_HOOKS_REMOVE_HOOK
 }
 
 SAMPGDK_MODULE_INIT(hooks) {
   int error;
 
-  error = create_hooks();
+  error = _sampgdk_hooks_create();
   if (error < 0) {
-    destroy_hooks();
+    _sampgdk_hooks_destroy();
     return error;
   }
 
-  install_hooks();
+  _sampgdk_hooks_install();
   return 0;
 }
 
 SAMPGDK_MODULE_CLEANUP(hooks) {
-  remove_hooks();
-  destroy_hooks();
+  _sampgdk_hooks_remove();
+  _sampgdk_hooks_destroy();
 }
