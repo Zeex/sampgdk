@@ -3,13 +3,15 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/init.c "")
 sampgdk_add_sources(
   amx.c
   amx.h
+  amxhooks.c
   array.c
   array.h
   callback.c
   callback.h
   fakeamx.c
   fakeamx.h
-  hooks.c
+  hook.c
+  hook.h
   init.h
   likely.h
   log.c
