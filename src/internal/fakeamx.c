@@ -28,7 +28,7 @@
 /* The initial size of the heap. */
 #define _SAMPGDK_FAKEAMX_HEAP_SIZE 1024
 
-static struct sampgdk_fakeamx {
+static struct {
   AMX                  amx;
   AMX_HEADER           amxhdr;
   struct sampgdk_array heap;

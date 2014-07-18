@@ -27,9 +27,9 @@
 #include "internal/timer.h"
 
 #ifdef _MSC_VER
-  #define RETURN_ADDRESS() _ReturnAddress()
+  #define _SAMPGDK_RETURN_ADDRESS() _ReturnAddress()
 #else
-  #define RETURN_ADDRESS() __builtin_return_address(0)
+  #define _SAMPGDK_RETURN_ADDRESS() __builtin_return_address(0)
 #endif
 
 static void _sampgdk_init(void **plugin_data) {
@@ -85,17 +85,17 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void)) {
 }
 
 SAMPGDK_API(bool, sampgdk_Load(void **ppData)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  void *plugin = sampgdk_plugin_get_handle(_SAMPGDK_RETURN_ADDRESS());
   return _sampgdk_init_plugin(plugin, ppData) >= 0;
 }
 
 SAMPGDK_API(void, sampgdk_Unload(void)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  void *plugin = sampgdk_plugin_get_handle(_SAMPGDK_RETURN_ADDRESS());
   _sampgdk_cleanup_plugin(plugin);
 }
 
 SAMPGDK_API(void, sampgdk_ProcessTick(void)) {
-  void *plugin = sampgdk_plugin_get_handle(RETURN_ADDRESS());
+  void *plugin = sampgdk_plugin_get_handle(_SAMPGDK_RETURN_ADDRESS());
   sampgdk_timer_process_timers(plugin);
 }
 
