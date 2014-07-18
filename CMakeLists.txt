@@ -7,6 +7,7 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 
 option(SAMPGDK_STATIC "Build static library instead" OFF)
 option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
+option(SAMPGDK_BUILD_AMALGAMATION "Build amalgamation" OFF)
 
 set(SAMPGDK_VERSION_MAJOR 4)
 set(SAMPGDK_VERSION_MINOR 0)
@@ -288,30 +289,31 @@ else()
   target_link_libraries(sampgdk PRIVATE ${SAMPGDK_LIBRARIES})
 endif()
 
-foreach(file IN LISTS SAMPGDK_SOURCES)
-  if (file MATCHES ".*\\.c" OR file MATCHES ".*\\.h")
-    list(APPEND SAMPGDK_AMALGAMATE_FLAGS -c "${file}")
-  endif()
-endforeach()
-foreach(file IN LISTS SAMPGDK_HEADERS)
-  if (file MATCHES ".*\\.h")
-    list(APPEND SAMPGDK_AMALGAMATE_FLAGS -i "${file}")
-  endif()
-endforeach()
-
-add_custom_target(sampgdk_amalgam ALL
-  COMMAND ${PYTHON_EXECUTABLE}
-    ${PROJECT_SOURCE_DIR}/scripts/amalgamate.py
-    -I ${PROJECT_SOURCE_DIR}/include
-    -I ${PROJECT_BINARY_DIR}/include
-    -I ${PROJECT_SOURCE_DIR}/src
-    -oc ${PROJECT_BINARY_DIR}/sampgdk.c
-    -oi ${PROJECT_BINARY_DIR}/sampgdk.h
-    ${SAMPGDK_AMALGAMATE_FLAGS}
-  COMMENT "Generating amalgamation")
+if(SAMPGDK_BUILD_AMALGAMATION)
+  foreach(file IN LISTS SAMPGDK_SOURCES)
+    if (file MATCHES ".*\\.c" OR file MATCHES ".*\\.h")
+      list(APPEND SAMPGDK_AMALGAMATE_FLAGS -c "${file}")
+    endif()
+  endforeach()
+  foreach(file IN LISTS SAMPGDK_HEADERS)
+    if (file MATCHES ".*\\.h")
+      list(APPEND SAMPGDK_AMALGAMATE_FLAGS -i "${file}")
+    endif()
+  endforeach()
+  add_custom_target(sampgdk_amalgam ALL
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${PROJECT_SOURCE_DIR}/scripts/amalgamate.py
+      -I ${PROJECT_SOURCE_DIR}/include
+      -I ${PROJECT_BINARY_DIR}/include
+      -I ${PROJECT_SOURCE_DIR}/src
+      -oc ${PROJECT_BINARY_DIR}/sampgdk.c
+      -oi ${PROJECT_BINARY_DIR}/sampgdk.h
+      ${SAMPGDK_AMALGAMATE_FLAGS}
+    COMMENT "Generating amalgamation")
+  add_dependencies(sampgdk_amalgam sampgdk)
+endif()
 
 add_dependencies(sampgdk sampgdk_init)
-add_dependencies(sampgdk_amalgam sampgdk)
 
 foreach(header IN LISTS SAMPGDK_HEADERS)
   get_filename_component(path ${header} PATH)
