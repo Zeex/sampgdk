@@ -265,6 +265,12 @@ if(SAMPGDK_STATIC)
   target_compile_definitions(sampgdk PUBLIC SAMPGDK_STATIC)
 endif()
 
+if(WIN32)
+  target_compile_definitions(sampgdk PRIVATE WIN32_LEAN_AND_MEAN)
+elseif(UNIX)
+  target_compile_definitions(sampgdk PRIVATE _GNU_SOURCE)
+endif()
+
 if(MSVC)
   target_compile_definitions(sampgdk PRIVATE _CRT_SECURE_NO_WARNINGS)
 endif()

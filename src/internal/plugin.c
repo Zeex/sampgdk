@@ -30,10 +30,8 @@
 #endif
 
 #if SAMPGDK_WINDOWS
-  #define WIN32_LEAN_AND_MEAN
   #include <windows.h>
 #else
-  #define _GNU_SOURCE
   #include <dlfcn.h>
   #include <string.h>
 #endif
