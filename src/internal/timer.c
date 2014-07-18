@@ -29,7 +29,7 @@
   #undef SetTimer
 #endif
 
-#ifdef SAMPGDK_WINDOWS
+#if SAMPGDK_WINDOWS
   #define WIN32_LEAN_AND_MEAN
   #include <windows.h>
 #endif
@@ -189,7 +189,7 @@ void sampgdk_timer_process_timers(void *plugin) {
   }
 }
 
-#ifdef SAMPGDK_WINDOWS
+#if SAMPGDK_WINDOWS
 
 long sampgdk_timer_now(void) {
   LARGE_INTEGER freq;

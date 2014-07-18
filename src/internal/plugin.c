@@ -29,7 +29,7 @@
   #undef SetTimer
 #endif
 
-#ifdef SAMPGDK_WINDOWS
+#if SAMPGDK_WINDOWS
   #define WIN32_LEAN_AND_MEAN
   #include <windows.h>
 #else
@@ -112,7 +112,7 @@ struct sampgdk_plugin_list *sampgdk_plugin_get_list(void) {
   return _sampgdk_plugins;
 }
 
-#ifdef SAMPGDK_WINDOWS
+#if SAMPGDK_WINDOWS
 
 void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
   assert(plugin != NULL);
