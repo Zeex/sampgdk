@@ -315,6 +315,7 @@ if(SAMPGDK_BUILD_AMALGAMATION)
       -oc ${PROJECT_BINARY_DIR}/src/sampgdk.c
       -oi ${PROJECT_BINARY_DIR}/src/sampgdk.h
       ${SAMPGDK_AMALGAMATE_FLAGS}
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating amalgamation")
   add_dependencies(sampgdk_amalgam sampgdk)
 endif()
