@@ -26,19 +26,26 @@ def extract_path(include):
   return None
 
 def resolve_include(filename, include, include_dirs):
-  rel_path = extract_path(include)
-  if include.startswith('"'):
-    path = os.path.join(os.path.dirname(filename), rel_path)
-    if os.path.exists(path):
-      return os.path.realpath(path)
-  for dir in include_dirs:
-    path = os.path.join(dir, rel_path)
-    if os.path.exists(path):
-      return os.path.realpath(path)
+  if include is not None:
+    rel_path = extract_path(include)
+    if include.startswith('"'):
+      path = os.path.join(os.path.dirname(filename), rel_path)
+      if os.path.exists(path):
+        return os.path.realpath(path)
+    for dir in include_dirs:
+      path = os.path.join(dir, rel_path)
+      if os.path.exists(path):
+        return os.path.realpath(path)
   return None
 
 def find_includes(text):
   return re.findall(r'#include\s*(["<].*[">])', text)
+
+def find_first_include(text):
+  includes = find_includes(text)
+  if includes:
+    return includes[0]
+  return None
 
 def find_deps(files, include_dirs):
   deps = {}
@@ -82,58 +89,85 @@ def print_deps(deps):
     for d in ds:
       print('%s -> %s' % (f, d))
 
-def amalgamate(sources, headers, include_dirs, out_source, out_header):
-  sfile = open(out_source, 'w')
-  hfile = open(out_header, 'w')
+def get_relative_path(filename):
+  os.path.relpath(filename, os.getcwd())
 
-  sorted_sources = sort_files(sources + headers, include_dirs)
-  sorted_headers = sort_files(headers, include_dirs)
-  all_files = sorted_sources + sorted_headers
+def write_prolog(file, filename):
+  file.write('/* BEGIN FILE: %s */\n\n' % os.path.relpath(filename, os.getcwd()))
 
-  for f in all_files:
+def write_epilog(file, filename):
+  file.write('/* END OF FILE: %s */\n\n' % os.path.relpath(filename, os.getcwd()))
+
+def write_header(file, headers, include_dirs):
+  for f in headers:
     with open(f, 'r') as ifile:
-      ofile = (hfile, sfile)[f in sources]
-      ofile.write('/* File: %s */\n\n' % os.path.relpath(f, os.getcwd()))
+      write_prolog(file, f)
       for line in ifile.readlines():
-        includes = find_includes(line)
-        if includes:
-          path = resolve_include(f, includes[0], include_dirs)
-          if path in headers and f in sources:
-            ofile.write('#include "%s"\n' % os.path.basename(out_header))
-            continue
-          if path in all_files:
-            continue
-        ofile.write('%s' % line)
-      ofile.write('\n')
+        path = resolve_include(f, find_first_include(line), include_dirs)
+        if path not in headers:
+          file.write(line)
+      write_epilog(file, f)
+
+def write_source(file, sources, headers, header_path, include_dirs):
+  for f in sources:
+    with open(f, 'r') as ifile:
+      write_prolog(file, f)
+      for line in ifile.readlines():
+        path = resolve_include(f, find_first_include(line), include_dirs)
+        if path in headers and f in sources:
+          file.write('#include "%s"\n' % os.path.basename(header_path))
+        elif path not in sources:
+          file.write(line)
+      write_epilog(file, f)
 
 def parse_args(argv):
   parser = argparse.ArgumentParser()
-  parser.add_argument('-c', dest='sources', metavar='file', action='append',
+  parser.add_argument('-c',
+                      dest='sources',
+                      metavar='file',
+                      action='append',
                       help='add source file')
-  parser.add_argument('-i', dest='headers', metavar='file', action='append',
+  parser.add_argument('-i', dest='headers',
+                      metavar='file',
+                      action='append',
                       help='add header file')
-  parser.add_argument('-I', dest='include_dirs', metavar='dir', action='append',
+  parser.add_argument('-I', dest='include_dirs',
+                      metavar='dir',
+                      action='append',
                       help='add include directory')
-  parser.add_argument('-oc', dest='out_source', metavar='file', required=True,
+  parser.add_argument('-oc', dest='out_source',
+                      metavar='file',
+                      required=True,
                       help='output source file')
-  parser.add_argument('-oi', dest='out_header', metavar='file', required=True,
+  parser.add_argument('-oi', dest='out_header',
+                      metavar='file',
+                      required=True,
                       help='output header file')
   return parser.parse_args()
 
 def main(argv):
   args = parse_args(argv[1:])
+
   sources = []
   if args.sources is not None:
-    sources = args.sources
+    sources = [os.path.realpath(f) for f in args.sources]
   headers = []
   if args.headers is not None:
-    headers = args.headers
+    headers = [os.path.realpath(f) for f in args.headers]
   include_dirs = []
   if args.include_dirs is not None:
     include_dirs = args.include_dirs
-  amalgamate([os.path.realpath(f) for f in sources],
-             [os.path.realpath(f) for f in headers],
-             include_dirs, args.out_source, args.out_header)
+
+  sfile = open(args.out_source, 'w')
+  hfile = open(args.out_header, 'w')
+
+  sources = sort_files(sources + headers, include_dirs)
+  headers = sort_files(headers, include_dirs)
+
+  header_path = os.path.relpath(args.out_header,
+                                os.path.dirname(args.out_source))
+  write_header(hfile, headers, include_dirs)
+  write_source(sfile, sources, headers, header_path, include_dirs)
 
 if __name__ == '__main__':
   main(sys.argv)
