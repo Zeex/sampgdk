@@ -89,37 +89,6 @@ def print_deps(deps):
     for d in ds:
       print('%s -> %s' % (f, d))
 
-def get_relative_path(filename):
-  os.path.relpath(filename, os.getcwd())
-
-def write_prolog(file, filename):
-  file.write('/* BEGIN FILE: %s */\n\n' % get_relative_path(filename))
-
-def write_epilog(file, filename):
-  file.write('/* END OF FILE: %s */\n\n' % get_relative_path(filename))
-
-def write_header(file, headers, include_dirs):
-  for f in headers:
-    with open(f, 'r') as ifile:
-      write_prolog(file, f)
-      for line in ifile.readlines():
-        path = resolve_include(f, find_first_include(line), include_dirs)
-        if path not in headers:
-          file.write(line)
-      write_epilog(file, f)
-
-def write_source(file, sources, headers, header_path, include_dirs):
-  for f in sources:
-    with open(f, 'r') as ifile:
-      write_prolog(file, f)
-      for line in ifile.readlines():
-        path = resolve_include(f, find_first_include(line), include_dirs)
-        if path in headers and f in sources:
-          file.write('#include "%s"\n' % os.path.basename(header_path))
-        elif path not in sources:
-          file.write(line)
-      write_epilog(file, f)
-
 def parse_args(argv):
   parser = argparse.ArgumentParser()
   parser.add_argument('-c',
@@ -161,13 +130,22 @@ def main(argv):
   sfile = open(args.out_source, 'w')
   hfile = open(args.out_header, 'w')
 
-  sources = sort_files(sources + headers, include_dirs)
   headers = sort_files(headers, include_dirs)
+  all_files = sort_files(sources + headers, include_dirs)
 
   header_path = os.path.relpath(args.out_header,
                                 os.path.dirname(args.out_source))
-  write_header(hfile, headers, include_dirs)
-  write_source(sfile, sources, headers, header_path, include_dirs)
+
+  for f in all_files:
+    ofile = (sfile, hfile)[f in headers]
+    with open(f, 'r') as ifile:
+      for line in ifile.readlines():
+        path = resolve_include(f, find_first_include(line), include_dirs)
+        if path is None:
+          ofile.write(line)
+        elif path in headers and f not in headers:
+          ofile.write('#include "%s"\n' % os.path.basename(header_path))
+      ofile.write('\n')
 
 if __name__ == '__main__':
   main(sys.argv)
