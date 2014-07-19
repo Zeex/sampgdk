@@ -69,10 +69,12 @@
   #pragma GCC diagnostic pop
 #endif
 
-#if defined _MSC_VER
-  #pragma optimize("", off)
-#elif defined __GNUC__
-  #pragma GCC optimize("-fno-optimize-sibling-calls")
+#if !defined IN_SAMPGDK
+  #if defined _MSC_VER
+    #pragma optimize("", off)
+  #elif defined __GNUC__
+    #pragma GCC optimize("-fno-optimize-sibling-calls")
+  #endif
 #endif
 
 /**
