@@ -15,7 +15,6 @@
 # limitations under the License.
 
 import argparse
-import itertools
 import os
 import re
 import sys
@@ -64,22 +63,24 @@ def sort_deps(files, deps):
   while current:
     f = current.pop(0)
     sorted.append(f)
-    for depender, dependees in deps.iteritems():
+    for depender, dependees in deps.items():
       if f in dependees:
         dependees.remove(f)
         if not dependees:
           current.append(depender)
-  if filter(lambda x: x, deps.values()):
-    raise Exception('Circular dependency or missing file')
-  return sorted
+  try:
+    next(x for x in deps.values() if x)
+  except StopIteration:
+    return sorted
+  raise Exception('Circular dependency or missing file')
 
 def sort_files(files, include_dirs):
   return sort_deps(files, find_deps(files, include_dirs))
 
 def print_deps(deps):
-  for f, ds in deps.iteritems():
+  for f, ds in deps.items():
     for d in ds:
-      print '%s -> %s' % (f, d)
+      print('%s -> %s' % (f, d))
 
 def amalgamate(sources, headers, include_dirs, out_source, out_header):
   sfile = open(out_source, 'w')
