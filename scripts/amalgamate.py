@@ -93,10 +93,10 @@ def get_relative_path(filename):
   os.path.relpath(filename, os.getcwd())
 
 def write_prolog(file, filename):
-  file.write('/* BEGIN FILE: %s */\n\n' % os.path.relpath(filename, os.getcwd()))
+  file.write('/* BEGIN FILE: %s */\n\n' % get_relative_path(filename))
 
 def write_epilog(file, filename):
-  file.write('/* END OF FILE: %s */\n\n' % os.path.relpath(filename, os.getcwd()))
+  file.write('/* END OF FILE: %s */\n\n' % get_relative_path(filename))
 
 def write_header(file, headers, include_dirs):
   for f in headers:
