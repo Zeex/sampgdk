@@ -136,15 +136,16 @@ def main(argv):
   header_path = os.path.relpath(args.out_header,
                                 os.path.dirname(args.out_source))
 
+  sfile.write('#include "%s"\n\n' % os.path.basename(header_path))
+
   for f in all_files:
     ofile = (sfile, hfile)[f in headers]
     with open(f, 'r') as ifile:
       for line in ifile.readlines():
-        path = resolve_include(f, find_first_include(line), include_dirs)
-        if path is None:
+        include = find_first_include(line)
+        include_path = resolve_include(f, include, include_dirs)
+        if include_path is None:
           ofile.write(line)
-        elif path in headers and f not in headers:
-          ofile.write('#include "%s"\n' % os.path.basename(header_path))
       ofile.write('\n')
 
 if __name__ == '__main__':
