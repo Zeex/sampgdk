@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">GDK
-   &#160;<span id="projectnumber">4.0.0-beta</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Writing SA-MP gamemodes in C/C++</div>
   </td>
@@ -97,6 +97,10 @@ AMX_NATIVE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href
 const AMX_NATIVE_INFO *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga3b047e2bbe9a41b41c06f78e4d61a4cc">sampgdk::GetNatives</a> (int &amp;number)</td></tr>
 <tr class="memdesc:ga3b047e2bbe9a41b41c06f78e4d61a4cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++ wrapper around <a class="el" href="group__interop.html#ga607ba55228a3fbea76cb376717aaf080" title="Returns all currently registered native functions. ">sampgdk_GetNatives()</a>. <br/></td></tr>
 <tr class="separator:ga3b047e2bbe9a41b41c06f78e4d61a4cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga981d76c0a52fd1862c4e401faeed0127"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga981d76c0a52fd1862c4e401faeed0127"></a>
+const AMX_NATIVE_INFO *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#ga981d76c0a52fd1862c4e401faeed0127">sampgdk::GetNatives</a> ()</td></tr>
+<tr class="memdesc:ga981d76c0a52fd1862c4e401faeed0127"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++ wrapper around <a class="el" href="group__interop.html#ga607ba55228a3fbea76cb376717aaf080" title="Returns all currently registered native functions. ">sampgdk_GetNatives()</a>. <br/></td></tr>
+<tr class="separator:ga981d76c0a52fd1862c4e401faeed0127"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf35e5e914ea47aa558ab0d1b7aec67b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaf35e5e914ea47aa558ab0d1b7aec67b2"></a>
 cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interop.html#gaf35e5e914ea47aa558ab0d1b7aec67b2">sampgdk::InvokeNative</a> (AMX_NATIVE native, const char *format,...)</td></tr>
 <tr class="memdesc:gaf35e5e914ea47aa558ab0d1b7aec67b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">C++ wrapper around <a class="el" href="group__interop.html#gad16aaeea61851d7f73e56cae618a97ef" title="Invokes a native function with the specified arguments. ">sampgdk_InvokeNative()</a>. <br/></td></tr>
@@ -210,7 +214,7 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 
 <p>Calls a native function. </p>
 <p>This function is suitable for calling simple natives that either have only value parameters or don't have any parameters at all. If you have to pass a reference or a string use <a class="el" href="group__interop.html#gad16aaeea61851d7f73e56cae618a97ef" title="Invokes a native function with the specified arguments. ">sampgdk_InvokeNative()</a> instead.</p>
-<dl class="section note"><dt>Note</dt><dd>The first element of <code>params</code> should contain the number of arguments multiplied by <code>sizeof(cell)</code>. If the function takes no arguments, <code>params</code> may be <code>NULL</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The first element of <code>params</code> must contain the number of arguments multiplied by <code>sizeof(cell)</code>.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">native</td><td>A pointer to the native function. </td></tr>
@@ -274,10 +278,11 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 </div><div class="memdoc">
 
 <p>Returns all currently registered native functions. </p>
-<p>This function can be used to retrieve the names and addresses of all native functions that were registered with amx_Register() by the server and plugins loaded prior to the call. The <code>number</code> parameter is filled with the total number of functions.</p>
+<p>This function can be used to get the names and addresses of all native functions that have been registered with amx_Register(), by both the server and plugins.</p>
+<dl class="section note"><dt>Note</dt><dd>The returned array is NULL-terminated.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">number</td><td>The number of elements in the returned array.</td></tr>
+    <tr><td class="paramname">number</td><td>A pointer to the variable that will store the number of elements in the returned array (optional).</td></tr>
   </table>
   </dd>
 </dl>
@@ -346,7 +351,8 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <tr>
 <td align="left">A </td><td align="left">cell * </td><td align="left">non-const string (both input and output) </td></tr>
 </table>
-<dl class="section note"><dt>Note</dt><dd>For the 'S', 'a' and 'A' specifiers you have to specify the size of the string/array in square brackets, e.g. "a[100]" (fixed size) or s[*2] (size passed via 2nd argument).</dd></dl>
+<dl class="section remark"><dt>Remarks</dt><dd>For the 'S', 'a' and 'A' specifiers you have to specify the size of the string/array in square brackets, e.g. "a[100]" (fixed size) or s[*2] (size passed via 2nd argument).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>In Pawn, variadic functions always take their variable arguments (those represented by "...") by reference. This means that for such functions you have to use the 'r' specifier where you would normally use 'b', 'i' 'd' or 'f'.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">native</td><td>A pointer to the native function. </td></tr>
@@ -461,7 +467,7 @@ cell&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 7 2014 23:42:59 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 20 2014 08:07:16 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

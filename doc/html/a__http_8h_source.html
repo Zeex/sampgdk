@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">GDK
-   &#160;<span id="projectnumber">4.0.0-beta</span>
+   &#160;<span id="projectnumber">4.0.0</span>
    </div>
    <div id="projectbrief">Writing SA-MP gamemodes in C/C++</div>
   </td>
@@ -81,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_8cb38671846de89444f63c0e68bc97cb.html">sampgdk</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_75b82e7e4a5feb05200b9ad7adf06257.html">home</a></li><li class="navelem"><a class="el" href="dir_1bd108f84c07d181651a095f6a642d7b.html">szx</a></li><li class="navelem"><a class="el" href="dir_1e1fc12d8b6cd44f1833b417c2ef34bd.html">Programming</a></li><li class="navelem"><a class="el" href="dir_4dd2bb270611a87ced2b238dcddf04dc.html">SA-MP</a></li><li class="navelem"><a class="el" href="dir_fb368241ff5a25e5022447a04ead3f0f.html">server</a></li><li class="navelem"><a class="el" href="dir_52ed77368bdd08a8f8d45649677a54c3.html">plugins</a></li><li class="navelem"><a class="el" href="dir_f560284b2be578ffd9859548078a62c4.html">sampgdk</a></li><li class="navelem"><a class="el" href="dir_b46b21618998322d3e5f8361bd16b942.html">build</a></li><li class="navelem"><a class="el" href="dir_de823a3a0346b07be12434580101bb82.html">release</a></li><li class="navelem"><a class="el" href="dir_31cff8085e5ed25b45cbd70e8a195505.html">include</a></li><li class="navelem"><a class="el" href="dir_68acc69100be0ad7c7099e645d93f8ef.html">sampgdk</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -89,35 +89,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">a_http.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/* Copyright (C) 2013-2014 Zeex</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * you may not use this file except in compliance with the License.</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> * You may obtain a copy of the License at</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *     http://www.apache.org/licenses/LICENSE-2.0</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> * Unless required by applicable law or agreed to in writing, software</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * See the License for the specific language governing permissions and</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * limitations under the License.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> */</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;sampgdk/bool.h&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;sampgdk/export.h&gt;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;sampgdk/types.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef DOXYGEN</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#undef  HTTP</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP sampgdk_HTTP</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;SAMPGDK_NATIVE(<span class="keywordtype">bool</span>, <a class="code" href="group__natives.html#gabd139869f060a2096b696d09df4952e8">HTTP</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">int</span> type, <span class="keyword">const</span> <span class="keywordtype">char</span> * url, <span class="keyword">const</span> <span class="keywordtype">char</span> * data));</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#ifndef SAMPGDK_A_HTTP_H</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SAMPGDK_A_HTTP_H</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;sampgdk/bool.h&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;sampgdk/core.h&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;sampgdk/export.h&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;sampgdk/a_http-decl.h&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_A_HTTP_H */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define HTTP_GET (1)</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_POST (2)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_HEAD (3)</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_BAD_HOST (1)</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_NO_SOCKET (2)</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CANT_CONNECT (3)</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CANT_WRITE (4)</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_CONTENT_TOO_BIG (5)</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HTTP_ERROR_MALFORMED_RESPONSE (6)</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;SAMPGDK_CALLBACK(<span class="keywordtype">void</span>, <a class="code" href="group__callbacks.html#ga33abb6684c01ff551939debf35a20bde">OnHTTPResponse</a>(<span class="keywordtype">int</span> index, <span class="keywordtype">int</span> response_code, <span class="keyword">const</span> <span class="keywordtype">char</span> * data));</div>
+<div class="ttc" id="group__natives_html_gabd139869f060a2096b696d09df4952e8"><div class="ttname"><a href="group__natives.html#gabd139869f060a2096b696d09df4952e8">HTTP</a></div><div class="ttdeci">bool HTTP(int index, int type, const char *url, const char *data)</div></div>
+<div class="ttc" id="group__callbacks_html_ga33abb6684c01ff551939debf35a20bde"><div class="ttname"><a href="group__callbacks.html#ga33abb6684c01ff551939debf35a20bde">OnHTTPResponse</a></div><div class="ttdeci">void OnHTTPResponse(int index, int response_code, const char *data)</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 7 2014 23:42:59 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 20 2014 08:07:16 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
