@@ -298,22 +298,22 @@ endif()
 if(SAMPGDK_BUILD_AMALGAMATION)
   foreach(file IN LISTS SAMPGDK_SOURCES)
     if (file MATCHES ".*\\.c" OR file MATCHES ".*\\.h")
-      list(APPEND SAMPGDK_AMALGAMATE_FLAGS -c "${file}")
+      list(APPEND SAMPGDK_AMALGAMATE_FLAGS --source "${file}")
     endif()
   endforeach()
   foreach(file IN LISTS SAMPGDK_HEADERS)
     if (file MATCHES ".*\\.h")
-      list(APPEND SAMPGDK_AMALGAMATE_FLAGS -i "${file}")
+      list(APPEND SAMPGDK_AMALGAMATE_FLAGS --header "${file}")
     endif()
   endforeach()
   add_custom_target(sampgdk_amalgam ALL
     COMMAND ${PYTHON_EXECUTABLE}
       ${PROJECT_SOURCE_DIR}/scripts/amalgamate.py
-      -I ${PROJECT_SOURCE_DIR}/include
-      -I ${PROJECT_BINARY_DIR}/include
-      -I ${PROJECT_SOURCE_DIR}/src
-      -oc ${PROJECT_BINARY_DIR}/src/sampgdk.c
-      -oi ${PROJECT_BINARY_DIR}/src/sampgdk.h
+      --include-dir ${PROJECT_SOURCE_DIR}/include
+      --include-dir ${PROJECT_BINARY_DIR}/include
+      --include-dir ${PROJECT_SOURCE_DIR}/src
+      --output-source ${PROJECT_BINARY_DIR}/src/sampgdk.c
+      --output-header ${PROJECT_BINARY_DIR}/src/sampgdk.h
       ${SAMPGDK_AMALGAMATE_FLAGS}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating amalgamation")

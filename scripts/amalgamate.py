@@ -91,27 +91,31 @@ def print_deps(deps):
 
 def parse_args(argv):
   parser = argparse.ArgumentParser()
-  parser.add_argument('-c',
+  parser.add_argument('--source',
                       dest='sources',
                       metavar='file',
                       action='append',
                       help='add source file')
-  parser.add_argument('-i', dest='headers',
+  parser.add_argument('--header',
+                      dest='headers',
                       metavar='file',
                       action='append',
                       help='add header file')
-  parser.add_argument('-I', dest='include_dirs',
+  parser.add_argument('--include-dir',
+                      dest='include_dirs',
                       metavar='dir',
                       action='append',
                       help='add include directory')
-  parser.add_argument('-oc', dest='out_source',
+  parser.add_argument('--output-source',
+                      dest='output_source',
                       metavar='file',
                       required=True,
-                      help='output source file')
-  parser.add_argument('-oi', dest='out_header',
+                      help='set output source file')
+  parser.add_argument('--output-header',
+                      dest='output_header',
                       metavar='file',
                       required=True,
-                      help='output header file')
+                      help='set output header file')
   return parser.parse_args()
 
 def main(argv):
@@ -127,14 +131,14 @@ def main(argv):
   if args.include_dirs is not None:
     include_dirs = args.include_dirs
 
-  sfile = open(args.out_source, 'w')
-  hfile = open(args.out_header, 'w')
+  sfile = open(args.output_source, 'w')
+  hfile = open(args.output_header, 'w')
 
   headers = sort_files(headers, include_dirs)
   all_files = sort_files(sources + headers, include_dirs)
 
-  header_path = os.path.relpath(args.out_header,
-                                os.path.dirname(args.out_source))
+  header_path = os.path.relpath(args.output_header,
+                                os.path.dirname(args.output_source))
 
   for f in all_files:
     ofile = (sfile, hfile)[f in headers]
