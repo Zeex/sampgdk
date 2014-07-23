@@ -98,7 +98,7 @@ int sampgdk_callback_register(const char *name,
   }
 
   info.handler = handler;
-  strcpy(info.name, name);
+  sampgdk_strcpy(info.name, name, strlen(name));
 
   error = sampgdk_array_insert_ordered(&_sampgdk_callbacks,
                                        &info,
