@@ -20,15 +20,6 @@
 
 #include <sampgdk/platform.h>
 
-#ifdef SAMPGDK_AMALGAMATION
-  #undef CreateMenu
-  #undef DestroyMenu
-  #undef GetTickCount
-  #undef KillTimer
-  #undef SelectObject
-  #undef SetTimer
-#endif
-
 #if SAMPGDK_WINDOWS
   #include <windows.h>
 #endif

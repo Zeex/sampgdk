@@ -116,6 +116,10 @@ def parse_args(argv):
                       metavar='file',
                       required=True,
                       help='set output header file')
+  parser.add_argument('--preamble',
+                      dest='preamble',
+                      metavar='file',
+                      help='read preamble code from file')
   return parser.parse_args()
 
 def main(argv):
@@ -133,6 +137,11 @@ def main(argv):
 
   sfile = open(args.output_source, 'w')
   hfile = open(args.output_header, 'w')
+
+  if args.preamble is not None:
+    with open(args.preamble) as ifile:
+      sfile.write(ifile.read())
+      sfile.write('\n')
 
   headers = sort_files(headers, include_dirs)
   all_files = sort_files(sources + headers, include_dirs)
