@@ -88,7 +88,7 @@ AMX_NATIVE sampgdk_native_find(const char *name) {
   }
 
   info = bsearch(name, _sampgdk_natives.data,
-                       _sampgdk_natives.count,
+                       _sampgdk_natives.count - 1,
                        _sampgdk_natives.elem_size,
                        _sampgdk_native_compare_bsearch);
   if (info == NULL) {
@@ -142,7 +142,7 @@ AMX_NATIVE sampgdk_native_find_warn_stub(const char *name) {
 
 const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number) {
   if (number != NULL) {
-    *number = _sampgdk_natives.count;
+    *number = _sampgdk_natives.count - 1;
   }
   return (const AMX_NATIVE_INFO*)_sampgdk_natives.data;
 }
