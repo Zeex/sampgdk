@@ -54,9 +54,9 @@ static void _sampgdk_do_log(int level, const char *format, va_list args) {
     return;
   }
 
-  strcpy(real_format, "[sampgdk] ");
-  strcat(real_format, prefix);
-  strcat(real_format, format);
+  strcpy_s(real_format, sizeof("[sampgdk] "), "[sampgdk] ");
+  strcat_s(real_format, strlen(prefix), prefix);
+  strcat_s(real_format, strlen(format), format);
 
   sampgdk_do_vlogprintf(real_format, args);
 
@@ -96,5 +96,7 @@ void sampgdk_log_error(const char *format, ...) {
 }
 
 void sampgdk_log_error_code(int error) {
-  _sampgdk_do_log(_SAMPGDK_LOG_ERROR, strerror(-error), NULL);
+	char buffer[36 + 1];
+	strerror_s(buffer, 36, error);
+	_sampgdk_do_log(_SAMPGDK_LOG_ERROR, buffer, NULL);
 }
