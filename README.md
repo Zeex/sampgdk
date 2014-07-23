@@ -42,8 +42,9 @@ make install # optional
 
 Supported options:
 
-* SAMPGDK_BUILD_PLUGINS - build example plugins (default is OFF)
-* SAMPGDK_STATIC        - build as static library (default is OFF)
+* SAMPGDK_STATIC             - Build as static library (default is OFF)
+* SAMPGDK_BUILD_PLUGINS      - Build example plugins (default is OFF)
+* SAMPGDK_BUILD_AMALGAMATION - Build amalgamation (default is OFF)
 
 Getting Started
 ---------------
