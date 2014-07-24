@@ -1,0 +1,5 @@
+How to use amalgamation files:
+
+1. Add sampgdk.c and sampgdk.h to your project
+2. Define SAMPGDK_AMALGAMATION macro
+3. Compile

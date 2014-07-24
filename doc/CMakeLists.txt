@@ -10,6 +10,6 @@ if(DOXYGEN_FOUND)
 endif()
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-	    DESTINATION .
-	    COMPONENT doc
+        DESTINATION .
+        COMPONENT doc
         FILES_MATCHING REGEX html/.*)
