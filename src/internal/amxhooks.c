@@ -45,6 +45,12 @@ static char _sampgdk_amxhooks_public_name[_SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME];
   C(Callback) \
   C(Allot)
 
+#define _SAMPGDK_AMXHOOKS_LIST_2(C) \
+  C(Register) \
+  C(FindPublic) \
+  C(Exec) \
+  C(Allot)
+
 #define _SAMPGDK_AMXHOOKS_DEFINE_HOOK(name) \
   static sampgdk_hook_t _sampgdk_amxhooks_##name##_hook;
 _SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_DEFINE_HOOK)
@@ -256,7 +262,11 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
 static int _sampgdk_amxhooks_create(void) {
   #define _SAMPGDK_AMXHOOKS_CREATE_HOOK(name) \
     if ((_sampgdk_amxhooks_##name##_hook = sampgdk_hook_new()) == NULL) \
-      goto no_memory;
+      goto no_memory; \
+    sampgdk_hook_set_src(_sampgdk_amxhooks_##name##_hook, \
+                         sampgdk_amx_api_ptr->name); \
+    sampgdk_hook_set_dst(_sampgdk_amxhooks_##name##_hook, \
+                         (void*)_sampgdk_amxhooks_##name);
   _SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_CREATE_HOOK)
   return 0;
 no_memory:
@@ -273,19 +283,15 @@ static void _sampgdk_amxhooks_destroy(void) {
 
 static void _sampgdk_amxhooks_install(void) {
   #define _SAMPGDK_AMXHOOKS_INSTALL_HOOK(name) \
-    sampgdk_hook_set_src(_sampgdk_amxhooks_##name##_hook, \
-                         sampgdk_amx_api_ptr->name); \
-    sampgdk_hook_set_dst(_sampgdk_amxhooks_##name##_hook, \
-                         (void*)_sampgdk_amxhooks_##name); \
     sampgdk_hook_install(_sampgdk_amxhooks_##name##_hook);
-  _SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_INSTALL_HOOK)
+  _SAMPGDK_AMXHOOKS_LIST_2(_SAMPGDK_AMXHOOKS_INSTALL_HOOK)
   #undef _SAMPGDK_AMXHOOKS_INSTALL_HOOK
 }
 
 static void _sampgdk_amxhooks_remove(void) {
   #define _SAMPGDK_AMXHOOKS_REMOVE_HOOK(name) \
     sampgdk_hook_remove(_sampgdk_amxhooks_##name##_hook);
-  _SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_REMOVE_HOOK)
+  _SAMPGDK_AMXHOOKS_LIST_2(_SAMPGDK_AMXHOOKS_REMOVE_HOOK)
   #undef _SAMPGDK_AMXHOOKS_REMOVE_HOOK
 }
 
