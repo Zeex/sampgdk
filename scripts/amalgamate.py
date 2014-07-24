@@ -120,6 +120,10 @@ def parse_args(argv):
                       dest='preamble',
                       metavar='file',
                       help='read preamble code from file')
+  parser.add_argument('--strip',
+                      dest='strip',
+                      metavar='regex',
+                      help='remove code matching regex')
   return parser.parse_args()
 
 def main(argv):
@@ -135,8 +139,8 @@ def main(argv):
   if args.include_dirs is not None:
     include_dirs = args.include_dirs
 
-  sfile = open(args.output_source, 'w')
-  hfile = open(args.output_header, 'w')
+  (sfile, hfile) = (open(args.output_source, 'w'),
+                    open(args.output_header, 'w'))
 
   if args.preamble is not None:
     with open(args.preamble) as ifile:
@@ -165,6 +169,17 @@ def main(argv):
         else:
           ofile.write('/* #include %s */\n' % include)
       ofile.write('\n')
+
+  for ofile in (sfile, hfile):
+    ofile.close()
+
+  if args.strip is not None:
+    for f in (args.output_source, args.output_header):
+      with open(f, 'r+') as ofile:
+        code = ofile.read()
+        ofile.seek(0)
+        ofile.write(re.sub(args.strip, '', code, flags=re.DOTALL))
+        ofile.truncate()
 
 if __name__ == '__main__':
   main(sys.argv)
