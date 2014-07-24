@@ -120,10 +120,6 @@ def parse_args(argv):
                       dest='preamble',
                       metavar='file',
                       help='read preamble code from file')
-  parser.add_argument('--strip',
-                      dest='strip',
-                      metavar='regex',
-                      help='remove code matching regex')
   return parser.parse_args()
 
 def main(argv):
@@ -172,14 +168,6 @@ def main(argv):
 
   for ofile in (sfile, hfile):
     ofile.close()
-
-  if args.strip is not None:
-    for f in (args.output_source, args.output_header):
-      with open(f, 'r+') as ofile:
-        code = ofile.read()
-        ofile.seek(0)
-        ofile.write(re.sub(args.strip, '', code, flags=re.DOTALL))
-        ofile.truncate()
 
 if __name__ == '__main__':
   main(sys.argv)

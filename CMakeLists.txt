@@ -316,7 +316,6 @@ if(SAMPGDK_BUILD_AMALGAMATION)
       --output-source ${PROJECT_BINARY_DIR}/src/sampgdk.c
       --output-header ${PROJECT_BINARY_DIR}/src/sampgdk.h
       --preamble ${PROJECT_SOURCE_DIR}/src/sampgdk.c
-      --strip "/\\* Copyright .*? \\*/\\n\\n"
       ${SAMPGDK_AMALGAMATE_FLAGS}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating amalgamation")
