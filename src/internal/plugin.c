@@ -36,10 +36,6 @@ int sampgdk_plugin_register(void *plugin) {
 
   assert(plugin != NULL);
 
-  if (sampgdk_plugin_is_registered(plugin)) {
-    return -EINVAL;
-  }
-
   ptr = malloc(sizeof(*ptr));
   if (ptr == NULL) {
     return -ENOMEM;
