@@ -1,3 +1,5 @@
+#define IN_SAMPGDK
+
 #include "sampgdk.h"
 
 #if SAMPGDK_WINDOWS
