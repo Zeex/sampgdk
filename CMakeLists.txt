@@ -255,11 +255,10 @@ endif()
 set_target_properties(sampgdk PROPERTIES
   VERSION       ${SAMPGDK_VERSION}
   SOVERSION     ${SAMPGDK_VERSION_MAJOR}
+  DEFINE_SYMBOL IN_SAMPGDK
   OUTPUT_NAME   ${SAMPGDK_OUTPUT_NAME}
   DEBUG_POSTFIX d
 )
-
-target_compile_definitions(sampgdk PRIVATE IN_SAMPGDK)
 
 if(SAMPGDK_STATIC)
   target_compile_definitions(sampgdk PUBLIC SAMPGDK_STATIC)

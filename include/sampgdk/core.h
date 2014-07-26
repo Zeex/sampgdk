@@ -37,6 +37,11 @@
  */
 
 /**
+ * \brief Hidden parameter type. Don't use this.
+ */
+typedef int sampgdk_hidden_t;
+
+/**
  * \brief Returns supported SDK version.
  *
  * This function should be called from Supports():
@@ -70,7 +75,7 @@ SAMPGDK_API(unsigned int, sampgdk_Supports(void));
  *
  * \see sampgdk_Unload()
  */
-SAMPGDK_API(bool, sampgdk_Load(void **ppData));
+SAMPGDK_API(bool, sampgdk_Load(void **ppData, sampgdk_hidden_t));
 
 /**
  * \brief Shuts everything down (opposite of sampgdk_Load()).
@@ -87,7 +92,7 @@ SAMPGDK_API(bool, sampgdk_Load(void **ppData));
  *
  * \see sampgdk_Load()
  */
-SAMPGDK_API(void, sampgdk_Unload(void));
+SAMPGDK_API(void, sampgdk_Unload(sampgdk_hidden_t));
 
 /**
  * \brief Processes timers created by the calling plugin.
@@ -100,7 +105,7 @@ SAMPGDK_API(void, sampgdk_Unload(void));
  * }
  * \endcode
  */
-SAMPGDK_API(void, sampgdk_ProcessTick(void));
+SAMPGDK_API(void, sampgdk_ProcessTick(sampgdk_hidden_t));
 
 /**
  * \brief Prints a message to the server log.
@@ -128,6 +133,10 @@ SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...));
 SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
 /** @} */
+
+#define sampgdk_Load(ppData)  sampgdk_Load(ppData, 0)
+#define sampgdk_Unload()      sampgdk_Unload(0)
+#define sampgdk_ProcessTick() sampgdk_ProcessTick(0)
 
 #ifdef __cplusplus
 
