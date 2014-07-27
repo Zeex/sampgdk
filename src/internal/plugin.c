@@ -106,13 +106,12 @@ void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
 }
 
 void *sampgdk_plugin_get_handle(void *address) {
-  HMODULE module;
-  if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT |
-                        GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS,
-                        address, &module) != 0) {
-    return module;
+  MEMORY_BASIC_INFORMATION mbi;
+  assert(address != NULL);
+  if (VirtualQuery(address, &mbi, sizeof(mbi)) == 0) {
+    return NULL;
   }
-  return NULL;
+  return (void*)mbi.AllocationBase;
 }
 
 void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
