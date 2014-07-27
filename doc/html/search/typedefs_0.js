@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['timercallback',['TimerCallback',['../group__natives.html#ga6a7d774ae4cb48a90d731f23d7f8e648',1,'types.h']]]
+  ['sampgdk_5fhidden_5ft',['sampgdk_hidden_t',['../group__core.html#ga97dbc92e6345b70331f063ac339d01f2',1,'core.h']]]
 ];

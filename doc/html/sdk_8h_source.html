@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">GDK
-   &#160;<span id="projectnumber">4.0.1</span>
+   &#160;<span id="projectnumber">4.0.2</span>
    </div>
    <div id="projectbrief">Writing SA-MP gamemodes in C/C++</div>
   </td>
@@ -160,39 +160,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">  #pragma GCC diagnostic pop</span></div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#if !defined IN_SAMPGDK</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">  #if defined _MSC_VER</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">    #pragma optimize(&quot;&quot;, off)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">  #elif defined __GNUC__</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor">    #pragma GCC optimize(&quot;-fno-optimize-sibling-calls&quot;)</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">  #endif</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="group__sdk.html#ga6cbd8bcb937ba12b10a383d91dc36d75">   88</a></span>&#160;<span class="preprocessor">#define AMX_EXEC_GDK (-10)</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;PLUGIN_EXPORT <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> PLUGIN_CALL <a class="code" href="group__sdk.html#ga32b6ea06d66d8ccd985eb29989f3dfe8">Supports</a>();</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;PLUGIN_EXPORT <span class="keywordtype">bool</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777">Load</a>(<span class="keywordtype">void</span> **ppData);</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="group__sdk.html#ga6cbd8bcb937ba12b10a383d91dc36d75">   80</a></span>&#160;<span class="preprocessor">#define AMX_EXEC_GDK (-10)</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;PLUGIN_EXPORT <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> PLUGIN_CALL <a class="code" href="group__sdk.html#ga32b6ea06d66d8ccd985eb29989f3dfe8">Supports</a>();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;PLUGIN_EXPORT <span class="keywordtype">bool</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777">Load</a>(<span class="keywordtype">void</span> **ppData);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;PLUGIN_EXPORT <span class="keywordtype">void</span> PLUGIN_CALL <a class="code" href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524">Unload</a>();</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;PLUGIN_EXPORT <span class="keywordtype">void</span> PLUGIN_CALL <a class="code" href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524">Unload</a>();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;PLUGIN_EXPORT <span class="keywordtype">int</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gab9ab1d3557a62c43781147172136d619">AmxLoad</a>(AMX *amx);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;PLUGIN_EXPORT <span class="keywordtype">int</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gac4a882c4ebe4f232e6c12671c265e694">AmxUnload</a>(AMX *amx);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;PLUGIN_EXPORT <span class="keywordtype">void</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6">ProcessTick</a>();</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_AMX_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="group__sdk_html_ga3b6de0309d755948fc19f38c1cda9524"><div class="ttname"><a href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524">Unload</a></div><div class="ttdeci">void Unload()</div><div class="ttdoc">Gets called when the plugin is unloaded. </div><div class="ttdef"><b>Definition:</b> core.h:153</div></div>
-<div class="ttc" id="group__sdk_html_gace19ceec3ad2e2626fa4fd15d27ad777"><div class="ttname"><a href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777">Load</a></div><div class="ttdeci">bool Load(void **ppData)</div><div class="ttdoc">Gets called when the plugin is loaded. </div><div class="ttdef"><b>Definition:</b> core.h:148</div></div>
-<div class="ttc" id="group__sdk_html_ga32b6ea06d66d8ccd985eb29989f3dfe8"><div class="ttname"><a href="group__sdk.html#ga32b6ea06d66d8ccd985eb29989f3dfe8">Supports</a></div><div class="ttdeci">unsigned int Supports()</div><div class="ttdoc">Gets called before Load() to check for compatibility. </div><div class="ttdef"><b>Definition:</b> core.h:143</div></div>
-<div class="ttc" id="group__sdk_html_gae02f4b046d3e72de81e9b7154d6b40a6"><div class="ttname"><a href="group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6">ProcessTick</a></div><div class="ttdeci">void ProcessTick()</div><div class="ttdoc">Gets called on every server tick. </div><div class="ttdef"><b>Definition:</b> core.h:158</div></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;PLUGIN_EXPORT <span class="keywordtype">int</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gab9ab1d3557a62c43781147172136d619">AmxLoad</a>(AMX *amx);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;PLUGIN_EXPORT <span class="keywordtype">int</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gac4a882c4ebe4f232e6c12671c265e694">AmxUnload</a>(AMX *amx);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;PLUGIN_EXPORT <span class="keywordtype">void</span> PLUGIN_CALL <a class="code" href="group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6">ProcessTick</a>();</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* !SAMPGDK_AMX_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="group__sdk_html_ga3b6de0309d755948fc19f38c1cda9524"><div class="ttname"><a href="group__sdk.html#ga3b6de0309d755948fc19f38c1cda9524">Unload</a></div><div class="ttdeci">void Unload()</div><div class="ttdoc">Gets called when the plugin is unloaded. </div><div class="ttdef"><b>Definition:</b> core.h:162</div></div>
+<div class="ttc" id="group__sdk_html_gace19ceec3ad2e2626fa4fd15d27ad777"><div class="ttname"><a href="group__sdk.html#gace19ceec3ad2e2626fa4fd15d27ad777">Load</a></div><div class="ttdeci">bool Load(void **ppData)</div><div class="ttdoc">Gets called when the plugin is loaded. </div><div class="ttdef"><b>Definition:</b> core.h:157</div></div>
+<div class="ttc" id="group__sdk_html_ga32b6ea06d66d8ccd985eb29989f3dfe8"><div class="ttname"><a href="group__sdk.html#ga32b6ea06d66d8ccd985eb29989f3dfe8">Supports</a></div><div class="ttdeci">unsigned int Supports()</div><div class="ttdoc">Gets called before Load() to check for compatibility. </div><div class="ttdef"><b>Definition:</b> core.h:152</div></div>
+<div class="ttc" id="group__sdk_html_gae02f4b046d3e72de81e9b7154d6b40a6"><div class="ttname"><a href="group__sdk.html#gae02f4b046d3e72de81e9b7154d6b40a6">ProcessTick</a></div><div class="ttdeci">void ProcessTick()</div><div class="ttdoc">Gets called on every server tick. </div><div class="ttdef"><b>Definition:</b> core.h:167</div></div>
 <div class="ttc" id="group__sdk_html_gab9ab1d3557a62c43781147172136d619"><div class="ttname"><a href="group__sdk.html#gab9ab1d3557a62c43781147172136d619">AmxLoad</a></div><div class="ttdeci">int AmxLoad(AMX *amx)</div><div class="ttdoc">Gets called when a new script is loaded. </div></div>
 <div class="ttc" id="group__sdk_html_gac4a882c4ebe4f232e6c12671c265e694"><div class="ttname"><a href="group__sdk.html#gac4a882c4ebe4f232e6c12671c265e694">AmxUnload</a></div><div class="ttdeci">int AmxUnload(AMX *amx)</div><div class="ttdoc">Gets called when a script is unloaded. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 24 2014 23:42:23 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jul 27 2014 15:08:35 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.7
 </small></address>
