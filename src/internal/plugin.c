@@ -27,82 +27,64 @@
   #include <string.h>
 #endif
 
+#include "array.h"
+#include "init.h"
 #include "plugin.h"
 
-static struct sampgdk_plugin_list *_sampgdk_plugins;
+static struct sampgdk_array _sampgdk_plugins;
 
-int sampgdk_plugin_register(void *plugin) {
-  struct sampgdk_plugin_list *ptr;
-
-  assert(plugin != NULL);
-
-  ptr = malloc(sizeof(*ptr));
-  if (ptr == NULL) {
-    return -ENOMEM;
-  }
-
-  ptr->plugin = plugin;
-  ptr->next = _sampgdk_plugins;
-  _sampgdk_plugins = ptr;
-
-  return 0;
+SAMPGDK_MODULE_INIT(plugin) {
+  return sampgdk_array_new(&_sampgdk_plugins,
+                           1,
+                           sizeof(struct sampgdk_plugin));
 }
 
-int sampgdk_plugin_unregister(void *plugin) {
-  struct sampgdk_plugin_list *prev;
-  struct sampgdk_plugin_list *cur;
+SAMPGDK_MODULE_CLEANUP(plugin) {
+  sampgdk_array_free(&_sampgdk_plugins);
+}
 
-  assert(plugin != NULL);
+int sampgdk_plugin_register(void *handle) {
+  struct sampgdk_plugin plugin;
 
-  cur = _sampgdk_plugins;
-  prev = NULL;
+  assert(handle != NULL);
 
-  while (cur != NULL) {
-    if (cur->plugin != plugin) {
-      continue;
+  plugin.handle = handle;
+  return sampgdk_array_append(&_sampgdk_plugins, &plugin);
+}
+
+int sampgdk_plugin_unregister(void *handle) {
+  int i;
+  struct sampgdk_plugin *plugin;
+
+  assert(handle != NULL);
+
+  for (i = 0; i < _sampgdk_plugins.count; i++) {
+    plugin = sampgdk_array_get(&_sampgdk_plugins, i);
+    if (plugin->handle == handle) {
+      plugin->handle = NULL;
+      return 0;
     }
-
-    if (prev != NULL) {
-      prev->next = cur->next;
-    } else {
-      assert(_sampgdk_plugins == cur);
-      _sampgdk_plugins = cur->next;
-    }
-
-    free(cur);
-    return 0;
   }
 
   return -EINVAL;
 }
 
-bool sampgdk_plugin_is_registered(void *plugin) {
-  struct sampgdk_plugin_list *cur;
-
-  assert(plugin != NULL);
-
-  cur = _sampgdk_plugins;
-
-  while (cur != NULL) {
-    if (cur->plugin == plugin) {
-      return true;
-    }
-    cur = cur->next;
-  }
-
-  return false;
+struct sampgdk_plugin *sampgdk_plugin_table(int *number) {
+  assert(number != NULL);
+  *number = _sampgdk_plugins.count;
+  return _sampgdk_plugins.data;
 }
 
-struct sampgdk_plugin_list *sampgdk_plugin_get_list(void) {
-  return _sampgdk_plugins;
+int sampgdk_plugin_count(void) {
+  return _sampgdk_plugins.count;
 }
 
 #if SAMPGDK_WINDOWS
 
-void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
-  assert(plugin != NULL);
+void *sampgdk_plugin_get_symbol(void *handle, const char *name)  {
+  assert(handle != NULL);
   assert(name != NULL);
-  return (void*)GetProcAddress((HMODULE)plugin, name);
+  return (void*)GetProcAddress((HMODULE)handle, name);
 }
 
 void *sampgdk_plugin_get_handle(void *address) {
@@ -123,10 +105,10 @@ void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
 
 #else /* SAMPGDK_WINDOWS */
 
-void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
-  assert(plugin != NULL);
+void *sampgdk_plugin_get_symbol(void *handle, const char *name)  {
+  assert(handle != NULL);
   assert(name != NULL);
-  return dlsym(plugin, name);
+  return dlsym(handle, name);
 }
 
 void *sampgdk_plugin_get_handle(void *address) {

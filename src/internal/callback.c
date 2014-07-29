@@ -21,10 +21,22 @@
 #include "array.h"
 #include "callback.h"
 #include "init.h"
+#include "log.h"
 #include "param.h"
 #include "plugin.h"
 
+#define _SAMPGDK_PUBLIC_FILTER_NAME "OnPublicCall"
+
 static struct sampgdk_array _sampgdk_callbacks;
+
+struct _sampgdk_callback_cache_item {
+  void *plugin;
+  void *func;
+};
+
+struct _sampgdk_callback_cache {
+  struct sampgdk_array items;
+};
 
 SAMPGDK_MODULE_INIT(callback) {
   int error;
@@ -40,17 +52,18 @@ SAMPGDK_MODULE_INIT(callback) {
     return error;
   }
 
-  return 0;
+  return sampgdk_callback_register(_SAMPGDK_PUBLIC_FILTER_NAME, NULL);
 }
 
 SAMPGDK_MODULE_CLEANUP(callback) {
-  int index;
+  int i;
+  struct sampgdk_callback *callback;
 
-  for (index = 0; index < _sampgdk_callbacks.count; index++) {
-    struct sampgdk_callback *info =
-      (struct sampgdk_callback *)sampgdk_array_get(&_sampgdk_callbacks,
-                                                   index);
-    free(info->name);
+  for (i = 0; i < _sampgdk_callbacks.count; i++) {
+    callback = sampgdk_array_get(&_sampgdk_callbacks, i);
+    sampgdk_array_free(&callback->cache->items);
+    free(callback->cache);
+    free(callback->name);
   }
 
   sampgdk_array_free(&_sampgdk_callbacks);
@@ -80,11 +93,10 @@ struct sampgdk_callback *sampgdk_callback_find(const char *name) {
 int sampgdk_callback_register(const char *name,
                               sampgdk_callback_handler handler) {
   int error;
-  struct sampgdk_callback info;
+  struct sampgdk_callback callback;
   struct sampgdk_callback *ptr;
- 
+
   assert(name != NULL);
-  assert(handler != NULL);
 
   ptr = sampgdk_callback_find(name);
   if (ptr != NULL) {
@@ -92,24 +104,41 @@ int sampgdk_callback_register(const char *name,
     return 0;
   }
 
-  info.name = malloc(strlen(name) + 1);
-  if (info.name == NULL) {
+  callback.name = malloc(strlen(name) + 1);
+  if (callback.name == NULL) {
     return -ENOMEM;
   }
 
-  info.handler = handler;
-  strcpy(info.name, name);
+  callback.handler = handler;
+  strcpy(callback.name, name);
 
-  error = sampgdk_array_insert_ordered(&_sampgdk_callbacks,
-                                       &info,
-                                       _sampgdk_callback_compare);
+  callback.cache = calloc(1, sizeof(struct sampgdk_array));
+  if (callback.cache == NULL) {
+    free(callback.name);
+    return -ENOMEM;
+  }
 
+  error = sampgdk_array_new(&callback.cache->items,
+                            1,
+                            sizeof(struct _sampgdk_callback_cache_item));
   if (error < 0) {
-    free(info.name);
+    free(callback.cache);
+    free(callback.name);
     return error;
   }
 
-  return 0;
+  error = sampgdk_array_insert_ordered(&_sampgdk_callbacks,
+                                       &callback,
+                                       _sampgdk_callback_compare);
+
+  if (error < 0) {
+    sampgdk_array_free(&callback.cache->items);
+    free(callback.cache);
+    free(callback.name);
+    return error;
+  }
+
+  return error; /* i */
 }
 
 int sampgdk_callback_register_table(const struct sampgdk_callback *table) {
@@ -127,14 +156,13 @@ int sampgdk_callback_register_table(const struct sampgdk_callback *table) {
 }
 
 void sampgdk_callback_unregister(const char *name) {
-  const struct sampgdk_callback *ptr;
-  int index;
+  int i;
+  const struct sampgdk_callback *callback;
 
-  for (index = 0; index < _sampgdk_callbacks.count; index++) {
-    ptr = (const struct sampgdk_callback *)
-      sampgdk_array_get(&_sampgdk_callbacks, index);
-    if (strcmp(ptr->name, name) == 0) {
-      sampgdk_array_remove_single(&_sampgdk_callbacks, index);
+  for (i = 0; i < _sampgdk_callbacks.count; i++) {
+    callback = sampgdk_array_get(&_sampgdk_callbacks, i);
+    if (strcmp(callback->name, name) == 0) {
+      sampgdk_array_remove_single(&_sampgdk_callbacks, i);
       break;
     }
   }
@@ -148,51 +176,55 @@ void sampgdk_callback_unregister_table(const struct sampgdk_callback *table) {
   }
 }
 
-static bool call_public_filter(void *plugin, AMX *amx, const char *name,
-                               cell *retval) {
-  void *func;
-  cell *params;
-
-  func = sampgdk_plugin_get_symbol(plugin, "OnPublicCall");
-  if (func != NULL) {
-    typedef bool (PLUGIN_CALL *public_filter)(AMX *amx, const char *name,
-                                              cell *params, cell *retval);
-    sampgdk_param_get_all(amx, true, &params);
-    return ((public_filter)func)(amx, name, params, retval);
-  }
-
-  return true;
-}
-
-static bool call_public_handler(void *plugin, AMX *amx, const char *name,
-                                cell *retval) {
-  void *func;
+void sampgdk_callback_scan_plugin(void *plugin) {
+  int i;
   struct sampgdk_callback *callback;
+  struct _sampgdk_callback_cache_item item = {plugin, NULL};
 
-  func = sampgdk_plugin_get_symbol(plugin, name);
-  if (func != NULL) {
-    callback = sampgdk_callback_find(name);
-    if (callback != NULL) {
-      return callback->handler(amx, func, retval);
-    }
+  assert(plugin != NULL);
+
+  for (i = 0; i < _sampgdk_callbacks.count; i++) {
+    callback = sampgdk_array_get(&_sampgdk_callbacks, i);
+    item.func = sampgdk_plugin_get_symbol(plugin, callback->name);
+    sampgdk_array_append(&callback->cache->items, &item);
   }
-
-  return true;
 }
 
 bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
-  struct sampgdk_plugin_list *plugin_list;
-  
+  struct sampgdk_callback *callback;
+  struct sampgdk_callback *filter_callback;
+  int i;
+  struct _sampgdk_callback_cache_item *ci;
+  cell *params;
+
   assert(amx != NULL);
   assert(name != NULL);
 
-  plugin_list = sampgdk_plugin_get_list();
-  while (plugin_list != NULL) {
-    if (call_public_filter(plugin_list->plugin, amx, name, retval) &&
-        !call_public_handler(plugin_list->plugin, amx, name, retval)) {
+  callback = sampgdk_callback_find(name);
+  if (callback == NULL || callback->handler == NULL) {
+    return true;
+  }
+
+  filter_callback = sampgdk_callback_find(_SAMPGDK_PUBLIC_FILTER_NAME);
+  assert(filter_callback != NULL);
+
+  typedef bool (PLUGIN_CALL *filter_func)(
+      AMX *amx, const char *name, cell *params, cell *retval);
+
+  sampgdk_param_get_all(amx, true, &params);
+
+  for (i = 0; i < callback->cache->items.count; i++) {
+    ci = sampgdk_array_get(&filter_callback->cache->items, i);
+    if (ci->func != NULL
+        && !((filter_func)ci->func)(amx, name, params, retval)) {
+      continue;
+    }
+    ci = sampgdk_array_get(&callback->cache->items, i);
+    if (ci->func != NULL
+        && callback->handler != NULL
+        && !callback->handler(amx, ci->func, retval)) {
       return false;
     }
-    plugin_list = plugin_list->next;
   }
 
   return true;
