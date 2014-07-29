@@ -261,12 +261,10 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
 
 static int _sampgdk_amxhooks_create(void) {
   #define _SAMPGDK_AMXHOOKS_CREATE_HOOK(name) \
-    if ((_sampgdk_amxhooks_##name##_hook = sampgdk_hook_new()) == NULL) \
-      goto no_memory; \
-    sampgdk_hook_set_src(_sampgdk_amxhooks_##name##_hook, \
-                         sampgdk_amx_api_ptr->name); \
-    sampgdk_hook_set_dst(_sampgdk_amxhooks_##name##_hook, \
-                         (void*)_sampgdk_amxhooks_##name);
+    if ((_sampgdk_amxhooks_##name##_hook = \
+        sampgdk_hook_new(sampgdk_amx_api_ptr->name, \
+                         (void*)_sampgdk_amxhooks_##name)) == NULL) \
+      goto no_memory;
   _SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_CREATE_HOOK)
   return 0;
 no_memory:

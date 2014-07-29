@@ -19,16 +19,10 @@
 struct _sampgdk_hook;
 typedef struct _sampgdk_hook *sampgdk_hook_t;
 
-sampgdk_hook_t sampgdk_hook_new();
+sampgdk_hook_t sampgdk_hook_new(void *src, void *dst);
 void sampgdk_hook_free(sampgdk_hook_t hook);
 
-void sampgdk_hook_set_src(sampgdk_hook_t hook, void *src);
-void *sampgdk_hook_get_src(sampgdk_hook_t hook);
-
-void sampgdk_hook_set_dst(sampgdk_hook_t hook, void *dst);
-void *sampgdk_hook_get_dst(sampgdk_hook_t hook);
-
-int sampgdk_hook_install(sampgdk_hook_t hook);
-int sampgdk_hook_remove(sampgdk_hook_t hook);
+void sampgdk_hook_install(sampgdk_hook_t hook);
+void sampgdk_hook_remove(sampgdk_hook_t hook);
 
 #endif /* !SAMPGDK_INTERNAL_HOOK_H */

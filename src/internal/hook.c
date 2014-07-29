@@ -18,7 +18,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <sampgdk/bool.h>
 #include <sampgdk/platform.h>
 
 #if SAMPGDK_WINDOWS
@@ -45,7 +44,6 @@ static const unsigned char jmp_instr[] =
   { _SAMPGDK_JMP_OPCODE, 0x0, 0x0, 0x0, 0x0 };
 
 struct _sampgdk_hook {
-  bool installed;
   void *src;
   void *dst;
   unsigned char code[sizeof(jmp_instr)];
@@ -78,11 +76,16 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
 
 #endif /* !SAMPGDK_WINDOWS */
 
-sampgdk_hook_t sampgdk_hook_new() {
+sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
   struct _sampgdk_hook *hook;
 
   if ((hook = calloc(1, sizeof(*hook))) == NULL)
     return NULL;
+
+  hook->src = src;
+  hook->dst = dst;
+
+  _sampgdk_hook_unprotect(src, sizeof(jmp_instr));
 
   return (sampgdk_hook_t)hook;
 }
@@ -91,50 +94,20 @@ void sampgdk_hook_free(sampgdk_hook_t hook) {
   free(hook);
 }
 
-void *sampgdk_hook_get_src(sampgdk_hook_t hook) {
-  return hook->src;
-}
-
-void *sampgdk_hook_get_dst(sampgdk_hook_t hook) {
-  return hook->dst;
-}
-
-void sampgdk_hook_set_src(sampgdk_hook_t hook, void *src) {
-  hook->src = src;
-}
-
-void sampgdk_hook_set_dst(sampgdk_hook_t hook, void *dst) {
-  hook->dst = dst;
-}
-
-int sampgdk_hook_install(sampgdk_hook_t hook) {
-  void *src;
-  void *dst;
+void sampgdk_hook_install(sampgdk_hook_t hook) {
   intptr_t offset;
 
-  if (hook->installed)
-    return -EINVAL;
+  memcpy(hook->code, hook->src, sizeof(jmp_instr));
+  memcpy(hook->src, &jmp_instr, sizeof(jmp_instr));
 
-  src = hook->src;
-  dst = hook->dst;
+  offset = (intptr_t)hook->dst
+         - ((intptr_t)hook->src + sizeof(jmp_instr));
 
-  _sampgdk_hook_unprotect(src, sizeof(jmp_instr));
-  memcpy(hook->code, src, sizeof(jmp_instr));
-  memcpy(src, &jmp_instr, sizeof(jmp_instr));
-
-  offset = (intptr_t)dst - ((intptr_t)src + sizeof(jmp_instr));
-  memcpy((void *)((intptr_t)src + sizeof(jmp_opcode)), &offset,
-        sizeof(jmp_instr) - sizeof(jmp_opcode));
-
-  hook->installed = 1;
-  return 0;
+  memcpy((void *)((intptr_t)hook->src + sizeof(jmp_opcode)),
+         &offset,
+         sizeof(jmp_instr) - sizeof(jmp_opcode));
 }
 
-int sampgdk_hook_remove(sampgdk_hook_t hook) {
-  if (!hook->installed)
-    return -EINVAL;
-
+void sampgdk_hook_remove(sampgdk_hook_t hook) {
   memcpy(hook->src, hook->code, sizeof(jmp_instr));
-  hook->installed = 0;
-  return 0;
 }
