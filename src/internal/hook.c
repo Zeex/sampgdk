@@ -31,22 +31,27 @@
 #include "hook.h"
 
 #if defined _MSC_VER
-  typedef __int32 int32_t;
-  typedef __int32 intptr_t;
+  typedef __int32 _sampgdk_hook_intptr_t;
 #else
   #include <stdint.h>
+  typedef intptr_t _sampgdk_hook_intptr_t;
 #endif
 
-#define _SAMPGDK_JMP_OPCODE 0xE9
+#define _SAMPGDK_HOOK_JMP_OPCODE 0xE9
 
-static const unsigned char jmp_opcode = _SAMPGDK_JMP_OPCODE;
-static const unsigned char jmp_instr[] =
-  { _SAMPGDK_JMP_OPCODE, 0x0, 0x0, 0x0, 0x0 };
+#pragma pack(push, 1)
+
+struct _sampgdk_hook_jmp {
+  unsigned char          opcpde;
+  _sampgdk_hook_intptr_t offset;
+};
+
+#pragma pack(pop)
 
 struct _sampgdk_hook {
   void *src;
   void *dst;
-  unsigned char code[sizeof(jmp_instr)];
+  unsigned char code[sizeof(struct _sampgdk_hook_jmp)];
 };
 
 #if SAMPGDK_WINDOWS
@@ -63,10 +68,10 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
 #else /* SAMPGDK_WINDOWS */
 
 static void *_sampgdk_hook_unprotect(void *address, size_t size) {
-  intptr_t pagesize;
+  _sampgdk_hook_intptr_t pagesize;
 
   pagesize = sysconf(_SC_PAGESIZE);
-  address = (void *)((intptr_t)address & ~(pagesize - 1));
+  address = (void *)((_sampgdk_hook_intptr_t)address & ~(pagesize - 1));
 
   if (mprotect(address, size, PROT_READ | PROT_WRITE | PROT_EXEC) != 0)
     return NULL;
@@ -84,8 +89,9 @@ sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
 
   hook->src = src;
   hook->dst = dst;
+  memcpy(hook->code, src, sizeof(hook->code));
 
-  _sampgdk_hook_unprotect(src, sizeof(jmp_instr));
+  _sampgdk_hook_unprotect(src, sizeof(struct _sampgdk_hook_jmp));
 
   return (sampgdk_hook_t)hook;
 }
@@ -95,19 +101,15 @@ void sampgdk_hook_free(sampgdk_hook_t hook) {
 }
 
 void sampgdk_hook_install(sampgdk_hook_t hook) {
-  intptr_t offset;
+  struct _sampgdk_hook_jmp jmp;
 
-  memcpy(hook->code, hook->src, sizeof(jmp_instr));
-  memcpy(hook->src, &jmp_instr, sizeof(jmp_instr));
+  jmp.opcpde = _SAMPGDK_HOOK_JMP_OPCODE;
+  jmp.offset =  (_sampgdk_hook_intptr_t)hook->dst - (
+                (_sampgdk_hook_intptr_t)hook->src + sizeof(jmp));
 
-  offset = (intptr_t)hook->dst
-         - ((intptr_t)hook->src + sizeof(jmp_instr));
-
-  memcpy((void *)((intptr_t)hook->src + sizeof(jmp_opcode)),
-         &offset,
-         sizeof(jmp_instr) - sizeof(jmp_opcode));
+  memcpy(hook->src, &jmp, sizeof(jmp));
 }
 
 void sampgdk_hook_remove(sampgdk_hook_t hook) {
-  memcpy(hook->src, hook->code, sizeof(jmp_instr));
+  memcpy(hook->src, hook->code, sizeof(hook->code));
 }
