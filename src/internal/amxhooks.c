@@ -173,7 +173,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
       _sampgdk_amxhooks_main_amx = amx;
     }
   } else {
-    if (index != AMX_EXEC_CONT && _sampgdk_amxhooks_public_name != NULL
+    if (index != AMX_EXEC_CONT
         && (amx == _sampgdk_amxhooks_main_amx || amx == sampgdk_fakeamx_amx())) {
       proceed = sampgdk_callback_invoke(amx,
                                         _sampgdk_amxhooks_public_name,
