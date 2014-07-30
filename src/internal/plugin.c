@@ -34,42 +34,50 @@
 static struct sampgdk_array _sampgdk_plugins;
 
 SAMPGDK_MODULE_INIT(plugin) {
-  return sampgdk_array_new(&_sampgdk_plugins,
-                           1,
-                           sizeof(struct sampgdk_plugin));
+  return sampgdk_array_new(&_sampgdk_plugins, 1, sizeof(void*));
 }
 
 SAMPGDK_MODULE_CLEANUP(plugin) {
   sampgdk_array_free(&_sampgdk_plugins);
 }
 
-int sampgdk_plugin_register(void *handle) {
-  struct sampgdk_plugin plugin;
-
-  assert(handle != NULL);
-
-  plugin.handle = handle;
-  return sampgdk_array_append(&_sampgdk_plugins, &plugin);
-}
-
-int sampgdk_plugin_unregister(void *handle) {
-  int i;
-  struct sampgdk_plugin *plugin;
-
-  assert(handle != NULL);
-
-  for (i = 0; i < _sampgdk_plugins.count; i++) {
-    plugin = sampgdk_array_get(&_sampgdk_plugins, i);
-    if (plugin->handle == handle) {
-      plugin->handle = NULL;
-      return 0;
-    }
+int sampgdk_plugin_register(void *plugin) {
+  assert(plugin != NULL);
+  if (!sampgdk_plugin_is_registered(plugin)) {
+    return sampgdk_array_append(&_sampgdk_plugins, &plugin);
   }
-
   return -EINVAL;
 }
 
-struct sampgdk_plugin *sampgdk_plugin_table(int *number) {
+bool sampgdk_plugin_is_registered(void *plugin) {
+  int i;
+  void **p;
+
+  assert(plugin != NULL);
+  for (i = 0; i < _sampgdk_plugins.count; i++) {
+    p = sampgdk_array_get(&_sampgdk_plugins, i);
+    if (*p == plugin) {
+      return true;
+    }
+  }
+  return false;
+}
+
+int sampgdk_plugin_unregister(void *plugin) {
+  int i;
+  void **p;
+
+  assert(plugin != NULL);
+  for (i = 0; i < _sampgdk_plugins.count; i++) {
+    p = sampgdk_array_get(&_sampgdk_plugins, i);
+    if (*p == plugin) {
+      return sampgdk_array_remove_single(&_sampgdk_plugins, i);
+    }
+  }
+  return -EINVAL;
+}
+
+void **sampgdk_plugin_table(int *number) {
   assert(number != NULL);
   *number = _sampgdk_plugins.count;
   return _sampgdk_plugins.data;
@@ -81,10 +89,10 @@ int sampgdk_plugin_count(void) {
 
 #if SAMPGDK_WINDOWS
 
-void *sampgdk_plugin_get_symbol(void *handle, const char *name)  {
-  assert(handle != NULL);
+void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
+  assert(plugin != NULL);
   assert(name != NULL);
-  return (void*)GetProcAddress((HMODULE)handle, name);
+  return (void*)GetProcAddress((HMODULE)plugin, name);
 }
 
 void *sampgdk_plugin_get_handle(void *address) {
@@ -105,10 +113,10 @@ void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
 
 #else /* SAMPGDK_WINDOWS */
 
-void *sampgdk_plugin_get_symbol(void *handle, const char *name)  {
-  assert(handle != NULL);
+void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
+  assert(plugin != NULL);
   assert(name != NULL);
-  return dlsym(handle, name);
+  return dlsym(plugin, name);
 }
 
 void *sampgdk_plugin_get_handle(void *address) {
