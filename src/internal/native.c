@@ -57,11 +57,11 @@ int sampgdk_native_register(const char *name, AMX_NATIVE func) {
 
   assert(name != 0);
 
-  /* Always keep _sampgdk_natives ordered by name.
+  /* Keep natives ordered by name.
    * This allows us to use binary search in sampgdk_native_find().
    */
   for (index = 0; index < _sampgdk_natives.count - 1; index++) {
-    ptr = (AMX_NATIVE_INFO *)sampgdk_array_get(&_sampgdk_natives, index);
+    ptr = sampgdk_array_get(&_sampgdk_natives, index);
     if (strcmp(name, ptr->name) <= 0) {
       break;
     }
@@ -144,7 +144,7 @@ const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number) {
   if (number != NULL) {
     *number = _sampgdk_natives.count - 1;
   }
-  return (const AMX_NATIVE_INFO*)_sampgdk_natives.data;
+  return _sampgdk_natives.data;
 }
 
 cell sampgdk_native_call(AMX_NATIVE native, cell *params) {

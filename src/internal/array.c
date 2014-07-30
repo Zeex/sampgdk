@@ -152,7 +152,6 @@ int sampgdk_array_insert(struct sampgdk_array *a,
   assert(a != NULL);
   assert(elems != NULL);
   assert(index >= 0);
-  assert(index < a->count);
 
   if (count <= 0) {
     return -EINVAL;
@@ -187,21 +186,6 @@ int sampgdk_array_insert_single(struct sampgdk_array *a,
   assert(a != NULL);
   assert(elem != NULL);
   return sampgdk_array_insert(a, index, 1, elem);
-}
-
-int sampgdk_array_insert_ordered(struct sampgdk_array *a,
-                                 void *elem,
-                                 sampgdk_array_cmp cmp)
-{
-  int index;
-
-  for (index = 0; index < a->count; index++) {
-    if (cmp(sampgdk_array_get(a, index), elem) >= 0) {
-      return sampgdk_array_insert_single(a, index, elem);
-    }
-  }
-
-  return sampgdk_array_append(a, elem);
 }
 
 int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
