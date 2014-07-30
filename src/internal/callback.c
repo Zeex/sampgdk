@@ -74,12 +74,25 @@ static int _sampgdk_callback_compare(const void *c1, const void *c2) {
                 ((const struct sampgdk_callback*)c2)->name);
 }
 
-static int _sampgdk_callback_compare_bsearch(const void *key,
-                                             const void *elem) {
+static int _sampgdk_callback_compare_name(const void *key,
+                                          const void *elem) {
   assert(key != NULL);
   assert(elem != NULL);
   return strcmp((const char *)key,
                 ((const struct sampgdk_callback *)elem)->name);
+}
+
+static int _sampgdk_callback_compare_cache_plugin(const void *key,
+                                                  const void *elem) {
+  const struct _sampgdk_callback_cache_item *item = elem;
+
+  assert(key != NULL);
+  assert(elem != NULL);
+
+  if (key < item->plugin) return -1;
+  if (key > item->plugin) return +1;
+
+  return 0;
 }
 
 struct sampgdk_callback *sampgdk_callback_find(const char *name) {
@@ -87,7 +100,7 @@ struct sampgdk_callback *sampgdk_callback_find(const char *name) {
   return bsearch(name, _sampgdk_callbacks.data,
                        _sampgdk_callbacks.count,
                        _sampgdk_callbacks.elem_size,
-                       _sampgdk_callback_compare_bsearch);
+                       _sampgdk_callback_compare_name);
 }
 
 int sampgdk_callback_register(const char *name,
@@ -156,16 +169,9 @@ int sampgdk_callback_register_table(const struct sampgdk_callback *table) {
 }
 
 void sampgdk_callback_unregister(const char *name) {
-  int i;
-  const struct sampgdk_callback *callback;
-
-  for (i = 0; i < _sampgdk_callbacks.count; i++) {
-    callback = sampgdk_array_get(&_sampgdk_callbacks, i);
-    if (strcmp(callback->name, name) == 0) {
-      sampgdk_array_remove_single(&_sampgdk_callbacks, i);
-      break;
-    }
-  }
+  sampgdk_array_find_remove(&_sampgdk_callbacks,
+                            name,
+                            _sampgdk_callback_compare_name);
 }
 
 void sampgdk_callback_unregister_table(const struct sampgdk_callback *table) {
@@ -191,23 +197,16 @@ void sampgdk_callback_scan_plugin(void *plugin) {
 }
 
 void sampgdk_callback_forget_plugin(void *plugin) {
-  int i, j;
+  int i;
   struct sampgdk_callback *callback;
-  struct _sampgdk_callback_cache_item *item;
 
   assert(plugin != NULL);
 
   for (i = 0; i < _sampgdk_callbacks.count; i++) {
     callback = sampgdk_array_get(&_sampgdk_callbacks, i);
-
-    for (j = 0; j < callback->cache->items.count; j++) {
-      item = sampgdk_array_get(&callback->cache->items, j);
-
-      if (item->plugin == plugin) {
-        sampgdk_array_remove_single(&callback->cache->items, j);
-        break;
-      }
-    }
+    sampgdk_array_find_remove(&callback->cache->items,
+                              plugin,
+                              _sampgdk_callback_compare_cache_plugin);
   }
 }
 

@@ -41,6 +41,19 @@ SAMPGDK_MODULE_CLEANUP(plugin) {
   sampgdk_array_free(&_sampgdk_plugins);
 }
 
+static _sampgdk_plugin_compare_handle(const void *key,
+                                      const void *elem) {
+  const void *handle2 = *(const void**)elem;
+
+  assert(key != NULL);
+  assert(elem != NULL);
+
+  if (key < handle2) return -1;
+  if (key > handle2) return +1;
+
+  return 0;
+}
+
 int sampgdk_plugin_register(void *plugin) {
   assert(plugin != NULL);
   if (!sampgdk_plugin_is_registered(plugin)) {
@@ -50,31 +63,16 @@ int sampgdk_plugin_register(void *plugin) {
 }
 
 bool sampgdk_plugin_is_registered(void *plugin) {
-  int i;
-  void **p;
-
-  assert(plugin != NULL);
-  for (i = 0; i < _sampgdk_plugins.count; i++) {
-    p = sampgdk_array_get(&_sampgdk_plugins, i);
-    if (*p == plugin) {
-      return true;
-    }
-  }
-  return false;
+  return sampgdk_array_find(&_sampgdk_plugins,
+                            plugin,
+                            _sampgdk_plugin_compare_handle) >= 0;
 }
 
 int sampgdk_plugin_unregister(void *plugin) {
-  int i;
-  void **p;
-
   assert(plugin != NULL);
-  for (i = 0; i < _sampgdk_plugins.count; i++) {
-    p = sampgdk_array_get(&_sampgdk_plugins, i);
-    if (*p == plugin) {
-      return sampgdk_array_remove_single(&_sampgdk_plugins, i);
-    }
-  }
-  return -EINVAL;
+  return sampgdk_array_find_remove(&_sampgdk_plugins,
+                                   plugin,
+                                   _sampgdk_plugin_compare_handle);
 }
 
 void **sampgdk_plugin_table(int *number) {

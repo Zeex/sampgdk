@@ -191,12 +191,12 @@ int sampgdk_array_insert_single(struct sampgdk_array *a,
 
 int sampgdk_array_insert_ordered(struct sampgdk_array *a,
                                  void *elem,
-                                 int (*comp)(const void *x, const void *y))
+                                 sampgdk_array_cmp cmp)
 {
   int index;
 
   for (index = 0; index < a->count; index++) {
-    if (comp(sampgdk_array_get(a, index), elem) >= 0) {
+    if (cmp(sampgdk_array_get(a, index), elem) >= 0) {
       return sampgdk_array_insert_single(a, index, elem);
     }
   }
@@ -255,4 +255,43 @@ int sampgdk_array_append(struct sampgdk_array *a, void *elem) {
   sampgdk_array_set(a, a->count - 1, elem);
 
   return a->count - 1;
+}
+
+int sampgdk_array_find(struct sampgdk_array *a,
+                       const void *key,
+                       sampgdk_array_cmp cmp) {
+  int index;
+  void *cur;
+
+  assert(a != NULL);
+  assert(cmp != NULL);
+
+  for (index = 0; index < a->count; index++) {
+    cur = sampgdk_array_get(a, index);
+    if (cmp(key, cur) == 0) {
+      return index;
+    }
+  }
+
+  return -EINVAL;
+}
+
+int sampgdk_array_find_remove(struct sampgdk_array *a,
+                              const void *key,
+                              sampgdk_array_cmp cmp) {
+  int index;
+  void *cur;
+
+  assert(a != NULL);
+  assert(cmp != NULL);
+
+  for (index = 0; index < a->count; index++) {
+    cur = sampgdk_array_get(a, index);
+    if (cmp(key, cur) == 0) {
+      sampgdk_array_remove_single(a, index);
+      return index;
+    }
+  }
+
+  return -EINVAL;
 }
