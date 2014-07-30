@@ -190,6 +190,27 @@ void sampgdk_callback_scan_plugin(void *plugin) {
   }
 }
 
+void sampgdk_callback_forget_plugin(void *plugin) {
+  int i, j;
+  struct sampgdk_callback *callback;
+  struct _sampgdk_callback_cache_item *item;
+
+  assert(plugin != NULL);
+
+  for (i = 0; i < _sampgdk_callbacks.count; i++) {
+    callback = sampgdk_array_get(&_sampgdk_callbacks, i);
+
+    for (j = 0; j < callback->cache->items.count; j++) {
+      item = sampgdk_array_get(&callback->cache->items, j);
+
+      if (item->plugin == plugin) {
+        sampgdk_array_remove_single(&callback->cache->items, j);
+        break;
+      }
+    }
+  }
+}
+
 bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   struct sampgdk_callback *callback;
   struct sampgdk_callback *filter_callback;

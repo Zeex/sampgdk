@@ -82,6 +82,8 @@ static void _sampgdk_cleanup_plugin(void *plugin) {
     sampgdk_log_error_code(error);
   }
 
+  sampgdk_callback_forget_plugin(plugin);
+
   if (sampgdk_plugin_count() == 0) {
     _sampgdk_cleanup();
   }
