@@ -107,12 +107,6 @@ int sampgdk_callback_register(const char *name,
 
   assert(name != NULL);
 
-  ptr = sampgdk_callback_find(name);
-  if (ptr != NULL) {
-    ptr->handler = handler;
-    return 0;
-  }
-
   callback.name = malloc(strlen(name) + 1);
   if (callback.name == NULL) {
     return -ENOMEM;
