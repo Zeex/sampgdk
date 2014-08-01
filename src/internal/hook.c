@@ -23,27 +23,19 @@
 #if SAMPGDK_WINDOWS
   #include <windows.h>
 #else
-  #include <stdint.h>
   #include <unistd.h>
   #include <sys/mman.h>
 #endif
 
 #include "hook.h"
 
-#if defined _MSC_VER
-  typedef __int32 _sampgdk_hook_intptr_t;
-#else
-  #include <stdint.h>
-  typedef intptr_t _sampgdk_hook_intptr_t;
-#endif
-
 #define _SAMPGDK_HOOK_JMP_OPCODE 0xE9
 
 #pragma pack(push, 1)
 
 struct _sampgdk_hook_jmp {
-  unsigned char          opcpde;
-  _sampgdk_hook_intptr_t offset;
+  unsigned char opcpde;
+  ptrdiff_t     offset;
 };
 
 #pragma pack(pop)
@@ -68,10 +60,10 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
 #else /* SAMPGDK_WINDOWS */
 
 static void *_sampgdk_hook_unprotect(void *address, size_t size) {
-  _sampgdk_hook_intptr_t pagesize;
+  long pagesize;
 
   pagesize = sysconf(_SC_PAGESIZE);
-  address = (void *)((_sampgdk_hook_intptr_t)address & ~(pagesize - 1));
+  address = (void *)((long)address & ~(pagesize - 1));
 
   if (mprotect(address, size, PROT_READ | PROT_WRITE | PROT_EXEC) != 0)
     return NULL;
@@ -104,8 +96,8 @@ void sampgdk_hook_install(sampgdk_hook_t hook) {
   struct _sampgdk_hook_jmp jmp;
 
   jmp.opcpde = _SAMPGDK_HOOK_JMP_OPCODE;
-  jmp.offset =  (_sampgdk_hook_intptr_t)hook->dst - (
-                (_sampgdk_hook_intptr_t)hook->src + sizeof(jmp));
+  jmp.offset =  (unsigned char *)hook->dst - (
+                (unsigned char *)hook->src + sizeof(jmp));
 
   memcpy(hook->src, &jmp, sizeof(jmp));
 }
