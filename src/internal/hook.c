@@ -84,7 +84,7 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
 sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
   struct _sampgdk_hook *hook;
 
-  if ((hook = calloc(1, sizeof(*hook))) == NULL)
+  if ((hook = malloc(sizeof(*hook))) == NULL)
     return NULL;
 
   hook->src = src;
