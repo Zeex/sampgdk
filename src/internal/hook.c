@@ -82,7 +82,7 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
 #endif /* !SAMPGDK_WINDOWS */
 
 sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
-  struct _sampgdk_hook *hook;
+  sampgdk_hook_t hook;
 
   if ((hook = malloc(sizeof(*hook))) == NULL)
     return NULL;
@@ -93,7 +93,7 @@ sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
 
   _sampgdk_hook_unprotect(src, sizeof(struct _sampgdk_hook_jmp));
 
-  return (sampgdk_hook_t)hook;
+  return hook;
 }
 
 void sampgdk_hook_free(sampgdk_hook_t hook) {
