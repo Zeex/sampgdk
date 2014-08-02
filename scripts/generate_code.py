@@ -166,7 +166,7 @@ def generate_source_file(module_name, idl, file):
              module_name)
 
   for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
-    file.write('  {"%s", _%s_handler, NULL},\n' % (func.name, func.name))
+    file.write('  {"%s", _%s_handler},\n' % (func.name, func.name))
 
   file.write('  {NULL, NULL}\n')
   file.write('};\n\n')

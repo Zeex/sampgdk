@@ -21,12 +21,9 @@
 
 typedef bool (*sampgdk_callback_handler)(AMX *amx, void *func, cell *retval);
 
-struct _sampgdk_callback_cache;
-
 struct sampgdk_callback {
-  char                           *name;
-  sampgdk_callback_handler        handler;
-  struct _sampgdk_callback_cache *cache;
+  char                     *name;
+  sampgdk_callback_handler  handler;
 };
 
 struct sampgdk_callback *sampgdk_callback_find(const char *name);
@@ -34,8 +31,6 @@ int sampgdk_callback_register(const char *name, sampgdk_callback_handler handler
 int sampgdk_callback_register_table(const struct sampgdk_callback *table);
 void sampgdk_callback_unregister(const char *name);
 void sampgdk_callback_unregister_table(const struct sampgdk_callback *table);
-void sampgdk_callback_scan_plugin(void *plugin);
-void sampgdk_callback_forget_plugin(void *plugin);
 bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval);
 
 #endif /* !SAMPGDK_INTERNAL_CALLBACK_H */

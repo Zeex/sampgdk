@@ -238,7 +238,7 @@ int sampgdk_array_append(struct sampgdk_array *a, void *elem) {
   a->count++;
   sampgdk_array_set(a, a->count - 1, elem);
 
-  return a->count - 1;
+  return 0;
 }
 
 int sampgdk_array_find(struct sampgdk_array *a,
