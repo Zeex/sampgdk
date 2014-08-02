@@ -27,6 +27,11 @@
 
 #define _SAMPGDK_PUBLIC_FILTER_NAME "OnPublicCall"
 
+typedef bool (PLUGIN_CALL *_sampgdk_callback_filter)(AMX *amx,
+                                                     const char *name,
+                                                     cell *params,
+                                                     cell *retval);
+
 static struct sampgdk_array _sampgdk_callbacks;
 
 struct _sampgdk_callback_cache_item {
@@ -229,15 +234,12 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   assert(filter_callback != NULL);
   assert(strcmp(filter_callback->name, _SAMPGDK_PUBLIC_FILTER_NAME) == 0);
 
-  typedef bool (PLUGIN_CALL *filter_func)(
-      AMX *amx, const char *name, cell *params, cell *retval);
-
   sampgdk_param_get_all(amx, true, &params);
 
   for (index = 0; index < callback->cache->items.count; index++) {
     ci = sampgdk_array_get(&filter_callback->cache->items, index);
     if (ci->func != NULL
-        && !((filter_func)ci->func)(amx, name, params, retval)) {
+        && !((_sampgdk_callback_filter)ci->func)(amx, name, params, retval)) {
       continue;
     }
     ci = sampgdk_array_get(&callback->cache->items, index);
