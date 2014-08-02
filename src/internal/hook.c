@@ -38,12 +38,18 @@ struct _sampgdk_hook_jmp {
   ptrdiff_t     offset;
 };
 
+struct _sampgdk_hook_jmp_8 {
+  struct _sampgdk_hook_jmp jmp;
+  unsigned char            pad[3];
+};
+
 #pragma pack(pop)
 
 struct _sampgdk_hook {
   void *src;
   void *dst;
-  unsigned char code[sizeof(struct _sampgdk_hook_jmp)];
+  unsigned char code[sizeof(struct _sampgdk_hook_jmp_8)];
+  unsigned char jump[sizeof(struct _sampgdk_hook_jmp_8)];
 };
 
 #if SAMPGDK_WINDOWS
@@ -79,11 +85,22 @@ sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
   if ((hook = malloc(sizeof(*hook))) == NULL)
     return NULL;
 
+  _sampgdk_hook_unprotect(src, sizeof(struct _sampgdk_hook_jmp_8));
+
   hook->src = src;
   hook->dst = dst;
-  memcpy(hook->code, src, sizeof(hook->code));
 
-  _sampgdk_hook_unprotect(src, sizeof(struct _sampgdk_hook_jmp));
+  memcpy(hook->code, src, sizeof(hook->code));
+  memcpy(hook->jump, src, sizeof(hook->code));
+
+  {
+    struct _sampgdk_hook_jmp jmp = {
+      _SAMPGDK_HOOK_JMP_OPCODE,
+      (unsigned char *)hook->dst -
+      (unsigned char *)hook->src - sizeof(jmp)
+    };
+    memcpy(hook->jump, &jmp, sizeof(jmp));
+  }
 
   return hook;
 }
@@ -93,13 +110,7 @@ void sampgdk_hook_free(sampgdk_hook_t hook) {
 }
 
 void sampgdk_hook_install(sampgdk_hook_t hook) {
-  struct _sampgdk_hook_jmp jmp;
-
-  jmp.opcpde = _SAMPGDK_HOOK_JMP_OPCODE;
-  jmp.offset =  (unsigned char *)hook->dst - (
-                (unsigned char *)hook->src + sizeof(jmp));
-
-  memcpy(hook->src, &jmp, sizeof(jmp));
+  memcpy(hook->src, hook->jump, sizeof(hook->jump));
 }
 
 void sampgdk_hook_remove(sampgdk_hook_t hook) {
