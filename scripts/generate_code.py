@@ -162,24 +162,19 @@ def generate_source_file(module_name, idl, file):
     generate_callback_impl(file, func);
     file.write('\n')
 
-  file.write('static const struct sampgdk_callback _%s_callback_table[] = {\n' %
-             module_name)
-
-  for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
-    file.write('  {"%s", _%s_handler, NULL},\n' % (func.name, func.name))
-
-  file.write('  {NULL, NULL}\n')
-  file.write('};\n\n')
-
   file.write('SAMPGDK_MODULE_INIT(%s) {\n' % module_name)
-  file.write('  return sampgdk_callback_register_table(_%s_callback_table);\n' %
-             module_name)
-  file.write('}\n')
+  file.write('  int error;\n')
+  for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
+    file.write('  if ((error = sampgdk_callback_register("%s", _%s)) < 0)\n' %
+               (func.name, func.name))
+    file.write('    return error;\n')
+  file.write('  return 0;\n')
+  file.write('}\n\n')
 
   file.write('SAMPGDK_MODULE_CLEANUP(%s) {\n' % module_name)
-  file.write('  sampgdk_callback_unregister_table(_%s_callback_table);\n' %
-             module_name)
-  file.write('}\n')
+  for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
+    file.write('  sampgdk_callback_unregister("%s");\n' % func.name)
+  file.write('}\n\n')
 
 def generate_constant(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
@@ -292,9 +287,9 @@ def generate_callback_decl(file, func):
                (func.type, func.name, ParamList(func.params)))
 
 def generate_callback_impl(file, func):
-  file.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_type)(%s);\n' %
+  file.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_func)(%s);\n' %
              (func.type, func.name, ParamList(func.params)))
-  file.write('static bool _%s_handler(AMX *amx, void *callback, cell *retval)'
+  file.write('static bool _%s(AMX *amx, void *callback, cell *retval)'
              ' {\n' % func.name)
 
   badret = func.get_attr('badret')
@@ -314,13 +309,13 @@ def generate_callback_impl(file, func):
     )
 
   if badret.value is not None:
-    file.write('  retval_ = ((%s_type)callback)(%s);\n' %
+    file.write('  retval_ = ((%s_func)callback)(%s);\n' %
                (func.name, ArgList(func.params)))
     file.write('  if (retval != NULL) {\n')
     file.write('    *retval = (cell)retval_;\n')
     file.write('  }\n')
   else:
-    file.write('  ((%s_type)callback)(%s);\n' %
+    file.write('  ((%s_func)callback)(%s);\n' %
                  (func.name, ArgList(func.params)))
 
   for p in filter(lambda p: p.type == 'string', func.params):
