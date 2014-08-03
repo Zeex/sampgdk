@@ -189,7 +189,7 @@ def generate_native_decl(file, func):
   file.write('/**\n')
   file.write(' * \\ingroup natives\n')
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
-             '%s on SA-MP Wiki</a>' % (func.name, func.name))
+             '%s on SA-MP Wiki</a>\n' % (func.name, func.name))
   file.write(' */\n')
   file.write('SAMPGDK_NATIVE(%s, %s(%s));\n'
              % (func.type, func.name, ParamList(func.params)))
@@ -286,7 +286,7 @@ def generate_callback_decl(file, func):
   file.write('/**\n')
   file.write(' * \\ingroup callbacks\n')
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
-             '%s on SA-MP Wiki</a>' % (func.name, func.name))
+             '%s on SA-MP Wiki</a>\n' % (func.name, func.name))
   file.write(' */\n')
   file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
                (func.type, func.name, ParamList(func.params)))
