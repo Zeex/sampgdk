@@ -162,17 +162,21 @@ def generate_source_file(module_name, idl, file):
     generate_callback_impl(file, func);
     file.write('\n')
 
+
   file.write('SAMPGDK_MODULE_INIT(%s) {\n' % module_name)
-  file.write('  int error;\n')
-  for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
-    file.write('  if ((error = sampgdk_callback_register("%s", _%s)) < 0)\n' %
+  sorted_callbacks = list(sorted(callbacks, key=lambda x: x.name, reverse=True))
+  if sorted_callbacks:
+    file.write('  int error;\n')
+  for func in sorted_callbacks:
+    file.write('  if ((error = sampgdk_callback_register("%s", _%s)) < 0) {\n' %
                (func.name, func.name))
     file.write('    return error;\n')
+    file.write('  }\n')
   file.write('  return 0;\n')
   file.write('}\n\n')
 
   file.write('SAMPGDK_MODULE_CLEANUP(%s) {\n' % module_name)
-  for func in sorted(callbacks, key=lambda x: x.name, reverse=True):
+  for func in sorted_callbacks:
     file.write('  sampgdk_callback_unregister("%s");\n' % func.name)
   file.write('}\n\n')
 
