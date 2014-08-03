@@ -20,6 +20,7 @@
 #include <sampgdk/sdk.h>
 
 #include "internal/amx.h"
+#include "internal/callback.h"
 #include "internal/init.h"
 #include "internal/log.h"
 #include "internal/logprintf.h"
@@ -62,6 +63,8 @@ static int _sampgdk_init_plugin(void *plugin, void **plugin_data) {
     sampgdk_log_error_code(error);
   }
 
+  sampgdk_callback_cache_plugin(plugin);
+
   return error;
 }
 
@@ -78,6 +81,8 @@ static void _sampgdk_cleanup_plugin(void *plugin) {
   if (error < 0) {
     sampgdk_log_error_code(error);
   }
+
+  sampgdk_callback_uncache_plugin(plugin);
 
   if (sampgdk_plugin_count() == 0) {
     _sampgdk_cleanup();
