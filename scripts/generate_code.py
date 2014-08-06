@@ -273,7 +273,7 @@ def generate_native_impl(file, func):
 
   file.write('  return %s(retval);\n' % ({
       'int'   : '(int)',
-      'bool'  : '(bool)',
+      'bool'  : '!!',
       'float' : 'amx_ctof',
     }[func.type]
   ))
