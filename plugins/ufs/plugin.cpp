@@ -40,7 +40,7 @@ PluginError Plugin::Load(void **ppData) {
 PluginError Plugin::Load(const std::string &filename, void **ppData) {
   if (!loaded_) {
     #ifdef _WIN32
-      handle_ = (void*)LoadLibrary(filename.c_str());
+      handle_ = (void *)LoadLibrary(filename.c_str());
     #else
       handle_ = dlopen(filename.c_str(), RTLD_NOW);
     #endif
@@ -103,7 +103,7 @@ void Plugin::Unload() {
 
 void *Plugin::GetSymbol(const std::string &name) const {
   #ifdef _WIN32
-    return (void*)GetProcAddress((HMODULE)handle_, name.c_str());
+    return (void *)GetProcAddress((HMODULE)handle_, name.c_str());
   #else
     return dlsym(handle_, name.c_str());
   #endif

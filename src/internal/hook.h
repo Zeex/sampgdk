@@ -21,7 +21,6 @@ typedef struct _sampgdk_hook *sampgdk_hook_t;
 
 sampgdk_hook_t sampgdk_hook_new(void *src, void *dst);
 void sampgdk_hook_free(sampgdk_hook_t hook);
-
 void sampgdk_hook_install(sampgdk_hook_t hook);
 void sampgdk_hook_remove(sampgdk_hook_t hook);
 

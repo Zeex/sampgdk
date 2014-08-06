@@ -23,12 +23,12 @@ static unsigned char *_sampgdk_param_get_data(AMX *amx) {
   if (amx->data != 0) {
     return amx->data;
   } else {
-    return amx->base + ((AMX_HEADER*)amx->base)->dat;
+    return amx->base + ((AMX_HEADER *)amx->base)->dat;
   }
 }
 
 static cell *_sampgdk_param_get_stack(AMX *amx) {
-  return (cell*)(_sampgdk_param_get_data(amx) + amx->stk);
+  return (cell *)(_sampgdk_param_get_data(amx) + amx->stk);
 }
 
 static cell _sampgdk_param_get_by_index(AMX *amx, int index) {

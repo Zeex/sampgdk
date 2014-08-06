@@ -263,7 +263,7 @@ static int _sampgdk_amxhooks_create(void) {
   #define _SAMPGDK_AMXHOOKS_CREATE_HOOK(name) \
     if ((_sampgdk_amxhooks_##name##_hook = \
         sampgdk_hook_new(sampgdk_amx_api_ptr->name, \
-                         (void*)_sampgdk_amxhooks_##name)) == NULL) \
+                         (void *)_sampgdk_amxhooks_##name)) == NULL) \
       goto no_memory;
   _SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_CREATE_HOOK)
   return 0;

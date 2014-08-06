@@ -304,7 +304,7 @@ def generate_callback_impl(file, func):
     file.write('  %s %s;\n' % (p.c_type, p.name))
 
   for index, p in enumerate(func.params):
-    file.write('  sampgdk_param_get_%s(amx, %d, (void*)&%s);\n' % ({
+    file.write('  sampgdk_param_get_%s(amx, %d, (void *)&%s);\n' % ({
         'int'    : 'cell',
         'bool'   : 'bool',
         'float'  : 'float',
@@ -323,7 +323,7 @@ def generate_callback_impl(file, func):
                  (func.name, ArgList(func.params)))
 
   for p in filter(lambda p: p.type == 'string', func.params):
-    file.write('  free((void*)%s);\n' % p.name)
+    file.write('  free((void *)%s);\n' % p.name)
 
   if badret.value is not None:
     file.write('  return (retval_ != %s);\n' % badret.value)

@@ -34,7 +34,7 @@
 static struct sampgdk_array _sampgdk_plugins;
 
 SAMPGDK_MODULE_INIT(plugin) {
-  return sampgdk_array_new(&_sampgdk_plugins, 1, sizeof(void*));
+  return sampgdk_array_new(&_sampgdk_plugins, 1, sizeof(void *));
 }
 
 SAMPGDK_MODULE_CLEANUP(plugin) {
@@ -43,7 +43,7 @@ SAMPGDK_MODULE_CLEANUP(plugin) {
 
 static _sampgdk_plugin_compare_handle(const void *key,
                                       const void *elem) {
-  const void *handle2 = *(const void**)elem;
+  const void *handle2 = *(const void **)elem;
 
   assert(key != NULL);
   assert(elem != NULL);
@@ -90,7 +90,7 @@ int sampgdk_plugin_count(void) {
 void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
   assert(plugin != NULL);
   assert(name != NULL);
-  return (void*)GetProcAddress((HMODULE)plugin, name);
+  return (void *)GetProcAddress((HMODULE)plugin, name);
 }
 
 void *sampgdk_plugin_get_handle(void *address) {
@@ -99,7 +99,7 @@ void *sampgdk_plugin_get_handle(void *address) {
   if (VirtualQuery(address, &mbi, sizeof(mbi)) == 0) {
     return NULL;
   }
-  return (void*)mbi.AllocationBase;
+  return (void *)mbi.AllocationBase;
 }
 
 void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
