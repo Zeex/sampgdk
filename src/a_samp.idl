@@ -289,7 +289,7 @@ const int KEY_RIGHT            = 128;
 [callback] bool OnVehiclePaintjob([in] int playerid, [in] int vehicleid, [in] int paintjobid);
 [callback] bool OnVehicleRespray([in] int playerid, [in] int vehicleid, [in] int color1, [in] int color2);
 [callback] bool OnVehicleDamageStatusUpdate([in] int vehicleid, [in] int playerid);
-[callback, badret(false)] bool OnUnoccupiedVehicleUpdate([in] int vehicleid, [in] int playerid, [in] int passenger_seat, [in] float new_x, [in] float new_y, [in] float new_z);
+[callback, badret(false)] bool OnUnoccupiedVehicleUpdate([in] int vehicleid, [in] int playerid, [in] int passenger_seat, [in] float new_x, [in] float new_y, [in] float new_z, [in] float vel_x, [in] float vel_y, [in] float vel_z);
 [callback] bool OnPlayerSelectedMenuRow([in] int playerid, [in] int row);
 [callback] bool OnPlayerExitedMenu([in] int playerid);
 [callback] bool OnPlayerInteriorChange([in] int playerid, [in] int newinteriorid, [in] int oldinteriorid);
@@ -307,6 +307,7 @@ const int KEY_RIGHT            = 128;
 [callback, badret(true)] bool OnPlayerClickTextDraw([in] int playerid, [in] int clickedid);
 [callback, badret(true)] bool OnPlayerClickPlayerTextDraw([in] int playerid, [in] int playertextid);
 [callback] bool OnIncomingConnection([in] int playerid, [in] string ip_address, [in] int port);
+[callback, badret(false)] bool OnTrailerUpdate([in] int playerid, [in] int vehicleid);
 
 const int CLICK_SOURCE_SCOREBOARD = 0;
 
