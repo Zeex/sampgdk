@@ -56,14 +56,12 @@ bool sampgdk_array_ok(struct sampgdk_array *a) {
 
 int sampgdk_array_zero(struct sampgdk_array *a) {
   assert(a != NULL);
-  assert(a->data != NULL);
 
   if (a->data == NULL) {
     return -EINVAL;
   }
 
   memset(a->data, 0, a->size * a->elem_size);
-
   return 0;
 }
 
