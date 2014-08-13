@@ -291,7 +291,7 @@ def generate_callback_decl(file, func):
                (func.type, func.name, ParamList(func.params)))
 
 def generate_callback_impl(file, func):
-  file.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_func)(%s);\n' %
+  file.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_callback)(%s);\n' %
              (func.type, func.name, ParamList(func.params)))
   file.write('static bool _%s(AMX *amx, void *callback, cell *retval)'
              ' {\n' % func.name)
@@ -313,13 +313,13 @@ def generate_callback_impl(file, func):
     )
 
   if badret.value is not None:
-    file.write('  retval_ = ((%s_func)callback)(%s);\n' %
+    file.write('  retval_ = ((%s_callback)callback)(%s);\n' %
                (func.name, ArgList(func.params)))
     file.write('  if (retval != NULL) {\n')
     file.write('    *retval = (cell)retval_;\n')
     file.write('  }\n')
   else:
-    file.write('  ((%s_func)callback)(%s);\n' %
+    file.write('  ((%s_callback)callback)(%s);\n' %
                  (func.name, ArgList(func.params)))
 
   for p in filter(lambda p: p.type == 'string', func.params):
