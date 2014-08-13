@@ -66,7 +66,7 @@ void sampgdk_param_get_string(AMX *amx, int index, char **param) {
   cell *phys_addr;
   int length;
   char *string;
- 
+
   amx_addr = _sampgdk_param_get_by_index(amx, index);
   if (amx_GetAddr(amx, amx_addr, &phys_addr) != AMX_ERR_NONE) {
     return;
@@ -74,7 +74,7 @@ void sampgdk_param_get_string(AMX *amx, int index, char **param) {
  
   amx_StrLen(phys_addr, &length);
   string = malloc((length + 1) * sizeof(char));
- 
+
   if (amx_GetString(string, phys_addr, 0, length + 1) != AMX_ERR_NONE) {
     free(string);
     return;
