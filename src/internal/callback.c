@@ -191,7 +191,7 @@ void sampgdk_callback_uncache_plugin(void *plugin) {
 
 bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   struct _sampgdk_callback_info *callback;
-  struct _sampgdk_callback_info *filter_callback;
+  struct _sampgdk_callback_info *callback_filter;
   int index;
   struct _sampgdk_callback_cache_entry *ce;
   cell *params;
@@ -200,25 +200,25 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   assert(name != NULL);
 
   callback = _sampgdk_callback_find(name);
-  if (callback == NULL || callback->handler == NULL) {
-    return true;
-  }
-
-  filter_callback = sampgdk_array_get(&_sampgdk_callbacks,
+  callback_filter = sampgdk_array_get(&_sampgdk_callbacks,
                                       _sampgdk_callbacks.count - 1);
-  assert(filter_callback != NULL);
+  assert(callback_filter != NULL);
+  assert(callback == NULL
+         || callback_filter->cache.count == callback->cache.count);
 
   sampgdk_param_get_all(amx, true, &params);
 
-  for (index = 0; index < callback->cache.count; index++) {
-    ce = sampgdk_array_get(&filter_callback->cache, index);
+  for (index = 0; index < callback_filter->cache.count; index++) {
+    ce = sampgdk_array_get(&callback_filter->cache, index);
     if (ce->func != NULL
         && !((_sampgdk_callback_filter)ce->func)(amx, name, params, retval)) {
       continue;
     }
+    if (callback == NULL || callback->handler == NULL) {
+      continue;
+    }
     ce = sampgdk_array_get(&callback->cache, index);
     if (ce->func != NULL
-        && callback->handler != NULL
         && !((sampgdk_callback)callback->handler)(amx, ce->func, retval)) {
       return false;
     }
