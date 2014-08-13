@@ -19,7 +19,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/sdk.h>
 
-void sampgdk_param_get_all(AMX *amx, bool exec, cell **params);
+cell *sampgdk_param_get_start(AMX *amx);
 void sampgdk_param_get_cell(AMX *amx, int index, cell *param);
 void sampgdk_param_get_bool(AMX *amx, int index, bool *param);
 void sampgdk_param_get_float(AMX *amx, int index, float *param);

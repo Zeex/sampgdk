@@ -206,7 +206,14 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   assert(callback == NULL
          || callback_filter->cache.count == callback->cache.count);
 
-  sampgdk_param_get_all(amx, true, &params);
+  params = malloc((amx->paramcount + 1) * sizeof(cell));
+  if (params == NULL) {
+    sampgdk_log_error_code(-ENOMEM);
+    return true;
+  }
+
+  params[0] = amx->paramcount * sizeof(cell);
+  memcpy(&params[1], sampgdk_param_get_start(amx), params[0]);
 
   for (index = 0; index < callback_filter->cache.count; index++) {
     ce = sampgdk_array_get(&callback_filter->cache, index);
@@ -220,9 +227,11 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
     ce = sampgdk_array_get(&callback->cache, index);
     if (ce->func != NULL
         && !((sampgdk_callback)callback->handler)(amx, ce->func, retval)) {
+      free(params);
       return false;
     }
   }
 
+  free(params);
   return true;
 }
