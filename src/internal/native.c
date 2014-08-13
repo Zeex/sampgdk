@@ -24,8 +24,8 @@
 #include "native.h"
 #include "log.h"
 
-#define _SAMPGDK_MAX_NATIVE_ARGS     32
-#define _SAMPGDK_MAX_NATIVE_ARG_SIZE 8  /* in bytes */
+#define _SAMPGDK_NATIVE_MAX_ARGS     32
+#define _SAMPGDK_NATIVE_MAX_ARGS_SIZE 8  /* in bytes */
 
 static struct sampgdk_array _sampgdk_natives;
 
@@ -157,28 +157,28 @@ cell sampgdk_native_invoke(AMX_NATIVE native,
                            va_list args) {
   cell i = 0;
   const char *format_ptr = format;
-  unsigned char args_copy[_SAMPGDK_MAX_NATIVE_ARGS *
-                          _SAMPGDK_MAX_NATIVE_ARG_SIZE];
+  unsigned char args_copy[_SAMPGDK_NATIVE_MAX_ARGS *
+                          _SAMPGDK_NATIVE_MAX_ARGS_SIZE];
   unsigned char *args_ptr = args_copy;
-  void *args_array[_SAMPGDK_MAX_NATIVE_ARGS];
+  void *args_array[_SAMPGDK_NATIVE_MAX_ARGS];
 
-  while (*format_ptr != '\0' && i < _SAMPGDK_MAX_NATIVE_ARGS) {
+  while (*format_ptr != '\0' && i < _SAMPGDK_NATIVE_MAX_ARGS) {
     switch (*format_ptr) {
       case 'i': /* integer */
       case 'd': /* integer */
         *(int *)args_ptr = va_arg(args, int);
         args_array[i++] = args_ptr;
-        args_ptr += _SAMPGDK_MAX_NATIVE_ARG_SIZE;
+        args_ptr += _SAMPGDK_NATIVE_MAX_ARGS_SIZE;
         break;
       case 'b': /* boolean */
         *(bool *)args_ptr = !!va_arg(args, int);
         args_array[i++] = args_ptr;
-        args_ptr += _SAMPGDK_MAX_NATIVE_ARG_SIZE;
+        args_ptr += _SAMPGDK_NATIVE_MAX_ARGS_SIZE;
         break;
       case 'f': /* floating-point */
         *(float *)args_ptr = (float)va_arg(args, double);
         args_array[i++] = args_ptr;
-        args_ptr += _SAMPGDK_MAX_NATIVE_ARG_SIZE;
+        args_ptr += _SAMPGDK_NATIVE_MAX_ARGS_SIZE;
         break;
       case 'r': /* const reference */
       case 'R': /* non-const reference */
@@ -200,9 +200,9 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
   AMX *amx = sampgdk_fakeamx_amx();
   char *format_ptr = (char *)format; /* cast away const for strtol() */
   cell i = 0;
-  cell params[_SAMPGDK_MAX_NATIVE_ARGS + 1];
-  cell size[_SAMPGDK_MAX_NATIVE_ARGS] = {0};
-  char type[_SAMPGDK_MAX_NATIVE_ARGS];
+  cell params[_SAMPGDK_NATIVE_MAX_ARGS + 1];
+  cell size[_SAMPGDK_NATIVE_MAX_ARGS] = {0};
+  char type[_SAMPGDK_NATIVE_MAX_ARGS];
   int needs_size = -1;
   enum {
     ST_READ_SPEC,
@@ -213,7 +213,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
   } state = ST_READ_SPEC;
   cell retval;
 
-  while (*format_ptr != '\0' && i < _SAMPGDK_MAX_NATIVE_ARGS) {
+  while (*format_ptr != '\0' && i < _SAMPGDK_NATIVE_MAX_ARGS) {
     switch (state) {
       case ST_READ_SPEC:
         switch (*format_ptr) {
@@ -306,7 +306,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
 
   if (*format_ptr != '\0') {
     sampgdk_log_warn("Too many native arguments (at most %d allowed)",
-                     _SAMPGDK_MAX_NATIVE_ARGS);
+                     _SAMPGDK_NATIVE_MAX_ARGS);
   }
 
   params[0] = i * sizeof(cell);
