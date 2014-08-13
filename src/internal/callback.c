@@ -25,7 +25,7 @@
 #include "param.h"
 #include "plugin.h"
 
-#define _SAMPGDK_PUBLIC_FILTER_NAME "OnPublicCall"
+#define _SAMPGDK_CALLBACK_MAX_ARGS 32
 
 typedef bool (PLUGIN_CALL *_sampgdk_callback_filter)(AMX *amx,
                                                      const char *name,
@@ -59,7 +59,7 @@ SAMPGDK_MODULE_INIT(callback) {
     return error;
   }
 
-  return sampgdk_callback_register(_SAMPGDK_PUBLIC_FILTER_NAME, NULL);
+  return sampgdk_callback_register("OnPublicCall", NULL);
 }
 
 SAMPGDK_MODULE_CLEANUP(callback) {
@@ -194,7 +194,7 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   struct _sampgdk_callback_info *callback_filter;
   int index;
   struct _sampgdk_callback_cache_entry *ce;
-  cell *params;
+  cell params[_SAMPGDK_CALLBACK_MAX_ARGS + 1];
 
   assert(amx != NULL);
   assert(name != NULL);
@@ -206,9 +206,9 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   assert(callback == NULL
          || callback_filter->cache.count == callback->cache.count);
 
-  params = malloc((amx->paramcount + 1) * sizeof(cell));
-  if (params == NULL) {
-    sampgdk_log_error_code(-ENOMEM);
+  if (amx->paramcount > _SAMPGDK_CALLBACK_MAX_ARGS) {
+    sampgdk_log_error("Too many callback arguments (at most %d allowed)",
+                      _SAMPGDK_CALLBACK_MAX_ARGS);
     return true;
   }
 
@@ -227,11 +227,9 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
     ce = sampgdk_array_get(&callback->cache, index);
     if (ce->func != NULL
         && !((sampgdk_callback)callback->handler)(amx, ce->func, retval)) {
-      free(params);
       return false;
     }
   }
 
-  free(params);
   return true;
 }
