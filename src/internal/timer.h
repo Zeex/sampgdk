@@ -22,7 +22,7 @@
 typedef void (SAMPGDK_CALL *sampgdk_timer_callback)(int id, void *param);
 
 int sampgdk_timer_set(long interval, bool repeat,
-                      sampgdk_timer_callback calback, void *param);
+    sampgdk_timer_callback calback, void *param);
 int sampgdk_timer_kill(int timerid);
 void sampgdk_timer_process_timers(void *plugin);
 long sampgdk_timer_now(void);

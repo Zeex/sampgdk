@@ -189,7 +189,10 @@ void sampgdk_callback_uncache_plugin(void *plugin) {
   }
 }
 
-bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
+bool sampgdk_callback_invoke(AMX *amx,
+                             const char *name,
+                             int paramcount,
+                             cell *retval) {
   struct _sampgdk_callback_info *callback;
   struct _sampgdk_callback_info *callback_filter;
   int index;
@@ -206,13 +209,13 @@ bool sampgdk_callback_invoke(AMX *amx, const char *name, cell *retval) {
   assert(callback == NULL
          || callback_filter->cache.count == callback->cache.count);
 
-  if (amx->paramcount > _SAMPGDK_CALLBACK_MAX_ARGS) {
+  if (paramcount > _SAMPGDK_CALLBACK_MAX_ARGS) {
     sampgdk_log_error("Too many callback arguments (at most %d allowed)",
                       _SAMPGDK_CALLBACK_MAX_ARGS);
     return true;
   }
 
-  params[0] = amx->paramcount * sizeof(cell);
+  params[0] = paramcount * sizeof(cell);
   memcpy(&params[1], sampgdk_param_get_start(amx), params[0]);
 
   for (index = 0; index < callback_filter->cache.count; index++) {

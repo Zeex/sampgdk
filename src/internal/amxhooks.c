@@ -163,7 +163,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   int paramcount = amx->paramcount;
 
   /* We have to reset amx->paramcount at this point so that if the callback
-   * itself calls amx_Exec() it won't pop out arguments off the stack.
+   * itself calls amx_Exec() it won't pop our arguments off the stack.
    */
   amx->paramcount = 0;
 
@@ -175,7 +175,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
      * from being called twice in a row after a gmx.
      */
     if (_sampgdk_amxhooks_main_amx != amx && amx != NULL) {
-      sampgdk_callback_invoke(amx, "OnGameModeInit", retval);
+      sampgdk_callback_invoke(amx, "OnGameModeInit", paramcount, retval);
       _sampgdk_amxhooks_main_amx = amx;
     }
   } else {
@@ -183,7 +183,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
                                    amx == sampgdk_fakeamx_amx())) {
       char name[_SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME];
       sampgdk_strcpy(name, _sampgdk_amxhooks_public_name, sizeof(name));
-      proceed = sampgdk_callback_invoke(amx, name, retval);
+      proceed = sampgdk_callback_invoke(amx, name, paramcount, retval);
     }
   }
 
