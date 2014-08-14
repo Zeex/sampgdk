@@ -160,6 +160,7 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
 static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   bool proceed = true;
   int error = AMX_ERR_NONE;
+  int paramcount = amx->paramcount;
 
   /* Since filterscripts don't use main() we can assume that the AMX
    * that executes main() is indeed the main AMX i.e. the gamemode.
@@ -187,10 +188,9 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   if (proceed && index != AMX_EXEC_GDK) {
     error = amx_Exec(amx, retval, index);
   } else {
-    amx->stk += amx->paramcount * sizeof(cell);
+    amx->stk += paramcount * sizeof(cell);
+    amx->paramcount = 0;
   }
-
-  amx->paramcount = 0;
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
   sampgdk_hook_install(_sampgdk_amxhooks_Exec_hook);
