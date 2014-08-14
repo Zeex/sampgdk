@@ -162,6 +162,11 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   int error = AMX_ERR_NONE;
   int paramcount = amx->paramcount;
 
+  /* We have to reset amx->paramcount at this point so that if the callback
+   * itself calls amx_Exec() it won't pop out arguments off the stack.
+   */
+  amx->paramcount = 0;
+
   /* Since filterscripts don't use main() we can assume that the AMX
    * that executes main() is indeed the main AMX i.e. the gamemode.
    */
@@ -186,10 +191,11 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   sampgdk_hook_install(_sampgdk_amxhooks_Callback_hook);
 
   if (proceed && index != AMX_EXEC_GDK) {
+    amx->paramcount = paramcount;
     error = amx_Exec(amx, retval, index);
   } else {
-    amx->stk += paramcount * sizeof(cell);
     amx->paramcount = 0;
+    amx->stk += paramcount * sizeof(cell);
   }
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
