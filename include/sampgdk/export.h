@@ -54,7 +54,7 @@
       #define SAMPGDK_EXPORT SAMPGDK_EXTERN_C __declspec(dllimport)
     #endif
   #else
-    #error Usupported operating system
+    #error Unsupported operating system
   #endif
 #endif
 
