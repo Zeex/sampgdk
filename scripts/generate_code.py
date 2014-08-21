@@ -114,6 +114,7 @@ def generate_api_file(module_name, idl, file):
     file.write('sampgdk_%s\n' % f.name)
 
 def generate_header_file(module_name, idl, file):
+  file.write('#pragma once\n\n')
   file.write('#include <sampgdk/bool.h>\n')
   file.write('#include <sampgdk/export.h>\n')
   file.write('#include <sampgdk/types.h>\n')
