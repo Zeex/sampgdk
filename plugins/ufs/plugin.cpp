@@ -40,7 +40,7 @@ PluginError Plugin::Load(void **ppData) {
 PluginError Plugin::Load(const std::string &filename, void **ppData) {
   if (!loaded_) {
     #ifdef _WIN32
-      handle_ = (void *)LoadLibrary(filename.c_str());
+      handle_ = (void *)LoadLibraryA(filename.c_str());
     #else
       handle_ = dlopen(filename.c_str(), RTLD_NOW);
     #endif

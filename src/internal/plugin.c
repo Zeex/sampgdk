@@ -106,7 +106,7 @@ void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
   HMODULE module = (HMODULE)sampgdk_plugin_get_handle(address);
   assert(address != NULL);
   assert(filename != NULL);
-  GetModuleFileName(module, filename, size);
+  GetModuleFileNameA(module, filename, size);
 }
 
 #else /* SAMPGDK_WINDOWS */
