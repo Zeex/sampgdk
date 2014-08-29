@@ -95,25 +95,7 @@ macro(sampgdk_get_libraries var)
   sampgdk_get_property(SAMPGDK_LIBRARIES ${var})
 endmacro()
 
-macro(sampgdk_make_output_dir file)
-  if(NOT IS_ABSOLUTE file)
-    get_filename_component(_file ${file} ABSOLUTE)
-  else()
-    set(_file ${file})
-  endif()
-
-  get_filename_component(_path ${_file} PATH)
-  if(_path MATCHES ${PROJECT_BINARY_DIR})
-    file(RELATIVE_PATH _path ${CMAKE_CURRENT_BINARY_DIR} ${_path})
-  else()
-    file(RELATIVE_PATH _path ${CMAKE_CURRENT_SOURCE_DIR} ${_path})
-  endif()
-
-  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_path})
-endmacro()
-
 macro(sampgdk_add_api_gen module_name idl_file api_file)
-  sampgdk_make_output_dir(${api_file})
   add_custom_command(
     OUTPUT ${api_file}
     COMMAND ${PYTHON_EXECUTABLE}
@@ -127,7 +109,6 @@ macro(sampgdk_add_api_gen module_name idl_file api_file)
 endmacro()
 
 macro(sampgdk_add_source_gen module_name idl_file source_file)
-  sampgdk_make_output_dir(${source_file})
   add_custom_command(
     OUTPUT ${source_file}
     COMMAND ${PYTHON_EXECUTABLE}
@@ -141,7 +122,6 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
 endmacro()
 
 macro(sampgdk_add_header_gen module_name idl_file header_file)
-  sampgdk_make_output_dir(${header_file})
   add_custom_command(
     OUTPUT ${header_file}
     COMMAND ${PYTHON_EXECUTABLE}
@@ -155,7 +135,6 @@ macro(sampgdk_add_header_gen module_name idl_file header_file)
 endmacro()
 
 macro(sampgdk_add_init_gen target list_file source_file)
-  sampgdk_make_output_dir(${source_file})
   add_custom_target(
     ${target}
     COMMAND ${PYTHON_EXECUTABLE}
@@ -337,10 +316,11 @@ foreach(header IN LISTS SAMPGDK_HEADERS)
   get_filename_component(path ${header} PATH)
   get_filename_component(abs_path ${path} ABSOLUTE)
 
-  if(header MATCHES ${PROJECT_BINARY_DIR})
-    file(RELATIVE_PATH dir ${PROJECT_BINARY_DIR} ${abs_path})
-  else()
+  string(FIND ${abs_path} ${PROJECT_BINARY_DIR} pos)
+  if(pos LESS 0)
     file(RELATIVE_PATH dir ${PROJECT_SOURCE_DIR} ${abs_path})
+  else()
+    file(RELATIVE_PATH dir ${PROJECT_BINARY_DIR} ${abs_path})
   endif()
 
   install(FILES ${header} DESTINATION ${dir} COMPONENT dev)
