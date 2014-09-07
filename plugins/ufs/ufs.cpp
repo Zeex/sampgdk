@@ -189,12 +189,6 @@ bool UFS::LoadScript(const std::string &name) {
   return true;
 }
 
-bool UFS::UnloadScript(Script *fs) {
-  fs->Exit();
-  fs->Unload();
-  return true;
-}
-
 void UFS::LoadScripts() {
   std::vector<std::string> names;
   GetScriptNames(names);
@@ -211,6 +205,16 @@ void UFS::LoadScripts() {
 
   sampgdk::logprintf("  Loaded %d filterscripts.\n", scripts_.size());
   sampgdk::logprintf("");
+}
+
+bool UFS::UnloadScript(Script *fs) {
+  fs->Exit();
+  for (Plugins::iterator it = plugins_.begin();
+        it != plugins_.end(); it++) {
+    Plugin *plugin = it->second;
+    plugin->AmxUnload(fs->amx());
+  }
+  return fs->Unload();
 }
 
 bool UFS::UnloadScript(const std::string &name) {
