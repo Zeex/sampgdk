@@ -46,7 +46,8 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
     load_state = Loaded;
     for (std::vector<AMX*>::iterator it = normal_scripts.begin();
           it != normal_scripts.end(); it++) {
-      AmxUnload(*it);
+      ufs::UFS::Instance().ForEachPlugin(
+        std::bind2nd(std::mem_fun(&ufs::Plugin::AmxLoad), *it));
     }
   }
   ufs::UFS::Instance().ForEachPlugin(
@@ -56,8 +57,6 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
 
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx) {
   normal_scripts.push_back(amx);
-  ufs::UFS::Instance().ForEachPlugin(
-    std::bind2nd(std::mem_fun(&ufs::Plugin::AmxLoad), amx));
   return AMX_ERR_NONE;
 }
 
