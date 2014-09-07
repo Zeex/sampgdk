@@ -10,20 +10,22 @@
 namespace ufs {
 
 Plugin::Plugin()
- : loaded_(false)
+ : loaded_(false),
+   handle_(0),
+   AmxLoad_(0),
+   AmxUnload_(0),
+   ProcessTick_(0)
 {
 }
 
 Plugin::Plugin(const std::string &filename)
  : filename_(filename),
-   loaded_(false)
+   loaded_(false),
+   handle_(0),
+   AmxLoad_(0),
+   AmxUnload_(0),
+   ProcessTick_(0)
 {
-}
-
-Plugin::Plugin(const std::string &filename, void **ppData)
- : loaded_(false)
-{
-  Load(filename_, ppData);
 }
 
 Plugin::~Plugin() {
@@ -34,57 +36,59 @@ PluginError Plugin::Load(void **ppData) {
   if (!filename_.empty()) {
     return Load(filename_, ppData);
   }
-  return PLUGIN_ERROR_LOAD;
+  return PLUGIN_ERROR_FAILED;
 }
 
 PluginError Plugin::Load(const std::string &filename, void **ppData) {
   if (!loaded_) {
     #ifdef _WIN32
-      handle_ = (void *)LoadLibraryA(filename.c_str());
+      handle_ = (void*)LoadLibraryA(filename.c_str());
     #else
       handle_ = dlopen(filename.c_str(), RTLD_NOW);
     #endif
+
     if (handle_ == 0) {
-      return PLUGIN_ERROR_LOAD;
+      return PLUGIN_ERROR_FAILED;
     }
+
     Supports_t Supports = (Supports_t)GetSymbol("Supports");
-    if (Supports != 0) {
-      unsigned int flags = Supports();
-      if ((flags & SUPPORTS_VERSION_MASK) > SUPPORTS_VERSION) {
-        return PLUGIN_ERROR_VERSION;
-      }
-      if ((flags & SUPPORTS_AMX_NATIVES) != 0) {
-        AmxLoad_ = (AmxLoad_t)GetSymbol("AmxLoad");
-        if (AmxLoad_ == 0) {
-          return PLUGIN_ERROR_API;
-        }
-        AmxUnload_ = (AmxUnload_t)GetSymbol("AmxUnload");
-        if (AmxUnload_ == 0) {
-          return PLUGIN_ERROR_API;
-        }
-      } else {
-        AmxLoad_ = AmxUnload_ = 0;
-      }
-      if ((flags & SUPPORTS_PROCESS_TICK) != 0) {
-        ProcessTick_ = (ProcessTick_t)GetSymbol("ProcessTick");
-        if (ProcessTick_ == 0) {
-          return PLUGIN_ERROR_API;
-        }
-      } else {
-        ProcessTick_ = 0;
-      }
-      Load_t Load = (Load_t)GetSymbol("Load");
-      if (Load == 0) {
+    if (Supports == 0) {
+      return PLUGIN_ERROR_FAILED;
+    }
+
+    unsigned int flags = Supports();
+
+    if ((flags & SUPPORTS_VERSION_MASK) > SUPPORTS_VERSION) {
+      return PLUGIN_ERROR_VERSION;
+    }
+
+    if ((flags & SUPPORTS_AMX_NATIVES) != 0) {
+      if ((AmxLoad_ = (AmxLoad_t)GetSymbol("AmxLoad")) == 0
+          || (AmxUnload_ = (AmxUnload_t)GetSymbol("AmxUnload")) == 0) {
         return PLUGIN_ERROR_API;
       }
-      if (Load(ppData)) {
-        filename_ = filename;
-        loaded_ = true;
-        return PLUGIN_ERROR_OK;
+    }
+
+    if ((flags & SUPPORTS_PROCESS_TICK) != 0) {
+      ProcessTick_ = (ProcessTick_t)GetSymbol("ProcessTick");
+      if (ProcessTick_ == 0) {
+        return PLUGIN_ERROR_API;
       }
     }
+
+    Load_t Load = (Load_t)GetSymbol("Load");
+    if (Load == 0) {
+      return PLUGIN_ERROR_API;
+    }
+
+    if (Load(ppData)) {
+      filename_ = filename;
+      loaded_ = true;
+      return PLUGIN_ERROR_OK;
+    }
   }
-  return PLUGIN_ERROR_LOAD;
+
+  return PLUGIN_ERROR_FAILED;
 }
 
 void Plugin::Unload() {

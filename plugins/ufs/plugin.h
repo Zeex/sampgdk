@@ -6,15 +6,9 @@
 
 namespace ufs {
 
-#ifdef _WIN32
-  const std::string PluginExtension = ".dll";
-#else
-  const std::string PluginExtension = ".so";
-#endif
-
 enum PluginError {
   PLUGIN_ERROR_OK,
-  PLUGIN_ERROR_LOAD,
+  PLUGIN_ERROR_FAILED,
   PLUGIN_ERROR_VERSION,
   PLUGIN_ERROR_API
 };
@@ -30,7 +24,6 @@ class Plugin {
 
   Plugin();
   explicit Plugin(const std::string &filename);
-  Plugin(const std::string &filename, void **ppData);
   ~Plugin();
 
   PluginError Load(void **ppData);
@@ -47,18 +40,18 @@ class Plugin {
   void ProcessTick() const;
 
  private:
-  Plugin(const Plugin &other);
-  void operator=(const Plugin &other);
-
- private:
   std::string filename_;
   void *handle_;
   bool loaded_;
   AmxLoad_t AmxLoad_;
   AmxUnload_t AmxUnload_;
   ProcessTick_t ProcessTick_;
+
+ private:
+  Plugin(const Plugin &other);
+  Plugin &operator=(const Plugin &other);
 };
 
-} // namespace samp
+} // namespace ufs
 
 #endif // UFS_PLUGIN_H

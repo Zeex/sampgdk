@@ -1,12 +1,19 @@
 #include <cstring>
 #include <fstream>
 #include <iterator>
+#include <new>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <sampgdk/core.h>
 #include <sampgdk/interop.h>
 #include "ufs.h"
+
+#ifdef _WIN32
+  #define PLUGIN_EXT ".dll"
+#else
+  #define PLUGIN_EXT ".so"
+#endif
 
 namespace {
 
@@ -72,7 +79,7 @@ std::string GetScriptPath(const std::string &name) {
 }
 
 std::string GetPluginPath(const std::string &name) {
-  return GetItemPath(name, "plugins", ufs::PluginExtension);
+  return GetItemPath(name, "plugins", PLUGIN_EXT);
 }
 
 } // anonymous namespace
@@ -95,15 +102,14 @@ void UFS::SetPluginData(void **data) {
 }
 
 bool UFS::LoadPlugin(const std::string &name, PluginError &error) {
-  Plugin *plugin = new Plugin(GetPluginPath(name));
+  Plugin *plugin = new(std::nothrow) Plugin(GetPluginPath(name));
   if (plugin != 0) {
     error = plugin->Load(plugin_data_);
     if (plugin->IsLoaded()) {
       plugins_.insert(std::make_pair(name, plugin));
       return true;
-    } else {
-      delete plugin;
     }
+    delete plugin;
   }
   return false;
 }
@@ -126,7 +132,7 @@ void UFS::LoadPlugins() {
       sampgdk::logprintf("  Loaded.");
     } else {
       switch (error) {
-        case PLUGIN_ERROR_LOAD: {
+        case PLUGIN_ERROR_FAILED: {
           sampgdk::logprintf("  Failed.");
           break;
         }
