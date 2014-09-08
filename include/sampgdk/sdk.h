@@ -48,25 +48,27 @@
   #endif
 #endif
 
-#if defined __INTEL_COMPILER
-  /* ... */
-#elif defined __clang__
+#if defined __clang__
   #pragma clang diagnostic push
   #pragma clang diagnostic ignored "-Wignored-attributes"
 #elif defined __GNUC__
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wattributes"
+  #if __GNUC_PREREQ(4, 6)
+    #pragma GCC diagnostic push
+  #endif
+  #if __GNUC_PREREQ(4, 2)
+    #pragma GCC diagnostic ignored "-Wattributes"
+  #endif
 #endif
 
 #include "amx/amx.h"
 #include "plugincommon.h"
 
-#if defined __INTEL_COMPILER
-  /* ... */
-#elif defined __clang_
+#if defined __clang_
   #pragma clang diagnostic pop
 #elif defined __GNUC__
-  #pragma GCC diagnostic pop
+  #if __GNUC_PREREQ(4, 6)
+    #pragma GCC diagnostic pop
+  #endif
 #endif
 
 /**
