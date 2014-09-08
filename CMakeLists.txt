@@ -254,10 +254,10 @@ if(MSVC)
 endif()
 
 if(UNIX)
-  target_compile_options(sampgdk PRIVATE -fvisibility=hidden)
+  target_compile_options(sampgdk PRIVATE -m32 -fvisibility=hidden)
   if(NOT SAMPGDK_STATIC)
     target_link_libraries(sampgdk PRIVATE
-                  -Wl,--no-undefined,--retain-symbols-file=${SAMPGDK_SYM_FILE})
+             -m32 -Wl,--no-undefined,--retain-symbols-file=${SAMPGDK_SYM_FILE})
   endif()
 endif()
 
