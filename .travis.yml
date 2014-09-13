@@ -12,7 +12,7 @@ install:
   - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
   - export SAMP_SDK_DIR=$PWD/sdk
 before_script:
-  - cmake . -DCMAKE_C_FLAGS=-m32 -DSAMPGDK_STATIC=${STATIC}
+  - cmake . -DSAMPGDK_STATIC=${STATIC}
 script:
   - make
   - make package
