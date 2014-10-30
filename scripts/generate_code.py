@@ -119,23 +119,22 @@ def generate_header_file(module_name, idl, file):
   file.write('#include <sampgdk/export.h>\n')
   file.write('#include <sampgdk/types.h>\n')
   file.write('\n')
-  
-  natives = list(filter(lambda x: x.has_attr('native'),
-                        idl.functions))
-  
+
+  natives = list(filter(lambda x: x.has_attr('native'), idl.functions))
+
   for func in natives:
     generate_native_decl(file, func)
   file.write('\n')
-  
+
   file.write('#ifndef DOXYGEN\n')
   file.write('#ifdef __cplusplus\n')
   file.write('namespace sampgdk {\n')
   for func in natives:
-    generate_native_alias(file, func, True)
+    generate_native_wrapper(file, func)
   file.write('}\n')
   file.write('#else\n')
   for func in natives:
-    generate_native_alias(file, func, False)
+    generate_native_alias(file, func)
   file.write('#endif\n\n')
   file.write('#endif\n\n')
 
@@ -171,7 +170,6 @@ def generate_source_file(module_name, idl, file):
     generate_callback_impl(file, func);
     file.write('\n')
 
-
   file.write('SAMPGDK_MODULE_INIT(%s) {\n' % module_name)
   sorted_callbacks = list(sorted(callbacks, key=lambda x: x.name, reverse=True))
   if sorted_callbacks:
@@ -202,13 +200,14 @@ def generate_native_decl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s));\n'
              % (func.type, func.name, ParamList(func.params)))
 
-def generate_native_alias(file, func, iscpp):
-  if iscpp is True:
-    file.write('inline %s %s(%s) {\n' % (func.type, func.name, ParamList(func.params)))
-    file.write('  return sampgdk_%s(%s); }\n' % (func.name, ArgList(func.params)))
-  else:
-    file.write('#undef  %s\n' % func.name)
-    file.write('#define %s sampgdk_%s\n' % (func.name, func.name))
+def generate_native_alias(file, func):
+  file.write('#undef  %s\n' % func.name)
+  file.write('#define %s sampgdk_%s\n' % (func.name, func.name))
+
+def generate_native_wrapper(file, func):
+  file.write('inline %s %s(%s) {\n' %
+             (func.type, func.name, ParamList(func.params)))
+  file.write('  return sampgdk_%s(%s); }\n' % (func.name, ArgList(func.params)))
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %
@@ -218,7 +217,6 @@ def generate_native_impl(file, func):
 
   if func.params:
     file.write('  cell params[%d];\n' % (len(func.params) + 1))
-
     for p in filter(lambda p: p.is_ref, func.params):
       file.write('  cell %s_;\n' % p.name)
 
@@ -300,7 +298,7 @@ def generate_callback_decl(file, func):
              '%s on SA-MP Wiki</a>\n' % (func.name, func.name))
   file.write(' */\n')
   file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
-               (func.type, func.name, ParamList(func.params)))
+             (func.type, func.name, ParamList(func.params)))
 
 def generate_callback_impl(file, func):
   file.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_callback)(%s);\n' %
