@@ -1,7 +1,6 @@
 [GDK - Gamemode SDK for C/C++][github]
 ========================================
 
-[![Donate][donate_button]][donate]
 [![Build Status][build_status]][build]
 
 Introduction
@@ -82,8 +81,6 @@ Documentation
 Doxygen documentation is available online [here][doc].
 
 [github]: https://github.com/Zeex/sampgdk
-[donate]: http://pledgie.com/campaigns/19068
-[donate_button]: http://pledgie.com/campaigns/19068.png
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.png?branch=master
 [topic]: http://forum.sa-mp.com/showthread.php?t=421090
