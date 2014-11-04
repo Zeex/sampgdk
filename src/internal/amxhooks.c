@@ -190,7 +190,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   sampgdk_hook_remove(_sampgdk_amxhooks_Exec_hook);
   sampgdk_hook_install(_sampgdk_amxhooks_Callback_hook);
 
-  if (proceed && index != AMX_EXEC_GDK) {
+  if (proceed) {
     amx->paramcount = paramcount;
     error = amx_Exec(amx, retval, index);
   } else {
