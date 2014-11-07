@@ -195,9 +195,18 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     error = amx_Exec(amx, retval, index);
   }
 
-  if (!proceed || index == AMX_EXEC_GDK) {
+  /* Someone has to do the cleanup if amx_Exec() didn't run after all.
+   */
+  if (!proceed || (error == AMX_ERR_INDEX && index == AMX_EXEC_GDK)) {
     amx->paramcount = 0;
     amx->stk += paramcount * sizeof(cell);
+  }
+
+  /* Suppress the error and also let the other plugin(s) know that we
+   * handled the cleanup (see above).
+   */
+  if (error == AMX_ERR_INDEX && index == AMX_EXEC_GDK) {
+    error = AMX_ERR_NONE;
   }
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
