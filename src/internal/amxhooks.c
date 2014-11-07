@@ -193,7 +193,9 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   if (proceed) {
     amx->paramcount = paramcount;
     error = amx_Exec(amx, retval, index);
-  } else {
+  }
+
+  if (!proceed || index == AMX_EXEC_GDK) {
     amx->paramcount = 0;
     amx->stk += paramcount * sizeof(cell);
   }
