@@ -85,20 +85,16 @@ class Value(cidl.Value):
       return '_codegen_invalid_literal_'
     return string
 
-class ParamList:
-  def __init__(self, params):
-    self._params = params
+def get_arg_list_string(params):
+  return ', '.join(['%s' % p.name for p in params])
 
-  def __str__(self):
-    return ', '.join(['%s %s' % (p.c_type, p.name) for p in
-                      filter(lambda x: not x.has_attr('bind'), self._params)])
+def get_param_string(p, with_default=False):
+  return '%s %s%s' % (p.c_type, p.name,
+    ' = %s' % p.default if with_default and p.default is not None else '')
 
-class ArgList:
-  def __init__(self, params):
-    self._params = params
-
-  def __str__(self):
-    return ', '.join(['%s' % p.name for p in self._params])
+def get_param_list_string(params, with_default=False):
+  real_params = filter(lambda p: not p.has_attr('bind'), params)
+  return ', '.join([get_param_string(p, with_default) for p in real_params])
 
 def previous_and_next(iterable):
     prevs, items, nexts = itertools.tee(iterable, 3)
@@ -124,6 +120,10 @@ def generate_header_file(module_name, idl, file):
   file.write('#include <sampgdk/types.h>\n')
   file.write('\n')
 
+  for const in idl.constants:
+    generate_constant(file, const)
+  file.write('\n')
+
   natives = list(filter(lambda x: x.has_attr('native'), idl.functions))
   for func in natives:
     generate_native_decl(file, func)
@@ -140,10 +140,6 @@ def generate_header_file(module_name, idl, file):
     generate_native_alias(file, func)
   file.write('#endif /* !SAMPGDK_CPP_WRAPPERS */\n')
   file.write('#endif /* !DOXYGEN */\n\n')
-
-  for const in idl.constants:
-    generate_constant(file, const)
-  file.write('\n')
 
   callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
   for func in callbacks:
@@ -201,8 +197,8 @@ def generate_native_decl(file, func):
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
              '%s on SA-MP Wiki</a>\n' % (func.name, func.name))
   file.write(' */\n')
-  file.write('SAMPGDK_NATIVE(%s, %s(%s));\n'
-             % (func.type, func.name, ParamList(func.params)))
+  file.write('SAMPGDK_NATIVE(%s, %s(%s));\n' %
+             (func.type, func.name, get_param_list_string(func.params)))
 
 def generate_native_alias(file, func):
   file.write('#undef  %s\n' % func.name)
@@ -210,12 +206,13 @@ def generate_native_alias(file, func):
 
 def generate_native_wrapper(file, func):
   file.write('inline %s %s(%s) {\n' %
-             (func.type, func.name, ParamList(func.params)))
-  file.write('  return sampgdk_%s(%s);\n}\n' % (func.name, ArgList(func.params)))
+             (func.type, func.name, get_param_list_string(func.params, True)))
+  file.write('  return sampgdk_%s(%s);\n}\n' %
+             (func.name, get_arg_list_string(func.params)))
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %
-             (func.type, func.name, ParamList(func.params)))
+             (func.type, func.name, get_param_list_string(func.params)))
   file.write('  static AMX_NATIVE native;\n')
   file.write('  cell retval;\n')
 
@@ -302,11 +299,11 @@ def generate_callback_decl(file, func):
              '%s on SA-MP Wiki</a>\n' % (func.name, func.name))
   file.write(' */\n')
   file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
-             (func.type, func.name, ParamList(func.params)))
+             (func.type, func.name, get_param_list_string(func.params)))
 
 def generate_callback_impl(file, func):
   file.write('typedef %s (SAMPGDK_CALLBACK_CALL *%s_callback)(%s);\n' %
-             (func.type, func.name, ParamList(func.params)))
+             (func.type, func.name, get_param_list_string(func.params)))
   file.write('static bool _%s(AMX *amx, void *callback, cell *retval)'
              ' {\n' % func.name)
 
@@ -328,13 +325,13 @@ def generate_callback_impl(file, func):
 
   if badret.value is not None:
     file.write('  retval_ = ((%s_callback)callback)(%s);\n' %
-               (func.name, ArgList(func.params)))
+               (func.name, get_arg_list_string(func.params)))
     file.write('  if (retval != NULL) {\n')
     file.write('    *retval = (cell)retval_;\n')
     file.write('  }\n')
   else:
     file.write('  ((%s_callback)callback)(%s);\n' %
-                 (func.name, ArgList(func.params)))
+                 (func.name, get_arg_list_string(func.params)))
 
   for p in filter(lambda p: p.type == 'string', func.params):
     file.write('  free((void *)%s);\n' % p.name)

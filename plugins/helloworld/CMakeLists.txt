@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 2.8)
 include(AmxConfig)
 include(Plugin)
 
+add_definitions(-DSAMPGDK_CPP_WRAPPERS)
+
 if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
