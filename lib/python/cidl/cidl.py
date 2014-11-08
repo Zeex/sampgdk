@@ -23,6 +23,11 @@ import ply.lex
 import ply.yacc
 import sys
 
+try:
+  basestring = basestring
+except NameError:
+  basestring = (str,bytes)
+
 class Value(object):
   def __init__(self, type, data):
     self._type = type
