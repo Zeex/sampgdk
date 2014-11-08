@@ -115,7 +115,7 @@ const int WEAPONSTATE_RELOADING    =  3;
 [native] bool SetPlayerVelocity([in] int playerid, [in] float x, [in] float y, [in] float z);
 [native] bool GetPlayerVelocity([in] int playerid, [out] float x, [out] float y, [out] float z);
 [native] bool PlayCrimeReportForPlayer([in] int playerid, [in] int suspectid, [in] int crime);
-[native] bool PlayAudioStreamForPlayer([in] int playerid, [in] string url, [in] float posX, [in] float posY, [in] float posZ, [in] float distance, [in] bool usepos);
+[native] bool PlayAudioStreamForPlayer([in] int playerid, [in] string url, [in] float posX = 0.0, [in] float posY = 0.0, [in] float posZ = 0.0, [in] float distance = 50.0, [in] bool usepos = false);
 [native] bool StopAudioStreamForPlayer([in] int playerid);
 [native] bool SetPlayerShopName([in] int playerid, [in] string shopname);
 [native] bool SetPlayerSkillLevel([in] int playerid, [in] int skill, [in] int level);
@@ -126,7 +126,7 @@ const int WEAPONSTATE_RELOADING    =  3;
 
 const int MAX_PLAYER_ATTACHED_OBJECTS = 10;
 
-[native] bool SetPlayerAttachedObject([in] int playerid, [in] int index, [in] int modelid, [in] int bone, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fScaleX, [in] float fScaleY, [in] float fScaleZ, [in] int materialcolor1, [in] int materialcolor2);
+[native] bool SetPlayerAttachedObject([in] int playerid, [in] int index, [in] int modelid, [in] int bone, [in] float fOffsetX = 0.0, [in] float fOffsetY = 0.0, [in] float fOffsetZ = 0.0, [in] float fRotX = 0.0, [in] float fRotY = 0.0, [in] float fRotZ = 0.0, [in] float fScaleX = 1.0, [in] float fScaleY = 1.0, [in] float fScaleZ = 1.0, [in] int materialcolor1 = 0, [in] int materialcolor2 = 0);
 [native] bool RemovePlayerAttachedObject([in] int playerid, [in] int index);
 [native] bool IsPlayerAttachedObjectSlotUsed([in] int playerid, [in] int index);
 [native] bool EditAttachedObject([in] int playerid, [in] int index);
@@ -149,7 +149,7 @@ const int MAX_PLAYER_ATTACHED_OBJECTS = 10;
 [native] bool PlayerTextDrawHide([in] int playerid, [in] int text);
 [native] bool PlayerTextDrawSetString([in] int playerid, [in] int text, [in] string string);
 [native] bool PlayerTextDrawSetPreviewModel([in] int playerid, [in] int text, [in] int modelindex);
-[native] bool PlayerTextDrawSetPreviewRot([in] int playerid, [in] int text, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fZoom);
+[native] bool PlayerTextDrawSetPreviewRot([in] int playerid, [in] int text, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fZoom = 1.0);
 [native] bool PlayerTextDrawSetPreviewVehCol([in] int playerid, [in] int text, [in] int color1, [in] int color2);
 
 const int PLAYER_VARTYPE_NONE   = 0;
@@ -179,8 +179,8 @@ const int MAX_CHATBUBBLE_LENGTH = 144;
 [native] bool RemovePlayerFromVehicle([in] int playerid);
 [native] bool TogglePlayerControllable([in] int playerid, [in] bool toggle);
 [native] bool PlayerPlaySound([in] int playerid, [in] int soundid, [in] float x, [in] float y, [in] float z);
-[native] bool ApplyAnimation([in] int playerid, [in] string animlib, [in] string animname, [in] float fDelta, [in] bool loop, [in] bool lockx, [in] bool locky, [in] bool freeze, [in] int time, [in] bool forcesync);
-[native] bool ClearAnimations([in] int playerid, [in] bool forcesync);
+[native] bool ApplyAnimation([in] int playerid, [in] string animlib, [in] string animname, [in] float fDelta, [in] bool loop, [in] bool lockx, [in] bool locky, [in] bool freeze, [in] int time, [in] bool forcesync = false);
+[native] bool ClearAnimations([in] int playerid, [in] bool forcesync = false);
 [native] int GetPlayerAnimationIndex([in] int playerid);
 [native] bool GetAnimationName([in] int index, [out] string animlib, [in] int animlib_size, [out] string animname, [in] int animname_size);
 [native] int GetPlayerSpecialAction([in] int playerid);
@@ -199,7 +199,7 @@ const int MAPICON_GLOBAL            = 1;
 const int MAPICON_LOCAL_CHECKPOINT  = 2;
 const int MAPICON_GLOBAL_CHECKPOINT = 3;
 
-[native] bool SetPlayerMapIcon([in] int playerid, [in] int iconid, [in] float x, [in] float y, [in] float z, [in] int markertype, [in] int color, [in] int style);
+[native] bool SetPlayerMapIcon([in] int playerid, [in] int iconid, [in] float x, [in] float y, [in] float z, [in] int markertype, [in] int color, [in] int style = MAPICON_LOCAL);
 [native] bool RemovePlayerMapIcon([in] int playerid, [in] int iconid);
 
 [native] bool AllowPlayerTeleport([in] int playerid, [in] bool allow);
@@ -208,7 +208,7 @@ const int CAMERA_CUT  = 2;
 const int CAMERA_MOVE = 1;
 
 [native] bool SetPlayerCameraPos([in] int playerid, [in] float x, [in] float y, [in] float z);
-[native] bool SetPlayerCameraLookAt([in] int playerid, [in] float x, [in] float y, [in] float z, [in] int cut);
+[native] bool SetPlayerCameraLookAt([in] int playerid, [in] float x, [in] float y, [in] float z, [in] int cut = CAMERA_CUT);
 [native] bool SetCameraBehindPlayer([in] int playerid);
 [native] bool GetPlayerCameraPos([in] int playerid, [out] float x, [out] float y, [out] float z);
 [native] bool GetPlayerCameraFrontVector([in] int playerid, [out] float x, [out] float y, [out] float z);
@@ -217,8 +217,8 @@ const int CAMERA_MOVE = 1;
 [native] float GetPlayerCameraZoom([in] int playerid);
 [native] bool AttachCameraToObject([in] int playerid, [in] int objectid);
 [native] bool AttachCameraToPlayerObject([in] int playerid, [in] int playerobjectid);
-[native] bool InterpolateCameraPos([in] int playerid, [in] float FromX, [in] float FromY, [in] float FromZ, [in] float ToX, [in] float ToY, [in] float ToZ, [in] int time, [in] int cut);
-[native] bool InterpolateCameraLookAt([in] int playerid, [in] float FromX, [in] float FromY, [in] float FromZ, [in] float ToX, [in] float ToY, [in] float ToZ, [in] int time, [in] int cut);
+[native] bool InterpolateCameraPos([in] int playerid, [in] float FromX, [in] float FromY, [in] float FromZ, [in] float ToX, [in] float ToY, [in] float ToZ, [in] int time, [in] int cut = CAMERA_CUT);
+[native] bool InterpolateCameraLookAt([in] int playerid, [in] float FromX, [in] float FromY, [in] float FromZ, [in] float ToX, [in] float ToY, [in] float ToZ, [in] int time, [in] int cut = CAMERA_CUT);
 
 [native] bool IsPlayerConnected([in] int playerid);
 [native] bool IsPlayerInVehicle([in] int playerid, [in] int vehicleid);
@@ -237,8 +237,8 @@ const int SPECTATE_MODE_FIXED  = 2;
 const int SPECTATE_MODE_SIDE   = 3;
 
 [native] bool TogglePlayerSpectating([in] int playerid, [in] bool toggle);
-[native] bool PlayerSpectatePlayer([in] int playerid, [in] int targetplayerid, [in] int mode);
-[native] bool PlayerSpectateVehicle([in] int playerid, [in] int targetvehicleid, [in] int mode);
+[native] bool PlayerSpectatePlayer([in] int playerid, [in] int targetplayerid, [in] int mode = SPECTATE_MODE_NORMAL);
+[native] bool PlayerSpectateVehicle([in] int playerid, [in] int targetvehicleid, [in] int mode = SPECTATE_MODE_NORMAL);
 
 const int PLAYER_RECORDING_TYPE_NONE   = 0;
 const int PLAYER_RECORDING_TYPE_DRIVER = 1;

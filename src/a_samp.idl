@@ -52,8 +52,8 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] int AddPlayerClassEx([in] int teamid, [in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int weapon1, [in] int weapon1_ammo, [in] int weapon2, [in] int weapon2_ammo, [in] int weapon3, [in] int weapon3_ammo);
 [native] int AddStaticVehicle([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int color1, [in] int color2);
 [native] int AddStaticVehicleEx([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int color1, [in] int color2, [in] int respawn_delay);
-[native] int AddStaticPickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld);
-[native] int CreatePickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld);
+[native] int AddStaticPickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld = 0);
+[native] int CreatePickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld = 0);
 [native] bool DestroyPickup([in] int pickup);
 [native] bool ShowNameTags([in] bool show);
 [native] bool ShowPlayerMarkers([in] int mode);
@@ -104,7 +104,7 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] int NetStats_ConnectionStatus([in] int playerid);
 [native] bool NetStats_GetIpPort([in] int playerid, [out] string ip_port, [in] int ip_port_len);
 
-[native] int CreateMenu([in] string title, [in] int columns, [in] float x, [in] float y, [in] float col1width, [in] float col2width);
+[native] int CreateMenu([in] string title, [in] int columns, [in] float x, [in] float y, [in] float col1width, [in] float col2width = 0.0);
 [native] bool DestroyMenu([in] int menuid);
 [native] int AddMenuItem([in] int menuid, [in] int column, [in] string menutext);
 [native] bool SetMenuColumnHeader([in] int menuid, [in] int column, [in] string columnheader);
@@ -138,7 +138,7 @@ const int TEXT_DRAW_FONT_MODEL_PREVIEW = 5;
 [native] bool TextDrawHideForAll([in] int text);
 [native] bool TextDrawSetString([in] int text, [in] string string);
 [native] bool TextDrawSetPreviewModel([in] int text, [in] int modelindex);
-[native] bool TextDrawSetPreviewRot([in] int text, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fZoom);
+[native] bool TextDrawSetPreviewRot([in] int text, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] float fZoom = 1.0);
 [native] bool TextDrawSetPreviewVehCol([in] int text, [in] int color1, [in] int color2);
 
 [native] bool SelectTextDraw([in] int playerid, [in] int hovercolor);
@@ -155,13 +155,13 @@ const int TEXT_DRAW_FONT_MODEL_PREVIEW = 5;
 [native] bool GangZoneStopFlashForPlayer([in] int playerid, [in] int zone);
 [native] bool GangZoneStopFlashForAll([in] int zone);
 
-[native] int Create3DTextLabel([in] string text, [in] int color, [in] float x, [in] float y, [in] float z, [in] float DrawDistance, [in] int virtualworld, [in] bool testLOS);
+[native] int Create3DTextLabel([in] string text, [in] int color, [in] float x, [in] float y, [in] float z, [in] float DrawDistance, [in] int virtualworld, [in] bool testLOS = false);
 [native] bool Delete3DTextLabel([in] int id);
 [native] bool Attach3DTextLabelToPlayer([in] int id, [in] int playerid, [in] float OffsetX, [in] float OffsetY, [in] float OffsetZ);
 [native] bool Attach3DTextLabelToVehicle([in] int id, [in] int vehicleid, [in] float OffsetX, [in] float OffsetY, [in] float OffsetZ);
 [native] bool Update3DTextLabelText([in] int id, [in] int color, [in] string text);
 
-[native] int CreatePlayer3DTextLabel([in] int playerid, [in] string text, [in] int color, [in] float x, [in] float y, [in] float z, [in] float DrawDistance, [in] int attachedplayer, [in] int attachedvehicle, [in] bool testLOS);
+[native] int CreatePlayer3DTextLabel([in] int playerid, [in] string text, [in] int color, [in] float x, [in] float y, [in] float z, [in] float DrawDistance, [in] int attachedplayer = INVALID_PLAYER_ID, [in] int attachedvehicle = INVALID_VEHICLE_ID, [in] bool testLOS = false);
 [native] bool DeletePlayer3DTextLabel([in] int playerid, [in] int id);
 [native] bool UpdatePlayer3DTextLabelText([in] int playerid, [in] int id, [in] int color, [in] string text);
 
