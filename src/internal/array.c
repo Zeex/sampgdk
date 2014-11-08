@@ -132,6 +132,14 @@ void *sampgdk_array_get(struct sampgdk_array *a, int index) {
   return _sampgdk_array_get_elem_ptr(a, index);
 }
 
+void *sampgdk_array_first(struct sampgdk_array *a) {
+  return sampgdk_array_get(a, 0);
+}
+
+void *sampgdk_array_last(struct sampgdk_array *a) {
+  return sampgdk_array_get(a, a->count - 1);
+}
+
 void sampgdk_array_set(struct sampgdk_array *a, int index, void *elem) {
   assert(a != NULL);
   assert(elem != NULL);
@@ -219,6 +227,14 @@ int sampgdk_array_remove_single(struct sampgdk_array *a, int index) {
   assert(index >= 0);
   assert(index < a->count);
   return sampgdk_array_remove(a, index, 1);
+}
+
+int sampgdk_array_remove_first(struct sampgdk_array *a) {
+  return sampgdk_array_remove_single(a, 0);
+}
+
+int sampgdk_array_remove_last(struct sampgdk_array *a) {
+  return sampgdk_array_remove_single(a, a->count - 1);
 }
 
 int sampgdk_array_append(struct sampgdk_array *a, void *elem) {
