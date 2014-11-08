@@ -114,21 +114,30 @@ def generate_api_file(module_name, idl, file):
     file.write('sampgdk_%s\n' % f.name)
 
 def generate_header_file(module_name, idl, file):
+  file.write('#pragma once\n\n')
   file.write('#include <sampgdk/bool.h>\n')
   file.write('#include <sampgdk/export.h>\n')
   file.write('#include <sampgdk/types.h>\n')
   file.write('\n')
-
+  
   natives = list(filter(lambda x: x.has_attr('native'),
                         idl.functions))
-  file.write('#ifndef DOXYGEN\n')
-  for func in natives:
-    generate_native_alias(file, func)
-  file.write('#endif\n\n')
-
+  
   for func in natives:
     generate_native_decl(file, func)
   file.write('\n')
+  
+  file.write('#ifndef DOXYGEN\n')
+  file.write('#ifdef __cplusplus\n')
+  file.write('namespace sampgdk {\n')
+  for func in natives:
+    generate_native_alias(file, func, True)
+  file.write('}\n')
+  file.write('#else\n')
+  for func in natives:
+    generate_native_alias(file, func, False)
+  file.write('#endif\n\n')
+  file.write('#endif\n\n')
 
   for const in idl.constants:
     generate_constant(file, const)
@@ -193,9 +202,13 @@ def generate_native_decl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s));\n'
              % (func.type, func.name, ParamList(func.params)))
 
-def generate_native_alias(file, func):
-  file.write('#undef  %s\n' % func.name)
-  file.write('#define %s sampgdk_%s\n' % (func.name, func.name))
+def generate_native_alias(file, func, iscpp):
+  if iscpp is True:
+    file.write('inline %s %s(%s) {\n' % (func.type, func.name, ParamList(func.params)))
+    file.write('  return sampgdk_%s(%s); }\n' % (func.name, ArgList(func.params)))
+  else:
+    file.write('#undef  %s\n' % func.name)
+    file.write('#define %s sampgdk_%s\n' % (func.name, func.name))
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %

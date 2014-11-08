@@ -171,7 +171,7 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeArray(AMX_NATIVE native,
  * \brief Gets called on every public function call.
  *
  * This is the public filter callback. It is called whenever the server
- * calls \c amx_Exec(), which practiacally means that you can use it to
+ * calls \c amx_Exec(), which practically means that you can use it to
  * hook *any* callback, even those that are called by other plugins.
  *
  * \param amx The AMX instance on which the public function is called.
