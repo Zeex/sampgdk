@@ -6,7 +6,7 @@
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
 
-using sampgdk::logprintf;
+using namespace sampgdk;
 
 void SAMPGDK_CALL PrintTickCountTimer(int timerid, void *params) {
   logprintf("Tick count: %d", GetTickCount());
