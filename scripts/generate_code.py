@@ -130,16 +130,16 @@ def generate_header_file(module_name, idl, file):
   file.write('\n')
 
   file.write('#ifndef DOXYGEN\n')
-  file.write('#ifdef __cplusplus\n')
+  file.write('#ifdef SAMPGDK_CPP_WRAPPERS\n')
   file.write('namespace sampgdk {\n')
   for func in natives:
     generate_native_wrapper(file, func)
   file.write('}\n')
-  file.write('#else\n')
+  file.write('#else /* SAMPGDK_CPP_WRAPPERS */\n')
   for func in natives:
     generate_native_alias(file, func)
-  file.write('#endif\n\n')
-  file.write('#endif\n\n')
+  file.write('#endif /* !SAMPGDK_CPP_WRAPPERS */\n')
+  file.write('#endif /* !DOXYGEN */\n\n')
 
   for const in idl.constants:
     generate_constant(file, const)
@@ -211,7 +211,7 @@ def generate_native_alias(file, func):
 def generate_native_wrapper(file, func):
   file.write('inline %s %s(%s) {\n' %
              (func.type, func.name, ParamList(func.params)))
-  file.write('  return sampgdk_%s(%s); }\n' % (func.name, ArgList(func.params)))
+  file.write('  return sampgdk_%s(%s);\n}\n' % (func.name, ArgList(func.params)))
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %
