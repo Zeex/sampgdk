@@ -114,14 +114,17 @@ def generate_api_file(module_name, idl, file):
     file.write('sampgdk_%s\n' % f.name)
 
 def generate_header_file(module_name, idl, file):
-  file.write('#pragma once\n\n')
+  header_symbol = 'SAMPGDK_%s_H' % module_name.upper()
+
+  file.write('#ifndef %s\n' % header_symbol)
+  file.write('#define %s\n' % header_symbol)
+  file.write('\n')
   file.write('#include <sampgdk/bool.h>\n')
   file.write('#include <sampgdk/export.h>\n')
   file.write('#include <sampgdk/types.h>\n')
   file.write('\n')
 
   natives = list(filter(lambda x: x.has_attr('native'), idl.functions))
-
   for func in natives:
     generate_native_decl(file, func)
   file.write('\n')
@@ -142,10 +145,11 @@ def generate_header_file(module_name, idl, file):
     generate_constant(file, const)
   file.write('\n')
 
-  callbacks = list(filter(lambda x: x.has_attr('callback'),
-                          idl.functions))
+  callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
   for func in callbacks:
     generate_callback_decl(file, func)
+
+  file.write('\n#endif /* !%s */\n' % header_symbol)
 
 def generate_source_file(module_name, idl, file):
   file.write('#include <sampgdk/%s.h>\n' % module_name)
