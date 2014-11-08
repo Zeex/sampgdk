@@ -91,7 +91,7 @@ class ParamList:
 
   def __str__(self):
     return ', '.join(['%s %s' % (p.c_type, p.name) for p in
-                      filter(lambda x: x.default is None, self._params)])
+                      filter(lambda x: not x.has_attr('bind'), self._params)])
 
 class ArgList:
   def __init__(self, params):
@@ -216,8 +216,8 @@ def generate_native_impl(file, func):
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):
       if p.is_ref:
-        if p.default is not None:
-          value = p.default
+        if p.has_attr('bind'):
+          value = p.get_attr('bind').value
         else:
           value = p.name
         if p.type == 'string':
@@ -233,8 +233,8 @@ def generate_native_impl(file, func):
     file.write('  params[0] = %d * sizeof(cell);\n' % len(func.params))
     for index, p in enumerate(func.params, 1):
       if p.is_value:
-        if p.default is not None:
-          value = p.default
+        if p.has_attr('bind'):
+          value = p.get_attr('bind').value
         else:
           value = p.name
         file.write('  params[%d] = %s;\n' % (index,
@@ -246,7 +246,6 @@ def generate_native_impl(file, func):
         ))
       else:
         file.write('  params[%d] = %s_;\n' % (index, p.name))
-
 
   file.write('  retval = native(sampgdk_fakeamx_amx(), %s);\n' %
              ('NULL', 'params')[bool(func.params)])
