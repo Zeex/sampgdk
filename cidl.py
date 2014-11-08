@@ -23,6 +23,11 @@ import ply.lex
 import ply.yacc
 import sys
 
+try:
+  basestring = basestring
+except NameError:
+  basestring = (str,bytes)
+
 class Value(object):
   def __init__(self, type, data):
     self._type = type
@@ -360,7 +365,7 @@ class Parser(object):
     return t
 
   def t_FLOAT(self, t):
-    r'(([0-9]*\.[0-9]*)([eE][+-]?[0-9]+)?|[0-9]+[eE][+-][0-9]+)'
+    r'[+-]?(([0-9]*\.[0-9]*)([eE][+-]?[0-9]+)?|[0-9]+[eE][+-][0-9]+)'
     t.value = float(t.value)
     return t
 
