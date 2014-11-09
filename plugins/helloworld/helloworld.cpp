@@ -29,7 +29,7 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerRequestClass(int playerid,
                                                     int classid) {
   SetPlayerPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
   SetPlayerCameraPos(playerid, 1958.3783f, 1343.1572f, 15.3746f);
-  SetPlayerCameraLookAt(playerid, 1958.3783f, 1343.1572f, 15.3746f);
+  SetPlayerCameraLookAt(playerid, 1958.3783f, 1343.1572f, 15.3746f, CAMERA_CUT);
   return true;
 }
 
