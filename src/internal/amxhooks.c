@@ -194,8 +194,8 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     sampgdk_strcpy(name,
                    sampgdk_array_last(&_sampgdk_amxhooks_found_publics),
                    sizeof(name));
-    proceed = sampgdk_callback_invoke(amx, name, paramcount, retval);
     sampgdk_array_remove_last(&_sampgdk_amxhooks_found_publics);
+    proceed = sampgdk_callback_invoke(amx, name, paramcount, retval);
   }
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Exec_hook);
