@@ -39,14 +39,14 @@
 static AMX *_sampgdk_amxhooks_main_amx;
 static struct sampgdk_array _sampgdk_amxhooks_found_publics;
 
-#define _SAMPGDK_AMXHOOKS_LIST(C) \
+#define _SAMPGDK_AMXHOOKS_FUNC_LIST(C) \
   C(Register) \
   C(FindPublic) \
   C(Exec) \
   C(Callback) \
   C(Allot)
 
-#define _SAMPGDK_AMXHOOKS_LIST_2(C) \
+#define _SAMPGDK_AMXHOOKS_FUNC_LIST_2(C) \
   C(Register) \
   C(FindPublic) \
   C(Exec) \
@@ -54,12 +54,12 @@ static struct sampgdk_array _sampgdk_amxhooks_found_publics;
 
 #define _SAMPGDK_AMXHOOKS_DEFINE_HOOK(name) \
   static sampgdk_hook_t _sampgdk_amxhooks_##name##_hook;
-_SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_DEFINE_HOOK)
+_SAMPGDK_AMXHOOKS_FUNC_LIST(_SAMPGDK_AMXHOOKS_DEFINE_HOOK)
 #undef _SAMPGDK_AMXHOOKS_DEFINE_HOOK
 
-/* The "funcidx" native uses amx_FindPublic() to get public function index
- * but our FindPublic always succeeds regardless of public existence, so
- * here's a fixed version.
+/* The "funcidx" native uses amx_FindPublic() to get the public function's
+ * index but our FindPublic always returns success regardless of the actual
+ * result. So here's a fixed version.
  *
  * Thanks to Incognito for finding this bug!
  */
@@ -74,8 +74,7 @@ static cell AMX_NATIVE_CALL _sampgdk_amxhooks_funcidx(AMX *amx, cell *params) {
   }
 
   error = amx_FindPublic(amx, funcname, &index);
-  if (error != AMX_ERR_NONE || (error == AMX_ERR_NONE &&
-      index == AMX_EXEC_GDK)) {
+  if (error != AMX_ERR_NONE || index == AMX_EXEC_GDK) {
     return -1;
   }
 
@@ -115,17 +114,15 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
 }
 
 /* The SA-MP server always makes a call to amx_FindPublic() before executing
- * a callback and depending the return value it may or may not run amx_Exec().
+ * a callback and calls amx_Exec() depending on the returned error code.
+ * This allows us to force it to call amx_Exec() regardless of whether the
+ * public function was previously found by returning AMX_ERR_NONE from our
+ * version of amx_FindPublic().
  *
- * In order to have amx_Exec() called for *all* publics i.e. regardless of
- * whether they actually exist in the gamemode, we can simply always return
- * success.
- *
- * Now you might be thinking "OK, that sounds like it should work", but there
- * is one fundamental flaw in this "algorithm": if the caller didn't bother
- * to initialize the retval variable prior to the call to amx_Exec(), which
- * makes perfect sense, it will end up with random garbage and you might get
- * unexpected results.
+ * Although this system works in most cases it's obviously very fragile, and
+ * if they suddenly decide to change something in this find-exec scheme (e.g.
+ * by caching callback indices), the whole thing willl stop working. So be
+ * prepared for bugs!
  */
 static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
                                                const char *name,
@@ -171,7 +168,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   int error = AMX_ERR_NONE;
   int paramcount = amx->paramcount;
 
-  /* We have to reset amx->paramcount at this point so that if the callback
+  /* We have to reset amx->paramcount at this point so if the callback
    * itself calls amx_Exec() it won't pop our arguments off the stack.
    */
   amx->paramcount = 0;
@@ -190,7 +187,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   } else if (index != AMX_EXEC_CONT
              && (amx == _sampgdk_amxhooks_main_amx ||
                  amx == sampgdk_fakeamx_amx())
-             &&  _sampgdk_amxhooks_found_publics.count > 0) {
+             && _sampgdk_amxhooks_found_publics.count > 0) {
     char name[_SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME];
     sampgdk_strcpy(name,
                    sampgdk_array_last(&_sampgdk_amxhooks_found_publics),
@@ -258,13 +255,15 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
   sampgdk_hook_remove(_sampgdk_amxhooks_Allot_hook);
 
   /* There is a bug in amx_Allot() where it returns success even though
-   * there's no enough space on the heap:
+   * there's not enough space on the heap:
    *
    * if (amx->stk - amx->hea - cells*sizeof(cell) < STKMARGIN)
    *   return AMX_ERR_MEMORY;
    *
    * The expression on the left is always positive because of the conversion
    * to size_t, which is unsigned.
+   *
+   * The code below code should fix this.
    */
   #define STKMARGIN (cell)(16 * sizeof(cell))
   if ((size_t)amx->stk < (size_t)(amx->hea + cells*sizeof(cell) + STKMARGIN)) {
@@ -294,7 +293,7 @@ static int _sampgdk_amxhooks_create(void) {
         sampgdk_hook_new(sampgdk_amx_api_ptr->name, \
                          (void *)_sampgdk_amxhooks_##name)) == NULL) \
       goto no_memory;
-  _SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_CREATE_HOOK)
+  _SAMPGDK_AMXHOOKS_FUNC_LIST(_SAMPGDK_AMXHOOKS_CREATE_HOOK)
   return 0;
 no_memory:
   return -ENOMEM;
@@ -304,21 +303,21 @@ no_memory:
 static void _sampgdk_amxhooks_destroy(void) {
   #define _SAMPGDK_AMXHOOKS_DESTROY_HOOK(name) \
     sampgdk_hook_free(_sampgdk_amxhooks_##name##_hook);
-  _SAMPGDK_AMXHOOKS_LIST(_SAMPGDK_AMXHOOKS_DESTROY_HOOK)
+  _SAMPGDK_AMXHOOKS_FUNC_LIST(_SAMPGDK_AMXHOOKS_DESTROY_HOOK)
   #undef _SAMPGDK_AMXHOOKS_DESTROY_HOOK
 }
 
 static void _sampgdk_amxhooks_install(void) {
   #define _SAMPGDK_AMXHOOKS_INSTALL_HOOK(name) \
     sampgdk_hook_install(_sampgdk_amxhooks_##name##_hook);
-  _SAMPGDK_AMXHOOKS_LIST_2(_SAMPGDK_AMXHOOKS_INSTALL_HOOK)
+  _SAMPGDK_AMXHOOKS_FUNC_LIST_2(_SAMPGDK_AMXHOOKS_INSTALL_HOOK)
   #undef _SAMPGDK_AMXHOOKS_INSTALL_HOOK
 }
 
 static void _sampgdk_amxhooks_remove(void) {
   #define _SAMPGDK_AMXHOOKS_REMOVE_HOOK(name) \
     sampgdk_hook_remove(_sampgdk_amxhooks_##name##_hook);
-  _SAMPGDK_AMXHOOKS_LIST_2(_SAMPGDK_AMXHOOKS_REMOVE_HOOK)
+  _SAMPGDK_AMXHOOKS_FUNC_LIST_2(_SAMPGDK_AMXHOOKS_REMOVE_HOOK)
   #undef _SAMPGDK_AMXHOOKS_REMOVE_HOOK
 }
 
