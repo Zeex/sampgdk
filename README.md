@@ -78,11 +78,14 @@ git merge v1.2.3
 Documentation
 -------------
 
-Doxygen documentation is available online [here][doc].
+The API documentation is generated using [Doxygen][doxygen] and is located
+in the doc/html directory of the build tree. For the current release it is
+also available [online][online-docs].
 
 [github]: https://github.com/Zeex/sampgdk
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.png?branch=master
 [topic]: http://forum.sa-mp.com/showthread.php?t=421090
 [helloworld]: https://github.com/Zeex/sampgdk/tree/master/plugins/helloworld
-[doc]: http://zeex.github.io/sampgdk/doc/html/index.html
+[doxygen]: http://www.stack.nl/~dimitri/doxygen/
+[online-docs]: http://zeex.github.io/sampgdk/doc/html/index.html
