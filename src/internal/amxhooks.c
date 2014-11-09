@@ -187,9 +187,10 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
       sampgdk_callback_invoke(amx, "OnGameModeInit", paramcount, retval);
       _sampgdk_amxhooks_main_amx = amx;
     }
-  } if (index != AMX_EXEC_CONT
-        && (amx == _sampgdk_amxhooks_main_amx || amx == sampgdk_fakeamx_amx())
-        &&  _sampgdk_amxhooks_found_publics.count > 0) {
+  } else if (index != AMX_EXEC_CONT
+             && (amx == _sampgdk_amxhooks_main_amx ||
+                 amx == sampgdk_fakeamx_amx())
+             &&  _sampgdk_amxhooks_found_publics.count > 0) {
     char name[_SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME];
     sampgdk_strcpy(name,
                    sampgdk_array_last(&_sampgdk_amxhooks_found_publics),
