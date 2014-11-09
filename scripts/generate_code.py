@@ -363,31 +363,19 @@ def main(argv):
   args = parse_args(argv[1:])
 
   try:
-    idlparser = cidl.Parser(value_class=Value, param_class=Parameter)
+    idlparser = cidl.Parser(value_class=Value,
+                            param_class=Parameter)
     idl = idlparser.parse(open(args.idl_file, 'r').read())
 
-    def ensure_dir(filename):
-      directory = os.path.dirname(filename)
-      if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    api = None
-    if args.api_file is not None:
-      ensure_dir(args.api_file)
-      with open(args.api_file, 'w') as file:
-        generate_api_file(args.module_name, idl, file)
-
-    header = None
-    if args.header_file is not None:
-      ensure_dir(args.header_file)
-      with open(args.header_file, 'w') as file:
-        generate_header_file(args.module_name, idl, file)
-
-    source = None
-    if args.source_file is not None:
-      ensure_dir(args.source_file)
-      with open(args.source_file, 'w') as file:
-        generate_source_file(args.module_name, idl, file)
+    for (path, func) in [(args.api_file, generate_api_file),
+                         (args.header_file, generate_header_file),
+                         (args.source_file, generate_source_file)]:
+      if path is not None:
+        dir = os.path.dirname(path)
+        if not os.path.exists(dir):
+          os.makedirs(dir)
+        with open(path, 'w') as file:
+          func(args.module_name, idl, file)
 
   except cidl.Error as e:
     sys.stderr.write('%s\n' % e)
