@@ -20,14 +20,14 @@ import itertools
 import os
 import sys
 
-idl_to_c_type_in = {
+C_TYPES_IN = {
   'int'    : 'int',
   'bool'   : 'bool',
   'float'  : 'float',
   'string' : 'const char *',
 }
 
-idl_to_c_type_out = {
+C_TYPES_OUT = {
   'int'    : 'int *',
   'bool'   : 'bool *',
   'float'  : 'float *',
@@ -42,9 +42,9 @@ class Parameter(cidl.Parameter):
   def c_type(self):
     try:
       if self.is_out:
-        return idl_to_c_type_out[self.type]
+        return C_TYPES_OUT[self.type]
       if self.is_in:
-        return idl_to_c_type_in[self.type]
+        return C_TYPES_IN[self.type]
     except KeyError:
       if self.is_out:
         return '%s *' % self.type
