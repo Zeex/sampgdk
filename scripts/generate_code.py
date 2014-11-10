@@ -60,6 +60,14 @@ class Parameter(cidl.Parameter):
   def is_value(self):
     return not self.is_ref
 
+  @property
+  def is_bound(self):
+    return self.has_attr('bind')
+
+  @property
+  def bind(self):
+    return self.get_attr('bind')
+
 class Value(cidl.Value):
   def __init__(self, type, data):
     cidl.Value.__init__(self, type, data)
@@ -91,8 +99,8 @@ class ParameterList:
     self._types = types
     self._defaults = defaults
 
-  def list(self):
-    for p in filter(lambda p: not p.has_attr('bind'), self._params):
+  def as_list(self):
+    for p in filter(lambda p: not p.is_bound, self._params):
       s = p.name
       if self._types:
         s = '%s %s' % (p.c_type, s)
@@ -101,7 +109,7 @@ class ParameterList:
       yield s
 
   def __str__(self):
-    return ', '.join(self.list())
+    return ', '.join(self.as_list())
 
 def previous_and_next(iterable):
     prevs, items, nexts = itertools.tee(iterable, 3)
@@ -235,8 +243,8 @@ def generate_native_impl(file, func):
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):
       if p.is_ref:
-        if p.has_attr('bind'):
-          value = p.get_attr('bind').value
+        if p.is_bound:
+          value = p.bind.value
         else:
           value = p.name
         if p.type == 'string':
@@ -252,8 +260,8 @@ def generate_native_impl(file, func):
     file.write('  params[0] = %d * sizeof(cell);\n' % len(func.params))
     for index, p in enumerate(func.params, 1):
       if p.is_value:
-        if p.has_attr('bind'):
-          value = p.get_attr('bind').value
+        if p.is_bound:
+          value = p.bind.value
         else:
           value = p.name
         file.write('  params[%d] = %s;\n' % (index,
