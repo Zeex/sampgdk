@@ -104,7 +104,7 @@ class ParameterList:
       s = p.name
       if self._types:
         s = '%s %s' % (p.c_type, s)
-      if self._defaults:
+      if self._defaults and p.default is not None:
         s = '%s = %s' % (s, p.default)
       yield s
 
