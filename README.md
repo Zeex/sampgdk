@@ -7,16 +7,9 @@ Introduction
 -------------
 
 The GDK (Gamemode Development Kit) is a library that allows you to write
-SA-MP gamemodes in C/C++. It is built on top of the SA-MP plugin SDK, so
-gamemodes written with it are basically just ordinary plugins.
-
-The library provides most of the functions you would find in Pawn, except
-thoset that either overlap with the C standard library, like file I/O or
-string utiluties, or could be easily implemented on top of it. It also lets
-you handle standard SA-MP scripting events (a.k.a. "callbacks").
-
-Visit the [official SA-MP forums topic][topic] for more information and
-support.
+SA-MP gamemodes in C/C++. It mirrors the Pawn scripting API provied by
+the SA-MP server and lets you handle various SA-MP events a.k.a callbacks
+in a similar fashion.
 
 Building GDK
 ------------
@@ -85,7 +78,7 @@ also available [online][online-docs].
 [github]: https://github.com/Zeex/sampgdk
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.png?branch=master
-[topic]: http://forum.sa-mp.com/showthread.php?t=421090
 [helloworld]: https://github.com/Zeex/sampgdk/tree/master/plugins/helloworld
 [doxygen]: http://www.stack.nl/~dimitri/doxygen/
 [online-docs]: http://zeex.github.io/sampgdk/doc/html/index.html
+[forums]: http://forum.sa-mp.com/showthread.php?t=421090
