@@ -6,10 +6,8 @@
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
 
-using namespace sampgdk;
-
 void SAMPGDK_CALL PrintTickCountTimer(int timerid, void *params) {
-  logprintf("Tick count: %d", GetTickCount());
+  sampgdk::logprintf("Tick count: %d", GetTickCount());
 }
 
 PLUGIN_EXPORT bool PLUGIN_CALL OnGameModeInit() {
