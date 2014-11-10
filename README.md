@@ -62,13 +62,13 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid, const char *cmd
 Building GDK
 ------------
 
-Prerequisites:
+Build prerequisites:
 
 * [SA-MP plugin SDK](https://github.com/Zeex/samp-plugin-sdk)
 * [CMake](http://cmake.org) 2.8.12+
 * [Python](http://python.org) 2.7+
-* C89 compiler
-* C++ compiler (for plugins)
+* C compiler
+* C++ compiler (optional, for building example plugins)
 
 Building the source code is as simple as running the following commands:
 
@@ -80,6 +80,10 @@ make
 make install # optional
 ```
 
+On Windows it might be slightly more complicated than that, but there's
+a GUI frontend for CMake to help you with this (cmake-gui). You can also
+add more options to the `cmake` step (see below).
+
 Supported options:
 
 * SAMPGDK_STATIC             - Build as static library (default is OFF)
@@ -89,8 +93,8 @@ Supported options:
 Getting Started
 ---------------
 
-You can start with downloading the source code and playing a bit with the
-[HelloWorld][helloworld] plugin.
+You can start with downloading the source code and playing a little bit
+with the [HelloWorld][helloworld] plugin.
 
 ### Using Git
 
@@ -127,6 +131,7 @@ also available [online][online-docs].
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.png?branch=master
 [helloworld]: plugins/helloworld
+[wiki-tutorial]: https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake
 [doxygen]: http://www.stack.nl/~dimitri/doxygen/
 [online-docs]: http://zeex.github.io/sampgdk/doc/html/index.html
 [forums]: http://forum.sa-mp.com/showthread.php?t=421090
