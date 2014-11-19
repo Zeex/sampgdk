@@ -13,10 +13,14 @@
  * limitations under the License.
  */
 
+#include <assert.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <sampgdk/bool.h>
+
+#include "init.h"
 #include "logprintf.h"
 
 enum _sampgdk_log_level {
@@ -26,9 +30,72 @@ enum _sampgdk_log_level {
   _SAMPGDK_LOG_ERROR
 };
 
-static void _sampgdk_do_log(int level, const char *format, va_list args) {
+static bool _sampgdk_log_enabled[] = {
+  false, /* _SAMPGDK_LOG_INFO */
+  false, /* _SAMPGDK_LOG_TRACE */
+  true,  /* _SAMPGDK_LOG_WARNING */
+  true , /* _SAMPGDK_LOG_ERROR */
+};
+
+static void _sampgdk_log_init_enabled() {
+  char *levels;
+  char c;
+  char op = '\0';
+
+  if ((levels = getenv("SAMPGDK_LOG")) == NULL) {
+    return;
+  }
+
+  while ((c = *levels++) != '\0') {
+    int level = -1;
+
+    switch (c) {
+      case '+':
+      case '-':
+        op = c;
+        break;
+      case 'i':
+        level = _SAMPGDK_LOG_INFO;
+        break;
+      case 't':
+        level = _SAMPGDK_LOG_TRACE;
+        break;
+      case 'w':
+        level = _SAMPGDK_LOG_WARNING;
+        break;
+      case 'e':
+        level = _SAMPGDK_LOG_ERROR;
+        break;
+    }
+
+    if (level >= 0) {
+      if (op == '+') {
+        _sampgdk_log_enabled[level] = true;
+      } else if (op == '-') {
+        _sampgdk_log_enabled[level] = false;
+      }
+    }
+  }
+}
+
+SAMPGDK_MODULE_INIT(log) {
+  _sampgdk_log_init_enabled();
+}
+
+SAMPGDK_MODULE_CLEANUP(log) {
+  /* nothing to do here */
+}
+
+static void _sampgdk_log_message(int level, const char *format, va_list args) {
   const char *prefix;
   char *real_format;
+
+  assert(level >= _SAMPGDK_LOG_INFO &&
+         level <= _SAMPGDK_LOG_ERROR);
+
+  if (!_sampgdk_log_enabled[level]) {
+    return;
+  }
 
   switch (level) {
     case _SAMPGDK_LOG_INFO:
@@ -69,31 +136,31 @@ static void _sampgdk_do_log(int level, const char *format, va_list args) {
 void sampgdk_log_info(const char *format, ...) {
   va_list args;
   va_start(args, format);
-  _sampgdk_do_log(_SAMPGDK_LOG_INFO, format, args);
+  _sampgdk_log_message(_SAMPGDK_LOG_INFO, format, args);
   va_end(args);
 }
 
 void sampgdk_log_trace(const char *format, ...) {
   va_list args;
   va_start(args, format);
-  _sampgdk_do_log(_SAMPGDK_LOG_TRACE, format, args);
+  _sampgdk_log_message(_SAMPGDK_LOG_TRACE, format, args);
   va_end(args);
 }
 
 void sampgdk_log_warning(const char *format, ...) {
   va_list args;
   va_start(args, format);
-  _sampgdk_do_log(_SAMPGDK_LOG_WARNING, format, args);
+  _sampgdk_log_message(_SAMPGDK_LOG_WARNING, format, args);
   va_end(args);
 }
 
 void sampgdk_log_error(const char *format, ...) {
   va_list args;
   va_start(args, format);
-  _sampgdk_do_log(_SAMPGDK_LOG_ERROR, format, args);
+  _sampgdk_log_message(_SAMPGDK_LOG_ERROR, format, args);
   va_end(args);
 }
 
 void sampgdk_log_error_code(int error) {
-  _sampgdk_do_log(_SAMPGDK_LOG_ERROR, strerror(-error), NULL);
+  _sampgdk_log_message(_SAMPGDK_LOG_ERROR, strerror(-error), NULL);
 }
