@@ -105,14 +105,14 @@ AMX_NATIVE sampgdk_native_find_warn(const char *name) {
 
   func = sampgdk_native_find(name);
   if (func == NULL) {
-    sampgdk_log_warn("Native function not found: %s", name);
+    sampgdk_log_warning("Native function not found: %s", name);
   }
 
   return func;
 }
 
 static cell AMX_NATIVE_CALL native_stub(AMX *amx, cell *params) {
-  sampgdk_log_warn("Native stub");
+  sampgdk_log_warning("Native stub");
   return 0;
 }
 
@@ -250,7 +250,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
             state = ST_NEED_SIZE;
             break;
           default:
-            sampgdk_log_warn("Unrecognized type specifier '%c'", *format_ptr);
+            sampgdk_log_warning("Unrecognized type specifier '%c'", *format_ptr);
         }
         type[i++] = *format_ptr++;
         break;
@@ -258,8 +258,8 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
         if (*format_ptr == '[') {
           state = ST_READING_SIZE;
         } else {
-          sampgdk_log_warn("Bad format string: expected '[' but got '%c'",
-                           *format_ptr);
+          sampgdk_log_warning("Bad format string: expected '[' but got '%c'",
+                              *format_ptr);
         }
         format_ptr++;
         break;
@@ -288,15 +288,15 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
                 sampgdk_fakeamx_push_array(args[needs_size], size[needs_size],
                                            &params[needs_size + 1]);
               } else {
-                sampgdk_log_warn("Invalid buffer size");
+                sampgdk_log_warning("Invalid buffer size");
               }
               break;
           }
           needs_size = -1;
           state = ST_READ_SPEC;
         } else {
-          sampgdk_log_warn("Bad format string (expected ']' but got '%c')",
-                           *format_ptr);
+          sampgdk_log_warning("Bad format string (expected ']' but got '%c')",
+                              *format_ptr);
         }
         format_ptr++;
         break;
@@ -305,8 +305,8 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
   }
 
   if (*format_ptr != '\0') {
-    sampgdk_log_warn("Too many native arguments (at most %d allowed)",
-                     _SAMPGDK_NATIVE_MAX_ARGS);
+    sampgdk_log_warning("Too many native arguments (at most %d allowed)",
+                        _SAMPGDK_NATIVE_MAX_ARGS);
   }
 
   params[0] = i * sizeof(cell);
