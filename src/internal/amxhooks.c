@@ -101,13 +101,19 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
   }
 
   for (i = 0; nativelist[i].name != 0 && (i < number || number == -1); i++) {
-    sampgdk_log_info("Registering native: %s @ %p", nativelist[i].name,
-                                                    nativelist[i].func);
+    sampgdk_log_debug("Registering native: %s @ %p", nativelist[i].name,
+                                                     nativelist[i].func);
     sampgdk_native_register(nativelist[i].name, nativelist[i].func);
   }
 
+  sampgdk_log_info("Registered %d natives", i);
+
   error = amx_Register(amx, nativelist, number);
   sampgdk_hook_install(_sampgdk_amxhooks_Register_hook);
+
+  if ((amx->flags & AMX_FLAG_NTVREG) != 0) {
+    sampgdk_log_info("All natives registered");
+  }
 
   return error;
 }
@@ -135,6 +141,7 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
   sampgdk_hook_remove(_sampgdk_amxhooks_FindPublic_hook);
 
   error = amx_FindPublic(amx, name, &found);
+  sampgdk_log_debug("amx_FindPublic returned %d", error);
 
   /* We are interested in calling publics against two AMX instances:
    * - the main AMX (the gamemode)
@@ -173,8 +180,8 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   bool do_exec = true;
   bool do_cleanup = false;
 
-  sampgdk_log_debug("amx_Exec(%p, %p, %d), paramcount = %d", amx, retval, index,
-                                                             amx->paramcount);
+  sampgdk_log_debug("amx_Exec(%p, %p, %d), paramcount = %d, stk = %d",
+      amx, retval, index, amx->paramcount, amx->stk);
 
   /* We have to reset amx->paramcount at this point so if the callback
    * itself calls amx_Exec() it won't pop our arguments off the stack.
@@ -203,11 +210,11 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
                      sizeof(name));
       sampgdk_array_remove_last(&_sampgdk_amxhooks_found_publics);
 
-      sampgdk_log_debug("Invoking callback: %s", name);
+      sampgdk_log_info("Invoking callback: %s", name);
       do_exec = sampgdk_callback_invoke(amx, name, paramcount, retval);
 
       if (retval != NULL) {
-        sampgdk_log_debug("%s returned %d", name, *retval);
+        sampgdk_log_info("%s returned %d", name, *retval);
       }
     } else {
       sampgdk_log_warning("Unexpected public call, index = %d", index);
@@ -218,9 +225,9 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   sampgdk_hook_install(_sampgdk_amxhooks_Callback_hook);
 
   if (do_exec) {
-    sampgdk_log_debug("Calling real amx_Exec()");
     amx->paramcount = paramcount;
     error = amx_Exec(amx, retval, index);
+    sampgdk_log_debug("amx_Exec returned %d", error);
   }
 
   /* Suppress the error and also let the other plugin(s) know that we
@@ -234,9 +241,9 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   /* Someone has to clean things up if amx_Exec() didn't run after all.
    */
   if (!do_exec || do_cleanup) {
-    sampgdk_log_debug("Doing parameter cleanup");
     amx->paramcount = 0;
     amx->stk += paramcount * sizeof(cell);
+    sampgdk_log_debug("Popped %d parameter(s), stk = %d", paramcount, amx->stk);
   }
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
@@ -262,6 +269,7 @@ static int AMXAPI _sampgdk_amxhooks_Callback(AMX *amx,
   amx->sysreq_d = 0;
 
   error = amx_Callback(amx, index, result, params);
+  sampgdk_log_debug("amx_Callback returned %d", error);
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Exec_hook);
   sampgdk_hook_install(_sampgdk_amxhooks_Callback_hook);
@@ -296,6 +304,7 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
     error =  AMX_ERR_MEMORY;
   } else {
     error = amx_Allot(amx, cells, amx_addr, phys_addr);
+    sampgdk_log_debug("amx_Allot returned %d", error);
   }
 
   /* If called against the fake AMX and failed to allocate the requested
@@ -305,7 +314,7 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
     cell new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
     cell resize;
 
-    sampgdk_log_info("Growing fake AMX heap to %d bytes = %d = %d", new_size);
+    sampgdk_log_debug("Growing fake AMX heap to %d bytes = %d = %d", new_size);
     resize = sampgdk_fakeamx_resize_heap(new_size);
 
     if (resize >= 0) {
