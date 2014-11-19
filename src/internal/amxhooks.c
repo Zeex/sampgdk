@@ -37,8 +37,7 @@
 #define _SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME 32
 
 static AMX *_sampgdk_amxhooks_main_amx;
-static struct sampgdk_array _sampgdk_amxhooks_found_publics;;
-static int _sampgdk_amxhooks_exec_depth;
+static struct sampgdk_array _sampgdk_amxhooks_found_publics;
 
 #define _SAMPGDK_AMXHOOKS_FUNC_LIST(C) \
   C(Register) \
@@ -82,29 +81,24 @@ static cell AMX_NATIVE_CALL _sampgdk_amxhooks_funcidx(AMX *amx, cell *params) {
   return index;
 }
 
-static void _sampgdk_amxhooks_hook_native(AMX *amx,
-                                          const char *name,
-                                          AMX_NATIVE address) {
-  int index;
-  AMX_HEADER *hdr = (AMX_HEADER *)amx->base;
-  AMX_FUNCSTUBNT *natives = (AMX_FUNCSTUBNT *)(amx->base + hdr->natives);
-
-  if (amx_FindNative(amx, name, &index) == AMX_ERR_NONE) {
-    natives[index].address = (ucell)address;
-  }
-}
-
 static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
                                              const AMX_NATIVE_INFO *nativelist,
                                              int number) {
   int i;
   int error;
+  AMX_HEADER *hdr;
+  AMX_FUNCSTUBNT *natives;
 
   sampgdk_log_trace("amx_Register(%p, %p, %d)", amx, nativelist, number);
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Register_hook);
 
-  _sampgdk_amxhooks_hook_native(amx, "funcidx", _sampgdk_amxhooks_funcidx);
+  hdr = (AMX_HEADER *)amx->base;
+  natives = (AMX_FUNCSTUBNT *)(amx->base + hdr->natives);
+
+  if (amx_FindNative(amx, "funcidx", &i) == AMX_ERR_NONE) {
+    natives[i].address = (ucell)_sampgdk_amxhooks_funcidx;
+  }
 
   for (i = 0; nativelist[i].name != 0 && (i < number || number == -1); i++) {
     sampgdk_log_info("Registering native: %s @ %p", nativelist[i].name,
@@ -140,21 +134,20 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
 
   sampgdk_hook_remove(_sampgdk_amxhooks_FindPublic_hook);
 
+  error = amx_FindPublic(amx, name, &found);
+
   /* We are interested in calling publics against two AMX instances:
    * - the main AMX (the gamemode)
    * - the fake AMX (this is needed for HTTP() to work)
    */
-  proceed = (amx == _sampgdk_amxhooks_main_amx ||
-             amx == sampgdk_fakeamx_amx());
-  error = amx_FindPublic(amx, name, &found);
-
-  if (proceed) {
+  if (amx == _sampgdk_amxhooks_main_amx ||
+      amx == sampgdk_fakeamx_amx()) {
     char name_trunc[_SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME];
     bool append;
 
     sampgdk_strcpy(name_trunc, name, sizeof(name_trunc));
 
-    sampgdk_log_trace("New publics stack entry: %s", name);
+    sampgdk_log_trace("New publics stack entry: %s", name_trunc);
     append = sampgdk_array_append(&_sampgdk_amxhooks_found_publics, name_trunc);
 
     if (append < 0) {
@@ -177,15 +170,11 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
 static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   int paramcount;
   int error = AMX_ERR_NONE;
-  bool proceed = true;
+  bool do_exec = true;
   bool do_cleanup = false;
 
-  sampgdk_log_trace("amx_Exec(%p, %p, %d), paramcount = %d",
-                    amx, retval, index, paramcount);
-
-  if (_sampgdk_amxhooks_exec_depth++ > 0) {
-    sampgdk_log_trace("Exec depth: %d", _sampgdk_amxhooks_exec_depth);
-  }
+  sampgdk_log_trace("amx_Exec(%p, %p, %d), paramcount = %d", amx, retval, index,
+                                                             amx->paramcount);
 
   /* We have to reset amx->paramcount at this point so if the callback
    * itself calls amx_Exec() it won't pop our arguments off the stack.
@@ -200,10 +189,9 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     /* This extra check is needed in order to stop OnGameModeInit()
      * from being called twice in a row after a gmx.
      */
-    if (_sampgdk_amxhooks_main_amx != amx && amx != NULL) {
-      sampgdk_log_info("Found main AMX instance: %p", amx);
+    if (amx != NULL && _sampgdk_amxhooks_main_amx != amx) {
       _sampgdk_amxhooks_main_amx = amx;
-      sampgdk_log_trace("Invoking OnGameModeInit");
+      sampgdk_log_info("Main AMX instance: %p", amx);
       sampgdk_callback_invoke(amx, "OnGameModeInit", paramcount, retval);
     }
   } else if (index != AMX_EXEC_CONT && (amx == _sampgdk_amxhooks_main_amx ||
@@ -216,7 +204,11 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
       sampgdk_array_remove_last(&_sampgdk_amxhooks_found_publics);
 
       sampgdk_log_trace("Invoking callback: %s", name);
-      proceed = sampgdk_callback_invoke(amx, name, paramcount, retval);
+      do_exec = sampgdk_callback_invoke(amx, name, paramcount, retval);
+
+      if (retval != NULL) {
+        sampgdk_log_trace("%s returned %d", name, *retval);
+      }
     } else {
       sampgdk_log_warning("Unexpected public call, index = %d", index);
     }
@@ -225,7 +217,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   sampgdk_hook_remove(_sampgdk_amxhooks_Exec_hook);
   sampgdk_hook_install(_sampgdk_amxhooks_Callback_hook);
 
-  if (proceed) {
+  if (do_exec) {
     sampgdk_log_trace("Calling real amx_Exec()");
     amx->paramcount = paramcount;
     error = amx_Exec(amx, retval, index);
@@ -241,7 +233,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
 
   /* Someone has to clean things up if amx_Exec() didn't run after all.
    */
-  if (!proceed || do_cleanup) {
+  if (!do_exec || do_cleanup) {
     sampgdk_log_trace("Doing parameter cleanup");
     amx->paramcount = 0;
     amx->stk += paramcount * sizeof(cell);
@@ -249,11 +241,6 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
   sampgdk_hook_install(_sampgdk_amxhooks_Exec_hook);
-
-  if (--_sampgdk_amxhooks_exec_depth == 0) {
-    sampgdk_log_trace("Clearing publics stack");
-    sampgdk_array_clear(&_sampgdk_amxhooks_found_publics);
-  }
 
   return error;
 }
@@ -264,8 +251,7 @@ static int AMXAPI _sampgdk_amxhooks_Callback(AMX *amx,
                                              cell *params) {
   int error;
 
-  sampgdk_log_trace("amx_Callback(%p, %d, %p, %p)",
-                    amx, index, result, params);
+  sampgdk_log_trace("amx_Callback(%p, %d, %p, %p)", amx, index, result, params);
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
   sampgdk_hook_install(_sampgdk_amxhooks_Exec_hook);
@@ -289,8 +275,8 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
                                           cell **phys_addr) {
   int error;
 
-  sampgdk_log_trace("amx_Allot(%p, %d, %p, %p)",
-                    amx, cells, amx_addr, phys_addr);
+  sampgdk_log_trace("amx_Allot(%p, %d, %p, %p)", amx, cells, amx_addr,
+                                                 phys_addr);
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Allot_hook);
 
@@ -317,8 +303,12 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
    */
   if (error == AMX_ERR_MEMORY && amx == sampgdk_fakeamx_amx()) {
     cell new_size = ((amx->hea + STKMARGIN) / sizeof(cell)) + cells + 2;
-    if (sampgdk_fakeamx_resize_heap(new_size) >= 0) {
-      sampgdk_log_info("Growing fake AMX heap: new size = %d", new_size);
+    cell resize;
+
+    sampgdk_log_info("Growing fake AMX heap to %d bytes = %d = %d", new_size);
+    resize = sampgdk_fakeamx_resize_heap(new_size);
+
+    if (resize >= 0) {
       error = amx_Allot(amx, cells, amx_addr, phys_addr);
     }
   }
