@@ -261,6 +261,14 @@ const int KEY_DOWN             = 128;
 const int KEY_LEFT             = -128;
 const int KEY_RIGHT            = 128;
 
+const int BODY_PART_TORSO = 3;
+const int BODY_PART_GROIN = 4;
+const int BODY_PART_LEFT_ARM = 5;
+const int BODY_PART_RIGHT_ARM = 6;
+const int BODY_PART_LEFT_LEG = 7;
+const int BODY_PART_RIGHT_LEG = 8;
+const int BODY_PART_HEAD = 9;
+
 [native] bool gpci([in] int playerid, [out] string buffer, [in] int size);
 
 [callback] bool OnGameModeInit();
