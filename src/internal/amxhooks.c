@@ -89,7 +89,7 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
   AMX_HEADER *hdr;
   AMX_FUNCSTUBNT *natives;
 
-  sampgdk_log_trace("amx_Register(%p, %p, %d)", amx, nativelist, number);
+  sampgdk_log_debug("amx_Register(%p, %p, %d)", amx, nativelist, number);
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Register_hook);
 
@@ -130,7 +130,7 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
   int error;
   int found = *index;
 
-  sampgdk_log_trace("amx_FindPublic(%p, %s, %p)", amx, name, index);
+  sampgdk_log_debug("amx_FindPublic(%p, %s, %p)", amx, name, index);
 
   sampgdk_hook_remove(_sampgdk_amxhooks_FindPublic_hook);
 
@@ -147,7 +147,7 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
 
     sampgdk_strcpy(name_trunc, name, sizeof(name_trunc));
 
-    sampgdk_log_trace("New publics stack entry: %s", name_trunc);
+    sampgdk_log_debug("New publics stack entry: %s", name_trunc);
     append = sampgdk_array_append(&_sampgdk_amxhooks_found_publics, name_trunc);
 
     if (append < 0) {
@@ -173,7 +173,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   bool do_exec = true;
   bool do_cleanup = false;
 
-  sampgdk_log_trace("amx_Exec(%p, %p, %d), paramcount = %d", amx, retval, index,
+  sampgdk_log_debug("amx_Exec(%p, %p, %d), paramcount = %d", amx, retval, index,
                                                              amx->paramcount);
 
   /* We have to reset amx->paramcount at this point so if the callback
@@ -203,11 +203,11 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
                      sizeof(name));
       sampgdk_array_remove_last(&_sampgdk_amxhooks_found_publics);
 
-      sampgdk_log_trace("Invoking callback: %s", name);
+      sampgdk_log_debug("Invoking callback: %s", name);
       do_exec = sampgdk_callback_invoke(amx, name, paramcount, retval);
 
       if (retval != NULL) {
-        sampgdk_log_trace("%s returned %d", name, *retval);
+        sampgdk_log_debug("%s returned %d", name, *retval);
       }
     } else {
       sampgdk_log_warning("Unexpected public call, index = %d", index);
@@ -218,7 +218,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   sampgdk_hook_install(_sampgdk_amxhooks_Callback_hook);
 
   if (do_exec) {
-    sampgdk_log_trace("Calling real amx_Exec()");
+    sampgdk_log_debug("Calling real amx_Exec()");
     amx->paramcount = paramcount;
     error = amx_Exec(amx, retval, index);
   }
@@ -234,7 +234,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   /* Someone has to clean things up if amx_Exec() didn't run after all.
    */
   if (!do_exec || do_cleanup) {
-    sampgdk_log_trace("Doing parameter cleanup");
+    sampgdk_log_debug("Doing parameter cleanup");
     amx->paramcount = 0;
     amx->stk += paramcount * sizeof(cell);
   }
@@ -251,7 +251,7 @@ static int AMXAPI _sampgdk_amxhooks_Callback(AMX *amx,
                                              cell *params) {
   int error;
 
-  sampgdk_log_trace("amx_Callback(%p, %d, %p, %p)", amx, index, result, params);
+  sampgdk_log_debug("amx_Callback(%p, %d, %p, %p)", amx, index, result, params);
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
   sampgdk_hook_install(_sampgdk_amxhooks_Exec_hook);
@@ -275,7 +275,7 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
                                           cell **phys_addr) {
   int error;
 
-  sampgdk_log_trace("amx_Allot(%p, %d, %p, %p)", amx, cells, amx_addr,
+  sampgdk_log_debug("amx_Allot(%p, %d, %p, %p)", amx, cells, amx_addr,
                                                  phys_addr);
 
   sampgdk_hook_remove(_sampgdk_amxhooks_Allot_hook);

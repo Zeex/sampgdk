@@ -24,15 +24,15 @@
 #include "logprintf.h"
 
 enum _sampgdk_log_level {
+  _SAMPGDK_LOG_DEBUG,
   _SAMPGDK_LOG_INFO,
-  _SAMPGDK_LOG_TRACE,
   _SAMPGDK_LOG_WARNING,
   _SAMPGDK_LOG_ERROR
 };
 
 static bool _sampgdk_log_enabled[] = {
+  false, /* _SAMPGDK_LOG_DEBUG */
   false, /* _SAMPGDK_LOG_INFO */
-  false, /* _SAMPGDK_LOG_TRACE */
   true,  /* _SAMPGDK_LOG_WARNING */
   true , /* _SAMPGDK_LOG_ERROR */
 };
@@ -54,11 +54,11 @@ static void _sampgdk_log_init_enabled() {
       case '-':
         op = c;
         break;
+      case 'd':
+        level = _SAMPGDK_LOG_DEBUG;
+        break;
       case 'i':
         level = _SAMPGDK_LOG_INFO;
-        break;
-      case 't':
-        level = _SAMPGDK_LOG_TRACE;
         break;
       case 'w':
         level = _SAMPGDK_LOG_WARNING;
@@ -90,7 +90,7 @@ static void _sampgdk_log_message(int level, const char *format, va_list args) {
   const char *level_string;
   char *real_format;
 
-  assert(level >= _SAMPGDK_LOG_INFO &&
+  assert(level >= _SAMPGDK_LOG_DEBUG &&
          level <= _SAMPGDK_LOG_ERROR);
 
   if (!_sampgdk_log_enabled[level]) {
@@ -98,11 +98,11 @@ static void _sampgdk_log_message(int level, const char *format, va_list args) {
   }
 
   switch (level) {
+    case _SAMPGDK_LOG_DEBUG:
+      level_string = "debug";
+      break;
     case _SAMPGDK_LOG_INFO:
       level_string = "info";
-      break;
-    case _SAMPGDK_LOG_TRACE:
-      level_string = "trace";
       break;
     case _SAMPGDK_LOG_WARNING:
       level_string = "warning";
@@ -134,17 +134,17 @@ static void _sampgdk_log_message(int level, const char *format, va_list args) {
   free(real_format);
 }
 
+void sampgdk_log_debug(const char *format, ...) {
+  va_list args;
+  va_start(args, format);
+  _sampgdk_log_message(_SAMPGDK_LOG_DEBUG, format, args);
+  va_end(args);
+}
+
 void sampgdk_log_info(const char *format, ...) {
   va_list args;
   va_start(args, format);
   _sampgdk_log_message(_SAMPGDK_LOG_INFO, format, args);
-  va_end(args);
-}
-
-void sampgdk_log_trace(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  _sampgdk_log_message(_SAMPGDK_LOG_TRACE, format, args);
   va_end(args);
 }
 

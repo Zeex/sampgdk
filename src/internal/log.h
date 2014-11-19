@@ -16,8 +16,8 @@
 #ifndef SAMPGDK_INTERNAL_LOG_H
 #define SAMPGDK_INTERNAL_LOG_H
 
+void sampgdk_log_debug(const char *format, ...);
 void sampgdk_log_info(const char *format, ...);
-void sampgdk_log_trace(const char *format, ...);
 void sampgdk_log_warning(const char *format, ...);
 void sampgdk_log_error(const char *format, ...);
 void sampgdk_log_error_code(int error);
