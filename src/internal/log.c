@@ -87,7 +87,7 @@ SAMPGDK_MODULE_CLEANUP(log) {
 }
 
 static void _sampgdk_log_message(int level, const char *format, va_list args) {
-  const char *prefix;
+  const char *level_string;
   char *real_format;
 
   assert(level >= _SAMPGDK_LOG_INFO &&
@@ -99,24 +99,24 @@ static void _sampgdk_log_message(int level, const char *format, va_list args) {
 
   switch (level) {
     case _SAMPGDK_LOG_INFO:
-      prefix = "info: ";
+      level_string = "info";
       break;
     case _SAMPGDK_LOG_TRACE:
-      prefix = "trace: ";
+      level_string = "trace";
       break;
     case _SAMPGDK_LOG_WARNING:
-      prefix = "warning: ";
+      level_string = "warning";
       break;
     case _SAMPGDK_LOG_ERROR:
-      prefix = "error: ";
+      level_string = "error";
       break;
     default:
-      prefix = "";
+      level_string = "";
   }
 
   real_format = malloc(
-    sizeof("[sampgdk] ") - 1
-    + strlen(prefix)
+    sizeof("[sampgdk:] ") - 1
+    + strlen(level_string)
     + strlen(format)
     + 1
   );
@@ -124,8 +124,9 @@ static void _sampgdk_log_message(int level, const char *format, va_list args) {
     return;
   }
 
-  strcpy(real_format, "[sampgdk] ");
-  strcat(real_format, prefix);
+  strcpy(real_format, "[sampgdk:");
+  strcat(real_format, level_string);
+  strcat(real_format, "] ");
   strcat(real_format, format);
 
   sampgdk_do_vlogprintf(real_format, args);

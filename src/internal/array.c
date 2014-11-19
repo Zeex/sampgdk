@@ -199,7 +199,7 @@ int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
 
   assert(a != NULL);
   assert(index >= 0);
-  assert(index < a->count);
+  assert(index <= a->count);
 
   if (count <= 0 || count > a->count - index) {
     return -EINVAL;
@@ -235,6 +235,10 @@ int sampgdk_array_remove_first(struct sampgdk_array *a) {
 
 int sampgdk_array_remove_last(struct sampgdk_array *a) {
   return sampgdk_array_remove_single(a, a->count - 1);
+}
+
+int sampgdk_array_clear(struct sampgdk_array *a) {
+  return sampgdk_array_remove(a, 0, a->count);
 }
 
 int sampgdk_array_append(struct sampgdk_array *a, void *elem) {
