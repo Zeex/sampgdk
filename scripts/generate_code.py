@@ -34,6 +34,13 @@ C_TYPES_OUT = {
   'string' : 'char *',
 }
 
+C_FORMAT_STRINGS = {
+  'int'    : '%d',
+  'bool'   : '%d',
+  'float'  : '%f',
+  'string' : '\\"%s\\"',
+}
+
 class Parameter(cidl.Parameter):
   def __init__(self, type, name, default=None, attrlist=None):
     cidl.Parameter.__init__(self, type, name, default, attrlist)
@@ -67,6 +74,10 @@ class Parameter(cidl.Parameter):
   @property
   def bind(self):
     return self.get_attr('bind')
+
+  @property
+  def format_string(self):
+    return C_FORMAT_STRINGS[self.type]
 
 class Value(cidl.Value):
   def __init__(self, type, data):
@@ -236,6 +247,13 @@ def generate_native_impl(file, func):
     for p in filter(lambda p: p.is_ref, func.params):
       file.write('  cell %s_;\n' % p.name)
 
+  if func.params:
+    format = ', '.join([p.format_string for p in func.params])
+    file.write('  sampgdk_log_debug("%s(%s)", %s);\n' %
+               (func.name, format, ParameterList(func.params, types=False)))
+  else:
+    file.write('  sampgdk_log_debug("%s()");\n' % func.name)
+
   file.write('  if (unlikely(native == NULL)) {\n')
   file.write('    native = sampgdk_native_find_warn_stub("%s");\n' % func.name)
   file.write('  }\n')
@@ -337,6 +355,13 @@ def generate_callback_impl(file, func):
         'string' : 'string',
       }[p.type], index, p.name)
     )
+
+  if func.params:
+    format = ', '.join([p.format_string for p in func.params])
+    file.write('  sampgdk_log_debug("%s(%s)", %s);\n' %
+               (func.name, format, ParameterList(func.params, types=False)))
+  else:
+    file.write('  sampgdk_log_debug("%s()");\n' % func.name)
 
   if badret.value is not None:
     file.write('  retval_ = ((%s_callback)callback)(%s);\n' %
