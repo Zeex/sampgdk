@@ -26,6 +26,7 @@
 
 #include "array.h"
 #include "init.h"
+#include "log.h"
 #include "plugin.h"
 #include "timer.h"
 
@@ -60,12 +61,10 @@ static void _sampgdk_timer_fire(int timerid, long elapsed) {
   struct _sampgdk_timer_info *timer;
 
   assert(timerid > 0 && timerid <= _sampgdk_timers.count);
-
   timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
-  if (!timer->is_set) {
-    return;
-  }
 
+  sampgdk_log_debug("Firing timer %d, tick = %ld, elapsed = %ld",
+      timerid, sampgdk_timer_now(), elapsed);
   ((sampgdk_timer_callback)(timer->callback))(timerid, timer->param);
 
   /* At this point the could be killed by the timer callback,
@@ -106,6 +105,7 @@ int sampgdk_timer_set(long interval,
   struct _sampgdk_timer_info timer;
   int slot;
   int error;
+  int timerid;
 
   assert(callback != NULL);
 
@@ -131,7 +131,12 @@ int sampgdk_timer_set(long interval,
   /* Timer IDs returned by the SA:MP's SetTimer() API begin
    * with 1, and so do they here.
    */
-  return slot + 1;
+  timerid = slot + 1;
+
+  sampgdk_log_info("Created timer: ID = %d, interval = %ld, repeat = %s",
+      timerid, interval, repeat ? "true" : "false");
+
+  return timerid;
 }
 
 int sampgdk_timer_kill(int timerid) {
@@ -147,6 +152,9 @@ int sampgdk_timer_kill(int timerid) {
   }
 
   timer->is_set = false;
+
+  sampgdk_log_info("Killed timer %d", timerid);
+
   return 0;
 }
 
