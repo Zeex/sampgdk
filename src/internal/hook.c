@@ -137,17 +137,9 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
 
   int i;
   int len = 0;
-  int opcode = 0;
   int operand_size = 4;
   int address_size = 4;
-
-  /*
-   * +-----------+--------+--------+--------+--------------+-----------+
-   * |  prefix   | opcode | ModR/M |  SIB   | displacement | immediate |
-   * +-----------+--------+--------+--------+--------------+-----------+
-   * | 1-4 bytes | 1 byte | 1 byte | 1 byte |  1-4 bytes   | 1-4 bytes |
-   * +-----------+--------+--------+--------+--------------+-----------+
-  */
+  int opcode = 0;
 
   for (i = 0; i < sizeof(prefixes) / sizeof(*prefixes); i++) {
     if (code[len] == prefixes[i]) {
@@ -181,25 +173,18 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
 
   if (opcodes[i].flags & MODRM) {
     int modrm = code[len++];
-    int mod = (modrm >> 6);
-    int rm = modrm & 7;
 
-    if (mod != 3 && (rm & 7) == 4) {
+    if ((modrm & 0xC0) == 0x40) len += 1;            /* for disp8 */
+    if ((modrm & 0xC0) == 0x80) len += address_size; /* for disp16/32 */
+
+    if ((modrm & 0xC0) != 0xC0 && (modrm & 0x07) == 0x04) {
       len++; /* for SIB */
     }
-
-    if (mod == 1) {
-      len += 1;            /* disp8 */
-    } else if (mod == 2) {
-      len += address_size; /* disp16/32 */
-    }
   }
 
-  if (opcodes[i].flags & IMM8) {
-    len++;
-  } else if (opcodes[i].flags & IMM32) {
-    len += operand_size;
-  }
+  if (opcodes[i].flags & IMM8)  len += 1;
+  if (opcodes[i].flags & IMM16) len += 2;
+  if (opcodes[i].flags & IMM32) len += operand_size;
 
   return len;
 }
