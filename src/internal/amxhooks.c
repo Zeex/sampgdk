@@ -91,8 +91,6 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
 
   sampgdk_log_debug("amx_Register(%p, %p, %d)", amx, nativelist, number);
 
-  sampgdk_hook_remove(_sampgdk_amxhooks_Register_hook);
-
   hdr = (AMX_HEADER *)amx->base;
   natives = (AMX_FUNCSTUBNT *)(amx->base + hdr->natives);
 
@@ -108,8 +106,8 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
 
   sampgdk_log_info("Registered %d natives", i);
 
-  error = amx_Register(amx, nativelist, number);
-  sampgdk_hook_install(_sampgdk_amxhooks_Register_hook);
+  error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Register_hook, int, AMXAPI,
+                               (amx, nativelist, number));
 
   if ((amx->flags & AMX_FLAG_NTVREG) != 0) {
     sampgdk_log_info("All natives registered");
@@ -137,9 +135,8 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
 
   sampgdk_log_debug("amx_FindPublic(%p, %s, %p)", amx, name, index);
 
-  sampgdk_hook_remove(_sampgdk_amxhooks_FindPublic_hook);
-
-  error = amx_FindPublic(amx, name, &found);
+  error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_FindPublic_hook, int, AMXAPI,
+                               (amx, name, &found));
   sampgdk_log_debug("amx_FindPublic returned %d", error);
 
   /* We are interested in calling publics against two AMX instances:
@@ -167,8 +164,6 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
   if (error == AMX_ERR_NONE) {
     *index = found;
   }
-
-  sampgdk_hook_install(_sampgdk_amxhooks_FindPublic_hook);
 
   return error;
 }
@@ -220,12 +215,10 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     }
   }
 
-  sampgdk_hook_remove(_sampgdk_amxhooks_Exec_hook);
-  sampgdk_hook_install(_sampgdk_amxhooks_Callback_hook);
-
   if (do_exec) {
     amx->paramcount = paramcount;
-    error = amx_Exec(amx, retval, index);
+    error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Exec_hook, int, AMXAPI,
+                                 (amx, retval, index));
     sampgdk_log_debug("amx_Exec returned %d", error);
   }
 
@@ -245,9 +238,6 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     sampgdk_log_debug("Popped %d parameter(s), stk = %d", paramcount, amx->stk);
   }
 
-  sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
-  sampgdk_hook_install(_sampgdk_amxhooks_Exec_hook);
-
   return error;
 }
 
@@ -259,19 +249,14 @@ static int AMXAPI _sampgdk_amxhooks_Callback(AMX *amx,
 
   sampgdk_log_debug("amx_Callback(%p, %d, %p, %p)", amx, index, result, params);
 
-  sampgdk_hook_remove(_sampgdk_amxhooks_Callback_hook);
-  sampgdk_hook_install(_sampgdk_amxhooks_Exec_hook);
-
   /* Prevent the default AMX callback from replacing SYSREQ.C instructions
    * with SYSREQ.D.
    */
   amx->sysreq_d = 0;
 
-  error = amx_Callback(amx, index, result, params);
+  error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Callback_hook, int, AMXAPI,
+                               (amx, index, result, params));
   sampgdk_log_debug("amx_Callback returned %d", error);
-
-  sampgdk_hook_remove(_sampgdk_amxhooks_Exec_hook);
-  sampgdk_hook_install(_sampgdk_amxhooks_Callback_hook);
 
   return error;
 }
@@ -284,8 +269,6 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
 
   sampgdk_log_debug("amx_Allot(%p, %d, %p, %p)", amx, cells, amx_addr,
                                                  phys_addr);
-
-  sampgdk_hook_remove(_sampgdk_amxhooks_Allot_hook);
 
   /* There is a bug in amx_Allot() where it returns success even though
    * there's not enough space on the heap:
@@ -302,7 +285,8 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
   if ((size_t)amx->stk < (size_t)(amx->hea + cells*sizeof(cell) + STKMARGIN)) {
     error =  AMX_ERR_MEMORY;
   } else {
-    error = amx_Allot(amx, cells, amx_addr, phys_addr);
+    error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Allot_hook, int, AMXAPI,
+                                 (amx, cells, amx_addr, phys_addr));
     sampgdk_log_debug("amx_Allot returned %d", error);
   }
 
@@ -317,11 +301,10 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
     resize = sampgdk_fakeamx_resize_heap(new_size);
 
     if (resize >= 0) {
-      error = amx_Allot(amx, cells, amx_addr, phys_addr);
+      error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Allot_hook, int, AMXAPI,
+                                   (amx, cells, amx_addr, phys_addr));
     }
   }
-
-  sampgdk_hook_install(_sampgdk_amxhooks_Allot_hook);
 
   return error;
 }
@@ -346,20 +329,6 @@ static void _sampgdk_amxhooks_destroy(void) {
   #undef _SAMPGDK_AMXHOOKS_DESTROY_HOOK
 }
 
-static void _sampgdk_amxhooks_install(void) {
-  #define _SAMPGDK_AMXHOOKS_INSTALL_HOOK(name) \
-    sampgdk_hook_install(_sampgdk_amxhooks_##name##_hook);
-  _SAMPGDK_AMXHOOKS_FUNC_LIST_2(_SAMPGDK_AMXHOOKS_INSTALL_HOOK)
-  #undef _SAMPGDK_AMXHOOKS_INSTALL_HOOK
-}
-
-static void _sampgdk_amxhooks_remove(void) {
-  #define _SAMPGDK_AMXHOOKS_REMOVE_HOOK(name) \
-    sampgdk_hook_remove(_sampgdk_amxhooks_##name##_hook);
-  _SAMPGDK_AMXHOOKS_FUNC_LIST_2(_SAMPGDK_AMXHOOKS_REMOVE_HOOK)
-  #undef _SAMPGDK_AMXHOOKS_REMOVE_HOOK
-}
-
 SAMPGDK_MODULE_INIT(amxhooks) {
   int error;
 
@@ -375,12 +344,9 @@ SAMPGDK_MODULE_INIT(amxhooks) {
     _sampgdk_amxhooks_destroy();
     return error;
   }
-
-  _sampgdk_amxhooks_install();
   return 0;
 }
 
 SAMPGDK_MODULE_CLEANUP(amxhooks) {
-  _sampgdk_amxhooks_remove();
   _sampgdk_amxhooks_destroy();
 }

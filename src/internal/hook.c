@@ -18,38 +18,38 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <sampgdk/bool.h>
 #include <sampgdk/platform.h>
 
 #if SAMPGDK_WINDOWS
   #include <windows.h>
+  typedef __int32 _sampgdk_hook_intptr_t;
 #else
+  #include <stdint.h>
   #include <unistd.h>
   #include <sys/mman.h>
+  typedef int32_t _sampgdk_hook_intptr_t;
 #endif
 
+#include "log.h"
 #include "hook.h"
 
-#define _SAMPGDK_HOOK_JMP_OPCODE 0xE9
+#define _SAMPGDK_HOOK_JMP_SIZE 5
+#define _SAMPGDK_HOOK_MAX_INSN_SIZE 15
+#define _SAMPGDK_HOOK_TRAMPOLINE_SIZE \
+  (_SAMPGDK_HOOK_JMP_SIZE * 2 + _SAMPGDK_HOOK_MAX_INSN_SIZE - 1)
 
 #pragma pack(push, 1)
 
 struct _sampgdk_hook_jmp {
-  unsigned char opcpde;
-  ptrdiff_t     offset;
-};
-
-struct _sampgdk_hook_jmp_8 {
-  struct _sampgdk_hook_jmp jmp;
-  unsigned char            pad[3];
+  unsigned char          opcode;
+  _sampgdk_hook_intptr_t offset;
 };
 
 #pragma pack(pop)
 
 struct _sampgdk_hook {
-  void *src;
-  void *dst;
-  unsigned char code[sizeof(struct _sampgdk_hook_jmp_8)];
-  unsigned char jump[sizeof(struct _sampgdk_hook_jmp_8)];
+  unsigned char trampoline[_SAMPGDK_HOOK_TRAMPOLINE_SIZE];
 };
 
 #if SAMPGDK_WINDOWS
@@ -79,27 +79,183 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
 
 #endif /* !SAMPGDK_WINDOWS */
 
+static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
+  enum flags {
+    MODRM      = 1,      /* ModRM byte is present */
+    REG_OPCODE = 1 << 1, /* ModRM.reg is part of opcode */
+    IMM8       = 1 << 2, /* 8-bit immediate */
+    IMM16      = 1 << 3, /* 16-bit immediate */
+    IMM32      = 1 << 4, /* 16/32-bit immediate (size depends on prefix) */
+    PLUS_R     = 1 << 5, /* register operand encoded into opcode */
+  };
+
+  struct opcode_info {
+    int opcode;
+    int reg_opcode;
+    int flags;
+  };
+
+  static int prefixes[] = {
+    0xF0, 0xF2, 0xF3,
+    0x2E, 0x36, 0x3E, 0x26, 0x64, 0x65,
+    0x66, /* operand size override */
+    0x67  /* address size override */
+  };
+
+  static struct opcode_info opcodes[] = {
+    /* CALL rel32       */ {0xE8, 0, IMM32},
+    /* CALL r/m32       */ {0xFF, 2, MODRM | REG_OPCODE},
+    /* JMP rel32        */ {0xE9, 0, IMM32},
+    /* JMP r/m32        */ {0xFF, 4, MODRM | REG_OPCODE},
+    /* LEA r16,m        */ {0x8D, 0, MODRM},
+    /* MOV r/m8,r8      */ {0x88, 0, MODRM},
+    /* MOV r/m32,r32    */ {0x89, 0, MODRM},
+    /* MOV r8,r/m8      */ {0x8A, 0, MODRM},
+    /* MOV r32,r/m32    */ {0x8B, 0, MODRM},
+    /* MOV r/m16,Sreg   */ {0x8C, 0, MODRM},
+    /* MOV Sreg,r/m16   */ {0x8E, 0, MODRM},
+    /* MOV AL,moffs8    */ {0xA0, 0, IMM8},
+    /* MOV EAX,moffs32  */ {0xA1, 0, IMM32},
+    /* MOV moffs8,AL    */ {0xA2, 0, IMM8},
+    /* MOV moffs32,EAX  */ {0xA3, 0, IMM32},
+    /* MOV r8, imm8     */ {0xB0, 0, PLUS_R | IMM8},
+    /* MOV r32, imm32   */ {0xB8, 0, PLUS_R | IMM32},
+    /* MOV r/m8, imm8   */ {0xC6, 0, MODRM | REG_OPCODE | IMM8},
+    /* MOV r/m32, imm32 */ {0xC7, 0, MODRM | REG_OPCODE | IMM32},
+    /* POP r/m32        */ {0x8F, 0, MODRM | REG_OPCODE},
+    /* POP r32          */ {0x58, 0, PLUS_R},
+    /* PUSH r/m32       */ {0xFF, 6, MODRM | REG_OPCODE},
+    /* PUSH r32         */ {0x50, 0, PLUS_R},
+    /* PUSH imm8        */ {0x6A, 0, IMM8},
+    /* PUSH imm32       */ {0x68, 0, IMM32},
+    /* RET              */ {0xC3, 0, 0},
+    /* RET imm16        */ {0xC2, 0, IMM16},
+    /* SUB r/m32, imm8  */ {0x83, 5, MODRM | REG_OPCODE | IMM8},
+    /* SUB r/m32, r32   */ {0x29, 0, MODRM},
+    /* SUB r32, r/m32   */ {0x2B, 0, MODRM}
+  };
+
+  int i;
+  int len = 0;
+  int opcode = 0;
+  int operand_size = 4;
+  int address_size = 4;
+
+  /*
+   * +-----------+--------+--------+--------+--------------+-----------+
+   * |  prefix   | opcode | ModR/M |  SIB   | displacement | immediate |
+   * +-----------+--------+--------+--------+--------------+-----------+
+   * | 1-4 bytes | 1 byte | 1 byte | 1 byte |  1-4 bytes   | 1-4 bytes |
+   * +-----------+--------+--------+--------+--------------+-----------+
+  */
+
+  for (i = 0; i < sizeof(prefixes) / sizeof(*prefixes); i++) {
+    if (code[len] == prefixes[i]) {
+      len++;
+      if (prefixes[i] == 0x66) operand_size = 2;
+      if (prefixes[i] == 0x67) address_size = 2;
+    }
+  }
+
+  for (i = 0; i < sizeof(opcodes) / sizeof(*opcodes); i++) {
+    bool found = false;
+
+    if (code[len] == opcodes[i].opcode) {
+      found = !(opcodes[i].flags & REG_OPCODE)
+            || ((code[len + 1] >> 3) & 7) == opcodes[i].reg_opcode;
+    }
+    if ((opcodes[i].flags & PLUS_R)
+        && (code[len] & 0xF8) == opcodes[i].opcode) {
+      found = true;
+    }
+
+    if (found) {
+      opcode = code[len++];
+      break;
+    }
+  }
+
+  if (opcode == 0) {
+    return 0;
+  }
+
+  if (opcodes[i].flags & MODRM) {
+    int modrm = code[len++];
+    int mod = (modrm >> 6);
+    int rm = modrm & 7;
+
+    if (mod != 3 && (rm & 7) == 4) {
+      len++; /* for SIB */
+    }
+
+    if (mod == 1) {
+      len += 1;            /* disp8 */
+    } else if (mod == 2) {
+      len += address_size; /* disp16/32 */
+    }
+  }
+
+  if (opcodes[i].flags & IMM8) {
+    len++;
+  } else if (opcodes[i].flags & IMM32) {
+    len += operand_size;
+  }
+
+  return len;
+}
+
+static void _sampgdk_hook_write_jmp(void *src, void *dst, ptrdiff_t offset) {
+  struct _sampgdk_hook_jmp jmp;
+
+  jmp.opcode = 0xE9;
+  jmp.offset = (unsigned char *)dst - (
+               (unsigned char *)src + sizeof(jmp));
+
+  memcpy((unsigned char *)src + offset, &jmp, sizeof(jmp));
+}
+
 sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
-  sampgdk_hook_t hook;
+  struct _sampgdk_hook *hook;
+  size_t orig_size = 0;
+  size_t insn_len;
 
-  if ((hook = malloc(sizeof(*hook))) == NULL)
+  if ((hook = malloc(sizeof(*hook))) == NULL) {
     return NULL;
+  }
 
-  _sampgdk_hook_unprotect(src, sizeof(struct _sampgdk_hook_jmp_8));
+  _sampgdk_hook_unprotect(src, _SAMPGDK_HOOK_JMP_SIZE);
+  _sampgdk_hook_unprotect(hook->trampoline, _SAMPGDK_HOOK_TRAMPOLINE_SIZE);
 
-  hook->src = src;
-  hook->dst = dst;
+  /* We can't just jump to src + 5 as we could end up in the middle of
+   * some instruction. So we need to determine the instruction length.
+   */
+  while (orig_size < _SAMPGDK_HOOK_JMP_SIZE) {
+    unsigned char *code = (unsigned char *)src + orig_size;
 
-  memcpy(hook->code, src, sizeof(hook->code));
-  memcpy(hook->jump, src, sizeof(hook->code));
+    if ((insn_len = _sampgdk_hook_get_insn_len(code)) == 0) {
+      sampgdk_log_error("Unsupported instruction");
+      break;
+    }
 
-  {
-    struct _sampgdk_hook_jmp jmp = {
-      _SAMPGDK_HOOK_JMP_OPCODE,
-      (unsigned char *)hook->dst -
-      (unsigned char *)hook->src - sizeof(jmp)
-    };
-    memcpy(hook->jump, &jmp, sizeof(jmp));
+    /* If the original code contains a relative JMP/CALL relocate its
+     * destination address.
+     */
+    if (*code == 0xE8 || *code == 0xE9) {
+      _sampgdk_hook_intptr_t *address = (void *)(code + 1);
+
+      *address -= (_sampgdk_hook_intptr_t)hook->trampoline
+                - (_sampgdk_hook_intptr_t)src;
+    }
+
+    orig_size += insn_len;
+  }
+
+  if (insn_len > 0) {
+    memcpy(hook->trampoline, src, orig_size);
+    _sampgdk_hook_write_jmp(hook->trampoline, src, orig_size);
+    _sampgdk_hook_write_jmp(src, dst, 0);
+  } else {
+    _sampgdk_hook_write_jmp(hook->trampoline, src, 0);
   }
 
   return hook;
@@ -109,10 +265,6 @@ void sampgdk_hook_free(sampgdk_hook_t hook) {
   free(hook);
 }
 
-void sampgdk_hook_install(sampgdk_hook_t hook) {
-  memcpy(hook->src, hook->jump, sizeof(hook->jump));
-}
-
-void sampgdk_hook_remove(sampgdk_hook_t hook) {
-  memcpy(hook->src, hook->code, sizeof(hook->code));
+void *sampgdk_hook_trampoline(sampgdk_hook_t hook) {
+  return hook->trampoline;
 }
