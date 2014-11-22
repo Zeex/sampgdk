@@ -166,7 +166,7 @@ void sampgdk_callback_cache_plugin(void *plugin) {
 
   for (index = 0; index < _sampgdk_callbacks.count; index++) {
     struct _sampgdk_callback_info *callback =
-      sampgdk_array_get(&_sampgdk_callbacks, index);
+        sampgdk_array_get(&_sampgdk_callbacks, index);
     struct _sampgdk_callback_cache_entry ce = {
       plugin,
       sampgdk_plugin_get_symbol(plugin, callback->name)

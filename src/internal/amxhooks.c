@@ -132,7 +132,6 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
 static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
                                                const char *name,
                                                int *index) {
-  bool proceed;
   int error;
   int found = *index;
 
@@ -330,7 +329,7 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
 static int _sampgdk_amxhooks_create(void) {
   #define _SAMPGDK_AMXHOOKS_CREATE_HOOK(name) \
     if ((_sampgdk_amxhooks_##name##_hook = \
-        sampgdk_hook_new(sampgdk_amx_api_ptr->name, \
+        sampgdk_hook_new((void *)sampgdk_amx_api_ptr->name, \
                          (void *)_sampgdk_amxhooks_##name)) == NULL) \
       goto no_memory;
   _SAMPGDK_AMXHOOKS_FUNC_LIST(_SAMPGDK_AMXHOOKS_CREATE_HOOK)

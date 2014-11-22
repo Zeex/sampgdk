@@ -140,7 +140,9 @@ SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 
 #ifdef __cplusplus
 
-/// \brief Main namespace.
+/**
+ * \brief Main namespace.
+ */
 namespace sampgdk {
 
 /**

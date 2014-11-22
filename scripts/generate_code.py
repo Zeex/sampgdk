@@ -180,6 +180,7 @@ def generate_source_file(module_name, idl, file):
   file.write('#include "internal/fakeamx.h"\n')
   file.write('#include "internal/init.h"\n')
   file.write('#include "internal/likely.h"\n')
+  file.write('#include "internal/log.h"\n')
   file.write('#include "internal/native.h"\n')
   file.write('#include "internal/param.h"\n')
   file.write('\n')

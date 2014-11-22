@@ -80,6 +80,7 @@ static void _sampgdk_log_init_enabled() {
 
 SAMPGDK_MODULE_INIT(log) {
   _sampgdk_log_init_enabled();
+  return 0;
 }
 
 SAMPGDK_MODULE_CLEANUP(log) {
