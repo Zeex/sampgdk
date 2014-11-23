@@ -1,7 +1,3 @@
-project(helloworld)
-
-cmake_minimum_required(VERSION 2.8)
-
 include(AmxConfig)
 include(Plugin)
 
@@ -23,6 +19,10 @@ add_plugin(ufs
   ufs-plugin.cpp
   ${SDK_INCLUDE_DIR}/amxplugin.cpp
 )
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+  target_compile_options(ufs PRIVATE -Wno-attributes)
+endif()
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
                    COMMAND ${PYTHON_EXECUTABLE}

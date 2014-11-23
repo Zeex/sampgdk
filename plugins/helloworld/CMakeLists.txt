@@ -1,7 +1,3 @@
-project(helloworld)
-
-cmake_minimum_required(VERSION 2.8)
-
 include(AmxConfig)
 include(Plugin)
 
@@ -14,5 +10,9 @@ add_plugin(helloworld
   helloworld.def
   ${SDK_INCLUDE_DIR}/amxplugin.cpp
 )
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+  target_compile_options(helloworld PRIVATE -Wno-attributes)
+endif()
 
 target_link_libraries(helloworld sampgdk)
