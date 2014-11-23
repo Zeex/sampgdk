@@ -16,38 +16,29 @@
 #ifndef SAMPGDK_INTERNAL_ARRAY_H
 #define SAMPGDK_INTERNAL_ARRAY_H
 
-#include <sampgdk/bool.h>
-
 struct sampgdk_array {
-  void *data;      /* pointer to array contents */
-  int   count;     /* number of elements in array */
-  int   size;      /* maximum number of elements */
-  int   elem_size; /* size of an element in bytes */
+  void *data;
+  int   count;
+  int   size;
+  int   elem_size;
 };
 
 typedef int (*sampgdk_array_cmp)(const void *x, const void *y);
 
 int sampgdk_array_new(struct sampgdk_array *a, int size, int elem_size);
 void sampgdk_array_free(struct sampgdk_array *a);
-bool sampgdk_array_ok(struct sampgdk_array *a);
 int sampgdk_array_zero(struct sampgdk_array *a);
 int sampgdk_array_resize(struct sampgdk_array *a, int new_size);
 int sampgdk_array_grow(struct sampgdk_array *a);
 int sampgdk_array_shrink(struct sampgdk_array *a);
 int sampgdk_array_pad(struct sampgdk_array *a);
-void *sampgdk_array_first(struct sampgdk_array *a);
-void *sampgdk_array_last(struct sampgdk_array *a);
 void *sampgdk_array_get(struct sampgdk_array *a, int index);
+int sampgdk_array_get_index(struct sampgdk_array *a, void *elem);
 void sampgdk_array_set(struct sampgdk_array *a,int index, void *elem);
 int sampgdk_array_insert(struct sampgdk_array *a, int index, int count, void *elems);
-int sampgdk_array_insert_single(struct sampgdk_array *a, int index, void *elem);
 int sampgdk_array_remove(struct sampgdk_array *a, int index, int count);
-int sampgdk_array_remove_single(struct sampgdk_array *a, int index);
-int sampgdk_array_remove_first(struct sampgdk_array *a);
-int sampgdk_array_remove_last(struct sampgdk_array *a);
 int sampgdk_array_clear(struct sampgdk_array *a);
 int sampgdk_array_append(struct sampgdk_array *a, void *elem);
-int sampgdk_array_elem_index(struct sampgdk_array *a, void *elem);
 int sampgdk_array_find(struct sampgdk_array *a, const void *key, sampgdk_array_cmp cmp);
 int sampgdk_array_find_remove(struct sampgdk_array *a, const void *key, sampgdk_array_cmp cmp);
 

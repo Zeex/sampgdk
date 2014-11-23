@@ -67,7 +67,7 @@ int sampgdk_native_register(const char *name, AMX_NATIVE func) {
     }
   }
 
-  return sampgdk_array_insert_single(&_sampgdk_natives, i, &info);
+  return sampgdk_array_insert(&_sampgdk_natives, i, 1, &info);
 }
 
 static int _sampgdk_native_compare_bsearch(const void *key,

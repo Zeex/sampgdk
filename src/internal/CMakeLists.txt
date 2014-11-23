@@ -26,8 +26,6 @@ sampgdk_add_sources(
   plugin.h
   timer.c
   timer.h
-  utils.c
-  utils.h
 )
 
 sampgdk_add_init_gen(sampgdk_init ${CMAKE_CURRENT_SOURCE_DIR}/init.list

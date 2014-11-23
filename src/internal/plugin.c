@@ -15,7 +15,6 @@
 
 #include <assert.h>
 #include <errno.h>
-#include <stddef.h>
 #include <stdlib.h>
 
 #include <sampgdk/platform.h>
@@ -102,13 +101,6 @@ void *sampgdk_plugin_get_handle(void *address) {
   return (void *)mbi.AllocationBase;
 }
 
-void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
-  HMODULE module = (HMODULE)sampgdk_plugin_get_handle(address);
-  assert(address != NULL);
-  assert(filename != NULL);
-  GetModuleFileNameA(module, filename, size);
-}
-
 #else /* SAMPGDK_WINDOWS */
 
 void *sampgdk_plugin_get_symbol(void *plugin, const char *name)  {
@@ -124,15 +116,6 @@ void *sampgdk_plugin_get_handle(void *address) {
     return dlopen(info.dli_fname, RTLD_NOW);
   }
   return NULL;
-}
-
-void sampgdk_plugin_get_filename(void *address, char *filename, size_t size) {
-  Dl_info info;
-  assert(address != NULL);
-  assert(filename != NULL);
-  if (dladdr(address, &info) != 0) {
-    strncpy(filename, info.dli_fname, size);
-  }
 }
 
 #endif /* !SAMPGDK_WINDOWS */

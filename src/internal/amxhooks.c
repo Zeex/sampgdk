@@ -32,7 +32,6 @@
 #include "native.h"
 #include "param.h"
 #include "hook.h"
-#include "utils.h"
 
 static AMX *_sampgdk_amxhooks_main_amx;
 
@@ -185,14 +184,14 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     }
   } else if (index != AMX_EXEC_CONT && (amx == _sampgdk_amxhooks_main_amx ||
                                         amx == sampgdk_fakeamx_amx())) {
-    const char *name = NULL;
+    char *name = NULL;
 
     if (index <= AMX_EXEC_GDK) {
-      name = sampgdk_callback_get(AMX_EXEC_GDK - index);
+      sampgdk_callback_get(AMX_EXEC_GDK - index, &name);
     } else {
       AMX_FUNCSTUBNT *publics =
           (AMX_FUNCSTUBNT *)(amx->base + ((AMX_HEADER *)amx->base)->publics);
-      name = (const char *)(publics[index].nameofs + amx->base);
+      name = (char *)(publics[index].nameofs + amx->base);
     }
 
     if (name != NULL) {
