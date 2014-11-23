@@ -133,7 +133,7 @@ int sampgdk_timer_set(long interval,
    */
   timerid = slot + 1;
 
-  sampgdk_log_info("Created timer: ID = %d, interval = %ld, repeat = %s",
+  sampgdk_log_debug("Created timer: ID = %d, interval = %ld, repeat = %s",
       timerid, interval, repeat ? "true" : "false");
 
   return timerid;
@@ -153,7 +153,7 @@ int sampgdk_timer_kill(int timerid) {
 
   timer->is_set = false;
 
-  sampgdk_log_info("Killed timer %d", timerid);
+  sampgdk_log_debug("Killed timer %d", timerid);
 
   return 0;
 }

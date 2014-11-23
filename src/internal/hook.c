@@ -35,9 +35,9 @@
 #include "hook.h"
 
 #define _SAMPGDK_HOOK_JMP_SIZE 5
-#define _SAMPGDK_HOOK_MAX_INSN_SIZE 15
+#define _SAMPGDK_HOOK_MAX_INSN_LEN 15
 #define _SAMPGDK_HOOK_TRAMPOLINE_SIZE \
-  (_SAMPGDK_HOOK_JMP_SIZE * 2 + _SAMPGDK_HOOK_MAX_INSN_SIZE - 1)
+  (_SAMPGDK_HOOK_JMP_SIZE + _SAMPGDK_HOOK_MAX_INSN_LEN - 1)
 
 #pragma pack(push, 1)
 
@@ -57,8 +57,9 @@ struct _sampgdk_hook {
 static void *_sampgdk_hook_unprotect(void *address, size_t size) {
   DWORD old;
 
-  if (VirtualProtect(address, size, PAGE_EXECUTE_READWRITE, &old) == 0)
+  if (VirtualProtect(address, size, PAGE_EXECUTE_READWRITE, &old) == 0) {
     return NULL;
+  }
 
   return address;
 }
@@ -71,8 +72,9 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
   pagesize = sysconf(_SC_PAGESIZE);
   address = (void *)((long)address & ~(pagesize - 1));
 
-  if (mprotect(address, size, PROT_READ | PROT_WRITE | PROT_EXEC) != 0)
+  if (mprotect(address, size, PROT_READ | PROT_WRITE | PROT_EXEC) != 0) {
     return NULL;
+  }
 
   return address;
 }
@@ -89,17 +91,17 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
     PLUS_R     = 1 << 5, /* register operand encoded into opcode */
   };
 
-  struct opcode_info {
-    int opcode;
-    int reg_opcode;
-    int flags;
-  };
-
   static int prefixes[] = {
     0xF0, 0xF2, 0xF3,
     0x2E, 0x36, 0x3E, 0x26, 0x64, 0x65,
     0x66, /* operand size override */
     0x67  /* address size override */
+  };
+
+  struct opcode_info {
+    int opcode;
+    int reg_opcode;
+    int flags;
   };
 
   static struct opcode_info opcodes[] = {

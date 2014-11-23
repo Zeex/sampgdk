@@ -85,7 +85,6 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
                                              const AMX_NATIVE_INFO *nativelist,
                                              int number) {
   int i;
-  int error;
   AMX_HEADER *hdr;
   AMX_FUNCSTUBNT *natives;
 
@@ -106,14 +105,8 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
 
   sampgdk_log_info("Registered %d natives", i);
 
-  error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Register_hook, int, AMXAPI,
-                               (amx, nativelist, number));
-
-  if ((amx->flags & AMX_FLAG_NTVREG) != 0) {
-    sampgdk_log_info("All natives registered");
-  }
-
-  return error;
+  return SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Register_hook, int, AMXAPI,
+                              (amx, nativelist, number));
 }
 
 /* The SA-MP server always makes a call to amx_FindPublic() before executing
@@ -192,7 +185,13 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
      */
     if (amx != NULL && _sampgdk_amxhooks_main_amx != amx) {
       _sampgdk_amxhooks_main_amx = amx;
-      sampgdk_log_info("Main AMX instance: %p", amx);
+
+      sampgdk_log_info("Found main AMX, callbacks work now");
+      sampgdk_log_debug("Main AMX instance: %p", amx);
+
+      /* For some odd reason OnGameModeInit() is called before main().
+       * Normally callbacks are handled below but this creates an exception.
+       */
       sampgdk_callback_invoke(amx, "OnGameModeInit", paramcount, retval);
     }
   } else if (index != AMX_EXEC_CONT && (amx == _sampgdk_amxhooks_main_amx ||
@@ -200,15 +199,20 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     if (_sampgdk_amxhooks_found_publics.count > 0) {
       char name[_SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME];
 
+      /* Need to make a local copy of the name due to possible memory
+       * reallocation on next call to amx_FindPublic().
+       */
       sampgdk_strcpy(name, sampgdk_array_last(&_sampgdk_amxhooks_found_publics),
                      sizeof(name));
       sampgdk_array_remove_last(&_sampgdk_amxhooks_found_publics);
 
-      sampgdk_log_info("Invoking callback: %s", name);
+      sampgdk_log_debug("Invoking callback: %s", name);
       do_exec = sampgdk_callback_invoke(amx, name, paramcount, retval);
 
       if (retval != NULL) {
-        sampgdk_log_info("%s returned %d", name, *retval);
+        sampgdk_log_debug("%s returned %d", name, *retval);
+      } else {
+        sampgdk_log_debug("%s returned", name);
       }
     } else {
       sampgdk_log_warning("Unexpected public call, index = %d", index);
