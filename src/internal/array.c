@@ -183,7 +183,7 @@ int sampgdk_array_insert(struct sampgdk_array *a,
   a->count += count;
   memcpy(_sampgdk_array_get_elem_ptr(a, index), elems, count * a->elem_size);
 
-  return 0;
+  return index;
 }
 
 int sampgdk_array_insert_single(struct sampgdk_array *a,
@@ -219,7 +219,7 @@ int sampgdk_array_remove(struct sampgdk_array *a, int index, int count) {
     return sampgdk_array_resize(a, a->size / 2);
   }
 
-  return 0;
+  return index;
 }
 
 int sampgdk_array_remove_single(struct sampgdk_array *a, int index) {
@@ -257,6 +257,11 @@ int sampgdk_array_append(struct sampgdk_array *a, void *elem) {
   sampgdk_array_set(a, a->count - 1, elem);
 
   return a->count - 1;
+}
+
+int sampgdk_array_elem_index(struct sampgdk_array *a, void *elem) {
+  assert(elem != NULL);
+  return ((unsigned char *)elem - (unsigned char *)a->data) / a->elem_size;
 }
 
 int sampgdk_array_find(struct sampgdk_array *a,

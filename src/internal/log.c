@@ -162,7 +162,3 @@ void sampgdk_log_error(const char *format, ...) {
   _sampgdk_log_message(_SAMPGDK_LOG_ERROR, format, args);
   va_end(args);
 }
-
-void sampgdk_log_error_code(int error) {
-  _sampgdk_log_message(_SAMPGDK_LOG_ERROR, strerror(-error), NULL);
-}

@@ -34,10 +34,7 @@
 #include "hook.h"
 #include "utils.h"
 
-#define _SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME 32
-
 static AMX *_sampgdk_amxhooks_main_amx;
-static struct sampgdk_array _sampgdk_amxhooks_found_publics;
 
 #define _SAMPGDK_AMXHOOKS_FUNC_LIST(C) \
   C(Register) \
@@ -74,7 +71,7 @@ static cell AMX_NATIVE_CALL _sampgdk_amxhooks_funcidx(AMX *amx, cell *params) {
   }
 
   error = amx_FindPublic(amx, funcname, &index);
-  if (error != AMX_ERR_NONE || index == AMX_EXEC_GDK) {
+  if (error != AMX_ERR_NONE || index <= AMX_EXEC_GDK) {
     return -1;
   }
 
@@ -124,12 +121,12 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
                                                const char *name,
                                                int *index) {
   int error;
-  int found = *index;
+  int index_internal;
 
-  sampgdk_log_debug("amx_FindPublic(%p, %s, %p)", amx, name, index);
+  sampgdk_log_debug("amx_FindPublic(%p, \"%s\", %p)", amx, name, index);
 
   error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_FindPublic_hook, int, AMXAPI,
-                               (amx, name, &found));
+                               (amx, name, index));
   sampgdk_log_debug("amx_FindPublic returned %d", error);
 
   /* We are interested in calling publics against two AMX instances:
@@ -138,24 +135,16 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
    */
   if (amx == _sampgdk_amxhooks_main_amx ||
       amx == sampgdk_fakeamx_amx()) {
-    char name_trunc[_SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME];
-    bool append;
+    index_internal = sampgdk_callback_register(name, NULL);
 
-    sampgdk_strcpy(name_trunc, name, sizeof(name_trunc));
-
-    sampgdk_log_debug("New publics stack entry: %s", name_trunc);
-    append = sampgdk_array_append(&_sampgdk_amxhooks_found_publics, name_trunc);
-
-    if (append < 0) {
-      error = AMX_ERR_MEMORY;
-    } else if (error != AMX_ERR_NONE) {
+    if (index_internal < 0) {
+      sampgdk_log_error("Error registering callback: %s",
+                        strerror(-index_internal));
+    } else {
+      *index = AMX_EXEC_GDK - index_internal;
       error = AMX_ERR_NONE;
-      found = AMX_EXEC_GDK;
+      sampgdk_log_debug("Registered callback: %s, index = %d", name, *index);
     }
-  }
-
-  if (error == AMX_ERR_NONE) {
-    *index = found;
   }
 
   return error;
@@ -196,26 +185,20 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     }
   } else if (index != AMX_EXEC_CONT && (amx == _sampgdk_amxhooks_main_amx ||
                                         amx == sampgdk_fakeamx_amx())) {
-    if (_sampgdk_amxhooks_found_publics.count > 0) {
-      char name[_SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME];
+    const char *name = NULL;
 
-      /* Need to make a local copy of the name due to possible memory
-       * reallocation on next call to amx_FindPublic().
-       */
-      sampgdk_strcpy(name, sampgdk_array_last(&_sampgdk_amxhooks_found_publics),
-                     sizeof(name));
-      sampgdk_array_remove_last(&_sampgdk_amxhooks_found_publics);
-
-      sampgdk_log_debug("Invoking callback: %s", name);
-      do_exec = sampgdk_callback_invoke(amx, name, paramcount, retval);
-
-      if (retval != NULL) {
-        sampgdk_log_debug("%s returned %d", name, *retval);
-      } else {
-        sampgdk_log_debug("%s returned", name);
-      }
+    if (index <= AMX_EXEC_GDK) {
+      name = sampgdk_callback_get(AMX_EXEC_GDK - index);
     } else {
-      sampgdk_log_warning("Unexpected public call, index = %d", index);
+      AMX_FUNCSTUBNT *publics =
+          (AMX_FUNCSTUBNT *)(amx->base + ((AMX_HEADER *)amx->base)->publics);
+      name = (const char *)(publics[index].nameofs + amx->base);
+    }
+
+    if (name != NULL) {
+      do_exec = sampgdk_callback_invoke(amx, name, paramcount, retval);
+    } else {
+      sampgdk_log_warning("Unknown callback, index = %d", index);
     }
   }
 
@@ -229,7 +212,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   /* Suppress the error and also let the other plugin(s) know that we
    * handle the cleanup (see below).
    */
-  if (error == AMX_ERR_INDEX && index == AMX_EXEC_GDK) {
+  if (error == AMX_ERR_INDEX && index <= AMX_EXEC_GDK) {
     error = AMX_ERR_NONE;
     do_cleanup = true;
   }
@@ -336,18 +319,12 @@ static void _sampgdk_amxhooks_destroy(void) {
 SAMPGDK_MODULE_INIT(amxhooks) {
   int error;
 
-  error = sampgdk_array_new(&_sampgdk_amxhooks_found_publics,
-                            1,
-                            _SAMPGDK_AMXHOOKS_MAX_PUBLIC_NAME);
-  if (error < 0) {
-    return error;
-  }
-
   error = _sampgdk_amxhooks_create();
   if (error < 0) {
     _sampgdk_amxhooks_destroy();
     return error;
   }
+
   return 0;
 }
 

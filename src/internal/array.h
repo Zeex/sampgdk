@@ -47,6 +47,7 @@ int sampgdk_array_remove_first(struct sampgdk_array *a);
 int sampgdk_array_remove_last(struct sampgdk_array *a);
 int sampgdk_array_clear(struct sampgdk_array *a);
 int sampgdk_array_append(struct sampgdk_array *a, void *elem);
+int sampgdk_array_elem_index(struct sampgdk_array *a, void *elem);
 int sampgdk_array_find(struct sampgdk_array *a, const void *key, sampgdk_array_cmp cmp);
 int sampgdk_array_find_remove(struct sampgdk_array *a, const void *key, sampgdk_array_cmp cmp);
 

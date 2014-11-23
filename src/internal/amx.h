@@ -18,6 +18,8 @@
 
 #include <sampgdk/sdk.h>
 
+#define AMX_EXEC_GDK (-10000)
+
 struct sampgdk_amx_api {
   uint16_t *(AMXAPI *Align16)(uint16_t *v);
   uint32_t *(AMXAPI *Align32)(uint32_t *v);

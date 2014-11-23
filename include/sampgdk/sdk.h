@@ -75,11 +75,6 @@
  */
 
 /**
- * \brief Entry point index used for fake GDK publics.
- */
-#define AMX_EXEC_GDK (-10)
-
-/**
  * \brief Gets called before Load() to check for compatibility.
  *
  * The Supports() function indicates what possibilities this

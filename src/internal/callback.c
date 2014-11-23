@@ -35,12 +35,6 @@ typedef bool (PLUGIN_CALL *_sampgdk_callback_filter)(AMX *amx,
 struct _sampgdk_callback_info {
   char *name;
   void *handler;
-  struct sampgdk_array cache;
-};
-
-struct _sampgdk_callback_cache_entry {
-  void *plugin;
-  void *func;
 };
 
 static struct sampgdk_array _sampgdk_callbacks;
@@ -63,12 +57,11 @@ SAMPGDK_MODULE_INIT(callback) {
 }
 
 SAMPGDK_MODULE_CLEANUP(callback) {
-  int index;
+  int i;
   struct _sampgdk_callback_info *callback;
 
-  for (index = 0; index < _sampgdk_callbacks.count; index++) {
-    callback = sampgdk_array_get(&_sampgdk_callbacks, index);
-    sampgdk_array_free(&callback->cache);
+  for (i = 0; i < _sampgdk_callbacks.count; i++) {
+    callback = sampgdk_array_get(&_sampgdk_callbacks, i);
     free(callback->name);
   }
 
@@ -83,35 +76,33 @@ static int _sampgdk_callback_compare_name(const void *key,
                 ((const struct _sampgdk_callback_info *)elem)->name);
 }
 
-static int _sampgdk_callback_compare_cache_plugin(const void *key,
-                                                  const void *elem) {
-  const struct _sampgdk_callback_cache_entry *ce = elem;
-
-  assert(key != NULL);
-  assert(elem != NULL);
-
-  if (key < ce->plugin) return -1;
-  if (key > ce->plugin) return +1;
-
-  return 0;
-}
-
-struct _sampgdk_callback_info *_sampgdk_callback_find(const char *name) {
+static struct _sampgdk_callback_info *_sampgdk_callback_find(const char *name) {
   assert(name != NULL);
-  return bsearch(name, _sampgdk_callbacks.data,
-                       _sampgdk_callbacks.count - 1,
-                       _sampgdk_callbacks.elem_size,
-                       _sampgdk_callback_compare_name);
+
+  if (_sampgdk_callbacks.count == 0) {
+    return NULL;
+  }
+
+  return bsearch(name,
+                 _sampgdk_callbacks.data,
+                 _sampgdk_callbacks.count - 1,
+                 _sampgdk_callbacks.elem_size,
+                 _sampgdk_callback_compare_name);
 }
 
 int sampgdk_callback_register(const char *name,
                               sampgdk_callback handler) {
   int error;
-  int index;
+  int i;
   struct _sampgdk_callback_info callback;
   struct _sampgdk_callback_info *ptr;
 
   assert(name != NULL);
+
+  ptr = _sampgdk_callback_find(name);
+  if (ptr != NULL) {
+    return sampgdk_array_elem_index(&_sampgdk_callbacks, ptr);
+  }
 
   callback.name = malloc(strlen(name) + 1);
   if (callback.name == NULL) {
@@ -121,29 +112,18 @@ int sampgdk_callback_register(const char *name,
   callback.handler = handler;
   strcpy(callback.name, name);
 
-  error = sampgdk_array_new(&callback.cache,
-                            1,
-                            sizeof(struct _sampgdk_callback_cache_entry));
-  if (error < 0) {
-    free(callback.name);
-    return error;
-  }
-
   /* Keep callbacks ordered by name.
    * This allows us to use binary search in sampgdk_callback_find().
    */
-  for (index = 0; index < _sampgdk_callbacks.count - 1; index++) {
-    ptr = sampgdk_array_get(&_sampgdk_callbacks, index);
+  for (i = 0; i < _sampgdk_callbacks.count - 1; i++) {
+    ptr = sampgdk_array_get(&_sampgdk_callbacks, i);
     if (strcmp(name, ptr->name) <= 0) {
       break;
     }
   }
 
-  error = sampgdk_array_insert_single(&_sampgdk_callbacks,
-                                      index,
-                                      &callback);
+  error = sampgdk_array_insert_single(&_sampgdk_callbacks, i, &callback);
   if (error < 0) {
-    sampgdk_array_free(&callback.cache);
     free(callback.name);
     return error;
   }
@@ -159,55 +139,35 @@ void sampgdk_callback_unregister(const char *name) {
   }
 }
 
-void sampgdk_callback_cache_plugin(void *plugin) {
-  int index;
-
-  assert(plugin != NULL);
-
-  for (index = 0; index < _sampgdk_callbacks.count; index++) {
-    struct _sampgdk_callback_info *callback =
-        sampgdk_array_get(&_sampgdk_callbacks, index);
-    struct _sampgdk_callback_cache_entry ce = {
-      plugin,
-      sampgdk_plugin_get_symbol(plugin, callback->name)
-    };
-    sampgdk_array_append(&callback->cache, &ce);
-  }
-}
-
-void sampgdk_callback_uncache_plugin(void *plugin) {
-  int index;
+const char *sampgdk_callback_get(int index) {
   struct _sampgdk_callback_info *callback;
 
-  assert(plugin != NULL);
-
-  for (index = 0; index < _sampgdk_callbacks.count; index++) {
-    callback = sampgdk_array_get(&_sampgdk_callbacks, index);
-    sampgdk_array_find_remove(&callback->cache,
-                              plugin,
-                              _sampgdk_callback_compare_cache_plugin);
+  if (index < 0 || index >= _sampgdk_callbacks.count) {
+    return NULL;
   }
+
+  callback = sampgdk_array_get(&_sampgdk_callbacks, index);
+  return callback->name;
 }
 
 bool sampgdk_callback_invoke(AMX *amx,
                              const char *name,
                              int paramcount,
-                             cell *retval) {
+                             cell *retval)
+{
   struct _sampgdk_callback_info *callback;
   struct _sampgdk_callback_info *callback_filter;
-  int index;
-  struct _sampgdk_callback_cache_entry *ce;
   cell params[_SAMPGDK_CALLBACK_MAX_ARGS + 1];
+  void **plugins;
+  int num_plugins;
+  int i;
 
   assert(amx != NULL);
-  assert(name != NULL);
 
   callback = _sampgdk_callback_find(name);
-  callback_filter = sampgdk_array_get(&_sampgdk_callbacks,
-                                      _sampgdk_callbacks.count - 1);
+  callback_filter = sampgdk_array_last(&_sampgdk_callbacks);
+
   assert(callback_filter != NULL);
-  assert(callback == NULL
-         || callback_filter->cache.count == callback->cache.count);
 
   if (paramcount > _SAMPGDK_CALLBACK_MAX_ARGS) {
     sampgdk_log_error("Too many callback arguments (at most %d allowed)",
@@ -218,18 +178,24 @@ bool sampgdk_callback_invoke(AMX *amx,
   params[0] = paramcount * sizeof(cell);
   memcpy(&params[1], sampgdk_param_get_start(amx), params[0]);
 
-  for (index = 0; index < callback_filter->cache.count; index++) {
-    ce = sampgdk_array_get(&callback_filter->cache, index);
-    if (ce->func != NULL
-        && !((_sampgdk_callback_filter)ce->func)(amx, name, params, retval)) {
+  plugins = sampgdk_plugin_table(&num_plugins);
+
+  for (i = 0; i < num_plugins; i++) {
+    void *func;
+
+    func = sampgdk_plugin_get_symbol(plugins[i], callback_filter->name);
+    if (func != NULL
+        && !((_sampgdk_callback_filter)func)(amx, name, params, retval)) {
       continue;
     }
+
     if (callback == NULL || callback->handler == NULL) {
       continue;
     }
-    ce = sampgdk_array_get(&callback->cache, index);
-    if (ce->func != NULL
-        && !((sampgdk_callback)callback->handler)(amx, ce->func, retval)) {
+
+    func = sampgdk_plugin_get_symbol(plugins[i], callback->name);
+    if (func != NULL
+        && !((sampgdk_callback)callback->handler)(amx, func, retval)) {
       return false;
     }
   }

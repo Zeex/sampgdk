@@ -14,13 +14,13 @@
  */
 
 #include <assert.h>
+#include <string.h>
 
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
 
 #include "internal/amx.h"
-#include "internal/callback.h"
 #include "internal/init.h"
 #include "internal/log.h"
 #include "internal/logprintf.h"
@@ -53,7 +53,7 @@ static void _sampgdk_init(void **plugin_data) {
 
   error = sampgdk_module_init();
   if (error  < 0) {
-    sampgdk_log_error_code(error);
+    sampgdk_log_error("Initialization failed: %s", error);
   }
 }
 
@@ -68,10 +68,8 @@ static int _sampgdk_init_plugin(void *plugin, void **plugin_data) {
 
   error = sampgdk_plugin_register(plugin);
   if (error < 0) {
-    sampgdk_log_error_code(error);
+    sampgdk_log_error("Error registering plugin: %s", strerror(-error));
   }
-
-  sampgdk_callback_cache_plugin(plugin);
 
   return error;
 }
@@ -87,10 +85,8 @@ static void _sampgdk_cleanup_plugin(void *plugin) {
 
   error = sampgdk_plugin_unregister(plugin);
   if (error < 0) {
-    sampgdk_log_error_code(error);
+    sampgdk_log_error("Error unregistering plugin: %s", strerror(-error));
   }
-
-  sampgdk_callback_uncache_plugin(plugin);
 
   if (sampgdk_plugin_count() == 0) {
     _sampgdk_cleanup();

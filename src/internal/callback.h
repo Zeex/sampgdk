@@ -23,9 +23,7 @@ typedef bool (*sampgdk_callback)(AMX *amx, void *func, cell *retval);
 
 int sampgdk_callback_register(const char *name, sampgdk_callback handler);
 void sampgdk_callback_unregister(const char *name);
-void sampgdk_callback_cache_plugin(void *plugin);
-void sampgdk_callback_uncache_plugin(void *plugin);
-bool sampgdk_callback_invoke(AMX *amx, const char *name,
-    int paramcount, cell *retval);
+const char *sampgdk_callback_get(int index);
+bool sampgdk_callback_invoke(AMX *amx, const char *name, int paramcount, cell *retval);
 
 #endif /* !SAMPGDK_INTERNAL_CALLBACK_H */
