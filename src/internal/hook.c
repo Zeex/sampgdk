@@ -23,12 +23,12 @@
 
 #if SAMPGDK_WINDOWS
   #include <windows.h>
-  typedef __int32 _sampgdk_hook_intptr_t;
+  typedef __int32 _sampgdk_hook_int32_t;
 #else
   #include <stdint.h>
   #include <unistd.h>
   #include <sys/mman.h>
-  typedef int32_t _sampgdk_hook_intptr_t;
+  typedef int32_t _sampgdk_hook_int32_t;
 #endif
 
 #include "log.h"
@@ -42,8 +42,8 @@
 #pragma pack(push, 1)
 
 struct _sampgdk_hook_jmp {
-  unsigned char          opcode;
-  _sampgdk_hook_intptr_t offset;
+  unsigned char         opcode;
+  _sampgdk_hook_int32_t offset;
 };
 
 #pragma pack(pop)
@@ -94,8 +94,8 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
   static int prefixes[] = {
     0xF0, 0xF2, 0xF3,
     0x2E, 0x36, 0x3E, 0x26, 0x64, 0x65,
-    0x66, /* operand size override */
-    0x67  /* address size override */
+    0x66,
+    0x67
   };
 
   struct opcode_info {
@@ -139,15 +139,11 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
 
   int i;
   int len = 0;
-  int operand_size = 4;
-  int address_size = 4;
   int opcode = 0;
 
   for (i = 0; i < sizeof(prefixes) / sizeof(*prefixes); i++) {
     if (code[len] == prefixes[i]) {
       len++;
-      if (prefixes[i] == 0x66) operand_size = 2;
-      if (prefixes[i] == 0x67) address_size = 2;
     }
   }
 
@@ -176,8 +172,8 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
   if (opcodes[i].flags & MODRM) {
     int modrm = code[len++];
 
-    if ((modrm & 0xC0) == 0x40) len += 1;            /* for disp8 */
-    if ((modrm & 0xC0) == 0x80) len += address_size; /* for disp16/32 */
+    if ((modrm & 0xC0) == 0x40) len += 1; /* for disp8 */
+    if ((modrm & 0xC0) == 0x80) len += 4; /* for disp32 */
 
     if ((modrm & 0xC0) != 0xC0 && (modrm & 0x07) == 0x04) {
       len++; /* for SIB */
@@ -186,12 +182,14 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
 
   if (opcodes[i].flags & IMM8)  len += 1;
   if (opcodes[i].flags & IMM16) len += 2;
-  if (opcodes[i].flags & IMM32) len += operand_size;
+  if (opcodes[i].flags & IMM32) len += 4;
 
   return len;
 }
 
-static void _sampgdk_hook_write_jmp(void *src, void *dst, ptrdiff_t offset) {
+static void _sampgdk_hook_write_jmp(void *src,
+                                    void *dst,
+                                    _sampgdk_hook_int32_t offset) {
   struct _sampgdk_hook_jmp jmp;
 
   jmp.opcode = 0xE9;
@@ -218,27 +216,28 @@ sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
    */
   while (orig_size < _SAMPGDK_HOOK_JMP_SIZE) {
     unsigned char *code = (unsigned char *)src + orig_size;
+    struct _sampgdk_hook_jmp *maybe_jmp;
 
     if ((insn_len = _sampgdk_hook_get_insn_len(code)) == 0) {
       sampgdk_log_error("Unsupported instruction");
       break;
     }
 
+    memcpy(hook->trampoline + orig_size, code, insn_len);
+    maybe_jmp = (struct _sampgdk_hook_jmp *)(hook->trampoline + orig_size);
+
     /* If the original code contains a relative JMP/CALL relocate its
      * destination address.
      */
-    if (*code == 0xE8 || *code == 0xE9) {
-      _sampgdk_hook_intptr_t *address = (void *)(code + 1);
-
-      *address -= (_sampgdk_hook_intptr_t)hook->trampoline
-                - (_sampgdk_hook_intptr_t)src;
+    if (maybe_jmp->opcode == 0xE8 || maybe_jmp->opcode == 0xE9) {
+      maybe_jmp->offset -= (_sampgdk_hook_int32_t)hook->trampoline
+                         - (_sampgdk_hook_int32_t)src;
     }
 
     orig_size += insn_len;
   }
 
   if (insn_len > 0) {
-    memcpy(hook->trampoline, src, orig_size);
     _sampgdk_hook_write_jmp(hook->trampoline, src, orig_size);
     _sampgdk_hook_write_jmp(src, dst, 0);
   } else {
