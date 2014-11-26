@@ -28,7 +28,7 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
                    COMMAND ${PYTHON_EXECUTABLE}
                            ${CMAKE_BINARY_DIR}/scripts/python.py
                            ${CMAKE_CURRENT_SOURCE_DIR}/generate_callbacks.py
-                           --idl ${CMAKE_SOURCE_DIR}/src/a_samp.idl
+                           --idl ${CMAKE_SOURCE_DIR}/lib/sampgdk/a_samp.idl
                            --source ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
                    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/generate_callbacks.py)
 

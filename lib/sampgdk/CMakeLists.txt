@@ -25,9 +25,8 @@ elseif(UNIX)
   sampgdk_add_sources(${SAMPGDK_SYM_FILE})
 endif()
 
-# These variables are used at the upper level.
 if(WIN32)
-  set(SAMPGDK_DEF_FILE ${SAMPGDK_DEF_FILE} PARENT_SCOPE)
+  sampgdk_set_property(SAMPGDK_DEF_FILE ${SAMPGDK_DEF_FILE})
 elseif(UNIX)
-  set(SAMPGDK_SYM_FILE ${SAMPGDK_SYM_FILE} PARENT_SCOPE)
+  sampgdk_set_property(SAMPGDK_SYM_FILE ${SAMPGDK_SYM_FILE})
 endif()

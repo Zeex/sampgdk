@@ -34,7 +34,7 @@ include_directories(
   ${SDK_INCLUDE_DIR}/amx
   ${PROJECT_SOURCE_DIR}/include
   ${PROJECT_BINARY_DIR}/include
-  ${PROJECT_SOURCE_DIR}/src
+  ${PROJECT_SOURCE_DIR}/lib/sampgdk
 )
 
 macro(sampgdk_add_subproject name)
@@ -163,7 +163,6 @@ add_subdirectory(doc)
 add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(scripts)
-add_subdirectory(src)
 if(SAMPGDK_BUILD_PLUGINS)
   add_subdirectory(plugins)
 endif()
@@ -174,15 +173,15 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
   get_filename_component(extension ${file} EXT)
 
   if(extension STREQUAL ".idl")
-    file(RELATIVE_PATH path ${PROJECT_SOURCE_DIR}/src ${file})
+    file(RELATIVE_PATH path ${PROJECT_SOURCE_DIR}/lib/sampgdk ${file})
 
     get_filename_component(dir ${path} PATH)
     get_filename_component(name ${file} NAME_WE)
 
     sampgdk_add_api_gen(${name} ${file}
-      ${PROJECT_BINARY_DIR}/src/${dir}/${name}.api)
+      ${PROJECT_BINARY_DIR}/lib/sampgdk/${dir}/${name}.api)
     sampgdk_add_source_gen(${name} ${file}
-    ${PROJECT_BINARY_DIR}/src/${dir}/${name}.c)
+      ${PROJECT_BINARY_DIR}/lib/sampgdk/${dir}/${name}.c)
     sampgdk_add_header_gen(${name} ${file}
       ${PROJECT_BINARY_DIR}/include/sampgdk/${dir}/${name}.h)
 
@@ -199,10 +198,12 @@ foreach(file IN LISTS SAMPGDK_SOURCES)
   endif()
 endforeach()
 
+sampgdk_get_property(SAMPGDK_DEF_FILE SAMPGDK_DEF_FILE)
 if(SAMPGDK_DEF_FILE)
   sampgdk_add_exports_gen("def" ${SAMPGDK_DEF_FILE} ${SAMPGDK_APIS})
 endif()
 
+sampgdk_get_property(SAMPGDK_SYM_FILE SAMPGDK_SYM_FILE)
 if(SAMPGDK_SYM_FILE)
   sampgdk_add_exports_gen("list" ${SAMPGDK_SYM_FILE} ${SAMPGDK_APIS})
 endif()
@@ -290,10 +291,10 @@ if(SAMPGDK_BUILD_AMALGAMATION)
       ${PROJECT_SOURCE_DIR}/scripts/amalgamate.py
       --include-dir ${PROJECT_SOURCE_DIR}/include
       --include-dir ${PROJECT_BINARY_DIR}/include
-      --include-dir ${PROJECT_SOURCE_DIR}/src
-      --output-source ${PROJECT_BINARY_DIR}/src/sampgdk.c
-      --output-header ${PROJECT_BINARY_DIR}/src/sampgdk.h
-      --preamble ${PROJECT_SOURCE_DIR}/src/sampgdk.c
+      --include-dir ${PROJECT_SOURCE_DIR}/lib/sampgdk
+      --output-source ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.c
+      --output-header ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.h
+      --preamble ${PROJECT_SOURCE_DIR}/lib/sampgdk/sampgdk.c
       ${SAMPGDK_AMALGAMATE_FLAGS}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating amalgamation")
@@ -303,8 +304,8 @@ if(SAMPGDK_BUILD_AMALGAMATION)
     COMMAND ${PYTHON_EXECUTABLE}
       ${PROJECT_SOURCE_DIR}/scripts/zip_files.py
       ${PROJECT_BINARY_DIR}/sampgdk-${SAMPGDK_VERSION}-amalgamation.zip
-      ${PROJECT_BINARY_DIR}/src/sampgdk.c
-      ${PROJECT_BINARY_DIR}/src/sampgdk.h
+      ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.c
+      ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.h
       ${PROJECT_SOURCE_DIR}/doc/how-to-use-amalgamation.txt
     COMMENT "Packaging amalgamation files")
   add_dependencies(sampgdk_amalgam_package sampgdk_amalgam)
