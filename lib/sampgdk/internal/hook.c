@@ -171,12 +171,18 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
 
   if (opcodes[i].flags & MODRM) {
     int modrm = code[len++];
+    int mod = modrm >> 6;
+    int rm = modrm & 7;
 
-    if ((modrm & 0xC0) == 0x40) len += 1; /* for disp8 */
-    if ((modrm & 0xC0) == 0x80) len += 4; /* for disp32 */
-
-    if ((modrm & 0xC0) != 0xC0 && (modrm & 0x07) == 0x04) {
+    if (mod != 3 && rm == 4) {
       len++; /* for SIB */
+    }
+
+    if (mod == 1) len += 1; /* [reg + disp8] */
+    if (mod == 2) len += 4; /* [reg + disp32] */
+
+    if (mod == 0 && rm == 5) {
+      len += 4; /* [disp32] */
     }
   }
 
