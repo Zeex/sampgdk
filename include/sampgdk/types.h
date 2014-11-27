@@ -19,12 +19,11 @@
 #include <sampgdk/export.h>
 
 /**
- * \brief Defines the signature of a timer callback function.
+ * \brief Defines the signature of a timer callback function
  * \ingroup natives
  *
- * \param timerid The unique ID for the timer returned by SetTimer().
- * \param param A pointer to user-supplied data passed to SetTimer().
- * This parameter may be \c NULL.
+ * \param timerid timer ID as returned by SetTimer()
+ * \param param user-supplied data as passed to SetTimer()
  */
 typedef void (SAMPGDK_CALL *TimerCallback)(int timerid, void *param);
 

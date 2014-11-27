@@ -75,30 +75,32 @@
  */
 
 /**
- * \brief Gets called before Load() to check for compatibility.
+ * \brief Gets called before Load() to check for compatibility
  *
  * The Supports() function indicates what possibilities this
  * plugin has. The SUPPORTS_VERSION flag is required to check
  * for compatibility with the server.
  *
- * \returns One or more of the SUPPORTS_* flags.
+ * \returns combination of SUPPORTS_* flags
  */
 PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports();
 
 /**
- * \brief Gets called when the plugin is loaded.
+ * \brief Gets called when the plugin is loaded
  *
  * The Load() function gets passed on exported functions from
  * the SA-MP Server, like the AMX Functions and logprintf().
  * Should return true if loading the plugin has succeeded.
  *
- * \returns True of if the plugin has successfully loaded and
- * false otherwise.
+ * \param ppData plugin data
+ *
+ * \returns \c true if the plugin has successfully loaded and
+ * \c false otherwise
  */
 PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData);
 
 /**
- * \brief Gets called when the plugin is unloaded.
+ * \brief Gets called when the plugin is unloaded
  *
  * The Unload() function is called when the server shuts down,
  * meaning this plugin gets shut down with it.
@@ -106,28 +108,32 @@ PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData);
 PLUGIN_EXPORT void PLUGIN_CALL Unload();
 
 /**
- * \brief Gets called when a new script is loaded.
+ * \brief Gets called when a new script is loaded
  *
  * The AmxLoad() function gets called when a new gamemode or
  * filterscript gets loaded with the server. In here we register
  * the native functions we like to add to the scripts.
  *
- * \returns One of the AMX error codes.
+ * \param amx pointer to the script's AMX object
+ *
+ * \returns one of AMX error codes
  */
 PLUGIN_EXPORT int PLUGIN_CALL AmxLoad(AMX *amx);
 
 /**
- * \brief Gets called when a script is unloaded.
+ * \brief Gets called when a script is unloaded
  *
  * When a gamemode is over or a filterscript gets unloaded, this
  * function gets called. No special actions needed in here.
  *
- * \returns One of the AMX error codes.
+ * \param amx pointer to the script's AMX object
+ *
+ * \returns one of AMX error codes
  */
 PLUGIN_EXPORT int PLUGIN_CALL AmxUnload(AMX *amx);
 
 /**
- * \brief Gets called on every server tick.
+ * \brief Gets called on every server tick
  *
  * Each tick corresponds to one iteration of the server's internal
  * event loop. The interval between ticks depends on many factors,

@@ -24,49 +24,49 @@
  */
 
 /**
- * \brief Major version.
+ * \brief Major version
  */
 #define SAMPGDK_VERSION_MAJOR @SAMPGDK_VERSION_MAJOR@
 
 /**
- * \brief Minor version.
+ * \brief Minor version
  */
 #define SAMPGDK_VERSION_MINOR @SAMPGDK_VERSION_MINOR@
 
 /**
- * \brief Patch version.
+ * \brief Patch version
  */
 #define SAMPGDK_VERSION_PATCH @SAMPGDK_VERSION_PATCH@
 
 /**
- * \brief Library version in the form of \c 0xAABBCC00 where \c AA, \c BB
- * and \c CC are the major, minor and patch numbers.
+ * \brief Library version number in the form of \c 0xAABBCC00 where
+ * \c AA, \c BB and \c CC are the major, minor and patch numbers
  */
 #define SAMPGDK_VERSION_ID @SAMPGDK_VERSION_ID@
 
 /**
- * \brief Library version string.
+ * \brief Library version string in the form of \c x.y.z where \c x,
+ * \c y and \c z are the major, minor and patch numbers
  */
 #define SAMPGDK_VERSION_STRING "@SAMPGDK_VERSION@"
 
 /**
- * \brief Gets library version number.
+ * \brief Gets library version number
  *
- * \returns The version number in the form of \c 0xAABBCCDD where \c AA, 
- * c BB and \c CC are the major, minor and patch numbers.
+ * \returns version number
  *
  * \see SAMPGDK_VERSION_ID
- * \see sampgdk_get_version_string()
+ * \see sampgdk_GetVersionString()
  */
 SAMPGDK_API(int, sampgdk_GetVersion(void));
 
 /**
- * \brief Gets library version string.
+ * \brief Gets library version string
  *
- * \returns The version string in the form of \c x.y.z
+ * \returns version string
  *
  * \see SAMPGDK_VERSION_STRING
- * \see sampgdk_get_version().
+ * \see sampgdk_GetVersion()
  */
 SAMPGDK_API(const char *, sampgdk_GetVersionString(void));
 
@@ -74,12 +74,12 @@ SAMPGDK_API(const char *, sampgdk_GetVersionString(void));
 
 namespace sampgdk {
 
-/// \brief C++ wrapper around sampgdk_GetVersion().
+/// \brief C++ wrapper around sampgdk_GetVersion()
 inline int GetVersion() {
   return sampgdk_GetVersion();
 }
 
-/// \brief C++ wrapper around sampgdk_GetVersionString().
+/// \brief C++ wrapper around sampgdk_GetVersionString()
 inline const char *GetVersionString() {
   return sampgdk_GetVersionString();
 }

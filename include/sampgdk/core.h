@@ -37,14 +37,16 @@
  */
 
 /**
- * \brief Hidden parameter type. Don't use this.
+ * \brief Hidden parameter type, do not use this
  */
 typedef int sampgdk_hidden_t;
 
 /**
- * \brief Returns supported SDK version.
+ * \brief Returns supported SDK version
  *
- * This function should be called from Supports():
+ * This function always returns SUPPORTS_VERSION. Its sole purpose is to
+ * make sure that the version of the SDK is compatible with the one that
+ * was used for building the library.
  *
  * \code
  * PLUGIN_EXPORT unsigned int PLUGIN_CALL Supports() {
@@ -52,81 +54,68 @@ typedef int sampgdk_hidden_t;
  * }
  * \endcode
  *
- * \returns SUPPORTS_VERSION.
+ * \returns SUPPORTS_VERSION
  */
 SAMPGDK_API(unsigned int, sampgdk_Supports(void));
 
 /**
- * \brief Initializes the library.
+ * \brief Initializes the library
  *
- * This function should be called when the plugin is loaded,
- * e.g. from Load():
+ * Allocates memory for internal data structures and sets everything
+ * up. Also keeps track of currently loaded plugins and registers the
+ * calling plugin for callback handling.
  *
- * \code
- * PLUGIN_EXPORT bool PLUGIN_CALL Load(void **ppData) {
- *   ...
- *   return sampgdk_Load(ppData);
- * }
- * \endcode
+ * This function should be called from Load().
  *
- * \param ppData A pointer to the SA-MP plugin data passed to Load().
+ * \param ppData pointer to plugin data as passed to Load()
  *
- * \returns Returns \c true on success and \c false otherwise.
+ * \returns \c true on success and \c false otherwise
  *
  * \see sampgdk_Unload()
  */
 SAMPGDK_API(bool, sampgdk_Load(void **ppData, sampgdk_hidden_t));
 
 /**
- * \brief Shuts everything down (opposite of sampgdk_Load()).
+ * \brief Shuts everything down, opposite of sampgdk_Load()
  *
- * This function should be called when the plugin is unloaded,
- * e.g. from Unload():
- *
- * \code
- * PLUGIN_EXPORT void PLUGIN_CALL Unload() {
- *   ...
- *   sampgdk_Unload();
- * }
- * \endcode
+ * This function should be called from Unload().
  *
  * \see sampgdk_Load()
  */
 SAMPGDK_API(void, sampgdk_Unload(sampgdk_hidden_t));
 
 /**
- * \brief Processes timers created by the calling plugin.
+ * \brief Processes timers created by the calling plugin
  *
- * This function should be called from ProcessTick():
+ * Goes through the list of created timers and, if necessary, fires
+ * them one by one in the order of increasing IDs.
  *
- * \code
- * PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {
- *   sampgdk_ProcessTick();
- * }
- * \endcode
+ * If timer precision is important it's better to call this function
+ * on every server tick. The plugin's ProcessTick() function might be
+ * a good place for that.
  */
 SAMPGDK_API(void, sampgdk_ProcessTick(sampgdk_hidden_t));
 
 /**
- * \brief Prints a message to the server log.
+ * \brief Prints a message to the server log
  *
  * \note The resulting message cannot be longer than 1024 characters.
  *
- * \param format A printf-like format string.
- * \param ... Further arguments to logprintf().
+ * \param format printf-style format string
+ * \param ... further arguments to logprintf()
  *
  * \see sampgdk_vlogprintf()
  */
 SAMPGDK_API(void, sampgdk_logprintf(const char *format, ...));
 
 /**
- * \brief Prints a message to the server log.
+ * \brief Prints a message to the server log
  *
- * This function is identical to sampgdk_logprintf() but takes a
- * \c va_list instead of a variable number of arguments.
+ * This function is identica to sampgdk_logprintf() except it takes
+ * a \c va_list instead of variable arguments.
  *
- * \param format A printf-like format string.
- * \param args Further arguments to logprintf().
+ * \param format printf-style format string
+ * \param args further arguments to logprintf()
  *
  * \see sampgdk_logprintf()
  */
@@ -141,7 +130,7 @@ SAMPGDK_API(void, sampgdk_vlogprintf(const char *format, va_list args));
 #ifdef __cplusplus
 
 /**
- * \brief Main namespace.
+ * \brief Main namespace
  */
 namespace sampgdk {
 
@@ -150,27 +139,27 @@ namespace sampgdk {
  * @{
  */
 
-/// \brief C++ wrapper around sampgdk_Supports().
+/// \brief C++ wrapper around sampgdk_Supports()
 inline unsigned int Supports() {
   return sampgdk_Supports();
 }
 
-/// \brief C++ wrapper around sampgdk_Load().
+/// \brief C++ wrapper around sampgdk_Load()
 inline bool Load(void **ppData) {
   return sampgdk_Load(ppData);
 }
 
-/// \brief C++ wrapper around sampgdk_Unload().
+/// \brief C++ wrapper around sampgdk_Unload()
 inline void Unload() {
   sampgdk_Unload();
 }
 
-/// \brief C++ wrapper around sampgdk_ProcessTick().
+/// \brief C++ wrapper around sampgdk_ProcessTick()
 inline void ProcessTick() {
   sampgdk_ProcessTick();
 }
 
-/// \brief C++ wrapper around sampgdk_logprintf().
+/// \brief C++ wrapper around sampgdk_logprintf()
 inline void logprintf(const char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -178,7 +167,7 @@ inline void logprintf(const char *format, ...) {
   va_end(args);
 }
 
-/// \brief C++ wrapper around sampgdk_vlogprintf().
+/// \brief C++ wrapper around sampgdk_vlogprintf()
 inline void vlogprintf(const char *format, va_list args) {
   sampgdk_vlogprintf(format, args);
 }

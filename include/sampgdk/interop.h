@@ -27,7 +27,7 @@
  */
 
 /**
- * \brief Returns all currently registered native functions.
+ * \brief Returns all currently registered native functions
  *
  * This function can be used to get the names and addresses of all native
  * functions that have been registered with amx_Register(), by both the
@@ -35,10 +35,9 @@
  *
  * \note The returned array is NULL-terminated.
  *
- * \param number A pointer to the variable that will store the number of
- *               elements in the returned array (optional).
+ * \param number where to store the number of natives (optional).
  *
- * \returns A pointer to the internal array of native functions.
+ * \returns pointer to array of registered native functions
  *
  * \see sampgdk_FindNative()
  * \see sampgdk_CallNative()
@@ -47,17 +46,15 @@
 SAMPGDK_API(const AMX_NATIVE_INFO *, sampgdk_GetNatives(int *number));
 
 /**
- * \brief Finds a native function by name.
+ * \brief Finds a native function by name
  *
  * Searches for a native function with the specified name and returns its
  * address. In order to be found the function must be registered with
  * amx_Register() prior to the call.
  *
- * This function is implemented using binary search.
+ * \param name name of the native function
  *
- * \param name The name of the native function.
- *
- * \returns The function's address or \c NULL if not found.
+ * \returns function's address or \c NULL if not found
  *
  * \see sampgdk_GetNatives()
  * \see sampgdk_CallNative()
@@ -66,7 +63,7 @@ SAMPGDK_API(const AMX_NATIVE_INFO *, sampgdk_GetNatives(int *number));
 SAMPGDK_API(AMX_NATIVE, sampgdk_FindNative(const char *name));
 
 /**
- * \brief Calls a native function.
+ * \brief Calls a native function
  *
  * This function is suitable for calling simple natives that either have only
  * value parameters or don't have any parameters at all. If you have to pass
@@ -75,10 +72,10 @@ SAMPGDK_API(AMX_NATIVE, sampgdk_FindNative(const char *name));
  * \note The first element of \p params must contain the number of arguments
  * multiplied by \c sizeof(cell).
  *
- * \param native A pointer to the native function.
- * \param params The \c params array passsed to the function.
+ * \param native pointer to the native function
+ * \param params parameters to be passed to the function as its second argument
  *
- * \returns The value returned by the function.
+ * \returns function's return value
  *
  * \see sampgdk_GetNatives()
  * \see sampgdk_FindNative()
@@ -87,7 +84,7 @@ SAMPGDK_API(AMX_NATIVE, sampgdk_FindNative(const char *name));
 SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
 
 /**
- * \brief Invokes a native function with the specified arguments.
+ * \brief Invokes a native function with the specified argument
  *
  * Argument types are specified via \p format where each character, or
  * *specifier*, corresponds to a single argument. The following format
@@ -115,11 +112,11 @@ SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
  * functions you have to use the 'r' specifier where you would normally
  * use 'b', 'i' 'd' or 'f'.
  *
- * \param native A pointer to the native function.
- * \param format A format string specifying the types of the arguments.
- * \param ... The arguments themselves.
+ * \param native pointer to the native function.
+ * \param format argument types
+ * \param ... arguments themselves
  *
- * \returns The value returned by the function.
+ * \returns function's return value
  *
  * \see sampgdk_GetNatives()
  * \see sampgdk_FindNative()
@@ -130,10 +127,10 @@ SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native,
     const char *format, ...));
 
 /**
-* \brief Invokes a native function with the specified arguments.
+* \brief Invokes a native function with the specified arguments
 *
-* This function is identical to sampgdk_InvokeNative() but takes a
-* \c va_list instead of a variable number of arguments.
+* This function is identical to sampgdk_InvokeNative() except it takes
+* \c va_list instead of variable arguments.
 *
 * \see sampgdk_GetNatives()
 * \see sampgdk_FindNative()
@@ -144,7 +141,7 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
     const char *format, va_list args));
 
 /**
-* \brief Invokes a native function with the specified arguments.
+* \brief Invokes a native function with the specified arguments
 *
 * This function is similar to sampgdk_InvokeNative() but the arguments
 * are passed as an array where each element is a pointer pointing to
@@ -154,11 +151,11 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
 * *specifier*, corresponds to a single argument. See sampgdk_InvokeNative()
 * for the list of supported format specifiers.
 *
-* \param native A pointer to the native function.
-* \param format A format string specifying the types of the arguments.
-* \param args The arguments themselves.
+* \param native pointer to the native function.
+* \param format argument types
+* \param args arguments themselves
 *
-* \returns The value returned by the function.
+* \returns function's return value
 *
 * \see sampgdk_GetNatives()
 * \see sampgdk_FindNative()
@@ -168,20 +165,21 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeArray(AMX_NATIVE native,
     const char *format, void **args));
 
 /**
- * \brief Gets called on every public function call.
+ * \brief Gets called on every public function call
  *
- * This is the public filter callback. It is called whenever the server
- * calls \c amx_Exec(), which practically means that you can use it to
- * hook *any* callback, even those that are called by other plugins.
+ * This is the publics "filter" callback. It is called whenever the
+ * server calls \c amx_Exec(), which practically means that you can
+ * use it to hook *any* callback, even those that are called by other
+ * plugins.
  *
- * \param amx The AMX instance on which the public function is called.
- * \param name The name of the function.
- * \param params The function's arguments as stored on the AMX stack, with
- * \c params[0] set to the number of arguments multiplied by \c sizeof(cell).
- * \param retval The function's return value. This parameter can be \c NULL.
+ * \param amx AMX on which the function is called
+ * \param name function name
+ * \param params function arguments as stored on the AMX stack, with
+ *        \c params[0] being set to the number of arguments multiplied
+ *        by \c sizeof(cell)
+ * \param retval where to store the return value (can be \c NULL)
  *
- * \returns If returns \c true the callback is executed,
- *          otherwise it's ignored.
+ * \returns \c true if the callback is allowed to execute
  */
 SAMPGDK_CALLBACK(bool, OnPublicCall(AMX *amx, const char *name,
     cell *params, cell *retval));
@@ -197,27 +195,27 @@ namespace sampgdk {
   * @{
   */
 
-/// \brief C++ wrapper around sampgdk_GetNatives().
+/// \brief C++ wrapper around sampgdk_GetNatives()
 inline const AMX_NATIVE_INFO *GetNatives(int &number) {
   return sampgdk_GetNatives(&number);
 }
 
-/// \brief C++ wrapper around sampgdk_GetNatives().
+/// \brief C++ wrapper around sampgdk_GetNatives()
 inline const AMX_NATIVE_INFO *GetNatives() {
   return sampgdk_GetNatives(0);
 }
 
-/// \brief C++ wrapper around sampgdk_FindNative().
+/// \brief C++ wrapper around sampgdk_FindNative()
 inline AMX_NATIVE FindNative(const char *name) {
   return sampgdk_FindNative(name);
 }
 
-/// \brief C++ wrapper around sampgdk_CallNative().
+/// \brief C++ wrapper around sampgdk_CallNative()
 inline cell CallNative(AMX_NATIVE native, cell *params) {
   return sampgdk_CallNative(native, params);
 }
 
-/// \brief C++ wrapper around sampgdk_InvokeNative().
+/// \brief C++ wrapper around sampgdk_InvokeNative()
 inline cell InvokeNative(AMX_NATIVE native, const char *format, ...) {
   va_list args;
   va_start(args, format);
@@ -226,13 +224,13 @@ inline cell InvokeNative(AMX_NATIVE native, const char *format, ...) {
   return retval;
 }
 
-/// \brief C++ wrapper around sampgdk_InvokeNativeV().
+/// \brief C++ wrapper around sampgdk_InvokeNativeV()
 inline cell InvokeNativeV(AMX_NATIVE native, const char *format,
     va_list args) {
   return sampgdk_InvokeNativeV(native, format, args);
 }
 
-/// \brief C++ wrapper around sampgdk_InvokeNativeArray().
+/// \brief C++ wrapper around sampgdk_InvokeNativeArray()
 inline cell InvokeNativeArray(AMX_NATIVE native, const char *format,
     void **args) {
   return sampgdk_InvokeNativeArray(native, format, args);
