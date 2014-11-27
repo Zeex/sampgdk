@@ -80,14 +80,15 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
 
 #endif /* !SAMPGDK_WINDOWS */
 
-static size_t _sampgdk_hook_get_insn_len(uint8_t *code) {
+static size_t _sampgdk_hook_disasm(uint8_t *code, int *reloc) {
   enum flags {
-    MODRM      = 1,      /* ModRM byte is present */
-    REG_OPCODE = 1 << 1, /* ModRM.reg is part of opcode */
-    IMM8       = 1 << 2, /* 8-bit immediate */
-    IMM16      = 1 << 3, /* 16-bit immediate */
-    IMM32      = 1 << 4, /* 16/32-bit immediate (size depends on prefix) */
-    PLUS_R     = 1 << 5, /* register operand encoded into opcode */
+    MODRM      = 1,
+    REG_OPCODE = 1 << 1,
+    IMM8       = 1 << 2,
+    IMM16      = 1 << 3,
+    IMM32      = 1 << 4,
+    PLUS_R     = 1 << 5,
+    RELOC      = 1 << 6
   };
 
   static int prefixes[] = {
@@ -104,9 +105,9 @@ static size_t _sampgdk_hook_get_insn_len(uint8_t *code) {
   };
 
   static struct opcode_info opcodes[] = {
-    /* CALL rel32       */ {0xE8, 0, IMM32},
+    /* CALL rel32       */ {0xE8, 0, IMM32 | RELOC},
     /* CALL r/m32       */ {0xFF, 2, MODRM | REG_OPCODE},
-    /* JMP rel32        */ {0xE9, 0, IMM32},
+    /* JMP rel32        */ {0xE9, 0, IMM32 | RELOC},
     /* JMP r/m32        */ {0xFF, 4, MODRM | REG_OPCODE},
     /* LEA r16,m        */ {0x8D, 0, MODRM},
     /* MOV r/m8,r8      */ {0x88, 0, MODRM},
@@ -168,6 +169,10 @@ static size_t _sampgdk_hook_get_insn_len(uint8_t *code) {
     return 0;
   }
 
+  if (reloc != NULL && opcodes[i].flags & RELOC) {
+    *reloc = len; /* relative call or jump */
+  }
+
   if (opcodes[i].flags & MODRM) {
     int modrm = code[len++];
     int mod = modrm >> 6;
@@ -218,21 +223,21 @@ sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
    */
   while (orig_size < _SAMPGDK_HOOK_JMP_SIZE) {
     uint8_t *insn = (uint8_t *)src + orig_size;
-    struct _sampgdk_hook_jmp *maybe_jmp;
+    int reloc = 0;
 
-    if ((insn_len = _sampgdk_hook_get_insn_len(insn)) == 0) {
+    if ((insn_len = _sampgdk_hook_disasm(insn, &reloc)) == 0) {
       sampgdk_log_error("Unsupported instruction");
       break;
     }
 
     memcpy(hook->trampoline + orig_size, insn, insn_len);
-    maybe_jmp = (struct _sampgdk_hook_jmp *)(hook->trampoline + orig_size);
 
     /* If the original code contains a relative JMP/CALL relocate its
      * destination address.
      */
-    if (maybe_jmp->opcode == 0xE8 || maybe_jmp->opcode == 0xE9) {
-      maybe_jmp->offset -= (int32_t)hook->trampoline - (int32_t)src;
+    if (reloc != 0) {
+      int32_t *offset = (int32_t *)(hook->trampoline + orig_size + reloc);
+      *offset -= (intptr_t)hook->trampoline - (intptr_t)src;
     }
 
     orig_size += insn_len;
