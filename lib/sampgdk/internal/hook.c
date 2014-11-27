@@ -23,16 +23,15 @@
 
 #if SAMPGDK_WINDOWS
   #include <windows.h>
-  typedef __int32 _sampgdk_hook_int32_t;
 #else
   #include <stdint.h>
   #include <unistd.h>
   #include <sys/mman.h>
-  typedef int32_t _sampgdk_hook_int32_t;
 #endif
 
 #include "log.h"
 #include "hook.h"
+#include "types.h"
 
 #define _SAMPGDK_HOOK_JMP_SIZE 5
 #define _SAMPGDK_HOOK_MAX_INSN_LEN 15
@@ -42,14 +41,14 @@
 #pragma pack(push, 1)
 
 struct _sampgdk_hook_jmp {
-  unsigned char         opcode;
-  _sampgdk_hook_int32_t offset;
+  uint8_t opcode;
+  int32_t offset;
 };
 
 #pragma pack(pop)
 
 struct _sampgdk_hook {
-  unsigned char trampoline[_SAMPGDK_HOOK_TRAMPOLINE_SIZE];
+  uint8_t trampoline[_SAMPGDK_HOOK_TRAMPOLINE_SIZE];
 };
 
 #if SAMPGDK_WINDOWS
@@ -81,7 +80,7 @@ static void *_sampgdk_hook_unprotect(void *address, size_t size) {
 
 #endif /* !SAMPGDK_WINDOWS */
 
-static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
+static size_t _sampgdk_hook_get_insn_len(uint8_t *code) {
   enum flags {
     MODRM      = 1,      /* ModRM byte is present */
     REG_OPCODE = 1 << 1, /* ModRM.reg is part of opcode */
@@ -193,16 +192,13 @@ static size_t _sampgdk_hook_get_insn_len(unsigned char *code) {
   return len;
 }
 
-static void _sampgdk_hook_write_jmp(void *src,
-                                    void *dst,
-                                    _sampgdk_hook_int32_t offset) {
+static void _sampgdk_hook_write_jmp(void *src, void *dst, int32_t offset) {
   struct _sampgdk_hook_jmp jmp;
 
   jmp.opcode = 0xE9;
-  jmp.offset = (unsigned char *)dst - (
-               (unsigned char *)src + sizeof(jmp));
+  jmp.offset = (uint8_t *)dst - ((uint8_t *)src + sizeof(jmp));
 
-  memcpy((unsigned char *)src + offset, &jmp, sizeof(jmp));
+  memcpy((uint8_t *)src + offset, &jmp, sizeof(jmp));
 }
 
 sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
@@ -221,23 +217,22 @@ sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
    * some instruction. So we need to determine the instruction length.
    */
   while (orig_size < _SAMPGDK_HOOK_JMP_SIZE) {
-    unsigned char *code = (unsigned char *)src + orig_size;
+    uint8_t *insn = (uint8_t *)src + orig_size;
     struct _sampgdk_hook_jmp *maybe_jmp;
 
-    if ((insn_len = _sampgdk_hook_get_insn_len(code)) == 0) {
+    if ((insn_len = _sampgdk_hook_get_insn_len(insn)) == 0) {
       sampgdk_log_error("Unsupported instruction");
       break;
     }
 
-    memcpy(hook->trampoline + orig_size, code, insn_len);
+    memcpy(hook->trampoline + orig_size, insn, insn_len);
     maybe_jmp = (struct _sampgdk_hook_jmp *)(hook->trampoline + orig_size);
 
     /* If the original code contains a relative JMP/CALL relocate its
      * destination address.
      */
     if (maybe_jmp->opcode == 0xE8 || maybe_jmp->opcode == 0xE9) {
-      maybe_jmp->offset -= (_sampgdk_hook_int32_t)hook->trampoline
-                         - (_sampgdk_hook_int32_t)src;
+      maybe_jmp->offset -= (int32_t)hook->trampoline - (int32_t)src;
     }
 
     orig_size += insn_len;
