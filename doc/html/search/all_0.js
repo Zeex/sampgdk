@@ -10,7 +10,6 @@ var searchData=
   ['allowadminteleport',['AllowAdminTeleport',['../group__natives.html#ga9185702b7bbf92e06dcdf61d04e3faff',1,'a_samp.h']]],
   ['allowinteriorweapons',['AllowInteriorWeapons',['../group__natives.html#gae9f4dbe589daf03b63ea71a813238ef2',1,'a_samp.h']]],
   ['allowplayerteleport',['AllowPlayerTeleport',['../group__natives.html#ga2799a4f9a05862fd6a8da5d9938e528d',1,'a_players.h']]],
-  ['amx_5fexec_5fgdk',['AMX_EXEC_GDK',['../group__sdk.html#ga6cbd8bcb937ba12b10a383d91dc36d75',1,'sdk.h']]],
   ['amxload',['AmxLoad',['../group__sdk.html#gab9ab1d3557a62c43781147172136d619',1,'sdk.h']]],
   ['amxunload',['AmxUnload',['../group__sdk.html#gac4a882c4ebe4f232e6c12671c265e694',1,'sdk.h']]],
   ['applyanimation',['ApplyAnimation',['../group__natives.html#ga1ba95d5364f8b106443440a8c30a1344',1,'a_players.h']]],
