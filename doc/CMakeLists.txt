@@ -9,7 +9,7 @@ if(DOXYGEN_FOUND)
   add_dependencies(sampgdk_doc sampgdk)
 endif()
 
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        DESTINATION .
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html
+        DESTINATION doc/sampgdk
         COMPONENT doc
         FILES_MATCHING REGEX html/.*)
