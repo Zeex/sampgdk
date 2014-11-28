@@ -121,6 +121,7 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
                                                int *index) {
   int error;
   int index_internal;
+  int index_real;
 
   sampgdk_log_debug("amx_FindPublic(%p, \"%s\", %p)", amx, name, index);
 
@@ -135,13 +136,23 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
   if (amx == _sampgdk_amxhooks_main_amx ||
       amx == sampgdk_fakeamx_amx()) {
     index_internal = sampgdk_callback_register(name, NULL);
+    index_real = AMX_EXEC_GDK - index_internal;
 
     if (index_internal < 0) {
       sampgdk_log_error("Error registering callback: %s",
                         strerror(-index_internal));
-    } else {
-      *index = AMX_EXEC_GDK - index_internal;
-      error = AMX_ERR_NONE;
+    } else if (error == AMX_ERR_NONE && *index <= 0) {
+      /* If there are other plugins running they better return the same
+       * index as we do. Otherwise it would be a total mess and we can't
+       * let that happen.
+       */
+      if (*index != index_real) {
+        error = AMX_ERR_NOTFOUND;
+        sampgdk_log_warning("Index mismatch for %s (%d != %d)",
+                            name, *index, index_real);
+      }
+    } else if (error != AMX_ERR_NONE) {
+      error = AMX_ERR_NONE, *index = index_real;
       sampgdk_log_debug("Registered callback: %s, index = %d", name, *index);
     }
   }
