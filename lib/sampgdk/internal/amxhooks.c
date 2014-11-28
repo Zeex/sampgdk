@@ -42,12 +42,6 @@ static AMX *_sampgdk_amxhooks_main_amx;
   C(Callback) \
   C(Allot)
 
-#define _SAMPGDK_AMXHOOKS_FUNC_LIST_2(C) \
-  C(Register) \
-  C(FindPublic) \
-  C(Exec) \
-  C(Allot)
-
 #define _SAMPGDK_AMXHOOKS_DEFINE_HOOK(name) \
   static sampgdk_hook_t _sampgdk_amxhooks_##name##_hook;
 _SAMPGDK_AMXHOOKS_FUNC_LIST(_SAMPGDK_AMXHOOKS_DEFINE_HOOK)
