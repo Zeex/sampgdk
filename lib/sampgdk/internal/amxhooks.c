@@ -99,16 +99,14 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
                               (amx, nativelist, number));
 }
 
-/* The SA-MP server always makes a call to amx_FindPublic() before executing
- * a callback and calls amx_Exec() depending on the returned error code.
- * This allows us to force it to call amx_Exec() regardless of whether the
- * public function was previously found by returning AMX_ERR_NONE from our
- * version of amx_FindPublic().
+/* The server always makes a call to amx_FindPublic() before executing
+ * a callback and then depending on the error code may or may not call
+ * amx_Exec(). Therefore by always returning success in amx_FindPublic()
+ * we can force it into calling amx_Exec() regardless of the callback's
+ * existence.
  *
- * Although this system works in most cases it's obviously very fragile, and
- * if they suddenly decide to change something in this find-exec scheme (e.g.
- * by caching callback indices), the whole thing willl stop working. So be
- * prepared for bugs!
+ * This works well as long as they don't check the returned index as it
+ * can be invalid.
  */
 static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
                                                const char *name,
