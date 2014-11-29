@@ -39,7 +39,6 @@ static AMX *_sampgdk_amxhooks_main_amx;
   C(Register) \
   C(FindPublic) \
   C(Exec) \
-  C(Callback) \
   C(Allot)
 
 #define _SAMPGDK_AMXHOOKS_DEFINE_HOOK(name) \
@@ -226,26 +225,6 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     amx->stk += paramcount * sizeof(cell);
     sampgdk_log_debug("Popped %d parameter(s), stk = %d", paramcount, amx->stk);
   }
-
-  return error;
-}
-
-static int AMXAPI _sampgdk_amxhooks_Callback(AMX *amx,
-                                             cell index,
-                                             cell *result,
-                                             cell *params) {
-  int error;
-
-  sampgdk_log_debug("amx_Callback(%p, %d, %p, %p)", amx, index, result, params);
-
-  /* Prevent the default AMX callback from replacing SYSREQ.C instructions
-   * with SYSREQ.D.
-   */
-  amx->sysreq_d = 0;
-
-  error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Callback_hook, int, AMXAPI,
-                               (amx, index, result, params));
-  sampgdk_log_debug("amx_Callback returned %d", error);
 
   return error;
 }
