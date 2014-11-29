@@ -132,7 +132,7 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
     if (index_internal < 0) {
       sampgdk_log_error("Error registering callback: %s",
                         strerror(-index_internal));
-    } else if (error == AMX_ERR_NONE && *index <= 0) {
+    } else if (error == AMX_ERR_NONE && *index < 0) {
       /* If there are other plugins running they better return the same
        * index as we do. Otherwise it would be a total mess and we can't
        * let that happen.
