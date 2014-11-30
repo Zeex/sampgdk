@@ -46,7 +46,7 @@ static struct sampgdk_array _sampgdk_timers;
 
 #if SAMPGDK_WINDOWS
 
-int64_t _sampgdk_timer_now(void) {
+static int64_t _sampgdk_timer_now(void) {
   LARGE_INTEGER freq;
   LARGE_INTEGER counter;
 
@@ -64,7 +64,7 @@ int64_t _sampgdk_timer_now(void) {
 
 #else /* SAMPGDK_WINDOWS */
 
-int64_t _sampgdk_timer_now(void) {
+static int64_t _sampgdk_timer_now(void) {
   struct timespec ts;
   int64_t msec;
   int64_t msec_fract;
