@@ -16,6 +16,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include <sampgdk/platform.h>
@@ -29,18 +30,52 @@
 #include "log.h"
 #include "plugin.h"
 #include "timer.h"
+#include "types.h"
 
 struct _sampgdk_timer_info {
-  bool  is_set;
-  long  interval;
-  bool  repeat;
-  void *callback;
-  void *param;
-  long  started;
-  void *plugin;
+  bool    is_set;
+  void   *plugin;
+  int64_t started;
+  int     interval;
+  void   *callback;
+  void   *param;
+  bool    repeat;
 };
 
 static struct sampgdk_array _sampgdk_timers;
+
+#if SAMPGDK_WINDOWS
+
+int64_t _sampgdk_timer_now(void) {
+  LARGE_INTEGER freq;
+  LARGE_INTEGER counter;
+
+  if (QueryPerformanceFrequency(&freq) == 0 ||
+      QueryPerformanceCounter(&counter) == 0) {
+    return 0;
+  }
+
+  return (int64_t)(1000.0L / freq.QuadPart * counter.QuadPart);
+}
+
+#else /* SAMPGDK_WINDOWS */
+
+int64_t _sampgdk_timer_now(void) {
+  struct timespec ts;
+  int64_t msec;
+  int64_t msec_fract;
+
+  if (clock_gettime(CLOCK_MONOTONIC, &ts) < 0) {
+    return 0;
+  }
+
+  msec = (int64_t)ts.tv_sec * 1000;
+  msec_fract = (int64_t)ts.tv_nsec / 1000000L;
+
+  return msec + msec_fract;
+}
+
+#endif /* !SAMPGDK_WINDOWS */
 
 static int _sampgdk_timer_find_slot(void) {
   int i;
@@ -57,22 +92,23 @@ static int _sampgdk_timer_find_slot(void) {
   return -1;
 }
 
-static void _sampgdk_timer_fire(int timerid, long elapsed) {
+static void _sampgdk_timer_fire(int timerid, int64_t elapsed) {
   struct _sampgdk_timer_info *timer;
+  int64_t now = _sampgdk_timer_now();
 
   assert(timerid > 0 && timerid <= _sampgdk_timers.count);
   timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
 
-  sampgdk_log_debug("Firing timer %d, tick = %ld, elapsed = %ld",
-      timerid, sampgdk_timer_now(), elapsed);
-  ((sampgdk_timer_callback)(timer->callback))(timerid, timer->param);
+  sampgdk_log_debug("Firing timer %d, now = %ld, elapsed = %ld",
+      timerid, now, elapsed);
+  ((sampgdk_timer_callback)timer->callback)(timerid, timer->param);
 
   /* At this point the could be killed by the timer callback,
    * so the timer pointer may be no longer valid.
    */
   if (timer->is_set) {
     if (timer->repeat) {
-      timer->started = sampgdk_timer_now() - (elapsed - timer->interval);
+      timer->started = now - (elapsed - timer->interval);
     } else {
       sampgdk_timer_kill(timerid);
     }
@@ -98,7 +134,7 @@ SAMPGDK_MODULE_CLEANUP(timer) {
   sampgdk_array_free(&_sampgdk_timers);
 }
 
-int sampgdk_timer_set(long interval,
+int sampgdk_timer_set(int interval,
                       bool repeat,
                       sampgdk_timer_callback callback,
                       void *param) {
@@ -114,7 +150,7 @@ int sampgdk_timer_set(long interval,
   timer.repeat   = repeat;
   timer.callback = callback;
   timer.param    = param;
-  timer.started  = sampgdk_timer_now();
+  timer.started  = _sampgdk_timer_now();
   timer.plugin   = sampgdk_plugin_get_handle(callback);
 
   slot = _sampgdk_timer_find_slot();
@@ -159,23 +195,20 @@ int sampgdk_timer_kill(int timerid) {
 }
 
 void sampgdk_timer_process_timers(void *plugin) {
-  long now;
-  long elapsed;
+  int64_t now;
+  int64_t elapsed;
   int i;
   struct _sampgdk_timer_info *timer;
 
   assert(plugin != NULL);
 
-  now = sampgdk_timer_now();
+  now = _sampgdk_timer_now();
 
   for (i = 0; i < _sampgdk_timers.count; i++) {
     timer = sampgdk_array_get(&_sampgdk_timers, i);
 
-    if (!timer->is_set) {
-      continue;
-    }
-
-    if (plugin != NULL && timer->plugin != plugin) {
+    if (!timer->is_set
+        || (plugin != NULL && timer->plugin != plugin)) {
       continue;
     }
 
@@ -186,27 +219,3 @@ void sampgdk_timer_process_timers(void *plugin) {
     }
   }
 }
-
-#if SAMPGDK_WINDOWS
-
-long sampgdk_timer_now(void) {
-  LARGE_INTEGER freq;
-  LARGE_INTEGER counter;
-
-  if (!QueryPerformanceFrequency(&freq) ||
-      !QueryPerformanceCounter(&counter)) {
-    return 0;
-  }
-
-  return (long)(1000.0L / freq.QuadPart * counter.QuadPart);;
-}
-
-#else /* SAMPGDK_WINDOWS */
-
-long sampgdk_timer_now(void) {
-  struct timespec ts;
-  clock_gettime(CLOCK_MONOTONIC, &ts);
-  return (long)(ts.tv_sec * 1000 + ts.tv_nsec / 1000000L);
-}
-
-#endif /* !SAMPGDK_WINDOWS */
