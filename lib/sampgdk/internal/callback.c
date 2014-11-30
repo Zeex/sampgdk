@@ -42,10 +42,6 @@ static struct sampgdk_array _sampgdk_callbacks;
 SAMPGDK_MODULE_INIT(callback) {
   int error;
 
-  if (_sampgdk_callbacks.data != NULL) {
-    return 0; /* already initialized */
-  }
-
   error = sampgdk_array_new(&_sampgdk_callbacks,
                             1,
                             sizeof(struct _sampgdk_callback_info));
