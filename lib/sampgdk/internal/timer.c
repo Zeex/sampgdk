@@ -50,8 +50,12 @@ int64_t _sampgdk_timer_now(void) {
   LARGE_INTEGER freq;
   LARGE_INTEGER counter;
 
-  if (QueryPerformanceFrequency(&freq) == 0 ||
-      QueryPerformanceCounter(&counter) == 0) {
+  if (QueryPerformanceFrequency(&freq) == 0) {
+    sampgdk_log_error("QueryPerformanceFrequency: error %d", GetLastError());
+    return 0;
+  }
+  if (QueryPerformanceCounter(&counter) == 0) {
+    sampgdk_log_error("QueryPerformanceCounter: error %d", GetLastError());
     return 0;
   }
 
@@ -66,6 +70,7 @@ int64_t _sampgdk_timer_now(void) {
   int64_t msec_fract;
 
   if (clock_gettime(CLOCK_MONOTONIC, &ts) < 0) {
+    sampgdk_log_error("clock_gettime: %s", strerror(errno));
     return 0;
   }
 
@@ -153,13 +158,18 @@ int sampgdk_timer_set(int interval,
   timer.started  = _sampgdk_timer_now();
   timer.plugin   = sampgdk_plugin_get_handle(callback);
 
+  if (timer.started == 0) {
+    return 0; /* error already logged */
+  }
+
   slot = _sampgdk_timer_find_slot();
   if (slot >= 0) {
     sampgdk_array_set(&_sampgdk_timers, slot, &timer);
   } else {
     error = sampgdk_array_append(&_sampgdk_timers, &timer);
     if (error < 0) {
-      return -error;
+      sampgdk_log_error("Error setting timer: %s", strerror(-error));
+      return 0;
     }
     slot = _sampgdk_timers.count - 1;
   }
