@@ -100,18 +100,22 @@ static int _sampgdk_timer_find_slot(void) {
 static void _sampgdk_timer_fire(int timerid, int64_t elapsed) {
   struct _sampgdk_timer_info *timer;
   int64_t now = _sampgdk_timer_now();
+  int64_t started;
 
   assert(timerid > 0 && timerid <= _sampgdk_timers.count);
   timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
+
+  assert(timer->is_set);
+  started = timer->started;
 
   sampgdk_log_debug("Firing timer %d, now = %ld, elapsed = %ld",
       timerid, now, elapsed);
   ((sampgdk_timer_callback)timer->callback)(timerid, timer->param);
 
-  /* At this point the could be killed by the timer callback,
-   * so the timer pointer may be no longer valid.
+  /* We don't want to kill the same timer twice, so make sure it's not
+   * been killed inside the timer callback.
    */
-  if (timer->is_set) {
+  if (timer->is_set && timer->started == started) {
     if (timer->repeat) {
       timer->started = now - (elapsed - timer->interval);
     } else {
