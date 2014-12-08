@@ -10,6 +10,6 @@ if(DOXYGEN_FOUND)
 endif()
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html
-        DESTINATION doc/sampgdk
+        DESTINATION share/doc/sampgdk
         COMPONENT doc
         FILES_MATCHING REGEX html/.*)
