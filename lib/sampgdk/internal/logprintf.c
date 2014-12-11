@@ -13,7 +13,6 @@
  * limitations under the License.
  */
 
-#include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,6 +29,7 @@
 
 typedef void (SAMPGDK_CDECL *logprintf_t)(const char *format, ...);
 
+/* Gets called before the library is initialized. */
 static void _sampgdk_logprintf_stub(const char *format, ...) {
   va_list va;
   va_start(va, format);

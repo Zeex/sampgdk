@@ -17,11 +17,11 @@
 #define SAMPGDK_INTERNAL_LIKELY_H
 
 #if defined __GNUC__
-  #define likely(x)   __builtin_expect((x), 1)
-  #define unlikely(x) __builtin_expect((x), 0)
+  #define SAMPGDK_LIKELY(x)   __builtin_expect((x), 1)
+  #define SAMPGDK_UNLIKELY(x) __builtin_expect((x), 0)
 #else
-  #define likely(x)   (x)
-  #define unlikely(x) (x)
+  #define SAMPGDK_LIKELY(x)   (x)
+  #define SAMPGDK_UNLIKELY(x) (x)
 #endif
 
 #endif /* !SAMPGDK_INTERNAL_LIKELY_H */

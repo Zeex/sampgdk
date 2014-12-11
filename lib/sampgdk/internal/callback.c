@@ -178,7 +178,7 @@ bool sampgdk_callback_invoke(AMX *amx,
   params[0] = paramcount * sizeof(cell);
   memcpy(&params[1], sampgdk_param_get_start(amx), params[0]);
 
-  plugins = sampgdk_plugin_table(&num_plugins);
+  plugins = sampgdk_plugin_get_plugins(&num_plugins);
 
   for (i = 0; i < num_plugins; i++) {
     void *func;

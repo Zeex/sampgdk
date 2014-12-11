@@ -255,7 +255,7 @@ def generate_native_impl(file, func):
   else:
     file.write('  sampgdk_log_debug("%s()");\n' % func.name)
 
-  file.write('  if (unlikely(native == NULL)) {\n')
+  file.write('  if (SAMPGDK_UNLIKELY(native == NULL)) {\n')
   file.write('    native = sampgdk_native_find_warn_stub("%s");\n' % func.name)
   file.write('  }\n')
 

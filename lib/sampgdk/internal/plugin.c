@@ -55,16 +55,12 @@ static int _sampgdk_plugin_compare_handle(const void *key,
 
 int sampgdk_plugin_register(void *plugin) {
   assert(plugin != NULL);
-  if (!sampgdk_plugin_is_registered(plugin)) {
+  if (sampgdk_array_find(&_sampgdk_plugins,
+                         plugin,
+                         _sampgdk_plugin_compare_handle) < 0) {
     return sampgdk_array_append(&_sampgdk_plugins, &plugin);
   }
   return -EINVAL;
-}
-
-bool sampgdk_plugin_is_registered(void *plugin) {
-  return sampgdk_array_find(&_sampgdk_plugins,
-                            plugin,
-                            _sampgdk_plugin_compare_handle) >= 0;
 }
 
 int sampgdk_plugin_unregister(void *plugin) {
@@ -74,14 +70,10 @@ int sampgdk_plugin_unregister(void *plugin) {
                                    _sampgdk_plugin_compare_handle);
 }
 
-void **sampgdk_plugin_table(int *number) {
+void **sampgdk_plugin_get_plugins(int *number) {
   assert(number != NULL);
   *number = _sampgdk_plugins.count;
   return _sampgdk_plugins.data;
-}
-
-int sampgdk_plugin_count(void) {
-  return _sampgdk_plugins.count;
 }
 
 #if SAMPGDK_WINDOWS

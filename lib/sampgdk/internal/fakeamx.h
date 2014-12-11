@@ -19,18 +19,25 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/sdk.h>
 
+/* Returns the global fake AMX instance. */
 AMX *sampgdk_fakeamx_amx(void);
+
+/* Changes the size of the fake AMX heap. Used in the amx_Allot() hook. */
 int sampgdk_fakeamx_resize_heap(int cells);
+
+/* Push a value onto the fake AMX heap. */
 int sampgdk_fakeamx_push(int cells, cell *address);
 int sampgdk_fakeamx_push_cell(cell value, cell *address);
 int sampgdk_fakeamx_push_float(float value, cell *address);
 int sampgdk_fakeamx_push_array(const cell *src, int size, cell *address);
 int sampgdk_fakeamx_push_string(const char *src, int *size, cell *address);
+void sampgdk_fakeamx_pop(cell address);
+
+/* Get stuff back from the heap. Usually used for output parameters. */
 void sampgdk_fakeamx_get_cell(cell address, cell *value);
 void sampgdk_fakeamx_get_bool(cell address, bool *value);
 void sampgdk_fakeamx_get_float(cell address, float *value);
 void sampgdk_fakeamx_get_array(cell address, cell *dest, int size);
 void sampgdk_fakeamx_get_string(cell address, char *dest, int size);
-void sampgdk_fakeamx_pop(cell address);
 
 #endif /* !SAMPGDK_INTERNAL_FAKEAMX_H */

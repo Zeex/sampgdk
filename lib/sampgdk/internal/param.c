@@ -19,13 +19,6 @@
 #include "amx.h"
 #include "param.h"
 
-cell *sampgdk_param_get_start(AMX *amx) {
-  unsigned char *data =  amx->data != NULL
-    ? amx->data
-    : amx->base + ((AMX_HEADER *)amx->base)->dat;
-  return (cell *)(data + amx->stk);
-}
-
 void sampgdk_param_get_cell(AMX *amx, int index, cell *param) {
   assert(param != NULL);
   *param = sampgdk_param_get_start(amx)[index];
@@ -52,7 +45,7 @@ void sampgdk_param_get_string(AMX *amx, int index, char **param) {
   if (amx_GetAddr(amx, amx_addr, &phys_addr) != AMX_ERR_NONE) {
     return;
   }
- 
+
   amx_StrLen(phys_addr, &length);
   string = malloc((length + 1) * sizeof(char));
 
@@ -63,4 +56,11 @@ void sampgdk_param_get_string(AMX *amx, int index, char **param) {
 
   assert(param != NULL);
   *param = string;
+}
+
+cell *sampgdk_param_get_start(AMX *amx) {
+  unsigned char *data =  amx->data != NULL
+    ? amx->data
+    : amx->base + ((AMX_HEADER *)amx->base)->dat;
+  return (cell *)(data + amx->stk);
 }

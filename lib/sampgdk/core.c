@@ -59,10 +59,12 @@ static void _sampgdk_init(void **plugin_data) {
 
 static int _sampgdk_init_plugin(void *plugin, void **plugin_data) {
   int error;
+  int num_plugins;
 
   assert(plugin != NULL);
 
-  if (sampgdk_plugin_count() == 0) {
+  (void)sampgdk_plugin_get_plugins(&num_plugins);
+  if (num_plugins == 0) {
     _sampgdk_init(plugin_data);
   }
 
@@ -80,6 +82,7 @@ static void _sampgdk_cleanup(void) {
 
 static void _sampgdk_cleanup_plugin(void *plugin) {
   int error;
+  int num_plugins;
 
   assert(plugin != NULL);
 
@@ -88,7 +91,8 @@ static void _sampgdk_cleanup_plugin(void *plugin) {
     sampgdk_log_error("Error unregistering plugin: %s", strerror(-error));
   }
 
-  if (sampgdk_plugin_count() == 0) {
+  (void)sampgdk_plugin_get_plugins(&num_plugins);
+  if (num_plugins == 0) {
     _sampgdk_cleanup();
   }
 }

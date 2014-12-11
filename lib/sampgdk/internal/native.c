@@ -140,7 +140,7 @@ AMX_NATIVE sampgdk_native_find_warn_stub(const char *name) {
   return func;
 }
 
-const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number) {
+const AMX_NATIVE_INFO *sampgdk_native_get_natives(int *number) {
   if (number != NULL) {
     *number = _sampgdk_natives.count - 1;
   }

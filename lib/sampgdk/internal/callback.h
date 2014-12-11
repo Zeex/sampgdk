@@ -19,11 +19,30 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/sdk.h>
 
+/* Callback handler function. */
 typedef bool (*sampgdk_callback)(AMX *amx, void *func, cell *retval);
 
+/* Register and unregister a callback in the global callback table.
+ *
+ * This is usually done only from generated init and cleanup functions of a_*
+ * modules. Currently the only module that defines callbacks is a_samp.
+ */
 int sampgdk_callback_register(const char *name, sampgdk_callback handler);
 void sampgdk_callback_unregister(const char *name);
+
+/* Gets the name of the callback with the specified index,
+ * similar to amx_GetPublic().
+ */
 bool sampgdk_callback_get(int index, char **name);
-bool sampgdk_callback_invoke(AMX *amx, const char *name, int paramcount, cell *retval);
+
+/* Executes the callback handler registered for the specified callback.
+ *
+ * The return value indicates whether the callback returned a "bad" value,
+ * i.e. whether the gamemode is allowed to execute the associated public
+ * function. This value is specified in the IDL files via the callback's
+ * "badret" attribute.
+ */
+bool sampgdk_callback_invoke(AMX *amx, const char *name,
+    int paramcount, cell *retval);
 
 #endif /* !SAMPGDK_INTERNAL_CALLBACK_H */

@@ -19,7 +19,7 @@
 #include "internal/native.h"
 
 SAMPGDK_API(const AMX_NATIVE_INFO *, sampgdk_GetNatives(int *number)) {
-  return sampgdk_native_get_table(number);
+  return sampgdk_native_get_natives(number);
 }
 
 SAMPGDK_API(AMX_NATIVE, sampgdk_FindNative(const char *name)) {

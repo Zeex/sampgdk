@@ -20,12 +20,17 @@
 
 #include <sampgdk/sdk.h>
 
+/* Register a native function in the internal natives table. */
 int sampgdk_native_register(const char *name, AMX_NATIVE func);
+
 AMX_NATIVE sampgdk_native_find(const char *name);
 AMX_NATIVE sampgdk_native_find_warn(const char *name);
 AMX_NATIVE sampgdk_native_find_stub(const char *name);
 AMX_NATIVE sampgdk_native_find_warn_stub(const char *name);
-const AMX_NATIVE_INFO *sampgdk_native_get_table(int *number);
+
+/* Returns all currently registered natives. */
+const AMX_NATIVE_INFO *sampgdk_native_get_natives(int *number);
+
 cell sampgdk_native_call(AMX_NATIVE native, cell *params);
 cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args);
 cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format, void **args);

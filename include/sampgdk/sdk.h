@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#ifndef SAMPGDK_AMX_H
-#define SAMPGDK_AMX_H
+#ifndef SAMPGDK_SDK_H
+#define SAMPGDK_SDK_H
 
 #include <sampgdk/bool.h>
 #include <sampgdk/platform.h>
@@ -144,4 +144,4 @@ PLUGIN_EXPORT void PLUGIN_CALL ProcessTick();
 
 /** @} */
 
-#endif /* !SAMPGDK_AMX_H */
+#endif /* !SAMPGDK_SDK_H */

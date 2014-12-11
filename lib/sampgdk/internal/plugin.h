@@ -19,11 +19,12 @@
 #include <sampgdk/bool.h>
 
 int sampgdk_plugin_register(void *plugin);
-bool sampgdk_plugin_is_registered(void *plugin);
 int sampgdk_plugin_unregister(void *plugin);
+
 void *sampgdk_plugin_get_symbol(void *plugin, const char *name);
 void *sampgdk_plugin_get_handle(void *address);
-void **sampgdk_plugin_table(int *number);
-int sampgdk_plugin_count(void);
+
+/* Returns all currently registered plugins. */
+void **sampgdk_plugin_get_plugins(int *number);
 
 #endif /* !SAMPGDK_INTERNAL_PLUGIN_H */

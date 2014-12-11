@@ -19,10 +19,12 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/sdk.h>
 
-cell *sampgdk_param_get_start(AMX *amx);
 void sampgdk_param_get_cell(AMX *amx, int index, cell *param);
 void sampgdk_param_get_bool(AMX *amx, int index, bool *param);
 void sampgdk_param_get_float(AMX *amx, int index, float *param);
 void sampgdk_param_get_string(AMX *amx, int index, char **param);
+
+/* Returns pointer to the start of the parameter list. */
+cell *sampgdk_param_get_start(AMX *amx);
 
 #endif /* !SAMPGDK_INTERNAL_PARAM_H */
