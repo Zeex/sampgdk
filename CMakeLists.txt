@@ -99,7 +99,6 @@ macro(sampgdk_add_api_gen module_name idl_file api_file)
   add_custom_command(
     OUTPUT ${api_file}
     COMMAND ${PYTHON_EXECUTABLE}
-      ${PROJECT_BINARY_DIR}/scripts/python.py
       ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
       --module=${module_name}
       --idl=${idl_file}
@@ -112,7 +111,6 @@ macro(sampgdk_add_source_gen module_name idl_file source_file)
   add_custom_command(
     OUTPUT ${source_file}
     COMMAND ${PYTHON_EXECUTABLE}
-      ${PROJECT_BINARY_DIR}/scripts/python.py
       ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
       --module=${module_name}
       --idl=${idl_file}
@@ -125,7 +123,6 @@ macro(sampgdk_add_header_gen module_name idl_file header_file)
   add_custom_command(
     OUTPUT ${header_file}
     COMMAND ${PYTHON_EXECUTABLE}
-      ${PROJECT_BINARY_DIR}/scripts/python.py
       ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
       --module=${module_name}
       --idl=${idl_file}
@@ -138,7 +135,6 @@ macro(sampgdk_add_init_gen target list_file source_file)
   add_custom_target(
     ${target}
     COMMAND ${PYTHON_EXECUTABLE}
-      ${PROJECT_BINARY_DIR}/scripts/python.py
       ${PROJECT_SOURCE_DIR}/scripts/generate_init.py
       --list=${list_file}
       --source=${source_file}
@@ -150,7 +146,6 @@ macro(sampgdk_add_exports_gen format output_file)
   add_custom_command(
     OUTPUT ${output_file}
     COMMAND ${PYTHON_EXECUTABLE}
-      ${PROJECT_BINARY_DIR}/scripts/python.py
       ${PROJECT_SOURCE_DIR}/scripts/generate_exports.py
       --format=${format}
       --output=${output_file}
@@ -162,7 +157,6 @@ add_subdirectory(cmake)
 add_subdirectory(doc)
 add_subdirectory(include)
 add_subdirectory(lib)
-add_subdirectory(scripts)
 if(SAMPGDK_BUILD_PLUGINS)
   add_subdirectory(plugins)
 endif()

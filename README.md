@@ -62,14 +62,14 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid,
 }
 ```
 
-Building GDK
-------------
+Build Instructions
+------------------
 
-Build prerequisites:
+There's a number of build prerequisites:
 
 * [SA-MP plugin SDK](https://github.com/Zeex/samp-plugin-sdk)
 * [CMake](http://cmake.org) 2.8.12+
-* [Python](http://python.org) 2.7+
+* [Python](http://python.org) 2.7+, ply and cidl (both installable via pip)
 * C compiler
 * C++ compiler (optional, for building example plugins)
 
@@ -85,7 +85,7 @@ make install # optional
 
 On Windows it might be slightly more complicated than that, but there's
 a GUI frontend for CMake to help you with this (cmake-gui). You can also
-add more options to the `cmake` step (see below).
+add more options to the `cmake` command (see below).
 
 Supported options:
 
