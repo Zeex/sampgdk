@@ -67,13 +67,16 @@ Build Instructions
 
 There's a number of build prerequisites:
 
-* [SA-MP plugin SDK](https://github.com/Zeex/samp-plugin-sdk)
-* [CMake](http://cmake.org) 2.8.12+
-* [Python](http://python.org) 2.7+, ply and cidl (both installable via pip)
+* [SA-MP plugin SDK][sdk]
+* [CMake][cmake] 2.8.12+
+* [Python][python] 2.7+
+* [PLY][ply] (Python-Lex-Yacc) and [cidl][cidl] (the IDL parser);
+  both can be installed via [pip][pip]
 * C compiler
 * C++ compiler (optional, for building example plugins)
 
-Building the source code is as simple as running the following commands:
+Once all dependencies are installed run the following commands to build
+the library:
 
 ```sh
 cd path/to/sampgdk
@@ -83,15 +86,14 @@ make
 make install # optional
 ```
 
-On Windows it might be slightly more complicated than that, but there's
-a GUI frontend for CMake to help you with this (cmake-gui). You can also
-add more options to the `cmake` command (see below).
+You can also pass additional options to the `cmake` command and change
+some build variables (see below).
 
-Supported options:
+Supported variables:
 
-* SAMPGDK_STATIC             - Build as static library (default is OFF)
-* SAMPGDK_BUILD_PLUGINS      - Build example plugins (default is OFF)
-* SAMPGDK_BUILD_AMALGAMATION - Build amalgamation (default is OFF)
+* `SAMPGDK_STATIC`             - Build as static library (default is OFF)
+* `SAMPGDK_BUILD_PLUGINS`      - Build example plugins (default is OFF)
+* `SAMPGDK_BUILD_AMALGAMATION` - Build amalgamation (default is OFF)
 
 Getting Started
 ---------------
@@ -134,6 +136,12 @@ also available [online][online-docs].
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.png?branch=master
 [helloworld]: plugins/helloworld
+[sdk]: https://github.com/Zeex/samp-plugin-sdk
+[cmake]: http://cmake.org
+[python]: http://python.org
+[ply]: http://www.dabeaz.com/ply/
+[cidl]: https://github.com/Zeex/cidl
+[pip]: https://pip.pypa.io/en/latest/
 [wiki-tutorial]: https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake
 [doxygen]: http://www.stack.nl/~dimitri/doxygen/
 [online-docs]: http://zeex.github.io/sampgdk/doc/html/index.html
