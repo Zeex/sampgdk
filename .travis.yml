@@ -16,7 +16,9 @@ install:
 before_script:
   - cmake . -DCMAKE_C_COMPILER=${CC} >
             -DCMAKE_CXX_COMPILER=${CXX} >
-            -DSAMPGDK_STATIC=${STATIC}
+            -DSAMPGDK_STATIC=${STATIC} >
+            -DSAMPGDK_BUILD_PLUGINS=ON >
+            -DSAMPGDK_BUILD_AMALGAMATION=ON
 script:
   - make
   - make package
