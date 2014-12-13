@@ -6,7 +6,8 @@ env:
   - STATIC=OFF
 install:
   - sudo apt-get update -qq
-  - sudo apt-get install -y gcc-multilib g++-multilib
+  - sudo apt-get install -y gcc-multilib g++-multilib python python-pip
+  - sudo pip install ply cidl
   - wget http://www.cmake.org/files/v2.8/cmake-2.8.12.2-Linux-i386.sh
   - sudo sh cmake-2.8.12.2-Linux-i386.sh --exclude-subdir --prefix=/usr
   - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
