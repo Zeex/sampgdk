@@ -14,10 +14,10 @@ install:
   - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
   - export SAMP_SDK_DIR=$PWD/sdk
 before_script:
-  - cmake . -DCMAKE_C_COMPILER=${CC} >
-            -DCMAKE_CXX_COMPILER=${CXX} >
-            -DSAMPGDK_STATIC=${STATIC} >
-            -DSAMPGDK_BUILD_PLUGINS=ON >
+  - cmake . -DCMAKE_C_COMPILER=${CC}
+            -DCMAKE_CXX_COMPILER=${CXX}
+            -DSAMPGDK_STATIC=${STATIC}
+            -DSAMPGDK_BUILD_PLUGINS=ON
             -DSAMPGDK_BUILD_AMALGAMATION=ON
 script:
   - make
