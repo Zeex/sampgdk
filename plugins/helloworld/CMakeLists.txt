@@ -15,4 +15,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
   target_compile_options(helloworld PRIVATE -Wno-attributes)
 endif()
 
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  target_compile_options(helloworld PRIVATE -Wno-ignored-attributes)
+endif()
+
 target_link_libraries(helloworld sampgdk)

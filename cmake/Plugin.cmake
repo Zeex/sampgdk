@@ -5,7 +5,7 @@ function(add_plugin name)
 
   set_target_properties(${name} PROPERTIES PREFIX "")
 
-  if(CMAKE_COMPILER_IS_GNUCC)
+  if(CMAKE_COMPILER_IS_GNUCC OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set_property(TARGET ${name} APPEND_STRING PROPERTY COMPILE_FLAGS " -m32")
     set_property(TARGET ${name} APPEND_STRING PROPERTY LINK_FLAGS    " -m32")
   endif()

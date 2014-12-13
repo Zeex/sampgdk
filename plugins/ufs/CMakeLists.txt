@@ -24,6 +24,10 @@ if(CMAKE_COMPILER_IS_GNUCXX)
   target_compile_options(ufs PRIVATE -Wno-attributes)
 endif()
 
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  target_compile_options(ufs PRIVATE -Wno-ignored-attributes)
+endif()
+
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
                    COMMAND ${PYTHON_EXECUTABLE}
                            ${CMAKE_CURRENT_SOURCE_DIR}/generate_callbacks.py
