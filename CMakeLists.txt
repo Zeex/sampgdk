@@ -8,6 +8,7 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 option(SAMPGDK_STATIC "Build static library instead" OFF)
 option(SAMPGDK_BUILD_PLUGINS "Build example plugins" OFF)
 option(SAMPGDK_BUILD_AMALGAMATION "Build amalgamation" OFF)
+option(SAMPGDK_BUILD_DOCS "Build Doxygen documentation" ON)
 
 set(SAMPGDK_VERSION_MAJOR 4)
 set(SAMPGDK_VERSION_MINOR 2)
