@@ -220,12 +220,15 @@ def generate_source_file(module_name, idl, file):
 def generate_constant(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
 
-def generate_native_decl(file, func):
+def generate_native_doc_comment(file, func):
   file.write('/**\n')
   file.write(' * \\ingroup natives\n')
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
              '%s on SA-MP Wiki</a>\n' % (func.name, func.name))
   file.write(' */\n')
+
+def generate_native_decl(file, func):
+  generate_native_doc_comment(file, func)
   file.write('SAMPGDK_NATIVE(%s, %s(%s));\n' %
              (func.type, func.name, ParameterList(func.params)))
 
@@ -327,12 +330,16 @@ def generate_native_impl(file, func):
 
   file.write('}\n')
 
-def generate_callback_decl(file, func):
+def generate_callback_doc_comment(file, func):
   file.write('/**\n')
   file.write(' * \\ingroup callbacks\n')
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
              '%s on SA-MP Wiki</a>\n' % (func.name, func.name))
   file.write(' */\n')
+
+def generate_callback_decl(file, func):
+  if not func.has_attr('nonstandard'):
+    generate_callback_doc_comment(file, func)
   file.write('SAMPGDK_CALLBACK(%s, %s(%s));\n' %
              (func.type, func.name, ParameterList(func.params)))
 
