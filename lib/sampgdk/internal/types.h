@@ -27,4 +27,15 @@
   #include <stdint.h>
 #endif
 
+#if SAMPGDK_WINDOWS
+  #ifndef PRId32
+    #define PRId32 "I32d"
+  #endif
+  #ifndef PRId64
+    #define PRId64 "I64d"
+  #endif
+#else
+  #include <inttypes.h>
+#endif
+
 #endif /* !SAMPGDK_INTERNAL_TYPES_H */

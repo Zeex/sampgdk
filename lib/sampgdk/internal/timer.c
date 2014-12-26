@@ -108,7 +108,7 @@ static void _sampgdk_timer_fire(int timerid, int64_t elapsed) {
   assert(timer->is_set);
   started = timer->started;
 
-  sampgdk_log_debug("Firing timer %d, now = %ld, elapsed = %ld",
+  sampgdk_log_debug("Firing timer %d, now = %"PRId64", elapsed = %"PRId64,
       timerid, now, elapsed);
   ((sampgdk_timer_callback)timer->callback)(timerid, timer->param);
 
@@ -183,7 +183,7 @@ int sampgdk_timer_set(int interval,
    */
   timerid = slot + 1;
 
-  sampgdk_log_debug("Created timer: ID = %d, interval = %ld, repeat = %s",
+  sampgdk_log_debug("Created timer: ID = %d, interval = %"PRId64", repeat = %s",
       timerid, interval, repeat ? "true" : "false");
 
   return timerid;
