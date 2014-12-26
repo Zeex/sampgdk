@@ -153,25 +153,28 @@ def generate_header_file(module_name, idl, file):
   natives = list(filter(lambda x: x.has_attr('native'), idl.functions))
   for func in natives:
     generate_native_decl(file, func)
-  file.write('\n')
+    file.write('\n')
 
-  file.write('#ifndef DOXYGEN\n')
-  file.write('#ifdef SAMPGDK_CPP_WRAPPERS\n')
-  file.write('namespace sampgdk {\n')
+  file.write('#ifndef DOXYGEN\n\n')
+  file.write('#ifdef SAMPGDK_CPP_WRAPPERS\n\n')
+  file.write('namespace sampgdk {\n\n')
   for func in natives:
     generate_native_wrapper(file, func)
-  file.write('}\n')
-  file.write('#else /* SAMPGDK_CPP_WRAPPERS */\n')
+    file.write('\n')
+  file.write('} // namespace sampgdk\n\n')
+  file.write('#else /* SAMPGDK_CPP_WRAPPERS */\n\n')
   for func in natives:
     generate_native_alias(file, func)
+    file.write('\n')
   file.write('#endif /* !SAMPGDK_CPP_WRAPPERS */\n')
   file.write('#endif /* !DOXYGEN */\n\n')
 
   callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
   for func in callbacks:
     generate_callback_decl(file, func)
+    file.write('\n')
 
-  file.write('\n#endif /* !%s */\n' % header_symbol)
+  file.write('#endif /* !%s */\n' % header_symbol)
 
 def generate_source_file(module_name, idl, file):
   file.write('#include <sampgdk/%s.h>\n' % module_name)
@@ -218,7 +221,6 @@ def generate_constant(file, const):
   file.write('#define %s (%s)\n' % (const.name, const.value))
 
 def generate_native_decl(file, func):
-  file.write('\n')
   file.write('/**\n')
   file.write(' * \\ingroup natives\n')
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
@@ -326,7 +328,6 @@ def generate_native_impl(file, func):
   file.write('}\n')
 
 def generate_callback_decl(file, func):
-  file.write('\n')
   file.write('/**\n')
   file.write(' * \\ingroup callbacks\n')
   file.write(' * \\see <a href="http://wiki.sa-mp.com/wiki/%s">'
