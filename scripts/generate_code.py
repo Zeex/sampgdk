@@ -156,17 +156,17 @@ def generate_header_file(module_name, idl, file):
     file.write('\n')
 
   file.write('#ifndef DOXYGEN\n\n')
-  file.write('#ifdef SAMPGDK_CPP_WRAPPERS\n\n')
+  file.write('#if defined SAMPGDK_CPP_WRAPPERS && !defined IN_SAMPGDK\n\n')
   file.write('namespace sampgdk {\n\n')
   for func in natives:
     generate_native_wrapper(file, func)
     file.write('\n')
   file.write('} // namespace sampgdk\n\n')
-  file.write('#else /* SAMPGDK_CPP_WRAPPERS */\n\n')
+  file.write('#else /* SAMPGDK_CPP_WRAPPERS && !IN_SAMPGDK */\n\n')
   for func in natives:
     generate_native_alias(file, func)
     file.write('\n')
-  file.write('#endif /* !SAMPGDK_CPP_WRAPPERS */\n')
+  file.write('#endif /* !SAMPGDK_CPP_WRAPPERS || IN_SAMPGDK */\n')
   file.write('#endif /* !DOXYGEN */\n\n')
 
   callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
