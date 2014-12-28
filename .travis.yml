@@ -8,8 +8,7 @@ env:
 install:
   - sudo apt-get update -qq
   - sudo apt-get install -y gcc-multilib g++-multilib python-pip doxygen
-  - sudo pip install ply
-  - sudo pip install git+https://github.com/Zeex/cidl.git@v1.0.1
+  - sudo pip install ply cidl
   - wget http://www.cmake.org/files/v2.8/cmake-2.8.12.2-Linux-i386.sh
   - sudo sh cmake-2.8.12.2-Linux-i386.sh --exclude-subdir --prefix=/usr
   - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
