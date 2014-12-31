@@ -1,9 +1,8 @@
 [GDK - Gamemode SDK for C/C++][github]
 ========================================
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Zeex/sampgdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Build Status][build_status]][build]
+[![Gitter][gitter_badge]][gitter]
 
 Introduction
 -------------
@@ -138,6 +137,8 @@ also available [online][online-docs].
 [github]: https://github.com/Zeex/sampgdk
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.png?branch=master
+[gitter]: (https://gitter.im/Zeex/sampgdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[gitter_badge]: https://badges.gitter.im/Join%20Chat.svg
 [helloworld]: plugins/helloworld
 [sdk]: https://github.com/Zeex/samp-plugin-sdk
 [cmake]: http://cmake.org
