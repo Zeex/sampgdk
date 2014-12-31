@@ -137,7 +137,7 @@ also available [online][online-docs].
 [github]: https://github.com/Zeex/sampgdk
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.svg?branch=master
-[gitter]: (https://gitter.im/Zeex/sampgdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[gitter]: https://gitter.im/Zeex/sampgdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [gitter_badge]: https://badges.gitter.im/Join%20Chat.svg
 [helloworld]: plugins/helloworld
 [sdk]: https://github.com/Zeex/samp-plugin-sdk
