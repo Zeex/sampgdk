@@ -57,9 +57,9 @@ SAMPGDK_MODULE_INIT(fakeamx) {
   _sampgdk_fakeamx.amx.base = (unsigned char *)&_sampgdk_fakeamx.amxhdr;
   _sampgdk_fakeamx.amx.data = (unsigned char *)_sampgdk_fakeamx.heap.data;
   _sampgdk_fakeamx.amx.callback = amx_Callback;
-
   _sampgdk_fakeamx.amx.stp = _sampgdk_fakeamx.heap.size * sizeof(cell);
   _sampgdk_fakeamx.amx.stk = _sampgdk_fakeamx.amx.stp;
+  _sampgdk_fakeamx.amx.flags = AMX_FLAG_NTVREG | AMX_FLAG_RELOC;
 
   sampgdk_array_pad(&_sampgdk_fakeamx.heap);
 
