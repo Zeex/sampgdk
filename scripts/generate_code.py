@@ -349,9 +349,12 @@ def generate_callback_impl(file, func):
   file.write('static bool _%s(AMX *amx, void *callback, cell *retval)'
              ' {\n' % func.name)
 
-  badret = func.get_attr('badret')
-  if badret.value is not None:
-    file.write('  bool retval_;\n')
+  badret = func.get_attr('badret').value
+  if badret is not None:
+    if badret.type == 'bool':
+      file.write('  bool retval_;\n')
+    else:
+      raise Exception('%s: badret must be of type "bool"' % func.name)
 
   for p in func.params:
     file.write('  %s %s;\n' % (p.c_type, p.name))
@@ -372,7 +375,7 @@ def generate_callback_impl(file, func):
   else:
     file.write('  sampgdk_log_debug("%s()");\n' % func.name)
 
-  if badret.value is not None:
+  if badret is not None:
     file.write('  retval_ = ((%s_callback)callback)(%s);\n' %
                (func.name, ParameterList(func.params, types=False)))
     file.write('  if (retval != NULL) {\n')
@@ -385,8 +388,12 @@ def generate_callback_impl(file, func):
   for p in filter(lambda p: p.type == 'string', func.params):
     file.write('  free((void *)%s);\n' % p.name)
 
-  if badret.value is not None:
-    file.write('  return (retval_ != %s);\n' % badret.value)
+  if func.type not in ['bool', 'void']:
+    raise Exception('%s: Return type must be either "bool" or "void"' %
+                    func.name)
+
+  if badret is not None:
+    file.write('  return !!retval_ != %s;\n' % badret)
   else:
     file.write('  return true;\n')
 
