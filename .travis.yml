@@ -5,11 +5,11 @@ compiler:
   - clang
 
 env:
-  - STATIC=ON
-  - STATIC=OFF
-
   global:
     - SAMP_SDK_DIR=$TRAVIS_BUILD_DIR/sdk
+  matrix:
+    - STATIC=ON
+    - STATIC=OFF
 
 install:
   - sudo apt-get update -qq
