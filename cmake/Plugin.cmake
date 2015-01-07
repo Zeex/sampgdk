@@ -9,11 +9,13 @@ function(add_plugin name)
   endif()
 
   if(CMAKE_COMPILER_IS_GNUCXX)
-    target_compile_options(${name} PRIVATE -Wno-attributes)
+    set_property(TARGET ${name} APPEND_STRING PROPERTY
+                 COMPILE_FLAGS " -Wno-attributes")
   endif()
 
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    target_compile_options(${name} PRIVATE -Wno-ignored-attributes)
+    set_property(TARGET ${name} APPEND_STRING PROPERTY
+                 COMPILE_FLAGS " -Wno-ignored-attributes")
   endif()
 
   if(WIN32 AND CMAKE_COMPILER_IS_GNUCC)
