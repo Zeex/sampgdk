@@ -6,7 +6,8 @@ if(DOXYGEN_FOUND)
   add_custom_target(sampgdk_doc ALL
                     COMMAND ${DOXYGEN_EXECUTABLE}
                     COMMENT "Building Doxygen documentation"
-                    DEPENDS sampgdk)
+                    DEPENDS sampgdk
+                            ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
   if(CMAKE_GENERATOR MATCHES "Makefile")
     add_custom_target(doc DEPENDS sampgdk_doc)
   endif()
