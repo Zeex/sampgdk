@@ -317,7 +317,7 @@ const int BODY_PART_HEAD = 9;
 [callback, badret(true)] bool OnPlayerClickTextDraw([in] int playerid, [in] int clickedid);
 [callback, badret(true)] bool OnPlayerClickPlayerTextDraw([in] int playerid, [in] int playertextid);
 [callback, badret(true)] bool OnIncomingConnection([in] int playerid, [in] string ip_address, [in] int port);
-[callback, badref(false)] bool OnTrailerUpdate([in] int playerid, [in] int vehicleid);
+[callback, badret(false)] bool OnTrailerUpdate([in] int playerid, [in] int vehicleid);
 
 const int CLICK_SOURCE_SCOREBOARD = 0;
 
