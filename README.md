@@ -1,6 +1,7 @@
 [GDK - Gamemode SDK for C/C++][github]
 ========================================
 
+[![Version][version_badge]][version]
 [![Build Status][build_status]][build]
 [![Gitter][gitter_badge]][gitter]
 
@@ -135,6 +136,8 @@ in the doc/html directory of the build tree. For the current release it is
 also available [online][online-docs].
 
 [github]: https://github.com/Zeex/sampgdk
+[version]: http://badge.fury.io/gh/Zeex%2Fsampgdk
+[version_badge]: https://badge.fury.io/gh/Zeex%2Fsampgdk.svg
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.svg?branch=master
 [gitter]: https://gitter.im/Zeex/sampgdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
