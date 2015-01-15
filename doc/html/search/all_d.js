@@ -4,7 +4,6 @@ var searchData=
   ['onenterexitmodshop',['OnEnterExitModShop',['../group__callbacks.html#ga11247ba389d4a43e99b45e3db8c31d12',1,'a_samp.h']]],
   ['ongamemodeexit',['OnGameModeExit',['../group__callbacks.html#ga42917672dd99fa8bb364136f5c4195b1',1,'a_samp.h']]],
   ['ongamemodeinit',['OnGameModeInit',['../group__callbacks.html#ga9779df70f4562bb368cdd9ce910b6e91',1,'a_samp.h']]],
-  ['onhttpresponse',['OnHTTPResponse',['../group__callbacks.html#ga33abb6684c01ff551939debf35a20bde',1,'a_http.h']]],
   ['onincomingconnection',['OnIncomingConnection',['../group__callbacks.html#ga86435ec0028111379679d463efe1c1b1',1,'a_samp.h']]],
   ['onobjectmoved',['OnObjectMoved',['../group__callbacks.html#ga18d0468f141f7817425c908fa5e405b4',1,'a_samp.h']]],
   ['onplayerclickmap',['OnPlayerClickMap',['../group__callbacks.html#ga94e954d8814a47e4d717ca773ad7a9d7',1,'a_samp.h']]],
