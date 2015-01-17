@@ -3,6 +3,7 @@
 
 [![Version][version_badge]][version]
 [![Build Status][build_status]][build]
+[![Build Status - Windows][build_status_win]][build_win]
 [![Gitter][gitter_badge]][gitter]
 
 Introduction
@@ -140,6 +141,8 @@ also available [online][online-docs].
 [version_badge]: https://badge.fury.io/gh/Zeex%2Fsampgdk.svg
 [build]: https://travis-ci.org/Zeex/sampgdk
 [build_status]: https://travis-ci.org/Zeex/sampgdk.svg?branch=master
+[build_win]: https://ci.appveyor.com/project/Zeex/sampgdk/branch/master
+[build_status_win]: https://ci.appveyor.com/api/projects/status/ybbvixqpppjhhyg7/branch/master?svg=true
 [gitter]: https://gitter.im/Zeex/sampgdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 [gitter_badge]: https://badges.gitter.im/Join%20Chat.svg
 [helloworld]: plugins/helloworld

@@ -1,0 +1,42 @@
+version: '{build}'
+
+configuration:
+  - RelWithDebInfo
+
+environment:
+  SAMP_SDK_DIR: sdk
+
+  matrix:
+  - STATIC: ON
+  - STATIC: OFF
+
+install:
+  - choco install python2
+  - choco install pip
+  - choco install doxygen.install
+
+  - RefreshEnv
+
+  - pip install ply
+  - pip install cidl
+
+  - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
+
+before_build:
+  - cmake . -DSAMPGDK_STATIC=%STATIC%
+            -DSAMPGDK_BUILD_PLUGINS=ON
+            -DSAMPGDK_BUILD_AMALGAMATION=ON
+
+build_script:
+  - cmake --build . --config %CONFIGURATION%
+  - cmake --build . --config %CONFIGURATION% --target PACKAGE
+
+artifacts:
+  - path: sampgdk-*-win32.zip
+    name: Binaries
+
+  - path: sampgdk-*-win32-static.zip
+    name: Binaries (static)
+    
+  - path: sampgdk-*-amalgamation.zip
+    name: Amalgamation
