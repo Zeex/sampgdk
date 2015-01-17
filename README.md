@@ -152,7 +152,6 @@ also available [online][online-docs].
 [ply]: http://www.dabeaz.com/ply/
 [cidl]: https://github.com/Zeex/cidl
 [pip]: https://pip.pypa.io/en/latest/
-[wiki-tutorial]: https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake
 [doxygen]: http://www.stack.nl/~dimitri/doxygen/
-[online-docs]: http://zeex.github.io/sampgdk/doc/html/index.html
+[online_docs]: http://zeex.github.io/sampgdk/doc/html/index.html
 [forums]: http://forum.sa-mp.com/showthread.php?t=421090
