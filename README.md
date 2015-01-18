@@ -136,6 +136,11 @@ The API documentation is generated using [Doxygen][doxygen] and is located
 in the doc/html directory of the build tree. For the current release it is
 also [available online][online_docs].
 
+License
+-------
+
+Licensed under the Apache Licese 2.0. See LICENSE.txt for details.
+
 [github]: https://github.com/Zeex/sampgdk
 [version]: http://badge.fury.io/gh/Zeex%2Fsampgdk
 [version_badge]: https://badge.fury.io/gh/Zeex%2Fsampgdk.svg
