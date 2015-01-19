@@ -68,7 +68,8 @@ PLUGIN_EXPORT bool PLUGIN_CALL OnPlayerCommandText(int playerid,
 Build Instructions
 ------------------
 
-There's a number of build prerequisites:
+In order to build the GDK you first you need to download and install the
+following:
 
 * [SA-MP plugin SDK][sdk]
 * [CMake][cmake] 2.8.12+
@@ -78,8 +79,8 @@ There's a number of build prerequisites:
 * C compiler
 * C++ compiler (optional, for building example plugins)
 
-Once all dependencies are installed run the following commands to build
-the library:
+Once all dependencies are installed you can use the following commands to
+build the library:
 
 ```sh
 cd path/to/sampgdk
@@ -89,10 +90,8 @@ make
 make install # optional
 ```
 
-You can also pass additional options to the `cmake` command and change
-some build variables (see below).
-
-Supported variables:
+You can also pass additional arguments to the `cmake` command and change the
+following build options:
 
 * `SAMPGDK_STATIC`             - Build as static library (default is OFF)
 * `SAMPGDK_BUILD_PLUGINS`      - Build example plugins (default is OFF)
@@ -102,44 +101,44 @@ Supported variables:
 Getting Started
 ---------------
 
-You can start with downloading the source code and playing a little bit
-with the [HelloWorld][helloworld] plugin.
+You can start with downloading the source code and playing a little bit with
+the [helloworld][helloworld] plugin. In case you need documentation it's
+available online [here][online_docs], in a browsable form, as well as in
+the GDK header files.
+
+If you feel like making a new project there's a
+[step-by-step guide][cmake-guide] on setting up a GDK project with CMake.
+No prior knowledge of CMake is required to follow it.
 
 ### Using Git
 
-If you know Git the simplest way to get started is probably to clone this
-repo and create a new local branch for your personal project:
+If you know Git and you've already managed to build the library successfully
+the easiest way to get started is probably to clone this repo (if you haven't
+done so) and create a new local branch for your personal project:
 
 ```
 git clone git://github.com/Zeex/sampgdk.git
 git checkout -b my-project
 ```
 
-and begin working on it right inside the GDK source tree.
+and begin working on it right inside the GDK source tree. You could either
+edit the helloworld project or create a new project in a separate folder under
+the `plugins/` directory. The latter is recommended as it would avoid possible
+merge conflicts if helloworld suddenly gets updated in upstream.
 
 Later if you decide that it's time to update the library, say to version
-v1.2.3, you would simply switch to master, pull the changes in and merge
-them into your local branch:
+v1.2.3, you would simply fetch master from upstream and merge the changes
+into your project's branch:
 
 ```
-<commit your changes>
-git checkout master
-git pull origin master
-git checkout my-project
+git fetch origin master
 git merge v1.2.3
 ```
-
-Documentation
--------------
-
-The API documentation is generated using [Doxygen][doxygen] and is located
-in the doc/html directory of the build tree. For the current release it is
-also [available online][online_docs].
 
 License
 -------
 
-Licensed under the Apache Licese 2.0. See LICENSE.txt for details.
+Licensed under the Apache Licese version 2.0. See the LICENSE.txt file.
 
 [github]: https://github.com/Zeex/sampgdk
 [version]: http://badge.fury.io/gh/Zeex%2Fsampgdk
@@ -157,6 +156,5 @@ Licensed under the Apache Licese 2.0. See LICENSE.txt for details.
 [ply]: http://www.dabeaz.com/ply/
 [cidl]: https://github.com/Zeex/cidl
 [pip]: https://pip.pypa.io/en/latest/
-[doxygen]: http://www.stack.nl/~dimitri/doxygen/
 [online_docs]: http://zeex.github.io/sampgdk/doc/html/index.html
-[forums]: http://forum.sa-mp.com/showthread.php?t=421090
+[cmake-guide]: https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake
