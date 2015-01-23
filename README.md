@@ -80,23 +80,29 @@ following:
 * C++ compiler (optional, for building example plugins)
 
 Once all dependencies are installed you can use the following commands to
-build the library:
+build the and install library:
 
 ```sh
 cd path/to/sampgdk
 mkdir build && cd build
-cmake ../ -DSAMP_SDK_ROOT=path/to/sdk
+cmake ../ -DSAMP_SDK_ROOT=path/to/sdk -DCMAKE_INSTALL_PREFIX=path/to/prefix
 cmake --build . --config Release
-cmake --build . --config Release --target install # optional
+cmake --build . --config Release --target install
 ```
 
-You can also pass additional arguments to the `cmake` command and change the
-following build options:
+You can also pass additional arguments to CMake and change one or more
+of the following options:
 
 * `SAMPGDK_STATIC`             - Build as static library (default is OFF)
 * `SAMPGDK_BUILD_PLUGINS`      - Build example plugins (default is OFF)
 * `SAMPGDK_BUILD_AMALGAMATION` - Build amalgamation (default is OFF)
 * `SAMPGDK_BUILD_DOCS`         - Build Doxygen documentation (default is ON)
+
+For example, to build GDK as a static library:
+
+```sh
+cmake ../ -DSAMPGDK_STATIC=ON
+```
 
 Getting Started
 ---------------
