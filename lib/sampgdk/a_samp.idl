@@ -65,6 +65,7 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool AllowInteriorWeapons([in] bool allow);
 [native] bool SetWeather([in] int weatherid);
 [native] bool SetGravity([in] float gravity);
+[native] float GetGravity();
 [native] bool AllowAdminTeleport([in] bool allow);
 [native] bool SetDeathDropAmount([in] int amount);
 [native] bool CreateExplosion([in] float x, [in] float y, [in] float z, [in] int type, [in] float radius);
