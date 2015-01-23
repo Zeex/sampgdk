@@ -80,7 +80,7 @@ following:
 * C++ compiler (optional, for building example plugins)
 
 Once all dependencies are installed you can use the following commands to
-build the and install library:
+build and install the library:
 
 ```sh
 cd path/to/sampgdk
