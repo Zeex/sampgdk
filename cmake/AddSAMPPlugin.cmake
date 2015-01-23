@@ -1,4 +1,4 @@
-function(add_plugin name)
+function(add_samp_plugin name)
   add_library(${name} MODULE ${ARGN})
 
   set_target_properties(${name} PROPERTIES PREFIX "")

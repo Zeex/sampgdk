@@ -1,14 +1,14 @@
-include(AmxConfig)
-include(Plugin)
+include(AMXConfig)
+include(AddSAMPPlugin)
 
 if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
-add_plugin(helloworld
+add_samp_plugin(helloworld
   helloworld.cpp
   helloworld.def
-  ${SDK_INCLUDE_DIR}/amxplugin.cpp
+  ${SAMPSDK_DIR}/amxplugin.cpp
 )
 
 target_link_libraries(helloworld sampgdk)

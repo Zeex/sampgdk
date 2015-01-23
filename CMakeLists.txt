@@ -27,12 +27,12 @@ if(NOT (MSVC_IDE AND MSVC_VERSION LESS 1600))
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 endif()
 
-find_package(SDK REQUIRED)
+find_package(SAMPSDK REQUIRED)
 find_package(PythonInterp 2.7 REQUIRED)
 
 include_directories(
-  ${SDK_INCLUDE_DIR}
-  ${SDK_INCLUDE_DIR}/amx
+  ${SAMPSDK_INCLUDE_DIR}
+  ${SAMPSDK_INCLUDE_DIR}/amx
   ${PROJECT_SOURCE_DIR}/include
   ${PROJECT_BINARY_DIR}/include
   ${PROJECT_SOURCE_DIR}/lib/sampgdk

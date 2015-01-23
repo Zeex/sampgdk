@@ -1,5 +1,5 @@
-include(AmxConfig)
-include(Plugin)
+include(AMXConfig)
+include(AddSAMPPlugin)
 
 if(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS)
@@ -7,7 +7,7 @@ endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_plugin(ufs
+add_samp_plugin(ufs
   ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
   plugin.cpp
   plugin.h
@@ -17,7 +17,7 @@ add_plugin(ufs
   ufs.h
   ufs-plugin.def
   ufs-plugin.cpp
-  ${SDK_INCLUDE_DIR}/amxplugin.cpp
+  ${SAMPSDK_DIR}/amxplugin.cpp
 )
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp

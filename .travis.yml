@@ -6,7 +6,7 @@ compiler:
 
 env:
   global:
-    - SAMP_SDK_DIR=$TRAVIS_BUILD_DIR/sdk
+    - SAMP_SDK_ROOT=$TRAVIS_BUILD_DIR/sdk
   matrix:
     - STATIC=ON
     - STATIC=OFF
@@ -19,7 +19,7 @@ install:
 
   - wget http://www.cmake.org/files/v2.8/cmake-2.8.12.2-Linux-i386.sh
   - sudo sh cmake-2.8.12.2-Linux-i386.sh --exclude-subdir --prefix=/usr
-  
+
   - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
 
 before_script:

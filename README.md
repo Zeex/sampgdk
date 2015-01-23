@@ -85,7 +85,7 @@ build the library:
 ```sh
 cd path/to/sampgdk
 mkdir build && cd build
-cmake ../ -DSDK_DIR=path/to/sdk
+cmake ../ -DSAMP_SDK_ROOT=path/to/sdk
 cmake --build . --config Release
 cmake --build . --config Release --target install # optional
 ```

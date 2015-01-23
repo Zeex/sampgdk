@@ -4,7 +4,7 @@ configuration:
   - RelWithDebInfo
 
 environment:
-  SAMP_SDK_DIR: sdk
+  SAMP_SDK_ROOT: sdk
 
   matrix:
   - STATIC: ON
@@ -37,6 +37,6 @@ artifacts:
 
   - path: sampgdk-*-win32-static.zip
     name: Binaries (static)
-    
+
   - path: sampgdk-*-amalgamation.zip
     name: Amalgamation
