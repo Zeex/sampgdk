@@ -86,8 +86,8 @@ build the library:
 cd path/to/sampgdk
 mkdir build && cd build
 cmake ../ -DSDK_DIR=path/to/sdk
-make
-make install # optional
+cmake --build . --config Release
+cmake --build . --config Release --target install # optional
 ```
 
 You can also pass additional arguments to the `cmake` command and change the
