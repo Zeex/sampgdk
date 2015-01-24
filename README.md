@@ -98,10 +98,11 @@ following options:
 * `SAMPGDK_BUILD_AMALGAMATION` - Build amalgamation (default is OFF)
 * `SAMPGDK_BUILD_DOCS`         - Build Doxygen documentation (default is ON)
 
-For example, to build GDK as a static library:
+For example, to build GDK as a static library together with example
+plugins:
 
 ```sh
-cmake ../ -DSAMPGDK_STATIC=ON
+cmake .. -DSAMPGDK_STATIC=ON -DSAMPGDK_BUILD_PLUGINS=ON
 ```
 
 The following built-in variables may also be useful:
