@@ -85,13 +85,13 @@ build and install the library:
 ```sh
 cd path/to/sampgdk
 mkdir build && cd build
-cmake ../ -DSAMP_SDK_ROOT=path/to/sdk -DCMAKE_INSTALL_PREFIX=path/to/prefix
+cmake .. -DSAMP_SDK_ROOT=path/to/sdk
 cmake --build . --config Release
 cmake --build . --config Release --target install
 ```
 
-You can also pass additional arguments to CMake and change one or more
-of the following options:
+You can pass additional arguments to CMake and change one or more of the
+following options:
 
 * `SAMPGDK_STATIC`             - Build as static library (default is OFF)
 * `SAMPGDK_BUILD_PLUGINS`      - Build example plugins (default is OFF)
@@ -103,6 +103,15 @@ For example, to build GDK as a static library:
 ```sh
 cmake ../ -DSAMPGDK_STATIC=ON
 ```
+
+The following built-in variables may also be useful:
+
+* `CMAKE_BUILD_TYPE`     - Bulid type: Debug, Release, RelWIthDebInfo,
+                           MinSizeRel
+* `CMAKE_INSTALL_PREFIX` - Where to install files
+
+For more information or questions about CMake please read the
+[CMake FAQ][cmake-faq].
 
 Getting Started
 ---------------
@@ -162,5 +171,6 @@ Licensed under the Apache Licese version 2.0. See the LICENSE.txt file.
 [ply]: http://www.dabeaz.com/ply/
 [cidl]: https://github.com/Zeex/cidl
 [pip]: https://pip.pypa.io/en/latest/
+[cmake-faq]: http://www.cmake.org/Wiki/CMake_FAQ
 [online_docs]: http://zeex.github.io/sampgdk/doc/html/index.html
 [cmake-guide]: https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake
