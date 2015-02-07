@@ -1,4 +1,4 @@
-/* Copyright (C) 2011-2014 Zeex
+/* Copyright (C) 2011-2015 Zeex
  * Portions Copyright 2004-2007 SA:MP Team
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
