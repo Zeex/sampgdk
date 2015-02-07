@@ -1,8 +1,0 @@
-[subtree "lib/python/ply"]
-	url = https://github.com/dabeaz/ply.git
-	path = lib/python/ply
-	branch = master
-[subtree "lib/python/cidl"]
-	url = https://github.com/Zeex/cidl.git
-	path = lib/python/cidl
-	branch = master
