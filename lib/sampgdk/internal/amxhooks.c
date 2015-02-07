@@ -191,8 +191,9 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     if (index <= AMX_EXEC_GDK) {
       sampgdk_callback_get(AMX_EXEC_GDK - index, &name);
     } else {
-      AMX_FUNCSTUBNT *publics =
-          (AMX_FUNCSTUBNT *)(amx->base + ((AMX_HEADER *)amx->base)->publics);
+      AMX *main_amx = _sampgdk_amxhooks_main_amx;
+      AMX_FUNCSTUBNT *publics = (AMX_FUNCSTUBNT *)(main_amx->base +
+          ((AMX_HEADER *)main_amx->base)->publics);
       name = (char *)(publics[index].nameofs + amx->base);
     }
 
