@@ -98,15 +98,6 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
                               (amx, nativelist, number));
 }
 
-/* The server always makes a call to amx_FindPublic() before executing
- * a callback and then depending on the error code may or may not call
- * amx_Exec(). Therefore by always returning success in amx_FindPublic()
- * we can force it into calling amx_Exec() regardless of the callback's
- * existence.
- *
- * This works well as long as they don't check the returned index as it
- * can be invalid.
- */
 static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
                                                const char *name,
                                                int *index) {
@@ -120,32 +111,47 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
                                (amx, name, index));
   sampgdk_log_debug("amx_FindPublic returned %d", error);
 
-  /* We are interested in calling publics against two AMX instances:
+  /* We are interested in intercepting public calls against the following
+   * AMX instances:
+   *
    * - the main AMX (the gamemode)
    * - the fake AMX (this is needed for HTTP() to work)
    */
-  if (amx == _sampgdk_amxhooks_main_amx ||
-      amx == sampgdk_fakeamx_amx()) {
-    index_internal = sampgdk_callback_register(name, NULL);
-    index_real = AMX_EXEC_GDK - index_internal;
+  if (amx != _sampgdk_amxhooks_main_amx &&
+      amx != sampgdk_fakeamx_amx()) {
+    return error;
+  }
 
-    if (index_internal < 0) {
-      sampgdk_log_error("Error registering callback: %s",
-                        strerror(-index_internal));
-    } else if (error == AMX_ERR_NONE && *index < 0) {
-      /* If there are other plugins running they better return the same
-       * index as we do. Otherwise it would be a total mess and we can't
-       * let that happen.
-       */
-      if (*index != index_real) {
-        error = AMX_ERR_NOTFOUND;
-        sampgdk_log_warning("Index mismatch for %s (%d != %d)",
-                            name, *index, index_real);
-      }
-    } else if (error != AMX_ERR_NONE) {
-      error = AMX_ERR_NONE, *index = index_real;
-      sampgdk_log_debug("Registered callback: %s, index = %d", name, *index);
+  /* If the public was really found (and I mean REALLY) there's no need
+   * to mess with the index.
+   */
+  if (error == AMX_ERR_NONE && *index >= 0) {
+    return AMX_ERR_NONE;
+  }
+
+  /* OK, this public officially doesn't exist here. Register it in our
+   * internal callback table and return success. The table will allow
+   * us to keep track of forged publics in amx_Exec().
+   */
+  index_internal = sampgdk_callback_register(name, NULL);
+  index_real = AMX_EXEC_GDK - index_internal;
+
+  if (index_internal < 0) {
+    sampgdk_log_error("Error registering callback: %s",
+                      strerror(-index_internal));
+  } else if (error == AMX_ERR_NONE && *index < 0) {
+    /* If there are other plugins running they better return the same
+     * index as we do. Otherwise it would be a total mess and we can't
+     * let that happen.
+     */
+    if (*index != index_real) {
+      error = AMX_ERR_NOTFOUND;
+      sampgdk_log_warning("Index mismatch for %s (%d != %d)",
+                          name, *index, index_real);
     }
+  } else if (error != AMX_ERR_NONE) {
+    error = AMX_ERR_NONE, *index = index_real;
+    sampgdk_log_debug("Registered callback: %s, index = %d", name, *index);
   }
 
   return error;
