@@ -183,7 +183,7 @@ int sampgdk_timer_set(int interval,
    */
   timerid = slot + 1;
 
-  sampgdk_log_debug("Created timer: ID = %d, interval = %"PRId64", repeat = %s",
+  sampgdk_log_debug("Created timer: ID = %d, interval = %d, repeat = %s",
       timerid, interval, repeat ? "true" : "false");
 
   return timerid;
