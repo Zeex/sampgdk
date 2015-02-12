@@ -3,7 +3,7 @@ function(add_samp_plugin name)
 
   set_target_properties(${name} PROPERTIES PREFIX "")
 
-  if(CMAKE_COMPILER_IS_GNUCC OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set_property(TARGET ${name} APPEND_STRING PROPERTY COMPILE_FLAGS " -m32")
     set_property(TARGET ${name} APPEND_STRING PROPERTY LINK_FLAGS    " -m32")
   endif()
@@ -13,7 +13,7 @@ function(add_samp_plugin name)
                  COMPILE_FLAGS " -Wno-attributes")
   endif()
 
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     set_property(TARGET ${name} APPEND_STRING PROPERTY
                  COMPILE_FLAGS " -Wno-ignored-attributes")
   endif()
@@ -23,7 +23,7 @@ function(add_samp_plugin name)
                  LINK_FLAGS " -Wl,--enable-stdcall-fixup")
   endif()
 
-  if(UNIX AND NOT WIN32)
+  if(UNIX AND NOT WIN32 AND NOT APPLE)
     set_property(TARGET ${name} APPEND PROPERTY COMPILE_DEFINITIONS "LINUX")
   endif()
 endfunction()
