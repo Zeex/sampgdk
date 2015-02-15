@@ -185,6 +185,7 @@ const int MAX_CHATBUBBLE_LENGTH = 144;
 [native] bool GetAnimationName([in] int index, [out] string animlib, [in] int animlib_size, [out] string animname, [in] int animname_size);
 [native] int GetPlayerSpecialAction([in] int playerid);
 [native] bool SetPlayerSpecialAction([in] int playerid, [in] int actionid);
+[native] bool DisableRemoteVehicleCollisions([in] int playerid, [in] bool disable);
 
 [native] bool SetPlayerCheckpoint([in] int playerid, [in] float x, [in] float y, [in] float z, [in] float size);
 [native] bool DisablePlayerCheckpoint([in] int playerid);
@@ -213,6 +214,9 @@ const int CAMERA_MOVE = 1;
 [native] bool GetPlayerCameraPos([in] int playerid, [out] float x, [out] float y, [out] float z);
 [native] bool GetPlayerCameraFrontVector([in] int playerid, [out] float x, [out] float y, [out] float z);
 [native] int GetPlayerCameraMode([in] int playerid);
+[native] int GetPlayerCameraTargetObject([in] int playerid);
+[native] int GetPlayerCameraTargetVehicle([in] int playerid);
+[native] int GetPlayerCameraTargetPlayer([in] int playerid);
 [native] float GetPlayerCameraAspectRatio([in] int playerid);
 [native] float GetPlayerCameraZoom([in] int playerid);
 [native] bool AttachCameraToObject([in] int playerid, [in] int objectid);
