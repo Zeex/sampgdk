@@ -120,7 +120,7 @@ static void _sampgdk_timer_fire(int timerid, int64_t elapsed) {
     if (timer->repeat) {
       timer->started = now - (elapsed - timer->interval);
     } else {
-      sampgdk_timer_kill(timerid);
+      sampgdk_timer_kill(timerid, timer->owner);
     }
   }
 }
