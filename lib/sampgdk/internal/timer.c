@@ -148,7 +148,7 @@ int sampgdk_timer_set(int interval,
                       bool repeat,
                       sampgdk_timer_callback callback,
                       void *param,
-					  void *owner) {
+                      void *owner) {
   struct _sampgdk_timer_info timer;
   int slot;
   int error;
