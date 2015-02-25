@@ -40,6 +40,7 @@ struct _sampgdk_timer_info {
   void   *callback;
   void   *param;
   bool    repeat;
+  void   *owner;
 };
 
 static struct sampgdk_array _sampgdk_timers;
@@ -146,7 +147,8 @@ SAMPGDK_MODULE_CLEANUP(timer) {
 int sampgdk_timer_set(int interval,
                       bool repeat,
                       sampgdk_timer_callback callback,
-                      void *param) {
+                      void *param,
+					  void *owner) {
   struct _sampgdk_timer_info timer;
   int slot;
   int error;
@@ -161,6 +163,7 @@ int sampgdk_timer_set(int interval,
   timer.param    = param;
   timer.started  = _sampgdk_timer_now();
   timer.plugin   = sampgdk_plugin_get_handle(callback);
+  timer.owner	 = owner;
 
   if (timer.started == 0) {
     return 0; /* error already logged */
@@ -189,7 +192,7 @@ int sampgdk_timer_set(int interval,
   return timerid;
 }
 
-int sampgdk_timer_kill(int timerid) {
+int sampgdk_timer_kill(int timerid, void *owner) {
   struct _sampgdk_timer_info *timer;
 
   if (timerid <= 0 || timerid > _sampgdk_timers.count) {
@@ -197,7 +200,7 @@ int sampgdk_timer_kill(int timerid) {
   }
 
   timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
-  if (!timer->is_set) {
+  if (!timer->is_set && timer->owner != owner) {
     return -EINVAL;
   }
 

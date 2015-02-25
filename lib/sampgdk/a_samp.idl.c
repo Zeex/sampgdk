@@ -20,10 +20,10 @@
 #include "internal/timer.h"
 
 SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback,
-                             void *param)) {
+                             void *param, void *owner = NULL)) {
   return sampgdk_timer_set(interval, repeat, callback, param);
 }
 
-SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
+SAMPGDK_NATIVE(bool, KillTimer(int timerid, void *owner = NULL)) {
   return sampgdk_timer_kill(timerid) >= 0;
 }
