@@ -26,7 +26,7 @@ SAMPGDK_NATIVE(int, SetTimer(int interval, bool repeat, TimerCallback callback,
 
 SAMPGDK_NATIVE(int, SetTimerEx(int interval, bool repeat, TimerCallback callback,
                              void *param, void *owner)) {
-	return sampgdk_timer_set(interval, repeat, callback, param, NULL);
+	return sampgdk_timer_set(interval, repeat, callback, param, owner);
 }
 
 SAMPGDK_NATIVE(bool, KillTimer(int timerid)) {
