@@ -173,8 +173,8 @@ const int DIALOG_STYLE_PASSWORD = 3;
 
 [native] bool ShowPlayerDialog([in] int playerid, [in] int dialogid, [in] int style, [in] string caption, [in] string info, [in] string button1, [in] string button2);
 
-[native, noimpl] int SetTimer([in] int interval, [in] bool repeat, [in] TimerCallback callback, [in, out] void param);
-[native, noimpl] bool KillTimer([in] int timerid);
+[native, noimpl] int SetTimer([in] int interval, [in] bool repeat, [in] TimerCallback callback, [in, out] void param, [in, out] void owner);
+[native, noimpl] bool KillTimer([in] int timerid, [in, out] void owner);
 
 const int PLAYER_STATE_NONE                    = 0;
 const int PLAYER_STATE_ONFOOT                  = 1;
