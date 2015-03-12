@@ -200,7 +200,7 @@ int sampgdk_timer_kill(int timerid, void *owner) {
   }
 
   timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
-  if (!timer->is_set && timer->owner != owner) {
+  if (!timer->is_set || timer->owner != owner) {
     return -EINVAL;
   }
 
