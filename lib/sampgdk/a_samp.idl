@@ -15,7 +15,7 @@
 
 const int MAX_PLAYER_NAME       = 24;
 const int MAX_CLIENT_MESSAGE    = 144;
-const int MAX_PLAYERS           = 500;
+const int MAX_PLAYERS           = 1000;
 const int MAX_VEHICLES          = 2000;
 const int INVALID_PLAYER_ID     = 0xFFFF;
 const int INVALID_VEHICLE_ID    = 0xFFFF;
@@ -45,6 +45,8 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] int GetTickCount();
 [native] int GetMaxPlayers();
 [native] float VectorSize([in] float x, [in] float y, [in] float z);
+[native] int GetPlayerPoolSize();
+[native] int GetVehiclePoolSize();
 
 [native] bool SetGameModeText([in] string text);
 [native] bool SetTeamCount([in] int count);
@@ -166,10 +168,12 @@ const int TEXT_DRAW_FONT_MODEL_PREVIEW = 5;
 [native] bool DeletePlayer3DTextLabel([in] int playerid, [in] int id);
 [native] bool UpdatePlayer3DTextLabelText([in] int playerid, [in] int id, [in] int color, [in] string text);
 
-const int DIALOG_STYLE_MSGBOX   = 0;
-const int DIALOG_STYLE_INPUT    = 1;
-const int DIALOG_STYLE_LIST     = 2;
-const int DIALOG_STYLE_PASSWORD = 3;
+const int DIALOG_STYLE_MSGBOX          = 0;
+const int DIALOG_STYLE_INPUT           = 1;
+const int DIALOG_STYLE_LIST            = 2;
+const int DIALOG_STYLE_PASSWORD        = 3;
+const int DIALOG_STYLE_TABLIST         = 4;
+const int DIALOG_STYLE_TABLIST_HEADERS = 5;
 
 [native] bool ShowPlayerDialog([in] int playerid, [in] int dialogid, [in] int style, [in] string caption, [in] string info, [in] string button1, [in] string button2);
 

@@ -214,6 +214,7 @@ const int CAMERA_MOVE = 1;
 [native] bool GetPlayerCameraPos([in] int playerid, [out] float x, [out] float y, [out] float z);
 [native] bool GetPlayerCameraFrontVector([in] int playerid, [out] float x, [out] float y, [out] float z);
 [native] int GetPlayerCameraMode([in] int playerid);
+[native] bool EnablePlayerCameraTarget([in] int playerid, [in] bool enable);
 [native] int GetPlayerCameraTargetObject([in] int playerid);
 [native] int GetPlayerCameraTargetVehicle([in] int playerid);
 [native] int GetPlayerCameraTargetPlayer([in] int playerid);

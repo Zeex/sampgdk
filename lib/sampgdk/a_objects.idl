@@ -22,6 +22,7 @@
 [native] bool SetObjectRot([in] int objectid, [in] float rotX, [in] float rotY, [in] float rotZ);
 [native] bool GetObjectRot([in] int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
 [native] int GetObjectModel([in] int objectid);
+[native] bool SetObjectNoCameraCol([in] int objectid);
 [native] bool IsValidObject([in] int objectid);
 [native] bool DestroyObject([in] int objectid);
 [native] int MoveObject([in] int objectid, [in] float X, [in] float Y, [in] float Z, [in] float Speed, [in] float RotX = -1000.0, [in] float RotY = -1000.0, [in] float RotZ = -1000.0);
@@ -39,6 +40,7 @@
 [native] bool SetPlayerObjectRot([in] int playerid, [in] int objectid, [in] float rotX, [in] float rotY, [in] float rotZ);
 [native] bool GetPlayerObjectRot([in] int playerid, [in] int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
 [native] int GetPlayerObjectModel([in] int playerid, [in] int objectid);
+[native] bool SetPlayerObjectNoCameraCol([in] int playerid, [in] int objectid);
 [native] bool IsValidPlayerObject([in] int playerid, [in] int objectid);
 [native] bool DestroyPlayerObject([in] int playerid, [in] int objectid);
 [native] int MovePlayerObject([in] int playerid, [in] int objectid, [in] float x, [in] float y, [in] float z, [in] float Speed, [in] float RotX = -1000.0, [in] float RotY = -1000.0, [in] float RotZ = -1000.0);
