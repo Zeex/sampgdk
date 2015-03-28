@@ -23,7 +23,8 @@ install:
   - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
 
 before_build:
-  - cmake . -DSAMPGDK_STATIC=%STATIC%
+  - cmake . -G "Visual Studio 10 2010"
+            -DSAMPGDK_STATIC=%STATIC%
             -DSAMPGDK_BUILD_PLUGINS=ON
             -DSAMPGDK_BUILD_AMALGAMATION=ON
 
