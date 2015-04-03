@@ -45,7 +45,7 @@ const int VEHICLE_PARAMS_ON    =  1;
 [native] bool SetVehicleParamsForPlayer([in] int vehicleid, [in] int playerid, [in] bool objective, [in] bool doorslocked);
 [native] bool ManualVehicleEngineAndLights();
 [native] bool SetVehicleParamsEx([in] int vehicleid, [in] bool engine, [in] bool lights, [in] bool alarm, [in] bool doors, [in] bool bonnet, [in] bool boot, [in] bool objective);
-[native] bool GetVehicleParamsEx([in] int vehicleid, [out] bool engine, [out] bool lights, [out] bool alarm, [out] bool doors, [out] bool bonnet, [out] bool boot, [out] bool objective);
+[native] int GetVehicleParamsEx([in] int vehicleid, [out] bool engine, [out] bool lights, [out] bool alarm, [out] bool doors, [out] bool bonnet, [out] bool boot, [out] bool objective);
 [native] bool SetVehicleToRespawn([in] int vehicleid);
 [native] bool LinkVehicleToInterior([in] int vehicleid, [in] int interiorid);
 [native] bool AddVehicleComponent([in] int vehicleid, [in] int componentid);
