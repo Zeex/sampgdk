@@ -21,3 +21,6 @@ add_custom_command(
   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/generate_blank_plugin.py)
 
 target_link_libraries(blank sampgdk)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/blank.cpp
+        DESTINATION "share/sampgdk/plugins")
