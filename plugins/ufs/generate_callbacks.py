@@ -5,7 +5,7 @@ import os
 import sys
 import cidl
 
-idl_to_c_type = {
+C_TYPES = {
   'int':    'int',
   'float':  'float',
   'bool':   'bool',
@@ -27,8 +27,8 @@ def generate_callback_class(file, func):
   file.write(' public:\n')
 
   if len(func.params) > 0:
-    file.write('  %s(%s): %s {}\n' % (func.name, 
-      ', '.join(['%s %s' % (idl_to_c_type[p.type], p.name)
+    file.write('  %s(%s): %s {}\n' % (func.name,
+      ', '.join(['%s %s' % (C_TYPES[p.type], p.name)
                             for p in func.params]),
       ', '.join(['%s_(%s)' % (p.name, p.name) for p in func.params]),
     ))
@@ -63,11 +63,11 @@ def generate_callback_class(file, func):
 
   file.write(' private:\n')
   for p in func.params:
-    file.write('  %s %s_;\n'  % (idl_to_c_type[p.type], p.name));
+    file.write('  %s %s_;\n'  % (C_TYPES[p.type], p.name));
   file.write('};\n\n')
 
 def generate_callback(file, func):
-  params = ', '.join(['%s %s' % (idl_to_c_type[x.type], x.name)
+  params = ', '.join(['%s %s' % (C_TYPES[x.type], x.name)
                       for x in func.params])
 
   file.write('PLUGIN_EXPORT bool PLUGIN_CALL %s(%s) {\n' % (func.name, params))
@@ -93,7 +93,7 @@ def parse_args(argv):
 
 def parse_idl(filename):
   parser = cidl.Parser()
-  return parser.parse(open(filename, 'r').read())  
+  return parser.parse(open(filename, 'r').read())
 
 def main(argv):
   args = parse_args(argv[1:])
