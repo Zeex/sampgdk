@@ -12,10 +12,12 @@ C_TYPES = {
   'string': 'const char *',
 }
 
-def generate_source(file, callbacks):
+def generate_source(file, idl):
   file.write('#include "script.h"\n')
   file.write('#include "ufs.h"\n\n')
   file.write('namespace ufs {\n\n')
+
+  callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
   for c in callbacks:
     generate_callback_class(file, c)
   file.write('} // namespace ufs\n\n')
@@ -80,9 +82,6 @@ def generate_callback(file, func):
   file.write('ufs::%s(%s), %s);\n' % (func.name, args, defret))
   file.write('}\n\n')
 
-def get_callbacks(idl):
-  return filter(lambda x: x.has_attr('callback'), idl.functions)
-
 def parse_args(argv):
   parser = argparse.ArgumentParser()
   parser.add_argument('-i', '--idl', metavar='filename', required=True,
@@ -97,9 +96,8 @@ def parse_idl(filename):
 
 def main(argv):
   args = parse_args(argv[1:])
-  callbacks = list(get_callbacks(parse_idl(args.idl)))
   with open(args.source, 'w') as file:
-    generate_source(file, callbacks)
+    generate_source(file, parse_idl(args.idl))
 
 if __name__ == '__main__':
   sys.exit(main(sys.argv))

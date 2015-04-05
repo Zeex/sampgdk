@@ -1,2 +1,3 @@
+sampgdk_add_subproject(blank)
 sampgdk_add_subproject(helloworld)
 sampgdk_add_subproject(ufs)
