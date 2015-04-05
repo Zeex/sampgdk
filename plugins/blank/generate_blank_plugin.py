@@ -42,7 +42,8 @@ def generate_source(file, idl):
   file.write('  return AMX_ERR_NONE;\n')
   file.write('}\n\n')
 
-  for c in filter(lambda x: x.has_attr('callback'), idl.functions):
+  callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
+  for c in callbacks:
     params = ['%s %s' % (C_TYPES[x.type], x.name) for x in c.params]
     file.write('PLUGIN_EXPORT bool PLUGIN_CALL %s(%s) {\n' %
                (c.name, ', '.join(params)))
@@ -50,6 +51,18 @@ def generate_source(file, idl):
     file.write('  return %s;\n' %
                ('false', 'true')[not badret.value.data])
     file.write('}\n\n')
+
+def generate_exports(file, idl):
+  file.write('EXPORTS\n')
+  file.write('\tSupports\n')
+  file.write('\tLoad\n')
+  file.write('\tUnload\n')
+  file.write('\tAmxLoad\n')
+  file.write('\tAmxUnload\n')
+
+  callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
+  for c in callbacks:
+    file.write('\t%s\n' % c.name)
 
 def parse_args(argv):
   parser = argparse.ArgumentParser()
@@ -65,8 +78,11 @@ def parse_idl(filename):
 
 def main(argv):
   args = parse_args(argv[1:])
-  with open(args.source, 'w') as source:
-    generate_source(source, parse_idl(args.idl))
+  idl = parse_idl(args.idl)
+  with open(args.source, 'w') as file:
+    generate_source(file, idl)
+  with open(os.path.splitext(args.source)[0] + '.def', 'w') as file:
+    generate_exports(file, idl)
 
 if __name__ == '__main__':
   sys.exit(main(sys.argv))

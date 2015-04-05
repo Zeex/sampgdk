@@ -9,6 +9,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_samp_plugin(blank
   ${CMAKE_CURRENT_BINARY_DIR}/blank.cpp
+  ${CMAKE_CURRENT_BINARY_DIR}/blank.def
   ${SAMPSDK_DIR}/amxplugin.cpp
 )
 
@@ -22,5 +23,7 @@ add_custom_command(
 
 target_link_libraries(blank sampgdk)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/blank.cpp
-        DESTINATION "share/sampgdk/plugins")
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/blank.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/blank.def
+  DESTINATION share/sampgdk/plugins/blank)
