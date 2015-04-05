@@ -52,11 +52,12 @@ def main(argv):
   for line in open(args.list, 'r').readlines():
     level, name = line.strip().split()
     if name == 'module':
-      sys.exit('Module name cannot be "module"')
+      sys.stderr.write('Module name cannot be "module"')
+      return 1
     modules.append((level, name))
   with open(args.source, 'w') as outfile:
     generate_init_func(outfile, sorted(modules))
     generate_cleanup_func(outfile, sorted(modules, reverse=True))
 
 if __name__ == '__main__':
-  main(sys.argv)
+  sys.exit(main(sys.argv))

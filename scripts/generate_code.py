@@ -426,6 +426,7 @@ def main(argv):
 
   except cidl.Error as e:
     sys.stderr.write('%s\n' % e)
+    return 1
 
 if __name__ == '__main__':
-  main(sys.argv)
+  sys.exit(main(sys.argv))

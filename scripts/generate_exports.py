@@ -43,4 +43,4 @@ def main(argv):
           outfile.write('\t%s\n' % symbol)
 
 if __name__ == '__main__':
-  main(sys.argv)
+  sys.exit(main(sys.argv))
