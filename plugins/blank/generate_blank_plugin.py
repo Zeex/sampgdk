@@ -42,6 +42,10 @@ def generate_source(file, idl):
   file.write('  return AMX_ERR_NONE;\n')
   file.write('}\n\n')
 
+  file.write('PLUGIN_EXPORT void PLUGIN_CALL ProcessTick() {\n')
+  file.write('  sampgdk::ProcessTick();\n')
+  file.write('}\n\n')
+
   callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
   for c in callbacks:
     params = ['%s %s' % (C_TYPES[x.type], x.name) for x in c.params]
@@ -59,6 +63,7 @@ def generate_exports(file, idl):
   file.write('\tUnload\n')
   file.write('\tAmxLoad\n')
   file.write('\tAmxUnload\n')
+  file.write('\tProcessTick\n')
 
   callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
   for c in callbacks:
