@@ -182,7 +182,6 @@ def generate_source_file(module_name, idl, file):
   file.write('#include "internal/callback.h"\n')
   file.write('#include "internal/fakeamx.h"\n')
   file.write('#include "internal/init.h"\n')
-  file.write('#include "internal/likely.h"\n')
   file.write('#include "internal/log.h"\n')
   file.write('#include "internal/native.h"\n')
   file.write('#include "internal/param.h"\n')
@@ -260,9 +259,8 @@ def generate_native_impl(file, func):
   else:
     file.write('  sampgdk_log_debug("%s()");\n' % func.name)
 
-  file.write('  if (SAMPGDK_UNLIKELY(native == NULL)) {\n')
-  file.write('    native = sampgdk_native_find_warn_stub("%s");\n' % func.name)
-  file.write('  }\n')
+  file.write('  native = sampgdk_native_find_flexible("%s", native);\n' %
+             func.name)
 
   if func.params:
     for pprev, p, pnext in previous_and_next(func.params):

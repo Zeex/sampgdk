@@ -21,6 +21,7 @@
 #include "array.h"
 #include "fakeamx.h"
 #include "init.h"
+#include "likely.h"
 #include "native.h"
 #include "log.h"
 
@@ -138,6 +139,30 @@ AMX_NATIVE sampgdk_native_find_warn_stub(const char *name) {
   }
 
   return func;
+}
+
+AMX_NATIVE sampgdk_native_find_flexible(const char *name, AMX_NATIVE current) {
+  char *always_search;
+
+  if (SAMPGDK_LIKELY(current != NULL && current != native_stub)) {
+    return current;
+  }
+
+  if (current == NULL) {
+    /* This is the first time this native is searched for, do it as usual.
+     */
+    return sampgdk_native_find_warn_stub(name);
+  }
+
+  if ((always_search = getenv("SAMGDK_NATIVE_SEARCH_ALWAYS")) != NULL
+      && atoi(always_search) != 0) {
+    /* Previous attempt to find the native failed, but the always search
+     * option is set so search again.
+     */
+    return sampgdk_native_find_warn_stub(name);
+  }
+
+  return current;
 }
 
 const AMX_NATIVE_INFO *sampgdk_native_get_natives(int *number) {

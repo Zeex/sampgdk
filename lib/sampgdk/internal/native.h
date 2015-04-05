@@ -27,6 +27,7 @@ AMX_NATIVE sampgdk_native_find(const char *name);
 AMX_NATIVE sampgdk_native_find_warn(const char *name);
 AMX_NATIVE sampgdk_native_find_stub(const char *name);
 AMX_NATIVE sampgdk_native_find_warn_stub(const char *name);
+AMX_NATIVE sampgdk_native_find_flexible(const char *name, AMX_NATIVE current);
 
 /* Returns all currently registered natives. */
 const AMX_NATIVE_INFO *sampgdk_native_get_natives(int *number);
