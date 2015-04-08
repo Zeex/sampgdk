@@ -17,7 +17,7 @@ def generate_source(file, idl):
   file.write('#include "ufs.h"\n\n')
   file.write('namespace ufs {\n\n')
 
-  callbacks = filter(lambda x: x.has_attr('callback'), idl.functions)
+  callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
   for c in callbacks:
     generate_callback_class(file, c)
   file.write('} // namespace ufs\n\n')
