@@ -11,12 +11,11 @@ environment:
   - STATIC: OFF
 
 install:
+  - choco install cmake
   - choco install python2
-  - choco install pip
   - choco install doxygen.install
 
-  - RefreshEnv
-
+  - set PATH=%PATH%;C:\Python27\Scripts
   - pip install ply
   - pip install cidl
 
