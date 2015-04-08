@@ -174,6 +174,7 @@ const AMX_NATIVE_INFO *sampgdk_native_get_natives(int *number) {
 
 cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
   AMX *amx = sampgdk_fakeamx_amx();
+  assert(native != NULL);
   return native(amx, params);
 }
 
@@ -186,6 +187,8 @@ cell sampgdk_native_invoke(AMX_NATIVE native,
                           _SAMPGDK_NATIVE_MAX_ARGS_SIZE];
   unsigned char *args_ptr = args_copy;
   void *args_array[_SAMPGDK_NATIVE_MAX_ARGS];
+
+  assert(format_ptr != NULL);
 
   while (*format_ptr != '\0' && i < _SAMPGDK_NATIVE_MAX_ARGS) {
     switch (*format_ptr) {
@@ -223,7 +226,7 @@ cell sampgdk_native_invoke(AMX_NATIVE native,
 cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
                                  void **args) {
   AMX *amx = sampgdk_fakeamx_amx();
-  char *format_ptr = (char *)format; /* cast away const for strtol() */
+  const char *format_ptr = format;
   cell i = 0;
   cell params[_SAMPGDK_NATIVE_MAX_ARGS + 1];
   cell size[_SAMPGDK_NATIVE_MAX_ARGS] = {0};
@@ -237,6 +240,9 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
     ST_READ_SIZE
   } state = ST_READ_SPEC;
   cell retval;
+
+  assert(format_ptr != NULL);
+  assert(args != NULL);
 
   while (*format_ptr != '\0' && i < _SAMPGDK_NATIVE_MAX_ARGS) {
     switch (state) {
@@ -293,12 +299,12 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
           format_ptr++;
           state = ST_READING_SIZE_ARG;
         } else {
-          size[needs_size] = (int)strtol(format_ptr, &format_ptr, 10);
+          size[needs_size] = (int)strtol(format_ptr, (char **)&format_ptr, 10);
           state = ST_READ_SIZE;
         }
         break;
       case ST_READING_SIZE_ARG: {
-        int index = (int)strtol(format_ptr, &format_ptr, 10);
+        int index = (int)strtol(format_ptr, (char **)&format_ptr, 10);
         size[needs_size] = *(int *)args[index];
         state = ST_READ_SIZE;
         break;
@@ -335,6 +341,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
   }
 
   params[0] = i * sizeof(cell);
+  assert(native != NULL);
   retval = native(amx, params);
 
   while (--i >= 0) {
