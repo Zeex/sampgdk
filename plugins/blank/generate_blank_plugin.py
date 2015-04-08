@@ -46,8 +46,7 @@ def generate_source(file, idl):
   file.write('  sampgdk::ProcessTick();\n')
   file.write('}\n\n')
 
-  callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
-  for c in callbacks:
+  for c in get_callbacks(idl):
     params = ['%s %s' % (C_TYPES[x.type], x.name) for x in c.params]
     file.write('PLUGIN_EXPORT bool PLUGIN_CALL %s(%s) {\n' %
                (c.name, ', '.join(params)))
@@ -65,9 +64,11 @@ def generate_exports(file, idl):
   file.write('\tAmxUnload\n')
   file.write('\tProcessTick\n')
 
-  callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
-  for c in callbacks:
+  for c in get_callbacks(idl):
     file.write('\t%s\n' % c.name)
+
+def get_callbacks(idl):
+  return list(filter(lambda x: x.has_attr('callback'), idl.functions))
 
 def parse_args(argv):
   parser = argparse.ArgumentParser()
