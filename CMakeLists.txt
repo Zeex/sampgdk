@@ -299,7 +299,7 @@ if(SAMPGDK_BUILD_AMALGAMATION)
 
   add_custom_target(sampgdk_amalgam_package ALL
     COMMAND ${PYTHON_EXECUTABLE}
-      ${PROJECT_SOURCE_DIR}/scripts/zip_files.py
+      ${PROJECT_SOURCE_DIR}/scripts/zip.py
       ${PROJECT_BINARY_DIR}/sampgdk-${SAMPGDK_VERSION}-amalgamation.zip
       ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.c
       ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.h

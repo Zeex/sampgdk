@@ -105,7 +105,7 @@ def main(argv):
   idl = parse_idl(args.idl)
   with open(args.source, 'w') as file:
     generate_source(file, idl)
-  with open(os.path.splitext(args.source)[0] + '.def', 'a') as file:
+  with open(os.path.splitext(args.source)[0] + '.def', 'w') as file:
     generate_exports(file, idl)
 
 if __name__ == '__main__':
