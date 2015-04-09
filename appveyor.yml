@@ -11,7 +11,7 @@ environment:
   - STATIC: OFF
 
 install:
-  - choco install doxygen.install
+  - choco install -y doxygen.install
 
   - set PATH=%PATH%;C:\Python27\Scripts
   - pip install ply
