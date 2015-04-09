@@ -11,8 +11,6 @@ environment:
   - STATIC: OFF
 
 install:
-  - choco install cmake
-  - choco install python2
   - choco install doxygen.install
 
   - set PATH=%PATH%;C:\Python27\Scripts
