@@ -53,7 +53,7 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] int AddPlayerClass([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int weapon1, [in] int weapon1_ammo, [in] int weapon2, [in] int weapon2_ammo, [in] int weapon3, [in] int weapon3_ammo);
 [native] int AddPlayerClassEx([in] int teamid, [in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int weapon1, [in] int weapon1_ammo, [in] int weapon2, [in] int weapon2_ammo, [in] int weapon3, [in] int weapon3_ammo);
 [native] int AddStaticVehicle([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int color1, [in] int color2);
-[native] int AddStaticVehicleEx([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int color1, [in] int color2, [in] int respawn_delay);
+[native] int AddStaticVehicleEx([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int color1, [in] int color2, [in] int respawn_delay, [in] bool addsiren = false);
 [native] int AddStaticPickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld = 0);
 [native] int CreatePickup([in] int model, [in] int type, [in] float x, [in] float y, [in] float z, [in] int virtualworld = 0);
 [native] bool DestroyPickup([in] int pickup);
@@ -323,6 +323,7 @@ const int BODY_PART_HEAD = 9;
 [callback, badret(true)] bool OnPlayerClickPlayerTextDraw([in] int playerid, [in] int playertextid);
 [callback, badret(true)] bool OnIncomingConnection([in] int playerid, [in] string ip_address, [in] int port);
 [callback, badret(false)] bool OnTrailerUpdate([in] int playerid, [in] int vehicleid);
+[callback] bool OnVehicleSirenStateChange([in] int playerid, [in] int vehicleid, [in] bool newstate);
 
 const int CLICK_SOURCE_SCOREBOARD = 0;
 
