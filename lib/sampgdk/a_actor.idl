@@ -20,17 +20,17 @@
 [native] bool SetActorVirtualWorld([in] int actorid, [in] int vworld);
 [native] int GetActorVirtualWorld([in] int actorid);
 
-[native] [bool] ApplyActorAnimation([in] int actorid, [in] string animlib, [in] string animname, [in] float fDelta, [in] bool loop, [in] bool lockx, [in] bool locky, [in] bool freeze, [in] int time);
-[native] [bool] ClearActorAnimations([in] int actorid);
+[native] bool ApplyActorAnimation([in] int actorid, [in] string animlib, [in] string animname, [in] float fDelta, [in] bool loop, [in] bool lockx, [in] bool locky, [in] bool freeze, [in] int time);
+[native] bool ClearActorAnimations([in] int actorid);
 
-[native] [bool] SetActorPos([in] int actorid, [in] float x, [in] float y, [in] float z);
-[native] [bool] GetActorPos([in] int actorid, [out] float x, [out] float y, [out] float z);
-[native] [bool] SetActorFacingAngle([in] int actorid, [in] float angle);
-[native] [bool] GetActorFacingAngle([in] int actorid, [out] float angle);
+[native] bool SetActorPos([in] int actorid, [in] float x, [in] float y, [in] float z);
+[native] bool GetActorPos([in] int actorid, [out] float x, [out] float y, [out] float z);
+[native] bool SetActorFacingAngle([in] int actorid, [in] float angle);
+[native] bool GetActorFacingAngle([in] int actorid, [out] float angle);
 
-[native] [bool] SetActorHealth([in] int actorid, [in] float health);
-[native] [bool] GetActorHealth([in] int actorid, [out] float health);
-[native] [bool] SetActorInvulnerable([in] int actorid, [in] bool invulnerable = true);
-[native] [bool] IsActorInvulnerable([in] int actorid);
+[native] bool SetActorHealth([in] int actorid, [in] float health);
+[native] bool GetActorHealth([in] int actorid, [out] float health);
+[native] bool SetActorInvulnerable([in] int actorid, [in] bool invulnerable = true);
+[native] bool IsActorInvulnerable([in] int actorid);
 
-[native] [bool] IsValidActor([in] int actorid);
+[native] bool IsValidActor([in] int actorid);
