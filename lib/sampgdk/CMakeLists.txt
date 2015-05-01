@@ -10,6 +10,7 @@ sampgdk_add_sources(
   a_samp.idl
   a_samp.idl.c
   a_vehicles.idl
+  a_actor.idl
   core.api
   core.c
   interop.api
