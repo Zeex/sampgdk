@@ -46,7 +46,7 @@ const int VEHICLE_PARAMS_ON    =  1;
 [native] bool ManualVehicleEngineAndLights();
 [native] bool SetVehicleParamsEx([in] int vehicleid, [in] bool engine, [in] bool lights, [in] bool alarm, [in] bool doors, [in] bool bonnet, [in] bool boot, [in] bool objective);
 [native] bool GetVehicleParamsEx([in] int vehicleid, [out] int engine, [out] int lights, [out] int alarm, [out] int doors, [out] int bonnet, [out] int boot, [out] int objective);
-[native] bool GetVehicleParamsSirenState([in] int vehicleid);
+[native] int GetVehicleParamsSirenState([in] int vehicleid);
 [native] bool SetVehicleParamsCarDoors([in] int vehicleid, [in] bool driver, [in] bool passenger, [in] bool backleft, [in] bool backright);
 [native] bool GetVehicleParamsCarDoors([in] int vehicleid, [out] int driver, [out] int passenger, [out] int backleft, [out] int backright);
 [native] bool SetVehicleParamsCarWindows([in] int vehicleid, [in] bool driver, [in] bool passenger, [in] bool backleft, [in] bool backright);
