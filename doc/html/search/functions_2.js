@@ -5,9 +5,11 @@ var searchData=
   ['cancelselecttextdraw',['CancelSelectTextDraw',['../group__natives.html#ga69296953490e0c170f9b181e02d724cd',1,'a_samp.h']]],
   ['changevehiclecolor',['ChangeVehicleColor',['../group__natives.html#gab0fca24b628cbb26ab17973dd9bc8452',1,'a_vehicles.h']]],
   ['changevehiclepaintjob',['ChangeVehiclePaintjob',['../group__natives.html#ga022a832b8730524e3c7ed985fcdba640',1,'a_vehicles.h']]],
+  ['clearactoranimations',['ClearActorAnimations',['../group__natives.html#gaea348c5d02850f2b79f46f7684257d00',1,'a_actor.h']]],
   ['clearanimations',['ClearAnimations',['../group__natives.html#ga8a13addd4e110eec0e903a0146edfc35',1,'a_players.h']]],
   ['connectnpc',['ConnectNPC',['../group__natives.html#ga7f2e9fcd95fad0c292972c72606672be',1,'a_samp.h']]],
   ['create3dtextlabel',['Create3DTextLabel',['../group__natives.html#ga9d60b5e7802328edc7f512ed4bcb7e81',1,'a_samp.h']]],
+  ['createactor',['CreateActor',['../group__natives.html#gaba5ab23e4f23f678a9e09a1c898cb941',1,'a_actor.h']]],
   ['createexplosion',['CreateExplosion',['../group__natives.html#gabfc48a8fe9f8539dfdc3d821318bcfa3',1,'a_samp.h']]],
   ['createexplosionforplayer',['CreateExplosionForPlayer',['../group__natives.html#ga08e50617ca83ecfe9c7ebab36f601eb2',1,'a_players.h']]],
   ['createmenu',['CreateMenu',['../group__natives.html#gacb410aea06a259c932450003ad2619a7',1,'a_samp.h']]],
@@ -16,5 +18,5 @@ var searchData=
   ['createplayer3dtextlabel',['CreatePlayer3DTextLabel',['../group__natives.html#ga7f533a12b40d2bfa58977dbd087bcba1',1,'a_samp.h']]],
   ['createplayerobject',['CreatePlayerObject',['../group__natives.html#gaaccfd9f8c263720807bf895b9844f795',1,'a_objects.h']]],
   ['createplayertextdraw',['CreatePlayerTextDraw',['../group__natives.html#ga1451b5a90b17610d7b971c4c0ed5da48',1,'a_players.h']]],
-  ['createvehicle',['CreateVehicle',['../group__natives.html#ga73f10c0411886425a965ca1ba2cc235a',1,'a_vehicles.h']]]
+  ['createvehicle',['CreateVehicle',['../group__natives.html#gaace7aab5c65f4addf29a135ed35a7d8d',1,'a_vehicles.h']]]
 ];

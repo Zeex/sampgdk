@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['onactorstreamin',['OnActorStreamIn',['../group__callbacks.html#ga52240acb3f9570b25d007638f99253f1',1,'a_samp.h']]],
+  ['onactorstreamout',['OnActorStreamOut',['../group__callbacks.html#ga3f3415099947ad38a1c42436c5bf8a8e',1,'a_samp.h']]],
   ['ondialogresponse',['OnDialogResponse',['../group__callbacks.html#ga332a3628c0c943436ac805aa5414e1bd',1,'a_samp.h']]],
   ['onenterexitmodshop',['OnEnterExitModShop',['../group__callbacks.html#ga11247ba389d4a43e99b45e3db8c31d12',1,'a_samp.h']]],
   ['ongamemodeexit',['OnGameModeExit',['../group__callbacks.html#ga42917672dd99fa8bb364136f5c4195b1',1,'a_samp.h']]],
@@ -22,6 +24,7 @@ var searchData=
   ['onplayerexitedmenu',['OnPlayerExitedMenu',['../group__callbacks.html#ga09a454d8a7b4abf0e0a7a8f52762ab95',1,'a_samp.h']]],
   ['onplayerexitvehicle',['OnPlayerExitVehicle',['../group__callbacks.html#ga556dbca7ae4078e69b46b8dd29ff7f0d',1,'a_samp.h']]],
   ['onplayergivedamage',['OnPlayerGiveDamage',['../group__callbacks.html#gabe10c103ff7b3505f6b77bdad9f0d257',1,'a_samp.h']]],
+  ['onplayergivedamageactor',['OnPlayerGiveDamageActor',['../group__callbacks.html#gafddcf855607705d13949ff4c9e3a5716',1,'a_samp.h']]],
   ['onplayerinteriorchange',['OnPlayerInteriorChange',['../group__callbacks.html#ga5181669f784ccb5d50b17e40252fb759',1,'a_samp.h']]],
   ['onplayerkeystatechange',['OnPlayerKeyStateChange',['../group__callbacks.html#gab97708f2bcf0d61fd97460f9435cd01f',1,'a_samp.h']]],
   ['onplayerleavecheckpoint',['OnPlayerLeaveCheckpoint',['../group__callbacks.html#ga3bab1972ca69b06af3e5c66c417432ee',1,'a_samp.h']]],
@@ -50,6 +53,7 @@ var searchData=
   ['onvehiclemod',['OnVehicleMod',['../group__callbacks.html#ga3a542f834cdb8611554a63132f836c3c',1,'a_samp.h']]],
   ['onvehiclepaintjob',['OnVehiclePaintjob',['../group__callbacks.html#ga9367bb6bbd09f55de505a16995fc9ed7',1,'a_samp.h']]],
   ['onvehiclerespray',['OnVehicleRespray',['../group__callbacks.html#ga61041509f964fc0479a8c29c3dbea69a',1,'a_samp.h']]],
+  ['onvehiclesirenstatechange',['OnVehicleSirenStateChange',['../group__callbacks.html#gaf60c75ca07c97cccd04908728ada602d',1,'a_samp.h']]],
   ['onvehiclespawn',['OnVehicleSpawn',['../group__callbacks.html#ga441dcfa84a1bae831537766f42f16294',1,'a_samp.h']]],
   ['onvehiclestreamin',['OnVehicleStreamIn',['../group__callbacks.html#ga7e4ccf1ff97ed25f6b1ca7960290893f',1,'a_samp.h']]],
   ['onvehiclestreamout',['OnVehicleStreamOut',['../group__callbacks.html#ga8b5e5a478cfc3f25a587d2d86b27664f',1,'a_samp.h']]]

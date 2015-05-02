@@ -3,6 +3,7 @@ var searchData=
   ['editattachedobject',['EditAttachedObject',['../group__natives.html#gac4f1ec61e2d99bd119f38d9b7b363cc7',1,'a_players.h']]],
   ['editobject',['EditObject',['../group__natives.html#gac8053d293640ea2a03cedd27e76eacf9',1,'a_objects.h']]],
   ['editplayerobject',['EditPlayerObject',['../group__natives.html#ga12a0c195d0ccb5bd2893abb02eaa66a7',1,'a_objects.h']]],
+  ['enableplayercameratarget',['EnablePlayerCameraTarget',['../group__natives.html#ga06565ebac48e9c448f2d9deefc263d77',1,'a_players.h']]],
   ['enablestuntbonusforall',['EnableStuntBonusForAll',['../group__natives.html#gaed83c7cb57912e35ad79506bf2f4cd8f',1,'a_players.h']]],
   ['enablestuntbonusforplayer',['EnableStuntBonusForPlayer',['../group__natives.html#ga22d40a8616e92a8358bfe47c63e98572',1,'a_players.h']]],
   ['enabletirepopping',['EnableTirePopping',['../group__natives.html#ga1498107b317b8defd478c439cffffba2',1,'a_samp.h']]],
