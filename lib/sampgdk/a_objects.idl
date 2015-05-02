@@ -46,7 +46,6 @@
 [native] int MovePlayerObject([in] int playerid, [in] int objectid, [in] float x, [in] float y, [in] float z, [in] float Speed, [in] float RotX = -1000.0, [in] float RotY = -1000.0, [in] float RotZ = -1000.0);
 [native] bool StopPlayerObject([in] int playerid, [in] int objectid);
 [native] bool IsPlayerObjectMoving([in] int playerid, [in] int objectid);
-[native] bool SetObjectsDefaultCameraCol([in] bool disable);
 
 const int OBJECT_MATERIAL_SIZE_32x32   = 10;
 const int OBJECT_MATERIAL_SIZE_64x32   = 20;
@@ -72,3 +71,5 @@ const int OBJECT_MATERIAL_TEXT_ALIGN_RIGHT  = 2;
 
 [native] bool SetObjectMaterialText([in] int objectid, [in] string text, [in] int materialindex = 0, [in] int materialsize = OBJECT_MATERIAL_SIZE_256x128, [in] string fontface = "Arial", [in] int fontsize = 24, [in] bool bold = true, [in] int fontcolor = 0xFFFFFFFF, [in] int backcolor = 0, [in] int textalignment = 0);
 [native] bool SetPlayerObjectMaterialText([in] int playerid, [in] int objectid, [in] string text, [in] int materialindex = 0, [in] int materialsize = OBJECT_MATERIAL_SIZE_256x128, [in] string fontface = "Arial", [in] int fontsize = 24, [in] bool bold = true, [in] int fontcolor = 0xFFFFFFFF, [in] int backcolor = 0, [in] int textalignment = 0);
+
+[native] bool SetObjectsDefaultCameraCol([in] bool disable);
