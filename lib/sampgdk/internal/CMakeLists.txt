@@ -3,6 +3,8 @@ file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/init.c "")
 sampgdk_add_sources(
   amx.c
   amx.h
+  api.c
+  api.h
   amxhooks.c
   array.c
   array.h

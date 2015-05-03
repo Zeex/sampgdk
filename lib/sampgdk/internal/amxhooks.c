@@ -24,6 +24,7 @@
 #include <sampgdk/sdk.h>
 
 #include "amx.h"
+#include "api.h"
 #include "array.h"
 #include "callback.h"
 #include "fakeamx.h"
@@ -34,6 +35,7 @@
 #include "hook.h"
 
 static AMX *_sampgdk_amxhooks_main_amx;
+static struct sampgdk_api *_sampgdk_amxhooks_api_ptr;
 
 #define _SAMPGDK_AMXHOOKS_FUNC_LIST(C) \
   C(Register) \
@@ -129,11 +131,11 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
     return AMX_ERR_NONE;
   }
 
-  /* OK, this public officially doesn't exist here. Register it in our
-   * internal callback table and return success. The table will allow
-   * us to keep track of forged publics in amx_Exec().
+  /* OK, this public officially doesn't exist. Register it in our internal
+   * callback table and return success. The table will allow us to keep track
+   * of forged publics in amx_Exec().
    */
-  index_internal = sampgdk_callback_register(name, NULL);
+  index_internal = _sampgdk_amxhooks_api_ptr->register_callback(name);
   index_real = AMX_EXEC_GDK - index_internal;
 
   if (index_internal < 0) {
@@ -185,6 +187,15 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
       sampgdk_log_info("Found main AMX, callbacks work now");
       sampgdk_log_debug("Main AMX instance: %p", amx);
 
+      if (sampgdk_api_get(amx, &_sampgdk_amxhooks_api_ptr) < 0) {
+        sampgdk_log_info("API info not found, using local implementation");
+        sampgdk_api_set(amx);
+      } else {
+        assert(_sampgdk_amxhooks_api_ptr != NULL);
+        sampgdk_log_info("Found API version %s",
+                         _sampgdk_amxhooks_api_ptr->get_version_string());
+      }
+
       /* For some odd reason OnGameModeInit() is called before main().
        * Normally callbacks are handled below but this creates an exception.
        */
@@ -195,7 +206,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     char *name = NULL;
 
     if (index <= AMX_EXEC_GDK) {
-      sampgdk_callback_get(AMX_EXEC_GDK - index, &name);
+      _sampgdk_amxhooks_api_ptr->get_callback(AMX_EXEC_GDK - index, &name);
     } else {
       AMX *main_amx = _sampgdk_amxhooks_main_amx;
       AMX_FUNCSTUBNT *publics = (AMX_FUNCSTUBNT *)(main_amx->base +
@@ -306,6 +317,8 @@ static void _sampgdk_amxhooks_destroy(void) {
 
 SAMPGDK_MODULE_INIT(amxhooks) {
   int error;
+
+  _sampgdk_amxhooks_api_ptr = sampgdk_api_ptr;
 
   error = _sampgdk_amxhooks_create();
   if (error < 0) {
