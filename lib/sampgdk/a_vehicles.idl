@@ -42,7 +42,7 @@ const int VEHICLE_PARAMS_ON    =  1;
 [native] bool GetVehicleZAngle([in] int vehicleid, [out] float z_angle);
 [native] bool GetVehicleRotationQuat([in] int vehicleid, [out] float w, [out] float x, [out] float y, [out] float z);
 [native] bool SetVehicleZAngle([in] int vehicleid, [in] float z_angle);
-[native] bool SetVehicleParamsForPlayer([in] int vehicleid, [in] int playerid, [in] bool objective, [in] bool doorslocked);
+[native] bool SetVehicleParamsForPlayer([in] int vehicleid, [in] int playerid, [in] int objective, [in] int doorslocked);
 [native] bool ManualVehicleEngineAndLights();
 [native] bool SetVehicleParamsEx([in] int vehicleid, [in] int engine, [in] int lights, [in] int alarm, [in] int doors, [in] int bonnet, [in] int boot, [in] int objective);
 [native] bool GetVehicleParamsEx([in] int vehicleid, [out] int engine, [out] int lights, [out] int alarm, [out] int doors, [out] int bonnet, [out] int boot, [out] int objective);
