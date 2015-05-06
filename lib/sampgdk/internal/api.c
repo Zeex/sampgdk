@@ -37,19 +37,19 @@ static bool _sampgdk_api_get_callback(int index, char **name) {
   return sampgdk_callback_get(index, name);
 }
 
-static struct sampgdk_api _sampgdk_api = {
+static struct sampgdk_api _sampgdk_api_obj = {
   _sampgdk_api_get_version,
   _sampgdk_api_get_version_string,
   _sampgdk_api_register_callback,
   _sampgdk_api_get_callback
 };
 
-struct sampgdk_api *sampgdk_api_ptr = &_sampgdk_api;
+struct sampgdk_api *sampgdk_api = &_sampgdk_api_obj;
 
 int sampgdk_api_set(AMX *amx) {
-  return -amx_SetUserData(amx, _SAMPGDK_API_TAG, sampgdk_api_ptr);
+  return -amx_SetUserData(amx, _SAMPGDK_API_TAG, sampgdk_api);
 }
 
 int sampgdk_api_get(AMX *amx, struct sampgdk_api **api) {
-  return -amx_GetUserData(amx, _SAMPGDK_API_TAG, (void **)&sampgdk_api_ptr);
+  return -amx_GetUserData(amx, _SAMPGDK_API_TAG, (void **)api);
 }

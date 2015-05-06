@@ -49,7 +49,7 @@ static void _sampgdk_init(void **plugin_data) {
   int error;
 
   sampgdk_logprintf_impl = plugin_data[PLUGIN_DATA_LOGPRINTF];
-  sampgdk_amx_api_ptr = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
+  sampgdk_amx_api = plugin_data[PLUGIN_DATA_AMX_EXPORTS];
 
   error = sampgdk_module_init();
   if (error  < 0) {

@@ -73,51 +73,51 @@ struct sampgdk_amx_api {
   int (AMXAPI *UTF8Put)(char *string, char **endptr, int maxchars, cell value);
 };
 
-extern struct sampgdk_amx_api *sampgdk_amx_api_ptr;
+extern struct sampgdk_amx_api *sampgdk_amx_api;
 
-#define amx_Align16      sampgdk_amx_api_ptr->Align16
-#define amx_Align32      sampgdk_amx_api_ptr->Align32
-#define amx_Align64      sampgdk_amx_api_ptr->Align64
-#define amx_Allot        sampgdk_amx_api_ptr->Allot
-#define amx_Callback     sampgdk_amx_api_ptr->Callback
-#define amx_Cleanup      sampgdk_amx_api_ptr->Cleanup
-#define amx_Clone        sampgdk_amx_api_ptr->Clone
-#define amx_Exec         sampgdk_amx_api_ptr->Exec
-#define amx_FindNative   sampgdk_amx_api_ptr->FindNative
-#define amx_FindPublic   sampgdk_amx_api_ptr->FindPublic
-#define amx_FindPubVar   sampgdk_amx_api_ptr->FindPubVar
-#define amx_FindTagId    sampgdk_amx_api_ptr->FindTagId
-#define amx_Flags        sampgdk_amx_api_ptr->Flags
-#define amx_GetAddr      sampgdk_amx_api_ptr->GetAddr
-#define amx_GetNative    sampgdk_amx_api_ptr->GetNative
-#define amx_GetPublic    sampgdk_amx_api_ptr->GetPublic
-#define amx_GetPubVar    sampgdk_amx_api_ptr->GetPubVar
-#define amx_GetString    sampgdk_amx_api_ptr->GetString
-#define amx_GetTag       sampgdk_amx_api_ptr->GetTag
-#define amx_GetUserData  sampgdk_amx_api_ptr->GetUserData
-#define amx_Init         sampgdk_amx_api_ptr->Init
-#define amx_InitJIT      sampgdk_amx_api_ptr->InitJIT
-#define amx_MemInfo      sampgdk_amx_api_ptr->MemInfo
-#define amx_NameLength   sampgdk_amx_api_ptr->NameLength
-#define amx_NativeInfo   sampgdk_amx_api_ptr->NativeInfo
-#define amx_NumNatives   sampgdk_amx_api_ptr->NumNatives
-#define amx_NumPublics   sampgdk_amx_api_ptr->NumPublics
-#define amx_NumPubVars   sampgdk_amx_api_ptr->NumPubVars
-#define amx_NumTags      sampgdk_amx_api_ptr->NumTags
-#define amx_Push         sampgdk_amx_api_ptr->Push
-#define amx_PushArray    sampgdk_amx_api_ptr->PushArray
-#define amx_PushString   sampgdk_amx_api_ptr->PushString
-#define amx_RaiseError   sampgdk_amx_api_ptr->RaiseError
-#define amx_Register     sampgdk_amx_api_ptr->Register
-#define amx_Release      sampgdk_amx_api_ptr->Release
-#define amx_SetCallback  sampgdk_amx_api_ptr->SetCallback
-#define amx_SetDebugHook sampgdk_amx_api_ptr->SetDebugHook
-#define amx_SetString    sampgdk_amx_api_ptr->SetString
-#define amx_SetUserData  sampgdk_amx_api_ptr->SetUserData
-#define amx_StrLen       sampgdk_amx_api_ptr->StrLen
-#define amx_UTF8Check    sampgdk_amx_api_ptr->UTF8Check
-#define amx_UTF8Get      sampgdk_amx_api_ptr->UTF8Get
-#define amx_UTF8Len      sampgdk_amx_api_ptr->UTF8Len
-#define amx_UTF8Put      sampgdk_amx_api_ptr->UTF8Put
+#define amx_Align16      sampgdk_amx_api->Align16
+#define amx_Align32      sampgdk_amx_api->Align32
+#define amx_Align64      sampgdk_amx_api->Align64
+#define amx_Allot        sampgdk_amx_api->Allot
+#define amx_Callback     sampgdk_amx_api->Callback
+#define amx_Cleanup      sampgdk_amx_api->Cleanup
+#define amx_Clone        sampgdk_amx_api->Clone
+#define amx_Exec         sampgdk_amx_api->Exec
+#define amx_FindNative   sampgdk_amx_api->FindNative
+#define amx_FindPublic   sampgdk_amx_api->FindPublic
+#define amx_FindPubVar   sampgdk_amx_api->FindPubVar
+#define amx_FindTagId    sampgdk_amx_api->FindTagId
+#define amx_Flags        sampgdk_amx_api->Flags
+#define amx_GetAddr      sampgdk_amx_api->GetAddr
+#define amx_GetNative    sampgdk_amx_api->GetNative
+#define amx_GetPublic    sampgdk_amx_api->GetPublic
+#define amx_GetPubVar    sampgdk_amx_api->GetPubVar
+#define amx_GetString    sampgdk_amx_api->GetString
+#define amx_GetTag       sampgdk_amx_api->GetTag
+#define amx_GetUserData  sampgdk_amx_api->GetUserData
+#define amx_Init         sampgdk_amx_api->Init
+#define amx_InitJIT      sampgdk_amx_api->InitJIT
+#define amx_MemInfo      sampgdk_amx_api->MemInfo
+#define amx_NameLength   sampgdk_amx_api->NameLength
+#define amx_NativeInfo   sampgdk_amx_api->NativeInfo
+#define amx_NumNatives   sampgdk_amx_api->NumNatives
+#define amx_NumPublics   sampgdk_amx_api->NumPublics
+#define amx_NumPubVars   sampgdk_amx_api->NumPubVars
+#define amx_NumTags      sampgdk_amx_api->NumTags
+#define amx_Push         sampgdk_amx_api->Push
+#define amx_PushArray    sampgdk_amx_api->PushArray
+#define amx_PushString   sampgdk_amx_api->PushString
+#define amx_RaiseError   sampgdk_amx_api->RaiseError
+#define amx_Register     sampgdk_amx_api->Register
+#define amx_Release      sampgdk_amx_api->Release
+#define amx_SetCallback  sampgdk_amx_api->SetCallback
+#define amx_SetDebugHook sampgdk_amx_api->SetDebugHook
+#define amx_SetString    sampgdk_amx_api->SetString
+#define amx_SetUserData  sampgdk_amx_api->SetUserData
+#define amx_StrLen       sampgdk_amx_api->StrLen
+#define amx_UTF8Check    sampgdk_amx_api->UTF8Check
+#define amx_UTF8Get      sampgdk_amx_api->UTF8Get
+#define amx_UTF8Len      sampgdk_amx_api->UTF8Len
+#define amx_UTF8Put      sampgdk_amx_api->UTF8Put
 
 #endif /* !SAMPGDK_INTERNAL_AMX_H */

@@ -25,7 +25,7 @@ struct sampgdk_api {
   bool (*get_callback)(int index, char **name);
 };
 
-extern struct sampgdk_api *sampgdk_api_ptr;
+extern struct sampgdk_api *sampgdk_api;
 
 int sampgdk_api_set(AMX *amx);
 int sampgdk_api_get(AMX *amx, struct sampgdk_api **api);

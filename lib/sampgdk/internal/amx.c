@@ -15,4 +15,4 @@
 
 #include "amx.h"
 
-struct sampgdk_amx_api *sampgdk_amx_api_ptr;
+struct sampgdk_amx_api *sampgdk_amx_api;
