@@ -35,7 +35,6 @@
 #include "hook.h"
 
 static AMX *_sampgdk_amxhooks_main_amx;
-static struct sampgdk_api *_sampgdk_amxhooks_api;
 
 #define _SAMPGDK_AMXHOOKS_FUNC_LIST(C) \
   C(Register) \
@@ -135,7 +134,8 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
    * callback table and return success. The table will allow us to keep track
    * of forged publics in amx_Exec().
    */
-  index_internal = _sampgdk_amxhooks_api->register_callback(name);
+  sampgdk_api_check(amx);
+  index_internal = sampgdk_api->register_callback(name);
   index_real = AMX_EXEC_GDK - index_internal;
 
   if (index_internal < 0) {
@@ -182,45 +182,10 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
      * from being called twice in a row after a gmx.
      */
     if (amx != NULL && _sampgdk_amxhooks_main_amx != amx) {
-      struct sampgdk_api *api;
-
       _sampgdk_amxhooks_main_amx = amx;
 
       sampgdk_log_info("Found main AMX, callbacks should work now");
       sampgdk_log_debug("Main AMX instance: %p", amx);
-
-      /* Since version 4.3.1 the library exports a table of pointers to some
-       * internal functions (called an internal API here or simply an API)
-       * that helps plugins that are compiled with different version of the
-       * library to cooperate.
-       *
-       * Currently this is needed to keep SA-MP callback indices in sync but
-       * it may be also used for something else in the future.
-       */
-      if (sampgdk_api_get(amx, &api) < 0) {
-        sampgdk_log_info("API info not found, using local implementation");
-        sampgdk_api_set(amx);
-      } else {
-        sampgdk_log_info("Found API version %s", api->get_version_string());
-
-        if (api->get_version() > _sampgdk_amxhooks_api->get_version()) {
-          int major = (api->get_version() & 0xFF000000);
-          int major_cur = (_sampgdk_amxhooks_api->get_version() & 0xFF000000);
-
-          if (major == major_cur) {
-            _sampgdk_amxhooks_api = api;
-          } else {
-            sampgdk_log_info("Major versions didn't match (%d != %d),"
-                             " will keep using current API",
-                             major,
-                             major_cur);
-          }
-        } else {
-          sampgdk_log_info("Current API version %s is newer,"
-                           " will keep using it",
-                           _sampgdk_amxhooks_api->get_version_string());
-        }
-      }
 
       /* For some odd reason OnGameModeInit() is called before main().
        * Normally callbacks are handled below but this creates an exception.
@@ -232,7 +197,8 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     char *name = NULL;
 
     if (index <= AMX_EXEC_GDK) {
-      _sampgdk_amxhooks_api->get_callback(AMX_EXEC_GDK - index, &name);
+      sampgdk_api_check(amx);
+      sampgdk_api->get_callback(AMX_EXEC_GDK - index, &name);
     } else {
       AMX *main_amx = _sampgdk_amxhooks_main_amx;
       AMX_FUNCSTUBNT *publics = (AMX_FUNCSTUBNT *)(main_amx->base +
@@ -343,8 +309,6 @@ static void _sampgdk_amxhooks_destroy(void) {
 
 SAMPGDK_MODULE_INIT(amxhooks) {
   int error;
-
-  _sampgdk_amxhooks_api = sampgdk_api;
 
   error = _sampgdk_amxhooks_create();
   if (error < 0) {

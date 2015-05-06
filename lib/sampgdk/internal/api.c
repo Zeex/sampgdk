@@ -37,19 +37,54 @@ static bool _sampgdk_api_get_callback(int index, char **name) {
   return sampgdk_callback_get(index, name);
 }
 
-static struct sampgdk_api _sampgdk_api_obj = {
+/* Since version 4.3.1 the library exports a table of pointers to some
+ * internal functions (called an internal API here or simply an API)
+ * that helps plugins that are compiled with different version of the
+ * library to cooperate.
+ *
+ * Currently this is needed to keep SA-MP callback indices in sync but
+ * it may be also used for something else in the future.
+ */
+static struct sampgdk_api _sampgdk_api_local = {
   _sampgdk_api_get_version,
   _sampgdk_api_get_version_string,
   _sampgdk_api_register_callback,
   _sampgdk_api_get_callback
 };
 
-struct sampgdk_api *sampgdk_api = &_sampgdk_api_obj;
+struct sampgdk_api *sampgdk_api = &_sampgdk_api_local;
 
-int sampgdk_api_set(AMX *amx) {
-  return -amx_SetUserData(amx, _SAMPGDK_API_TAG, sampgdk_api);
+static void _sampgdk_api_get(AMX *amx, struct sampgdk_api **api) {
+  amx_GetUserData(amx, _SAMPGDK_API_TAG, (void **)api);
 }
 
-int sampgdk_api_get(AMX *amx, struct sampgdk_api **api) {
-  return -amx_GetUserData(amx, _SAMPGDK_API_TAG, (void **)api);
+static void _sampgdk_api_set(AMX *amx, struct sampgdk_api *api) {
+  amx_SetUserData(amx, _SAMPGDK_API_TAG, api);
+}
+
+void sampgdk_api_check(AMX *amx) {
+  struct sampgdk_api *api = NULL;
+  int version;
+  int current_version;
+
+  _sampgdk_api_get(amx, &api);
+
+  if (api == NULL) {
+    sampgdk_log_debug("API not found, setting to local implementation");
+    _sampgdk_api_set(amx, sampgdk_api);
+    return;
+  }
+
+  version = api->get_version();
+  current_version = sampgdk_api->get_version();
+
+  if (version < current_version) {
+    sampgdk_log_debug("Overriding old API version %s",
+                      sampgdk_api->get_version_string());
+    _sampgdk_api_set(amx, sampgdk_api);
+  } else if (version > current_version) {
+    sampgdk_log_debug("Switching to API version %s",
+                      api->get_version_string());
+    sampgdk_api = api;  
+  }
 }
