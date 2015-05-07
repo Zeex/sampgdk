@@ -18,7 +18,7 @@
 #include "api.h"
 #include "callback.h"
 
-#define _SAMPGDK_API_VERSION 1
+#define _SAMPGDK_API_VERSION 2
 #define _SAMPGDK_API_TAG \
   AMX_USERTAG('G', 'D', 'K', '0' + SAMPGDK_VERSION_MAJOR)
 
@@ -66,8 +66,8 @@ void sampgdk_api_check(AMX *amx) {
   _sampgdk_api_get(amx, &api);
 
   if (api == NULL) {
-    sampgdk_log_debug("No existing API found, posting local version %d",
-                      sampgdk_api->get_version());
+    sampgdk_log_info("No existing API found, posting local version %d",
+                     sampgdk_api->get_version());
     _sampgdk_api_set(amx, sampgdk_api);
     return;
   }
@@ -76,11 +76,11 @@ void sampgdk_api_check(AMX *amx) {
   current_version = sampgdk_api->get_version();
 
   if (version < current_version) {
-    sampgdk_log_debug("Overriding older API version %d",
-                      sampgdk_api->get_version());
+    sampgdk_log_info("Overriding older API version %d",
+                     sampgdk_api->get_version());
     _sampgdk_api_set(amx, sampgdk_api);
   } else if (version > current_version) {
-    sampgdk_log_debug("Switching to newer API version %d", api->get_version());
+    sampgdk_log_info("Switching to newer API version %d", api->get_version());
     sampgdk_api = api;
   }
 }
