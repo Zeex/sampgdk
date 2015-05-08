@@ -24,7 +24,6 @@
 #include <sampgdk/sdk.h>
 
 #include "amx.h"
-#include "api.h"
 #include "array.h"
 #include "callback.h"
 #include "fakeamx.h"
@@ -134,8 +133,7 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
    * callback table and return success. The table will allow us to keep track
    * of forged publics in amx_Exec().
    */
-  sampgdk_api_check(amx);
-  index_internal = sampgdk_api->register_callback(name);
+  index_internal = sampgdk_callback_register(name, NULL);
   index_real = AMX_EXEC_GDK - index_internal;
 
   if (index_internal < 0) {
@@ -197,8 +195,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
     char *name = NULL;
 
     if (index <= AMX_EXEC_GDK) {
-      sampgdk_api_check(amx);
-      sampgdk_api->get_callback(AMX_EXEC_GDK - index, &name);
+      sampgdk_callback_get(AMX_EXEC_GDK - index, &name);
     } else {
       AMX *main_amx = _sampgdk_amxhooks_main_amx;
       AMX_FUNCSTUBNT *publics = (AMX_FUNCSTUBNT *)(main_amx->base +
