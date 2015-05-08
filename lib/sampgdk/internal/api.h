@@ -20,6 +20,7 @@
 
 struct sampgdk_api {
   int (*get_version)();
+  const char *(*get_version_string)();
   int (*register_callback)(const char *name);
   bool (*get_callback)(int index, char **name);
 };

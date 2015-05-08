@@ -18,12 +18,15 @@
 #include "api.h"
 #include "callback.h"
 
-#define _SAMPGDK_API_VERSION 2
 #define _SAMPGDK_API_TAG \
   AMX_USERTAG('G', 'D', 'K', '0' + SAMPGDK_VERSION_MAJOR)
 
 static int _sampgdk_api_get_version() {
-  return _SAMPGDK_API_VERSION;
+  return SAMPGDK_VERSION_ID;
+}
+
+static const char *_sampgdk_api_get_version_string() {
+  return SAMPGDK_VERSION_STRING;
 }
 
 static int _sampgdk_api_register_callback(const char *name) {
@@ -44,6 +47,7 @@ static bool _sampgdk_api_get_callback(int index, char **name) {
  */
 static struct sampgdk_api _sampgdk_api_local = {
   _sampgdk_api_get_version,
+  _sampgdk_api_get_version_string,
   _sampgdk_api_register_callback,
   _sampgdk_api_get_callback
 };
@@ -66,8 +70,8 @@ void sampgdk_api_check(AMX *amx) {
   _sampgdk_api_get(amx, &api);
 
   if (api == NULL) {
-    sampgdk_log_info("No existing API found, posting local version %d",
-                     sampgdk_api->get_version());
+    sampgdk_log_info("No existing API found, posting local version %s",
+                     sampgdk_api->get_version_string());
     _sampgdk_api_set(amx, sampgdk_api);
     return;
   }
@@ -76,11 +80,12 @@ void sampgdk_api_check(AMX *amx) {
   current_version = sampgdk_api->get_version();
 
   if (version < current_version) {
-    sampgdk_log_info("Overriding older API version %d",
-                     sampgdk_api->get_version());
+    sampgdk_log_info("Overriding older API version %s",
+                     sampgdk_api->get_version_string());
     _sampgdk_api_set(amx, sampgdk_api);
   } else if (version > current_version) {
-    sampgdk_log_info("Switching to newer API version %d", api->get_version());
+    sampgdk_log_info("Switching to newer API version %s",
+                     api->get_version_string());
     sampgdk_api = api;
   }
 }
