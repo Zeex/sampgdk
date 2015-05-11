@@ -1,6 +1,6 @@
-sampgdk_Load
-sampgdk_logprintf
-sampgdk_ProcessTick
-sampgdk_Supports
-sampgdk_Unload
-sampgdk_vlogprintf
+bool sampgdk_Load(void **ppData, sampgdk_hidden_t hidden)
+void sampgdk_logprintf(const char *format, ...)
+void sampgdk_ProcessTick(sampgdk_hidden_t hidden)
+unsigned int sampgdk_Supports(void)
+void sampgdk_Unload(sampgdk_hidden_t hidden)
+void sampgdk_vlogprintf(const char *format, va_list args)

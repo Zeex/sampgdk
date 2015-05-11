@@ -190,19 +190,24 @@ sampgdk_get_sources(SAMPGDK_SOURCES)
 
 foreach(file IN LISTS SAMPGDK_SOURCES)
   get_filename_component(extension ${file} EXT)
-  if(extension STREQUAL ".api")
+  if(extension STREQUAL .api)
     list(APPEND SAMPGDK_APIS ${file})
   endif()
 endforeach()
 
 sampgdk_get_property(SAMPGDK_DEF_FILE SAMPGDK_DEF_FILE)
 if(SAMPGDK_DEF_FILE)
-  sampgdk_add_exports_gen("def" ${SAMPGDK_DEF_FILE} ${SAMPGDK_APIS})
+  sampgdk_add_exports_gen(def ${SAMPGDK_DEF_FILE} ${SAMPGDK_APIS})
 endif()
 
 sampgdk_get_property(SAMPGDK_SYM_FILE SAMPGDK_SYM_FILE)
 if(SAMPGDK_SYM_FILE)
-  sampgdk_add_exports_gen("list" ${SAMPGDK_SYM_FILE} ${SAMPGDK_APIS})
+  sampgdk_add_exports_gen(list ${SAMPGDK_SYM_FILE} ${SAMPGDK_APIS})
+endif()
+
+sampgdk_get_property(SAMPGDK_API_HEADER_FILE SAMPGDK_API_HEADER_FILE)
+if(SAMPGDK_API_HEADER_FILE)
+  sampgdk_add_exports_gen(header ${SAMPGDK_API_HEADER_FILE} ${SAMPGDK_APIS})
 endif()
 
 sampgdk_get_sources(SAMPGDK_SOURCES)

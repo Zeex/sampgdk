@@ -1,6 +1,6 @@
-sampgdk_CallNative
-sampgdk_FindNative
-sampgdk_GetNatives
-sampgdk_InvokeNative
-sampgdk_InvokeNativeArray
-sampgdk_InvokeNativeV
+cell sampgdk_CallNative(AMX_NATIVE native, cell *params)
+AMX_NATIVE sampgdk_FindNative(const char *name)
+const AMX_NATIVE_INFO *sampgdk_GetNatives(int *number)
+cell sampgdk_InvokeNative(AMX_NATIVE native, const char *format, ...)
+cell sampgdk_InvokeNativeArray(AMX_NATIVE native, const char *format, void **args)
+cell sampgdk_InvokeNativeV(AMX_NATIVE native, const char *format, va_list args)

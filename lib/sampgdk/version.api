@@ -1,2 +1,2 @@
-sampgdk_GetVersion
-sampgdk_GetVersionString
+int sampgdk_GetVersion(void)
+const char * sampgdk_GetVersionString(void)
