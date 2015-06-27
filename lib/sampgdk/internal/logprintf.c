@@ -21,28 +21,33 @@
 
 #include "logprintf.h"
 
-#define _SAMPGDK_LOGPRINTF_BUF_SIZE 1024
+#define _SAMPGDK_LOGPRINTF_BUFFER_SIZE 1024
 
 #ifdef _MSC_VER
   #define vsnprintf vsprintf_s
 #endif
 
-typedef void (SAMPGDK_CDECL *logprintf_t)(const char *format, ...);
-
-/* Gets called before the library is initialized. */
+/*
+ * Gets called instead of the real logprintf when the library has not been
+ * initialized yet. See the declaration of sampgdk_logprintf_impl.
+ */
 static void _sampgdk_logprintf_stub(const char *format, ...) {
   va_list va;
+
   va_start(va, format);
   vprintf(format, va);
-  printf("\n");
   va_end(va);
+
+  printf("\n");
 }
 
-void *sampgdk_logprintf_impl = &_sampgdk_logprintf_stub;
+logprintf_t sampgdk_logprintf_impl = &_sampgdk_logprintf_stub;
 
 void sampgdk_do_vlogprintf(const char *format, va_list va) {
-  char buffer[_SAMPGDK_LOGPRINTF_BUF_SIZE];
+  char buffer[_SAMPGDK_LOGPRINTF_BUFFER_SIZE];
+
   vsnprintf(buffer, sizeof(buffer), format, va);
   buffer[sizeof(buffer) - 1] = '\0';
-  ((logprintf_t)sampgdk_logprintf_impl)("%s", buffer);
+
+  sampgdk_logprintf_impl("%s", buffer);
 }

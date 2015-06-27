@@ -18,7 +18,9 @@
 
 #include <stdarg.h>
 
-extern void *sampgdk_logprintf_impl;
+typedef void (*logprintf_t)(const char *format, ...);
+
+extern logprintf_t sampgdk_logprintf_impl;
 
 void sampgdk_do_vlogprintf(const char *format, va_list va);
 
