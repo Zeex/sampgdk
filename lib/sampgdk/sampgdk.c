@@ -1,4 +1,6 @@
-#define IN_SAMPGDK
+#ifndef SAMPGDK_AMALGAMATION
+  #define SAMPGDK_AMALGAMATION
+#endif
 
 #include "sampgdk.h"
 
