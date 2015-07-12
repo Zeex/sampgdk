@@ -100,8 +100,8 @@ SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
  * R         | cell *        | non-const reference (both input and output)
  * s         | const char *  | const string (input only)
  * S         | char *        | non-const string (both input and output)
- * a         | const cell *  | const string (input only)
- * A         | cell *        | non-const string (both input and output)
+ * a         | const cell *  | const array (input only)
+ * A         | cell *        | non-const array (both input and output)
  *
  * \remarks For the 'S', 'a' and 'A' specifiers you have to specify the size
  * of the string/array in square brackets, e.g. "a[100]" (fixed size)
