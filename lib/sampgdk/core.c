@@ -19,6 +19,7 @@
 #include <sampgdk/bool.h>
 #include <sampgdk/core.h>
 #include <sampgdk/sdk.h>
+#include <sampgdk/version.h>
 
 #include "internal/amx.h"
 #include "internal/init.h"
@@ -55,6 +56,8 @@ static void _sampgdk_init(void **plugin_data) {
   if (error  < 0) {
     sampgdk_log_error("Initialization failed: %s", error);
   }
+
+  sampgdk_log_info("Version: " SAMPGDK_VERSION_STRING);
 }
 
 static int _sampgdk_init_plugin(void *plugin, void **plugin_data) {
