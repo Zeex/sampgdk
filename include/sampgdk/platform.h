@@ -20,6 +20,10 @@
   #error Unsupported architecture
 #endif
 
+#if (defined __CYGWIN32__ || RC_INVOKED) && !defined WIN32
+  #define WIN32
+#endif
+
 #if defined WIN32 || defined _WIN32 || defined __WIN32__
   #define SAMPGDK_LINUX 0
   #define SAMPGDK_WINDOWS 1
