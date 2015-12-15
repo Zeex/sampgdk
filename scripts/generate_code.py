@@ -50,12 +50,12 @@ class Parameter(cidl.Parameter):
     try:
       if self.is_out:
         return C_TYPES_OUT[self.type]
-      if self.is_in:
+      else:
         return C_TYPES_IN[self.type]
     except KeyError:
       if self.is_out:
         return '%s *' % self.type
-      if self.is_in:
+      else:
         return self.type
     return None
 

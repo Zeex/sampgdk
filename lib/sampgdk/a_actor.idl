@@ -13,24 +13,24 @@
  * limitations under the License.
  */
 
-[native] int CreateActor([in] int modelid, [in] float x, [in] float y, [in] float z, [in] float rotation);
-[native] bool DestroyActor([in] int actorid);
-[native] bool IsActorStreamedIn([in] int actorid, [in] int forplayerid);
+[native] int CreateActor(int modelid, float x, float y, float z, float rotation);
+[native] bool DestroyActor(int actorid);
+[native] bool IsActorStreamedIn(int actorid, int forplayerid);
 
-[native] bool SetActorVirtualWorld([in] int actorid, [in] int vworld);
-[native] int GetActorVirtualWorld([in] int actorid);
+[native] bool SetActorVirtualWorld(int actorid, int vworld);
+[native] int GetActorVirtualWorld(int actorid);
 
-[native] bool ApplyActorAnimation([in] int actorid, [in] string animlib, [in] string animname, [in] float fDelta, [in] bool loop, [in] bool lockx, [in] bool locky, [in] bool freeze, [in] int time);
-[native] bool ClearActorAnimations([in] int actorid);
+[native] bool ApplyActorAnimation(int actorid, string animlib, string animname, float fDelta, bool loop, bool lockx, bool locky, bool freeze, int time);
+[native] bool ClearActorAnimations(int actorid);
 
-[native] bool SetActorPos([in] int actorid, [in] float x, [in] float y, [in] float z);
-[native] bool GetActorPos([in] int actorid, [out] float x, [out] float y, [out] float z);
-[native] bool SetActorFacingAngle([in] int actorid, [in] float angle);
-[native] bool GetActorFacingAngle([in] int actorid, [out] float angle);
+[native] bool SetActorPos(int actorid, float x, float y, float z);
+[native] bool GetActorPos(int actorid, [out] float x, [out] float y, [out] float z);
+[native] bool SetActorFacingAngle(int actorid, float angle);
+[native] bool GetActorFacingAngle(int actorid, [out] float angle);
 
-[native] bool SetActorHealth([in] int actorid, [in] float health);
-[native] bool GetActorHealth([in] int actorid, [out] float health);
-[native] bool SetActorInvulnerable([in] int actorid, [in] bool invulnerable = true);
-[native] bool IsActorInvulnerable([in] int actorid);
+[native] bool SetActorHealth(int actorid, float health);
+[native] bool GetActorHealth(int actorid, [out] float health);
+[native] bool SetActorInvulnerable(int actorid, bool invulnerable = true);
+[native] bool IsActorInvulnerable(int actorid);
 
-[native] bool IsValidActor([in] int actorid);
+[native] bool IsValidActor(int actorid);

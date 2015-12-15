@@ -13,39 +13,39 @@
  * limitations under the License.
  */
 
-[native] int CreateObject([in] int modelid, [in] float x, [in] float y, [in] float z, [in] float rX, [in] float rY, [in] float rZ, [in] float DrawDistance = 0.0);
-[native] bool AttachObjectToVehicle([in] int objectid, [in] int vehicleid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ);
-[native] bool AttachObjectToObject([in] int objectid, [in] int attachtoid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ, [in] bool SyncRotation = false);
-[native] bool AttachObjectToPlayer([in] int objectid, [in] int playerid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float fRotZ);
-[native] bool SetObjectPos([in] int objectid, [in] float x, [in] float y, [in] float z);
-[native] bool GetObjectPos([in] int objectid, [out] float x, [out] float y, [out] float z);
-[native] bool SetObjectRot([in] int objectid, [in] float rotX, [in] float rotY, [in] float rotZ);
-[native] bool GetObjectRot([in] int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
-[native] int GetObjectModel([in] int objectid);
-[native] bool SetObjectNoCameraCol([in] int objectid);
-[native] bool IsValidObject([in] int objectid);
-[native] bool DestroyObject([in] int objectid);
-[native] int MoveObject([in] int objectid, [in] float X, [in] float Y, [in] float Z, [in] float Speed, [in] float RotX = -1000.0, [in] float RotY = -1000.0, [in] float RotZ = -1000.0);
-[native] bool StopObject([in] int objectid);
-[native] bool IsObjectMoving([in] int objectid);
-[native] bool EditObject([in] int playerid, [in] int objectid);
-[native] bool EditPlayerObject([in] int playerid, [in] int objectid);
-[native] bool SelectObject([in] int playerid);
-[native] bool CancelEdit([in] int playerid);
-[native] int CreatePlayerObject([in] int playerid, [in] int modelid, [in] float x, [in] float y, [in] float z, [in] float rX, [in] float rY, [in] float rZ, [in] float DrawDistance = 0.0);
-[native] bool AttachPlayerObjectToPlayer([in] int objectplayer, [in] int objectid, [in] int attachplayer, [in] float OffsetX, [in] float OffsetY, [in] float OffsetZ, [in] float rX, [in] float rY, [in] float rZ);
-[native] bool AttachPlayerObjectToVehicle([in] int playerid, [in] int objectid, [in] int vehicleid, [in] float fOffsetX, [in] float fOffsetY, [in] float fOffsetZ, [in] float fRotX, [in] float fRotY, [in] float RotZ);
-[native] bool SetPlayerObjectPos([in] int playerid, [in] int objectid, [in] float x, [in] float y, [in] float z);
-[native] bool GetPlayerObjectPos([in] int playerid, [in] int objectid, [out] float x, [out] float y, [out] float z);
-[native] bool SetPlayerObjectRot([in] int playerid, [in] int objectid, [in] float rotX, [in] float rotY, [in] float rotZ);
-[native] bool GetPlayerObjectRot([in] int playerid, [in] int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
-[native] int GetPlayerObjectModel([in] int playerid, [in] int objectid);
-[native] bool SetPlayerObjectNoCameraCol([in] int playerid, [in] int objectid);
-[native] bool IsValidPlayerObject([in] int playerid, [in] int objectid);
-[native] bool DestroyPlayerObject([in] int playerid, [in] int objectid);
-[native] int MovePlayerObject([in] int playerid, [in] int objectid, [in] float x, [in] float y, [in] float z, [in] float Speed, [in] float RotX = -1000.0, [in] float RotY = -1000.0, [in] float RotZ = -1000.0);
-[native] bool StopPlayerObject([in] int playerid, [in] int objectid);
-[native] bool IsPlayerObjectMoving([in] int playerid, [in] int objectid);
+[native] int CreateObject(int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance = 0.0);
+[native] bool AttachObjectToVehicle(int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ);
+[native] bool AttachObjectToObject(int objectid, int attachtoid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ, bool SyncRotation = false);
+[native] bool AttachObjectToPlayer(int objectid, int playerid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float fRotZ);
+[native] bool SetObjectPos(int objectid, float x, float y, float z);
+[native] bool GetObjectPos(int objectid, [out] float x, [out] float y, [out] float z);
+[native] bool SetObjectRot(int objectid, float rotX, float rotY, float rotZ);
+[native] bool GetObjectRot(int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
+[native] int GetObjectModel(int objectid);
+[native] bool SetObjectNoCameraCol(int objectid);
+[native] bool IsValidObject(int objectid);
+[native] bool DestroyObject(int objectid);
+[native] int MoveObject(int objectid, float X, float Y, float Z, float Speed, float RotX = -1000.0, float RotY = -1000.0, float RotZ = -1000.0);
+[native] bool StopObject(int objectid);
+[native] bool IsObjectMoving(int objectid);
+[native] bool EditObject(int playerid, int objectid);
+[native] bool EditPlayerObject(int playerid, int objectid);
+[native] bool SelectObject(int playerid);
+[native] bool CancelEdit(int playerid);
+[native] int CreatePlayerObject(int playerid, int modelid, float x, float y, float z, float rX, float rY, float rZ, float DrawDistance = 0.0);
+[native] bool AttachPlayerObjectToPlayer(int objectplayer, int objectid, int attachplayer, float OffsetX, float OffsetY, float OffsetZ, float rX, float rY, float rZ);
+[native] bool AttachPlayerObjectToVehicle(int playerid, int objectid, int vehicleid, float fOffsetX, float fOffsetY, float fOffsetZ, float fRotX, float fRotY, float RotZ);
+[native] bool SetPlayerObjectPos(int playerid, int objectid, float x, float y, float z);
+[native] bool GetPlayerObjectPos(int playerid, int objectid, [out] float x, [out] float y, [out] float z);
+[native] bool SetPlayerObjectRot(int playerid, int objectid, float rotX, float rotY, float rotZ);
+[native] bool GetPlayerObjectRot(int playerid, int objectid, [out] float rotX, [out] float rotY, [out] float rotZ);
+[native] int GetPlayerObjectModel(int playerid, int objectid);
+[native] bool SetPlayerObjectNoCameraCol(int playerid, int objectid);
+[native] bool IsValidPlayerObject(int playerid, int objectid);
+[native] bool DestroyPlayerObject(int playerid, int objectid);
+[native] int MovePlayerObject(int playerid, int objectid, float x, float y, float z, float Speed, float RotX = -1000.0, float RotY = -1000.0, float RotZ = -1000.0);
+[native] bool StopPlayerObject(int playerid, int objectid);
+[native] bool IsPlayerObjectMoving(int playerid, int objectid);
 
 const int OBJECT_MATERIAL_SIZE_32x32   = 10;
 const int OBJECT_MATERIAL_SIZE_64x32   = 20;
@@ -66,10 +66,10 @@ const int OBJECT_MATERIAL_TEXT_ALIGN_LEFT   = 0;
 const int OBJECT_MATERIAL_TEXT_ALIGN_CENTER = 1;
 const int OBJECT_MATERIAL_TEXT_ALIGN_RIGHT  = 2;
 
-[native] bool SetObjectMaterial([in] int objectid, [in] int materialindex, [in] int modelid, [in] string txdname, [in] string texturename, [in] int materialcolor = 0);
-[native] bool SetPlayerObjectMaterial([in] int playerid, [in] int objectid, [in] int materialindex, [in] int modelid, [in] string txdname, [in] string texturename, [in] int materialcolor = 0);
+[native] bool SetObjectMaterial(int objectid, int materialindex, int modelid, string txdname, string texturename, int materialcolor = 0);
+[native] bool SetPlayerObjectMaterial(int playerid, int objectid, int materialindex, int modelid, string txdname, string texturename, int materialcolor = 0);
 
-[native] bool SetObjectMaterialText([in] int objectid, [in] string text, [in] int materialindex = 0, [in] int materialsize = OBJECT_MATERIAL_SIZE_256x128, [in] string fontface = "Arial", [in] int fontsize = 24, [in] bool bold = true, [in] int fontcolor = 0xFFFFFFFF, [in] int backcolor = 0, [in] int textalignment = 0);
-[native] bool SetPlayerObjectMaterialText([in] int playerid, [in] int objectid, [in] string text, [in] int materialindex = 0, [in] int materialsize = OBJECT_MATERIAL_SIZE_256x128, [in] string fontface = "Arial", [in] int fontsize = 24, [in] bool bold = true, [in] int fontcolor = 0xFFFFFFFF, [in] int backcolor = 0, [in] int textalignment = 0);
+[native] bool SetObjectMaterialText(int objectid, string text, int materialindex = 0, int materialsize = OBJECT_MATERIAL_SIZE_256x128, string fontface = "Arial", int fontsize = 24, bool bold = true, int fontcolor = 0xFFFFFFFF, int backcolor = 0, int textalignment = 0);
+[native] bool SetPlayerObjectMaterialText(int playerid, int objectid, string text, int materialindex = 0, int materialsize = OBJECT_MATERIAL_SIZE_256x128, string fontface = "Arial", int fontsize = 24, bool bold = true, int fontcolor = 0xFFFFFFFF, int backcolor = 0, int textalignment = 0);
 
-[native] bool SetObjectsDefaultCameraCol([in] bool disable);
+[native] bool SetObjectsDefaultCameraCol(bool disable);

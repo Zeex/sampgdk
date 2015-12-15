@@ -24,12 +24,12 @@ const int HTTP_ERROR_CANT_WRITE         = 4;
 const int HTTP_ERROR_CONTENT_TOO_BIG    = 5;
 const int HTTP_ERROR_MALFORMED_RESPONSE = 6;
 
-[native] bool HTTP([in] int index,
-                   [in] int type,
-                   [in] string url,
-                   [in] string data,
+[native] bool HTTP(int index,
+                   int type,
+                   string url,
+                   string data,
                    [in, bind("OnHTTPResponse")] string callback);
 
-[callback, nonstandard] void OnHTTPResponse([in] int index,
-                                            [in] int response_code,
-                                            [in] string data);
+[callback, nonstandard] void OnHTTPResponse(int index,
+                                            int response_code,
+                                            string data);
