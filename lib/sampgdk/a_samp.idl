@@ -51,6 +51,25 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] int GetVehiclePoolSize();
 [native] int GetActorPoolSize();
 
+[native] bool SHA256_PassHash([in] string password, [in] string salt, [out] string ret_hash, [in] int ret_hash_len);
+
+[native] bool SetSVarInt([in] string varname, [in] int int_value);
+[native] int GetSVarInt([in] string varname);
+[native] bool SetSVarString([in] string varname, [in] string string_value);
+[native] bool GetSVarString([in] string varname, [out] string string_return, [in] int len);
+[native] bool SetSVarFloat([in] string varname, [in] float float_value);
+[native] float GetSVarFloat([in] string varname);
+[native] bool DeleteSVar([in] string varname);
+
+const int SERVER_VARTYPE_NONE = 0;
+const int SERVER_VARTYPE_INT = 1;
+const int SERVER_VARTYPE_STRING = 2;
+const int SERVER_VARTYPE_FLOAT = 3;
+
+[native] int GetSVarsUpperIndex();
+[native] bool GetSVarNameAtIndex([in] int index, [out] string ret_varname, [in] int ret_len);
+[native] int GetSVarType([in] string varname);
+
 [native] bool SetGameModeText([in] string text);
 [native] bool SetTeamCount([in] int count);
 [native] int AddPlayerClass([in] int modelid, [in] float spawn_x, [in] float spawn_y, [in] float spawn_z, [in] float z_angle, [in] int weapon1, [in] int weapon1_ammo, [in] int weapon2, [in] int weapon2_ammo, [in] int weapon3, [in] int weapon3_ammo);
@@ -90,14 +109,18 @@ const int INVALID_3DTEXT_ID     = 0xFFFF;
 [native] bool Ban([in] int playerid);
 [native] bool BanEx([in] int playerid, [in] string reason);
 [native] bool SendRconCommand([in] string command);
-[native] bool GetServerVarAsString([in] string varname, [out] string value, [in] int size);
-[native] int GetServerVarAsInt([in] string varname);
-[native] bool GetServerVarAsBool([in] string varname);
 [native] bool GetPlayerNetworkStats([in] int playerid, [out] string retstr, [in] int size);
 [native] bool GetNetworkStats([out] string retstr, [in] int size);
 [native] bool GetPlayerVersion([in] int playerid, [out] string version, [in] int len);
 [native] bool BlockIpAddress([in] string ip_address, [in] int timems);
 [native] bool UnBlockIpAddress([in] string ip_address);
+
+[native] bool GetServerVarAsString([in] string varname, [out] string value, [in] int size);
+[native] int GetServerVarAsInt([in] string varname);
+[native] bool GetServerVarAsBool([in] string varname);
+[native] bool GetConsoleVarAsString([in] string varname, [out] string buffer, [in] int len);
+[native] int GetConsoleVarAsInt([in] string varname);
+[native] bool GetConsoleVarAsBool([in] string varname);
 
 [native] int GetServerTickRate();
 [native] int NetStats_GetConnectedTime([in] int playerid);
