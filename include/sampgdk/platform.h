@@ -20,7 +20,7 @@
   #error Unsupported architecture
 #endif
 
-#if (defined __CYGWIN32__ || RC_INVOKED) && !defined WIN32
+#if (defined __CYGWIN32__ || defined RC_INVOKED) && !defined WIN32
   #define WIN32
 #endif
 
