@@ -23,7 +23,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">GDK
-   &#160;<span id="projectnumber">4.3.0</span>
+   &#160;<span id="projectnumber">4.4.0</span>
    </div>
    <div id="projectbrief">Writing SA-MP gamemodes in C/C++</div>
   </td>
@@ -184,6 +184,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga082f4e3cb6000f3d41c83db5977a26b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6015ec4404b8de1fa71633d42f6508d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga6015ec4404b8de1fa71633d42f6508d1">DeletePVar</a> (int playerid, const char *varname)</td></tr>
 <tr class="separator:ga6015ec4404b8de1fa71633d42f6508d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac188c83c1b18ec783ccc28f00f69eea4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gac188c83c1b18ec783ccc28f00f69eea4">DeleteSVar</a> (const char *varname)</td></tr>
+<tr class="separator:gac188c83c1b18ec783ccc28f00f69eea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa0ae8a5fdbf8fae71f0972a1b0f3c3a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gaa0ae8a5fdbf8fae71f0972a1b0f3c3a7">DestroyActor</a> (int actorid)</td></tr>
 <tr class="separator:gaa0ae8a5fdbf8fae71f0972a1b0f3c3a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5180029f37ee99863729e1ebef24b7b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga5180029f37ee99863729e1ebef24b7b0">DestroyMenu</a> (int menuid)</td></tr>
@@ -270,6 +272,12 @@ Functions</h2></td></tr>
 <tr class="separator:ga1007f8fbadab9c5828f1f1284557e23f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga90f23af0dfaab19b57640cee1f9666cd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga90f23af0dfaab19b57640cee1f9666cd">GetAnimationName</a> (int index, char *animlib, int animlib_size, char *animname, int animname_size)</td></tr>
 <tr class="separator:ga90f23af0dfaab19b57640cee1f9666cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac3c8c32be640d143151c80755ce3ca0f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gac3c8c32be640d143151c80755ce3ca0f">GetConsoleVarAsBool</a> (const char *varname)</td></tr>
+<tr class="separator:gac3c8c32be640d143151c80755ce3ca0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga692d52c4147f0c037c8a921ccb227b4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga692d52c4147f0c037c8a921ccb227b4a">GetConsoleVarAsInt</a> (const char *varname)</td></tr>
+<tr class="separator:ga692d52c4147f0c037c8a921ccb227b4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7e2cd3957b1917bfc0254986d6710e16"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga7e2cd3957b1917bfc0254986d6710e16">GetConsoleVarAsString</a> (const char *varname, char *buffer, int len)</td></tr>
+<tr class="separator:ga7e2cd3957b1917bfc0254986d6710e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1733abc4fca06295744337065c86fa33"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga1733abc4fca06295744337065c86fa33">GetGravity</a> ()</td></tr>
 <tr class="separator:ga1733abc4fca06295744337065c86fa33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga966702f81ce4e3b3aaa57d119b2e9758"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga966702f81ce4e3b3aaa57d119b2e9758">GetMaxPlayers</a> ()</td></tr>
@@ -404,6 +412,18 @@ Functions</h2></td></tr>
 <tr class="separator:ga5a904aba322dc2401d1fc638825b5e95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gadadca8bb338fb902ab12810cbc70fc4a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gadadca8bb338fb902ab12810cbc70fc4a">GetServerVarAsString</a> (const char *varname, char *value, int size)</td></tr>
 <tr class="separator:gadadca8bb338fb902ab12810cbc70fc4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa3e7f2dbb63a9012173ebf0999ec1894"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gaa3e7f2dbb63a9012173ebf0999ec1894">GetSVarFloat</a> (const char *varname)</td></tr>
+<tr class="separator:gaa3e7f2dbb63a9012173ebf0999ec1894"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafd51430a9268bee493a5dbbf82e338bf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gafd51430a9268bee493a5dbbf82e338bf">GetSVarInt</a> (const char *varname)</td></tr>
+<tr class="separator:gafd51430a9268bee493a5dbbf82e338bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1817d33e90c275cb67285ea13029eeb7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga1817d33e90c275cb67285ea13029eeb7">GetSVarNameAtIndex</a> (int index, char *ret_varname, int ret_len)</td></tr>
+<tr class="separator:ga1817d33e90c275cb67285ea13029eeb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3f9a4cce44b2e6644c96c4b2079b4638"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga3f9a4cce44b2e6644c96c4b2079b4638">GetSVarString</a> (const char *varname, char *string_return, int len)</td></tr>
+<tr class="separator:ga3f9a4cce44b2e6644c96c4b2079b4638"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2a9a824769c365cb9359078da9f63c57"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga2a9a824769c365cb9359078da9f63c57">GetSVarsUpperIndex</a> ()</td></tr>
+<tr class="separator:ga2a9a824769c365cb9359078da9f63c57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga024b7786f5facccc57682f80ceff63c4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga024b7786f5facccc57682f80ceff63c4">GetSVarType</a> (const char *varname)</td></tr>
+<tr class="separator:ga024b7786f5facccc57682f80ceff63c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga28281b8deffca3f88ca163859e56f708"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga28281b8deffca3f88ca163859e56f708">GetTickCount</a> ()</td></tr>
 <tr class="separator:ga28281b8deffca3f88ca163859e56f708"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga43d7d431ad4ed74cf2a027a6c3c69b63"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga43d7d431ad4ed74cf2a027a6c3c69b63">GetVehicleComponentInSlot</a> (int vehicleid, int slot)</td></tr>
@@ -734,6 +754,12 @@ Functions</h2></td></tr>
 <tr class="separator:gab4b10bd82c75d98f0ce9033793f342b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gadbde8f5354088f2099bdc17d80050cac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gadbde8f5354088f2099bdc17d80050cac">SetSpawnInfo</a> (int playerid, int team, int skin, float x, float y, float z, float rotation, int weapon1, int weapon1_ammo, int weapon2, int weapon2_ammo, int weapon3, int weapon3_ammo)</td></tr>
 <tr class="separator:gadbde8f5354088f2099bdc17d80050cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac48c5c3af10c45562e2cc6caf1908077"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gac48c5c3af10c45562e2cc6caf1908077">SetSVarFloat</a> (const char *varname, float float_value)</td></tr>
+<tr class="separator:gac48c5c3af10c45562e2cc6caf1908077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga20188095534e439bd11dc88cc04d4c56"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga20188095534e439bd11dc88cc04d4c56">SetSVarInt</a> (const char *varname, int int_value)</td></tr>
+<tr class="separator:ga20188095534e439bd11dc88cc04d4c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0898cd5830a5739d4ba4434e9dedae22"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga0898cd5830a5739d4ba4434e9dedae22">SetSVarString</a> (const char *varname, const char *string_value)</td></tr>
+<tr class="separator:ga0898cd5830a5739d4ba4434e9dedae22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaea753c1122f86839ce8b383aa798e1fb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gaea753c1122f86839ce8b383aa798e1fb">SetTeamCount</a> (int count)</td></tr>
 <tr class="separator:gaea753c1122f86839ce8b383aa798e1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaba137859e44dd96af85e072c99dc0d12"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#gaba137859e44dd96af85e072c99dc0d12">SetTimer</a> (int interval, bool repeat, <a class="el" href="group__natives.html#ga6a7d774ae4cb48a90d731f23d7f8e648">TimerCallback</a> callback, void *param)</td></tr>
@@ -744,14 +770,14 @@ Functions</h2></td></tr>
 <tr class="separator:ga3b8f8bd1ac43053d91113246bcb04425"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga80ff17779cdae0b9d6481f30275e2333"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga80ff17779cdae0b9d6481f30275e2333">SetVehicleNumberPlate</a> (int vehicleid, const char *numberplate)</td></tr>
 <tr class="separator:ga80ff17779cdae0b9d6481f30275e2333"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga21260017ea71975677f285f893f7a233"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga21260017ea71975677f285f893f7a233">SetVehicleParamsCarDoors</a> (int vehicleid, bool driver, bool passenger, bool backleft, bool backright)</td></tr>
-<tr class="separator:ga21260017ea71975677f285f893f7a233"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9e85d8836723110b3e0a886e72098ca6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga9e85d8836723110b3e0a886e72098ca6">SetVehicleParamsCarWindows</a> (int vehicleid, bool driver, bool passenger, bool backleft, bool backright)</td></tr>
-<tr class="separator:ga9e85d8836723110b3e0a886e72098ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga09801273f69c49f7f19fe2e8adec39c4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga09801273f69c49f7f19fe2e8adec39c4">SetVehicleParamsEx</a> (int vehicleid, bool engine, bool lights, bool alarm, bool doors, bool bonnet, bool boot, bool objective)</td></tr>
-<tr class="separator:ga09801273f69c49f7f19fe2e8adec39c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga93dd10901d7022cffaf7e3765edb587b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga93dd10901d7022cffaf7e3765edb587b">SetVehicleParamsForPlayer</a> (int vehicleid, int playerid, bool objective, bool doorslocked)</td></tr>
-<tr class="separator:ga93dd10901d7022cffaf7e3765edb587b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4e20afd0981c19557123dd99635e3585"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga4e20afd0981c19557123dd99635e3585">SetVehicleParamsCarDoors</a> (int vehicleid, int driver, int passenger, int backleft, int backright)</td></tr>
+<tr class="separator:ga4e20afd0981c19557123dd99635e3585"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2086e07d69ecc56878b1e9d4656dd7c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga2086e07d69ecc56878b1e9d4656dd7c2">SetVehicleParamsCarWindows</a> (int vehicleid, int driver, int passenger, int backleft, int backright)</td></tr>
+<tr class="separator:ga2086e07d69ecc56878b1e9d4656dd7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga524fe71c29acdbfc7483b040d87ed393"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga524fe71c29acdbfc7483b040d87ed393">SetVehicleParamsEx</a> (int vehicleid, int engine, int lights, int alarm, int doors, int bonnet, int boot, int objective)</td></tr>
+<tr class="separator:ga524fe71c29acdbfc7483b040d87ed393"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1cfe93a98ee4c3d15a5ca0d4c6203036"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga1cfe93a98ee4c3d15a5ca0d4c6203036">SetVehicleParamsForPlayer</a> (int vehicleid, int playerid, int objective, int doorslocked)</td></tr>
+<tr class="separator:ga1cfe93a98ee4c3d15a5ca0d4c6203036"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9ce1a3ada2b1a23cecc98bd4feff6d0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga9ce1a3ada2b1a23cecc98bd4feff6d0a">SetVehiclePos</a> (int vehicleid, float x, float y, float z)</td></tr>
 <tr class="separator:ga9ce1a3ada2b1a23cecc98bd4feff6d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga64e710ecdd84ce67634751dcc427b9e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga64e710ecdd84ce67634751dcc427b9e2">SetVehicleToRespawn</a> (int vehicleid)</td></tr>
@@ -766,6 +792,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga922b247e51dcefe6c8020b64a9babdf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4335f3f8eb7d96c86d2f9cd1edd3ff95"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga4335f3f8eb7d96c86d2f9cd1edd3ff95">SetWorldTime</a> (int hour)</td></tr>
 <tr class="separator:ga4335f3f8eb7d96c86d2f9cd1edd3ff95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga11d2da141e58cbc1eafe69bdb0bb48f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga11d2da141e58cbc1eafe69bdb0bb48f8">SHA256_PassHash</a> (const char *password, const char *salt, char *ret_hash, int ret_hash_len)</td></tr>
+<tr class="separator:ga11d2da141e58cbc1eafe69bdb0bb48f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2bbc820bbc875c453dac44a108b00cf0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga2bbc820bbc875c453dac44a108b00cf0">ShowMenuForPlayer</a> (int menuid, int playerid)</td></tr>
 <tr class="separator:ga2bbc820bbc875c453dac44a108b00cf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1ee315c49d16aaa9648864478b0706d7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__natives.html#ga1ee315c49d16aaa9648864478b0706d7">ShowNameTags</a> (bool show)</td></tr>
@@ -2917,6 +2945,23 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gac188c83c1b18ec783ccc28f00f69eea4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool DeleteSVar </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/DeleteSVar">DeleteSVar on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gaa0ae8a5fdbf8fae71f0972a1b0f3c3a7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -3922,6 +3967,73 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetAnimationName">GetAnimationName on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gac3c8c32be640d143151c80755ce3ca0f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool GetConsoleVarAsBool </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetConsoleVarAsBool">GetConsoleVarAsBool on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga692d52c4147f0c037c8a921ccb227b4a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int GetConsoleVarAsInt </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetConsoleVarAsInt">GetConsoleVarAsInt on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga7e2cd3957b1917bfc0254986d6710e16"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool GetConsoleVarAsString </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetConsoleVarAsString">GetConsoleVarAsString on SA-MP Wiki</a> </dd></dl>
 
 </div>
 </div>
@@ -5571,6 +5683,139 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetServerVarAsString">GetServerVarAsString on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gaa3e7f2dbb63a9012173ebf0999ec1894"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float GetSVarFloat </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetSVarFloat">GetSVarFloat on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="gafd51430a9268bee493a5dbbf82e338bf"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int GetSVarInt </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetSVarInt">GetSVarInt on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga1817d33e90c275cb67285ea13029eeb7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool GetSVarNameAtIndex </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>ret_varname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ret_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetSVarNameAtIndex">GetSVarNameAtIndex on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga3f9a4cce44b2e6644c96c4b2079b4638"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool GetSVarString </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>string_return</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetSVarString">GetSVarString on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga2a9a824769c365cb9359078da9f63c57"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int GetSVarsUpperIndex </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetSVarsUpperIndex">GetSVarsUpperIndex on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga024b7786f5facccc57682f80ceff63c4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int GetSVarType </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/GetSVarType">GetSVarType on SA-MP Wiki</a> </dd></dl>
 
 </div>
 </div>
@@ -10820,6 +11065,87 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gac48c5c3af10c45562e2cc6caf1908077"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool SetSVarFloat </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>float_value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/SetSVarFloat">SetSVarFloat on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga20188095534e439bd11dc88cc04d4c56"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool SetSVarInt </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>int_value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/SetSVarInt">SetSVarInt on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga0898cd5830a5739d4ba4434e9dedae22"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool SetSVarString </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>varname</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>string_value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/SetSVarString">SetSVarString on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gaea753c1122f86839ce8b383aa798e1fb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -10969,7 +11295,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga21260017ea71975677f285f893f7a233"></a>
+<a class="anchor" id="ga4e20afd0981c19557123dd99635e3585"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -10982,25 +11308,25 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>driver</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>passenger</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>backleft</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>backright</em>&#160;</td>
         </tr>
         <tr>
@@ -11014,7 +11340,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga9e85d8836723110b3e0a886e72098ca6"></a>
+<a class="anchor" id="ga2086e07d69ecc56878b1e9d4656dd7c2"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -11027,25 +11353,25 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>driver</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>passenger</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>backleft</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>backright</em>&#160;</td>
         </tr>
         <tr>
@@ -11059,7 +11385,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga09801273f69c49f7f19fe2e8adec39c4"></a>
+<a class="anchor" id="ga524fe71c29acdbfc7483b040d87ed393"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -11072,43 +11398,43 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>engine</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>lights</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>alarm</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>doors</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>bonnet</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>boot</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>objective</em>&#160;</td>
         </tr>
         <tr>
@@ -11122,7 +11448,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga93dd10901d7022cffaf7e3765edb587b"></a>
+<a class="anchor" id="ga1cfe93a98ee4c3d15a5ca0d4c6203036"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -11141,13 +11467,13 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>objective</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
+          <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>doorslocked</em>&#160;</td>
         </tr>
         <tr>
@@ -11341,6 +11667,45 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/SetWorldTime">SetWorldTime on SA-MP Wiki</a> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga11d2da141e58cbc1eafe69bdb0bb48f8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool SHA256_PassHash </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>password</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>salt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>ret_hash</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ret_hash_len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a href="http://wiki.sa-mp.com/wiki/SHA256_PassHash">SHA256_PassHash on SA-MP Wiki</a> </dd></dl>
 
 </div>
 </div>
@@ -12496,7 +12861,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 3 2015 01:38:02 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 21 2015 21:24:13 for GDK by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

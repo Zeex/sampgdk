@@ -3,6 +3,7 @@ var searchData=
   ['delete3dtextlabel',['Delete3DTextLabel',['../group__natives.html#ga7eae5c70950b68705083d652e37515e0',1,'a_samp.h']]],
   ['deleteplayer3dtextlabel',['DeletePlayer3DTextLabel',['../group__natives.html#ga082f4e3cb6000f3d41c83db5977a26b0',1,'a_samp.h']]],
   ['deletepvar',['DeletePVar',['../group__natives.html#ga6015ec4404b8de1fa71633d42f6508d1',1,'a_players.h']]],
+  ['deletesvar',['DeleteSVar',['../group__natives.html#gac188c83c1b18ec783ccc28f00f69eea4',1,'a_samp.h']]],
   ['destroyactor',['DestroyActor',['../group__natives.html#gaa0ae8a5fdbf8fae71f0972a1b0f3c3a7',1,'a_actor.h']]],
   ['destroymenu',['DestroyMenu',['../group__natives.html#ga5180029f37ee99863729e1ebef24b7b0',1,'a_samp.h']]],
   ['destroyobject',['DestroyObject',['../group__natives.html#gab717886abc79ebe30c59b057255374f5',1,'a_objects.h']]],

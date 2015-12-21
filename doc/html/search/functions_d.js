@@ -53,7 +53,7 @@ var searchData=
   ['onvehiclemod',['OnVehicleMod',['../group__callbacks.html#ga3a542f834cdb8611554a63132f836c3c',1,'a_samp.h']]],
   ['onvehiclepaintjob',['OnVehiclePaintjob',['../group__callbacks.html#ga9367bb6bbd09f55de505a16995fc9ed7',1,'a_samp.h']]],
   ['onvehiclerespray',['OnVehicleRespray',['../group__callbacks.html#ga61041509f964fc0479a8c29c3dbea69a',1,'a_samp.h']]],
-  ['onvehiclesirenstatechange',['OnVehicleSirenStateChange',['../group__callbacks.html#gaf60c75ca07c97cccd04908728ada602d',1,'a_samp.h']]],
+  ['onvehiclesirenstatechange',['OnVehicleSirenStateChange',['../group__callbacks.html#ga1c98c7fb3408ddbbc9fd259130c81808',1,'a_samp.h']]],
   ['onvehiclespawn',['OnVehicleSpawn',['../group__callbacks.html#ga441dcfa84a1bae831537766f42f16294',1,'a_samp.h']]],
   ['onvehiclestreamin',['OnVehicleStreamIn',['../group__callbacks.html#ga7e4ccf1ff97ed25f6b1ca7960290893f',1,'a_samp.h']]],
   ['onvehiclestreamout',['OnVehicleStreamOut',['../group__callbacks.html#ga8b5e5a478cfc3f25a587d2d86b27664f',1,'a_samp.h']]]
