@@ -186,7 +186,7 @@ bool sampgdk_callback_invoke(AMX *amx,
     func = sampgdk_plugin_get_symbol(plugins[i], callback_filter->name);
     if (func != NULL
         && !((_sampgdk_callback_filter)func)(amx, name, params, retval)) {
-      continue;
+      return false;
     }
 
     if (callback == NULL || callback->handler == NULL) {
