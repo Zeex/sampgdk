@@ -132,9 +132,8 @@ def previous_and_next(iterable):
       return zip(prevs, items, nexts)
 
 def generate_api_file(module_name, idl, file):
-  for func in filter(lambda x: x.has_attr('native'), idl.functions):
-    file.write('%s sampgdk_%s(%s)\n' %
-               (func.type, func.name, ParameterList(func.params)))
+  for f in filter(lambda x: x.has_attr('native'), idl.functions):
+    file.write('sampgdk_%s\n' % f.name)
 
 def generate_header_file(module_name, idl, file):
   header_symbol = 'SAMPGDK_%s_H' % module_name.upper()

@@ -2,7 +2,6 @@ add_subdirectory(internal)
 
 set(SAMPGDK_DEF_FILE ${CMAKE_CURRENT_BINARY_DIR}/sampgdk.def)
 set(SAMPGDK_SYM_FILE ${CMAKE_CURRENT_BINARY_DIR}/sampgdk.sym)
-set(SAMPGDK_API_HEADER_FILE ${CMAKE_CURRENT_BINARY_DIR}/api.h)
 
 sampgdk_add_sources(
   a_actor.idl
@@ -20,9 +19,6 @@ sampgdk_add_sources(
   version.api
   version.c
 )
-
-sampgdk_add_sources(${SAMPGDK_API_HEADER_FILE})
-sampgdk_set_property(SAMPGDK_API_HEADER_FILE ${SAMPGDK_API_HEADER_FILE})
 
 if(WIN32)
   sampgdk_add_sources(${SAMPGDK_DEF_FILE})

@@ -15,43 +15,32 @@
 # limitations under the License.
 
 import argparse
-import re
+import fnmatch
+import os
+import os.path
 import sys
 
 def parse_args(argv):
   parser = argparse.ArgumentParser()
-  parser.add_argument('-o', '--output', metavar='filename',
-                      required=True, help='output file name')
-  parser.add_argument('-f', '--format', choices=['list', 'def', 'header'],
-                      required=True, help='output format')
+  parser.add_argument('-o', '--output', metavar='filename', required=True,
+                      help='output file name')
+  parser.add_argument('-f', '--format', choices=['list', 'def'], required=True,
+                      help='output format')
   parser.add_argument('api_files', nargs='+')
   return parser.parse_args(argv)
 
 def main(argv):
   args = parse_args(argv[1:])
-
   with open(args.output, 'w') as outfile:
     if args.format == 'def':
       outfile.write('EXPORTS\n')
-    elif args.format == 'header':
-      outfile.write('struct sampgdk_api {\n')
-
-    api_regex = re.compile(r'^(.+?)(\w+)(\(.*\))$')
     for file in args.api_files:
       for line in open(file, 'r').readlines():
-        match = re.match(api_regex, line)
-        if match is None:
-          raise Exception('Invalid string "%s"' % line)
-        (type, name, params) = match.group(1, 2, 3)
+        symbol = line.strip()
         if args.format == 'list':
-          outfile.write('%s\n' % name)
+          outfile.write('%s\n' % symbol)
         elif args.format == 'def':
-          outfile.write('\t%s\n' % name)
-        elif args.format == 'header':
-          outfile.write('  %s(SAMPGDK_CALL *%s)%s;\n' % (type, name, params))
-
-    if args.format == 'header':
-      outfile.write('};\n');
+          outfile.write('\t%s\n' % symbol)
 
 if __name__ == '__main__':
   sys.exit(main(sys.argv))
