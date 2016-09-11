@@ -51,7 +51,7 @@ struct _sampgdk_callback_info {
 static struct sampgdk_array _sampgdk_callbacks;
 
 static int _sampgdk_callback_num_callbacks() {
-	return _sampgdk_callbacks.count >= _SAMPGDK_CALLBACK_MAX_RESERVED_INDEXES ? _sampgdk_callbacks.count - _SAMPGDK_CALLBACK_MAX_RESERVED_INDEXES : _sampgdk_callbacks.count - 1;
+  return _sampgdk_callbacks.count - _SAMPGDK_CALLBACK_MAX_RESERVED_INDEXES;
 }
 
 static int _sampgdk_callback_compare_name(const void *key,
@@ -66,7 +66,7 @@ static struct _sampgdk_callback_info *_sampgdk_callback_find(
                                                             const char *name) {
   assert(name != NULL);
 
-  if (_sampgdk_callbacks.count == 0) {
+  if (_sampgdk_callbacks.count < _SAMPGDK_CALLBACK_MAX_RESERVED_INDEXES) {
     return NULL;
   }
 
