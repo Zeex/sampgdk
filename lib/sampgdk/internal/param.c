@@ -47,7 +47,7 @@ void sampgdk_param_get_string(AMX *amx, int index, char **param) {
   }
 
   amx_StrLen(phys_addr, &length);
-  string = malloc((length + 1) * sizeof(char));
+  string = (char *)malloc((length + 1) * sizeof(char));
 
   if (amx_GetString(string, phys_addr, 0, length + 1) != AMX_ERR_NONE) {
     free(string);

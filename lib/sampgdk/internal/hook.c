@@ -211,7 +211,7 @@ sampgdk_hook_t sampgdk_hook_new(void *src, void *dst) {
   size_t orig_size = 0;
   size_t insn_len;
 
-  if ((hook = malloc(sizeof(*hook))) == NULL) {
+  if ((hook = (sampgdk_hook_t)malloc(sizeof(*hook))) == NULL) {
     return NULL;
   }
 

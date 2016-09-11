@@ -358,12 +358,17 @@ def generate_callback_impl(file, func):
     file.write('  %s %s;\n' % (p.c_type, p.name))
 
   for index, p in enumerate(func.params):
-    file.write('  sampgdk_param_get_%s(amx, %d, (void *)&%s);\n' % ({
+    file.write('  sampgdk_param_get_%s(amx, %d, (%s *)&%s);\n' % ({
         'int'    : 'cell',
         'bool'   : 'bool',
         'float'  : 'float',
         'string' : 'string',
-      }[p.type], index, p.name)
+      }[p.type], index, {
+        'int'    : 'cell',
+        'bool'   : 'bool',
+        'float'  : 'float',
+        'string' : 'char *',
+      }[p.type], p.name)
     )
 
   if func.params:

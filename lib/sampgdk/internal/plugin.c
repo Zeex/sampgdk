@@ -73,7 +73,7 @@ int sampgdk_plugin_unregister(void *plugin) {
 void **sampgdk_plugin_get_plugins(int *number) {
   assert(number != NULL);
   *number = _sampgdk_plugins.count;
-  return _sampgdk_plugins.data;
+  return (void **)_sampgdk_plugins.data;
 }
 
 #if SAMPGDK_WINDOWS

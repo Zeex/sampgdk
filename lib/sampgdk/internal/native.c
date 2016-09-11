@@ -62,7 +62,7 @@ int sampgdk_native_register(const char *name, AMX_NATIVE func) {
    * This allows us to use binary search in sampgdk_native_find().
    */
   for (i = 0; i < _sampgdk_natives.count - 1; i++) {
-    ptr = sampgdk_array_get(&_sampgdk_natives, i);
+    ptr = (AMX_NATIVE_INFO *)sampgdk_array_get(&_sampgdk_natives, i);
     if (strcmp(name, ptr->name) <= 0) {
       break;
     }
@@ -88,7 +88,7 @@ AMX_NATIVE sampgdk_native_find(const char *name) {
     return NULL;
   }
 
-  info = bsearch(name, _sampgdk_natives.data,
+  info = (AMX_NATIVE_INFO *)bsearch(name, _sampgdk_natives.data,
                        _sampgdk_natives.count - 1,
                        _sampgdk_natives.elem_size,
                        _sampgdk_native_compare_bsearch);
@@ -168,7 +168,7 @@ const AMX_NATIVE_INFO *sampgdk_native_get_natives(int *number) {
   if (number != NULL) {
     *number = _sampgdk_natives.count - 1;
   }
-  return _sampgdk_natives.data;
+  return (AMX_NATIVE_INFO *)_sampgdk_natives.data;
 }
 
 cell sampgdk_native_call(AMX_NATIVE native, cell *params) {
@@ -261,13 +261,13 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
           }
           case 'r': /* const reference */
           case 'R': /* non-const reference */ {
-            cell *ptr = args[i];
+            cell *ptr = (cell *)args[i];
             sampgdk_fakeamx_push_cell(*ptr, &params[i + 1]);
             size[i] = sizeof(cell);
             break;
           }
           case 's': /* const string */ {
-            char *str = args[i];
+            char *str = (char *)args[i];
             int str_size;
             sampgdk_fakeamx_push_string(str, &str_size, &params[i + 1]);
             size[i] = str_size;
@@ -315,7 +315,7 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
             case 'A':
             case 'S':
               if (size[needs_size] > 0) {
-                sampgdk_fakeamx_push_array(args[needs_size], size[needs_size],
+                sampgdk_fakeamx_push_array((const cell *)args[needs_size], size[needs_size],
                                            &params[needs_size + 1]);
               } else {
                 sampgdk_log_warning("Invalid buffer size");
@@ -350,13 +350,13 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
        */
       switch (type[i]) {
         case 'R':
-          sampgdk_fakeamx_get_cell(params[i + 1], args[i]);
+          sampgdk_fakeamx_get_cell(params[i + 1], (cell *)args[i]);
           break;
         case 'S':
-          sampgdk_fakeamx_get_string(params[i + 1], args[i], size[i]);
+          sampgdk_fakeamx_get_string(params[i + 1], (char *)args[i], size[i]);
           break;
         case 'A':
-          sampgdk_fakeamx_get_array(params[i + 1], args[i], size[i]);
+          sampgdk_fakeamx_get_array(params[i + 1], (cell *)args[i], size[i]);
           break;
       }
       sampgdk_fakeamx_pop(params[i + 1]);

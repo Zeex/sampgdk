@@ -95,7 +95,7 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
   sampgdk_log_info("Registered %d natives", i);
 
   return SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Register_hook, int, AMXAPI,
-                              (amx, nativelist, number));
+                              (AMX *, const AMX_NATIVE_INFO *, int), (amx, nativelist, number));
 }
 
 static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
@@ -108,7 +108,7 @@ static int AMXAPI _sampgdk_amxhooks_FindPublic(AMX *amx,
   sampgdk_log_debug("amx_FindPublic(%p, \"%s\", %p)", amx, name, index);
 
   error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_FindPublic_hook, int, AMXAPI,
-                               (amx, name, index));
+                               (AMX *, const char *, int *), (amx, name, index));
   sampgdk_log_debug("amx_FindPublic returned %d", error);
 
   /* We are interested in intercepting public calls against the following
@@ -213,7 +213,7 @@ static int AMXAPI _sampgdk_amxhooks_Exec(AMX *amx, cell *retval, int index) {
   if (do_exec) {
     amx->paramcount = paramcount;
     error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Exec_hook, int, AMXAPI,
-                                 (amx, retval, index));
+                                 (AMX *, cell *, int), (amx, retval, index));
     sampgdk_log_debug("amx_Exec returned %d", error);
   }
 
@@ -261,7 +261,7 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
     error =  AMX_ERR_MEMORY;
   } else {
     error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Allot_hook, int, AMXAPI,
-                                 (amx, cells, amx_addr, phys_addr));
+                                 (AMX *, int, cell *, cell **), (amx, cells, amx_addr, phys_addr));
     sampgdk_log_debug("amx_Allot returned %d", error);
   }
 
@@ -277,7 +277,7 @@ static int AMXAPI _sampgdk_amxhooks_Allot(AMX *amx,
 
     if (resize >= 0) {
       error = SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Allot_hook, int, AMXAPI,
-                                   (amx, cells, amx_addr, phys_addr));
+                                   (AMX *, int, cell *, cell **), (amx, cells, amx_addr, phys_addr));
     }
   }
 
