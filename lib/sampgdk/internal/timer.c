@@ -157,10 +157,10 @@ int sampgdk_timer_set(int interval,
   timer.is_set   = true;
   timer.interval = interval;
   timer.repeat   = repeat;
-  timer.callback = callback;
+  timer.callback = (void *)callback;
   timer.param    = param;
   timer.started  = _sampgdk_timer_now();
-  timer.plugin   = sampgdk_plugin_get_handle(callback);
+  timer.plugin   = sampgdk_plugin_get_handle((void *)callback);
 
   if (timer.started == 0) {
     return 0; /* error already logged */

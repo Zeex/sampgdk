@@ -162,7 +162,7 @@ int sampgdk_callback_register(const char *name,
     return -ENOMEM;
   }
 
-  callback.handler = handler;
+  callback.handler = (void *)handler;
   strcpy(callback.name, name);
 
   /* Keep callbacks ordered by name.
