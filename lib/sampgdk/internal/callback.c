@@ -224,14 +224,13 @@ bool sampgdk_callback_invoke(AMX *amx,
     func = sampgdk_plugin_get_symbol(plugin, callback_filter->func_name);
     if (func != NULL) {
       do_call = ((_sampgdk_callback_filter)func)(amx, name, params, retval);
-      if (!do_call) {
-        continue;
-      }
     }
 
     /* callback_filter2 is similar to callback_filter except it can stop
      * propagation of public call to other plugins. It was added for backwards
      * compatibility.
+     *
+     * callback_filter2's return value overrides that of callback_filter.
      */
     func = sampgdk_plugin_get_symbol(plugin, callback_filter2->func_name);
     if (func != NULL) {
@@ -240,15 +239,12 @@ bool sampgdk_callback_invoke(AMX *amx,
                                                    params,
                                                    retval,
                                                    &stop);
-      if (stop) {
-        return false;
-      }
-      if (!do_call) {
-        continue;
-      }
     }
 
-    if (callback == NULL || callback->handler == NULL) {
+    if (stop) {
+      return false;
+    }
+    if (!do_call || callback == NULL || callback->handler == NULL) {
       continue;
     }
 
