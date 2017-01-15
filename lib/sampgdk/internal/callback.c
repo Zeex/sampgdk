@@ -27,10 +27,6 @@
 
 #define _SAMPGDK_CALLBACK_MAX_ARGS 32
 
-#define _SAMPGDK_CALLBACK_INDEX_OPC -1
-#define _SAMPGDK_CALLBACK_INDEX_OPC2 -2
-#define _SAMPGDK_CALLBACK_MAX_RESERVED_INDEXES 2
-
 typedef bool (PLUGIN_CALL *_sampgdk_callback_filter)(
     AMX *amx,
     const char *name,
@@ -45,14 +41,11 @@ typedef bool (PLUGIN_CALL *_sampgdk_callback_filter2)(
 
 struct _sampgdk_callback_info {
   char *name;
+  char *func_name;
   void *handler;
 };
 
 static struct sampgdk_array _sampgdk_callbacks;
-
-static int _sampgdk_callback_num_callbacks() {
-  return _sampgdk_callbacks.count - _SAMPGDK_CALLBACK_MAX_RESERVED_INDEXES;
-}
 
 static int _sampgdk_callback_compare_name(const void *key,
                                           const void *elem) {
@@ -62,53 +55,22 @@ static int _sampgdk_callback_compare_name(const void *key,
                 ((const struct _sampgdk_callback_info *)elem)->name);
 }
 
-static struct _sampgdk_callback_info *_sampgdk_callback_find(
-                                                            const char *name) {
+static struct _sampgdk_callback_info *_sampgdk_callback_find(const char *name) {
   assert(name != NULL);
 
-  if (_sampgdk_callbacks.count < _SAMPGDK_CALLBACK_MAX_RESERVED_INDEXES) {
+  if (_sampgdk_callbacks.count <= 0) {
     return NULL;
   }
 
   return (struct _sampgdk_callback_info *)bsearch(name,
                  _sampgdk_callbacks.data,
-                 _sampgdk_callback_num_callbacks(),
+                 _sampgdk_callbacks.count,
                  _sampgdk_callbacks.elem_size,
                  _sampgdk_callback_compare_name);
 }
 
-static int _sampgdk_callback_register_special(const char *name) {
-  int error;
-  struct _sampgdk_callback_info callback;
-  struct _sampgdk_callback_info *ptr;
-
-  assert(name != NULL);
-
-  ptr = _sampgdk_callback_find(name);
-  if (ptr != NULL) {
-    return sampgdk_array_get_index(&_sampgdk_callbacks, ptr);
-  }
-
-  callback.name = (char *)malloc(strlen(name) + 1);
-  if (callback.name == NULL) {
-    return -ENOMEM;
-  }
-
-  callback.handler = NULL;
-  strcpy(callback.name, name);
-
-  error = sampgdk_array_insert(&_sampgdk_callbacks, 0, 1, &callback);
-  if (error < 0) {
-    free(callback.name);
-    return error;
-  }
-
-  return error; /* index */
-}
-
 SAMPGDK_MODULE_INIT(callback) {
   int error;
-  int num_reserved_indexes = 0;
 
   error = sampgdk_array_new(&_sampgdk_callbacks,
                             1,
@@ -117,12 +79,12 @@ SAMPGDK_MODULE_INIT(callback) {
     return error;
   }
 
-  error = _sampgdk_callback_register_special("OnPublicCall");
+  error = sampgdk_callback_register(":OnPublicCall", NULL);
   if (error < 0) {
     return error;
   }
 
-  error = _sampgdk_callback_register_special("OnPublicCall2");
+  error = sampgdk_callback_register(":OnPublicCall2", NULL);
   if (error < 0) {
     return error;
   }
@@ -157,20 +119,31 @@ int sampgdk_callback_register(const char *name,
     return sampgdk_array_get_index(&_sampgdk_callbacks, ptr);
   }
 
+  callback.handler = (void *)handler;
+
   callback.name = (char *)malloc(strlen(name) + 1);
   if (callback.name == NULL) {
     return -ENOMEM;
   }
 
-  callback.handler = (void *)handler;
   strcpy(callback.name, name);
 
+  if (callback.name[0] == ':') {
+    /* Special callbacks have a name that begins with ':'. This is to ensure
+     * that their name is not used by SA-MP or user scripts.
+     */
+    callback.func_name = callback.name + 1;
+  } else {
+    callback.func_name = callback.name;
+  }
+
   /* Keep callbacks ordered by name.
-   * This allows us to use binary search in sampgdk_callback_find().
+   * This allows us to use binary search when searching through callbacks.
    */
-  count = _sampgdk_callback_num_callbacks();
+  count = _sampgdk_callbacks.count;
   for (i = 0; i < count; i++) {
-    ptr = (struct _sampgdk_callback_info *)sampgdk_array_get(&_sampgdk_callbacks, i);
+    ptr = (struct _sampgdk_callback_info *)sampgdk_array_get(
+        &_sampgdk_callbacks, i);
     if (strcmp(name, ptr->name) <= 0) {
       break;
     }
@@ -202,7 +175,8 @@ bool sampgdk_callback_get(int index, char **name) {
     return false;
   }
 
-  callback = (struct _sampgdk_callback_info *)sampgdk_array_get(&_sampgdk_callbacks, index);
+  callback = (struct _sampgdk_callback_info *)sampgdk_array_get(
+      &_sampgdk_callbacks, index);
   *name = callback->name;
 
   return true;
@@ -224,10 +198,8 @@ bool sampgdk_callback_invoke(AMX *amx,
   assert(amx != NULL);
 
   callback = _sampgdk_callback_find(name);
-  callback_filter = (struct _sampgdk_callback_info *)sampgdk_array_get(&_sampgdk_callbacks,
-                                      _SAMPGDK_CALLBACK_INDEX_OPC);
-  callback_filter2 = (struct _sampgdk_callback_info *)sampgdk_array_get(&_sampgdk_callbacks,
-                                       _SAMPGDK_CALLBACK_INDEX_OPC2);
+  callback_filter = _sampgdk_callback_find(":OnPublicCall");
+  callback_filter2 = _sampgdk_callback_find(":OnPublicCall2");
 
   assert(callback_filter != NULL);
   assert(callback_filter2 != NULL);
@@ -249,7 +221,7 @@ bool sampgdk_callback_invoke(AMX *amx,
     bool do_call;
     bool stop = false;
 
-    func = sampgdk_plugin_get_symbol(plugin, callback_filter->name);
+    func = sampgdk_plugin_get_symbol(plugin, callback_filter->func_name);
     if (func != NULL) {
       do_call = ((_sampgdk_callback_filter)func)(amx, name, params, retval);
       if (!do_call) {
@@ -261,7 +233,7 @@ bool sampgdk_callback_invoke(AMX *amx,
      * propagation of public call to other plugins. It was added for backwards
      * compatibility.
      */
-    func = sampgdk_plugin_get_symbol(plugin, callback_filter2->name);
+    func = sampgdk_plugin_get_symbol(plugin, callback_filter2->func_name);
     if (func != NULL) {
       do_call = !((_sampgdk_callback_filter2)func)(amx,
                                                    name,
@@ -280,7 +252,7 @@ bool sampgdk_callback_invoke(AMX *amx,
       continue;
     }
 
-    func = sampgdk_plugin_get_symbol(plugin, callback->name);
+    func = sampgdk_plugin_get_symbol(plugin, callback->func_name);
     if (func != NULL
         && !((sampgdk_callback)callback->handler)(amx, func, retval)) {
       return false;
