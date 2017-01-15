@@ -88,7 +88,7 @@ static int _sampgdk_timer_find_slot(void) {
   for (i = 0; i < _sampgdk_timers.count; i++) {
     struct _sampgdk_timer_info *timer;
 
-    timer = sampgdk_array_get(&_sampgdk_timers, i);
+    timer = (struct _sampgdk_timer_info *)sampgdk_array_get(&_sampgdk_timers, i);
     if (!timer->is_set) {
       return i;
     }
@@ -103,12 +103,12 @@ static void _sampgdk_timer_fire(int timerid, int64_t elapsed) {
   int64_t started;
 
   assert(timerid > 0 && timerid <= _sampgdk_timers.count);
-  timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
+  timer = (struct _sampgdk_timer_info *)sampgdk_array_get(&_sampgdk_timers, timerid - 1);
 
   assert(timer->is_set);
   started = timer->started;
 
-  sampgdk_log_debug("Firing timer %d, now = %"PRId64", elapsed = %"PRId64,
+  sampgdk_log_debug("Firing timer %d, now = %" PRId64 ", elapsed = %" PRId64,
       timerid, now, elapsed);
   ((sampgdk_timer_callback)timer->callback)(timerid, timer->param);
 
@@ -157,10 +157,10 @@ int sampgdk_timer_set(int interval,
   timer.is_set   = true;
   timer.interval = interval;
   timer.repeat   = repeat;
-  timer.callback = callback;
+  timer.callback = (void *)callback;
   timer.param    = param;
   timer.started  = _sampgdk_timer_now();
-  timer.plugin   = sampgdk_plugin_get_handle(callback);
+  timer.plugin   = sampgdk_plugin_get_handle((void *)callback);
 
   if (timer.started == 0) {
     return 0; /* error already logged */
@@ -196,7 +196,7 @@ int sampgdk_timer_kill(int timerid) {
     return -EINVAL;
   }
 
-  timer = sampgdk_array_get(&_sampgdk_timers, timerid - 1);
+  timer = (struct _sampgdk_timer_info *)sampgdk_array_get(&_sampgdk_timers, timerid - 1);
   if (!timer->is_set) {
     return -EINVAL;
   }
@@ -219,7 +219,7 @@ void sampgdk_timer_process_timers(void *plugin) {
   now = _sampgdk_timer_now();
 
   for (i = 0; i < _sampgdk_timers.count; i++) {
-    timer = sampgdk_array_get(&_sampgdk_timers, i);
+    timer = (struct _sampgdk_timer_info *)sampgdk_array_get(&_sampgdk_timers, i);
 
     if (!timer->is_set
         || (plugin != NULL && timer->plugin != plugin)) {

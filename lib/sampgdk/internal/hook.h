@@ -26,7 +26,7 @@ void *sampgdk_hook_trampoline(sampgdk_hook_t hook);
 #define SAMPGDK_HOOK_CALL(hook, return_type, args) \
   ((return_type (*)())sampgdk_hook_code(hook))args
 
-#define SAMPGDK_HOOK_CALL_CC(hook, return_type, callconv, args) \
-  ((return_type (callconv *)())sampgdk_hook_trampoline(hook))args
+#define SAMPGDK_HOOK_CALL_CC(hook, return_type, callconv, types, args) \
+  ((return_type (callconv *)types)sampgdk_hook_trampoline(hook))args
 
 #endif /* !SAMPGDK_INTERNAL_HOOK_H */

@@ -115,7 +115,7 @@ static void _sampgdk_log_message(int level, const char *format, va_list args) {
       level_string = "";
   }
 
-  real_format = malloc(
+  real_format = (char *)malloc(
     sizeof("[sampgdk:] ") - 1
     + strlen(level_string)
     + strlen(format)
