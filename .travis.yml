@@ -28,3 +28,18 @@ before_script:
 script:
   - make
   - make package
+
+deploy:
+  provider: releases
+  api_key:
+    secure: bATIOw3nSE2xY8PTnqAJT8lcR49myT0jTTrBco/Znb9GnWhUGjf7LAOV4DqC9sAdONNgVpzwx1qu0diaTaxpXV3VgByVQ64qJTSNYF2oQZgjO93nd1tkZ5rh+twVZNZtlScFnoN46bt1gf2aF/9oLq47adDXoUb+2HNMz3F/wIY=
+  file_glob: true
+  file:
+    - 'sampgdk-*-linux.tar.gz'
+    - 'sampgdk-*-amalgamation.zip'
+  draft: true
+  skip_cleanup: true
+  on:
+    repo: Zeex/sampgdk
+    tags: true
+    condition: "$CC = gcc"

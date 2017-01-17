@@ -38,3 +38,13 @@ artifacts:
 
   - path: sampgdk-*-amalgamation.zip
     name: Amalgamation
+
+deploy:
+  description: '<Put release description here>'
+  provider: GitHub
+  auth_token:
+    secure: e/ioKjYDTcXN2WEgW/U08sx0YHFg/YLu9+n7SdkXqv1O8c9HC8nqEJHMegGPuGKt
+  artifact: /sampgdk-.*-win32\.zip/
+  draft: true
+  on:
+    appveyor_repo_tag: true
