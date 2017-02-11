@@ -218,7 +218,7 @@ bool sampgdk_callback_invoke(AMX *amx,
   for (i = 0; i < num_plugins; i++) {
     void *plugin = plugins[i];
     void *func;
-    bool do_call;
+    bool do_call = true;
     bool stop = false;
 
     func = sampgdk_plugin_get_symbol(plugin, callback_filter->func_name);
