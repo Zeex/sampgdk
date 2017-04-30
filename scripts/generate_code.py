@@ -41,6 +41,13 @@ C_FORMAT_STRINGS = {
   'string' : '\\"%s\\"',
 }
 
+C_FORMAT_STRINGS_OUT = {
+  'int'    : '@%p',
+  'bool'   : '@%p',
+  'float'  : '@%p',
+  'string' : '\\"%s\\"',
+}
+
 class Parameter(cidl.Parameter):
   def __init__(self, type, name, default=None, attrlist=None):
     cidl.Parameter.__init__(self, type, name, default, attrlist)
@@ -77,7 +84,10 @@ class Parameter(cidl.Parameter):
 
   @property
   def format_string(self):
-    return C_FORMAT_STRINGS[self.type]
+    if self.is_out:
+      return C_FORMAT_STRINGS_OUT[self.type]
+    else:
+      return C_FORMAT_STRINGS[self.type]
 
 class Value(cidl.Value):
   def __init__(self, type, data):
@@ -105,17 +115,17 @@ class Value(cidl.Value):
     return string
 
 class ParameterList:
-  def __init__(self, params, types=True, defaults=False):
+  def __init__(self, params, includes_types=True, includes_defaults=False):
     self._params = params
-    self._types = types
-    self._defaults = defaults
+    self._includes_types = includes_types
+    self._includes_defaults = includes_defaults
 
   def as_list(self):
     for p in filter(lambda p: not p.is_bound, self._params):
       s = p.name
-      if self._types:
+      if self._includes_types:
         s = '%s %s' % (p.c_type, s)
-      if self._defaults and p.default is not None:
+      if self._includes_defaults and p.default is not None:
         s = '%s = %s' % (s, p.default)
       yield s
 
@@ -237,9 +247,9 @@ def generate_native_alias(file, func):
 
 def generate_native_wrapper(file, func):
   file.write('inline %s %s(%s) {\n' %
-             (func.type, func.name, ParameterList(func.params, defaults=True)))
+             (func.type, func.name, ParameterList(func.params, includes_defaults=True)))
   file.write('  return sampgdk_%s(%s);\n}\n' %
-             (func.name, ParameterList(func.params, types=False)))
+             (func.name, ParameterList(func.params, includes_types=False)))
 
 def generate_native_impl(file, func):
   file.write('SAMPGDK_NATIVE(%s, %s(%s)) {\n' %
@@ -255,7 +265,7 @@ def generate_native_impl(file, func):
   if func.params:
     format = ', '.join([p.format_string for p in func.params])
     file.write('  sampgdk_log_debug("%s(%s)", %s);\n' %
-               (func.name, format, ParameterList(func.params, types=False)))
+               (func.name, format, ParameterList(func.params, includes_types=False)))
   else:
     file.write('  sampgdk_log_debug("%s()");\n' % func.name)
 
@@ -374,19 +384,19 @@ def generate_callback_impl(file, func):
   if func.params:
     format = ', '.join([p.format_string for p in func.params])
     file.write('  sampgdk_log_debug("%s(%s)", %s);\n' %
-               (func.name, format, ParameterList(func.params, types=False)))
+               (func.name, format, ParameterList(func.params, includes_types=False)))
   else:
     file.write('  sampgdk_log_debug("%s()");\n' % func.name)
 
   if badret is not None:
     file.write('  retval_ = ((%s_callback)callback)(%s);\n' %
-               (func.name, ParameterList(func.params, types=False)))
+               (func.name, ParameterList(func.params, includes_types=False)))
     file.write('  if (retval != NULL) {\n')
     file.write('    *retval = (cell)retval_;\n')
     file.write('  }\n')
   else:
     file.write('  ((%s_callback)callback)(%s);\n' %
-               (func.name, ParameterList(func.params, types=False)))
+               (func.name, ParameterList(func.params, includes_types=False)))
 
   for p in filter(lambda p: p.type == 'string', func.params):
     file.write('  free((void *)%s);\n' % p.name)
