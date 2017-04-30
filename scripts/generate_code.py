@@ -45,7 +45,7 @@ C_FORMAT_STRINGS_OUT = {
   'int'    : '@%p',
   'bool'   : '@%p',
   'float'  : '@%p',
-  'string' : '\\"%s\\"',
+  'string' : '@%p',
 }
 
 class Parameter(cidl.Parameter):
