@@ -84,14 +84,14 @@ SAMPGDK_API(AMX_NATIVE, sampgdk_FindNative(const char *name));
 SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
 
 /**
- * \brief Invokes a native function with the specified argument
+ * \brief Calls a native function with arguments
  *
  * Argument types are specified via \p format where each character, or
  * *specifier*, corresponds to a single argument. The following format
  * specifiers are supported:
  *
  * Specifier | C/C++ type    | Description
- * :-------- | :------------ | :-------------------------------------
+ * :-------- | :------------ | :------------------------------------------
  * i         | int           | integer value
  * d         | int           | integer value (same as 'i')
  * b         | bool          | boolean value
@@ -107,7 +107,7 @@ SAMPGDK_API(cell, sampgdk_CallNative(AMX_NATIVE native, cell *params));
  * of the string/array in square brackets, e.g. "a[100]" (fixed size)
  * or s[*2] (size passed via 2nd argument).
  *
- * \note In Pawn, variadic functions always take their variable arguments
+ * \note In Pawn variadic functions always take their variable arguments
  * (those represented by "...") by reference. This means that for such
  * functions you have to use the 'r' specifier where you would normally
  * use 'b', 'i' 'd' or 'f'.
@@ -127,7 +127,7 @@ SAMPGDK_API(cell, sampgdk_InvokeNative(AMX_NATIVE native,
     const char *format, ...));
 
 /**
-* \brief Invokes a native function with the specified arguments
+* \brief Calls a native function with arguments
 *
 * This function is identical to sampgdk_InvokeNative() except it takes
 * \c va_list instead of variable arguments.
@@ -141,7 +141,7 @@ SAMPGDK_API(cell, sampgdk_InvokeNativeV(AMX_NATIVE native,
     const char *format, va_list args));
 
 /**
-* \brief Invokes a native function with the specified arguments
+* \brief Calls a native function with an array of arguments
 *
 * This function is similar to sampgdk_InvokeNative() but the arguments
 * are passed as an array where each element is a pointer pointing to
