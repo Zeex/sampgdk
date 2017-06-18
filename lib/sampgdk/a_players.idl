@@ -32,6 +32,7 @@ const int SPECIAL_ACTION_DRINK_WINE       = 22;
 const int SPECIAL_ACTION_DRINK_SPRUNK     = 23;
 const int SPECIAL_ACTION_CUFFED           = 24;
 const int SPECIAL_ACTION_CARRY            = 25;
+const int SPECIAL_ACTION_PISSING          = 68;
 
 const int FIGHT_STYLE_NORMAL   = 4;
 const int FIGHT_STYLE_BOXING   = 5;
