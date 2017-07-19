@@ -221,6 +221,7 @@ const int PLAYER_MARKERS_MODE_OFF              = 0;
 const int PLAYER_MARKERS_MODE_GLOBAL           = 1;
 const int PLAYER_MARKERS_MODE_STREAMED         = 2;
 
+const int WEAPON_FIST             = 0;
 const int WEAPON_BRASSKNUCKLE     = 1;
 const int WEAPON_GOLFCLUB         = 2;
 const int WEAPON_NITESTICK        = 3;
