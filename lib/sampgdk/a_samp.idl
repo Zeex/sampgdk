@@ -327,7 +327,7 @@ const int BODY_PART_HEAD = 9;
 [callback] bool OnPlayerObjectMoved(int playerid, int objectid);
 [callback] bool OnPlayerPickUpPickup(int playerid, int pickupid);
 [callback, badret(false)] bool OnVehicleMod(int playerid, int vehicleid, int componentid);
-[callback] bool OnEnterExitModShop(int playerid, int enterexit, int interiorid);
+[callback] bool OnEnterExitModShop(int playerid, bool enterexit, int interiorid);
 [callback, badret(false)] bool OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid);
 [callback, badref(false)] bool OnVehicleRespray(int playerid, int vehicleid, int color1, int color2);
 [callback, badret(true)] bool OnVehicleDamageStatusUpdate(int vehicleid, int playerid);
