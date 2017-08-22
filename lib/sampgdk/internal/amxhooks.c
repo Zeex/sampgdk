@@ -86,7 +86,7 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
     natives[i].address = (ucell)_sampgdk_amxhooks_funcidx;
   }
 
-  for (i = 0; nativelist[i].name != 0 && (i < number || number == -1); i++) {
+  for (i = 0; (i < number || number == -1) && nativelist[i].name != NULL; i++) {
     sampgdk_log_debug("Registering native: %s @ %p", nativelist[i].name,
                                                      nativelist[i].func);
     sampgdk_native_register(nativelist[i].name, nativelist[i].func);
