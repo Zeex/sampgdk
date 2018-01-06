@@ -7,7 +7,7 @@ endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_samp_plugin(ufs
+set(UFS_SOURCES
   plugin.cpp
   plugin.h
   script.cpp
@@ -15,11 +15,18 @@ add_samp_plugin(ufs
   ufs.cpp
   ufs.h
   ufs-plugin.cpp
-  ufs-plugin.def
   ${SAMPSDK_DIR}/amxplugin.cpp
   ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
-  ${CMAKE_CURRENT_BINARY_DIR}/ufs.def
 )
+
+if(WIN32)
+  list(APPEND UFS_SOURCES
+    ufs-plugin.def
+    ${CMAKE_CURRENT_BINARY_DIR}/ufs.def
+  )
+endif()
+
+add_samp_plugin(ufs ${UFS_SOURCES})
 
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
