@@ -12,11 +12,8 @@ environment:
 
 install:
   - choco install -y doxygen.install
-
   - set PATH=%PATH%;C:\Python27\Scripts
   - pip install ply
-  - pip install cidl
-
   - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
 
 before_build:

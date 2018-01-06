@@ -15,7 +15,7 @@ install:
   - sudo apt-add-repository -y ppa:kubuntu-ppa/backports
   - sudo apt-get update -qq
   - sudo apt-get install -y gcc-multilib g++-multilib cmake python-pip doxygen
-  - sudo pip install ply cidl
+  - sudo pip install ply
   - git clone --depth 1 https://github.com/Zeex/samp-plugin-sdk.git sdk
 
 before_script:
