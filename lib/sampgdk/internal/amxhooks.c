@@ -74,6 +74,7 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
                                              const AMX_NATIVE_INFO *nativelist,
                                              int number) {
   int i;
+  int count = 0;
   AMX_HEADER *hdr;
   AMX_FUNCSTUBNT *natives;
 
@@ -87,12 +88,16 @@ static int AMXAPI _sampgdk_amxhooks_Register(AMX *amx,
   }
 
   for (i = 0; (i < number || number == -1) && nativelist[i].name != NULL; i++) {
-    sampgdk_log_debug("Registering native: %s @ %p", nativelist[i].name,
-                                                     nativelist[i].func);
-    sampgdk_native_register(nativelist[i].name, nativelist[i].func);
+    if (sampgdk_native_register(nativelist[i].name, nativelist[i].func) >= 0) {
+      sampgdk_log_debug("Registered native: %s @ %p",
+                        nativelist[i].name, nativelist[i].func);
+      count++;
+    }
   }
 
-  sampgdk_log_info("Registered %d natives", i);
+  if (count > 0) {
+    sampgdk_log_info("Registered %d natives", count);
+  }
 
   return SAMPGDK_HOOK_CALL_CC(_sampgdk_amxhooks_Register_hook, int, AMXAPI,
                               (AMX *, const AMX_NATIVE_INFO *, int), (amx, nativelist, number));

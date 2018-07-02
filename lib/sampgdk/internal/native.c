@@ -49,6 +49,7 @@ SAMPGDK_MODULE_CLEANUP(native) {
 }
 
 int sampgdk_native_register(const char *name, AMX_NATIVE func) {
+  AMX_NATIVE old_func;
   AMX_NATIVE_INFO info;
   AMX_NATIVE_INFO *ptr;
   int i;
@@ -57,6 +58,11 @@ int sampgdk_native_register(const char *name, AMX_NATIVE func) {
   info.func = func;
 
   assert(name != 0);
+
+  old_func = sampgdk_native_find(name);
+  if (old_func != NULL) {
+    return -1;
+  }
 
   /* Keep natives ordered by name.
    * This allows us to use binary search in sampgdk_native_find().
@@ -88,10 +94,11 @@ AMX_NATIVE sampgdk_native_find(const char *name) {
     return NULL;
   }
 
-  info = (AMX_NATIVE_INFO *)bsearch(name, _sampgdk_natives.data,
-                       _sampgdk_natives.count - 1,
-                       _sampgdk_natives.elem_size,
-                       _sampgdk_native_compare_bsearch);
+  info = (AMX_NATIVE_INFO *)bsearch(name,
+                                    _sampgdk_natives.data,
+                                    _sampgdk_natives.count - 1,
+                                    _sampgdk_natives.elem_size,
+                                    _sampgdk_native_compare_bsearch);
   if (info == NULL) {
     return NULL;
   }
