@@ -1,4 +1,9 @@
+.vs
+CMakeSettings.json
 /build
 /scripts/__pycache__
 /scripts/*.pyc
 /scripts/*.pyd
+/scripts/cidl_lextab.py
+/scripts/cidl_parser.out
+/scripts/cidl_parsetab.py
