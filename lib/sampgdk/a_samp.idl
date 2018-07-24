@@ -516,6 +516,13 @@ const int BODY_PART_HEAD = 9;
 
 [native] bool gpci(int playerid, [out] string buffer, int size);
 
+[native] int AddCharModel(int baseid, int newid, string dffname, string txdname);
+[native] int AddSimpleModel(int virtualworld, int baseid, int newid, string dffname, string txdname);
+[native] int AddSimpleModelTimed(int virtualworld, int baseid, int newid, string dffname, string txdname, int timeon, int timeoff);
+[native] bool FindModelFileNameFromCRC(int crc, [out] string model_str, int model_str_len);
+[native] bool FindTextureFileNameFromCRC(int crc, [out] string texture_str, int texture_str_len);
+[native] bool RedirectDownload(int playerid, string url);
+
 [callback] bool OnGameModeInit();
 [callback] bool OnGameModeExit();
 [callback, badret(false)] bool OnPlayerConnect(int playerid);
@@ -591,3 +598,9 @@ const int BULLET_HIT_TYPE_OBJECT        = 3;
 const int BULLET_HIT_TYPE_PLAYER_OBJECT = 4;
 
 [callback, badret(false)] bool OnPlayerWeaponShot(int playerid, int weaponid, int hittype, int hitid, float fX, float fY, float fZ);
+
+const int DOWNLOAD_REQUEST_EMPTY          = 0;
+const int DOWNLOAD_REQUEST_MODEL_FILE     = 1;
+const int DOWNLOAD_REQUEST_TEXTURE_FILE   = 2;
+
+[callback, badret(true)] bool OnPlayerRequestDownload(int playerid, int type, int crc);
