@@ -28,21 +28,5 @@ build_script:
   - cmake --build . --config %CONFIGURATION% --target package
 
 artifacts:
-  - path: sampgdk-*-win32.zip
-    name: Binaries
-
-  - path: sampgdk-*-win32-static.zip
-    name: Binaries (static)
-
-  - path: sampgdk-*-amalgamation.zip
-    name: Amalgamation
-
-deploy:
-  description: '<Put release description here>'
-  provider: GitHub
-  auth_token:
-    secure: e/ioKjYDTcXN2WEgW/U08sx0YHFg/YLu9+n7SdkXqv1O8c9HC8nqEJHMegGPuGKt
-  artifact: /sampgdk-.*-win32\.zip/
-  draft: true
-  on:
-    appveyor_repo_tag: true
+  - path: build/sampgdk-*-amalgamation.zip
+    name: Amalgamation (concatenated source code)
