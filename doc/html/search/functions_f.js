@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['redirectdownload',['RedirectDownload',['../group__natives.html#ga669dbfdd9d89f930a2e01ed8ab52d2a5',1,'a_samp.h']]],
   ['removebuildingforplayer',['RemoveBuildingForPlayer',['../group__natives.html#gad510e4eebf95160bae0fe045bd1c47f0',1,'a_players.h']]],
   ['removeplayerattachedobject',['RemovePlayerAttachedObject',['../group__natives.html#ga2ca584863e93f23aadc9f129b563f7a7',1,'a_players.h']]],
   ['removeplayerfromvehicle',['RemovePlayerFromVehicle',['../group__natives.html#ga0e7c741f60c6ec29f93c1546cef33b9d',1,'a_players.h']]],

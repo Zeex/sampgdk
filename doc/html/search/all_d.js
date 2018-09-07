@@ -32,6 +32,7 @@ var searchData=
   ['onplayerobjectmoved',['OnPlayerObjectMoved',['../group__callbacks.html#ga580eecfbcd37d602e34c64d2a7b93ac0',1,'a_samp.h']]],
   ['onplayerpickuppickup',['OnPlayerPickUpPickup',['../group__callbacks.html#ga634bbf842d761bea2aa24195df061f95',1,'a_samp.h']]],
   ['onplayerrequestclass',['OnPlayerRequestClass',['../group__callbacks.html#gad01088b7dd72600db3ba3a2ff1c5b079',1,'a_samp.h']]],
+  ['onplayerrequestdownload',['OnPlayerRequestDownload',['../group__callbacks.html#gad7c6f867a1a3a0a2f408435c85809e03',1,'a_samp.h']]],
   ['onplayerrequestspawn',['OnPlayerRequestSpawn',['../group__callbacks.html#ga9754c83d0fd990079c025ec90d17161a',1,'a_samp.h']]],
   ['onplayerselectedmenurow',['OnPlayerSelectedMenuRow',['../group__callbacks.html#gaf4de2be1af45190410ca45cace7aa79b',1,'a_samp.h']]],
   ['onplayerselectobject',['OnPlayerSelectObject',['../group__callbacks.html#ga4f9f7b484b159a62b09fc096310839b2',1,'a_samp.h']]],

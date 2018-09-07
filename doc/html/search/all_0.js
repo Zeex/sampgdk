@@ -1,8 +1,11 @@
 var searchData=
 [
+  ['addcharmodel',['AddCharModel',['../group__natives.html#gac015e82fc9d17ca9b47ba2267fc4d9c4',1,'a_samp.h']]],
   ['addmenuitem',['AddMenuItem',['../group__natives.html#ga9e62955707da11aaa187e86dc2a89659',1,'a_samp.h']]],
   ['addplayerclass',['AddPlayerClass',['../group__natives.html#ga6d4b4ed6b76cb8f27387a9825384dbf6',1,'a_samp.h']]],
   ['addplayerclassex',['AddPlayerClassEx',['../group__natives.html#gab9c2d55b794d242a77765ca00496a512',1,'a_samp.h']]],
+  ['addsimplemodel',['AddSimpleModel',['../group__natives.html#ga887161f8ed6d3fb7fa32753743a5c78b',1,'a_samp.h']]],
+  ['addsimplemodeltimed',['AddSimpleModelTimed',['../group__natives.html#gaeab1c791eb24899e81f3a9fc4821cf8c',1,'a_samp.h']]],
   ['addstaticpickup',['AddStaticPickup',['../group__natives.html#ga7cf3193730df1de32058841b26e6f46a',1,'a_samp.h']]],
   ['addstaticvehicle',['AddStaticVehicle',['../group__natives.html#ga20561ccf382ba50c663717fd694f0e8b',1,'a_samp.h']]],
   ['addstaticvehicleex',['AddStaticVehicleEx',['../group__natives.html#ga98c3d5ac2f9db409007c04bf6732181f',1,'a_samp.h']]],
