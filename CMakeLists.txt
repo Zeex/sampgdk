@@ -286,7 +286,7 @@ if(SAMPGDK_BUILD_AMALGAMATION)
     endif()
   endforeach()
 
-  add_custom_target(sampgdk_amalgam ALL
+  add_custom_target(sampgdk_amalgamate ALL
     COMMAND ${PYTHON_EXECUTABLE}
       ${PROJECT_SOURCE_DIR}/scripts/amalgamate.py
       --include-dir ${PROJECT_SOURCE_DIR}/include
@@ -294,13 +294,14 @@ if(SAMPGDK_BUILD_AMALGAMATION)
       --include-dir ${PROJECT_SOURCE_DIR}/lib/sampgdk
       --output-source ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.c
       --output-header ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.h
-      --preamble ${PROJECT_SOURCE_DIR}/lib/sampgdk/sampgdk.c
+      --source-preamble ${PROJECT_SOURCE_DIR}/lib/sampgdk/sampgdk.c
+      --header-preamble ${PROJECT_SOURCE_DIR}/lib/sampgdk/sampgdk.h
       ${SAMPGDK_AMALGAMATE_FLAGS}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
     COMMENT "Generating amalgamation")
-  add_dependencies(sampgdk_amalgam sampgdk)
+  add_dependencies(sampgdk_amalgamate sampgdk)
 
-  add_custom_target(sampgdk_amalgam_package ALL
+  add_custom_target(sampgdk_amalgamate_package ALL
     COMMAND ${PYTHON_EXECUTABLE}
       ${PROJECT_SOURCE_DIR}/scripts/zip.py
       ${PROJECT_BINARY_DIR}/sampgdk-${SAMPGDK_VERSION}-amalgamation.zip
@@ -308,7 +309,7 @@ if(SAMPGDK_BUILD_AMALGAMATION)
       ${PROJECT_BINARY_DIR}/lib/sampgdk/sampgdk.h
       ${PROJECT_SOURCE_DIR}/doc/how-to-use-amalgamation.txt
     COMMENT "Packaging amalgamation files")
-  add_dependencies(sampgdk_amalgam_package sampgdk_amalgam)
+  add_dependencies(sampgdk_amalgamate_package sampgdk_amalgamate)
 endif()
 
 add_dependencies(sampgdk sampgdk_init)

@@ -19,6 +19,9 @@ import os
 import re
 import sys
 
+def strip_license_blocks(s):
+  return re.sub(r'/\*\s*Copyright.*?Zeex(.|[\r\n])*?\*/[\r\n]*', '', s, re.M | re.S)
+
 def extract_path(include):
   match = re.match('["<](.*)[">]', include)
   if match is not None:
@@ -49,13 +52,13 @@ def find_first_include(text):
 
 def find_deps(files, include_dirs):
   deps = {}
-  for f in files:
-    find_file_deps(f, include_dirs, deps)
+  for file in files:
+    find_file_deps(file, include_dirs, deps)
   return deps
 
 def find_file_deps(filename, include_dirs, deps):
   deps[filename] = []
-  with open(filename, 'r') as file:
+  with open(filename, 'rb') as file:
     for i in find_includes(file.read()):
       d = resolve_include(filename, i, include_dirs)
       if d is not None:
@@ -66,13 +69,13 @@ def find_file_deps(filename, include_dirs, deps):
 
 def sort_deps(files, deps):
   sorted = []
-  current = [f for f in files if not deps[f]]
+  current = [file for file in files if not deps[file]]
   while current:
-    f = current.pop(0)
-    sorted.append(f)
+    file = current.pop(0)
+    sorted.append(file)
     for depender, dependees in deps.items():
-      if f in dependees:
-        dependees.remove(f)
+      if file in dependees:
+        dependees.remove(file)
         if not dependees:
           current.append(depender)
   try:
@@ -85,9 +88,9 @@ def sort_files(files, include_dirs):
   return sort_deps(files, find_deps(files, include_dirs))
 
 def print_deps(deps):
-  for f, ds in deps.items():
+  for file, ds in deps.items():
     for d in ds:
-      print('%s -> %s' % (f, d))
+      print('%s -> %s' % (file, d))
 
 def parse_args(argv):
   parser = argparse.ArgumentParser()
@@ -116,10 +119,14 @@ def parse_args(argv):
                       metavar='file',
                       required=True,
                       help='set output header file')
-  parser.add_argument('--preamble',
-                      dest='preamble',
+  parser.add_argument('--source-preamble',
+                      dest='source_preamble',
                       metavar='file',
-                      help='read preamble code from file')
+                      help='prepend code to resulting source file')
+  parser.add_argument('--header-preamble',
+                      dest='header_preamble',
+                      metavar='file',
+                      help='prepend code to resulting header file')
   return parser.parse_args()
 
 def main(argv):
@@ -127,21 +134,25 @@ def main(argv):
 
   sources = []
   if args.sources is not None:
-    sources = [os.path.realpath(f) for f in args.sources]
+    sources = [os.path.realpath(file) for file in args.sources]
   headers = []
   if args.headers is not None:
-    headers = [os.path.realpath(f) for f in args.headers]
+    headers = [os.path.realpath(file) for file in args.headers]
   include_dirs = []
   if args.include_dirs is not None:
     include_dirs = args.include_dirs
 
-  (sfile, hfile) = (open(args.output_source, 'w'),
-                    open(args.output_header, 'w'))
+  (c_file, h_file) = (open(args.output_source, 'wb'),
+                      open(args.output_header, 'wb'))
 
-  if args.preamble is not None:
-    with open(args.preamble) as ifile:
-      sfile.write(ifile.read())
-      sfile.write('\n')
+  if args.source_preamble is not None:
+    with open(args.source_preamble, 'rb') as in_file:
+      c_file.write(in_file.read().replace('\r', ''))
+      c_file.write('\n')
+  if args.header_preamble is not None:
+    with open(args.header_preamble, 'rb') as in_file:
+      h_file.write(in_file.read().replace('\r', ''))
+      h_file.write('\n')
 
   headers = sort_files(headers, include_dirs)
   all_files = sort_files(sources + headers, include_dirs)
@@ -149,25 +160,25 @@ def main(argv):
   header_path = os.path.relpath(args.output_header,
                                 os.path.dirname(args.output_source))
 
-  for f in all_files:
-    ofile = (sfile, hfile)[f in headers]
-    with open(f, 'r') as ifile:
+  for file in all_files:
+    out_file = (c_file, h_file)[file in headers]
+    with open(file, 'rb') as in_file:
       header_included = False
-      for line in ifile.readlines():
+      for line in strip_license_blocks(in_file.read()).splitlines():
         include = find_first_include(line)
-        include_path = resolve_include(f, include, include_dirs)
+        include_path = resolve_include(file, include, include_dirs)
         if include_path is None:
-          ofile.write(line)
-        elif include_path in headers and f not in headers:
+          out_file.write(line.replace('\r', '') + '\n')
+        elif include_path in headers and file not in headers:
           if not header_included:
-            ofile.write('#include "%s"\n' % os.path.basename(header_path))
+            out_file.write('#include "%s"\n' % os.path.basename(header_path))
             header_included = True
         else:
-          ofile.write('/* #include %s */\n' % include)
-      ofile.write('\n')
+          out_file.write('/* #include %s */\n' % include)
+      out_file.write('\n')
 
-  for ofile in (sfile, hfile):
-    ofile.close()
+  for out_file in (c_file, h_file):
+    out_file.close()
 
 if __name__ == '__main__':
   main(sys.argv)
