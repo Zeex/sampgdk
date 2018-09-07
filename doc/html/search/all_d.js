@@ -3,7 +3,7 @@ var searchData=
   ['onactorstreamin',['OnActorStreamIn',['../group__callbacks.html#ga52240acb3f9570b25d007638f99253f1',1,'a_samp.h']]],
   ['onactorstreamout',['OnActorStreamOut',['../group__callbacks.html#ga3f3415099947ad38a1c42436c5bf8a8e',1,'a_samp.h']]],
   ['ondialogresponse',['OnDialogResponse',['../group__callbacks.html#ga332a3628c0c943436ac805aa5414e1bd',1,'a_samp.h']]],
-  ['onenterexitmodshop',['OnEnterExitModShop',['../group__callbacks.html#ga11247ba389d4a43e99b45e3db8c31d12',1,'a_samp.h']]],
+  ['onenterexitmodshop',['OnEnterExitModShop',['../group__callbacks.html#gad50a2cb80bc75c19fca9d5f43c724581',1,'a_samp.h']]],
   ['ongamemodeexit',['OnGameModeExit',['../group__callbacks.html#ga42917672dd99fa8bb364136f5c4195b1',1,'a_samp.h']]],
   ['ongamemodeinit',['OnGameModeInit',['../group__callbacks.html#ga9779df70f4562bb368cdd9ce910b6e91',1,'a_samp.h']]],
   ['onincomingconnection',['OnIncomingConnection',['../group__callbacks.html#ga86435ec0028111379679d463efe1c1b1',1,'a_samp.h']]],
