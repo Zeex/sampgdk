@@ -21,12 +21,15 @@ import codecs
 import os
 import ply.lex
 import ply.yacc
+import string
 import sys
 
 try:
   basestring = basestring
 except NameError:
   basestring = (str,bytes)
+
+printable = string.ascii_letters + string.digits + string.punctuation + ' '
 
 class Value(object):
   def __init__(self, type, data):
@@ -283,9 +286,10 @@ class LexError(Error):
     return self._location
 
   def __str__(self):
-    return "Illegal character '%s' at line %d:\n%s" %  (self._char,
-                                                        self._location.lineno,
-                                                        self._location)
+    c = self._char if self._char in printable else '\\x%02x' % ord(self._char)
+    return "Illegal character '%s' at line %d:\n%s" % (c,
+                                                       self._location.lineno,
+                                                       self._location)
 
 class SyntaxError(Error):
   def __init__(self, token, location):
@@ -405,25 +409,22 @@ class Parser(object):
     return t
 
   def t_STRING(self, t):
-    r'\"(.|\n)*?\"'
+    r'\"(.|\r|\n)*?\"'
     t.value = codecs.decode(t.value[1:-1], 'unicode_escape')
     t.lineno += t.value.count('\n')
     return t
 
   def t_c_comment(self, t):
-    r'/\*(.|\n)*?\*/'
+    r'/\*(.|\r|\n)*?\*/'
     t.lexer.lineno += t.value.count('\n')
-    pass
 
   def t_cpp_comment(self, t):
-    r'//[^\n\r]*'
+    r'//[^\r\n]*'
     t.lexer.lineno += 1
-    pass
 
   def t_newline(self, t):
-    r'\n'
+    r'\r?\n'
     t.lexer.lineno += 1
-    pass
 
   def t_IDENT(self, t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
