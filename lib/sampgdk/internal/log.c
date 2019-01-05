@@ -15,20 +15,19 @@
 
 #include <assert.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <sampgdk/bool.h>
 
 #include "init.h"
+#include "log.h"
 #include "logprintf.h"
 
-enum _sampgdk_log_level {
-  _SAMPGDK_LOG_DEBUG,
-  _SAMPGDK_LOG_INFO,
-  _SAMPGDK_LOG_WARNING,
-  _SAMPGDK_LOG_ERROR
-};
+#ifdef _MSC_VER
+  #define snprintf sprintf_s
+#endif
 
 static bool _sampgdk_log_enabled[] = {
   false, /* _SAMPGDK_LOG_DEBUG */
@@ -55,16 +54,16 @@ static void _sampgdk_log_init_enabled() {
         op = c;
         break;
       case 'd':
-        level = _SAMPGDK_LOG_DEBUG;
+        level = SAMPGDK_LOG_DEBUG;
         break;
       case 'i':
-        level = _SAMPGDK_LOG_INFO;
+        level = SAMPGDK_LOG_INFO;
         break;
       case 'w':
-        level = _SAMPGDK_LOG_WARNING;
+        level = SAMPGDK_LOG_WARNING;
         break;
       case 'e':
-        level = _SAMPGDK_LOG_ERROR;
+        level = SAMPGDK_LOG_ERROR;
         break;
     }
 
@@ -87,78 +86,45 @@ SAMPGDK_MODULE_CLEANUP(log) {
   /* nothing to do here */
 }
 
-static void _sampgdk_log_message(int level, const char *format, va_list args) {
-  const char *level_string;
-  char *real_format;
+void sampgdk_log_message(int level, const char *format, ...) {
+  va_list args;
+  char level_char;
+  char real_format[SAMPGDK_LOGPRINTF_BUFFER_SIZE];
 
-  assert(level >= _SAMPGDK_LOG_DEBUG &&
-         level <= _SAMPGDK_LOG_ERROR);
+  assert(level >= SAMPGDK_LOG_DEBUG &&
+         level <= SAMPGDK_LOG_ERROR);
 
   if (!_sampgdk_log_enabled[level]) {
     return;
   }
 
   switch (level) {
-    case _SAMPGDK_LOG_DEBUG:
-      level_string = "debug";
+    case SAMPGDK_LOG_DEBUG:
+      level_char = 'd';
       break;
-    case _SAMPGDK_LOG_INFO:
-      level_string = "info";
+    case SAMPGDK_LOG_INFO:
+      level_char = 'i';
       break;
-    case _SAMPGDK_LOG_WARNING:
-      level_string = "warning";
+    case SAMPGDK_LOG_WARNING:
+      level_char = 'w';
       break;
-    case _SAMPGDK_LOG_ERROR:
-      level_string = "error";
+    case SAMPGDK_LOG_ERROR:
+      level_char = 'e';
       break;
     default:
-      level_string = "";
+      return;
   }
 
-  real_format = (char *)malloc(
-    sizeof("[sampgdk:] ") - 1
-    + strlen(level_string)
-    + strlen(format)
-    + 1
-  );
   if (real_format == NULL) {
     return;
   }
 
-  strcpy(real_format, "[sampgdk:");
-  strcat(real_format, level_string);
-  strcat(real_format, "] ");
-  strcat(real_format, format);
-
+  snprintf(real_format,
+           sizeof(real_format),
+           "[sampgdk:%c] %s",
+           level_char,
+           format);
+  va_start(args, format);
   sampgdk_do_vlogprintf(real_format, args);
-
-  free(real_format);
-}
-
-void sampgdk_log_debug(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  _sampgdk_log_message(_SAMPGDK_LOG_DEBUG, format, args);
-  va_end(args);
-}
-
-void sampgdk_log_info(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  _sampgdk_log_message(_SAMPGDK_LOG_INFO, format, args);
-  va_end(args);
-}
-
-void sampgdk_log_warning(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  _sampgdk_log_message(_SAMPGDK_LOG_WARNING, format, args);
-  va_end(args);
-}
-
-void sampgdk_log_error(const char *format, ...) {
-  va_list args;
-  va_start(args, format);
-  _sampgdk_log_message(_SAMPGDK_LOG_ERROR, format, args);
   va_end(args);
 }

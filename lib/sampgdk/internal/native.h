@@ -36,4 +36,4 @@ cell sampgdk_native_call(AMX_NATIVE native, cell *params);
 cell sampgdk_native_invoke(AMX_NATIVE native, const char *format, va_list args);
 cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format, void **args);
 
-#endif /* !SAMPGDK_NATIVE_H_ */
+#endif /* !SAMPGDK_INTERNAL_NATIVE_H */

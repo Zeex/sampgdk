@@ -58,7 +58,7 @@ static void _sampgdk_init(void **plugin_data) {
     sampgdk_log_error("Initialization failed: %s", strerror(-error));
   }
 
-  sampgdk_log_info("Version: " SAMPGDK_VERSION_STRING);
+  sampgdk_log_info("GDK version: " SAMPGDK_VERSION_STRING);
 }
 
 static int _sampgdk_init_plugin(void *plugin, void **plugin_data) {

@@ -16,9 +16,52 @@
 #ifndef SAMPGDK_INTERNAL_LOG_H
 #define SAMPGDK_INTERNAL_LOG_H
 
-void sampgdk_log_debug(const char *format, ...);
-void sampgdk_log_info(const char *format, ...);
-void sampgdk_log_warning(const char *format, ...);
-void sampgdk_log_error(const char *format, ...);
+#define SAMPGDK_LOG_DEBUG   0
+#define SAMPGDK_LOG_INFO    1
+#define SAMPGDK_LOG_WARNING 2
+#define SAMPGDK_LOG_ERROR   3
+
+/* The SAMPGDK_MIN_LOG_LEVEL macro allows you to remove calls to logging
+ * functions of certain levels from the resulting machine code at compile
+ * time if you think that you will never need such log verbosity at run
+ * time.
+ */
+#ifndef SAMPGDK_MIN_LOG_LEVEL
+  #ifdef NDEBUG
+    #define SAMPGDK_MIN_LOG_LEVEL SAMPGDK_LOG_INFO
+  #else
+    #define SAMPGDK_MIN_LOG_LEVEL SAMPGDK_LOG_DEBUG
+  #endif
+#endif
+
+#if SAMPGDK_LOG_DEBUG >= SAMPGDK_MIN_LOG_LEVEL
+  #define sampgdk_log_debug(...) \
+    sampgdk_log_message(SAMPGDK_LOG_DEBUG, __VA_ARGS__)
+#else
+  #define sampgdk_log_debug(...)
+#endif
+
+#if SAMPGDK_LOG_INFO >= SAMPGDK_MIN_LOG_LEVEL
+  #define sampgdk_log_info(...) \
+    sampgdk_log_message(SAMPGDK_LOG_INFO, __VA_ARGS__)
+#else
+  #define sampgdk_log_info(...)
+#endif
+
+#if SAMPGDK_LOG_WARNING >= SAMPGDK_MIN_LOG_LEVEL
+  #define sampgdk_log_warning(...) \
+    sampgdk_log_message(SAMPGDK_LOG_WARNING, __VA_ARGS__)
+#else
+  #define sampgdk_log_warning(...)
+#endif
+
+#if SAMPGDK_LOG_ERROR >= SAMPGDK_MIN_LOG_LEVEL
+  #define sampgdk_log_error(...) \
+    sampgdk_log_message(SAMPGDK_LOG_ERROR, __VA_ARGS__)
+#else
+  #define sampgdk_log_error(...)
+#endif
+
+void sampgdk_log_message(int level, const char *format, ...);
 
 #endif /* !SAMPGDK_INTERNAL_LOG_H */
