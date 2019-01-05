@@ -160,6 +160,7 @@ AMX_NATIVE sampgdk_native_find_flexible(const char *name, AMX_NATIVE current) {
     return sampgdk_native_find_warn_stub(name);
   }
 
+  /* current == native_stub */
   if ((always_search = getenv("SAMGDK_NATIVE_SEARCH_ALWAYS")) != NULL
       && atoi(always_search) != 0) {
     /* Previous attempt to find the native failed, but the always search
@@ -287,7 +288,8 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
             state = ST_NEED_SIZE;
             break;
           default:
-            sampgdk_log_warning("Unrecognized type specifier '%c'", *format_ptr);
+            sampgdk_log_warning("Unrecognized type specifier '%c'",
+                                *format_ptr);
         }
         type[i++] = *format_ptr++;
         break;
@@ -322,7 +324,8 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
             case 'A':
             case 'S':
               if (size[needs_size] > 0) {
-                sampgdk_fakeamx_push_array((const cell *)args[needs_size], size[needs_size],
+                sampgdk_fakeamx_push_array((const cell *)args[needs_size],
+                                           size[needs_size],
                                            &params[needs_size + 1]);
               } else {
                 sampgdk_log_warning("Invalid buffer size");

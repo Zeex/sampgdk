@@ -8,7 +8,9 @@ void amx_Align16_(void *v) {}
 void amx_Align32_(void *v) {}
 
 // Copied from amxaux.c
-static int AMXAPI aux_LoadProgram(AMX *amx, const char *filename, void *memblock)
+static int AMXAPI aux_LoadProgram(AMX *amx,
+                                  const char *filename,
+                                  void *memblock)
 {
   FILE *fp;
   AMX_HEADER hdr;

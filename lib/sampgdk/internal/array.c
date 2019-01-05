@@ -20,13 +20,11 @@
 
 #include "array.h"
 
-static void *_sampgdk_array_get_elem_ptr(struct sampgdk_array *a,
-                                         int index) {
+static void *_sampgdk_array_get_elem_ptr(struct sampgdk_array *a, int index) {
   return (unsigned char *)a->data + (index * a->elem_size);
 }
 
-static int _sampgdk_array_normalize_index(struct sampgdk_array *a,
-                                          int index) {
+static int _sampgdk_array_normalize_index(struct sampgdk_array *a, int index) {
   if (index >= 0) {
     return index;
   } else {
