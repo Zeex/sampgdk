@@ -1,4 +1,4 @@
-Current release is **4.6**
+Current release is **4.6.2**
 
 ### Downloads
 
