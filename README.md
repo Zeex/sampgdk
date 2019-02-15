@@ -69,13 +69,12 @@ Build Instructions
 ------------------
 
 In order to build the GDK you first you need to download and install the
-following:
+following dependencies:
 
 * [SA-MP plugin SDK][sdk]
 * [CMake][cmake] 2.8.12+
 * [Python][python] 2.7+
-* [PLY][ply] (Python-Lex-Yacc) and [cidl][cidl] (the IDL parser);
-  both can be installed via [pip][pip]
+* [PLY][ply] (Python Lex-Yacc) can be installed via [pip][pip]
 * C compiler
 * C++ compiler (optional, for building example plugins)
 
@@ -170,7 +169,6 @@ Licensed under the Apache Licese version 2.0. See the LICENSE.txt file.
 [cmake]: http://cmake.org
 [python]: http://python.org
 [ply]: http://www.dabeaz.com/ply/
-[cidl]: https://github.com/Zeex/cidl
 [pip]: https://pip.pypa.io/en/latest/
 [cmake-faq]: http://www.cmake.org/Wiki/CMake_FAQ
 [online_docs]: http://zeex.github.io/sampgdk/doc/html/index.html

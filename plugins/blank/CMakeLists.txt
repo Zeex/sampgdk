@@ -16,8 +16,8 @@ add_samp_plugin(blank
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/blank.cpp
          ${CMAKE_CURRENT_BINARY_DIR}/blank.def
-  COMMAND cmake -E env PYTHONPATH="${CMAKE_SOURCE_DIR}/scripts"
-          ${PYTHON_EXECUTABLE}
+  COMMAND ${PYTHON_EXECUTABLE}
+          ${CMAKE_BINARY_DIR}/scripts/python_wrapper.py
           ${CMAKE_CURRENT_SOURCE_DIR}/generate_blank_plugin.py
           --idl ${CMAKE_SOURCE_DIR}/lib/sampgdk/a_samp.idl
           --source ${CMAKE_CURRENT_BINARY_DIR}/blank.cpp

@@ -31,8 +31,8 @@ add_samp_plugin(ufs ${UFS_SOURCES})
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp
          ${CMAKE_CURRENT_BINARY_DIR}/callbacks.def
-  COMMAND cmake -E env PYTHONPATH="${CMAKE_SOURCE_DIR}/scripts"
-          ${PYTHON_EXECUTABLE}
+  COMMAND ${PYTHON_EXECUTABLE}
+          ${CMAKE_BINARY_DIR}/scripts/python_wrapper.py
           ${CMAKE_CURRENT_SOURCE_DIR}/generate_callbacks.py
           --idl ${CMAKE_SOURCE_DIR}/lib/sampgdk/a_samp.idl
           --source ${CMAKE_CURRENT_BINARY_DIR}/callbacks.cpp

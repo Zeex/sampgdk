@@ -99,8 +99,8 @@ endmacro()
 macro(sampgdk_add_api_gen module_name idl_file api_file)
   add_custom_command(
     OUTPUT ${api_file}
-    COMMAND cmake -E env PYTHONPATH="${CMAKE_SOURCE_DIR}/scripts"
-      ${PYTHON_EXECUTABLE}
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${CMAKE_BINARY_DIR}/scripts/python_wrapper.py
       ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
       --module=${module_name}
       --idl=${idl_file}
@@ -112,8 +112,8 @@ endmacro()
 macro(sampgdk_add_source_gen module_name idl_file source_file)
   add_custom_command(
     OUTPUT ${source_file}
-    COMMAND cmake -E env PYTHONPATH="${CMAKE_SOURCE_DIR}/scripts"
-      ${PYTHON_EXECUTABLE}
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${CMAKE_BINARY_DIR}/scripts/python_wrapper.py
       ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
       --module=${module_name}
       --idl=${idl_file}
@@ -125,8 +125,8 @@ endmacro()
 macro(sampgdk_add_header_gen module_name idl_file header_file)
   add_custom_command(
     OUTPUT ${header_file}
-    COMMAND cmake -E env PYTHONPATH="${CMAKE_SOURCE_DIR}/scripts"
-      ${PYTHON_EXECUTABLE}
+    COMMAND ${PYTHON_EXECUTABLE}
+      ${CMAKE_BINARY_DIR}/scripts/python_wrapper.py
       ${PROJECT_SOURCE_DIR}/scripts/generate_code.py
       --module=${module_name}
       --idl=${idl_file}
@@ -166,6 +166,7 @@ add_subdirectory(lib)
 if(SAMPGDK_BUILD_PLUGINS)
   add_subdirectory(plugins)
 endif()
+add_subdirectory(scripts)
 
 sampgdk_get_sources(SAMPGDK_SOURCES)
 
