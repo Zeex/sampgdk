@@ -641,9 +641,9 @@ class Parser(object):
 
 if __name__ == '__main__':
   parser = Parser()
-  for f in sys.argv[1:]:
-    print('Parsing \'%s\'...'  % f)
+  for path in sys.argv[1:]:
+    print('Parsing \'%s\'...'  % path)
     try:
-      unit = parser.parse(open(f).read())
+      unit = parser.parse(open(path, 'rU').read())
     except Error as e:
       print(e)

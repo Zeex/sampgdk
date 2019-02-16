@@ -80,7 +80,7 @@ def parse_args(argv):
 
 def parse_idl(filename):
   parser = cidl.Parser()
-  return parser.parse(open(filename, 'r').read())
+  return parser.parse(open(filename, 'rU').read())
 
 def main(argv):
   args = parse_args(argv[1:])

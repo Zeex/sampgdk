@@ -427,7 +427,7 @@ def main(argv):
   try:
     idlparser = cidl.Parser(value_class=Value,
                             param_class=Parameter)
-    idl = idlparser.parse(open(args.idl_file, 'r').read())
+    idl = idlparser.parse(open(args.idl_file, 'rU').read())
 
     for (path, func) in [(args.api_file, generate_api_file),
                          (args.header_file, generate_header_file),
