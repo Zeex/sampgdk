@@ -549,7 +549,7 @@ const int BODY_PART_HEAD = 9;
 [callback, badret(false)] bool OnVehicleMod(int playerid, int vehicleid, int componentid);
 [callback] bool OnEnterExitModShop(int playerid, bool enterexit, int interiorid);
 [callback, badret(false)] bool OnVehiclePaintjob(int playerid, int vehicleid, int paintjobid);
-[callback, badref(false)] bool OnVehicleRespray(int playerid, int vehicleid, int color1, int color2);
+[callback, badret(false)] bool OnVehicleRespray(int playerid, int vehicleid, int color1, int color2);
 [callback, badret(true)] bool OnVehicleDamageStatusUpdate(int vehicleid, int playerid);
 [callback, badret(false)] bool OnUnoccupiedVehicleUpdate(int vehicleid, int playerid, int passenger_seat, float new_x, float new_y, float new_z, float vel_x, float vel_y, float vel_z);
 [callback] bool OnPlayerSelectedMenuRow(int playerid, int row);
