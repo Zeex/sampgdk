@@ -48,8 +48,13 @@
 #endif
 
 #if SAMPGDK_WINDOWS
-  #define SAMPGDK_CDECL __cdecl
-  #define SAMPGDK_STDCALL __stdcall
+  #ifdef _MSC_VER
+    #define SAMPGDK_CDECL __cdecl
+    #define SAMPGDK_STDCALL __stdcall
+  #else
+    #define SAMPGDK_CDECL __attribute__((cdecl))
+    #define SAMPGDK_STDCALL __attribute__((stdcall))
+  #endif
 #elif SAMPGDK_LINUX
   #define SAMPGDK_CDECL __attribute__((cdecl))
   #define SAMPGDK_STDCALL __attribute__((stdcall))
