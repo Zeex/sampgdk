@@ -321,12 +321,18 @@ cell sampgdk_native_invoke_array(AMX_NATIVE native, const char *format,
         if (*format_ptr == ']') {
           switch (type[needs_size]) {
             case 'a':
-            case 'A':
-            case 'S':
               if (size[needs_size] > 0) {
                 sampgdk_fakeamx_push_array((const cell *)args[needs_size],
                                            size[needs_size],
                                            &params[needs_size + 1]);
+              } else {
+                sampgdk_log_warning("Invalid buffer size");
+              }
+              break;
+            case 'A':
+            case 'S':
+              if (size[needs_size] > 0) {
+                sampgdk_fakeamx_push(size[needs_size], &params[needs_size + 1]);
               } else {
                 sampgdk_log_warning("Invalid buffer size");
               }
