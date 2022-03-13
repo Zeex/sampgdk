@@ -187,22 +187,12 @@ bool sampgdk_callback_invoke(AMX *amx,
                              int paramcount,
                              cell *retval)
 {
-  struct _sampgdk_callback_info *callback;
-  struct _sampgdk_callback_info *callback_filter;
-  struct _sampgdk_callback_info *callback_filter2;
   cell params[_SAMPGDK_CALLBACK_MAX_ARGS + 1];
   void **plugins;
   int num_plugins;
   int i;
 
   assert(amx != NULL);
-
-  callback = _sampgdk_callback_find(name);
-  callback_filter = _sampgdk_callback_find(":OnPublicCall");
-  callback_filter2 = _sampgdk_callback_find(":OnPublicCall2");
-
-  assert(callback_filter != NULL);
-  assert(callback_filter2 != NULL);
 
   if (paramcount > _SAMPGDK_CALLBACK_MAX_ARGS) {
     sampgdk_log_error("Too many callback arguments (at most %d allowed)",
@@ -217,10 +207,16 @@ bool sampgdk_callback_invoke(AMX *amx,
 
   for (i = 0; i < num_plugins; i++) {
     void *plugin = plugins[i];
+    struct _sampgdk_callback_info *callback;
+    struct _sampgdk_callback_info *callback_filter;
+    struct _sampgdk_callback_info *callback_filter2;
     void *func;
     bool do_call = true;
     bool stop = false;
 
+    callback_filter = _sampgdk_callback_find(":OnPublicCall");
+    assert(callback_filter != NULL);
+    
     func = sampgdk_plugin_get_symbol(plugin, callback_filter->func_name);
     if (func != NULL) {
       do_call = ((_sampgdk_callback_filter)func)(amx, name, params, retval);
@@ -232,6 +228,9 @@ bool sampgdk_callback_invoke(AMX *amx,
      *
      * callback_filter2's return value overrides that of callback_filter.
      */
+    assert(callback_filter2 != NULL);
+    callback_filter2 = _sampgdk_callback_find(":OnPublicCall2");
+    
     func = sampgdk_plugin_get_symbol(plugin, callback_filter2->func_name);
     if (func != NULL) {
       do_call = !((_sampgdk_callback_filter2)func)(amx,
@@ -248,6 +247,8 @@ bool sampgdk_callback_invoke(AMX *amx,
       continue;
     }
 
+    callback = _sampgdk_callback_find(name);
+    
     func = sampgdk_plugin_get_symbol(plugin, callback->func_name);
     if (func != NULL
         && !((sampgdk_callback)callback->handler)(amx, func, retval)) {
