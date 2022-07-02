@@ -228,8 +228,8 @@ bool sampgdk_callback_invoke(AMX *amx,
      *
      * callback_filter2's return value overrides that of callback_filter.
      */
-    assert(callback_filter2 != NULL);
     callback_filter2 = _sampgdk_callback_find(":OnPublicCall2");
+    assert(callback_filter2 != NULL);
     
     func = sampgdk_plugin_get_symbol(plugin, callback_filter2->func_name);
     if (func != NULL) {
@@ -243,11 +243,15 @@ bool sampgdk_callback_invoke(AMX *amx,
     if (stop) {
       return false;
     }
-    if (!do_call || callback == NULL || callback->handler == NULL) {
+
+    if (!do_call) {
       continue;
     }
 
     callback = _sampgdk_callback_find(name);
+    if (callback == NULL || callback->handler == NULL) {
+      continue;
+    }
     
     func = sampgdk_plugin_get_symbol(plugin, callback->func_name);
     if (func != NULL
