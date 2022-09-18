@@ -169,7 +169,7 @@ int sampgdk_array_insert(struct sampgdk_array *a,
   if (need_count > 0) {
     int error;
 
-    if ((error = sampgdk_array_grow(a)) < 0) {
+    if ((error = sampgdk_array_resize(a, a->size + need_count)) < 0) {
       return error;
     }
   }
