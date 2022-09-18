@@ -73,7 +73,7 @@ SAMPGDK_MODULE_INIT(callback) {
   int error;
 
   error = sampgdk_array_new(&_sampgdk_callbacks,
-                            1,
+                            32,
                             sizeof(struct _sampgdk_callback_info));
   if (error < 0) {
     return error;

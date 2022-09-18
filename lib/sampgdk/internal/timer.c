@@ -128,7 +128,7 @@ SAMPGDK_MODULE_INIT(timer) {
   int error;
 
   error = sampgdk_array_new(&_sampgdk_timers,
-                            10,
+                            8,
                             sizeof(struct _sampgdk_timer_info));
   if (error < 0) {
     return error;

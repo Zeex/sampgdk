@@ -168,10 +168,14 @@ int sampgdk_array_insert(struct sampgdk_array *a,
 
   if (need_count > 0) {
     int error;
+    int need_size = a->size + need_count;
 
-    if ((error = sampgdk_array_resize(a, a->size + need_count)) < 0) {
-      return error;
-    }
+    do {
+      error = sampgdk_array_grow(a);
+      if (error < 0) {
+        return error;
+      }
+    } while (a->size < need_size);
   }
 
   if (move_count > 0) {

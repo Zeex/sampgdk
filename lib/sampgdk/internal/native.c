@@ -35,7 +35,7 @@ SAMPGDK_MODULE_INIT(native) {
   AMX_NATIVE_INFO null = {NULL, NULL};
 
   error = sampgdk_array_new(&_sampgdk_natives,
-                            100,
+                            128,
                             sizeof(AMX_NATIVE_INFO));
   if (error < 0) {
     return error;
