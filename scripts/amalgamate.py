@@ -15,6 +15,7 @@
 # limitations under the License.
 
 import argparse
+import io
 import os
 import re
 import sys
@@ -58,7 +59,7 @@ def find_deps(files, include_dirs):
 
 def find_file_deps(filename, include_dirs, deps):
   deps[filename] = []
-  with open(filename, 'rb') as file:
+  with io.open(filename, 'rt', newline='\n') as file:
     for i in find_includes(file.read()):
       d = resolve_include(filename, i, include_dirs)
       if d is not None:
@@ -142,17 +143,17 @@ def main(argv):
   if args.include_dirs is not None:
     include_dirs = args.include_dirs
 
-  (c_file, h_file) = (open(args.output_source, 'wb'),
-                      open(args.output_header, 'wb'))
+  (c_file, h_file) = (io.open(args.output_source, 'wt', newline='\n'),
+                      io.open(args.output_header, 'wt', newline='\n'))
 
   if args.source_preamble is not None:
-    with open(args.source_preamble, 'rb') as in_file:
+    with io.open(args.source_preamble, 'rt', newline='\n') as in_file:
       c_file.write(in_file.read().replace('\r', ''))
-      c_file.write('\n')
+      c_file.write(u'\n')
   if args.header_preamble is not None:
-    with open(args.header_preamble, 'rb') as in_file:
+    with io.open(args.header_preamble, 'rt', newline='\n') as in_file:
       h_file.write(in_file.read().replace('\r', ''))
-      h_file.write('\n')
+      h_file.write(u'\n')
 
   headers = sort_files(headers, include_dirs)
   all_files = sort_files(sources + headers, include_dirs)
@@ -162,20 +163,20 @@ def main(argv):
 
   for file in all_files:
     out_file = (c_file, h_file)[file in headers]
-    with open(file, 'rb') as in_file:
+    with io.open(file, 'rt', newline='\n') as in_file:
       header_included = False
       for line in strip_license_blocks(in_file.read()).splitlines():
         include = find_first_include(line)
         include_path = resolve_include(file, include, include_dirs)
         if include_path is None:
-          out_file.write(line.replace('\r', '') + '\n')
+          out_file.write(line.replace('\r', '') + u'\n')
         elif include_path in headers and file not in headers:
           if not header_included:
-            out_file.write('#include "%s"\n' % os.path.basename(header_path))
+            out_file.write(u'#include "%s"\n' % os.path.basename(header_path))
             header_included = True
         else:
-          out_file.write('/* #include %s */\n' % include)
-      out_file.write('\n')
+          out_file.write(u'/* #include %s */\n' % include)
+      out_file.write(u'\n')
 
   for out_file in (c_file, h_file):
     out_file.close()
