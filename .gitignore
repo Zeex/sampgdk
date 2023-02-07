@@ -1,6 +1,13 @@
+*~
+*.bak
+*.swp
+
 .vs
 .vscode
 CMakeSettings.json
+CMakeLists.txt.user*
+*.kdev4
+
 /build
 /scripts/__pycache__
 /scripts/*.pyc
