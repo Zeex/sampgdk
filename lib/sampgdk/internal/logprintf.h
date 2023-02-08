@@ -18,7 +18,7 @@
 
 #include <stdarg.h>
 
-#define SAMPGDK_LOGPRINTF_BUFFER_SIZE 1024
+#define SAMPGDK_LOGPRINTF_BUFFER_SIZE 2048
 
 typedef void (*logprintf_t)(const char *format, ...);
 
