@@ -25,10 +25,6 @@
 #include "log.h"
 #include "logprintf.h"
 
-#ifdef _MSC_VER
-  #define snprintf sprintf_s
-#endif
-
 static bool _sampgdk_log_enabled[] = {
   false, /* _SAMPGDK_LOG_DEBUG */
   false, /* _SAMPGDK_LOG_INFO */
@@ -89,7 +85,7 @@ SAMPGDK_MODULE_CLEANUP(log) {
 void sampgdk_log_message(int level, const char *format, ...) {
   va_list args;
   char level_char;
-  char real_format[SAMPGDK_LOGPRINTF_BUFFER_SIZE];
+  char log_format_buf[SAMPGDK_LOGPRINTF_BUFFER_SIZE];
 
   assert(level >= SAMPGDK_LOG_DEBUG &&
          level <= SAMPGDK_LOG_ERROR);
@@ -115,16 +111,17 @@ void sampgdk_log_message(int level, const char *format, ...) {
       return;
   }
 
-  if (real_format == NULL) {
-    return;
-  }
-
-  snprintf(real_format,
-           sizeof(real_format),
-           "[sampgdk:%c] %s",
-           level_char,
-           format);
+#ifdef _MSC_VER
+  _snprintf(
+#else
+  snprintf(
+#endif
+      log_format_buf,
+      sizeof(log_format_buf),
+      "[sampgdk:%c] %s",
+      level_char,
+      format);
   va_start(args, format);
-  sampgdk_do_vlogprintf(real_format, args);
+  sampgdk_do_vlogprintf(log_format_buf, args);
   va_end(args);
 }
