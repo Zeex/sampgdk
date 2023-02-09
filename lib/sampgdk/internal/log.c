@@ -121,6 +121,10 @@ void sampgdk_log_message(int level, const char *format, ...) {
       "[sampgdk:%c] %s",
       level_char,
       format);
+#ifdef _MSC_VER
+  /* _snprintf does not insert a terminating NUL if the buffer is too small */
+  log_format_buf[sizeof(log_format_buf) - 1] = '\0';
+#endif
   va_start(args, format);
   sampgdk_do_vlogprintf(log_format_buf, args);
   va_end(args);

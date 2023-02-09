@@ -42,6 +42,7 @@ void sampgdk_do_vlogprintf(const char *format, va_list va) {
 
 #ifdef _MSC_VER
   _vsnprintf(buffer, sizeof(buffer), format, va);
+  /* _vsnprintf does not insert a terminating NUL if the buffer is too small */
   buffer[sizeof(buffer) - 1] = '\0';
 #else
   vsnprintf(buffer, sizeof(buffer), format, va);
