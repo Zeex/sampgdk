@@ -9,7 +9,7 @@
 Introduction
 -------------
 
-The GDK (Gamemode Development Kit) is a library that allows you to write
+GDK (Gamemode Development Kit) is a C/C++ library that allows you to write
 SA-MP gamemodes in C/C++. It mirrors the Pawn scripting API provied by
 the SA-MP server and lets you handle various SA-MP events a.k.a callbacks
 in a similar fashion.
