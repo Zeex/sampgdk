@@ -4,7 +4,6 @@
 [![Version][version_badge]][version]
 [![Build Status][build_status]][build]
 [![Build Status - Windows][build_status_win]][build_win]
-[![Gitter][gitter_badge]][gitter]
 
 Introduction
 -------------
@@ -111,7 +110,7 @@ The following built-in variables may also be useful:
 * `CMAKE_INSTALL_PREFIX` - Where to install files
 
 For more information or questions about CMake please read the
-[CMake FAQ][cmake-faq].
+[CMake FAQ][cmake_faq].
 
 Getting Started
 ---------------
@@ -122,7 +121,7 @@ available online [here][online_docs], in a browsable form, as well as in
 the GDK header files.
 
 If you feel like making a new project there's a
-[step-by-step guide][cmake-guide] on setting up a GDK project with CMake.
+[step-by-step guide][cmake_guide] on setting up a GDK project with CMake.
 No prior knowledge of CMake is required to follow it.
 
 ### Using Git
@@ -162,14 +161,12 @@ Licensed under the Apache Licese version 2.0. See the LICENSE.txt file.
 [build_status]: https://travis-ci.org/Zeex/sampgdk.svg?branch=master
 [build_win]: https://ci.appveyor.com/project/Zeex/sampgdk/branch/master
 [build_status_win]: https://ci.appveyor.com/api/projects/status/ybbvixqpppjhhyg7/branch/master?svg=true
-[gitter]: https://gitter.im/Zeex/sampgdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-[gitter_badge]: https://badges.gitter.im/Join%20Chat.svg
 [helloworld]: plugins/helloworld
 [sdk]: https://github.com/Zeex/samp-plugin-sdk
 [cmake]: http://cmake.org
 [python]: http://python.org
 [ply]: http://www.dabeaz.com/ply/
 [pip]: https://pip.pypa.io/en/latest/
-[cmake-faq]: http://www.cmake.org/Wiki/CMake_FAQ
+[cmake_faq]: http://www.cmake.org/Wiki/CMake_FAQ
+[cmake_guide]: https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake
 [online_docs]: http://zeex.github.io/sampgdk/doc/html/index.html
-[cmake-guide]: https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake
