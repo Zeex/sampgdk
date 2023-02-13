@@ -1,5 +1,9 @@
 version: '{build}'
 
+image:
+  - Ubuntu
+  - Visual Studio 2013
+
 configuration:
   - RelWithDebInfo
 
@@ -10,23 +14,68 @@ environment:
   - STATIC: ON
   - STATIC: OFF
 
-install:
-  - choco install -y doxygen.install
-  - set PATH=%PATH%;C:\Python27\Scripts
-  - pip install ply
-  - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
+for:
+  -
+    matrix:
+      only:
+        - image: Ubuntu
 
-before_build:
-  - mkdir build && cd build
-  - cmake .. -G "Visual Studio 10 2010"
-             -DSAMPGDK_STATIC=%STATIC%
-             -DSAMPGDK_BUILD_PLUGINS=ON
-             -DSAMPGDK_BUILD_AMALGAMATION=ON
+    install:
+      - sudo apt-add-repository -y ppa:kubuntu-ppa/backports
+      - sudo apt-get update -qq
+      - sudo apt-get install -y linux-libc-dev:i386 gcc-4.8 gcc-4.8-multilib
+                                g++-4.8 g++-4.8-multilib cmake cmake python-pip
+                                doxygen
+      - sudo rm /usr/local/bin/doxygen || true
+      - sudo pip install ply
+      - git clone --depth 1 https://github.com/Zeex/samp-plugin-sdk.git sdk
 
-build_script:
-  - cmake --build . --config %CONFIGURATION%
-  - cmake --build . --config %CONFIGURATION% --target package
+    before_build:
+      - mkdir build && cd build
+      - cmake .. -DCMAKE_C_COMPILER=gcc-4.8
+                 -DCMAKE_CXX_COMPILER=g++-4.8
+                 -DSAMPGDK_STATIC=${STATIC}
+                 -DSAMPGDK_BUILD_PLUGINS=ON
+                 -DSAMPGDK_BUILD_AMALGAMATION=ON
 
-artifacts:
-  - path: build/sampgdk-*-amalgamation.zip
-    name: Amalgamation (concatenated source code)
+    build_script:
+      - make
+      - make package
+
+    artifacts:
+      - path: build/sampgdk-*-linux.tar.gz
+        name: Binary Package (shared library)
+      - path: build/sampgdk-*-linux-static.tar.gz
+        name: Binary Package (static library)
+      - path: build/sampgdk-*-amalgamation.zip
+        name: Amalgamation (concatenated source code)
+
+  -
+    matrix:
+      only:
+        - image: Visual Studio 2013
+
+    install:
+      - choco install -y doxygen.install
+      - set PATH=%PATH%;C:\Python27\Scripts
+      - pip install ply
+      - git clone https://github.com/Zeex/samp-plugin-sdk.git sdk
+
+    before_build:
+      - mkdir build && cd build
+      - cmake .. -G "Visual Studio 10 2010"
+                 -DSAMPGDK_STATIC=%STATIC%
+                 -DSAMPGDK_BUILD_PLUGINS=ON
+                 -DSAMPGDK_BUILD_AMALGAMATION=ON
+
+    build_script:
+      - cmake --build . --config %CONFIGURATION%
+      - cmake --build . --config %CONFIGURATION% --target package
+
+    artifacts:
+      - path: build/sampgdk-*-win32.zip
+        name: Binary Package (DLL)
+      - path: build/sampgdk-*-win32-static.zip
+        name: Binary Package (static library)
+      - path: build/sampgdk-*-amalgamation.zip
+        name: Amalgamation (concatenated source code)

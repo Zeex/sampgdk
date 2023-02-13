@@ -1,9 +1,8 @@
 [GDK - Gamemode SDK for C/C++][github]
-========================================
+======================================
 
 [![Version][version_badge]][version]
 [![Build Status][build_status]][build]
-[![Build Status - Windows][build_status_win]][build_win]
 
 Introduction
 -------------
@@ -152,21 +151,15 @@ git merge v1.2.3
 License
 -------
 
-Licensed under the Apache Licese version 2.0. See the LICENSE.txt file.
+Licensed under the Apache License version 2.0. See the LICENSE.txt file.
 
 [github]: https://github.com/Zeex/sampgdk
-[version]: http://badge.fury.io/gh/Zeex%2Fsampgdk
+[version]: https://github.com/Zeex/sampgdk/releases
 [version_badge]: https://badge.fury.io/gh/Zeex%2Fsampgdk.svg
-[build]: https://travis-ci.org/Zeex/sampgdk
-[build_status]: https://travis-ci.org/Zeex/sampgdk.svg?branch=master
-[build_win]: https://ci.appveyor.com/project/Zeex/sampgdk/branch/master
-[build_status_win]: https://ci.appveyor.com/api/projects/status/ybbvixqpppjhhyg7/branch/master?svg=true
+[build]: https://ci.appveyor.com/project/Zeex/sampgdk/branch/master
+[build_status]: https://ci.appveyor.com/api/projects/status/ybbvixqpppjhhyg7/branch/master?svg=true
 [helloworld]: plugins/helloworld
-[sdk]: https://github.com/Zeex/samp-plugin-sdk
-[cmake]: http://cmake.org
-[python]: http://python.org
-[ply]: http://www.dabeaz.com/ply/
-[pip]: https://pip.pypa.io/en/latest/
+[online_docs]: http://zeex.github.io/sampgdk/doc/html/index.html
 [cmake_faq]: http://www.cmake.org/Wiki/CMake_FAQ
 [cmake_guide]: https://github.com/Zeex/sampgdk/wiki/Setting-up-GDK-with-CMake
-[online_docs]: http://zeex.github.io/sampgdk/doc/html/index.html
+
