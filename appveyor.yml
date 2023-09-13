@@ -25,9 +25,8 @@ for:
       - sudo apt-get update -qq
       - sudo apt-get install -y linux-libc-dev:i386 gcc-4.8 gcc-4.8-multilib
                                 g++-4.8 g++-4.8-multilib cmake cmake python-pip
-                                doxygen
+                                python-ply doxygen
       - sudo rm /usr/local/bin/doxygen || true
-      - sudo pip install ply
       - git clone --depth 1 https://github.com/Zeex/samp-plugin-sdk.git sdk
 
     before_build:
