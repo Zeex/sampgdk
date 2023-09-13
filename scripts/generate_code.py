@@ -206,7 +206,7 @@ def generate_source_file(module_name, idl, file):
 
   callbacks = list(filter(lambda x: x.has_attr('callback'), idl.functions))
   for func in callbacks:
-    generate_callback_impl(file, func);
+    generate_callback_impl(file, func)
     file.write('\n')
 
   file.write('SAMPGDK_MODULE_INIT(%s) {\n' % module_name)
@@ -280,14 +280,17 @@ def generate_native_impl(file, func):
         else:
           value = p.name
         if p.type == 'string':
-          if p.is_out:
-            file.write('  sampgdk_fakeamx_push(%s, &%s_);\n' %
-                       (pnext.name, p.name))
-          else:
-            file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' %
-                       (value, p.name))
+          file.write('  sampgdk_fakeamx_push_string(%s, NULL, &%s_);\n' %
+                      (value, p.name))
         else:
-          file.write('  sampgdk_fakeamx_push(1, &%s_);\n' % p.name)
+          file.write('  sampgdk_fakeamx_push_%s(*%s, &%s_);\n' % (
+            {
+              'int'   : 'cell',
+              'bool'  : 'cell',
+              'float' : 'float',
+              'string': 'string'
+            }[p.type], p.name, p.name
+          ))
 
     file.write('  params[0] = %d * sizeof(cell);\n' % len(func.params))
     for index, p in enumerate(func.params, 1):
@@ -322,9 +325,7 @@ def generate_native_impl(file, func):
               'bool'   : 'bool',
               'float'  : 'float',
               'string' : 'string',
-            }[p.type]
-          ,
-          p.name, p.name))
+            }[p.type], p.name, p.name))
 
     for p in reversed(list(filter(lambda p: p.is_ref, func.params))):
       file.write('  sampgdk_fakeamx_pop(%s_);\n' % p.name)
