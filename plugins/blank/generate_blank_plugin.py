@@ -80,7 +80,13 @@ def parse_args(argv):
 
 def parse_idl(filename):
   parser = cidl.Parser()
-  return parser.parse(open(filename, 'rU').read())
+  try:
+    file = open(filename, 'rU')
+  except ValueError:
+    file = open(filename, 'r') # Python 3
+  idl = parser.parse(file.read())
+  file.close()
+  return idl
 
 def main(argv):
   args = parse_args(argv[1:])

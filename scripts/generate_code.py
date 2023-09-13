@@ -428,7 +428,12 @@ def main(argv):
   try:
     idlparser = cidl.Parser(value_class=Value,
                             param_class=Parameter)
-    idl = idlparser.parse(open(args.idl_file, 'rU').read())
+    try:
+      file = open(args.idl_file, 'rU')
+    except ValueError:
+      file = open(args.idl_file, 'r') # Python 3
+    idl = idlparser.parse(file.read())
+    file.close()
 
     for (path, func) in [(args.api_file, generate_api_file),
                          (args.header_file, generate_header_file),
